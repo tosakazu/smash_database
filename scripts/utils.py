@@ -32,9 +32,9 @@ def is_not_ultimate_singles(event_name):
     
     # 除外キーワードが含まれている場合はFalseを返す
     if any(keyword.replace(" ", "_").lower() in event_name.replace(" ", "_").lower() for keyword in exclude_keywords):
-        return False
+        return True
     
-    return True
+    return False
 
 def get_date_parts(date):
     """日付を年、月、日に分割する関数"""
