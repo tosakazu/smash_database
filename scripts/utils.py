@@ -26,7 +26,7 @@ def country_code2region(country_code):
 
 
 # UltimateのSinglesイベントのみをフィタリングするための関数
-def is_ultimate_singles(event_name):
+def is_not_ultimate_singles(event_name):
     # 除外するキワード
     exclude_keywords = ["64", "Melee", "WiiU", "ダブルス", "Doubles", "Crew_Battle", "Squad_Strike", "団体戦", "おまかせ", "おかわり", "Granblue", "Guilty_Gear", "Redemption", "Rivals_of_Aether", "Dobles"]
     
