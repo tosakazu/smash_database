@@ -86,7 +86,7 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
 
             for event_id, event_name in events_info:
 
-                if not is_ultimate_singles(event_name):
+                if is_not_ultimate_singles(event_name):
                     continue
                 
                 year, month, day = get_date_parts(date)
