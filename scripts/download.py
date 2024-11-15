@@ -15,7 +15,7 @@ from queries import (
 from utils import (
     country_code2region, get_date_parts, get_event_directory,
     load_users_json, load_csv, load_set,
-    is_ultimate_singles,
+    is_not_ultimate_singles,
     write_tournaments, write_event_paths, write_id_paths,
     write_json, set_indent_num
 )
