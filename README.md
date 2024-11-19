@@ -117,6 +117,7 @@ The rule is estimated by chatgpt with startgg event description.
       - phase: str
       - wave: str
       - dq: bool
+      - cancel: bool
       - state: int
       - details: str
     }
