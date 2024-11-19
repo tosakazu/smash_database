@@ -166,16 +166,17 @@ def write_matches(all_nodes, entrant2user, event_dir):
         if slot0['entrant'] is None or slot1['entrant'] is None or slot0['standing'] is None or slot1['standing'] is None:
             continue
         
-        # スコアがNoneの場合は-1を設定
-        score0 = slot0['standing']['stats']['score']['value'] if slot0['standing']['stats']['score']['value'] is not None else -1
-        score1 = slot1['standing']['stats']['score']['value'] if slot1['standing']['stats']['score']['value'] is not None else -1
+        # スコアがNoneの場合は0を設定
+        score0 = slot0['standing']['stats']['score']['value'] if slot0['standing']['stats']['score']['value'] is not None else 0
+        score1 = slot1['standing']['stats']['score']['value'] if slot1['standing']['stats']['score']['value'] is not None else 0
         
         winner_slot = slot0 if score0 > score1 else slot1
         loser_slot = slot1 if winner_slot == slot0 else slot0
         winner_score = score0 if winner_slot == slot0 else score1
         loser_score = score1 if winner_slot == slot0 else score0
         
-        dq = score0 < 0 or score1 < 0
+        dq = (score0 < 0 or score1 < 0)
+        cancel = score0 == 0 and score1 == 0
         
         details = [
                     {
@@ -214,6 +215,7 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "phase": phase,
                 "wave": wave,
                 "dq": dq,
+                "cancel": cancel,
                 "state": node['state'],
                 "details": details
             }
