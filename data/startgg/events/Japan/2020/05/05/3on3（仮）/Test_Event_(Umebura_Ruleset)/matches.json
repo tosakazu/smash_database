@@ -1,0 +1,82 @@
+{
+  "data": [
+    {
+      "winner_id": 1128956,
+      "loser_id": 257160,
+      "winner_score": -1,
+      "loser_score": -1,
+      "round_text": "Grand Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 257160,
+      "loser_id": 1128956,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 3756368,
+          "order_num": 1,
+          "winner_id": 257160,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 257160,
+              "selection_id": 4729312,
+              "character_id": 1316,
+              "character_name": "Palutena"
+            }
+          ]
+        },
+        {
+          "game_id": 3756369,
+          "order_num": 2,
+          "winner_id": 1128956,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1128956,
+              "selection_id": 4729313,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 3756371,
+          "order_num": 3,
+          "winner_id": 257160,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 257160,
+              "selection_id": 4729316,
+              "character_id": 1331,
+              "character_name": "Snake"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
