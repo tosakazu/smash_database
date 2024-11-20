@@ -1,221 +1,392 @@
-import time
 import os
-import json
-import csv
-import sys
-import requests
+import argparse
+from datetime import datetime
 
-# 国コードをリージョンに変換する関数
-def country_code2region(country_code):
-    japan = ["JP"]
-    other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
-    europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
-    north_america = ["US", "CA", "DO", "MX"]
+from queries import (
+    get_event_sets_query, get_standings_query, get_seeds_query, 
+    get_tournament_events_query, get_phase_groups_query, get_tournaments_by_game_query,
+)
+from utils import (
+    country_code2region, get_date_parts, get_event_directory,
+    read_users_jsonl, read_set, read_tournaments_jsonl,
+    is_not_ultimate_singles,
+    write_json, extend_jsonl,
+    set_indent_num,
+    fetch_data_with_retries, fetch_all_nodes,
+    set_retry_parameters, set_api_parameters,
+    FetchError, NoPhaseError
+)
 
-    if country_code in japan:
-        return "Japan"
-    elif country_code in other_asia:
-        return "Other Asia"
-    elif country_code in europe:
-        return "Europe"
-    elif country_code in north_america:
-        return "North America"
-    else:
-        return "Other"
+def main():
+    # コマンドライン引数の設定
+    parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
+    parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
+    parser.add_argument("--token", required=True, help="API token")
+    parser.add_argument("--finish_date", type=lambda s: datetime.strptime(s, '%Y-%m-%d'), default=datetime(2018, 1, 1), help="Finish date for data retrieval (YYYY-MM-DD)")
+    parser.add_argument("--max_retries", type=int, default=100, help="Maximum number of retries for API requests")
+    parser.add_argument("--retry_delay", type=int, default=5, help="Delay between retries in seconds")
+    parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
+    parser.add_argument("--startgg_dir", default="data/startgg/events", help="Directory to save event data")
+    parser.add_argument("--done_file_path", default="data/startgg/done.csv", help="Path to the file recording completed downloads")
+    parser.add_argument("--users_file_path", default="data/startgg/users.jsonl", help="Path to the file recording startgg user info")
+    parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
+    parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
 
+    args = parser.parse_args()
 
-# UltimateのSinglesイベントのみをフィタリングするための関数
-def is_not_ultimate_singles(event_name):
-    # 除外するキワード
-    exclude_keywords = ["64", "Melee", "WiiU", "ダブルス", "チーム", "Team", "Doubles", "Crew_Battle", "Squad_Strike", "団体戦", "おまかせ", "おかわり", "Granblue", "Guilty_Gear", "Redemption", "Rivals_of_Aether", "Dobles"]
-    
-    # 除外キーワードが含まれている場合はFalseを返す
-    if any(keyword.replace(" ", "_").lower() in event_name.replace(" ", "_").lower() for keyword in exclude_keywords):
-        return True
-    
-    return False
+    set_indent_num(args.indent_num)
+    set_retry_parameters(args.max_retries, args.retry_delay)
+    set_api_parameters(args.url, args.token)
 
-def get_date_parts(date):
-    """日付を年、月、日に分割する関数"""
-    year = time.strftime("%Y", time.gmtime(date))
-    month = time.strftime("%m", time.gmtime(date))
-    day = time.strftime("%d", time.gmtime(date))
-    return year, month, day
+    download_all_tournaments(args.game_id, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path)
 
-def get_event_directory(startgg_dir, region, year, month, day, tournament_name, event_name):
-    """保存するディレクトリのパスを取得する関数"""
-    region = country_code2region(region)
-    region = region.replace(" ", "_").replace("/", "-")
-    tournament_name = tournament_name.replace(" ", "_").replace("/", "-")
-    event_name = event_name.replace(" ", "_").replace("/", "-")
-    return f"{startgg_dir}/{region}/{year}/{month}/{day}/{tournament_name}/{event_name}"
+def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+    done_tournaments = read_set(done_file_path)
+    users = read_users_jsonl(users_file_path)
+    tournaments = read_tournaments_jsonl(tournament_file_path)
+    print(f"done_tournaments: {len(done_tournaments)}")
+    print(f"users: {len(users)}")
+    print(f"tournaments: {len(tournaments)}")
 
-
-JSON_VERSION = "1.0"
-__indent_num = 2
-
-def write_json(data, file_path, with_version):
-    with open(file_path, "w", encoding="utf-8") as f:
-        if with_version:
-            data["version"] = JSON_VERSION
-        json.dump(data, f, indent=__indent_num, ensure_ascii=False)
-
-def read_json(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-def write_jsonl(data, file_path, with_version):
-    with open(file_path, "w", encoding="utf-8") as f:
-        for d in data:
-            if with_version:
-                d["version"] = JSON_VERSION
-            json.dump(d, f, ensure_ascii=False)
-            f.write("\n")
-
-def extend_jsonl(data, file_path, with_version):
-    with open(file_path, "a", encoding="utf-8") as f:
-        for d in data:
-            if with_version:
-                d["version"] = JSON_VERSION
-            json.dump(d, f, ensure_ascii=False)
-            f.write("\n")
-
-def read_jsonl(file_path):
-    output = []
-    with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                output.append(json.loads(line))
-    return output
-
-def set_indent_num(num):
-    global __indent_num
-    __indent_num = num
-
-def read_users_jsonl(file_path):
-    if not os.path.exists(file_path):
-        return {}
-    with open(file_path, "r", encoding="utf-8") as f:
-        users = {}
-        for line in f:
-            user = json.loads(line)
-            del user["version"]
-            users[user["user_id"]] = user
-    return users
-    
-def read_tournaments_jsonl(file_path):
-    if not os.path.exists(file_path):
-        return {}
-    with open(file_path, "r", encoding="utf-8") as f:
-        tournaments = {}
-        for line in f:
-            tournament = json.loads(line)
-            del tournament["version"]
-            tournaments[tournament["tournament_id"]] = tournament
-    return tournaments
-
-def read_csv(file_path):
-    if not os.path.exists(file_path):
-        return {}
-    with open(file_path, "r") as f:
-        data = {}
-        for row in csv.reader(f):
-            id = row[0]
-            if len(row) == 2:
-                data[id] = row[1]
-            else:
-                data[id] = tuple(row[1:])
-        return data
-    
-def read_set(file_path):
-    if not os.path.exists(file_path):
-        return set()
-    with open(file_path, "r") as f:
-        return set(line.strip() for line in f)
-
-# イベントパス情報を保存する関数
-def write_event_paths(event_paths, file_path):
-    with open(file_path, "w", newline='') as f:
-        writer = csv.writer(f)
-        for event_id, (date, path) in event_paths.items():
-            writer.writerow([event_id, date, path])
-
-# IDパス情報を保存する関数
-def write_id_paths(id_paths, file_path):
-    # ディレクトリが存在しない場合は作成
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    with open(file_path, "w", newline='') as f:
-        writer = csv.writer(f)
-        for id, path in id_paths.items():
-            writer.writerow([id, path])
-            
-class FetchError(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-        print(message, file=sys.stderr)
-
-class NoPhaseError(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-
-__max_retries = 100
-__retry_delay = 5
-__page_delay = 2
-__api_url = "https://api.start.gg/gql/alpha"
-__headers = {}
-
-def set_page_delay(delay):
-    global __page_delay
-    __page_delay = delay
-
-def set_retry_parameters(max_retries, retry_delay):
-    global __max_retries, __retry_delay
-    __max_retries = max_retries
-    __retry_delay = retry_delay
-
-def set_api_parameters(url, token):
-    global __api_url, __headers
-    __api_url = url
-    __headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-    }
-
-def fetch_data_with_retries(query, variables):
-    for attempt in range(__max_retries):
-        try:
-            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers)
-            response.raise_for_status()
-            response_data = json.loads(response.text)
-            return response_data
-        except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
-            print(query)
-            print(variables)
-            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries}...")
-            time.sleep(__retry_delay)
-    raise Exception("Max retries exceeded")
-
-def fetch_all_nodes(query, variables, keys, per_page=10):
-    all_nodes = []
-    variables = variables.copy()
-    variables["page"] = 1
-    variables["perPage"] = per_page
-    keys = ["data"] + keys
+    page = 1
     while True:
-        response_data = fetch_data_with_retries(query, variables)
-        data = response_data
-        for key in keys:
-            if key not in data:
-                raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
-            data = data[key]
-        if "nodes" not in data:
-            return all_nodes
-        nodes = data["nodes"]
-        all_nodes.extend(nodes)
-        if len(nodes) > 0:
-            variables["page"] += 1
-            time.sleep(__page_delay)
-        else:
+        tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, page=page)
+        print(f"Progress: {page}/{total_pages}")
+        if not tournaments_info:
             break
-    return all_nodes
+
+        for tournament in tournaments_info:
+            try:
+                tournament_id = str(tournament["id"])
+                tournament_name = tournament["name"]
+                date = tournament["startAt"]
+
+                country_code = tournament["countryCode"]
+                city = tournament["city"]
+                lat = tournament["lat"]
+                lng = tournament["lng"]
+                venue_name = tournament["venueName"]
+                timezone = tournament["timezone"]
+                postal_code = tournament["postalCode"]
+                venue_address = tournament["venueAddress"]
+                maps_place_id = tournament["mapsPlaceId"]
+                place = {
+                    "country_code": country_code,
+                    "city": city,
+                    "lat": lat,
+                    "lng": lng,
+                    "venue_name": venue_name,
+                    "timezone": timezone,
+                    "postal_code": postal_code,
+                    "venue_address": venue_address,
+                    "maps_place_id": maps_place_id
+                }
+
+                if tournament_id in done_tournaments:
+                    print(f"({tournament_name} {datetime.fromtimestamp(date)}) already downloaded.")
+                    continue
+
+                print(f"Download {tournament_name}, date: {datetime.fromtimestamp(date)}")
+
+                if datetime.fromtimestamp(date) < finish_date:
+                    print("!!!downloaded all!!!")
+                    return
+
+                tournaments[tournament_id] = {
+                    "tournament_id": tournament_id,
+                    "name": tournament_name,
+                    "events": []
+                }
+                events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
+
+                for event_id, event_name, is_online in events_info:
+
+                    if is_not_ultimate_singles(event_name):
+                        continue
+                    
+                    year, month, day = get_date_parts(date)
+                    event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
+
+                    user_data, player_data, entrant2user = download_standings(event_id, event_dir)
+                    num_entrants = len(user_data)
+                    try:
+                        download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
+                    except NoPhaseError as e:
+                        print(f"No phase found for event {event_name}. Skipping.")
+                        continue
+                    extend_user_info(user_data, player_data, users, users_file_path)
+                    download_all_set(event_id, entrant2user, event_dir)
+                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, date, place, is_online, event_dir)
+
+                    tournaments[tournament_id]["events"].append({
+                        "event_id": event_id,
+                        "event_name": event_name,
+                        "path": event_dir
+                    })
+                # ファイルを保存
+                if len(tournaments[tournament_id]["events"]) > 0:
+                    extend_tournament_info(tournaments[tournament_id], tournament_file_path)
+                    done_tournaments.add(tournament_id)
+                    write_done_tournaments(tournament_id, done_file_path)
+
+            except FetchError as e:
+                print(e)
+                continue
+
+        if page >= total_pages:
+            break
+        page += 1
+
+# イベントのセットデータを保存する関数
+def download_all_set(event_id, entrant2user, event_dir):
+    all_sets = fetch_all_sets(event_id)
+    if not all_sets:
+        return
+
+    os.makedirs(event_dir, exist_ok=True)
+    write_matches(all_sets, entrant2user, event_dir)
+
+def fetch_all_sets(event_id):
+    query = get_event_sets_query()
+    variables = {"eventId": event_id}
+    keys = ["event", "sets"]
+    all_sets = fetch_all_nodes(query, variables, keys, per_page=10)
+    
+    return all_sets
+
+def write_matches(all_nodes, entrant2user, event_dir):
+    """マッチデータを保存する関数"""
+    json_data = {"data": []}
+    for node in all_nodes:
+        if node['slots'] is None or len(node['slots']) != 2:
+            continue
+
+        slot0 = node['slots'][0]
+        slot1 = node['slots'][1]
+        if slot0['entrant'] is None or slot1['entrant'] is None or slot0['standing'] is None or slot1['standing'] is None:
+            continue
+        
+        # スコアがNoneの場合は0を設定
+        score0 = slot0['standing']['stats']['score']['value'] if slot0['standing']['stats']['score']['value'] is not None else 0
+        score1 = slot1['standing']['stats']['score']['value'] if slot1['standing']['stats']['score']['value'] is not None else 0
+        
+        winner_slot = slot0 if score0 > score1 else slot1
+        loser_slot = slot1 if winner_slot == slot0 else slot0
+        winner_score = score0 if winner_slot == slot0 else score1
+        loser_score = score1 if winner_slot == slot0 else score0
+        
+        dq = (score0 < 0 or score1 < 0)
+        cancel = score0 == 0 and score1 == 0
+        
+        details = [
+                    {
+                        "game_id": game['id'],
+                        "order_num": game['orderNum'],
+                        "winner_id": entrant2user[game['winnerId']] if game['winnerId'] in entrant2user else None,
+                        "entrant1_score": game['entrant1Score'],
+                        "entrant2_score": game['entrant2Score'],
+                        "stage": game['stage']['name'] if game['stage'] else None,
+                        "selections": [
+                            {
+                                "user_id": entrant2user[selection['entrant']['id']] if selection['entrant']['id'] in entrant2user else None,
+                                "selection_id": selection['id'],
+                                "character_id": selection['character']['id'],
+                                "character_name": selection['character']['name']
+                            }
+                            for i, selection in enumerate(game['selections'])
+                        ] if game['selections'] is not None else []
+                    }
+                    for game in node['games']
+                ] if node['games'] is not None else []
+
+        phase = None
+        wave = None
+        if node['phaseGroup'] is not None:
+            phase = node['phaseGroup']['displayIdentifier']
+            if node['phaseGroup']['wave'] is not None:
+                wave = node['phaseGroup']['wave']['identifier']
+        match_data = {
+                "winner_id": entrant2user[winner_slot['entrant']['id']] if winner_slot['entrant']['id'] in entrant2user else None,
+                "loser_id": entrant2user[loser_slot['entrant']['id']] if loser_slot['entrant']['id'] in entrant2user else None,
+                "winner_score": winner_score,
+                "loser_score": loser_score,
+                "round_text": node['fullRoundText'],
+                "round": node['round'],
+                "phase": phase,
+                "wave": wave,
+                "dq": dq,
+                "cancel": cancel,
+                "state": node['state'],
+                "details": details
+            }
+        json_data["data"].append(match_data)
+        
+    write_json(json_data, f"{event_dir}/matches.json", with_version=True)
+
+def write_event_attributes(num_entrants, event_id, event_name, tournament_name, date, place, is_online, event_dir):
+    json_data = {
+        "event_id": str(event_id),
+        "tournament_name": tournament_name,
+        "event_name": event_name,
+        "date": date,
+        "region": country_code2region(place["country_code"]),
+        "place": place,
+        "num_entrants": num_entrants,
+        "offline": not is_online,
+        "rule": "unknown",
+        "status": "completed"
+    }
+    write_json(json_data, f"{event_dir}/attr.json", with_version=True)
+
+def download_standings(event_id, event_dir):
+    """スタンディングデータを保存する関数"""
+    standings_data = []
+    user_data = []
+
+    query = get_standings_query()
+    variables = {"eventId": event_id}
+    keys = ["event", "standings"]
+    standings_data = fetch_all_nodes(query, variables, keys, per_page=100)
+
+    user_data = []
+    player_data = []
+    entrant2user = {}
+    for node in standings_data:
+        if node['entrant']['participants'] is not None:
+            user_data.append(node['entrant']['participants'][0]['user'])
+            player_data.append(node['entrant']['participants'][0]['player'])
+            if node['entrant']['participants'][0]['user'] is not None and node['entrant']['participants'][0]['player'] is not None:
+                entrant2user[node['entrant']['id']] = node['entrant']['participants'][0]['user']['id']
+
+    placements = [
+        (node['placement'], entrant2user[node['entrant']['id']] if node['entrant']['id'] in entrant2user else None)
+        for node in standings_data
+        if node['entrant']['participants'] is not None
+    ]
+    placements.sort(key=lambda x: x[0])
+    placements_dicts = [
+        {"placement": placement, "user_id": user_id}
+        for placement, user_id in placements
+    ]
+    
+    os.makedirs(event_dir, exist_ok=True)
+    json_data = {
+        "data": placements_dicts
+    }
+    write_json(json_data, f"{event_dir}/standings.json", with_version=True)
+    return user_data, player_data, entrant2user
+
+def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
+    phase_id = fetch_phase_id(event_id)
+    query = get_seeds_query()
+    variables = {"phaseId": phase_id}
+    keys = ["phase", "seeds"]
+    seeds_data = fetch_all_nodes(query, variables, keys, per_page=100)
+
+    for seed in seeds_data:
+        if seed['entrant']['participants'] is not None:
+            if seed['entrant']['id'] not in entrant2user:
+                user_data.append(seed['entrant']['participants'][0]['user'])
+                player_data.append(seed['entrant']['participants'][0]['player'])
+                if seed['entrant']['participants'][0]['user'] is not None and seed['entrant']['participants'][0]['player'] is not None:
+                    entrant2user[seed['entrant']['id']] = seed['entrant']['participants'][0]['user']['id']
+
+    seeds_numbers = [(seed['seedNum'], entrant2user[seed['entrant']['id']] if seed['entrant']['id'] in entrant2user else None) for seed in seeds_data]
+    seeds_numbers.sort(key=lambda x: x[0])
+    seeds_dicts = [
+        {"seed_num": seed_num, "user_id": user_id}
+        for seed_num, user_id in seeds_numbers
+    ]
+    json_data = {
+        "data": seeds_dicts
+    }
+    write_json(json_data, f"{event_dir}/seeds.json", with_version=True)
+
+def extend_user_info(user_data, player_data, users, users_file_path):
+    new_users = []
+    
+    for user, player in zip(user_data, player_data):
+        if user is None or player is None:
+            continue
+        user_id = str(user['id'])
+        player_id = str(player['id'])
+        gamer_tag = player['gamerTag']
+        prefix = player['prefix']
+        gender_pronoun = user['genderPronoun'] if user['genderPronoun'] is not None else "unknown"
+        x_id = None
+        x_name = None
+        discord_id = None
+        discord_name = None
+        if user['authorizations'] is not None:
+            for authorization in user['authorizations']:
+                if authorization['type'] == 'TWITTER':
+                    x_id = authorization['externalId']
+                    x_name = authorization['externalUsername']
+                elif authorization['type'] == 'DISCORD':
+                    discord_id = authorization['externalId']
+                    discord_name = authorization['externalUsername']
+
+        if user_id not in users:
+            new_user = {
+                "user_id": user_id,
+                "player_id": player_id,
+                "gamer_tag": gamer_tag,
+                "prefix": prefix,
+                "gender_pronoun": gender_pronoun,
+                "x_id": x_id,
+                "x_name": x_name,
+                "discord_id": discord_id,
+                "discord_name": discord_name
+            }
+            users[user_id] = new_user
+            new_users.append(new_user)
+
+    extend_jsonl(new_users, users_file_path, with_version=True)
+
+def extend_tournament_info(new_tournament_info, tournament_file_path):
+    extend_jsonl([new_tournament_info], tournament_file_path, with_version=True)
+
+# 特定のゲームのトーナメントを最新のものから取得する関数
+def fetch_latest_tournaments_by_game(game_id, limit=5, page=1):
+    response_data = fetch_data_with_retries(
+        get_tournaments_by_game_query(),
+        {"gameId": game_id, "perPage": limit, "page": page},
+    )
+    tournaments = response_data["data"]["tournaments"]["nodes"]
+    total_pages = response_data["data"]["tournaments"]["pageInfo"]["totalPages"]
+    return tournaments, total_pages
+
+def fetch_event_ids_from_tournament(tournament_id, game_id):
+    response_data = fetch_data_with_retries(
+        get_tournament_events_query(),
+        {"tournamentId": tournament_id, "gameId": game_id},
+    )
+    if "data" not in response_data or "tournament" not in response_data["data"]:
+        raise FetchError(f"Error: 'data' or 'tournament' key not found in response for tournament {tournament_id}. Response data: {response_data}\n in fetch_event_ids_from_tournament")
+    
+    events = response_data["data"]["tournament"]["events"]
+    return [(event["id"], event["name"], event["isOnline"]) for event in events]
+
+def fetch_phase_id(event_id):
+    page = 1
+    per_page = 10
+    while True:
+        response_data = fetch_data_with_retries(
+            get_phase_groups_query(),
+            {"eventId": event_id, "page": page, "perPage": per_page}
+        )
+        if "data" not in response_data or "event" not in response_data["data"]:
+            raise FetchError(f"Error: 'data' or 'event' key not found in response for event {event_id}. Response data: {response_data}\n in fetch_phase_id")
+        event_data = response_data["data"]["event"]
+        if event_data and event_data["phases"]:
+            return event_data["phases"][0]["id"]
+        else:
+            raise NoPhaseError(f"Error: No phases found for event {event_id}. Response data: {response_data}\n in fetch_phase_id")
+
+def write_done_tournaments(tournament_id, file_path):
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write(f"{tournament_id}\n")
+        f.flush()
+
+if __name__ == "__main__":
+    main()
