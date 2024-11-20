@@ -209,6 +209,8 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
             if key not in data:
                 raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
             data = data[key]
+        if "nodes" not in data:
+            return all_nodes
         nodes = data["nodes"]
         all_nodes.extend(nodes)
         if len(nodes) > 0:
