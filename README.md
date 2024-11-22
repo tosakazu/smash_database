@@ -33,12 +33,12 @@ tournament_id2
 
 ```
 {
-  - tournament_id: str
+  - tournament_id: int
   - tournament_name: str
   - events: list
     [
       {
-        - event_id: str
+        - event_id: int
         - event_name: str
         - path: str
       }
@@ -51,8 +51,8 @@ tournament_id2
 
 ```
 {
-  - user_id: str
-  - player_id: str
+  - user_id: int
+  - player_id: int
   - gamer_tag: str
   - prefix: str
   - gender_pronoun: str
@@ -68,10 +68,10 @@ tournament_id2
 
 ```
 - version: str
-- event_id: str
+- event_id: int
 - tournament_name: str
 - event_name: str
-- date: str
+- timestamp: int
 - region: str
 - num_entrants: int
 - offline: bool
@@ -108,8 +108,8 @@ The rule is estimated by chatgpt with startgg event description.
 - data: list
   [
     {
-      - winner_id: str
-      - loser_id: str
+      - winner_id: int
+      - loser_id: int
       - winner_score: int
       - loser_score: int
       - round_text: str
@@ -119,7 +119,30 @@ The rule is estimated by chatgpt with startgg event description.
       - dq: bool
       - cancel: bool
       - state: int
-      - details: str
+      - details: dict
+        {
+          game_id: int
+          order_num: int
+          winner_id: int
+          entrant1_score: int
+          entrant2_score: int
+          stage: str
+          selections: list
+          [
+            {
+              user_id: int
+              selection_id: int
+              character_id: int
+              character_name: str
+            },
+            {
+              user_id: int
+              selection_id: int
+              character_id: int
+              character_name: str
+            }
+          ]
+        }
     }
   ]
 ```
@@ -132,7 +155,7 @@ The rule is estimated by chatgpt with startgg event description.
   [
     {
       - placement: int
-      - user_id: str
+      - user_id: int
     }
   ]
 ```
@@ -145,7 +168,7 @@ The rule is estimated by chatgpt with startgg event description.
   [
     {
       - seed_num: int
-      - user_id: str
+      - user_id: int
     }
   ]
 ```
