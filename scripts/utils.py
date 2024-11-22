@@ -128,11 +128,14 @@ def read_csv(file_path):
                 data[id] = tuple(row[1:])
         return data
     
-def read_set(file_path):
+def read_set(file_path, as_int):
     if not os.path.exists(file_path):
         return set()
     with open(file_path, "r") as f:
-        return set(line.strip() for line in f)
+        if as_int:
+            return set(int(line.strip()) for line in f)
+        else:
+            return set(line.strip() for line in f)
 
 # イベントパス情報を保存する関数
 def write_event_paths(event_paths, file_path):
