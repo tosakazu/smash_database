@@ -9,7 +9,6 @@ from queries import (
 from utils import (
     country_code2region, get_date_parts, get_event_directory,
     read_users_jsonl, read_set, read_tournaments_jsonl,
-    is_not_ultimate_singles,
     write_json, extend_jsonl,
     set_indent_num,
     fetch_data_with_retries, fetch_all_nodes,
@@ -107,9 +106,6 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
 
                 for event_id, event_name, is_online in events_info:
-
-                    if is_not_ultimate_singles(event_name):
-                        continue
                     
                     year, month, day = get_date_parts(timestamp)
                     event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
