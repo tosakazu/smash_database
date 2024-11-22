@@ -61,6 +61,7 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                 tournament_id = tournament["id"]
                 tournament_name = tournament["name"]
                 timestamp = tournament["startAt"]
+                end_timestamp = tournament["endAt"]
 
                 country_code = tournament["countryCode"]
                 city = tournament["city"]
@@ -82,6 +83,11 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                     "venue_address": venue_address,
                     "maps_place_id": maps_place_id
                 }
+
+                now_timestamp = int(datetime.now().timestamp())
+                if end_timestamp is None or end_timestamp > now_timestamp:
+                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is not finished yet.")
+                    continue
 
                 if tournament_id in done_tournaments:
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
