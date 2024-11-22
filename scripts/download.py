@@ -308,8 +308,8 @@ def extend_user_info(user_data, player_data, users, users_file_path):
     for user, player in zip(user_data, player_data):
         if user is None or player is None:
             continue
-        user_id = str(user['id'])
-        player_id = str(player['id'])
+        user_id = user['id']
+        player_id = player['id']
         gamer_tag = player['gamerTag']
         prefix = player['prefix']
         gender_pronoun = user['genderPronoun'] if user['genderPronoun'] is not None else "unknown"
