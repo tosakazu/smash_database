@@ -24,17 +24,6 @@ def country_code2region(country_code):
         return "Other"
 
 
-# UltimateのSinglesイベントのみをフィタリングするための関数
-def is_not_ultimate_singles(event_name):
-    # 除外するキワード
-    exclude_keywords = ["64", "Melee", "WiiU", "ダブルス", "チーム", "Team", "Doubles", "Crew_Battle", "Squad_Strike", "団体戦", "おまかせ", "おかわり", "Granblue", "Guilty_Gear", "Redemption", "Rivals_of_Aether", "Dobles"]
-    
-    # 除外キーワードが含まれている場合はFalseを返す
-    if any(keyword.replace(" ", "_").lower() in event_name.replace(" ", "_").lower() for keyword in exclude_keywords):
-        return True
-    
-    return False
-
 def get_date_parts(date):
     """日付を年、月、日に分割する関数"""
     year = time.strftime("%Y", time.gmtime(date))
