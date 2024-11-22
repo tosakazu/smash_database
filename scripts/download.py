@@ -31,6 +31,7 @@ def main():
     parser.add_argument("--users_file_path", default="data/startgg/users.jsonl", help="Path to the file recording startgg user info")
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
+    parser.add_argument("--jp_only", action='store_true', help="Flag to filter tournaments by Japan only")
 
     args = parser.parse_args()
 
@@ -38,10 +39,10 @@ def main():
     set_retry_parameters(args.max_retries, args.retry_delay)
     set_api_parameters(args.url, args.token)
 
-    download_all_tournaments(args.game_id, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path)
+    download_all_tournaments(args.game_id, args.jp_only, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path)
 
-def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
-    done_tournaments = read_set(done_file_path)
+def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+    done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
     print(f"done_tournaments: {len(done_tournaments)}")
@@ -50,7 +51,7 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
 
     page = 1
     while True:
-        tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, page=page)
+        tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, jp_only=jp_only, page=page)
         print(f"Progress: {page}/{total_pages}")
         if not tournaments_info:
             break
@@ -347,9 +348,9 @@ def extend_tournament_info(new_tournament_info, tournament_file_path):
     extend_jsonl([new_tournament_info], tournament_file_path, with_version=True)
 
 # 特定のゲームのトーナメントを最新のものから取得する関数
-def fetch_latest_tournaments_by_game(game_id, limit=5, page=1):
+def fetch_latest_tournaments_by_game(game_id, jp_only, limit=5, page=1):
     response_data = fetch_data_with_retries(
-        get_tournaments_by_game_query(),
+        get_tournaments_by_game_query(jp_only),
         {"gameId": game_id, "perPage": limit, "page": page},
     )
     tournaments = response_data["data"]["tournaments"]["nodes"]
