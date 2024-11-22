@@ -57,9 +57,9 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
 
         for tournament in tournaments_info:
             try:
-                tournament_id = str(tournament["id"])
+                tournament_id = tournament["id"]
                 tournament_name = tournament["name"]
-                date = tournament["startAt"]
+                timestamp = tournament["startAt"]
 
                 country_code = tournament["countryCode"]
                 city = tournament["city"]
@@ -83,12 +83,12 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
                 }
 
                 if tournament_id in done_tournaments:
-                    print(f"({tournament_name} {datetime.fromtimestamp(date)}) already downloaded.")
+                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
                     continue
 
-                print(f"Download {tournament_name}, date: {datetime.fromtimestamp(date)}")
+                print(f"Download {tournament_name}, date: {datetime.fromtimestamp(timestamp)}")
 
-                if datetime.fromtimestamp(date) < finish_date:
+                if datetime.fromtimestamp(timestamp) < finish_date:
                     print("!!!downloaded all!!!")
                     return
 
@@ -104,7 +104,7 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
                     if is_not_ultimate_singles(event_name):
                         continue
                     
-                    year, month, day = get_date_parts(date)
+                    year, month, day = get_date_parts(timestamp)
                     event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
                     user_data, player_data, entrant2user = download_standings(event_id, event_dir)
@@ -116,7 +116,7 @@ def download_all_tournaments(game_id, finish_date, startgg_dir, done_file_path, 
                         continue
                     extend_user_info(user_data, player_data, users, users_file_path)
                     download_all_set(event_id, entrant2user, event_dir)
-                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, date, place, is_online, event_dir)
+                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, is_online, event_dir)
 
                     tournaments[tournament_id]["events"].append({
                         "event_id": event_id,
@@ -223,18 +223,18 @@ def write_matches(all_nodes, entrant2user, event_dir):
         
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
 
-def write_event_attributes(num_entrants, event_id, event_name, tournament_name, date, place, is_online, event_dir):
+def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, is_online, event_dir):
     json_data = {
-        "event_id": str(event_id),
+        "event_id": event_id,
         "tournament_name": tournament_name,
         "event_name": event_name,
-        "date": date,
         "region": country_code2region(place["country_code"]),
         "place": place,
         "num_entrants": num_entrants,
         "offline": not is_online,
         "rule": "unknown",
-        "status": "completed"
+        "status": "completed",
+        "timestamp": timestamp,
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
 
