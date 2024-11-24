@@ -75,7 +75,7 @@ tournament_id2
 - region: str
 - num_entrants: int
 - offline: bool
-- rule: str
+- url: str
 - place: dict
   {
     - country_code: str
@@ -88,18 +88,33 @@ tournament_id2
     - venue_address: str
     - maps_place_id: str
   }
+- labels: dict
+  {
+    - registration_type: str
+    - event_type: str
+    - game_rule: str
+  }
 ```
 
-#### rule
+#### labels
 
-- gati_1on1
-- squad_strike
-- oma1
-- oma5
-- other
-- unkown
+- registration_type: str
+  - full-open
+  - open
+  - closed
+- event_type: str
+  - main
+  - sub
+  - spectator
+- game_rule: str
+  - 1on1
+  - doubles
+  - random
+  - squad-strike
+  - oma-5
+  - crew-battle
 
-The rule is estimated by chatgpt with startgg event description.
+labels are estimated by AI with startgg event description.
 
 ### matches.json
 
