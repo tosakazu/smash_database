@@ -196,6 +196,7 @@ def get_tournaments_by_game_query(jp_only, before_now=True, past=False):
             venueAddress
             venueName
             timezone
+            url
           }
           pageInfo {
             totalPages
