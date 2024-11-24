@@ -1,5 +1,6 @@
 import os
 import argparse
+import sys
 from datetime import datetime
 
 from queries import (
@@ -13,8 +14,10 @@ from utils import (
     set_indent_num,
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
-    FetchError, NoPhaseError
+    FetchError, NoPhaseError,
+    analyze_event_setting,
 )
+from openai import OpenAI
 
 def main():
     # コマンドライン引数の設定
@@ -31,16 +34,28 @@ def main():
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
     parser.add_argument("--jp_only", action='store_true', help="Flag to filter tournaments by Japan only")
-
+    parser.add_argument("--event_prompt_file_path", default="scripts/event_analysis_prompt.txt", help="Path to the file containing event prompt")
+    parser.add_argument("--openai_api_key", default="", help="OpenAI API key")
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)
     set_api_parameters(args.url, args.token)
 
-    download_all_tournaments(args.game_id, args.jp_only, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path)
+    if args.openai_api_key != "":
+        openai_client = OpenAI(api_key=args.openai_api_key)
+        print("!!!OpenAI API key is set!!!")
+    else:
+        openai_client = None
+        print("!!!OpenAI API key is not set!!!")
+        print("!!!OPENAI API key is not set!!!", file=sys.stderr)
+        
+    with open(args.event_prompt_file_path, "r") as f:
+        event_prompt = f.read()
 
-def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+    download_all_tournaments(args.game_id, args.jp_only, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path, openai_client, event_prompt)
+
+def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, openai_client, event_prompt):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -71,6 +86,7 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                 postal_code = tournament["postalCode"]
                 venue_address = tournament["venueAddress"]
                 maps_place_id = tournament["mapsPlaceId"]
+                url = tournament["url"]
                 place = {
                     "country_code": country_code,
                     "city": city,
@@ -119,7 +135,8 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                         continue
                     extend_user_info(user_data, player_data, users, users_file_path)
                     download_all_set(event_id, entrant2user, event_dir)
-                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, is_online, event_dir)
+                    labels = analyze_event_setting(openai_client, event_prompt, tournament_name, event_name, event_id)
+                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
 
                     tournaments[tournament_id]["events"].append({
                         "event_id": event_id,
@@ -226,7 +243,7 @@ def write_matches(all_nodes, entrant2user, event_dir):
         
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
 
-def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, is_online, event_dir):
+def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir):
     json_data = {
         "event_id": event_id,
         "tournament_name": tournament_name,
@@ -235,8 +252,8 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "place": place,
         "num_entrants": num_entrants,
         "offline": not is_online,
-        "url": "unknown",
-        "labels": {},
+        "url": url,
+        "labels": labels,
         "status": "completed",
         "timestamp": timestamp,
     }

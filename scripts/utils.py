@@ -211,3 +211,34 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
         else:
             break
     return all_nodes
+
+def analyze_event_setting(openai_client, event_prompt, tournament_name, event_name, event_id):
+    if openai_client is None:
+        return {}
+    
+    for i in range(3):
+        try:
+            input_event_json = {
+                "Tournament Name": tournament_name,
+                "Event Name": event_name,
+                "Event ID": event_id,
+            }
+            prompt = event_prompt + json.dumps(input_event_json, ensure_ascii=False)
+            response = openai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "system", "content": prompt}],
+                temperature=0.0,
+            )
+            response_text = response.choices[0].message.content
+            response_json = json.loads(response_text)
+            del response_json["event_id"]
+            assert len(response_json.keys()) == 3, f"Unexpected number of keys in response for event {event_id}"
+            assert "registration_type" in response_json, f"registration_type not found in response for event {event_id}"
+            assert "event_type" in response_json, f"event_type not found in response for event {event_id}"
+            assert "game_rule" in response_json, f"game_rule not found in response for event {event_id}"
+            return response_json
+        except Exception as e:
+            print(e, file=sys.stderr)
+            print(f"Failed to analyze event setting for event {event_id}. Retrying {i + 1}/3...", file=sys.stderr)
+    print(f"Failed to analyze event setting for event {event_id} after 3 attempts.", file=sys.stderr)
+    return {}

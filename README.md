@@ -99,20 +99,16 @@ tournament_id2
 #### labels
 
 - registration_type: str
-  - full-open
-  - open
-  - closed
+  - { full-open, full-invite, invite-open, restricted-open, close }
+  - full-open: All players can register.
+  - full-invite: Only invited players can register.
+  - invite-open: Basically invited players can register, but some players can register without invitation.
+  - restricted-open: Players can register with a certain condition.
+  - close: Closed event.
 - event_type: str
-  - main
-  - sub
-  - spectator
+  - { main, sub, spectator }
 - game_rule: str
-  - 1on1
-  - doubles
-  - random
-  - squad-strike
-  - oma-5
-  - crew-battle
+  - { 1on1, doubles, random, squad-strike, oma-5, crew-battle }
 
 labels are estimated by AI with startgg event description.
 
