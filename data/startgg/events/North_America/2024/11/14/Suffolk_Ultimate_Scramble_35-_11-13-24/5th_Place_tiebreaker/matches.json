@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "winner_id": 1704570,
+      "loser_id": 1052269,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26188040,
+          "order_num": 1,
+          "winner_id": 1704570,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1052269,
+              "selection_id": 38132618,
+              "character_id": 1277,
+              "character_name": "Daisy"
+            },
+            {
+              "user_id": 1704570,
+              "selection_id": 38132619,
+              "character_id": 1315,
+              "character_name": "Pac-Man"
+            }
+          ]
+        },
+        {
+          "game_id": 26188041,
+          "order_num": 2,
+          "winner_id": 1704570,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1052269,
+              "selection_id": 38132620,
+              "character_id": 1277,
+              "character_name": "Daisy"
+            },
+            {
+              "user_id": 1704570,
+              "selection_id": 38132621,
+              "character_id": 1315,
+              "character_name": "Pac-Man"
+            }
+          ]
+        },
+        {
+          "game_id": 26188042,
+          "order_num": 3,
+          "winner_id": 1704570,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1052269,
+              "selection_id": 38132622,
+              "character_id": 1277,
+              "character_name": "Daisy"
+            },
+            {
+              "user_id": 1704570,
+              "selection_id": 38132623,
+              "character_id": 1315,
+              "character_name": "Pac-Man"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1052269,
+      "loser_id": 1704570,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 1,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}

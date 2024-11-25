@@ -1,0 +1,443 @@
+{
+  "data": [
+    {
+      "winner_id": 1054644,
+      "loser_id": 958223,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1054644,
+      "loser_id": 958223,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 958223,
+      "loser_id": 2343130,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2343130,
+      "loser_id": 2837587,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26188115,
+          "order_num": 1,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2837587,
+              "selection_id": 38132748,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2343130,
+              "selection_id": 38132749,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        },
+        {
+          "game_id": 26188116,
+          "order_num": 2,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2837587,
+              "selection_id": 38132750,
+              "character_id": 1292,
+              "character_name": "Inkling"
+            },
+            {
+              "user_id": 2343130,
+              "selection_id": 38132751,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1054644,
+      "loser_id": 2344078,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 958223,
+      "loser_id": 1685696,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26186993,
+          "order_num": 1,
+          "winner_id": 958223,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 958223,
+              "selection_id": 38131259,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 1685696,
+              "selection_id": 38131260,
+              "character_id": 1341,
+              "character_name": "Zero Suit Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 26186994,
+          "order_num": 2,
+          "winner_id": 958223,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 958223,
+              "selection_id": 38131261,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 1685696,
+              "selection_id": 38131262,
+              "character_id": 1341,
+              "character_name": "Zero Suit Samus"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2837587,
+      "loser_id": 1685696,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2343130,
+      "loser_id": 2344078,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26187688,
+          "order_num": 1,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2344078,
+              "selection_id": 38132117,
+              "character_id": 1320,
+              "character_name": "Pit"
+            },
+            {
+              "user_id": 2343130,
+              "selection_id": 38132118,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        },
+        {
+          "game_id": 26187689,
+          "order_num": 2,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2344078,
+              "selection_id": 38132119,
+              "character_id": 1320,
+              "character_name": "Pit"
+            },
+            {
+              "user_id": 2343130,
+              "selection_id": 38132120,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2343130,
+      "loser_id": 2373326,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26186846,
+          "order_num": 1,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2343130,
+              "selection_id": 38131081,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            },
+            {
+              "user_id": 2373326,
+              "selection_id": 38131082,
+              "character_id": 1289,
+              "character_name": "Greninja"
+            }
+          ]
+        },
+        {
+          "game_id": 26186847,
+          "order_num": 2,
+          "winner_id": 2343130,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2343130,
+              "selection_id": 38131083,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            },
+            {
+              "user_id": 2373326,
+              "selection_id": 38131084,
+              "character_id": 1296,
+              "character_name": "Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2344078,
+      "loser_id": 2837587,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26185700,
+          "order_num": 1,
+          "winner_id": 2344078,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2344078,
+              "selection_id": 38129770,
+              "character_id": 1278,
+              "character_name": "Dark Pit"
+            },
+            {
+              "user_id": 2837587,
+              "selection_id": 38129771,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            }
+          ]
+        },
+        {
+          "game_id": 26185701,
+          "order_num": 2,
+          "winner_id": 2344078,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2344078,
+              "selection_id": 38129772,
+              "character_id": 1278,
+              "character_name": "Dark Pit"
+            },
+            {
+              "user_id": 2837587,
+              "selection_id": 38129773,
+              "character_id": 1292,
+              "character_name": "Inkling"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 958223,
+      "loser_id": 2373326,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26185632,
+          "order_num": 1,
+          "winner_id": 958223,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 958223,
+              "selection_id": 38129660,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 2373326,
+              "selection_id": 38129661,
+              "character_id": 1296,
+              "character_name": "Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26185633,
+          "order_num": 2,
+          "winner_id": 958223,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 958223,
+              "selection_id": 38129662,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 2373326,
+              "selection_id": 38129663,
+              "character_id": 1296,
+              "character_name": "Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1685696,
+      "loser_id": 2343130,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}

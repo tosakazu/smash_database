@@ -1,0 +1,200 @@
+{
+  "data": [
+    {
+      "winner_id": 2762850,
+      "loser_id": 2763251,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2762850,
+      "loser_id": 2674441,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26189233,
+          "order_num": 1,
+          "winner_id": 2762850,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2762850,
+              "selection_id": 38134428,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2674441,
+              "selection_id": 38134429,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26189234,
+          "order_num": 2,
+          "winner_id": 2674441,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2762850,
+              "selection_id": 38134430,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2674441,
+              "selection_id": 38134431,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26189235,
+          "order_num": 3,
+          "winner_id": 2674441,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2762850,
+              "selection_id": 38134432,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2674441,
+              "selection_id": 38134433,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26189236,
+          "order_num": 4,
+          "winner_id": 2762850,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2762850,
+              "selection_id": 38134434,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2674441,
+              "selection_id": 38134435,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26189237,
+          "order_num": 5,
+          "winner_id": 2762850,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2762850,
+              "selection_id": 38134436,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2674441,
+              "selection_id": 38134437,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2763251,
+      "loser_id": 2674441,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Losers Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2763251,
+      "loser_id": 2291372,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Semi-Final",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2762850,
+      "loser_id": 2763251,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2674441,
+      "loser_id": 2291372,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
