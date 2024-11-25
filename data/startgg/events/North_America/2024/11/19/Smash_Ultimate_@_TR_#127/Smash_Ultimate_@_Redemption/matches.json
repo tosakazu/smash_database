@@ -1,0 +1,176 @@
+{
+  "data": [
+    {
+      "winner_id": null,
+      "loser_id": 346937,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 346937,
+      "loser_id": null,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Grand Final Reset",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 346937,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 2797390,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26321785,
+          "order_num": 1,
+          "winner_id": null,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2797390,
+              "selection_id": 38332938,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38332939,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26321786,
+          "order_num": 2,
+          "winner_id": null,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2797390,
+              "selection_id": 38332940,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38332941,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 346937,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2797390,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 2797390,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
