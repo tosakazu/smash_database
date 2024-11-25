@@ -1,0 +1,106 @@
+{
+  "data": [
+    {
+      "winner_id": 2237919,
+      "loser_id": 2595507,
+      "winner_score": 1,
+      "loser_score": 0,
+      "round_text": "Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2237919,
+      "loser_id": 2677624,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26006816,
+          "order_num": 1,
+          "winner_id": 2237919,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2677624,
+              "selection_id": 37853993,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2237919,
+              "selection_id": 37854010,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            }
+          ]
+        },
+        {
+          "game_id": 26006817,
+          "order_num": 2,
+          "winner_id": 2237919,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2677624,
+              "selection_id": 37853994,
+              "character_id": 1407,
+              "character_name": "King K. Rool"
+            },
+            {
+              "user_id": 2237919,
+              "selection_id": 37854011,
+              "character_id": 1292,
+              "character_name": "Inkling"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2595507,
+      "loser_id": 2595541,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2237919,
+      "loser_id": 870535,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
