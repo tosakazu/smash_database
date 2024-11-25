@@ -1,0 +1,908 @@
+{
+  "data": [
+    {
+      "winner_id": 1604343,
+      "loser_id": 1968002,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1604343,
+      "loser_id": 910163,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1968002,
+      "loser_id": 910163,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1968002,
+      "loser_id": 779903,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26213944,
+          "order_num": 1,
+          "winner_id": 1968002,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38172712,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172713,
+              "character_id": 1532,
+              "character_name": "Terry"
+            }
+          ]
+        },
+        {
+          "game_id": 26213945,
+          "order_num": 2,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38172714,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172715,
+              "character_id": 1526,
+              "character_name": "Hero"
+            }
+          ]
+        },
+        {
+          "game_id": 26213946,
+          "order_num": 3,
+          "winner_id": 1968002,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38172716,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172717,
+              "character_id": 1290,
+              "character_name": "Ice Climbers"
+            }
+          ]
+        },
+        {
+          "game_id": 26213947,
+          "order_num": 4,
+          "winner_id": 1968002,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38172718,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172719,
+              "character_id": 1293,
+              "character_name": "Jigglypuff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1604343,
+      "loser_id": 1968002,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26212747,
+          "order_num": 1,
+          "winner_id": 1968002,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1968002,
+              "selection_id": 38171028,
+              "character_id": 1532,
+              "character_name": "Terry"
+            },
+            {
+              "user_id": 1604343,
+              "selection_id": 38171029,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            }
+          ]
+        },
+        {
+          "game_id": 26212748,
+          "order_num": 2,
+          "winner_id": 1604343,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1968002,
+              "selection_id": 38171030,
+              "character_id": 1532,
+              "character_name": "Terry"
+            },
+            {
+              "user_id": 1604343,
+              "selection_id": 38171031,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            }
+          ]
+        },
+        {
+          "game_id": 26212749,
+          "order_num": 3,
+          "winner_id": 1604343,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1968002,
+              "selection_id": 38171032,
+              "character_id": 1532,
+              "character_name": "Terry"
+            },
+            {
+              "user_id": 1604343,
+              "selection_id": 38171033,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            }
+          ]
+        },
+        {
+          "game_id": 26212750,
+          "order_num": 4,
+          "winner_id": 1604343,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1968002,
+              "selection_id": 38171034,
+              "character_id": 1297,
+              "character_name": "Little Mac"
+            },
+            {
+              "user_id": 1604343,
+              "selection_id": 38171035,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 910163,
+      "loser_id": 779903,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26213111,
+          "order_num": 1,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171559,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38171560,
+              "character_id": 1314,
+              "character_name": "Olimar"
+            }
+          ]
+        },
+        {
+          "game_id": 26213112,
+          "order_num": 2,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171561,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38171562,
+              "character_id": 1283,
+              "character_name": "Duck Hunt"
+            }
+          ]
+        },
+        {
+          "game_id": 26213113,
+          "order_num": 3,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171563,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38171564,
+              "character_id": 1530,
+              "character_name": "Banjo-Kazooie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 779903,
+      "loser_id": 2682109,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26213347,
+          "order_num": 1,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171874,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38171875,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 26213348,
+          "order_num": 2,
+          "winner_id": 779903,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171876,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38171877,
+              "character_id": 1408,
+              "character_name": "Dark Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 26213349,
+          "order_num": 3,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38171878,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38171879,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1968002,
+      "loser_id": 2308987,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26213613,
+          "order_num": 1,
+          "winner_id": 1968002,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38172278,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172279,
+              "character_id": 1526,
+              "character_name": "Hero"
+            }
+          ]
+        },
+        {
+          "game_id": 26213614,
+          "order_num": 2,
+          "winner_id": 1968002,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38172280,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172281,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 26213615,
+          "order_num": 3,
+          "winner_id": 2308987,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38172282,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172283,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            }
+          ]
+        },
+        {
+          "game_id": 26213616,
+          "order_num": 4,
+          "winner_id": 1968002,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38172284,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 1968002,
+              "selection_id": 38172285,
+              "character_id": 1293,
+              "character_name": "Jigglypuff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2308987,
+      "loser_id": null,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26213194,
+          "order_num": 1,
+          "winner_id": null,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38171689,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38171690,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26213195,
+          "order_num": 2,
+          "winner_id": 2308987,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38171691,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38171692,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26213196,
+          "order_num": 3,
+          "winner_id": 2308987,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38171693,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38171694,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26213197,
+          "order_num": 4,
+          "winner_id": 2308987,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38171695,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38171696,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1604343,
+      "loser_id": 2682109,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26212398,
+          "order_num": 1,
+          "winner_id": 1604343,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1604343,
+              "selection_id": 38170515,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38170516,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 26212399,
+          "order_num": 2,
+          "winner_id": 1604343,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1604343,
+              "selection_id": 38170517,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38170518,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 26212400,
+          "order_num": 3,
+          "winner_id": 1604343,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1604343,
+              "selection_id": 38170519,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 2682109,
+              "selection_id": 38170520,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 779903,
+      "loser_id": null,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26212654,
+          "order_num": 1,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38170903,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38170904,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26212655,
+          "order_num": 2,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38170905,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38170906,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26212656,
+          "order_num": 3,
+          "winner_id": null,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38170907,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38170908,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26212657,
+          "order_num": 4,
+          "winner_id": 779903,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 779903,
+              "selection_id": 38170909,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38170910,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 910163,
+      "loser_id": 2308987,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26212430,
+          "order_num": 1,
+          "winner_id": 2308987,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38170555,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38170556,
+              "character_id": 1530,
+              "character_name": "Banjo-Kazooie"
+            }
+          ]
+        },
+        {
+          "game_id": 26212431,
+          "order_num": 2,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38170557,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38170558,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        },
+        {
+          "game_id": 26212432,
+          "order_num": 3,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38170559,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38170560,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        },
+        {
+          "game_id": 26212433,
+          "order_num": 4,
+          "winner_id": 910163,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2308987,
+              "selection_id": 38170561,
+              "character_id": 1305,
+              "character_name": "Mega Man"
+            },
+            {
+              "user_id": 910163,
+              "selection_id": 38170562,
+              "character_id": 1280,
+              "character_name": "Donkey Kong"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
