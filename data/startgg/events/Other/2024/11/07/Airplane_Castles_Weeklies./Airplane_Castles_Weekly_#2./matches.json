@@ -1,0 +1,156 @@
+{
+  "data": [
+    {
+      "winner_id": 1790263,
+      "loser_id": 1453730,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Grand Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25367148,
+          "order_num": 1,
+          "winner_id": 1790263,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1790263,
+              "selection_id": 36872051,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1453730,
+              "selection_id": 36872052,
+              "character_id": 1286,
+              "character_name": "Fox"
+            }
+          ]
+        },
+        {
+          "game_id": 25367301,
+          "order_num": 2,
+          "winner_id": 1453730,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1790263,
+              "selection_id": 36872474,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1453730,
+              "selection_id": 36872475,
+              "character_id": 1286,
+              "character_name": "Fox"
+            }
+          ]
+        },
+        {
+          "game_id": 25367481,
+          "order_num": 3,
+          "winner_id": 1790263,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1790263,
+              "selection_id": 36872476,
+              "character_id": 1408,
+              "character_name": "Dark Samus"
+            },
+            {
+              "user_id": 1453730,
+              "selection_id": 36872477,
+              "character_id": 1286,
+              "character_name": "Fox"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1790263,
+      "loser_id": 1453730,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1453730,
+      "loser_id": 1817904,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1817904,
+      "loser_id": 1069868,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Semi-Final",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1453730,
+      "loser_id": 1817904,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1069868,
+      "loser_id": 1790263,
+      "winner_score": -1,
+      "loser_score": -1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
