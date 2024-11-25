@@ -1,0 +1,190 @@
+{
+  "data": [
+    {
+      "winner_id": 838074,
+      "loser_id": 1197382,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 838074,
+      "loser_id": 2260820,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1197382,
+      "loser_id": 2260820,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26336792,
+          "order_num": 1,
+          "winner_id": 1197382,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1197382,
+              "selection_id": 38357101,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2260820,
+              "selection_id": 38357102,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        },
+        {
+          "game_id": 26336793,
+          "order_num": 2,
+          "winner_id": 1197382,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1197382,
+              "selection_id": 38357103,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2260820,
+              "selection_id": 38357104,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1197382,
+      "loser_id": 2775437,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 838074,
+      "loser_id": 1197382,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2260820,
+      "loser_id": 627808,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2775437,
+      "loser_id": 627808,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1197382,
+      "loser_id": 779347,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1197382,
+      "loser_id": 2775437,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2260820,
+      "loser_id": 779347,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
