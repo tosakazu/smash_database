@@ -1,0 +1,257 @@
+{
+  "data": [
+    {
+      "winner_id": 2651427,
+      "loser_id": 2419385,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2651427,
+      "loser_id": 2419385,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2419385,
+      "loser_id": 2391966,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2391966,
+      "loser_id": 2824189,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2419385,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2651427,
+      "loser_id": 2391966,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25934512,
+          "order_num": 1,
+          "winner_id": 2651427,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2391966,
+              "selection_id": 37742109,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            },
+            {
+              "user_id": 2651427,
+              "selection_id": 37742110,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        },
+        {
+          "game_id": 25934513,
+          "order_num": 2,
+          "winner_id": 2651427,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2391966,
+              "selection_id": 37742111,
+              "character_id": 1331,
+              "character_name": "Snake"
+            },
+            {
+              "user_id": 2651427,
+              "selection_id": 37742112,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2391966,
+      "loser_id": 2824051,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2824189,
+      "loser_id": null,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 2824051,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2651427,
+      "loser_id": 2824189,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25933892,
+          "order_num": 1,
+          "winner_id": 2651427,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2824189,
+              "selection_id": 37741097,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            },
+            {
+              "user_id": 2651427,
+              "selection_id": 37741098,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        },
+        {
+          "game_id": 25933893,
+          "order_num": 2,
+          "winner_id": 2824189,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2824189,
+              "selection_id": 37741099,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            },
+            {
+              "user_id": 2651427,
+              "selection_id": 37741100,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        },
+        {
+          "game_id": 25933894,
+          "order_num": 3,
+          "winner_id": 2651427,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2824189,
+              "selection_id": 37741101,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            },
+            {
+              "user_id": 2651427,
+              "selection_id": 37741102,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
