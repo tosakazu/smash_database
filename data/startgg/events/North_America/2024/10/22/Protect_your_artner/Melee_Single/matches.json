@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "winner_id": 2817016,
+      "loser_id": 2817028,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2817016,
+      "loser_id": 2817028,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25714091,
+          "order_num": 1,
+          "winner_id": 2817028,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": "Lylat Cruise",
+          "selections": [
+            {
+              "user_id": 2817016,
+              "selection_id": 37416839,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2817028,
+              "selection_id": 37416840,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 25714092,
+          "order_num": 2,
+          "winner_id": 2817016,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Smashville",
+          "selections": [
+            {
+              "user_id": 2817016,
+              "selection_id": 37416841,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2817028,
+              "selection_id": 37416842,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25714097,
+          "order_num": 3,
+          "winner_id": 2817016,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Battlefield",
+          "selections": [
+            {
+              "user_id": 2817016,
+              "selection_id": 37416851,
+              "character_id": 1408,
+              "character_name": "Dark Samus"
+            },
+            {
+              "user_id": 2817028,
+              "selection_id": 37416852,
+              "character_id": 1298,
+              "character_name": "Lucario"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
