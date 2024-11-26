@@ -1,0 +1,156 @@
+{
+  "data": [
+    {
+      "winner_id": 1520906,
+      "loser_id": 1540177,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1520906,
+      "loser_id": 1632580,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1540177,
+      "loser_id": 1632580,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1540177,
+      "loser_id": 2077914,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1632580,
+      "loser_id": 2077914,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25689022,
+          "order_num": 1,
+          "winner_id": 1632580,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1632580,
+              "selection_id": 37379115,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            },
+            {
+              "user_id": 2077914,
+              "selection_id": 37379116,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            }
+          ]
+        },
+        {
+          "game_id": 25689023,
+          "order_num": 2,
+          "winner_id": 1632580,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1632580,
+              "selection_id": 37379117,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            },
+            {
+              "user_id": 2077914,
+              "selection_id": 37379118,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            }
+          ]
+        },
+        {
+          "game_id": 25689024,
+          "order_num": 3,
+          "winner_id": 1632580,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1632580,
+              "selection_id": 37379119,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            },
+            {
+              "user_id": 2077914,
+              "selection_id": 37379120,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1520906,
+      "loser_id": 1540177,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
