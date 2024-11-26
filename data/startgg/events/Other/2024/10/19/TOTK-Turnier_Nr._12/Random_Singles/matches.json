@@ -1,0 +1,173 @@
+{
+  "data": [
+    {
+      "winner_id": 2510690,
+      "loser_id": 2640299,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "3rd Place Tiebreak",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2574271,
+      "loser_id": 2534015,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25652411,
+          "order_num": 1,
+          "winner_id": 2574271,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 2574271,
+              "selection_id": 37322047,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2534015,
+              "selection_id": 37322048,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        },
+        {
+          "game_id": 25652585,
+          "order_num": 2,
+          "winner_id": 2574271,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 2574271,
+              "selection_id": 37322233,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2534015,
+              "selection_id": 37322234,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2534015,
+      "loser_id": 2640299,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2574271,
+      "loser_id": 2510690,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25651757,
+          "order_num": 1,
+          "winner_id": 2510690,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 2574271,
+              "selection_id": 37321257,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2510690,
+              "selection_id": 38399362,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        },
+        {
+          "game_id": 25651916,
+          "order_num": 2,
+          "winner_id": 2574271,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Hollow Bastion",
+          "selections": [
+            {
+              "user_id": 2510690,
+              "selection_id": 37321481,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2574271,
+              "selection_id": 37321482,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        },
+        {
+          "game_id": 25652135,
+          "order_num": 3,
+          "winner_id": 2574271,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 2574271,
+              "selection_id": 37321771,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            },
+            {
+              "user_id": 2510690,
+              "selection_id": 37321772,
+              "character_id": 1746,
+              "character_name": "Random Character"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
