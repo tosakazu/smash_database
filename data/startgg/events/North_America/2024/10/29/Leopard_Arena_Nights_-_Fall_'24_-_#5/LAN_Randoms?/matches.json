@@ -1,0 +1,98 @@
+{
+  "data": [
+    {
+      "winner_id": 654473,
+      "loser_id": 948246,
+      "winner_score": 1,
+      "loser_score": -1,
+      "round_text": "Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 654473,
+      "loser_id": 1899852,
+      "winner_score": 1,
+      "loser_score": 0,
+      "round_text": "Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25879291,
+          "order_num": 1,
+          "winner_id": 654473,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 654473,
+              "selection_id": 37660482,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1899852,
+              "selection_id": 37660483,
+              "character_id": 1405,
+              "character_name": "Mr. Game & Watch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 948246,
+      "loser_id": 448039,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1899852,
+      "loser_id": 2417404,
+      "winner_score": 1,
+      "loser_score": 0,
+      "round_text": "Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 948246,
+      "loser_id": 2489142,
+      "winner_score": 1,
+      "loser_score": 0,
+      "round_text": "Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
