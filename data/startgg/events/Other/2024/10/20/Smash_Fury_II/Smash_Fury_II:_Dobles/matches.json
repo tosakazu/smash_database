@@ -1,0 +1,178 @@
+{
+  "data": [
+    {
+      "winner_id": 2297786,
+      "loser_id": 2564567,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Grand Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2297786,
+      "loser_id": 1296447,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2564567,
+      "loser_id": 1296447,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2564567,
+      "loser_id": 2803514,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Semi-Final",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2297786,
+      "loser_id": 2564567,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25680473,
+          "order_num": 1,
+          "winner_id": 2564567,
+          "entrant1_score": 3,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2297786,
+              "selection_id": 37367659,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2564567,
+              "selection_id": 37367660,
+              "character_id": 1407,
+              "character_name": "King K. Rool"
+            }
+          ]
+        },
+        {
+          "game_id": 25680709,
+          "order_num": 2,
+          "winner_id": 2297786,
+          "entrant1_score": 0,
+          "entrant2_score": 3,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2297786,
+              "selection_id": 37367661,
+              "character_id": 1302,
+              "character_name": "Mario"
+            },
+            {
+              "user_id": 2564567,
+              "selection_id": 37367662,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 25680765,
+          "order_num": 3,
+          "winner_id": 2297786,
+          "entrant1_score": 0,
+          "entrant2_score": 3,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2564567,
+              "selection_id": 37367664,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 2297786,
+              "selection_id": 37367672,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            }
+          ]
+        },
+        {
+          "game_id": 25680766,
+          "order_num": 4,
+          "winner_id": 2297786,
+          "entrant1_score": 0,
+          "entrant2_score": 3,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2297786,
+              "selection_id": 37367665,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 2564567,
+              "selection_id": 37367666,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1296447,
+      "loser_id": 2803514,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
