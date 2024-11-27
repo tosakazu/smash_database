@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "winner_id": 1896924,
+      "loser_id": 2810203,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25546255,
+          "order_num": 1,
+          "winner_id": 1896924,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 2810203,
+              "selection_id": 37154915,
+              "character_id": 1897,
+              "character_name": "Sora"
+            },
+            {
+              "user_id": 1896924,
+              "selection_id": 37154916,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            }
+          ]
+        },
+        {
+          "game_id": 25546256,
+          "order_num": 2,
+          "winner_id": 1896924,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Smashville",
+          "selections": [
+            {
+              "user_id": 1896924,
+              "selection_id": 37154917,
+              "character_id": 1274,
+              "character_name": "Captain Falcon"
+            },
+            {
+              "user_id": 2810203,
+              "selection_id": 37154918,
+              "character_id": 1897,
+              "character_name": "Sora"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
