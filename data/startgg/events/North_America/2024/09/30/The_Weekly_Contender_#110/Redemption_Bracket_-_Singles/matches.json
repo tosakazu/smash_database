@@ -1,0 +1,78 @@
+{
+  "data": [
+    {
+      "winner_id": 852399,
+      "loser_id": 2310683,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2310683,
+      "loser_id": 2730868,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25274570,
+          "order_num": 1,
+          "winner_id": 2310683,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2730868,
+              "selection_id": 36728067,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            },
+            {
+              "user_id": 2310683,
+              "selection_id": 36728068,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            }
+          ]
+        },
+        {
+          "game_id": 25274571,
+          "order_num": 2,
+          "winner_id": 2310683,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2730868,
+              "selection_id": 36728069,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            },
+            {
+              "user_id": 2310683,
+              "selection_id": 36728070,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
