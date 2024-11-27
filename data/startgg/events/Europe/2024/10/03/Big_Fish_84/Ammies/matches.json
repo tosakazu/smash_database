@@ -1,0 +1,581 @@
+{
+  "data": [
+    {
+      "winner_id": 1583631,
+      "loser_id": 1627559,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1583631,
+      "loser_id": 1627559,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final Reset",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1627559,
+      "loser_id": 2425739,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25318681,
+          "order_num": 1,
+          "winner_id": 1627559,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796947,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36796948,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25318682,
+          "order_num": 2,
+          "winner_id": 2425739,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796949,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36796950,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25318683,
+          "order_num": 3,
+          "winner_id": 1627559,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796951,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36796952,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25318684,
+          "order_num": 4,
+          "winner_id": 2425739,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796953,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36796954,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25318685,
+          "order_num": 5,
+          "winner_id": 1627559,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796955,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36796956,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1583631,
+      "loser_id": 2425739,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1583631,
+      "loser_id": 1987025,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1627559,
+      "loser_id": 1583631,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25318327,
+          "order_num": 1,
+          "winner_id": 1627559,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796364,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 1583631,
+              "selection_id": 36796365,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 25318328,
+          "order_num": 2,
+          "winner_id": 1583631,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796366,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 1583631,
+              "selection_id": 36796367,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 25318329,
+          "order_num": 3,
+          "winner_id": 1583631,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796368,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 1583631,
+              "selection_id": 36796369,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 25318330,
+          "order_num": 4,
+          "winner_id": 1627559,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796370,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 1583631,
+              "selection_id": 36796371,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 25318331,
+          "order_num": 5,
+          "winner_id": 1627559,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1627559,
+              "selection_id": 36796372,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 1583631,
+              "selection_id": 36796373,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2425739,
+      "loser_id": 2172634,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25317816,
+          "order_num": 1,
+          "winner_id": 2172634,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2172634,
+              "selection_id": 36795404,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36795405,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25317817,
+          "order_num": 2,
+          "winner_id": 2172634,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2172634,
+              "selection_id": 36795406,
+              "character_id": 1766,
+              "character_name": "Steve"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36795407,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25317818,
+          "order_num": 3,
+          "winner_id": 2425739,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2172634,
+              "selection_id": 36795408,
+              "character_id": 1766,
+              "character_name": "Steve"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36795409,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25317819,
+          "order_num": 4,
+          "winner_id": 2425739,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2172634,
+              "selection_id": 36795410,
+              "character_id": 1766,
+              "character_name": "Steve"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36795411,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 25317820,
+          "order_num": 5,
+          "winner_id": 2425739,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2172634,
+              "selection_id": 36795412,
+              "character_id": 1766,
+              "character_name": "Steve"
+            },
+            {
+              "user_id": 2425739,
+              "selection_id": 36795413,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1987025,
+      "loser_id": 2172634,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1583631,
+      "loser_id": 1821016,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1627559,
+      "loser_id": 1987025,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2425739,
+      "loser_id": 1821016,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25317368,
+          "order_num": 1,
+          "winner_id": 2425739,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2425739,
+              "selection_id": 36794654,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1821016,
+              "selection_id": 36794655,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 25317369,
+          "order_num": 2,
+          "winner_id": 2425739,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2425739,
+              "selection_id": 36794656,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1821016,
+              "selection_id": 36794657,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 25317370,
+          "order_num": 3,
+          "winner_id": 1821016,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2425739,
+              "selection_id": 36794658,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1821016,
+              "selection_id": 36794659,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 25317371,
+          "order_num": 4,
+          "winner_id": 2425739,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2425739,
+              "selection_id": 36794660,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1821016,
+              "selection_id": 36794661,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
