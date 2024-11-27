@@ -1,0 +1,1402 @@
+{
+  "data": [
+    {
+      "winner_id": 1115743,
+      "loser_id": 1549090,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1115743,
+      "loser_id": 1549090,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Grand Final Reset",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1549090,
+      "loser_id": 1115743,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25222164,
+          "order_num": 1,
+          "winner_id": 1549090,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36645889,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36645890,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25222165,
+          "order_num": 2,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36645891,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36645892,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25222166,
+          "order_num": 3,
+          "winner_id": 1549090,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36645893,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36645894,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 3995,
+      "loser_id": 1115743,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -8,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 3995,
+      "loser_id": 2161869,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -7,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25222054,
+          "order_num": 1,
+          "winner_id": 3995,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2161869,
+              "selection_id": 36647036,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36647037,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        },
+        {
+          "game_id": 25222055,
+          "order_num": 2,
+          "winner_id": 3995,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2161869,
+              "selection_id": 36647038,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36647039,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1549090,
+      "loser_id": 3995,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219862,
+          "order_num": 1,
+          "winner_id": 1549090,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36643778,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36643779,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        },
+        {
+          "game_id": 25219863,
+          "order_num": 2,
+          "winner_id": 3995,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36643780,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36643781,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        },
+        {
+          "game_id": 25219864,
+          "order_num": 3,
+          "winner_id": 1549090,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36643782,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36643783,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1115743,
+      "loser_id": 1796740,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25220502,
+          "order_num": 1,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1796740,
+              "selection_id": 36644760,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36644761,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25220503,
+          "order_num": 2,
+          "winner_id": 1796740,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1796740,
+              "selection_id": 36644762,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36644763,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25220504,
+          "order_num": 3,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1796740,
+              "selection_id": 36644764,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36644765,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 3995,
+      "loser_id": 995185,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25222034,
+          "order_num": 1,
+          "winner_id": 995185,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 995185,
+              "selection_id": 36647012,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36647013,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            }
+          ]
+        },
+        {
+          "game_id": 25222035,
+          "order_num": 2,
+          "winner_id": 3995,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 995185,
+              "selection_id": 36647014,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36647015,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        },
+        {
+          "game_id": 25222036,
+          "order_num": 3,
+          "winner_id": 3995,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 995185,
+              "selection_id": 36647016,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36647017,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2161869,
+      "loser_id": 1796740,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25221397,
+          "order_num": 1,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2161869,
+              "selection_id": 36646068,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36646069,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25221398,
+          "order_num": 2,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2161869,
+              "selection_id": 36646070,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36646071,
+              "character_id": 1297,
+              "character_name": "Little Mac"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 995185,
+      "loser_id": 2266784,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2161869,
+      "loser_id": 2317244,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25220987,
+          "order_num": 1,
+          "winner_id": 2317244,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36645458,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36645459,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25220988,
+          "order_num": 2,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36645460,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36645461,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25220989,
+          "order_num": 3,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36645462,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36645463,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1549090,
+      "loser_id": 2161869,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219299,
+          "order_num": 1,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36642983,
+              "character_id": 1332,
+              "character_name": "Sonic"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36642984,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25219300,
+          "order_num": 2,
+          "winner_id": 1549090,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36642985,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36642986,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25219301,
+          "order_num": 3,
+          "winner_id": 1549090,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1549090,
+              "selection_id": 36642987,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36642988,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 3995,
+      "loser_id": 2306531,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219177,
+          "order_num": 1,
+          "winner_id": 3995,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2306531,
+              "selection_id": 36642774,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36642775,
+              "character_id": 1276,
+              "character_name": "Corrin"
+            }
+          ]
+        },
+        {
+          "game_id": 25219178,
+          "order_num": 2,
+          "winner_id": 3995,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2306531,
+              "selection_id": 36642776,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36642777,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1796740,
+      "loser_id": 2013101,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219466,
+          "order_num": 1,
+          "winner_id": 1796740,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 2013101,
+              "selection_id": 36643234,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36643235,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25219467,
+          "order_num": 2,
+          "winner_id": 1796740,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Hollow Bastion",
+          "selections": [
+            {
+              "user_id": 2013101,
+              "selection_id": 36643236,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36643237,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1115743,
+      "loser_id": 2266784,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219647,
+          "order_num": 1,
+          "winner_id": 2266784,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2266784,
+              "selection_id": 36643467,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36643468,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25219648,
+          "order_num": 2,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2266784,
+              "selection_id": 36643469,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36643470,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25219649,
+          "order_num": 3,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2266784,
+              "selection_id": 36643471,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36643472,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2266784,
+      "loser_id": 1821164,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25220175,
+          "order_num": 1,
+          "winner_id": 2266784,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2266784,
+              "selection_id": 36644259,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1821164,
+              "selection_id": 36644260,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        },
+        {
+          "game_id": 25220176,
+          "order_num": 2,
+          "winner_id": 2266784,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2266784,
+              "selection_id": 36644261,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            },
+            {
+              "user_id": 1821164,
+              "selection_id": 36644262,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 995185,
+      "loser_id": 2013101,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25220151,
+          "order_num": 1,
+          "winner_id": 995185,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2013101,
+              "selection_id": 36644217,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            },
+            {
+              "user_id": 995185,
+              "selection_id": 36644218,
+              "character_id": 1338,
+              "character_name": "Yoshi"
+            }
+          ]
+        },
+        {
+          "game_id": 25220152,
+          "order_num": 2,
+          "winner_id": 2013101,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2013101,
+              "selection_id": 36644219,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            },
+            {
+              "user_id": 995185,
+              "selection_id": 36644220,
+              "character_id": 1338,
+              "character_name": "Yoshi"
+            }
+          ]
+        },
+        {
+          "game_id": 25220153,
+          "order_num": 3,
+          "winner_id": 995185,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2013101,
+              "selection_id": 36644221,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            },
+            {
+              "user_id": 995185,
+              "selection_id": 36644222,
+              "character_id": 1272,
+              "character_name": "Bowser Jr."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2317244,
+      "loser_id": 2306531,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25219751,
+          "order_num": 1,
+          "winner_id": 2317244,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2306531,
+              "selection_id": 36643629,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            },
+            {
+              "user_id": 2317244,
+              "selection_id": 36643630,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            }
+          ]
+        },
+        {
+          "game_id": 25219752,
+          "order_num": 2,
+          "winner_id": 2317244,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2306531,
+              "selection_id": 36643631,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            },
+            {
+              "user_id": 2317244,
+              "selection_id": 36643632,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2161869,
+      "loser_id": 956390,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25220113,
+          "order_num": 1,
+          "winner_id": 2161869,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 956390,
+              "selection_id": 36644156,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36644157,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25220114,
+          "order_num": 2,
+          "winner_id": 956390,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 956390,
+              "selection_id": 36644158,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36644159,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25220115,
+          "order_num": 3,
+          "winner_id": 2161869,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 956390,
+              "selection_id": 36644160,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36644161,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2161869,
+      "loser_id": 1821164,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25218766,
+          "order_num": 1,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1821164,
+              "selection_id": 36642081,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36642082,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        },
+        {
+          "game_id": 25218767,
+          "order_num": 2,
+          "winner_id": 2161869,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1821164,
+              "selection_id": 36642083,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            },
+            {
+              "user_id": 2161869,
+              "selection_id": 36642084,
+              "character_id": 1326,
+              "character_name": "Roy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 3995,
+      "loser_id": 995185,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25218745,
+          "order_num": 1,
+          "winner_id": 3995,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 995185,
+              "selection_id": 36642055,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36642056,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            }
+          ]
+        },
+        {
+          "game_id": 25218746,
+          "order_num": 2,
+          "winner_id": 3995,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 995185,
+              "selection_id": 36642057,
+              "character_id": 1282,
+              "character_name": "Dr. Mario"
+            },
+            {
+              "user_id": 3995,
+              "selection_id": 36642058,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1796740,
+      "loser_id": 2317244,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25218956,
+          "order_num": 1,
+          "winner_id": 1796740,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36642426,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36642427,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25218957,
+          "order_num": 2,
+          "winner_id": 2317244,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": "Smashville",
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36642428,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36642429,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25218958,
+          "order_num": 3,
+          "winner_id": 1796740,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 2317244,
+              "selection_id": 36642430,
+              "character_id": 1337,
+              "character_name": "Wolf"
+            },
+            {
+              "user_id": 1796740,
+              "selection_id": 36642431,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1115743,
+      "loser_id": 956390,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25218812,
+          "order_num": 1,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 956390,
+              "selection_id": 36642161,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36642162,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        },
+        {
+          "game_id": 25218813,
+          "order_num": 2,
+          "winner_id": 1115743,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Hollow Bastion",
+          "selections": [
+            {
+              "user_id": 956390,
+              "selection_id": 36642163,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 1115743,
+              "selection_id": 36642164,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
