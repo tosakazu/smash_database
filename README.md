@@ -110,7 +110,9 @@ tournament_id2
 - game_rule: str
   - { 1on1, doubles, random, squad-strike, oma-5, crew-battle }
 
-labels are estimated by AI with startgg event description.
+labels are estimated by AI with startgg event description.  
+The registration_type and event_type fields are filled in, but they aren't very reliable.  
+The game_rule field is fairly trustworthy.  
 
 ### matches.json
 
