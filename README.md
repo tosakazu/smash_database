@@ -160,6 +160,8 @@ The game_rule field is fairly trustworthy.
   ]
 ```
 
+Note that the system does not support data retrieval for doubles and crew battles, and even when this data exists in the database, the user_id is frequently not properly obtained.
+
 ### standings.json
 
 ```
