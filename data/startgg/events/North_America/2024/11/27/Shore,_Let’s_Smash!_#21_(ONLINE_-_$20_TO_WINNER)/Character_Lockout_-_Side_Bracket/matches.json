@@ -1,0 +1,352 @@
+{
+  "data": [
+    {
+      "winner_id": 1027191,
+      "loser_id": 79475,
+      "winner_score": -1,
+      "loser_score": -1,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 79475,
+      "loser_id": 2433054,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1027191,
+      "loser_id": 2433054,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1027191,
+      "loser_id": 1113202,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26485076,
+          "order_num": 1,
+          "winner_id": 1027191,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 1113202,
+              "selection_id": 38584539,
+              "character_id": 1897,
+              "character_name": "Sora"
+            },
+            {
+              "user_id": 1027191,
+              "selection_id": 38584540,
+              "character_id": 1301,
+              "character_name": "Luigi"
+            }
+          ]
+        },
+        {
+          "game_id": 26485141,
+          "order_num": 2,
+          "winner_id": 1113202,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 1027191,
+              "selection_id": 38584628,
+              "character_id": 1320,
+              "character_name": "Pit"
+            },
+            {
+              "user_id": 1113202,
+              "selection_id": 38584629,
+              "character_id": 1285,
+              "character_name": "Falco"
+            }
+          ]
+        },
+        {
+          "game_id": 26485238,
+          "order_num": 3,
+          "winner_id": 1027191,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Battlefield",
+          "selections": [
+            {
+              "user_id": 1113202,
+              "selection_id": 38584770,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            },
+            {
+              "user_id": 1027191,
+              "selection_id": 38584771,
+              "character_id": 1897,
+              "character_name": "Sora"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2433054,
+      "loser_id": 1047388,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 79475,
+      "loser_id": 1113202,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26484569,
+          "order_num": 1,
+          "winner_id": 79475,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 79475,
+              "selection_id": 38583741,
+              "character_id": 1323,
+              "character_name": "R.O.B."
+            },
+            {
+              "user_id": 1113202,
+              "selection_id": 38583742,
+              "character_id": 1338,
+              "character_name": "Yoshi"
+            }
+          ]
+        },
+        {
+          "game_id": 26484663,
+          "order_num": 2,
+          "winner_id": 1113202,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 79475,
+              "selection_id": 38583903,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 1113202,
+              "selection_id": 38583904,
+              "character_id": 1408,
+              "character_name": "Dark Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 26484804,
+          "order_num": 3,
+          "winner_id": 79475,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Battlefield",
+          "selections": [
+            {
+              "user_id": 1113202,
+              "selection_id": 38584139,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 79475,
+              "selection_id": 38584140,
+              "character_id": 1319,
+              "character_name": "Pikachu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1113202,
+      "loser_id": 2270663,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1027191,
+      "loser_id": 1047388,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1027191,
+      "loser_id": 1811716,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2433054,
+      "loser_id": 2270663,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 79475,
+      "loser_id": 1027191,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26484131,
+          "order_num": 1,
+          "winner_id": 79475,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 1027191,
+              "selection_id": 38583062,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 79475,
+              "selection_id": 38583063,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 26484275,
+          "order_num": 2,
+          "winner_id": 79475,
+          "entrant1_score": null,
+          "entrant2_score": null,
+          "stage": "Final Destination",
+          "selections": [
+            {
+              "user_id": 79475,
+              "selection_id": 38583258,
+              "character_id": 1332,
+              "character_name": "Sonic"
+            },
+            {
+              "user_id": 1027191,
+              "selection_id": 38583259,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1113202,
+      "loser_id": 1811716,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
