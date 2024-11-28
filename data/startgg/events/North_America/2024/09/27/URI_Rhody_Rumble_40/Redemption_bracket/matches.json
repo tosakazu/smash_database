@@ -1,0 +1,378 @@
+{
+  "data": [
+    {
+      "winner_id": 903501,
+      "loser_id": 1969468,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 903501,
+      "loser_id": 1969468,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Grand Final Reset",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1969468,
+      "loser_id": 1787123,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 903501,
+      "loser_id": 1787123,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -8,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 903501,
+      "loser_id": 2771642,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -7,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1787123,
+      "loser_id": 2771642,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25185453,
+          "order_num": 1,
+          "winner_id": 1787123,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1787123,
+              "selection_id": 36586623,
+              "character_id": 1289,
+              "character_name": "Greninja"
+            },
+            {
+              "user_id": 2771642,
+              "selection_id": 36586624,
+              "character_id": 1332,
+              "character_name": "Sonic"
+            }
+          ]
+        },
+        {
+          "game_id": 25185454,
+          "order_num": 2,
+          "winner_id": 1787123,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1787123,
+              "selection_id": 36586625,
+              "character_id": 1289,
+              "character_name": "Greninja"
+            },
+            {
+              "user_id": 2771642,
+              "selection_id": 36586626,
+              "character_id": 1332,
+              "character_name": "Sonic"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1969468,
+      "loser_id": 903501,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2771642,
+      "loser_id": 259833,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 903501,
+      "loser_id": 1601128,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 259833,
+      "loser_id": 2588546,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1601128,
+      "loser_id": 2771128,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25185428,
+          "order_num": 1,
+          "winner_id": 1601128,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1601128,
+              "selection_id": 36586589,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            },
+            {
+              "user_id": 2771128,
+              "selection_id": 36586590,
+              "character_id": 1336,
+              "character_name": "Wii Fit Trainer"
+            }
+          ]
+        },
+        {
+          "game_id": 25185429,
+          "order_num": 2,
+          "winner_id": 1601128,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1601128,
+              "selection_id": 36586591,
+              "character_id": 1333,
+              "character_name": "Toon Link"
+            },
+            {
+              "user_id": 2771128,
+              "selection_id": 36586592,
+              "character_id": 1336,
+              "character_name": "Wii Fit Trainer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1787123,
+      "loser_id": 2771128,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2771642,
+      "loser_id": 1601128,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 903501,
+      "loser_id": 2588546,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1969468,
+      "loser_id": 259833,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 259833,
+      "loser_id": 2186730,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25185879,
+          "order_num": 1,
+          "winner_id": 259833,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 259833,
+              "selection_id": 36587246,
+              "character_id": 1304,
+              "character_name": "Marth"
+            },
+            {
+              "user_id": 2186730,
+              "selection_id": 36587247,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        },
+        {
+          "game_id": 25185880,
+          "order_num": 2,
+          "winner_id": 259833,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 259833,
+              "selection_id": 36587248,
+              "character_id": 1304,
+              "character_name": "Marth"
+            },
+            {
+              "user_id": 2186730,
+              "selection_id": 36587249,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2771128,
+      "loser_id": 2186730,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}

@@ -1,0 +1,114 @@
+{
+  "data": [
+    {
+      "winner_id": 1400156,
+      "loser_id": 1252406,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Round 3",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1400156,
+      "loser_id": 2329645,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Round 2",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 25187701,
+          "order_num": 1,
+          "winner_id": 2329645,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1400156,
+              "selection_id": 36590111,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2329645,
+              "selection_id": 36590112,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25187702,
+          "order_num": 2,
+          "winner_id": 1400156,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1400156,
+              "selection_id": 36590113,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2329645,
+              "selection_id": 36590114,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 25187703,
+          "order_num": 3,
+          "winner_id": 1400156,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1400156,
+              "selection_id": 36590115,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            },
+            {
+              "user_id": 2329645,
+              "selection_id": 36590116,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2329645,
+      "loser_id": 1252406,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
