@@ -1,0 +1,725 @@
+{
+  "data": [
+    {
+      "winner_id": 1072792,
+      "loser_id": 35359,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1072792,
+      "loser_id": null,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 35359,
+      "loser_id": null,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Final",
+      "round": -8,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 35359,
+      "loser_id": 2163745,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -7,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26480676,
+          "order_num": 1,
+          "winner_id": 35359,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": []
+        },
+        {
+          "game_id": 26480677,
+          "order_num": 2,
+          "winner_id": 2163745,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": []
+        },
+        {
+          "game_id": 26480678,
+          "order_num": 3,
+          "winner_id": 35359,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": []
+        },
+        {
+          "game_id": 26480679,
+          "order_num": 4,
+          "winner_id": 35359,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": []
+        }
+      ]
+    },
+    {
+      "winner_id": null,
+      "loser_id": 35359,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26476637,
+          "order_num": 1,
+          "winner_id": null,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 35359,
+              "selection_id": 38569562,
+              "character_id": 1409,
+              "character_name": "Chrom"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38569563,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            }
+          ]
+        },
+        {
+          "game_id": 26476638,
+          "order_num": 2,
+          "winner_id": null,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 35359,
+              "selection_id": 38569564,
+              "character_id": 1326,
+              "character_name": "Roy"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38569565,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1072792,
+      "loser_id": 2269850,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2163745,
+      "loser_id": 2269850,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 35359,
+      "loser_id": 1985296,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1985296,
+      "loser_id": 851121,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 3",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26476552,
+          "order_num": 1,
+          "winner_id": 851121,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38569455,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 1985296,
+              "selection_id": 38569456,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 26476553,
+          "order_num": 2,
+          "winner_id": 1985296,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38569457,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 1985296,
+              "selection_id": 38569458,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        },
+        {
+          "game_id": 26476554,
+          "order_num": 3,
+          "winner_id": 1985296,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38569459,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 1985296,
+              "selection_id": 38569460,
+              "character_id": 1279,
+              "character_name": "Diddy Kong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2163745,
+      "loser_id": 279601,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 3",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 35359,
+      "loser_id": 279601,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 2163745,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2269850,
+      "loser_id": 851121,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26474960,
+          "order_num": 1,
+          "winner_id": 2269850,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38567362,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 2269850,
+              "selection_id": 38567363,
+              "character_id": 1285,
+              "character_name": "Falco"
+            }
+          ]
+        },
+        {
+          "game_id": 26474961,
+          "order_num": 2,
+          "winner_id": 851121,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38567364,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 2269850,
+              "selection_id": 38567365,
+              "character_id": 1285,
+              "character_name": "Falco"
+            }
+          ]
+        },
+        {
+          "game_id": 26474962,
+          "order_num": 3,
+          "winner_id": 2269850,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38567366,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 2269850,
+              "selection_id": 38567367,
+              "character_id": 1285,
+              "character_name": "Falco"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1072792,
+      "loser_id": 1985296,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1985296,
+      "loser_id": 1013301,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 851121,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26475687,
+          "order_num": 1,
+          "winner_id": 851121,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38568284,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38568285,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            }
+          ]
+        },
+        {
+          "game_id": 26475688,
+          "order_num": 2,
+          "winner_id": 851121,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 851121,
+              "selection_id": 38568286,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": null,
+              "selection_id": 38568287,
+              "character_id": 1846,
+              "character_name": "Kazuya"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2163745,
+      "loser_id": 2163818,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 279601,
+      "loser_id": 1800467,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 1050946,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2163818,
+      "loser_id": 2353095,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1800467,
+      "loser_id": 2033302,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 279601,
+      "loser_id": 1013301,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26474753,
+          "order_num": 1,
+          "winner_id": 279601,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 279601,
+              "selection_id": 38567152,
+              "character_id": 1316,
+              "character_name": "Palutena"
+            },
+            {
+              "user_id": 1013301,
+              "selection_id": 38567153,
+              "character_id": 1294,
+              "character_name": "King Dedede"
+            }
+          ]
+        },
+        {
+          "game_id": 26474754,
+          "order_num": 2,
+          "winner_id": 1013301,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 279601,
+              "selection_id": 38567154,
+              "character_id": 1316,
+              "character_name": "Palutena"
+            },
+            {
+              "user_id": 1013301,
+              "selection_id": 38567155,
+              "character_id": 1294,
+              "character_name": "King Dedede"
+            }
+          ]
+        },
+        {
+          "game_id": 26474755,
+          "order_num": 3,
+          "winner_id": 279601,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 279601,
+              "selection_id": 38567156,
+              "character_id": 1316,
+              "character_name": "Palutena"
+            },
+            {
+              "user_id": 1013301,
+              "selection_id": 38567157,
+              "character_id": 1294,
+              "character_name": "King Dedede"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2163745,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 1050946,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 851121,
+      "loser_id": 2353095,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2269850,
+      "loser_id": 2163818,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1072792,
+      "loser_id": 1800467,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1985296,
+      "loser_id": 2033302,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
