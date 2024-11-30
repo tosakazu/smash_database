@@ -1,0 +1,221 @@
+{
+  "data": [
+    {
+      "winner_id": 1808360,
+      "loser_id": 994301,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 463435,
+      "loser_id": 1430042,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 994301,
+      "loser_id": 748466,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1808360,
+      "loser_id": 1430042,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26504554,
+          "order_num": 1,
+          "winner_id": 1808360,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1430042,
+              "selection_id": 38613032,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 1808360,
+              "selection_id": 38613033,
+              "character_id": 1315,
+              "character_name": "Pac-Man"
+            }
+          ]
+        },
+        {
+          "game_id": 26504555,
+          "order_num": 2,
+          "winner_id": 1808360,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1430042,
+              "selection_id": 38613034,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 1808360,
+              "selection_id": 38613035,
+              "character_id": 1315,
+              "character_name": "Pac-Man"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1430042,
+      "loser_id": 2011097,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 463435,
+      "loser_id": 748466,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 994301,
+      "loser_id": 2011097,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1430042,
+      "loser_id": 463435,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 26504159,
+          "order_num": 1,
+          "winner_id": 1430042,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1430042,
+              "selection_id": 38612328,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 463435,
+              "selection_id": 38612329,
+              "character_id": 1302,
+              "character_name": "Mario"
+            }
+          ]
+        },
+        {
+          "game_id": 26504160,
+          "order_num": 2,
+          "winner_id": 1430042,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1430042,
+              "selection_id": 38612330,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            },
+            {
+              "user_id": 463435,
+              "selection_id": 38612331,
+              "character_id": 1302,
+              "character_name": "Mario"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 463435,
+      "loser_id": 994301,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 1,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
