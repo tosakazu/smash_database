@@ -373,7 +373,7 @@ def fetch_latest_tournaments_by_game(game_id, jp_only, limit=5, page=1):
         get_tournaments_by_game_query(jp_only),
         {"gameId": game_id, "perPage": limit, "page": page},
     )
-    if "data" not in response_data or "tournament" not in response_data["data"]:
+    if "data" in response_data and response_data["data"] is not None and "tournament" not in response_data["data"]:
         raise FetchError(f"Error: 'data' or 'tournament' key not found in response for game {game_id}. Response data: {response_data}\n in fetch_latest_tournaments_by_game")
         
     tournaments = response_data["data"]["tournaments"]["nodes"]
@@ -385,7 +385,7 @@ def fetch_event_ids_from_tournament(tournament_id, game_id):
         get_tournament_events_query(),
         {"tournamentId": tournament_id, "gameId": game_id},
     )
-    if "data" not in response_data or "tournament" not in response_data["data"]:
+    if "data" in response_data and response_data["data"] is not None and "tournament" not in response_data["data"]:
         raise FetchError(f"Error: 'data' or 'tournament' key not found in response for tournament {tournament_id}. Response data: {response_data}\n in fetch_event_ids_from_tournament")
     
     events = response_data["data"]["tournament"]["events"]
