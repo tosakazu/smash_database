@@ -65,7 +65,11 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
 
     page = 1
     while True:
-        tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, jp_only=jp_only, page=page)
+        try:
+            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, jp_only=jp_only, page=page)
+        except FetchError as e:
+            print(e)
+            continue
         print(f"Progress: {page}/{total_pages}")
         if not tournaments_info:
             break
