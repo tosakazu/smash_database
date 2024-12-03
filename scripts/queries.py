@@ -176,7 +176,7 @@ def get_phase_groups_query():
       }
     }"""
 
-def get_tournaments_by_game_query(jp_only, before_now=True, past=False):
+def get_tournaments_by_game_query(country_code=None, before_now=True, past=False):
     first_row = """query TournamentsByGame($gameId: ID!, $perPage: Int!, $page: Int!) {"""
     second_row = """tournaments(query: {perPage: $perPage, page: $page, sortBy: "startAt desc", filter: {videogameIds: [$gameId], published: true, *other_filters*}}) {"""
     nodes_query = """nodes {
@@ -205,8 +205,8 @@ def get_tournaments_by_game_query(jp_only, before_now=True, past=False):
       }"""
     
     filters = ""
-    if jp_only:
-      filters += """ ,countryCode: "JP" """
+    if country_code is not None:
+      filters += f' ,countryCode: "{country_code}" '
     if past:
       filters += """ ,past: true """
     if before_now:
