@@ -1,0 +1,369 @@
+{
+  "data": [
+    {
+      "winner_id": null,
+      "loser_id": 567857,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 33660,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 567857,
+      "loser_id": 33660,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -8,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 567857,
+      "loser_id": 1845374,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -7,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 567857,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 33660,
+      "loser_id": 1845374,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24880592,
+          "order_num": 1,
+          "winner_id": 33660,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1845374,
+              "selection_id": 36115361,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            },
+            {
+              "user_id": 33660,
+              "selection_id": 36115362,
+              "character_id": 1413,
+              "character_name": "Isabelle"
+            }
+          ]
+        },
+        {
+          "game_id": 24880593,
+          "order_num": 2,
+          "winner_id": 1845374,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1845374,
+              "selection_id": 36115363,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            },
+            {
+              "user_id": 33660,
+              "selection_id": 36115364,
+              "character_id": 1413,
+              "character_name": "Isabelle"
+            }
+          ]
+        },
+        {
+          "game_id": 24880594,
+          "order_num": 3,
+          "winner_id": 33660,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1845374,
+              "selection_id": 36115365,
+              "character_id": 1539,
+              "character_name": "Byleth"
+            },
+            {
+              "user_id": 33660,
+              "selection_id": 36115366,
+              "character_id": 1413,
+              "character_name": "Isabelle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 567857,
+      "loser_id": 2338226,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1845374,
+      "loser_id": 2757569,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2338226,
+      "loser_id": 2384636,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2757569,
+      "loser_id": 2393222,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": null,
+      "loser_id": 2393222,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 567857,
+      "loser_id": 2757569,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1845374,
+      "loser_id": 2384636,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 33660,
+      "loser_id": 2338226,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2338226,
+      "loser_id": 1785777,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2757569,
+      "loser_id": 1619710,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2393222,
+      "loser_id": 1785777,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24879656,
+          "order_num": 1,
+          "winner_id": 2393222,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1785777,
+              "selection_id": 36113646,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 2393222,
+              "selection_id": 36113647,
+              "character_id": 1441,
+              "character_name": "Piranha Plant"
+            }
+          ]
+        },
+        {
+          "game_id": 24879657,
+          "order_num": 2,
+          "winner_id": 2393222,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1785777,
+              "selection_id": 36113648,
+              "character_id": 1453,
+              "character_name": "Joker"
+            },
+            {
+              "user_id": 2393222,
+              "selection_id": 36113649,
+              "character_id": 1441,
+              "character_name": "Piranha Plant"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2384636,
+      "loser_id": 1619710,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
