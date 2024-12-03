@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--users_file_path", default="data/startgg/users.jsonl", help="Path to the file recording startgg user info")
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
-    parser.add_argument("--jp_only", action='store_true', help="Flag to filter tournaments by Japan only")
+    parser.add_argument("--country_code", default="", help="Country code for tournament retrieval. e.g. JP")
     parser.add_argument("--event_prompt_file_path", default="scripts/event_analysis_prompt.txt", help="Path to the file containing event prompt")
     parser.add_argument("--openai_api_key", default="", help="OpenAI API key")
     args = parser.parse_args()
@@ -53,9 +53,9 @@ def main():
     with open(args.event_prompt_file_path, "r") as f:
         event_prompt = f.read()
 
-    download_all_tournaments(args.game_id, args.jp_only, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path, openai_client, event_prompt)
+    download_all_tournaments(args.game_id, args.country_code, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path, openai_client, event_prompt)
 
-def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, openai_client, event_prompt):
+def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, openai_client, event_prompt):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -66,7 +66,7 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
     page = 1
     while True:
         try:
-            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, jp_only=jp_only, page=page)
+            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, country_code=country_code, page=page)
         except FetchError as e:
             print(e)
             continue
@@ -81,7 +81,7 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                 timestamp = tournament["startAt"]
                 end_timestamp = tournament["endAt"]
 
-                country_code = tournament["countryCode"]
+                _country_code = tournament["countryCode"]
                 city = tournament["city"]
                 lat = tournament["lat"]
                 lng = tournament["lng"]
@@ -92,7 +92,7 @@ def download_all_tournaments(game_id, jp_only, finish_date, startgg_dir, done_fi
                 maps_place_id = tournament["mapsPlaceId"]
                 url = tournament["url"]
                 place = {
-                    "country_code": country_code,
+                    "country_code": _country_code,
                     "city": city,
                     "lat": lat,
                     "lng": lng,
@@ -372,9 +372,9 @@ def extend_tournament_info(new_tournament_info, tournament_file_path):
     extend_jsonl([new_tournament_info], tournament_file_path, with_version=True)
 
 # 特定のゲームのトーナメントを最新のものから取得する関数
-def fetch_latest_tournaments_by_game(game_id, jp_only, limit=5, page=1):
+def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1):
     response_data = fetch_data_with_retries(
-        get_tournaments_by_game_query(jp_only),
+        get_tournaments_by_game_query(country_code),
         {"gameId": game_id, "perPage": limit, "page": page},
     )
     if "data" not in response_data or response_data["data"] is None or "tournaments" not in response_data["data"] or response_data["data"]["tournaments"] is None:
