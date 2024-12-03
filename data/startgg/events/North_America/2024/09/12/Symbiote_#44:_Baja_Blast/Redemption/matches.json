@@ -1,0 +1,363 @@
+{
+  "data": [
+    {
+      "winner_id": 1112200,
+      "loser_id": 860524,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1112200,
+      "loser_id": 860524,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 860524,
+      "loser_id": 1466365,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24855128,
+          "order_num": 1,
+          "winner_id": 1466365,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36074545,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 860524,
+              "selection_id": 36074546,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 24855129,
+          "order_num": 2,
+          "winner_id": 860524,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36074547,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 860524,
+              "selection_id": 36074548,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        },
+        {
+          "game_id": 24855130,
+          "order_num": 3,
+          "winner_id": 860524,
+          "entrant1_score": 1,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36074549,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 860524,
+              "selection_id": 36074550,
+              "character_id": 1453,
+              "character_name": "Joker"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1466365,
+      "loser_id": 1302744,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24854375,
+          "order_num": 1,
+          "winner_id": 1466365,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 1302744,
+              "selection_id": 36073544,
+              "character_id": 1294,
+              "character_name": "King Dedede"
+            },
+            {
+              "user_id": 1466365,
+              "selection_id": 36073545,
+              "character_id": 1328,
+              "character_name": "Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 24854376,
+          "order_num": 2,
+          "winner_id": 1302744,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 1302744,
+              "selection_id": 36073546,
+              "character_id": 1310,
+              "character_name": "Mewtwo"
+            },
+            {
+              "user_id": 1466365,
+              "selection_id": 36073547,
+              "character_id": 1328,
+              "character_name": "Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 24854377,
+          "order_num": 3,
+          "winner_id": 1466365,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": "Pokémon Stadium 2",
+          "selections": [
+            {
+              "user_id": 1302744,
+              "selection_id": 36073548,
+              "character_id": 1310,
+              "character_name": "Mewtwo"
+            },
+            {
+              "user_id": 1466365,
+              "selection_id": 36073549,
+              "character_id": 1328,
+              "character_name": "Samus"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 860524,
+      "loser_id": 1302744,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1112200,
+      "loser_id": 1466365,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24852449,
+          "order_num": 1,
+          "winner_id": 1112200,
+          "entrant1_score": 0,
+          "entrant2_score": 2,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36071189,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1112200,
+              "selection_id": 36071190,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        },
+        {
+          "game_id": 24852450,
+          "order_num": 2,
+          "winner_id": 1112200,
+          "entrant1_score": 0,
+          "entrant2_score": 1,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36071191,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1112200,
+              "selection_id": 36071192,
+              "character_id": 1321,
+              "character_name": "Pokemon Trainer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1466365,
+      "loser_id": 1810732,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24853504,
+          "order_num": 1,
+          "winner_id": 1466365,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36072470,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1810732,
+              "selection_id": 36072471,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            }
+          ]
+        },
+        {
+          "game_id": 24853505,
+          "order_num": 2,
+          "winner_id": 1810732,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36072472,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1810732,
+              "selection_id": 36072473,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            }
+          ]
+        },
+        {
+          "game_id": 24853506,
+          "order_num": 3,
+          "winner_id": 1466365,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1466365,
+              "selection_id": 36072474,
+              "character_id": 1328,
+              "character_name": "Samus"
+            },
+            {
+              "user_id": 1810732,
+              "selection_id": 36072475,
+              "character_id": 1271,
+              "character_name": "Bayonetta"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 860524,
+      "loser_id": 1810732,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
