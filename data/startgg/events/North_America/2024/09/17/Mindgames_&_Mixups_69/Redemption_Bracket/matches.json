@@ -1,0 +1,602 @@
+{
+  "data": [
+    {
+      "winner_id": 1550668,
+      "loser_id": 1319703,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1550668,
+      "loser_id": 1319703,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Grand Final Reset",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1319703,
+      "loser_id": 1550668,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Winners Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1550668,
+      "loser_id": 659424,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Losers Final",
+      "round": -8,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 659424,
+      "loser_id": 2329764,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Semi-Final",
+      "round": -7,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24956773,
+          "order_num": 1,
+          "winner_id": 659424,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2329764,
+              "selection_id": 36234087,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36234088,
+              "character_id": 1313,
+              "character_name": "Ness"
+            }
+          ]
+        },
+        {
+          "game_id": 24956774,
+          "order_num": 2,
+          "winner_id": 659424,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2329764,
+              "selection_id": 36234089,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36234090,
+              "character_id": 1313,
+              "character_name": "Ness"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1550668,
+      "loser_id": 1119338,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1319703,
+      "loser_id": 2329764,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24955417,
+          "order_num": 1,
+          "winner_id": 1319703,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2329764,
+              "selection_id": 36231638,
+              "character_id": 1532,
+              "character_name": "Terry"
+            },
+            {
+              "user_id": 1319703,
+              "selection_id": 36231639,
+              "character_id": 1328,
+              "character_name": "Samus"
+            }
+          ]
+        },
+        {
+          "game_id": 24955418,
+          "order_num": 2,
+          "winner_id": 1319703,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2329764,
+              "selection_id": 36231640,
+              "character_id": 1286,
+              "character_name": "Fox"
+            },
+            {
+              "user_id": 1319703,
+              "selection_id": 36231641,
+              "character_id": 1328,
+              "character_name": "Samus"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 659424,
+      "loser_id": 1119338,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24956487,
+          "order_num": 1,
+          "winner_id": 659424,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1119338,
+              "selection_id": 36233546,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36233547,
+              "character_id": 1313,
+              "character_name": "Ness"
+            }
+          ]
+        },
+        {
+          "game_id": 24956488,
+          "order_num": 2,
+          "winner_id": 1119338,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1119338,
+              "selection_id": 36233548,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36233549,
+              "character_id": 1313,
+              "character_name": "Ness"
+            }
+          ]
+        },
+        {
+          "game_id": 24956489,
+          "order_num": 3,
+          "winner_id": 659424,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1119338,
+              "selection_id": 36233550,
+              "character_id": 1406,
+              "character_name": "Incineroar"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36233551,
+              "character_id": 1313,
+              "character_name": "Ness"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2329764,
+      "loser_id": 1531918,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Quarter-Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24956477,
+          "order_num": 1,
+          "winner_id": 2329764,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1531918,
+              "selection_id": 36233526,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            },
+            {
+              "user_id": 2329764,
+              "selection_id": 36233527,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            }
+          ]
+        },
+        {
+          "game_id": 24956478,
+          "order_num": 2,
+          "winner_id": 2329764,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1531918,
+              "selection_id": 36233528,
+              "character_id": 1339,
+              "character_name": "Young Link"
+            },
+            {
+              "user_id": 2329764,
+              "selection_id": 36233529,
+              "character_id": 1747,
+              "character_name": "Min Min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 659424,
+      "loser_id": null,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1531918,
+      "loser_id": 2779145,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24956471,
+          "order_num": 1,
+          "winner_id": 1531918,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1531918,
+              "selection_id": 36233514,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2779145,
+              "selection_id": 36233515,
+              "character_id": 1273,
+              "character_name": "Bowser"
+            }
+          ]
+        },
+        {
+          "game_id": 24956472,
+          "order_num": 2,
+          "winner_id": 1531918,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1531918,
+              "selection_id": 36233516,
+              "character_id": 1322,
+              "character_name": "Ridley"
+            },
+            {
+              "user_id": 2779145,
+              "selection_id": 36233517,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1550668,
+      "loser_id": 1531918,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1119338,
+      "loser_id": 2779145,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2329764,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1319703,
+      "loser_id": 659424,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24955123,
+          "order_num": 1,
+          "winner_id": 1319703,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1319703,
+              "selection_id": 36231189,
+              "character_id": 1311,
+              "character_name": "Mii Brawler"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36231190,
+              "character_id": 1286,
+              "character_name": "Fox"
+            }
+          ]
+        },
+        {
+          "game_id": 24955124,
+          "order_num": 2,
+          "winner_id": 1319703,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1319703,
+              "selection_id": 36231191,
+              "character_id": 1311,
+              "character_name": "Mii Brawler"
+            },
+            {
+              "user_id": 659424,
+              "selection_id": 36231192,
+              "character_id": 1286,
+              "character_name": "Fox"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 659424,
+      "loser_id": 2329744,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Round 1",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24955611,
+          "order_num": 1,
+          "winner_id": 659424,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 659424,
+              "selection_id": 36231994,
+              "character_id": 1313,
+              "character_name": "Ness"
+            },
+            {
+              "user_id": 2329744,
+              "selection_id": 36231995,
+              "character_id": 1298,
+              "character_name": "Lucario"
+            }
+          ]
+        },
+        {
+          "game_id": 24955612,
+          "order_num": 2,
+          "winner_id": 2329744,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 659424,
+              "selection_id": 36231996,
+              "character_id": 1313,
+              "character_name": "Ness"
+            },
+            {
+              "user_id": 2329744,
+              "selection_id": 36231997,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            }
+          ]
+        },
+        {
+          "game_id": 24955613,
+          "order_num": 3,
+          "winner_id": 659424,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 659424,
+              "selection_id": 36231998,
+              "character_id": 1313,
+              "character_name": "Ness"
+            },
+            {
+              "user_id": 2329744,
+              "selection_id": 36231999,
+              "character_id": 1340,
+              "character_name": "Zelda"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 1550668,
+      "loser_id": 2329744,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
