@@ -1,0 +1,184 @@
+{
+  "data": [
+    {
+      "winner_id": 456035,
+      "loser_id": 1167396,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 456035,
+      "loser_id": 1167396,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1167396,
+      "loser_id": 640769,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Final",
+      "round": -6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 640769,
+      "loser_id": 402177,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Semi-Final",
+      "round": -5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 456035,
+      "loser_id": 640769,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1167396,
+      "loser_id": 2542540,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 402177,
+      "loser_id": 2542540,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 640769,
+      "loser_id": 402177,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Winners Quarter-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 23988886,
+          "order_num": 1,
+          "winner_id": 640769,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Small Battlefield",
+          "selections": [
+            {
+              "user_id": 402177,
+              "selection_id": 34809024,
+              "character_id": 1291,
+              "character_name": "Ike"
+            },
+            {
+              "user_id": 640769,
+              "selection_id": 34809025,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            }
+          ]
+        },
+        {
+          "game_id": 23988887,
+          "order_num": 2,
+          "winner_id": 640769,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Smashville",
+          "selections": [
+            {
+              "user_id": 640769,
+              "selection_id": 34809027,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            },
+            {
+              "user_id": 402177,
+              "selection_id": 34809144,
+              "character_id": 1304,
+              "character_name": "Marth"
+            }
+          ]
+        },
+        {
+          "game_id": 23988889,
+          "order_num": 3,
+          "winner_id": 640769,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": "Smashville",
+          "selections": [
+            {
+              "user_id": 640769,
+              "selection_id": 34809146,
+              "character_id": 1287,
+              "character_name": "Ganondorf"
+            },
+            {
+              "user_id": 402177,
+              "selection_id": 34809252,
+              "character_id": 1291,
+              "character_name": "Ike"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
