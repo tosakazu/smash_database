@@ -1,0 +1,201 @@
+{
+  "data": [
+    {
+      "winner_id": 2536963,
+      "loser_id": 2495458,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2536963,
+      "loser_id": 2495458,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Final",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2495458,
+      "loser_id": 2671736,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Final",
+      "round": -4,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2671736,
+      "loser_id": null,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Losers Semi-Final",
+      "round": -3,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2536963,
+      "loser_id": null,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24624842,
+          "order_num": 1,
+          "winner_id": 2536963,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2536963,
+              "selection_id": 35739362,
+              "character_id": 1897,
+              "character_name": "Sora"
+            },
+            {
+              "user_id": null,
+              "selection_id": 35739363,
+              "character_id": 1295,
+              "character_name": "Kirby"
+            }
+          ]
+        },
+        {
+          "game_id": 24624843,
+          "order_num": 2,
+          "winner_id": 2536963,
+          "entrant1_score": 0,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2536963,
+              "selection_id": 35739364,
+              "character_id": 1777,
+              "character_name": "Sephiroth"
+            },
+            {
+              "user_id": null,
+              "selection_id": 35739365,
+              "character_id": 1291,
+              "character_name": "Ike"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2495458,
+      "loser_id": 2671736,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Semi-Final",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 24625113,
+          "order_num": 1,
+          "winner_id": 2671736,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2495458,
+              "selection_id": 35739823,
+              "character_id": 1795,
+              "character_name": "Pyra & Mythra"
+            },
+            {
+              "user_id": 2671736,
+              "selection_id": 35739824,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 24625114,
+          "order_num": 2,
+          "winner_id": 2495458,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2495458,
+              "selection_id": 35739825,
+              "character_id": 1795,
+              "character_name": "Pyra & Mythra"
+            },
+            {
+              "user_id": 2671736,
+              "selection_id": 35739826,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        },
+        {
+          "game_id": 24625115,
+          "order_num": 3,
+          "winner_id": 2495458,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 2495458,
+              "selection_id": 35739827,
+              "character_id": 1795,
+              "character_name": "Pyra & Mythra"
+            },
+            {
+              "user_id": 2671736,
+              "selection_id": 35739828,
+              "character_id": 1275,
+              "character_name": "Cloud"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
