@@ -1,0 +1,178 @@
+{
+  "data": [
+    {
+      "winner_id": 1172795,
+      "loser_id": 2138893,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Round 3",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2426921,
+      "loser_id": 1172795,
+      "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Round 2",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2674284,
+      "loser_id": 2138893,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Round 2",
+      "round": 2,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2426921,
+      "loser_id": 2138893,
+      "winner_score": 0,
+      "loser_score": -1,
+      "round_text": "Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": true,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2674284,
+      "loser_id": 1172795,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Round 1",
+      "round": 1,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": [
+        {
+          "game_id": 23831253,
+          "order_num": 1,
+          "winner_id": 2674284,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1172795,
+              "selection_id": 34581922,
+              "character_id": 1302,
+              "character_name": "Mario"
+            },
+            {
+              "user_id": 2674284,
+              "selection_id": 34581923,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            }
+          ]
+        },
+        {
+          "game_id": 23831254,
+          "order_num": 2,
+          "winner_id": 2674284,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1172795,
+              "selection_id": 34581924,
+              "character_id": 1302,
+              "character_name": "Mario"
+            },
+            {
+              "user_id": 2674284,
+              "selection_id": 34581925,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            }
+          ]
+        },
+        {
+          "game_id": 23831255,
+          "order_num": 3,
+          "winner_id": 1172795,
+          "entrant1_score": 0,
+          "entrant2_score": null,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1172795,
+              "selection_id": 34581926,
+              "character_id": 1302,
+              "character_name": "Mario"
+            },
+            {
+              "user_id": 2674284,
+              "selection_id": 34581927,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            }
+          ]
+        },
+        {
+          "game_id": 23831256,
+          "order_num": 4,
+          "winner_id": 2674284,
+          "entrant1_score": null,
+          "entrant2_score": 0,
+          "stage": null,
+          "selections": [
+            {
+              "user_id": 1172795,
+              "selection_id": 34581928,
+              "character_id": 1302,
+              "character_name": "Mario"
+            },
+            {
+              "user_id": 2674284,
+              "selection_id": 34581929,
+              "character_id": 1300,
+              "character_name": "Lucina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "winner_id": 2674284,
+      "loser_id": 2426921,
+      "winner_score": 0,
+      "loser_score": 0,
+      "round_text": "Round 3",
+      "round": 3,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": true,
+      "state": 2,
+      "details": []
+    }
+  ],
+  "version": "1.0"
+}
