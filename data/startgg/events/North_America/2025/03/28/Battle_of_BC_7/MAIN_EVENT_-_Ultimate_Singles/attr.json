@@ -17,9 +17,11 @@
   "num_entrants": 433,
   "offline": true,
   "url": "/tournament/battle-of-bc-7-6",
-  "labels": [
-    "analysis_skipped"
-  ],
+  "labels": {
+    "registration_type": "full-open",
+    "event_type": "main",
+    "game_rule": "1on1"
+  },
   "status": "completed",
   "timestamp": 1743181200,
   "version": "1.0"
