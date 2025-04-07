@@ -223,3 +223,34 @@ def get_tournament_url_query():
         url
       }
     }"""
+
+def get_event_details_by_tournament_query():
+    """トーナメントスラッグからイベント詳細を取得するGraphQLクエリ"""
+    return """
+    query TournamentEventsQuery($tournamentSlug: String!, $eventSlug: String!) {
+      tournament(slug: $tournamentSlug) {
+        id
+        name
+        slug
+        countryCode
+        city
+        lat
+        lng
+        venueName
+        timezone
+        postalCode
+        venueAddress
+        mapsPlaceId
+        url
+        events(filter: {slug: $eventSlug}) {
+          id
+          name
+          slug
+          startAt
+          isOnline
+          numEntrants
+          state
+        }
+      }
+    }
+    """
