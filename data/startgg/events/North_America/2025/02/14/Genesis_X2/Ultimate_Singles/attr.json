@@ -17,9 +17,11 @@
   "num_entrants": 923,
   "offline": true,
   "url": "/tournament/genesis-x2",
-  "labels": [
-    "analysis_skipped"
-  ],
+  "labels": {
+    "registration_type": "full-open",
+    "event_type": "main",
+    "game_rule": "1on1"
+  },
   "status": "completed",
   "timestamp": 1739556000,
   "version": "1.0"
