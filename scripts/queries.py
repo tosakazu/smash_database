@@ -254,3 +254,33 @@ def get_event_details_by_tournament_query():
       }
     }
     """
+
+def get_event_details_by_id_query():
+    return """query EventById($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        name
+        slug
+        startAt
+        numEntrants
+        isOnline
+        state
+        tournament {
+          id
+          name
+          slug
+          startAt
+          endAt
+          countryCode
+          city
+          lat
+          lng
+          venueName
+          timezone
+          postalCode
+          venueAddress
+          mapsPlaceId
+          url
+        }
+      }
+    }"""
