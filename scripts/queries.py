@@ -87,6 +87,7 @@ def get_standings_query():
                 user {
                   id
                   genderPronoun
+                  discriminator
                   authorizations(types: [TWITTER, DISCORD]) {
                     externalId
                     externalUsername
@@ -126,6 +127,7 @@ def get_seeds_query():
                 user {
                   id
                   genderPronoun
+                  discriminator
                   authorizations(types: [TWITTER, DISCORD]) {
                     externalId
                     externalUsername
@@ -141,6 +143,39 @@ def get_seeds_query():
             }
           }
         }
+      }
+    }"""
+
+def get_user_query():
+    return """query UserDetails($userId: ID!) {
+      user(id: $userId) {
+        id
+        genderPronoun
+        discriminator
+        authorizations(types: [TWITTER, DISCORD]) {
+          externalId
+          externalUsername
+          type
+        }
+      }
+    }"""
+
+def get_user_player_query():
+    return """query UserAndPlayer($userId: ID!, $playerId: ID!) {
+      user(id: $userId) {
+        id
+        genderPronoun
+        discriminator
+        authorizations(types: [TWITTER, DISCORD]) {
+          externalId
+          externalUsername
+          type
+        }
+      }
+      player(id: $playerId) {
+        id
+        gamerTag
+        prefix
       }
     }"""
 
