@@ -338,6 +338,7 @@ def extend_user_info(user_data, player_data, users, users_file_path):
         gamer_tag = player['gamerTag']
         prefix = player['prefix']
         gender_pronoun = user['genderPronoun'] if user['genderPronoun'] is not None else "unknown"
+        startgg_discriminator = user.get('discriminator')
         x_id = None
         x_name = None
         discord_id = None
@@ -358,6 +359,7 @@ def extend_user_info(user_data, player_data, users, users_file_path):
                 "gamer_tag": gamer_tag,
                 "prefix": prefix,
                 "gender_pronoun": gender_pronoun,
+                "startgg_discriminator": startgg_discriminator,
                 "x_id": x_id,
                 "x_name": x_name,
                 "discord_id": discord_id,

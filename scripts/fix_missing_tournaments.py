@@ -89,6 +89,7 @@ def check_event(event: dict, repo_root: Path, required_files: tuple[str, ...]) -
 def build_required_files(args: argparse.Namespace) -> tuple[str, ...]:
     if not args.required_files:
         return tuple(DEFAULT_REQUIRED_FILES)
+
     # Remove duplicates while preserving order.
     seen: set[str] = set()
     ordered: list[str] = []

@@ -361,6 +361,7 @@ def extend_user_info(user_data, player_data, users, users_file_path):
         prefix = player.get('prefix')
         # genderPronoun が None の場合のデフォルト値を設定
         gender_pronoun = user.get('genderPronoun') if user.get('genderPronoun') is not None else "unknown"
+        startgg_discriminator = user.get('discriminator')
 
         # authorizationsから情報を抽出
         x_id = None
@@ -385,6 +386,7 @@ def extend_user_info(user_data, player_data, users, users_file_path):
                 "gamer_tag": gamer_tag,
                 "prefix": prefix,
                 "gender_pronoun": gender_pronoun,
+                "startgg_discriminator": startgg_discriminator,
                 "x_id": x_id,
                 "x_name": x_name,
                 "discord_id": discord_id,

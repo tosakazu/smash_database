@@ -90,6 +90,8 @@ def read_users_jsonl(file_path):
         for line in f:
             user = json.loads(line)
             del user["version"]
+            if "startgg_discriminator" not in user:
+                user["startgg_discriminator"] = None
             users[user["user_id"]] = user
     return users
     
@@ -175,6 +177,8 @@ def set_api_parameters(url, token):
     }
 
 def fetch_data_with_retries(query, variables):
+    status_code = None
+    last_error_message = ""
     for attempt in range(__max_retries):
         try:
             response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers)
@@ -184,9 +188,21 @@ def fetch_data_with_retries(query, variables):
         except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
             print(query)
             print(variables)
-            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries}...")
-            time.sleep(__retry_delay)
-    raise Exception("Max retries exceeded")
+            last_error_message = str(e)
+            wait = __retry_delay
+            status_code = None
+            if isinstance(e, requests.exceptions.HTTPError):
+                status_code = e.response.status_code if e.response is not None else None
+                if status_code == 429:
+                    wait = max(__retry_delay * (attempt + 1), __retry_delay)
+                    last_error_message = "Too Many Requests"
+                    print(f"Received HTTP 429 Too Many Requests. Waiting {wait} seconds before retrying...", file=sys.stderr)
+                elif status_code is not None and status_code >= 500:
+                    wait = __retry_delay * (attempt + 1)
+            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries} after {wait} seconds...")
+            time.sleep(wait)
+    status_message = f"Max retries exceeded for query. Last status code: {status_code}. Last error: {last_error_message}"
+    raise FetchError(status_message)
 
 def fetch_all_nodes(query, variables, keys, per_page=10):
     all_nodes = []
