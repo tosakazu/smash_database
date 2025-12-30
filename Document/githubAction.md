@@ -22,9 +22,9 @@
 
 ## 想定コマンド
 - 全体取得
-  - `python scripts/download.py --token "$STARTGG_TOKEN" --game_id "$STARTGG_GAME_ID" --country_code "$STARTGG_COUNTRY_CODE" --openai_api_key "$OPENAI_API_KEY"`
+- `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --game_id "$STARTGG_GAME_ID" --country_code "$STARTGG_COUNTRY_CODE" --openai_api_key "$OPENAI_API_KEY"`
 - 欠損補完
-  - `python scripts/check_and_fill_missing.py --token "$STARTGG_TOKEN" --openai_api_key "$OPENAI_API_KEY"`
+- `python scripts/fix/check_and_fill_missing.py --token "$STARTGG_TOKEN" --openai_api_key "$OPENAI_API_KEY"`
 
 ## 生成物の扱い
 - 取得結果は `data/` 配下に保存。

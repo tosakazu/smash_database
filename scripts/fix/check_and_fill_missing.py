@@ -8,7 +8,13 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - optional dependency
     OpenAI = None
 
-from check_jjpr_events import (
+import os
+
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from scripts.fix.check_jjpr_events import (
     DEFAULT_EVENTS_ROOT as CHECK_DEFAULT_EVENTS_ROOT,
     DEFAULT_JJPR_JSON as CHECK_DEFAULT_JJPR_JSON,
     DEFAULT_MISSING_DIR as CHECK_DEFAULT_MISSING_DIR,
@@ -16,7 +22,7 @@ from check_jjpr_events import (
     load_target_events,
     normalize_name,
 )
-from fill_missing_events import (
+from scripts.fix.fill_missing_events import (
     DEFAULT_DONE_EVENTS,
     DEFAULT_EVENT_PROMPT,
     DEFAULT_STARTGG_DIR,
@@ -25,7 +31,7 @@ from fill_missing_events import (
     process_event,
     rewrite_tournaments_file,
 )
-from utils import (
+from scripts.utils import (
     read_set,
     read_tournaments_jsonl,
     read_users_jsonl,

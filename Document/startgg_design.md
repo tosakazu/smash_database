@@ -2,7 +2,7 @@
 
 ## 概要
 - start.gg の GraphQL API を利用して大会・イベント・結果データを取得し、`data/startgg/` 配下に保存する。
-- 実装は `scripts/download.py` を中心に構成され、補助スクリプトで欠損補完や個別取得を行う。
+- 実装は `scripts/fetch/download.py` を中心に構成され、補助スクリプトで欠損補完や個別取得を行う。
 
 ## エンドポイントと認証
 - エンドポイント: `https://api.start.gg/gql/alpha`

@@ -3,8 +3,12 @@ import os
 import sys
 import time
 
-from queries import get_user_player_query, get_user_query
-from utils import (
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from scripts.queries import get_user_player_query, get_user_query
+from scripts.utils import (
     read_users_jsonl,
     write_jsonl,
     extend_jsonl,

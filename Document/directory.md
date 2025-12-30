@@ -30,16 +30,22 @@
 │       └── users.jsonl
 └── scripts
     ├── __init__.py
-    ├── check_and_fill_missing.py
-    ├── check_events_in_tournaments.py
-    ├── check_jjpr_events.py
-    ├── download.py
-    ├── download_specific_event.py
+    ├── fetch
+    │   ├── __init__.py
+    │   ├── download.py
+    │   ├── download_specific_event.py
+    │   └── refresh_users.py
+    ├── fix
+    │   ├── __init__.py
+    │   ├── check_and_fill_missing.py
+    │   ├── check_events_in_tournaments.py
+    │   ├── check_jjpr_events.py
+    │   ├── fill_missing_events.py
+    │   └── fix_missing_tournaments.py
+    ├── test
+    │   └── __init__.py
     ├── event_analysis_prompt.txt
-    ├── fill_missing_events.py
-    ├── fix_missing_tournaments.py
     ├── queries.py
-    ├── refresh_users.py
     ├── storeJson.py
     └── utils.py
 ```

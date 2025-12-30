@@ -5,8 +5,14 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from queries import get_event_details_by_id_query
-from utils import (
+import os
+
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from scripts.queries import get_event_details_by_id_query
+from scripts.utils import (
     FetchError,
     NoPhaseError,
     analyze_event_setting,
@@ -21,7 +27,7 @@ from utils import (
     set_retry_parameters,
     write_jsonl,
 )
-from download import (
+from scripts.fetch.download import (
     download_all_set,
     download_seeds,
     download_standings,

@@ -3,7 +3,7 @@
 ## 全体の流れ（Mermaid）
 ```mermaid
 flowchart TD
-    A[GitHub Actions / 手動実行] --> B[download.py 実行]
+    A[GitHub Actions / 手動実行] --> B[scripts/fetch/download.py 実行]
     B --> C{大会一覧取得}
     C -->|終了済み & 未取得| D[イベント一覧取得]
     D --> E[standings 取得]
@@ -15,15 +15,15 @@ flowchart TD
 
     C -->|未終了 or 取得済み| K[スキップ]
 
-    A --> L[check_and_fill_missing.py]
+    A --> L[scripts/fix/check_and_fill_missing.py]
     L --> M[欠損イベント検出]
     M --> N[不足分のみ再取得]
 
-    A --> O[download_specific_event.py]
+    A --> O[scripts/fetch/download_specific_event.py]
     O --> P[単一イベント取得]
 ```
 
 ## GitHub Actions の位置づけ
 - 入口は GitHub Actions（定期実行/手動）またはローカル実行。
-- 収集は `scripts/download.py` を基本とし、必要に応じて欠損補完・個別取得を追加で呼ぶ。
+- 収集は `scripts/fetch/download.py` を基本とし、必要に応じて欠損補完・個別取得を追加で呼ぶ。
 - 生成物は `data/` に保存され、コミットするかアーティファクト化する想定。

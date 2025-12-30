@@ -3,11 +3,15 @@ import argparse
 import sys
 from datetime import datetime
 
-from queries import (
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from scripts.queries import (
     get_event_sets_query, get_standings_query, get_seeds_query, 
     get_tournament_events_query, get_phase_groups_query, get_tournaments_by_game_query,
 )
-from utils import (
+from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
     read_users_jsonl, read_set, read_tournaments_jsonl,
     write_json, extend_jsonl,

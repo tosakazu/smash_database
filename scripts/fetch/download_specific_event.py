@@ -3,14 +3,18 @@ import argparse
 import sys
 from datetime import datetime
 
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
 # queries.py から必要なクエリ関数をインポート
 # get_event_details_by_slug_query を追加する必要がある
-from queries import (
+from scripts.queries import (
     get_event_sets_query, get_standings_query, get_seeds_query,
     get_phase_groups_query, get_event_details_by_tournament_query # この関数を queries.py に追加想定
 )
 # utils.py から必要なユーティリティ関数をインポート
-from utils import (
+from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
     read_users_jsonl, read_set, read_tournaments_jsonl,
     write_json, extend_jsonl,
