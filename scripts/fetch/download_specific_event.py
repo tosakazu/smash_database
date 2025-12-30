@@ -24,6 +24,14 @@ from scripts.utils import (
     FetchError, NoPhaseError,
 )
 
+REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
+STANDINGS_PER_PAGE = 200
+SEEDS_PER_PAGE = 200
+SETS_PER_PAGE = 50
+
+def event_files_complete(event_dir):
+    return all(os.path.exists(os.path.join(event_dir, name)) for name in REQUIRED_EVENT_FILES)
+
 # --- 元のスクリプトから流用する関数群 ---
 
 # イベントのセットデータを保存する関数
@@ -44,7 +52,7 @@ def fetch_all_sets(event_id):
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
     try:
-        all_sets = fetch_all_nodes(query, variables, keys, per_page=10)
+        all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
         return all_sets
     except FetchError as e:
         print(f"Error fetching sets for event {event_id}: {e}")
@@ -192,7 +200,7 @@ def download_standings(event_id, event_dir):
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
     try:
-        standings_nodes = fetch_all_nodes(query, variables, keys, per_page=100)
+        standings_nodes = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
         if not standings_nodes:
              print(f"No standings data found for event {event_id}.")
              return [], [], {} # データがない場合は空を返す
@@ -270,7 +278,7 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     variables = {"phaseId": phase_id}
     keys = ["phase", "seeds"]
     try:
-        seeds_nodes = fetch_all_nodes(query, variables, keys, per_page=100)
+    seeds_nodes = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
         if not seeds_nodes:
             print(f"No seeds data found for phase {phase_id} in event {event_id}.")
             # シードファイルがなくても処理は続行可能なので空ファイルを作成しない
@@ -551,16 +559,18 @@ def download_specific_event(tournament_slug, event_slug, startgg_dir, done_file_
         print(f"Missing expected key in event data for {tournament_slug}/{event_slug}: {e}. Skipping.")
         return False # 処理失敗
 
-    # 3. 処理済みかチェック
-    if event_id in done_events:
-        print(f"Event ID {event_id} ({tournament_name} - {event_name}) already processed. Skipping.")
-        return True # 既に処理済みなので成功扱い
-
     # 4. イベントデータ保存用ディレクトリを決定
     year, month, day = get_date_parts(timestamp)
     event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
     print(f"Data will be saved to: {event_dir}")
     os.makedirs(event_dir, exist_ok=True) # ディレクトリ作成
+
+    # 3. 処理済みかチェック（ファイル欠損なら再取得）
+    if event_id in done_events and event_files_complete(event_dir):
+        print(f"Event ID {event_id} ({tournament_name} - {event_name}) already processed. Skipping.")
+        return True # 既に処理済みなので成功扱い
+    if event_id in done_events:
+        print(f"Event ID {event_id} is marked done but files are missing. Re-downloading.")
 
     # 5. 各種データをダウンロード・保存
     try:

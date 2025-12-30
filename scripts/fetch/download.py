@@ -14,12 +14,18 @@ from scripts.queries import (
 from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
     read_users_jsonl, read_set, read_tournaments_jsonl,
-    write_json, extend_jsonl,
+    write_json, extend_jsonl, write_jsonl,
     set_indent_num,
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
     FetchError, NoPhaseError,
 )
+
+REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
+TOURNAMENTS_PER_PAGE = 50
+STANDINGS_PER_PAGE = 200
+SEEDS_PER_PAGE = 200
+SETS_PER_PAGE = 50
 
 def main():
     # コマンドライン引数の設定
@@ -42,7 +48,28 @@ def main():
     set_retry_parameters(args.max_retries, args.retry_delay)
     set_api_parameters(args.url, args.token)
 
-    download_all_tournaments(args.game_id, args.country_code, args.finish_date, args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path)
+    download_all_tournaments(
+        args.game_id,
+        args.country_code,
+        args.finish_date,
+        args.startgg_dir,
+        args.done_file_path,
+        args.users_file_path,
+        args.tournament_file_path,
+    )
+
+def event_files_complete(event_dir):
+    return all(os.path.exists(os.path.join(event_dir, name)) for name in REQUIRED_EVENT_FILES)
+
+def tournament_events_complete(tournament_entry):
+    events = tournament_entry.get("events", [])
+    if not events:
+        return False
+    for event in events:
+        event_dir = event.get("path")
+        if not event_dir or not event_files_complete(event_dir):
+            return False
+    return True
 
 def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
     done_tournaments = read_set(done_file_path, as_int=True)
@@ -51,11 +78,13 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
     print(f"done_tournaments: {len(done_tournaments)}")
     print(f"users: {len(users)}")
     print(f"tournaments: {len(tournaments)}")
+    rewrite_tournaments = False
+    existing_tournament_ids = set(tournaments.keys())
 
     page = 1
     while True:
         try:
-            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, country_code=country_code, page=page)
+            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, country_code=country_code, limit=TOURNAMENTS_PER_PAGE, page=page)
         except FetchError as e:
             print(e)
             continue
@@ -98,8 +127,11 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
                     continue
 
                 if tournament_id in done_tournaments:
-                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
-                    continue
+                    tournament_entry = tournaments.get(tournament_id)
+                    if tournament_entry and tournament_events_complete(tournament_entry):
+                        print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
+                        continue
+                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
                 print(f"Download {tournament_name}, date: {datetime.fromtimestamp(timestamp)}")
 
@@ -107,11 +139,15 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
                     print("!!!downloaded all!!!")
                     return
 
-                tournaments[tournament_id] = {
-                    "tournament_id": tournament_id,
-                    "name": tournament_name,
-                    "events": []
-                }
+                if tournament_id in tournaments:
+                    tournaments[tournament_id]["name"] = tournament_name
+                    tournaments[tournament_id].setdefault("events", [])
+                else:
+                    tournaments[tournament_id] = {
+                        "tournament_id": tournament_id,
+                        "name": tournament_name,
+                        "events": []
+                    }
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
 
                 for event_id, event_name, is_online in events_info:
@@ -131,14 +167,21 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
                     labels = {}
                     write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
 
-                    tournaments[tournament_id]["events"].append({
-                        "event_id": event_id,
-                        "event_name": event_name,
-                        "path": event_dir
-                    })
+                    existing_events = tournaments[tournament_id]["events"]
+                    if not any(e.get("event_id") == event_id for e in existing_events):
+                        existing_events.append({
+                            "event_id": event_id,
+                            "event_name": event_name,
+                            "path": event_dir
+                        })
+                        if tournament_id in existing_tournament_ids:
+                            rewrite_tournaments = True
                 # ファイルを保存
                 if len(tournaments[tournament_id]["events"]) > 0:
-                    extend_tournament_info(tournaments[tournament_id], tournament_file_path)
+                    if rewrite_tournaments:
+                        pass
+                    else:
+                        extend_tournament_info(tournaments[tournament_id], tournament_file_path)
                     done_tournaments.add(tournament_id)
                     write_done_tournaments(tournament_id, done_file_path)
 
@@ -149,6 +192,9 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
         if page >= total_pages:
             break
         page += 1
+
+    if rewrite_tournaments:
+        write_jsonl(list(tournaments.values()), tournament_file_path, with_version=True)
 
 # イベントのセットデータを保存する関数
 def download_all_set(event_id, entrant2user, event_dir):
@@ -163,7 +209,7 @@ def fetch_all_sets(event_id):
     query = get_event_sets_query()
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
-    all_sets = fetch_all_nodes(query, variables, keys, per_page=10)
+    all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
     
     return all_sets
 
@@ -260,7 +306,7 @@ def download_standings(event_id, event_dir):
     query = get_standings_query()
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
-    standings_data = fetch_all_nodes(query, variables, keys, per_page=100)
+    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
 
     user_data = []
     player_data = []
@@ -295,7 +341,7 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     query = get_seeds_query()
     variables = {"phaseId": phase_id}
     keys = ["phase", "seeds"]
-    seeds_data = fetch_all_nodes(query, variables, keys, per_page=100)
+    seeds_data = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
 
     for seed in seeds_data:
         if seed['entrant']['participants'] is not None:

@@ -3,6 +3,7 @@ import os
 import json
 import csv
 import sys
+import random
 import requests
 
 # 国コードをリージョンに変換する関数
@@ -199,7 +200,9 @@ def fetch_data_with_retries(query, variables):
                     print(f"Received HTTP 429 Too Many Requests. Waiting {wait} seconds before retrying...", file=sys.stderr)
                 elif status_code is not None and status_code >= 500:
                     wait = __retry_delay * (attempt + 1)
-            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries} after {wait} seconds...")
+            jitter = random.uniform(0, max(1.0, wait * 0.1))
+            wait += jitter
+            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries} after {wait:.2f} seconds...")
             time.sleep(wait)
     status_message = f"Max retries exceeded for query. Last status code: {status_code}. Last error: {last_error_message}"
     raise FetchError(status_message)
