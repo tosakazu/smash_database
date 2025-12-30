@@ -44,9 +44,11 @@
     │   ├── check_events_in_tournaments.py
     │   ├── check_jjpr_events.py
     │   ├── fill_missing_events.py
-    │   └── fix_missing_tournaments.py
+    │   ├── fix_missing_tournaments.py
+    │   └── validate_data.py
     ├── test
-    │   └── __init__.py
+    │   ├── __init__.py
+    │   └── test_validate_data.py
     ├── event_analysis_prompt.txt
     ├── queries.py
     ├── storeJson.py
