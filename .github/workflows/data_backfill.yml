@@ -1,21 +1,24 @@
-name: Update StartGG Data
+name: Backfill StartGG Data
 
 on:
-  schedule:
-    - cron: "0 3 * * *"
   workflow_dispatch:
-
-concurrency:
-  group: data-update-${{ github.ref }}
-  cancel-in-progress: true
+    inputs:
+      finish_date:
+        description: "Fetch tournaments back to this date (YYYY-MM-DD)."
+        required: true
+        default: "2018-01-01"
+      country_code:
+        description: "Country code filter (e.g. JP)."
+        required: false
+        default: "JP"
 
 permissions:
   contents: write
 
 jobs:
-  update-data:
+  backfill:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,24 +33,15 @@ jobs:
           set -euxo pipefail
           python -m pip install --upgrade pip requests
 
-      - name: Refresh users
+      - name: Download tournaments (backfill)
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
-          python scripts/fetch/refresh_users.py \
-            --token "$STARTGG_TOKEN"
-
-      - name: Download tournaments (JP only)
-        env:
-          STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
-        run: |
-          set -euxo pipefail
-          FINISH_DATE="$(date -u -d '1 day ago' +%F)"
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
-            --country_code "JP" \
-            --finish_date "$FINISH_DATE"
+            --country_code "${{ inputs.country_code }}" \
+            --finish_date "${{ inputs.finish_date }}"
 
       - name: Validate data
         run: |
@@ -69,7 +63,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/startgg data/startgg/tournaments.jsonl data/startgg/users.jsonl
-          git commit -m "Update start.gg data"
+          git commit -m "Backfill start.gg data"
           git push
 
       - name: Debug on failure

@@ -5,7 +5,7 @@
 
 ## トリガー
 - `schedule`（毎日 03:00 UTC）
-- `workflow_dispatch`
+- `workflow_dispatch`（手動バックフィル）
 
 ## 使うシークレット/環境変数
 - `STARTGG_TOKEN`（必須）
@@ -21,6 +21,10 @@
 5. `data/` をコミット
 
 ## 実行コマンド（現在のワークフロー）
+- 定期取得（日本限定 / 直近2日）
+  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "$(date -u -d '1 day ago' +%F)"`
+- 手動バックフィル（期間指定）
+  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "<CODE>" --finish_date "YYYY-MM-DD"`
 - ユーザー情報更新
   - `python scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN"`
 - データ検証
@@ -33,3 +37,4 @@
 
 ## ワークフロー定義
 - `.github/workflows/data_update.yml`
+- `.github/workflows/data_backfill.yml`
