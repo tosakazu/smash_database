@@ -22,9 +22,7 @@ from scripts.utils import (
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
     FetchError, NoPhaseError,
-    analyze_event_setting,
 )
-from openai import OpenAI
 
 # --- 元のスクリプトから流用する関数群 ---
 
@@ -176,7 +174,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "num_entrants": num_entrants,
         "offline": not is_online if is_online is not None else None, # is_onlineがNoneの場合を考慮
         "url": url, # トーナメントのURL
-        "labels": labels if labels is not None else [], # OpenAIによる分析結果など
+        "labels": labels if labels is not None else [], # 追加メタ情報（現在は空）
         "status": "completed", # イベントが終了していることを前提とする
         "timestamp": timestamp, # イベント開始タイムスタンプ
     }
@@ -514,7 +512,7 @@ def fetch_event_details_by_slug(tournament_slug, event_slug):
     return merged_data # 統合されたデータを返す
 
 
-def download_specific_event(tournament_slug, event_slug, startgg_dir, done_file_path, users_file_path, tournament_file_path, users, tournaments, done_events, openai_client, event_prompt):
+def download_specific_event(tournament_slug, event_slug, startgg_dir, done_file_path, users_file_path, tournament_file_path, users, tournaments, done_events):
     """指定された単一のイベントデータをダウンロードして保存する"""
     print(f"--- Processing event: {tournament_slug} / {event_slug} ---")
 
@@ -585,17 +583,8 @@ def download_specific_event(tournament_slug, event_slug, startgg_dir, done_file_
         # 5d. 全セット (試合結果)
         download_all_set(event_id, entrant2user, event_dir)
 
-        # 5e. イベント属性 (OpenAI分析含む)
-        labels = []
-        if openai_client and event_prompt:
-             try:
-                 labels = analyze_event_setting(openai_client, event_prompt, tournament_name, event_name, event_id)
-                 print(f"OpenAI analysis labels: {labels}")
-             except Exception as e:
-                 print(f"Error during OpenAI analysis: {e}", file=sys.stderr)
-                 labels = ["analysis_failed"] # エラーがあったことを示すラベル
-        else:
-             labels = ["analysis_skipped"] # スキップされたことを示すラベル
+        # 5e. イベント属性
+        labels = {}
 
         write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, tournament_url, labels, is_online, event_dir)
 
@@ -665,35 +654,12 @@ def main():
     # game_id, country_code は特定イベントDLには直接不要
     # parser.add_argument("--game_id", default="1386", help="Game ID (not used for specific download)")
     # parser.add_argument("--country_code", default="", help="Country code (not used for specific download)")
-    parser.add_argument("--event_prompt_file_path", default="scripts/event_analysis_prompt.txt", help="Path to the file containing event prompt")
-    parser.add_argument("--openai_api_key", default="", help="OpenAI API key")
     args = parser.parse_args()
 
     # 設定値のセット
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)
     set_api_parameters(args.url, args.token)
-
-    # OpenAIクライアントの初期化
-    openai_client = None
-    event_prompt = None
-    if args.openai_api_key:
-        try:
-            openai_client = OpenAI(api_key=args.openai_api_key)
-            print("OpenAI API key is set.")
-            # プロンプトファイルの読み込み
-            if os.path.exists(args.event_prompt_file_path):
-                 with open(args.event_prompt_file_path, "r", encoding="utf-8") as f:
-                    event_prompt = f.read()
-                 print(f"Loaded event prompt from {args.event_prompt_file_path}")
-            else:
-                 print(f"Warning: Event prompt file not found at {args.event_prompt_file_path}. OpenAI analysis might not work as expected.", file=sys.stderr)
-                 event_prompt = None # ファイルがない場合はNoneにする
-        except Exception as e:
-            print(f"Failed to initialize OpenAI client: {e}", file=sys.stderr)
-            openai_client = None # 初期化失敗
-    else:
-        print("OpenAI API key is not set. Event analysis will be skipped.")
 
     # 既存データの読み込み
     # 存在しない場合は空のデータで初期化
@@ -724,8 +690,7 @@ def main():
         success = download_specific_event(
             t_slug, e_slug,
             args.startgg_dir, args.done_file_path, args.users_file_path, args.tournament_file_path,
-            users, tournaments, done_events,
-            openai_client, event_prompt
+            users, tournaments, done_events
         )
         if success:
             success_count += 1
