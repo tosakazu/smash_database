@@ -3,7 +3,10 @@ import json
 import sys
 from pathlib import Path
 
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    OpenAI = None
 
 import os
 
@@ -262,7 +265,9 @@ def main():
 
     openai_client = None
     event_prompt = None
-    if args.openai_api_key:
+    if args.openai_api_key and OpenAI is None:
+        print("OpenAI SDK is not installed. Skipping label analysis.", file=sys.stderr)
+    elif args.openai_api_key:
         try:
             openai_client = OpenAI(api_key=args.openai_api_key)
             if args.event_prompt_file_path.is_file():

@@ -3,6 +3,9 @@
 ## 全体構成（概観）
 ```
 .
+├── .github
+│   └── workflows
+│       └── data_update.yml
 ├── Document
 │   ├── data_model.md
 │   ├── directory.md
