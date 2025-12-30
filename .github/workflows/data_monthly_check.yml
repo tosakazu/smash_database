@@ -1,0 +1,32 @@
+name: Monthly Data Check
+
+on:
+  schedule:
+    - cron: "0 4 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run data validation
+        run: |
+          set -euxo pipefail
+          python scripts/fix/validate_data.py
+
+      - name: Check tournaments.jsonl paths
+        run: |
+          set -euxo pipefail
+          python scripts/fix/check_events_in_tournaments.py --dry-run
