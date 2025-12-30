@@ -15,12 +15,14 @@ flowchart TD
 
     C -->|未終了 or 取得済み| K[スキップ]
 
-    A --> L[scripts/fix/check_and_fill_missing.py]
-    L --> M[欠損イベント検出]
-    M --> N[不足分のみ再取得]
+    A --> L[scripts/fetch/refresh_users.py]
+    L --> M[users.jsonl 再取得]
 
-    A --> O[scripts/fetch/download_specific_event.py]
-    O --> P[単一イベント取得]
+    A --> N[scripts/fix/validate_data.py]
+    N --> O[データ検証]
+
+    A --> P[scripts/fetch/download_specific_event.py]
+    P --> Q[単一イベント取得]
 ```
 
 ## GitHub Actions の位置づけ

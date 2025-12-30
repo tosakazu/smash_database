@@ -21,10 +21,12 @@
 5. `data/` をコミット
 
 ## 実行コマンド（現在のワークフロー）
-- 欠損補完
-  - `python scripts/fix/check_and_fill_missing.py --token "$STARTGG_TOKEN"`
 - ユーザー情報更新
   - `python scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN"`
+- データ検証
+  - `python scripts/fix/validate_data.py`
+- テスト
+  - `python -m unittest scripts.test.test_validate_data`
 
 ## 生成物の扱い
 - 取得結果は `data/` 配下に保存し、ワークフロー内でコミットして反映する。

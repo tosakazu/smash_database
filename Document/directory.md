@@ -15,9 +15,6 @@
 │   └── startgg_design.md
 ├── README.md
 ├── data
-│   ├── JJPR
-│   │   └── check
-│   │       └── JJPREvents.json
 │   └── startgg
 │       ├── cache
 │       ├── check
@@ -40,10 +37,7 @@
     │   └── refresh_users.py
     ├── fix
     │   ├── __init__.py
-    │   ├── check_and_fill_missing.py
     │   ├── check_events_in_tournaments.py
-    │   ├── check_jjpr_events.py
-    │   ├── fill_missing_events.py
     │   ├── fix_missing_tournaments.py
     │   └── validate_data.py
     ├── test
