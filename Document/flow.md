@@ -21,8 +21,11 @@ flowchart TD
     A --> N[scripts/fix/validate_data.py]
     N --> O[データ検証]
 
-    A --> P[scripts/fetch/download_specific_event.py]
-    P --> Q[単一イベント取得]
+    A --> P[scripts/fix/backfill_events.py]
+    P --> Q[スキーマ変更時の再取得]
+
+    A --> R[scripts/fetch/download_specific_event.py]
+    R --> S[単一イベント取得]
 ```
 
 ## GitHub Actions の位置づけ
