@@ -8,7 +8,7 @@
 │       ├── data_backfill.yml
 │       ├── data_monthly_check.yml
 │       └── data_update.yml
-├── Document
+├── docs
 │   ├── data_model.md
 │   ├── directory.md
 │   ├── fix.md
@@ -53,6 +53,6 @@
 ```
 
 ## 説明
-- `Document/`: 仕様・運用・設計資料。
+- `docs/`: 仕様・運用・設計資料。
 - `data/`: 取得済みデータや検証用データ。
 - `scripts/`: 取得・検証・補完のスクリプト群。

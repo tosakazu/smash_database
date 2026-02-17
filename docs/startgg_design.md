@@ -210,4 +210,4 @@
   - 5xx は指数的に待機時間を増加。
 
 ## 保存先
-- 取得結果は `Document/data_model.md` に記載の形式で `data/startgg/` に保存される。
+- 取得結果は `docs/data_model.md` に記載の形式で `data/startgg/` に保存される。
