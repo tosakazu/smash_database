@@ -4,8 +4,9 @@
 - 定期的に start.gg から最新データを取得し、`data/` を更新する。
 
 ## トリガー
-- `schedule`（例: 1日1回）
-- `workflow_dispatch`
+- `schedule`（毎日 03:00 UTC）
+- `workflow_dispatch`（手動バックフィル）
+- `schedule`（毎月1日 04:00 UTC: データ全体チェック）
 
 ## 使うシークレット/環境変数
 - `STARTGG_TOKEN`（必須）
@@ -18,16 +19,24 @@
 2. Python セットアップ
 3. 依存インストール（必要なら）
 4. データ取得
-5. `data/` をコミット or アーティファクト化
+5. `data/` をコミット
 
-## 想定コマンド
-- 全体取得
-  - `python scripts/download.py --token "$STARTGG_TOKEN" --game_id "$STARTGG_GAME_ID" --country_code "$STARTGG_COUNTRY_CODE" --openai_api_key "$OPENAI_API_KEY"`
-- 欠損補完
-  - `python scripts/check_and_fill_missing.py --token "$STARTGG_TOKEN" --openai_api_key "$OPENAI_API_KEY"`
+## 実行コマンド（現在のワークフロー）
+- 定期取得（日本限定 / 直近2日）
+  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "$(date -u -d '2 days ago' +%F)"`
+- 手動バックフィル（期間指定）
+  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "<CODE>" --finish_date "YYYY-MM-DD"`
+- ユーザー情報更新
+  - `python scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN"`
+- データ検証
+  - `python scripts/fix/validate_data.py`
+- テスト
+  - `python -m unittest scripts.test.test_validate_data`
 
 ## 生成物の扱い
-- 取得結果は `data/` 配下に保存。
-- 運用方針として以下のいずれかを選ぶ想定。
-  - コミットしてリポジトリへ反映
-  - GitHub Actions のアーティファクトとして保存
+- 取得結果は `data/` 配下に保存し、ワークフロー内でコミットして反映する。
+
+## ワークフロー定義
+- `.github/workflows/data_update.yml`
+- `.github/workflows/data_backfill.yml`
+- `.github/workflows/data_monthly_check.yml`

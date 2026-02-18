@@ -2,7 +2,7 @@
 
 ## 概要
 - start.gg の GraphQL API を利用して大会・イベント・結果データを取得し、`data/startgg/` 配下に保存する。
-- 実装は `scripts/download.py` を中心に構成され、補助スクリプトで欠損補完や個別取得を行う。
+- 実装は `scripts/fetch/download.py` を中心に構成され、補助スクリプトで欠損補完や個別取得を行う。
 
 ## エンドポイントと認証
 - エンドポイント: `https://api.start.gg/gql/alpha`
@@ -210,4 +210,4 @@
   - 5xx は指数的に待機時間を増加。
 
 ## 保存先
-- 取得結果は `Document/data_model.md` に記載の形式で `data/startgg/` に保存される。
+- 取得結果は `docs/data_model.md` に記載の形式で `data/startgg/` に保存される。

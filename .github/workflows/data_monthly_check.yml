@@ -1,0 +1,85 @@
+name: Monthly Data Check
+
+on:
+  schedule:
+    - cron: "0 4 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run data validation
+        id: validate_data
+        continue-on-error: true
+        run: |
+          set -euxo pipefail
+          python scripts/fix/validate_data.py
+
+      - name: Check and apply tournaments.jsonl path fixes
+        id: sync_tournaments
+        continue-on-error: true
+        env:
+          STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
+        run: |
+          set -euxo pipefail
+          python scripts/fix/check_events_in_tournaments.py \
+            --apply \
+            --token "$STARTGG_TOKEN"
+
+      - name: Detect changes
+        id: detect_changes
+        if: always()
+        run: |
+          set -euxo pipefail
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            git status --short
+          fi
+
+      - name: Create pull request for fixes
+        if: always() && steps.detect_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(data): sync missing event paths"
+          title: "chore: monthly data consistency fixes"
+          body: |
+            This PR was created automatically by Monthly Data Check.
+
+            - Applied `scripts/fix/check_events_in_tournaments.py --apply`
+            - Source workflow run: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+          branch: "actions/monthly-data-check-${{ github.run_id }}"
+          delete-branch: true
+
+      - name: Fail when checks did not pass
+        if: always()
+        run: |
+          set -euxo pipefail
+          failed=0
+
+          if [ "${{ steps.validate_data.outcome }}" != "success" ]; then
+            echo "validate_data failed"
+            failed=1
+          fi
+
+          if [ "${{ steps.sync_tournaments.outcome }}" != "success" ]; then
+            echo "sync_tournaments failed"
+            failed=1
+          fi
+
+          exit "$failed"
