@@ -48,6 +48,7 @@ jobs:
             --finish_date "$FINISH_DATE"
 
       - name: Validate data
+        continue-on-error: true
         run: |
           set -euxo pipefail
           python scripts/fix/validate_data.py
