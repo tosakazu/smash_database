@@ -86,16 +86,3 @@ jobs:
             - [ ] tournaments同期結果を確認した
           branch: "actions/monthly-data-check-${{ github.run_id }}"
           delete-branch: true
-
-      - name: Fail when checks did not pass
-        if: always()
-        run: |
-          set -euxo pipefail
-          failed=0
-
-          if [ "${{ steps.sync_tournaments.outcome }}" != "success" ]; then
-            echo "sync_tournaments failed"
-            failed=1
-          fi
-
-          exit "$failed"

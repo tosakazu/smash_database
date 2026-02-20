@@ -1,9 +1,6 @@
 name: Backfill StartGG Data
 
 on:
-  push:
-    branches:
-      - githubAction-test
   workflow_dispatch:
     inputs:
       finish_date:
