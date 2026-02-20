@@ -40,6 +40,7 @@ LIST_CONTAINER_FIELDS = ("data",)
 MAX_MISSING_USER_RATIO_ERROR = 0.2
 MAX_MISSING_MATCH_ID_RATIO_ERROR = 0.1
 MAX_MISMATCHED_MATCH_ID_RATIO_ERROR = 0.05
+MIN_MATCH_COUNT_FOR_MISMATCH_ERROR = 5
 
 
 def load_json(path: Path) -> Dict:
@@ -102,7 +103,10 @@ def validate_event_dir(event_dir: Path) -> tuple[List[str], List[str]]:
     seeds = payloads.get("seeds.json", {}).get("data", [])
     matches = payloads.get("matches.json", {}).get("data", [])
 
-    if isinstance(num_entrants, int) and num_entrants > 0:
+    # When num_entrants is unknown, treat empty standings/seeds as an error as well.
+    # This keeps validation strict for partially populated attr.json.
+    should_have_entries = not (isinstance(num_entrants, int) and num_entrants == 0)
+    if should_have_entries:
         if isinstance(standings, list) and len(standings) == 0:
             errors.append(f"{event_dir}: standings.json is empty but num_entrants > 0")
         if isinstance(seeds, list) and len(seeds) == 0:
@@ -155,7 +159,10 @@ def validate_event_dir(event_dir: Path) -> tuple[List[str], List[str]]:
                         missing_in_standings += 1
                 if missing_in_standings:
                     ratio = missing_in_standings / (len(matches) * 2)
-                    if ratio > MAX_MISMATCHED_MATCH_ID_RATIO_ERROR:
+                    if (
+                        len(matches) >= MIN_MATCH_COUNT_FOR_MISMATCH_ERROR
+                        and ratio > MAX_MISMATCHED_MATCH_ID_RATIO_ERROR
+                    ):
                         errors.append(
                             f"{event_dir}: match IDs not in standings ratio {ratio:.1%} exceeds threshold"
                         )
