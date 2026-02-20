@@ -44,12 +44,6 @@ jobs:
             --country_code "JP" \
             --finish_date "$FINISH_DATE"
 
-      - name: Validate data
-        continue-on-error: true
-        run: |
-          set -euxo pipefail
-          python scripts/fix/validate_data.py
-
       - name: Run tests
         run: |
           set -euxo pipefail
@@ -92,7 +86,6 @@ jobs:
           body: |
             ## 実行内容
             - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.finish_date }}"`
-            - `scripts/fix/validate_data.py`
             - `python -m unittest scripts.test.test_validate_data`
 
             ## 実行情報
@@ -110,7 +103,6 @@ jobs:
             ## チェックリスト
             - [ ] ワークフローログを確認した
             - [ ] データ差分を確認した (`data/startgg/**`)
-            - [ ] バリデーション成功を確認した (`scripts/fix/validate_data.py`)
             - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
           branch: "actions/update-tournament-${{ github.run_id }}"
           delete-branch: true

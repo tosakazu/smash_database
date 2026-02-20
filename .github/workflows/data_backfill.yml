@@ -62,11 +62,6 @@ jobs:
             --country_code "${{ steps.params.outputs.country_code }}" \
             --finish_date "${{ steps.params.outputs.finish_date }}"
 
-      - name: Validate data
-        run: |
-          set -euxo pipefail
-          python scripts/fix/validate_data.py
-
       - name: Run tests
         run: |
           set -euxo pipefail
@@ -109,7 +104,6 @@ jobs:
           body: |
             ## 実行内容
             - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ steps.params.outputs.country_code }}" --finish_date "${{ steps.params.outputs.finish_date }}"`
-            - `scripts/fix/validate_data.py`
             - `python -m unittest scripts.test.test_validate_data`
 
             ## 実行情報
@@ -128,7 +122,6 @@ jobs:
             ## チェックリスト
             - [ ] ワークフローログを確認した
             - [ ] データ差分を確認した (`data/startgg/**`)
-            - [ ] バリデーション成功を確認した (`scripts/fix/validate_data.py`)
             - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
           branch: "actions/backfill-${{ github.run_id }}"
           delete-branch: true

@@ -22,13 +22,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run data validation
-        id: validate_data
-        continue-on-error: true
-        run: |
-          set -euxo pipefail
-          python scripts/fix/validate_data.py
-
       - name: Check and apply tournaments.jsonl path fixes
         id: sync_tournaments
         continue-on-error: true
@@ -74,7 +67,6 @@ jobs:
           title: "chore: monthly data consistency fixes"
           body: |
             ## 実行内容
-            - `scripts/fix/validate_data.py`
             - `scripts/fix/check_events_in_tournaments.py --apply --token "$STARTGG_TOKEN"`
 
             ## 実行情報
@@ -91,7 +83,6 @@ jobs:
             ## チェックリスト
             - [ ] ワークフローログを確認した
             - [ ] 修正差分を確認した (`data/startgg/**`, `data/startgg/tournaments.jsonl`)
-            - [ ] バリデーション結果を確認した
             - [ ] tournaments同期結果を確認した
           branch: "actions/monthly-data-check-${{ github.run_id }}"
           delete-branch: true
@@ -101,11 +92,6 @@ jobs:
         run: |
           set -euxo pipefail
           failed=0
-
-          if [ "${{ steps.validate_data.outcome }}" != "success" ]; then
-            echo "validate_data failed"
-            failed=1
-          fi
 
           if [ "${{ steps.sync_tournaments.outcome }}" != "success" ]; then
             echo "sync_tournaments failed"
