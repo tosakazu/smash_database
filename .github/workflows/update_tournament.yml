@@ -1,9 +1,6 @@
 name: update_tournament
 
 on:
-  push:
-    branches:
-      - githubAction-test
   schedule:
     - cron: "0 3 * * *"
   workflow_dispatch:

@@ -1,6 +1,9 @@
 name: Backfill StartGG Data
 
 on:
+  push:
+    branches:
+      - githubAction-test
   workflow_dispatch:
     inputs:
       finish_date:
@@ -34,6 +37,21 @@ jobs:
           set -euxo pipefail
           python -m pip install --upgrade pip requests
 
+      - name: Resolve run parameters
+        id: params
+        run: |
+          set -euxo pipefail
+          FINISH_DATE="${{ inputs.finish_date }}"
+          if [ -z "$FINISH_DATE" ]; then
+            FINISH_DATE="$(date -u -d '2 days ago' +%F)"
+          fi
+          COUNTRY_CODE="${{ inputs.country_code }}"
+          if [ -z "$COUNTRY_CODE" ]; then
+            COUNTRY_CODE="JP"
+          fi
+          echo "finish_date=$FINISH_DATE" >> "$GITHUB_OUTPUT"
+          echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
+
       - name: Download tournaments (backfill)
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
@@ -41,8 +59,8 @@ jobs:
           set -euxo pipefail
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
-            --country_code "${{ inputs.country_code }}" \
-            --finish_date "${{ inputs.finish_date }}"
+            --country_code "${{ steps.params.outputs.country_code }}" \
+            --finish_date "${{ steps.params.outputs.finish_date }}"
 
       - name: Validate data
         run: |
@@ -74,7 +92,7 @@ jobs:
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          WINDOW_START_UTC="${{ inputs.finish_date }} 00:00:00 UTC"
+          WINDOW_START_UTC="${{ steps.params.outputs.finish_date }} 00:00:00 UTC"
           WINDOW_END_UTC="$(date -u '+%Y-%m-%d 23:59:59 UTC')"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
@@ -87,10 +105,10 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore(data): backfill start.gg data"
-          title: "chore: backfill start.gg data (${{ inputs.finish_date }}, ${{ inputs.country_code }})"
+          title: "chore: backfill start.gg data (${{ steps.params.outputs.finish_date }}, ${{ steps.params.outputs.country_code }})"
           body: |
             ## 実行内容
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ inputs.country_code }}" --finish_date "${{ inputs.finish_date }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ steps.params.outputs.country_code }}" --finish_date "${{ steps.params.outputs.finish_date }}"`
             - `scripts/fix/validate_data.py`
             - `python -m unittest scripts.test.test_validate_data`
 
@@ -100,7 +118,7 @@ jobs:
             - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
 
             ## 取得対象期間
-            - 対象国コード: `${{ inputs.country_code }}`
+            - 対象国コード: `${{ steps.params.outputs.country_code }}`
             - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
             - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
 
