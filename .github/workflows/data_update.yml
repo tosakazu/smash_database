@@ -11,6 +11,7 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-data:
@@ -39,11 +40,13 @@ jobs:
             --token "$STARTGG_TOKEN"
 
       - name: Download tournaments (JP only)
+        id: download_tournaments
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
           FINISH_DATE="$(date -u -d '2 days ago' +%F)"
+          echo "finish_date=$FINISH_DATE" >> "$GITHUB_OUTPUT"
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "JP" \
@@ -59,18 +62,66 @@ jobs:
           set -euxo pipefail
           python -m unittest scripts.test.test_validate_data
 
-      - name: Commit updates
+      - name: Detect changes
+        id: detect_changes
         run: |
           set -euxo pipefail
           if git diff --quiet; then
-            echo "No changes to commit."
-            exit 0
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
+            echo "No changes to create PR."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+            git status --short
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/startgg data/startgg/tournaments.jsonl data/startgg/users.jsonl
-          git commit -m "Update start.gg data"
-          git push
+
+      - name: Prepare PR body metadata
+        id: pr_meta
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          WINDOW_START_UTC="${{ steps.download_tournaments.outputs.finish_date }} 00:00:00 UTC"
+          WINDOW_END_UTC="$(date -u '+%Y-%m-%d 23:59:59 UTC')"
+          {
+            echo "executed_at_utc=$EXECUTED_AT_UTC"
+            echo "window_start_utc=$WINDOW_START_UTC"
+            echo "window_end_utc=$WINDOW_END_UTC"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request with update results
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(data): update start.gg data"
+          title: "chore: update start.gg data"
+          body: |
+            ## 実行内容
+            - `scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.finish_date }}"`
+            - `scripts/fix/validate_data.py`
+            - `python -m unittest scripts.test.test_validate_data`
+
+            ## 実行情報
+            - 実行トリガー: `${{ github.event_name }}`
+            - 実行日時 (UTC): `${{ steps.pr_meta.outputs.executed_at_utc }}`
+            - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+
+            ## 取得対象期間
+            - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
+            - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
+
+            ## 更新件数
+            - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
+
+            ## チェックリスト
+            - [ ] ワークフローログを確認した
+            - [ ] データ差分を確認した (`data/startgg/**`)
+            - [ ] バリデーション成功を確認した (`scripts/fix/validate_data.py`)
+            - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
+          branch: "actions/data-update-${{ github.run_id }}"
+          delete-branch: true
 
       - name: Debug on failure
         if: failure()

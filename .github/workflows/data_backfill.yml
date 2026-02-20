@@ -60,11 +60,27 @@ jobs:
           set -euxo pipefail
           if git diff --quiet; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
             echo "No changes to create PR."
           else
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
             git status --short
           fi
+
+      - name: Prepare PR body metadata
+        id: pr_meta
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          WINDOW_START_UTC="${{ inputs.finish_date }} 00:00:00 UTC"
+          WINDOW_END_UTC="$(date -u '+%Y-%m-%d 23:59:59 UTC')"
+          {
+            echo "executed_at_utc=$EXECUTED_AT_UTC"
+            echo "window_start_utc=$WINDOW_START_UTC"
+            echo "window_end_utc=$WINDOW_END_UTC"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create pull request with backfill updates
         if: steps.detect_changes.outputs.has_changes == 'true'
@@ -73,11 +89,29 @@ jobs:
           commit-message: "chore(data): backfill start.gg data"
           title: "chore: backfill start.gg data (${{ inputs.finish_date }}, ${{ inputs.country_code }})"
           body: |
-            This PR was created automatically by Backfill StartGG Data.
+            ## 実行内容
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ inputs.country_code }}" --finish_date "${{ inputs.finish_date }}"`
+            - `scripts/fix/validate_data.py`
+            - `python -m unittest scripts.test.test_validate_data`
 
-            - finish_date: `${{ inputs.finish_date }}`
-            - country_code: `${{ inputs.country_code }}`
-            - Source workflow run: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+            ## 実行情報
+            - 実行トリガー: `${{ github.event_name }}`
+            - 実行日時 (UTC): `${{ steps.pr_meta.outputs.executed_at_utc }}`
+            - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+
+            ## 取得対象期間
+            - 対象国コード: `${{ inputs.country_code }}`
+            - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
+            - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
+
+            ## 更新件数
+            - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
+
+            ## チェックリスト
+            - [ ] ワークフローログを確認した
+            - [ ] データ差分を確認した (`data/startgg/**`)
+            - [ ] バリデーション成功を確認した (`scripts/fix/validate_data.py`)
+            - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
           branch: "actions/backfill-${{ github.run_id }}"
           delete-branch: true
 

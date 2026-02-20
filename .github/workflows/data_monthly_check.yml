@@ -47,10 +47,24 @@ jobs:
           set -euxo pipefail
           if git diff --quiet; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
           else
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
             git status --short
           fi
+
+      - name: Prepare PR body metadata
+        id: pr_meta
+        if: always() && steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          CHECK_SCOPE="Repository consistency check (no external fetch)"
+          {
+            echo "executed_at_utc=$EXECUTED_AT_UTC"
+            echo "check_scope=$CHECK_SCOPE"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create pull request for fixes
         if: always() && steps.detect_changes.outputs.has_changes == 'true'
@@ -59,10 +73,26 @@ jobs:
           commit-message: "chore(data): sync missing event paths"
           title: "chore: monthly data consistency fixes"
           body: |
-            This PR was created automatically by Monthly Data Check.
+            ## 実行内容
+            - `scripts/fix/validate_data.py`
+            - `scripts/fix/check_events_in_tournaments.py --apply --token "$STARTGG_TOKEN"`
 
-            - Applied `scripts/fix/check_events_in_tournaments.py --apply`
-            - Source workflow run: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+            ## 実行情報
+            - 実行トリガー: `${{ github.event_name }}`
+            - 実行日時 (UTC): `${{ steps.pr_meta.outputs.executed_at_utc }}`
+            - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+
+            ## 対象範囲
+            - スコープ: `${{ steps.pr_meta.outputs.check_scope }}`
+
+            ## 更新件数
+            - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
+
+            ## チェックリスト
+            - [ ] ワークフローログを確認した
+            - [ ] 修正差分を確認した (`data/startgg/**`, `data/startgg/tournaments.jsonl`)
+            - [ ] バリデーション結果を確認した
+            - [ ] tournaments同期結果を確認した
           branch: "actions/monthly-data-check-${{ github.run_id }}"
           delete-branch: true
 
