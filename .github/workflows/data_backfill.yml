@@ -3,8 +3,12 @@ name: Backfill StartGG Data
 on:
   workflow_dispatch:
     inputs:
-      finish_date:
-        description: "Fetch tournaments back to this date (YYYY-MM-DD)."
+      start_date:
+        description: "Fetch tournaments up to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
+        required: true
+        default: "2026-02-20"
+      end_date:
+        description: "Fetch tournaments down to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
         required: true
         default: "2018-01-01"
       country_code:
@@ -38,15 +42,20 @@ jobs:
         id: params
         run: |
           set -euxo pipefail
-          FINISH_DATE="${{ inputs.finish_date }}"
-          if [ -z "$FINISH_DATE" ]; then
-            FINISH_DATE="$(date -u -d '2 days ago' +%F)"
+          START_DATE="${{ inputs.start_date }}"
+          if [ -z "$START_DATE" ]; then
+            START_DATE="$(date -u '+%F')"
+          fi
+          END_DATE="${{ inputs.end_date }}"
+          if [ -z "$END_DATE" ]; then
+            END_DATE="2018-01-01"
           fi
           COUNTRY_CODE="${{ inputs.country_code }}"
           if [ -z "$COUNTRY_CODE" ]; then
             COUNTRY_CODE="JP"
           fi
-          echo "finish_date=$FINISH_DATE" >> "$GITHUB_OUTPUT"
+          echo "start_date=$START_DATE" >> "$GITHUB_OUTPUT"
+          echo "end_date=$END_DATE" >> "$GITHUB_OUTPUT"
           echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
 
       - name: Download tournaments (backfill)
@@ -57,7 +66,8 @@ jobs:
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "${{ steps.params.outputs.country_code }}" \
-            --finish_date "${{ steps.params.outputs.finish_date }}"
+            --start_date "${{ steps.params.outputs.start_date }}" \
+            --finish_date "${{ steps.params.outputs.end_date }}"
 
       - name: Run tests
         run: |
@@ -84,8 +94,8 @@ jobs:
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          WINDOW_START_UTC="${{ steps.params.outputs.finish_date }} 00:00:00 UTC"
-          WINDOW_END_UTC="$(date -u '+%Y-%m-%d 23:59:59 UTC')"
+          WINDOW_START_UTC="${{ steps.params.outputs.start_date }}"
+          WINDOW_END_UTC="${{ steps.params.outputs.end_date }}"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
             echo "window_start_utc=$WINDOW_START_UTC"
@@ -97,10 +107,10 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore(data): backfill start.gg data"
-          title: "chore: backfill start.gg data (${{ steps.params.outputs.finish_date }}, ${{ steps.params.outputs.country_code }})"
+          title: "chore: backfill start.gg data (${{ steps.params.outputs.start_date }} - ${{ steps.params.outputs.end_date }}, ${{ steps.params.outputs.country_code }})"
           body: |
             ## 実行内容
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ steps.params.outputs.country_code }}" --finish_date "${{ steps.params.outputs.finish_date }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ steps.params.outputs.country_code }}" --start_date "${{ steps.params.outputs.start_date }}" --finish_date "${{ steps.params.outputs.end_date }}"`
             - `python -m unittest scripts.test.test_validate_data`
 
             ## 実行情報
@@ -110,8 +120,8 @@ jobs:
 
             ## 取得対象期間
             - 対象国コード: `${{ steps.params.outputs.country_code }}`
-            - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
-            - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
+            - 開始日時: `${{ steps.pr_meta.outputs.window_start_utc }}`
+            - 終了日時: `${{ steps.pr_meta.outputs.window_end_utc }}`
 
             ## 更新件数
             - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
