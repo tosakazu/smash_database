@@ -2,7 +2,7 @@ name: update_user
 
 on:
   schedule:
-    - cron: "0 4 * * 0"
+    - cron: "0 11 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -38,7 +38,7 @@ jobs:
           set -euxo pipefail
           python scripts/fetch/refresh_users.py \
             --token "$STARTGG_TOKEN" \
-            --max_users 100 \
+            --max_users 300 \
             --cursor_path "data/startgg/users_refresh_cursor.txt"
 
       - name: Detect changes
@@ -61,21 +61,21 @@ jobs:
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          CHECK_SCOPE="users.jsonl cursor refresh (max_users=100)"
+          CHECK_SCOPE="users.jsonl cursor refresh (max_users=300)"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
             echo "check_scope=$CHECK_SCOPE"
           } >> "$GITHUB_OUTPUT"
 
       - name: Create pull request with user update results
-        if: steps.detect_changes.outputs.has_changes == 'true'
+        if: always()
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore(data): update user data"
           title: "chore: update user data"
           body: |
             ## 実行内容
-            - `scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN" --max_users 100 --cursor_path "data/startgg/users_refresh_cursor.txt"`
+            - `scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN" --max_users 300 --cursor_path "data/startgg/users_refresh_cursor.txt"`
 
             ## 実行情報
             - 実行トリガー: `${{ github.event_name }}`
@@ -92,7 +92,7 @@ jobs:
             - [ ] ワークフローログを確認した
             - [ ] ユーザー差分を確認した (`data/startgg/users.jsonl`)
             - [ ] 429/リトライ発生状況を確認した
-          branch: "actions/update-user-${{ github.run_id }}"
+          branch: "actions/update-user"
           delete-branch: true
 
       - name: Debug on failure

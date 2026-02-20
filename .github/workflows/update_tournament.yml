@@ -2,7 +2,7 @@ name: update_tournament
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 11 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -37,12 +37,20 @@ jobs:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
-          FINISH_DATE="$(date -u -d '2 days ago' +%F)"
-          echo "finish_date=$FINISH_DATE" >> "$GITHUB_OUTPUT"
+          TODAY_UTC="$(date -u +%F)"
+          YESTERDAY_UTC="$(date -u -d '1 day ago' +%F)"
+          echo "today_utc=$TODAY_UTC" >> "$GITHUB_OUTPUT"
+          echo "yesterday_utc=$YESTERDAY_UTC" >> "$GITHUB_OUTPUT"
+
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "JP" \
-            --finish_date "$FINISH_DATE"
+            --finish_date "$TODAY_UTC"
+
+          python scripts/fetch/download.py \
+            --token "$STARTGG_TOKEN" \
+            --country_code "JP" \
+            --finish_date "$YESTERDAY_UTC"
 
       - name: Run tests
         run: |
@@ -69,8 +77,8 @@ jobs:
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          WINDOW_START_UTC="${{ steps.download_tournaments.outputs.finish_date }} 00:00:00 UTC"
-          WINDOW_END_UTC="$(date -u '+%Y-%m-%d 23:59:59 UTC')"
+          WINDOW_START_UTC="${{ steps.download_tournaments.outputs.yesterday_utc }} 00:00:00 UTC"
+          WINDOW_END_UTC="${{ steps.download_tournaments.outputs.today_utc }} 23:59:59 UTC"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
             echo "window_start_utc=$WINDOW_START_UTC"
@@ -78,14 +86,15 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Create pull request with tournament update results
-        if: steps.detect_changes.outputs.has_changes == 'true'
+        if: always()
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore(data): update tournament data"
           title: "chore: update tournament data"
           body: |
             ## 実行内容
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.finish_date }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.today_utc }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.yesterday_utc }}"`
             - `python -m unittest scripts.test.test_validate_data`
 
             ## 実行情報
@@ -104,7 +113,7 @@ jobs:
             - [ ] ワークフローログを確認した
             - [ ] データ差分を確認した (`data/startgg/**`)
             - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
-          branch: "actions/update-tournament-${{ github.run_id }}"
+          branch: "actions/update-tournament"
           delete-branch: true
 
       - name: Debug on failure
