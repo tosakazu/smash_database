@@ -70,14 +70,35 @@ def extend_jsonl(data, file_path, with_version):
             json.dump(d, f, ensure_ascii=False)
             f.write("\n")
 
-def read_jsonl(file_path):
-    output = []
+def _read_json_records(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                output.append(json.loads(line))
-    return output
+        text = f.read()
+
+    if not text.strip():
+        return []
+
+    stripped = text.lstrip()
+    if stripped.startswith("["):
+        records = json.loads(text)
+        if not isinstance(records, list):
+            raise ValueError(f"{file_path} must contain a JSON array when JSON format is used.")
+        return records
+
+    records = []
+    decoder = json.JSONDecoder()
+    index = 0
+    length = len(text)
+    while index < length:
+        while index < length and text[index].isspace():
+            index += 1
+        if index >= length:
+            break
+        record, index = decoder.raw_decode(text, index)
+        records.append(record)
+    return records
+
+def read_jsonl(file_path):
+    return _read_json_records(file_path)
 
 def set_indent_num(num):
     global __indent_num
@@ -86,25 +107,21 @@ def set_indent_num(num):
 def read_users_jsonl(file_path):
     if not os.path.exists(file_path):
         return {}
-    with open(file_path, "r", encoding="utf-8") as f:
-        users = {}
-        for line in f:
-            user = json.loads(line)
-            del user["version"]
-            if "startgg_discriminator" not in user:
-                user["startgg_discriminator"] = None
-            users[user["user_id"]] = user
+    users = {}
+    for user in _read_json_records(file_path):
+        user.pop("version", None)
+        if "startgg_discriminator" not in user:
+            user["startgg_discriminator"] = None
+        users[user["user_id"]] = user
     return users
     
 def read_tournaments_jsonl(file_path):
     if not os.path.exists(file_path):
         return {}
-    with open(file_path, "r", encoding="utf-8") as f:
-        tournaments = {}
-        for line in f:
-            tournament = json.loads(line)
-            del tournament["version"]
-            tournaments[tournament["tournament_id"]] = tournament
+    tournaments = {}
+    for tournament in _read_json_records(file_path):
+        tournament.pop("version", None)
+        tournaments[tournament["tournament_id"]] = tournament
     return tournaments
 
 def read_csv(file_path):
