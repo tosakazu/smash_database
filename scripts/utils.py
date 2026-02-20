@@ -109,9 +109,14 @@ def read_users_jsonl(file_path):
         return {}
     users = {}
     for user in _read_json_records(file_path):
+        if not isinstance(user, dict):
+            continue
+        if "user_id" not in user:
+            continue
         user.pop("version", None)
         if "startgg_discriminator" not in user:
-            user["startgg_discriminator"] = None
+            user["startgg_discriminator"] = user.get("discriminator")
+        user.pop("discriminator", None)
         users[user["user_id"]] = user
     return users
     
@@ -120,6 +125,10 @@ def read_tournaments_jsonl(file_path):
         return {}
     tournaments = {}
     for tournament in _read_json_records(file_path):
+        if not isinstance(tournament, dict):
+            continue
+        if "tournament_id" not in tournament:
+            continue
         tournament.pop("version", None)
         tournaments[tournament["tournament_id"]] = tournament
     return tournaments
