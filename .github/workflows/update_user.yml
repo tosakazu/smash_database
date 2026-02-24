@@ -1,18 +1,22 @@
-name: "StartGG: Monthly Check"
+name: "StartGG: Update User"
 
 on:
   schedule:
-    - cron: "0 4 1 * *"
+    - cron: "0 11 * * *"
   workflow_dispatch:
+
+concurrency:
+  group: update-user-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  validate:
+  update-user:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 360
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,25 +26,29 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Check and apply tournaments.jsonl path fixes
-        id: sync_tournaments
-        continue-on-error: true
+      - name: Install dependencies
+        run: |
+          set -euxo pipefail
+          python -m pip install --upgrade pip requests
+
+      - name: Refresh users
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
-          python scripts/fix/check_events_in_tournaments.py \
-            --apply \
-            --token "$STARTGG_TOKEN"
+          python scripts/fetch/refresh_users.py \
+            --token "$STARTGG_TOKEN" \
+            --max_users 300 \
+            --cursor_path "data/startgg/users_refresh_cursor.txt"
 
       - name: Detect changes
         id: detect_changes
-        if: always()
         run: |
           set -euxo pipefail
           if git diff --quiet; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
+            echo "No changes to create PR."
           else
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
@@ -49,25 +57,25 @@ jobs:
 
       - name: Prepare PR body metadata
         id: pr_meta
-        if: always() && steps.detect_changes.outputs.has_changes == 'true'
+        if: steps.detect_changes.outputs.has_changes == 'true'
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          CHECK_SCOPE="Repository consistency check (no external fetch)"
+          CHECK_SCOPE="users.jsonl cursor refresh (max_users=300)"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
             echo "check_scope=$CHECK_SCOPE"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Create pull request for fixes
-        if: always() && steps.detect_changes.outputs.has_changes == 'true'
+      - name: Create pull request with user update results
+        if: always()
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "chore(data): sync missing event paths"
-          title: "chore: monthly data consistency fixes"
+          commit-message: "chore(data): update user data"
+          title: "chore: update user data"
           body: |
             ## 実行内容
-            - `scripts/fix/check_events_in_tournaments.py --apply --token "$STARTGG_TOKEN"`
+            - `scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN" --max_users 300 --cursor_path "data/startgg/users_refresh_cursor.txt"`
 
             ## 実行情報
             - 実行トリガー: `${{ github.event_name }}`
@@ -82,7 +90,14 @@ jobs:
 
             ## チェックリスト
             - [ ] ワークフローログを確認した
-            - [ ] 修正差分を確認した (`data/startgg/**`, `data/startgg/tournaments.jsonl`)
-            - [ ] tournaments同期結果を確認した
-          branch: "actions/monthly-data-check-${{ github.run_id }}"
+            - [ ] ユーザー差分を確認した (`data/startgg/users.jsonl`)
+            - [ ] 429/リトライ発生状況を確認した
+          branch: "actions/update-user"
           delete-branch: true
+
+      - name: Debug on failure
+        if: failure()
+        run: |
+          echo "Workflow failed."
+          git status --porcelain
+          ls -la data/startgg

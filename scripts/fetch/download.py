@@ -27,12 +27,33 @@ STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
 SETS_PER_PAGE = 50
 
+def parse_date_or_datetime(value):
+    for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    raise argparse.ArgumentTypeError(
+        f"Invalid datetime '{value}'. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS."
+    )
+
 def main():
     # コマンドライン引数の設定
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
     parser.add_argument("--token", required=True, help="API token")
-    parser.add_argument("--finish_date", type=lambda s: datetime.strptime(s, '%Y-%m-%d'), default=datetime(2018, 1, 1), help="Finish date for data retrieval (YYYY-MM-DD)")
+    parser.add_argument(
+        "--start_date",
+        type=parse_date_or_datetime,
+        default=None,
+        help="Upper bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
+    )
+    parser.add_argument(
+        "--finish_date",
+        type=parse_date_or_datetime,
+        default=datetime(2018, 1, 1),
+        help="Lower bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
+    )
     parser.add_argument("--max_retries", type=int, default=100, help="Maximum number of retries for API requests")
     parser.add_argument("--retry_delay", type=int, default=5, help="Delay between retries in seconds")
     parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
@@ -47,10 +68,13 @@ def main():
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)
     set_api_parameters(args.url, args.token)
+    if args.start_date is not None and args.start_date < args.finish_date:
+        raise ValueError("--start_date must be greater than or equal to --finish_date.")
 
     download_all_tournaments(
         args.game_id,
         args.country_code,
+        args.start_date,
         args.finish_date,
         args.startgg_dir,
         args.done_file_path,
@@ -71,7 +95,7 @@ def tournament_events_complete(tournament_entry):
             return False
     return True
 
-def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -126,6 +150,11 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is not finished yet.")
                     continue
 
+                tournament_dt = datetime.fromtimestamp(timestamp)
+                if start_date is not None and tournament_dt > start_date:
+                    print(f"({tournament_name} {tournament_dt}) is newer than start_date. Skipping.")
+                    continue
+
                 if tournament_id in done_tournaments:
                     tournament_entry = tournaments.get(tournament_id)
                     if tournament_entry and tournament_events_complete(tournament_entry):
@@ -133,9 +162,9 @@ def download_all_tournaments(game_id, country_code, finish_date, startgg_dir, do
                         continue
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
-                print(f"Download {tournament_name}, date: {datetime.fromtimestamp(timestamp)}")
+                print(f"Download {tournament_name}, date: {tournament_dt}")
 
-                if datetime.fromtimestamp(timestamp) < finish_date:
+                if tournament_dt < finish_date:
                     print("!!!downloaded all!!!")
                     return
 

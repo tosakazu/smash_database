@@ -174,6 +174,17 @@ def main():
         action="store_true",
         help="Ignore checkpoint data and refresh all users",
     )
+    parser.add_argument(
+        "--max_users",
+        type=int,
+        default=0,
+        help="Maximum users to refresh in a single run (0 means all users).",
+    )
+    parser.add_argument(
+        "--cursor_path",
+        default=None,
+        help="Path to store and read the refresh cursor index.",
+    )
     args = parser.parse_args()
 
     output_path = args.output_file_path or args.users_file_path
@@ -192,6 +203,34 @@ def main():
 
     user_order = list(users.keys())
     total_users = len(user_order)
+
+    start_index = 0
+    if args.cursor_path and os.path.exists(args.cursor_path):
+        try:
+            with open(args.cursor_path, "r", encoding="utf-8") as cursor_file:
+                start_index = int(cursor_file.read().strip() or "0")
+        except ValueError:
+            print(
+                f"Warning: invalid cursor value in {args.cursor_path}. Starting from 0.",
+                file=sys.stderr,
+            )
+            start_index = 0
+    if total_users:
+        start_index %= total_users
+
+    target_count = total_users
+    if args.max_users and args.max_users > 0:
+        target_count = min(args.max_users, total_users)
+
+    target_user_ids = []
+    if total_users:
+        for offset in range(target_count):
+            idx = (start_index + offset) % total_users
+            target_user_ids.append(user_order[idx])
+
+    next_index = 0
+    if total_users:
+        next_index = (start_index + target_count) % total_users
 
     output_dir = os.path.dirname(output_path)
     if output_dir:
@@ -226,11 +265,16 @@ def main():
 
     skip_existing = args.checkpoint_path is not None and not args.force_refresh
     processed_ids = set(checkpoint_records.keys()) if skip_existing else set()
-    initial_processed = len(processed_ids)
+    initial_processed = sum(1 for user_id in target_user_ids if user_id in processed_ids)
     if initial_processed and skip_existing:
-        pct = (initial_processed / total_users) * 100 if total_users else 0
+        pct = (initial_processed / target_count) * 100 if target_count else 0
         print(
-            f"Resuming from checkpoint: {initial_processed}/{total_users} users already processed ({pct:.1f}%)."
+            f"Resuming from checkpoint: {initial_processed}/{target_count} target users already processed ({pct:.1f}%)."
+        )
+
+    if total_users:
+        print(
+            f"Refresh target: {target_count}/{total_users} users (cursor start={start_index}, next={next_index})."
         )
 
     failures = set()
@@ -239,7 +283,7 @@ def main():
     newly_processed = 0
     consecutive_rate_limits = 0
 
-    for index, user_id in enumerate(user_order, start=1):
+    for index, user_id in enumerate(target_user_ids, start=1):
         if skip_existing and user_id in processed_ids:
             skipped_count += 1
             continue
@@ -299,15 +343,15 @@ def main():
         if args.checkpoint_path and refreshed_record is not record:
             extend_jsonl([refreshed_record.copy()], args.checkpoint_path, with_version=True)
 
-        done = len(processed_ids)
+        done = index
 
         if (
             args.progress_interval
             and args.progress_interval > 0
             and done % args.progress_interval == 0
         ):
-            pct = (done / total_users) * 100 if total_users else 0
-            print(f"[Progress] {done}/{total_users} users processed ({pct:.1f}%).")
+            pct = (done / target_count) * 100 if target_count else 0
+            print(f"[Progress] {done}/{target_count} users processed ({pct:.1f}%).")
 
         if (
             args.pause_every
@@ -323,13 +367,17 @@ def main():
     final_records = [users[user_id] for user_id in user_order]
     write_jsonl(final_records, output_path, with_version=True)
 
-    done_total = len(processed_ids)
-    success_total = done_total
     failure_total = len(failures)
-    new_updates = max(done_total - initial_processed, 0)
+
+    if args.cursor_path:
+        cursor_dir = os.path.dirname(args.cursor_path)
+        if cursor_dir:
+            os.makedirs(cursor_dir, exist_ok=True)
+        with open(args.cursor_path, "w", encoding="utf-8") as cursor_file:
+            cursor_file.write(str(next_index))
 
     print(
-        f"Refreshed {new_updates} new users (total processed {success_total}/{total_users}). Output written to {output_path}."
+        f"Refreshed {newly_processed} users in this run (target {target_count}/{total_users}). Output written to {output_path}."
     )
     if skipped_count:
         print(
@@ -339,10 +387,12 @@ def main():
         print(
             f"Checkpoint stored at {args.checkpoint_path}."
         )
-    if total_users:
+    if target_count:
         print(
-            f"Summary: success={success_total}, failed={failure_total}, total={total_users}."
+            f"Summary: refreshed={newly_processed}, failed={failure_total}, skipped={skipped_count}, target={target_count}."
         )
+    if args.cursor_path:
+        print(f"Next cursor index written to {args.cursor_path}: {next_index}")
     if missing_users:
         print(
             f"{len(missing_users)} users returned no data from start.gg and were left unchanged.",

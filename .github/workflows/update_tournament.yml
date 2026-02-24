@@ -1,29 +1,22 @@
-name: "StartGG: Backfill"
+name: "StartGG: Update Tournament"
 
 on:
+  schedule:
+    - cron: "0 11 * * *"
   workflow_dispatch:
-    inputs:
-      start_date:
-        description: "Fetch tournaments up to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
-        required: true
-        default: "2026-02-20"
-      end_date:
-        description: "Fetch tournaments down to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
-        required: true
-        default: "2018-01-01"
-      country_code:
-        description: "Country code filter (e.g. JP)."
-        required: false
-        default: "JP"
+
+concurrency:
+  group: update-tournament-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  backfill:
+  update-tournament:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,36 +31,26 @@ jobs:
           set -euxo pipefail
           python -m pip install --upgrade pip requests
 
-      - name: Resolve run parameters
-        id: params
-        run: |
-          set -euxo pipefail
-          START_DATE="${{ inputs.start_date }}"
-          if [ -z "$START_DATE" ]; then
-            START_DATE="$(date -u '+%F')"
-          fi
-          END_DATE="${{ inputs.end_date }}"
-          if [ -z "$END_DATE" ]; then
-            END_DATE="2018-01-01"
-          fi
-          COUNTRY_CODE="${{ inputs.country_code }}"
-          if [ -z "$COUNTRY_CODE" ]; then
-            COUNTRY_CODE="JP"
-          fi
-          echo "start_date=$START_DATE" >> "$GITHUB_OUTPUT"
-          echo "end_date=$END_DATE" >> "$GITHUB_OUTPUT"
-          echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
-
-      - name: Download tournaments (backfill)
+      - name: Download tournaments (JP only)
+        id: download_tournaments
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
+          TODAY_UTC="$(date -u +%F)"
+          YESTERDAY_UTC="$(date -u -d '1 day ago' +%F)"
+          echo "today_utc=$TODAY_UTC" >> "$GITHUB_OUTPUT"
+          echo "yesterday_utc=$YESTERDAY_UTC" >> "$GITHUB_OUTPUT"
+
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
-            --country_code "${{ steps.params.outputs.country_code }}" \
-            --start_date "${{ steps.params.outputs.start_date }}" \
-            --finish_date "${{ steps.params.outputs.end_date }}"
+            --country_code "JP" \
+            --finish_date "$TODAY_UTC"
+
+          python scripts/fetch/download.py \
+            --token "$STARTGG_TOKEN" \
+            --country_code "JP" \
+            --finish_date "$YESTERDAY_UTC"
 
       - name: Run tests
         run: |
@@ -94,23 +77,24 @@ jobs:
         run: |
           set -euxo pipefail
           EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          WINDOW_START_UTC="${{ steps.params.outputs.start_date }}"
-          WINDOW_END_UTC="${{ steps.params.outputs.end_date }}"
+          WINDOW_START_UTC="${{ steps.download_tournaments.outputs.yesterday_utc }} 00:00:00 UTC"
+          WINDOW_END_UTC="${{ steps.download_tournaments.outputs.today_utc }} 23:59:59 UTC"
           {
             echo "executed_at_utc=$EXECUTED_AT_UTC"
             echo "window_start_utc=$WINDOW_START_UTC"
             echo "window_end_utc=$WINDOW_END_UTC"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Create pull request with backfill updates
-        if: steps.detect_changes.outputs.has_changes == 'true'
+      - name: Create pull request with tournament update results
+        if: always()
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "chore(data): backfill start.gg data"
-          title: "chore: backfill start.gg data (${{ steps.params.outputs.start_date }} - ${{ steps.params.outputs.end_date }}, ${{ steps.params.outputs.country_code }})"
+          commit-message: "chore(data): update tournament data"
+          title: "chore: update tournament data"
           body: |
             ## 実行内容
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "${{ steps.params.outputs.country_code }}" --start_date "${{ steps.params.outputs.start_date }}" --finish_date "${{ steps.params.outputs.end_date }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.today_utc }}"`
+            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.yesterday_utc }}"`
             - `python -m unittest scripts.test.test_validate_data`
 
             ## 実行情報
@@ -119,9 +103,8 @@ jobs:
             - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
 
             ## 取得対象期間
-            - 対象国コード: `${{ steps.params.outputs.country_code }}`
-            - 開始日時: `${{ steps.pr_meta.outputs.window_start_utc }}`
-            - 終了日時: `${{ steps.pr_meta.outputs.window_end_utc }}`
+            - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
+            - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
 
             ## 更新件数
             - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
@@ -130,7 +113,7 @@ jobs:
             - [ ] ワークフローログを確認した
             - [ ] データ差分を確認した (`data/startgg/**`)
             - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
-          branch: "actions/backfill-${{ github.run_id }}"
+          branch: "actions/update-tournament"
           delete-branch: true
 
       - name: Debug on failure
