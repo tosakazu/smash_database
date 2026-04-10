@@ -23,9 +23,9 @@ from scripts.utils import (
 
 REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
 TOURNAMENTS_PER_PAGE = 100
-STANDINGS_PER_PAGE = 200
-SEEDS_PER_PAGE = 200
-SETS_PER_PAGE = 50
+STANDINGS_PER_PAGE = 100
+SEEDS_PER_PAGE = 100
+SETS_PER_PAGE = 20
 
 def parse_date_or_datetime(value):
     for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
@@ -179,43 +179,66 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     }
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
 
+                any_event_failed = False
                 for event_id, event_name, is_online in events_info:
-                    
-                    year, month, day = get_date_parts(timestamp)
-                    event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
-
-                    user_data, player_data, entrant2user = download_standings(event_id, event_dir)
-                    num_entrants = len(user_data)
                     try:
-                        download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
-                    except NoPhaseError as e:
-                        print(f"No phase found for event {event_name}. Skipping.")
-                        continue
-                    extend_user_info(user_data, player_data, users, users_file_path)
-                    download_all_set(event_id, entrant2user, event_dir)
-                    labels = {}
-                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+                        year, month, day = get_date_parts(timestamp)
+                        event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
-                    existing_events = tournaments[tournament_id]["events"]
-                    if not any(e.get("event_id") == event_id for e in existing_events):
-                        existing_events.append({
-                            "event_id": event_id,
-                            "event_name": event_name,
-                            "path": event_dir
-                        })
-                        if tournament_id in existing_tournament_ids:
-                            rewrite_tournaments = True
+                        user_data, player_data, entrant2user = download_standings(event_id, event_dir)
+                        num_entrants = len(user_data)
+                        try:
+                            download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
+                        except NoPhaseError as e:
+                            print(f"No phase found for event {event_name}. Skipping.")
+                            continue
+                        extend_user_info(user_data, player_data, users, users_file_path)
+                        download_all_set(event_id, entrant2user, event_dir)
+                        labels = {}
+                        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+
+                        existing_events = tournaments[tournament_id]["events"]
+                        if not any(e.get("event_id") == event_id for e in existing_events):
+                            existing_events.append({
+                                "event_id": event_id,
+                                "event_name": event_name,
+                                "path": event_dir
+                            })
+                            if tournament_id in existing_tournament_ids:
+                                rewrite_tournaments = True
+                    except FetchError as e:
+                        any_event_failed = True
+                        print(f"FetchError on event {event_id} ({event_name}) in tournament {tournament_name}: {e}")
+                        try:
+                            with open("failed_events.log", "a", encoding="utf-8") as fl:
+                                fl.write(f"{tournament_id}\t{event_id}\t{event_name}\n")
+                        except Exception:
+                            pass
+                        continue
+
                 # ファイルを保存
                 if len(tournaments[tournament_id]["events"]) > 0:
-                    if rewrite_tournaments:
-                        pass
-                    else:
+                    # Append to tournaments.jsonl ONLY if this is a brand-new
+                    # tournament not already in the file. Otherwise we rely on
+                    # the final rewrite (rewrite_tournaments) to persist updates.
+                    if tournament_id not in existing_tournament_ids:
                         extend_tournament_info(tournaments[tournament_id], tournament_file_path)
-                    done_tournaments.add(tournament_id)
-                    write_done_tournaments(tournament_id, done_file_path)
+                        # Remember that we've persisted this new tid so that a
+                        # second encounter within the same run doesn't re-append.
+                        existing_tournament_ids.add(tournament_id)
+                    # else: already in file; if we changed it, rewrite_tournaments
+                    # is True and the full rewrite at end of run handles it.
+
+                    # Only mark done if no event failed (so retry will pick it up).
+                    # Use the in-memory done_tournaments set to avoid double-writing
+                    # the same tid to done.csv when a tournament is re-processed.
+                    if not any_event_failed:
+                        if tournament_id not in done_tournaments:
+                            write_done_tournaments(tournament_id, done_file_path)
+                            done_tournaments.add(tournament_id)
 
             except FetchError as e:
-                print(e)
+                print(f"FetchError on tournament {tournament.get('name','?')}: {e}")
                 continue
 
         if page >= total_pages:

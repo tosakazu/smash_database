@@ -233,25 +233,69 @@ def fetch_data_with_retries(query, variables):
     status_message = f"Max retries exceeded for query. Last status code: {status_code}. Last error: {last_error_message}"
     raise FetchError(status_message)
 
+def _is_complexity_error(response_data):
+    """Detect startgg 'query complexity is too high' error."""
+    if not isinstance(response_data, dict):
+        return False
+    errors = response_data.get("errors")
+    if not errors:
+        return False
+    for err in errors:
+        msg = err.get("message", "") if isinstance(err, dict) else ""
+        if "complexity is too high" in msg.lower() or "complexity" in msg.lower():
+            return True
+    return False
+
 def fetch_all_nodes(query, variables, keys, per_page=10):
     all_nodes = []
     variables = variables.copy()
+    current_per_page = per_page
+    # Track item offset so we can recompute page when per_page changes
+    items_fetched = 0
     variables["page"] = 1
-    variables["perPage"] = per_page
+    variables["perPage"] = current_per_page
     keys = ["data"] + keys
+    min_per_page = 2
+    max_complexity_retries_per_call = 6
+    complexity_retries = 0
     while True:
         response_data = fetch_data_with_retries(query, variables)
+        # Adaptive per_page: if startgg complains about complexity, halve and retry.
+        # Recompute page so we continue from where we left off (avoid dup/miss).
+        if _is_complexity_error(response_data):
+            if current_per_page <= min_per_page or complexity_retries >= max_complexity_retries_per_call:
+                raise FetchError(
+                    f"Query complexity exceeded at per_page={current_per_page}, retries={complexity_retries}. "
+                    f"Response: {response_data}. Variables: {variables}"
+                )
+            new_per_page = max(min_per_page, current_per_page // 2)
+            # Use 1-based pages with offset-based arithmetic
+            new_page = items_fetched // new_per_page + 1
+            print(
+                f"[fetch_all_nodes] complexity too high at per_page={current_per_page} page={variables['page']}, "
+                f"reducing to per_page={new_per_page} page={new_page} (items_fetched={items_fetched})",
+                flush=True,
+            )
+            current_per_page = new_per_page
+            variables["perPage"] = current_per_page
+            variables["page"] = new_page
+            complexity_retries += 1
+            time.sleep(__page_delay)
+            continue
         data = response_data
         for key in keys:
-            if key not in data:
+            if not isinstance(data, dict) or key not in data:
                 raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
             data = data[key]
         if data is None or "nodes" not in data:
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
         all_nodes.extend(nodes)
+        items_fetched += len(nodes)
         if len(nodes) > 0:
             variables["page"] += 1
+            # Reset complexity retry counter after a successful page
+            complexity_retries = 0
             time.sleep(__page_delay)
         else:
             break
