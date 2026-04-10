@@ -4,7 +4,7 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 
 - 集計開始日: `2018-12-29`
 - 集計終了日: `2026-04-10`
-- 最終更新 (UTC): `2026-04-10 13:30:31 UTC`
+- 最終更新 (UTC): `2026-04-10 14:45:16 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
@@ -2599,35 +2599,35 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2026-01-29 | no | no |  |  |
 | 2026-01-30 | no | no |  |  |
 | 2026-01-31 | no | no |  |  |
-| 2026-02-01 | no | no |  |  |
-| 2026-02-02 | no | no |  |  |
-| 2026-02-03 | no | no |  |  |
-| 2026-02-04 | no | no |  |  |
-| 2026-02-05 | no | no |  |  |
-| 2026-02-06 | no | no |  |  |
-| 2026-02-07 | no | no |  |  |
-| 2026-02-08 | no | no |  |  |
-| 2026-02-09 | no | no |  |  |
-| 2026-02-10 | no | no |  |  |
-| 2026-02-11 | no | no |  |  |
-| 2026-02-12 | no | no |  |  |
-| 2026-02-13 | no | no |  |  |
-| 2026-02-14 | no | no |  |  |
-| 2026-02-15 | no | no |  |  |
-| 2026-02-16 | no | no |  |  |
-| 2026-02-17 | no | no |  |  |
-| 2026-02-18 | no | no |  |  |
-| 2026-02-19 | no | no |  |  |
-| 2026-02-20 | no | no |  |  |
-| 2026-02-21 | no | no |  |  |
-| 2026-02-22 | no | no |  |  |
-| 2026-02-23 | no | no |  |  |
-| 2026-02-24 | no | no |  |  |
-| 2026-02-25 | no | no |  |  |
-| 2026-02-26 | no | no |  |  |
-| 2026-02-27 | no | no |  |  |
-| 2026-02-28 | no | no |  |  |
-| 2026-03-01 | no | no |  |  |
+| 2026-02-01 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-02 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-03 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-04 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-05 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-06 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-07 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-08 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-09 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-10 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-11 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-12 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-13 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-14 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-15 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-16 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-17 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-18 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-19 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-20 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-21 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-22 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-23 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-24 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-25 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-26 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-27 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-02-28 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
+| 2026-03-01 | no | yes | 2026-04-10 23:45:16 JST | data_backfill |
 | 2026-03-02 | no | no |  |  |
 | 2026-03-03 | no | no |  |  |
 | 2026-03-04 | no | no |  |  |
