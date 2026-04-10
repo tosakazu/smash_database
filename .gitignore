@@ -1,3 +1,12 @@
 download.out
 */__pycache__/
 *.py[cod]
+
+# backups from dedup/repair operations
+*.bak
+*.dupbak
+
+# temporary reports
+affected_tournament_ids.txt
+data_integrity_report.jsonl
+failed_events.log
