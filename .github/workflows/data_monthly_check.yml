@@ -2,12 +2,15 @@ name: "StartGG: Monthly Check"
 
 on:
   schedule:
-    - cron: "0 4 1 * *"
+    - cron: "10 18 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
-  pull-requests: write
+
+concurrency:
+  group: chore-update-branch
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -16,6 +19,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare chore-update branch
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin chore-update || true
+          if git show-ref --verify --quiet refs/remotes/origin/chore-update; then
+            git checkout -B chore-update origin/chore-update
+          else
+            git checkout -B chore-update
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,6 +50,12 @@ jobs:
             --apply \
             --token "$STARTGG_TOKEN"
 
+      - name: Refresh chore tournament log
+        if: always()
+        run: |
+          set -euxo pipefail
+          python scripts/fix/update_chore_tournament_log.py
+
       - name: Detect changes
         id: detect_changes
         if: always()
@@ -47,42 +70,34 @@ jobs:
             git status --short
           fi
 
-      - name: Prepare PR body metadata
-        id: pr_meta
+      - name: Commit changes
         if: always() && steps.detect_changes.outputs.has_changes == 'true'
         run: |
           set -euxo pipefail
-          EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          CHECK_SCOPE="Repository consistency check (no external fetch)"
-          {
-            echo "executed_at_utc=$EXECUTED_AT_UTC"
-            echo "check_scope=$CHECK_SCOPE"
-          } >> "$GITHUB_OUTPUT"
+          git add -A
+          git commit -m "chore(data): sync missing event paths"
 
-      - name: Create pull request for fixes
+      - name: Push chore-update branch
         if: always() && steps.detect_changes.outputs.has_changes == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "chore(data): sync missing event paths"
-          title: "chore: monthly data consistency fixes"
-          body: |
-            ## 実行内容
-            - `scripts/fix/check_events_in_tournaments.py --apply --token "$STARTGG_TOKEN"`
+        run: |
+          set -euxo pipefail
+          for attempt in 1 2 3; do
+            if git push --set-upstream origin chore-update; then
+              exit 0
+            fi
+            git pull --rebase origin chore-update
+          done
+          exit 1
 
-            ## 実行情報
-            - 実行トリガー: `${{ github.event_name }}`
-            - 実行日時 (UTC): `${{ steps.pr_meta.outputs.executed_at_utc }}`
-            - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+      - name: Fail when checks did not pass
+        if: always()
+        run: |
+          set -euxo pipefail
+          failed=0
 
-            ## 対象範囲
-            - スコープ: `${{ steps.pr_meta.outputs.check_scope }}`
+          if [ "${{ steps.sync_tournaments.outcome }}" != "success" ]; then
+            echo "sync_tournaments failed"
+            failed=1
+          fi
 
-            ## 更新件数
-            - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
-
-            ## チェックリスト
-            - [ ] ワークフローログを確認した
-            - [ ] 修正差分を確認した (`data/startgg/**`, `data/startgg/tournaments.jsonl`)
-            - [ ] tournaments同期結果を確認した
-          branch: "actions/monthly-data-check-${{ github.run_id }}"
-          delete-branch: true
+          exit "$failed"
