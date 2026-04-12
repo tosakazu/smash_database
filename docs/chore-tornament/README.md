@@ -4,7 +4,7 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 
 - 集計開始日: `2018-12-29`
 - 集計終了日: `2026-04-12`
-- 最終更新 (UTC): `2026-04-12 11:26:41 UTC`
+- 最終更新 (UTC): `2026-04-12 14:35:50 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
@@ -2568,105 +2568,105 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2025-12-29 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-12-30 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-12-31 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2026-01-01 | no | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2026-01-02 | no | no |  |  |
-| 2026-01-03 | no | no |  |  |
-| 2026-01-04 | no | no |  |  |
-| 2026-01-05 | no | no |  |  |
-| 2026-01-06 | no | no |  |  |
-| 2026-01-07 | no | no |  |  |
-| 2026-01-08 | no | no |  |  |
-| 2026-01-09 | no | no |  |  |
-| 2026-01-10 | no | no |  |  |
-| 2026-01-11 | no | no |  |  |
-| 2026-01-12 | no | no |  |  |
-| 2026-01-13 | no | no |  |  |
-| 2026-01-14 | no | no |  |  |
-| 2026-01-15 | no | no |  |  |
-| 2026-01-16 | no | no |  |  |
-| 2026-01-17 | no | no |  |  |
-| 2026-01-18 | no | no |  |  |
-| 2026-01-19 | no | no |  |  |
-| 2026-01-20 | no | no |  |  |
-| 2026-01-21 | no | no |  |  |
-| 2026-01-22 | no | no |  |  |
-| 2026-01-23 | no | no |  |  |
-| 2026-01-24 | no | no |  |  |
-| 2026-01-25 | no | no |  |  |
-| 2026-01-26 | no | no |  |  |
-| 2026-01-27 | no | no |  |  |
-| 2026-01-28 | no | no |  |  |
-| 2026-01-29 | no | no |  |  |
-| 2026-01-30 | no | no |  |  |
-| 2026-01-31 | no | no |  |  |
-| 2026-02-01 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-02 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-03 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-04 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-05 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-06 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-07 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-08 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-09 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-10 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-11 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-12 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-13 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-14 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-15 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-16 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-17 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-18 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-19 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-20 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-21 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-22 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-23 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-24 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-25 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-26 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-27 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-02-28 | yes | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-03-01 | no | yes | 2026-04-10 23:45:16 JST | data_backfill |
-| 2026-03-02 | no | no |  |  |
-| 2026-03-03 | no | no |  |  |
-| 2026-03-04 | no | no |  |  |
-| 2026-03-05 | yes | no |  |  |
-| 2026-03-06 | no | no |  |  |
-| 2026-03-07 | no | no |  |  |
-| 2026-03-08 | no | no |  |  |
-| 2026-03-09 | no | no |  |  |
-| 2026-03-10 | no | no |  |  |
-| 2026-03-11 | no | no |  |  |
-| 2026-03-12 | no | no |  |  |
-| 2026-03-13 | no | no |  |  |
-| 2026-03-14 | no | no |  |  |
-| 2026-03-15 | no | no |  |  |
-| 2026-03-16 | no | no |  |  |
-| 2026-03-17 | no | no |  |  |
-| 2026-03-18 | no | no |  |  |
-| 2026-03-19 | no | no |  |  |
-| 2026-03-20 | no | no |  |  |
-| 2026-03-21 | no | no |  |  |
-| 2026-03-22 | no | no |  |  |
-| 2026-03-23 | no | no |  |  |
-| 2026-03-24 | no | no |  |  |
-| 2026-03-25 | no | no |  |  |
-| 2026-03-26 | no | no |  |  |
-| 2026-03-27 | no | no |  |  |
-| 2026-03-28 | no | no |  |  |
-| 2026-03-29 | no | no |  |  |
-| 2026-03-30 | no | no |  |  |
-| 2026-03-31 | no | no |  |  |
-| 2026-04-01 | no | no |  |  |
-| 2026-04-02 | no | no |  |  |
-| 2026-04-03 | no | no |  |  |
-| 2026-04-04 | no | no |  |  |
-| 2026-04-05 | no | no |  |  |
-| 2026-04-06 | no | no |  |  |
-| 2026-04-07 | yes | no |  |  |
-| 2026-04-08 | yes | no |  |  |
-| 2026-04-09 | yes | no |  |  |
-| 2026-04-10 | yes | no |  |  |
-| 2026-04-11 | yes | no |  |  |
+| 2026-01-01 | no | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-02 | no | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-03 | no | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-04 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-05 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-06 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-07 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-08 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-09 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-10 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-11 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-12 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-13 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-14 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-15 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-16 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-17 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-18 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-19 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-20 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-21 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-22 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-23 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-24 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-25 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-26 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-27 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-28 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-29 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-30 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-01-31 | no | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-01 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-02 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-03 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-04 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-05 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-06 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-07 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-08 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-09 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-10 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-11 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-12 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-13 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-14 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-15 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-16 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-17 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-18 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-19 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-20 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-21 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-22 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-23 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-24 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-25 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-26 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-27 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-02-28 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-01 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-02 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-03 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-04 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-05 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-06 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-07 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-08 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-09 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-10 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-11 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-12 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-13 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-14 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-15 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-16 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-17 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-18 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-19 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-20 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-21 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-22 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-23 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-24 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-25 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-26 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-27 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-28 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-29 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-30 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-03-31 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-01 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-02 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-03 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-04 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-05 | no | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-06 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-07 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-08 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-09 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-10 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
+| 2026-04-11 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
 | 2026-04-12 | no | no |  |  |
