@@ -3,45 +3,45 @@
 GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD` の存在状況を記録します。
 
 - 集計開始日: `2018-12-29`
-- 集計終了日: `2026-04-10`
-- 最終更新 (UTC): `2026-04-10 14:45:16 UTC`
+- 集計終了日: `2026-04-12`
+- 最終更新 (UTC): `2026-04-12 08:55:04 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
-| 2018-12-29 | yes | no |  |  |
-| 2018-12-30 | no | no |  |  |
-| 2018-12-31 | no | no |  |  |
-| 2019-01-01 | no | no |  |  |
-| 2019-01-02 | no | no |  |  |
-| 2019-01-03 | no | no |  |  |
-| 2019-01-04 | no | no |  |  |
-| 2019-01-05 | yes | no |  |  |
-| 2019-01-06 | no | no |  |  |
-| 2019-01-07 | no | no |  |  |
-| 2019-01-08 | no | no |  |  |
-| 2019-01-09 | no | no |  |  |
-| 2019-01-10 | no | no |  |  |
-| 2019-01-11 | yes | no |  |  |
-| 2019-01-12 | yes | no |  |  |
-| 2019-01-13 | no | no |  |  |
-| 2019-01-14 | no | no |  |  |
-| 2019-01-15 | yes | no |  |  |
-| 2019-01-16 | yes | no |  |  |
-| 2019-01-17 | no | no |  |  |
-| 2019-01-18 | yes | no |  |  |
-| 2019-01-19 | no | no |  |  |
-| 2019-01-20 | no | no |  |  |
-| 2019-01-21 | no | no |  |  |
-| 2019-01-22 | yes | no |  |  |
-| 2019-01-23 | no | no |  |  |
-| 2019-01-24 | no | no |  |  |
-| 2019-01-25 | yes | no |  |  |
-| 2019-01-26 | no | no |  |  |
-| 2019-01-27 | no | no |  |  |
-| 2019-01-28 | no | no |  |  |
-| 2019-01-29 | yes | no |  |  |
-| 2019-01-30 | yes | no |  |  |
-| 2019-01-31 | no | no |  |  |
+| 2018-12-29 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2018-12-30 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2018-12-31 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-01 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-02 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-03 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-04 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-05 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-06 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-07 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-08 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-09 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-10 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-11 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-12 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-13 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-14 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-15 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-16 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-17 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-18 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-19 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-20 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-21 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-22 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-23 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-24 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-25 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-26 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-27 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-28 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-29 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-30 | yes | yes | 2026-04-12 17:55:04 JST | data_backfill |
+| 2019-01-31 | no | yes | 2026-04-12 17:55:04 JST | data_backfill |
 | 2019-02-01 | yes | no |  |  |
 | 2019-02-02 | no | no |  |  |
 | 2019-02-03 | no | no |  |  |
@@ -2666,5 +2666,7 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2026-04-06 | no | no |  |  |
 | 2026-04-07 | yes | no |  |  |
 | 2026-04-08 | yes | no |  |  |
-| 2026-04-09 | no | no |  |  |
-| 2026-04-10 | no | no |  |  |
+| 2026-04-09 | yes | no |  |  |
+| 2026-04-10 | yes | no |  |  |
+| 2026-04-11 | yes | no |  |  |
+| 2026-04-12 | no | no |  |  |
