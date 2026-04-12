@@ -1,110 +1,94 @@
-# GitHub Actions（想定）
+# GitHub Actions
 
-## 目的
-- 定期的に start.gg から最新データを取得し、`data/` を更新する。
+## 概要
+- GitHub Actions による更新結果は、PR を作らず `chore-update` ブランチへ直接 commit / push する。
+- 大会データの取得状況は `docs/chore-tornament/README.md` に日付単位で記録する。
+- 記録対象の日付範囲は `2018-12-29` から当日まで。
 
-## トリガー
-- `schedule`（毎日 03:00 UTC）
-- `workflow_dispatch`（手動バックフィル）
-- `schedule`（毎月1日 04:00 UTC: データ全体チェック）
+## ワークフロー
 
-## 使うシークレット/環境変数
-- `STARTGG_TOKEN`（必須）
-- `OPENAI_API_KEY`（任意）
-- `STARTGG_GAME_ID`（任意 / 既定: 1386）
-- `STARTGG_COUNTRY_CODE`（任意）
+### `update_tournament.yml`
+- 定義ファイル: `.github/workflows/update_tournament.yml`
+- 実行タイミング:
+  - `schedule`: 毎日 `18:00 UTC` = 毎日 `03:00 JST`
+  - `workflow_dispatch`
+- 実行内容:
+  - `scripts/fetch/download.py` を日本 (`JP`) 向けに当日・前日分で実行
+  - `python -m unittest scripts.test.test_validate_data` を実行
+  - `scripts/fix/update_chore_tournament_log.py` で `docs/chore-tornament/` を更新
+  - 差分があれば `chore-update` ブランチへ直接 push
 
-## 想定ステップ
-1. Checkout
-2. Python セットアップ
-3. 依存インストール（必要なら）
-4. データ取得
-5. `data/` をコミット
+### `update_user.yml`
+- 定義ファイル: `.github/workflows/update_user.yml`
+- 実行タイミング:
+  - `schedule`: 毎日 `18:05 UTC` = 毎日 `03:05 JST`
+  - `workflow_dispatch`
+- 実行内容:
+  - `scripts/fetch/refresh_users.py --max_users 300` を実行
+  - 差分があれば `chore-update` ブランチへ直接 push
 
-## 実行コマンド（現在のワークフロー）
-- 定期取得（日本限定 / 直近2日）
-  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "$(date -u -d '2 days ago' +%F)"`
-- 手動バックフィル（期間指定）
-  - `python scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "<CODE>" --finish_date "YYYY-MM-DD"`
-- ユーザー情報更新
-  - `python scripts/fetch/refresh_users.py --token "$STARTGG_TOKEN"`
-- データ検証
-  - `python scripts/fix/validate_data.py`
-- テスト
-  - `python -m unittest scripts.test.test_validate_data`
+### `data_backfill.yml`
+- 定義ファイル: `.github/workflows/data_backfill.yml`
+- 実行タイミング:
+  - `workflow_dispatch`
+- 入力:
+  - `start_date`
+  - `end_date`
+  - `country_code`
+- 実行内容:
+  - 指定期間で `scripts/fetch/download.py` を実行
+  - `python -m unittest scripts.test.test_validate_data` を実行
+  - 指定期間を `scripts/fix/update_chore_tournament_log.py` に記録
+  - 差分があれば `chore-update` ブランチへ直接 push
 
-## 生成物の扱い
-- 取得結果は `data/` 配下に保存し、ワークフロー内でコミットして反映する。
+### `data_monthly_check.yml`
+- 定義ファイル: `.github/workflows/data_monthly_check.yml`
+- 実行タイミング:
+  - `schedule`: 毎日 `18:10 UTC` = 毎日 `03:10 JST`
+  - `workflow_dispatch`
+- 実行内容:
+  - `scripts/fix/check_events_in_tournaments.py --apply` を実行
+  - `scripts/fix/update_chore_tournament_log.py` を実行して記録表を再生成
+  - 差分があれば `chore-update` ブランチへ直接 push
+  - `check_events_in_tournaments.py` が失敗した場合は workflow 全体も失敗にする
 
-## ワークフロー定義
-- `.github/workflows/data_update.yml`
-- `.github/workflows/data_backfill.yml`
-- `.github/workflows/data_monthly_check.yml`
+## 手動実行と定期実行の挙動
 
-## 現状の挙動（2026-02-19 時点）
+- `update_tournament.yml`
+  - `schedule` の場合: 毎日 `03:00 JST` に起動し、その日の JST 日付と前日の JST 日付を対象に大会データ取得を行う。
+  - `workflow_dispatch` の場合: 実行した時点ですぐ起動し、同じく実行日の JST 日付と前日の JST 日付を対象に大会データ取得を行う。
 
-結論:
-- 3ワークフローとも「定義ファイルは正しく存在」している。
-- ただし、ローカル擬似実行では「完全に問題なし」とは言えない。
-- 特に API 通信系（start.gg 取得）は、実行環境のネットワーク制限で検証不能だった。
+- `update_user.yml`
+  - `schedule` の場合: 毎日 `03:05 JST` に起動し、`users_refresh_cursor.txt` を使ってユーザー更新を継続する。
+  - `workflow_dispatch` の場合: 実行した時点ですぐ起動し、同じ処理をその場で実行する。
 
-### 1) `data_update.yml`（毎日 + 手動）
+- `data_backfill.yml`
+  - `schedule` はない。
+  - `workflow_dispatch` の場合のみ起動し、指定した `start_date` から `end_date` の範囲を取得して、その範囲を `docs/chore-tornament` に記録する。
 
-対象ステップ:
-- `refresh_users.py`（start.gg API）
-- `download.py`（start.gg API）
-- `validate_data.py`
-- `unittest`
+- `data_monthly_check.yml`
+  - `schedule` の場合: 毎日 `03:10 JST` に起動し、`tournaments.jsonl` の補正と `docs/chore-tornament` の再生成を行う。
+  - `workflow_dispatch` の場合: 実行した時点ですぐ起動し、同じ補正処理と再生成をその場で実行する。
 
-ローカル結果:
-- `python -m unittest scripts.test.test_validate_data` は **成功**（3/3）。
-- `python scripts/fix/validate_data.py` は **失敗**（`Validation failed: 5969 issues found.`）。
-- `download.py` はトークン指定で実行したが、`api.start.gg` の名前解決に失敗（DNS）し、通信検証不可。
+- 共通挙動
+  - どの workflow も最初に `chore-update` ブランチへ checkout し、差分がある場合のみそのブランチへ commit / push する。
+  - PR は作成しない。
+  - `schedule` は GitHub Actions の仕様上、デフォルトブランチ上の workflow 定義を元に起動される。
 
-判定:
-- ワークフローの検証/テスト部分は動く。
-- API 取得部分は、このローカル環境では未確認（ネットワーク要因）。
-- 現在のデータ品質では `validate_data.py` で落ちるため、現状のままではジョブ失敗の可能性が高い。
+## `docs/chore-tornament`
 
-### 2) `data_backfill.yml`（手動）
+### 生成ファイル
+- `docs/chore-tornament/README.md`
+  - `2018-12-29` から当日までを 1 日 1 行の Markdown テーブルで出力する。
+  - `data/startgg/events/Japan/YYYY/MM/DD` のフォルダ有無を `Folder Exists` に記録する。
+  - GitHub Actions がその日付を取得対象として処理した場合、`Checked By GitHub Actions` / `Last Checked At (JST)` / `Workflow` を更新する。
+- `docs/chore-tornament/checked_dates.json`
+  - Markdown 生成用の記録データを保持する。
 
-対象ステップ:
-- `download.py`（start.gg API）
-- `validate_data.py`
-- `unittest`
+### 更新スクリプト
+- `scripts/fix/update_chore_tournament_log.py`
+  - `--mark-start` と `--mark-end` で、GitHub Actions が確認した日付範囲を記録する。
+  - 指定がない場合は、既存記録を維持したままテーブルだけ再生成する。
 
-ローカル結果:
-- `unittest` は **成功**。
-- `validate_data.py` は **失敗**（上記と同様）。
-- `download.py` は **DNSエラーで通信検証不可**。
-
-判定:
-- バックフィル定義自体は正しい。
-- ただし、API 到達性とデータ品質の2点がボトルネック。
-
-### 3) `data_monthly_check.yml`（毎月 + 手動）
-
-対象ステップ:
-- `validate_data.py`
-- `check_events_in_tournaments.py --apply`
-
-ローカル結果:
-- `python scripts/fix/check_events_in_tournaments.py --dry-run` は **未登録イベント6件を検出**して終了コード1。
-- `validate_data.py` は **失敗**（多数の欠落/閾値超過）。
-
-判定:
-- 月次チェックが「問題を検知する」という意味では期待どおり動作。
-- 現在のデータ状態では fail する。
-
-## 問題点
-
-1. API 通信検証が環境依存
-- ローカル擬似実行で `api.start.gg` への DNS 解決に失敗し、取得系の真の動作確認ができない。
-
-2. データ検証エラーが大量
-- `validate_data.py` が 5969 件の問題を報告（`matches.json` 欠落、ID 欠損率超過など）。
-- この状態では `data_update` / `data_backfill` / `data_monthly_check` のいずれも失敗しうる。
-
-3. `tournaments.jsonl` との不整合
-- `check_events_in_tournaments.py --dry-run` で未登録イベント6件を検出。
-- `--apply` で自動修正可能だが、API問い合わせが必要なケースがある。
+## 実際に使うシークレット
+- `STARTGG_TOKEN`

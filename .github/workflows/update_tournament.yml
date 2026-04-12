@@ -2,16 +2,15 @@ name: "StartGG: Update Tournament"
 
 on:
   schedule:
-    - cron: "0 11 * * *"
+    - cron: "0 18 * * *"
   workflow_dispatch:
 
 concurrency:
-  group: update-tournament-${{ github.ref }}
+  group: chore-update-branch
   cancel-in-progress: true
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   update-tournament:
@@ -20,6 +19,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare chore-update branch
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin chore-update || true
+          if git show-ref --verify --quiet refs/remotes/origin/chore-update; then
+            git checkout -B chore-update origin/chore-update
+          else
+            git checkout -B chore-update
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,25 +50,33 @@ jobs:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
-          TODAY_UTC="$(date -u +%F)"
-          YESTERDAY_UTC="$(date -u -d '1 day ago' +%F)"
-          echo "today_utc=$TODAY_UTC" >> "$GITHUB_OUTPUT"
-          echo "yesterday_utc=$YESTERDAY_UTC" >> "$GITHUB_OUTPUT"
+          TODAY_JST="$(TZ=Asia/Tokyo date +%F)"
+          YESTERDAY_JST="$(TZ=Asia/Tokyo date -d '1 day ago' +%F)"
+          echo "today_jst=$TODAY_JST" >> "$GITHUB_OUTPUT"
+          echo "yesterday_jst=$YESTERDAY_JST" >> "$GITHUB_OUTPUT"
 
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "JP" \
-            --finish_date "$TODAY_UTC"
+            --finish_date "$TODAY_JST"
 
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "JP" \
-            --finish_date "$YESTERDAY_UTC"
+            --finish_date "$YESTERDAY_JST"
 
       - name: Run tests
         run: |
           set -euxo pipefail
           python -m unittest scripts.test.test_validate_data
+
+      - name: Update chore tournament log
+        run: |
+          set -euxo pipefail
+          python scripts/fix/update_chore_tournament_log.py \
+            --mark-start "${{ steps.download_tournaments.outputs.yesterday_jst }}" \
+            --mark-end "${{ steps.download_tournaments.outputs.today_jst }}" \
+            --workflow "update_tournament"
 
       - name: Detect changes
         id: detect_changes
@@ -71,50 +92,24 @@ jobs:
             git status --short
           fi
 
-      - name: Prepare PR body metadata
-        id: pr_meta
+      - name: Commit changes
         if: steps.detect_changes.outputs.has_changes == 'true'
         run: |
           set -euxo pipefail
-          EXECUTED_AT_UTC="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          WINDOW_START_UTC="${{ steps.download_tournaments.outputs.yesterday_utc }} 00:00:00 UTC"
-          WINDOW_END_UTC="${{ steps.download_tournaments.outputs.today_utc }} 23:59:59 UTC"
-          {
-            echo "executed_at_utc=$EXECUTED_AT_UTC"
-            echo "window_start_utc=$WINDOW_START_UTC"
-            echo "window_end_utc=$WINDOW_END_UTC"
-          } >> "$GITHUB_OUTPUT"
+          git add -A
+          git commit -m "chore(data): update tournament data"
 
-      - name: Create pull request with tournament update results
-        if: always()
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "chore(data): update tournament data"
-          title: "chore: update tournament data"
-          body: |
-            ## 実行内容
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.today_utc }}"`
-            - `scripts/fetch/download.py --token "$STARTGG_TOKEN" --country_code "JP" --finish_date "${{ steps.download_tournaments.outputs.yesterday_utc }}"`
-            - `python -m unittest scripts.test.test_validate_data`
-
-            ## 実行情報
-            - 実行トリガー: `${{ github.event_name }}`
-            - 実行日時 (UTC): `${{ steps.pr_meta.outputs.executed_at_utc }}`
-            - 実行URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
-
-            ## 取得対象期間
-            - 開始 (UTC): `${{ steps.pr_meta.outputs.window_start_utc }}`
-            - 終了 (UTC): `${{ steps.pr_meta.outputs.window_end_utc }}`
-
-            ## 更新件数
-            - 変更ファイル数: `${{ steps.detect_changes.outputs.changed_files_count }}`
-
-            ## チェックリスト
-            - [ ] ワークフローログを確認した
-            - [ ] データ差分を確認した (`data/startgg/**`)
-            - [ ] テスト成功を確認した (`python -m unittest scripts.test.test_validate_data`)
-          branch: "actions/update-tournament"
-          delete-branch: true
+      - name: Push chore-update branch
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          for attempt in 1 2 3; do
+            if git push --set-upstream origin chore-update; then
+              exit 0
+            fi
+            git pull --rebase origin chore-update
+          done
+          exit 1
 
       - name: Debug on failure
         if: failure()
