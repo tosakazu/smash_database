@@ -4,7 +4,7 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 
 - 集計開始日: `2018-12-29`
 - 集計終了日: `2026-04-15`
-- 最終更新 (UTC): `2026-04-14 19:12:56 UTC`
+- 最終更新 (UTC): `2026-04-14 19:41:18 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
