@@ -10,6 +10,9 @@ def get_event_sets_query():
           perPage: $perPage
           sortType: STANDARD
         ) {
+          pageInfo {
+            totalPages
+          }
           nodes {
             id
             state
@@ -78,6 +81,9 @@ def get_standings_query():
     return """query EventStandings($eventId: ID!, $page: Int!, $perPage: Int!) {
       event(id: $eventId) {
         standings(query: {page: $page, perPage: $perPage}) {
+          pageInfo {
+            totalPages
+          }
           nodes {
             placement
             entrant {
