@@ -1,0 +1,155 @@
+name: "StartGG: Force Refresh Backfill"
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Fetch tournaments up to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
+        required: true
+        default: "2026-02-20"
+      end_date:
+        description: "Fetch tournaments down to this date/datetime (inclusive, YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."
+        required: true
+        default: "2018-01-01"
+      country_code:
+        description: "Country code filter (e.g. JP)."
+        required: false
+        default: "JP"
+      target_branch:
+        description: "Branch to run on and commit data into. Defaults to the branch selected in workflow_dispatch."
+        required: false
+        default: ""
+
+concurrency:
+  group: data-force-refresh-backfill-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare target branch
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          TARGET_BRANCH="${{ inputs.target_branch }}"
+          if [ -z "$TARGET_BRANCH" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+          git fetch origin "$TARGET_BRANCH" || true
+          if git show-ref --verify --quiet "refs/remotes/origin/$TARGET_BRANCH"; then
+            git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+          else
+            git checkout -B "$TARGET_BRANCH"
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euxo pipefail
+          python -m pip install --upgrade pip requests
+
+      - name: Resolve run parameters
+        id: params
+        run: |
+          set -euxo pipefail
+          START_DATE="${{ inputs.start_date }}"
+          if [ -z "$START_DATE" ]; then
+            START_DATE="$(date -u '+%F')"
+          fi
+          END_DATE="${{ inputs.end_date }}"
+          if [ -z "$END_DATE" ]; then
+            END_DATE="2018-01-01"
+          fi
+          COUNTRY_CODE="${{ inputs.country_code }}"
+          if [ -z "$COUNTRY_CODE" ]; then
+            COUNTRY_CODE="JP"
+          fi
+          echo "start_date=$START_DATE" >> "$GITHUB_OUTPUT"
+          echo "end_date=$END_DATE" >> "$GITHUB_OUTPUT"
+          echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Force refresh tournaments (backfill)
+        env:
+          STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
+        run: |
+          set -euxo pipefail
+          python scripts/fetch/download.py \
+            --token "$STARTGG_TOKEN" \
+            --country_code "${{ steps.params.outputs.country_code }}" \
+            --start_date "${{ steps.params.outputs.start_date }}" \
+            --finish_date "${{ steps.params.outputs.end_date }}" \
+            --force_refresh
+
+      - name: Run tests
+        run: |
+          set -euxo pipefail
+          python -m unittest scripts.test.test_utils
+          python -m unittest scripts.test.test_validate_data
+          python -m unittest scripts.test.test_download
+
+      - name: Update chore tournament log
+        run: |
+          set -euxo pipefail
+          python scripts/fix/update_chore_tournament_log.py \
+            --mark-start "${{ steps.params.outputs.end_date }}" \
+            --mark-end "${{ steps.params.outputs.start_date }}" \
+            --workflow "data_force_refresh_backfill"
+
+      - name: Detect changes
+        id: detect_changes
+        run: |
+          set -euxo pipefail
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
+            echo "No changes to create commit."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+            git status --short
+          fi
+
+      - name: Commit changes
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          git add -A
+          git commit -m "chore(data): force refresh start.gg data"
+
+      - name: Push target branch
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          TARGET_BRANCH="${{ inputs.target_branch }}"
+          if [ -z "$TARGET_BRANCH" ]; then
+            TARGET_BRANCH="${GITHUB_REF_NAME}"
+          fi
+          for attempt in 1 2 3; do
+            if git push --set-upstream origin "$TARGET_BRANCH"; then
+              exit 0
+            fi
+            git pull --rebase origin "$TARGET_BRANCH"
+          done
+          exit 1
+
+      - name: Debug on failure
+        if: failure()
+        run: |
+          echo "Workflow failed."
+          git status --porcelain
+          ls -la data/startgg
