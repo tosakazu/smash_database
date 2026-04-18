@@ -3,8 +3,8 @@
 GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD` の存在状況を記録します。
 
 - 集計開始日: `2018-12-29`
-- 集計終了日: `2026-04-10`
-- 最終更新 (UTC): `2026-04-10 14:45:16 UTC`
+- 集計終了日: `2026-04-19`
+- 最終更新 (UTC): `2026-04-18 16:28:27 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
@@ -2323,11 +2323,11 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2025-04-28 | yes | no |  |  |
 | 2025-04-29 | yes | no |  |  |
 | 2025-04-30 | yes | no |  |  |
-| 2025-05-01 | yes | no |  |  |
-| 2025-05-02 | yes | no |  |  |
-| 2025-05-03 | yes | no |  |  |
-| 2025-05-04 | yes | no |  |  |
-| 2025-05-05 | no | no |  |  |
+| 2025-05-01 | yes | yes | 2026-04-19 01:28:27 JST | data_backfill |
+| 2025-05-02 | yes | yes | 2026-04-19 01:28:27 JST | data_backfill |
+| 2025-05-03 | yes | yes | 2026-04-19 01:28:27 JST | data_backfill |
+| 2025-05-04 | yes | yes | 2026-04-19 01:28:27 JST | data_backfill |
+| 2025-05-05 | no | yes | 2026-04-19 01:28:27 JST | data_backfill |
 | 2025-05-06 | yes | no |  |  |
 | 2025-05-07 | yes | no |  |  |
 | 2025-05-08 | yes | no |  |  |
@@ -2666,5 +2666,14 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2026-04-06 | no | no |  |  |
 | 2026-04-07 | yes | no |  |  |
 | 2026-04-08 | yes | no |  |  |
-| 2026-04-09 | no | no |  |  |
-| 2026-04-10 | no | no |  |  |
+| 2026-04-09 | yes | no |  |  |
+| 2026-04-10 | yes | no |  |  |
+| 2026-04-11 | yes | no |  |  |
+| 2026-04-12 | no | no |  |  |
+| 2026-04-13 | no | no |  |  |
+| 2026-04-14 | no | no |  |  |
+| 2026-04-15 | no | no |  |  |
+| 2026-04-16 | no | no |  |  |
+| 2026-04-17 | no | no |  |  |
+| 2026-04-18 | no | no |  |  |
+| 2026-04-19 | no | no |  |  |
