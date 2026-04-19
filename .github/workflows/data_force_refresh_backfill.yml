@@ -1,4 +1,4 @@
-name: "StartGG: Backfill"
+name: "StartGG: Force Refresh Backfill"
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ on:
         default: ""
 
 concurrency:
-  group: data-backfill-${{ github.ref_name }}
+  group: data-force-refresh-backfill-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -83,7 +83,7 @@ jobs:
           echo "end_date=$END_DATE" >> "$GITHUB_OUTPUT"
           echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
 
-      - name: Download tournaments (backfill)
+      - name: Force refresh tournaments (backfill)
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
@@ -92,13 +92,15 @@ jobs:
             --token "$STARTGG_TOKEN" \
             --country_code "${{ steps.params.outputs.country_code }}" \
             --start_date "${{ steps.params.outputs.start_date }}" \
-            --finish_date "${{ steps.params.outputs.end_date }}"
+            --finish_date "${{ steps.params.outputs.end_date }}" \
+            --force_refresh
 
       - name: Run tests
         run: |
           set -euxo pipefail
           python -m unittest scripts.test.test_utils
           python -m unittest scripts.test.test_validate_data
+          python -m unittest scripts.test.test_download
 
       - name: Update chore tournament log
         run: |
@@ -106,7 +108,7 @@ jobs:
           python scripts/fix/update_chore_tournament_log.py \
             --mark-start "${{ steps.params.outputs.end_date }}" \
             --mark-end "${{ steps.params.outputs.start_date }}" \
-            --workflow "data_backfill"
+            --workflow "data_force_refresh_backfill"
 
       - name: Detect changes
         id: detect_changes
@@ -115,7 +117,7 @@ jobs:
           if git diff --quiet; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             echo "changed_files_count=0" >> "$GITHUB_OUTPUT"
-            echo "No changes to create PR."
+            echo "No changes to create commit."
           else
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "changed_files_count=$(git diff --name-only | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
@@ -127,7 +129,7 @@ jobs:
         run: |
           set -euxo pipefail
           git add -A
-          git commit -m "chore(data): backfill start.gg data"
+          git commit -m "chore(data): force refresh start.gg data"
 
       - name: Push target branch
         if: steps.detect_changes.outputs.has_changes == 'true'

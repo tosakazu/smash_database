@@ -63,6 +63,11 @@ def main():
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
     parser.add_argument("--country_code", default="", help="Country code for tournament retrieval. e.g. JP")
+    parser.add_argument(
+        "--force_refresh",
+        action="store_true",
+        help="Re-download tournaments even when they are already marked done and event files exist.",
+    )
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
@@ -80,6 +85,7 @@ def main():
         args.done_file_path,
         args.users_file_path,
         args.tournament_file_path,
+        force_refresh=args.force_refresh,
     )
 
 def event_files_complete(event_dir):
@@ -95,7 +101,15 @@ def tournament_events_complete(tournament_entry):
             return False
     return True
 
-def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+def should_skip_tournament(tournament_id, tournaments, done_tournaments, force_refresh):
+    if force_refresh:
+        return False
+    if tournament_id not in done_tournaments:
+        return False
+    tournament_entry = tournaments.get(tournament_id)
+    return bool(tournament_entry and tournament_events_complete(tournament_entry))
+
+def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, force_refresh=False):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -155,11 +169,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     print(f"({tournament_name} {tournament_dt}) is newer than start_date. Skipping.")
                     continue
 
-                if tournament_id in done_tournaments:
-                    tournament_entry = tournaments.get(tournament_id)
-                    if tournament_entry and tournament_events_complete(tournament_entry):
+                if should_skip_tournament(tournament_id, tournaments, done_tournaments, force_refresh):
                         print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
                         continue
+                if force_refresh and tournament_id in done_tournaments:
+                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) force refresh enabled. Re-downloading.")
+                elif tournament_id in done_tournaments:
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
                 print(f"Download {tournament_name}, date: {tournament_dt}")
@@ -211,8 +226,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         pass
                     else:
                         extend_tournament_info(tournaments[tournament_id], tournament_file_path)
-                    done_tournaments.add(tournament_id)
-                    write_done_tournaments(tournament_id, done_file_path)
+                    if tournament_id not in done_tournaments:
+                        done_tournaments.add(tournament_id)
+                        write_done_tournaments(tournament_id, done_file_path)
 
             except FetchError as e:
                 print(e)
