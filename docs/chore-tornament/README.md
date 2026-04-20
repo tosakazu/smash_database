@@ -3,8 +3,8 @@
 GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD` の存在状況を記録します。
 
 - 集計開始日: `2018-12-29`
-- 集計終了日: `2026-04-13`
-- 最終更新 (UTC): `2026-04-12 19:08:14 UTC`
+- 集計終了日: `2026-04-20`
+- 最終更新 (UTC): `2026-04-20 01:58:57 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
@@ -2323,10 +2323,10 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2025-04-28 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-04-29 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-04-30 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2025-05-01 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2025-05-02 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2025-05-03 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
-| 2025-05-04 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
+| 2025-05-01 | yes | yes | 2026-04-20 10:58:57 JST | data_force_refresh_backfill |
+| 2025-05-02 | yes | yes | 2026-04-20 10:58:57 JST | data_force_refresh_backfill |
+| 2025-05-03 | yes | yes | 2026-04-20 10:58:57 JST | data_force_refresh_backfill |
+| 2025-05-04 | yes | yes | 2026-04-20 10:58:57 JST | data_force_refresh_backfill |
 | 2025-05-05 | no | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-05-06 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
 | 2025-05-07 | yes | yes | 2026-04-12 20:26:41 JST | data_backfill |
@@ -2671,3 +2671,10 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2026-04-11 | yes | yes | 2026-04-12 23:35:50 JST | data_backfill |
 | 2026-04-12 | yes | yes | 2026-04-13 03:45:11 JST | update_tournament |
 | 2026-04-13 | no | yes | 2026-04-13 03:45:11 JST | update_tournament |
+| 2026-04-14 | no | no |  |  |
+| 2026-04-15 | no | no |  |  |
+| 2026-04-16 | no | no |  |  |
+| 2026-04-17 | no | no |  |  |
+| 2026-04-18 | no | no |  |  |
+| 2026-04-19 | no | no |  |  |
+| 2026-04-20 | no | no |  |  |
