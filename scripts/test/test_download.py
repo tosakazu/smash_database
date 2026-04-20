@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from scripts.fetch.download import should_skip_tournament
 
@@ -13,7 +14,7 @@ class DownloadTests(unittest.TestCase):
             }
         }
 
-        with unittest.mock.patch("scripts.fetch.download.event_files_complete", return_value=True):
+        with patch("scripts.fetch.download.event_files_complete", return_value=True):
             self.assertTrue(should_skip_tournament(1, tournaments, {1}, force_refresh=False))
 
     def test_should_not_skip_tournament_when_force_refresh_enabled(self):
@@ -25,7 +26,7 @@ class DownloadTests(unittest.TestCase):
             }
         }
 
-        with unittest.mock.patch("scripts.fetch.download.event_files_complete", return_value=True):
+        with patch("scripts.fetch.download.event_files_complete", return_value=True):
             self.assertFalse(should_skip_tournament(1, tournaments, {1}, force_refresh=True))
 
     def test_should_not_skip_tournament_when_missing_files(self):
@@ -37,7 +38,7 @@ class DownloadTests(unittest.TestCase):
             }
         }
 
-        with unittest.mock.patch("scripts.fetch.download.event_files_complete", return_value=False):
+        with patch("scripts.fetch.download.event_files_complete", return_value=False):
             self.assertFalse(should_skip_tournament(1, tournaments, {1}, force_refresh=False))
 
 
