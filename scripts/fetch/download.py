@@ -2,6 +2,7 @@ import os
 import argparse
 import sys
 from datetime import datetime
+from collections import Counter
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT_DIR not in sys.path:
@@ -26,6 +27,7 @@ TOURNAMENTS_PER_PAGE = 100
 STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
 SETS_PER_PAGE = 50
+SETS_PER_PAGE_FALLBACKS = (50, 25, 10, 5)
 
 def parse_date_or_datetime(value):
     for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
@@ -254,9 +256,25 @@ def fetch_all_sets(event_id):
     query = get_event_sets_query()
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
-    all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
-    
-    return all_sets
+    tried = []
+    for per_page in SETS_PER_PAGE_FALLBACKS:
+        tried.append(per_page)
+        all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        set_ids = [node.get("id") for node in all_sets if node.get("id") is not None]
+        duplicate_ids = [set_id for set_id, count in Counter(set_ids).items() if count > 1]
+        if not duplicate_ids:
+            if per_page != SETS_PER_PAGE:
+                print(
+                    f"Event {event_id}: duplicate set ids disappeared after retrying with per_page={per_page}."
+                )
+            return all_sets
+        print(
+            f"Event {event_id}: detected {len(duplicate_ids)} duplicate set ids with per_page={per_page}. Retrying with a smaller page size."
+        )
+
+    raise FetchError(
+        f"Duplicate set ids remained for event {event_id} after retries with per_page values {tried}."
+    )
 
 def write_matches(all_nodes, entrant2user, event_dir):
     """マッチデータを保存する関数"""
