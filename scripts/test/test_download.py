@@ -10,6 +10,7 @@ from scripts.fetch.download import (
     dedupe_set_nodes,
     download_all_tournaments,
     fetch_all_sets,
+    get_event_directory,
     should_skip_tournament,
     write_matches,
 )
@@ -187,7 +188,15 @@ class DownloadTests(unittest.TestCase):
         mock_fetch_entrant_user_map.return_value = {11: 2716511}
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            event_dir = f"{tmpdir}/Japan/2024/05/04/Test Tournament/Singles"
+            event_dir = get_event_directory(
+                f"{tmpdir}",
+                "JP",
+                "2024",
+                "05",
+                "04",
+                "Test Tournament",
+                "Singles",
+            )
             os.makedirs(event_dir, exist_ok=True)
             download_all_tournaments(
                 "1386",
