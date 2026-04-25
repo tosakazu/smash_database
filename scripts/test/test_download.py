@@ -1,11 +1,14 @@
 import json
+import os
 import tempfile
 import unittest
+from datetime import datetime
 from unittest.mock import patch
 
 from scripts.fetch.download import (
     build_match_dedupe_key,
     dedupe_set_nodes,
+    download_all_tournaments,
     fetch_all_sets,
     should_skip_tournament,
     write_matches,
@@ -131,6 +134,77 @@ class DownloadTests(unittest.TestCase):
 
         with patch("scripts.fetch.download.event_files_complete", return_value=False):
             self.assertFalse(should_skip_tournament(1, tournaments, {1}, force_refresh=False))
+
+    @patch("scripts.fetch.download.read_set", return_value=set())
+    @patch("scripts.fetch.download.read_users_jsonl", return_value={})
+    @patch("scripts.fetch.download.read_tournaments_jsonl", return_value={})
+    @patch("scripts.fetch.download.fetch_latest_tournaments_by_game")
+    @patch("scripts.fetch.download.fetch_event_ids_from_tournament")
+    @patch("scripts.fetch.download.download_all_set")
+    @patch("scripts.fetch.download.download_standings")
+    @patch("scripts.fetch.download.download_seeds")
+    @patch("scripts.fetch.download.extend_user_info")
+    @patch("scripts.fetch.download.extend_tournament_info")
+    @patch("scripts.fetch.download.write_done_tournaments")
+    def test_download_all_tournaments_matches_only_skips_heavy_fetches(
+        self,
+        mock_write_done,
+        mock_extend_tournament,
+        mock_extend_user_info,
+        mock_download_seeds,
+        mock_download_standings,
+        mock_download_all_set,
+        mock_fetch_event_ids,
+        mock_fetch_tournaments,
+        _mock_read_tournaments,
+        _mock_read_users,
+        _mock_read_set,
+    ):
+        mock_fetch_tournaments.return_value = (
+            [
+                {
+                    "id": 1,
+                    "name": "Test Tournament",
+                    "startAt": 1714780800,
+                    "endAt": 1714784400,
+                    "countryCode": "JP",
+                    "city": "Tokyo",
+                    "lat": None,
+                    "lng": None,
+                    "venueName": None,
+                    "timezone": "Asia/Tokyo",
+                    "postalCode": None,
+                    "venueAddress": None,
+                    "mapsPlaceId": None,
+                    "url": "https://example.com",
+                }
+            ],
+            1,
+        )
+        mock_fetch_event_ids.return_value = [(10, "Singles", False)]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            event_dir = f"{tmpdir}/Japan/2024/05/04/Test Tournament/Singles"
+            os.makedirs(event_dir, exist_ok=True)
+            download_all_tournaments(
+                "1386",
+                "JP",
+                datetime(2024, 5, 4, 23, 59, 59),
+                datetime(2024, 5, 4, 0, 0, 0),
+                f"{tmpdir}",
+                f"{tmpdir}/done.csv",
+                f"{tmpdir}/users.jsonl",
+                f"{tmpdir}/tournaments.jsonl",
+                force_refresh=True,
+                matches_only=True,
+            )
+
+        mock_download_all_set.assert_called_once_with(10, {}, event_dir)
+        mock_download_standings.assert_not_called()
+        mock_download_seeds.assert_not_called()
+        mock_extend_user_info.assert_not_called()
+        mock_extend_tournament.assert_not_called()
+        mock_write_done.assert_not_called()
 
 
 if __name__ == "__main__":
