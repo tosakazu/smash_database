@@ -27,6 +27,8 @@ TOURNAMENTS_PER_PAGE = 100
 STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
 SETS_PER_PAGE = 50
+STANDINGS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
+SEEDS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
 SETS_PER_PAGE_FALLBACKS = (50, 25, 10, 5)
 
 def parse_date_or_datetime(value):
@@ -252,6 +254,28 @@ def download_all_set(event_id, entrant2user, event_dir):
     os.makedirs(event_dir, exist_ok=True)
     write_matches(all_sets, entrant2user, event_dir)
 
+def dedupe_set_nodes(all_sets, event_id=None):
+    unique_sets = []
+    seen_set_ids = set()
+    duplicate_ids = []
+    for node in all_sets:
+        set_id = node.get("id")
+        if set_id is None:
+            unique_sets.append(node)
+            continue
+        if set_id in seen_set_ids:
+            duplicate_ids.append(set_id)
+            continue
+        seen_set_ids.add(set_id)
+        unique_sets.append(node)
+
+    if duplicate_ids:
+        prefix = f"Event {event_id}: " if event_id is not None else ""
+        print(
+            f"{prefix}skipped {len(duplicate_ids)} duplicate sets while normalizing fetched nodes."
+        )
+    return unique_sets
+
 def fetch_all_sets(event_id):
     query = get_event_sets_query()
     variables = {"eventId": event_id}
@@ -259,7 +283,16 @@ def fetch_all_sets(event_id):
     tried = []
     for per_page in SETS_PER_PAGE_FALLBACKS:
         tried.append(per_page)
-        all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        try:
+            all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        except FetchError as exc:
+            message = str(exc).lower()
+            if "query complexity is too high" not in message:
+                raise
+            print(
+                f"Event {event_id}: sets query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
+            )
+            continue
         set_ids = [node.get("id") for node in all_sets if node.get("id") is not None]
         duplicate_ids = [set_id for set_id, count in Counter(set_ids).items() if count > 1]
         if not duplicate_ids:
@@ -267,7 +300,7 @@ def fetch_all_sets(event_id):
                 print(
                     f"Event {event_id}: duplicate set ids disappeared after retrying with per_page={per_page}."
                 )
-            return all_sets
+            return dedupe_set_nodes(all_sets, event_id=event_id)
         print(
             f"Event {event_id}: detected {len(duplicate_ids)} duplicate set ids with per_page={per_page}. Retrying with a smaller page size."
         )
@@ -276,10 +309,48 @@ def fetch_all_sets(event_id):
         f"Duplicate set ids remained for event {event_id} after retries with per_page values {tried}."
     )
 
+
+def fetch_with_page_fallback(query, variables, keys, per_page_values, label, event_id):
+    last_error = None
+    for per_page in per_page_values:
+        try:
+            return fetch_all_nodes(query, variables, keys, per_page=per_page)
+        except FetchError as exc:
+            last_error = exc
+            message = str(exc).lower()
+            if "query complexity is too high" not in message:
+                raise
+            print(
+                f"Event {event_id}: {label} query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
+            )
+    raise last_error
+
+def build_match_dedupe_key(match_data):
+    return (
+        match_data.get("winner_id"),
+        match_data.get("loser_id"),
+        match_data.get("winner_score"),
+        match_data.get("loser_score"),
+        match_data.get("round_text"),
+        match_data.get("round"),
+        match_data.get("phase"),
+        match_data.get("wave"),
+        match_data.get("dq"),
+        match_data.get("cancel"),
+        match_data.get("state"),
+    )
+
 def write_matches(all_nodes, entrant2user, event_dir):
     """マッチデータを保存する関数"""
     json_data = {"data": []}
+    seen_set_ids = set()
+    seen_match_keys = set()
     for node in all_nodes:
+        set_id = node.get("id")
+        if set_id is not None:
+            if set_id in seen_set_ids:
+                continue
+            seen_set_ids.add(set_id)
         if node['slots'] is None or len(node['slots']) != 2:
             continue
 
@@ -341,6 +412,10 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "state": node['state'],
                 "details": details
             }
+        match_key = build_match_dedupe_key(match_data)
+        if match_key in seen_match_keys:
+            continue
+        seen_match_keys.add(match_key)
         json_data["data"].append(match_data)
         
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
@@ -369,7 +444,14 @@ def download_standings(event_id, event_dir):
     query = get_standings_query()
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
-    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
+    standings_data = fetch_with_page_fallback(
+        query,
+        variables,
+        keys,
+        STANDINGS_PER_PAGE_FALLBACKS,
+        "standings",
+        event_id,
+    )
 
     user_data = []
     player_data = []
@@ -404,7 +486,14 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     query = get_seeds_query()
     variables = {"phaseId": phase_id}
     keys = ["phase", "seeds"]
-    seeds_data = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
+    seeds_data = fetch_with_page_fallback(
+        query,
+        variables,
+        keys,
+        SEEDS_PER_PAGE_FALLBACKS,
+        "seeds",
+        event_id,
+    )
 
     for seed in seeds_data:
         if seed['entrant']['participants'] is not None:
