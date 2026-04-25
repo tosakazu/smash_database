@@ -968,7 +968,7 @@
     },
     {
       "winner_id": 918600,
-      "loser_id": 783343,
+      "loser_id": null,
       "winner_score": 0,
       "loser_score": -1,
       "round_text": "Winners Quarter-Final",
@@ -1150,7 +1150,7 @@
     },
     {
       "winner_id": 2660033,
-      "loser_id": 783343,
+      "loser_id": null,
       "winner_score": 0,
       "loser_score": -1,
       "round_text": "Losers Round 2",
@@ -1233,20 +1233,6 @@
       "details": []
     },
     {
-      "winner_id": 2809240,
-      "loser_id": 2180536,
-      "winner_score": 2,
-      "loser_score": 0,
-      "round_text": "Losers Round 2",
-      "round": -4,
-      "phase": "3",
-      "wave": null,
-      "dq": false,
-      "cancel": false,
-      "state": 3,
-      "details": []
-    },
-    {
       "winner_id": 866419,
       "loser_id": 1960894,
       "winner_score": 2,
@@ -1282,6 +1268,20 @@
       "round_text": "Losers Round 2",
       "round": -4,
       "phase": "8",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2809240,
+      "loser_id": 2180536,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "3",
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -1471,20 +1471,6 @@
       "details": []
     },
     {
-      "winner_id": 134986,
-      "loser_id": 2400645,
-      "winner_score": 2,
-      "loser_score": 0,
-      "round_text": "Losers Round 2",
-      "round": -4,
-      "phase": "3",
-      "wave": null,
-      "dq": false,
-      "cancel": false,
-      "state": 3,
-      "details": []
-    },
-    {
       "winner_id": 753110,
       "loser_id": 837582,
       "winner_score": 2,
@@ -1492,6 +1478,20 @@
       "round_text": "Losers Round 2",
       "round": -4,
       "phase": "4",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 134986,
+      "loser_id": 2400645,
+      "winner_score": 2,
+      "loser_score": 0,
+      "round_text": "Losers Round 2",
+      "round": -4,
+      "phase": "3",
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -1667,13 +1667,13 @@
       "details": []
     },
     {
-      "winner_id": 2638160,
-      "loser_id": 1817777,
+      "winner_id": 2383718,
+      "loser_id": 1814991,
       "winner_score": 2,
-      "loser_score": 0,
+      "loser_score": 1,
       "round_text": "Losers Round 1",
       "round": -3,
-      "phase": "3",
+      "phase": "8",
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -1798,20 +1798,7 @@
           "entrant1_score": 0,
           "entrant2_score": null,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1392435,
-              "selection_id": 43751184,
-              "character_id": 1285,
-              "character_name": "Falco"
-            },
-            {
-              "user_id": 906648,
-              "selection_id": 43751185,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            }
-          ]
+          "selections": []
         },
         {
           "game_id": 29808753,
@@ -1820,20 +1807,7 @@
           "entrant1_score": 0,
           "entrant2_score": null,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1392435,
-              "selection_id": 43751186,
-              "character_id": 1285,
-              "character_name": "Falco"
-            },
-            {
-              "user_id": 906648,
-              "selection_id": 43751187,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            }
-          ]
+          "selections": []
         }
       ]
     },
@@ -2678,6 +2652,20 @@
       "details": []
     },
     {
+      "winner_id": 758670,
+      "loser_id": 2582872,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Winners Round 1",
+      "round": 1,
+      "phase": "6",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
       "winner_id": 399533,
       "loser_id": 1051671,
       "winner_score": 2,
@@ -2687,20 +2675,6 @@
       "phase": "5",
       "wave": null,
       "dq": false,
-      "cancel": false,
-      "state": 3,
-      "details": []
-    },
-    {
-      "winner_id": 2180536,
-      "loser_id": null,
-      "winner_score": 0,
-      "loser_score": -1,
-      "round_text": "Winners Round 1",
-      "round": 1,
-      "phase": "3",
-      "wave": null,
-      "dq": true,
       "cancel": false,
       "state": 3,
       "details": []
@@ -2930,7 +2904,7 @@
       "details": []
     },
     {
-      "winner_id": 783343,
+      "winner_id": null,
       "loser_id": 1708635,
       "winner_score": 0,
       "loser_score": -1,
