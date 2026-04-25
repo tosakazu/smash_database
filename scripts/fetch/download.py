@@ -9,7 +9,8 @@ if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
 from scripts.queries import (
-    get_event_sets_query, get_standings_query, get_seeds_query, 
+    get_event_sets_query, get_event_sets_light_query, get_standings_query, get_seeds_query,
+    get_event_entrants_query,
     get_tournament_events_query, get_phase_groups_query, get_tournaments_by_game_query,
 )
 from scripts.utils import (
@@ -27,9 +28,13 @@ TOURNAMENTS_PER_PAGE = 100
 STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
 SETS_PER_PAGE = 50
+LIGHTWEIGHT_SETS_PER_PAGE = 25
+ENTRANTS_PER_PAGE = 200
 STANDINGS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
 SEEDS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
 SETS_PER_PAGE_FALLBACKS = (50, 25, 10, 5)
+LIGHTWEIGHT_SETS_PER_PAGE_FALLBACKS = (25, 10, 5, 2)
+ENTRANTS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
 
 def parse_date_or_datetime(value):
     for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
@@ -226,7 +231,8 @@ def download_all_tournaments(
                                 f"Skip matches-only refresh for {event_name}: existing event_dir not found ({event_dir})."
                             )
                             continue
-                        download_all_set(event_id, {}, event_dir)
+                        entrant2user = fetch_entrant_user_map(event_id)
+                        download_all_set(event_id, entrant2user, event_dir, lightweight=True)
                     else:
                         user_data, player_data, entrant2user = download_standings(event_id, event_dir)
                         num_entrants = len(user_data)
@@ -273,8 +279,8 @@ def download_all_tournaments(
         write_jsonl(list(tournaments.values()), tournament_file_path, with_version=True)
 
 # イベントのセットデータを保存する関数
-def download_all_set(event_id, entrant2user, event_dir):
-    all_sets = fetch_all_sets(event_id)
+def download_all_set(event_id, entrant2user, event_dir, lightweight=False):
+    all_sets = fetch_all_sets(event_id, lightweight=lightweight)
     if not all_sets:
         return
 
@@ -303,12 +309,14 @@ def dedupe_set_nodes(all_sets, event_id=None):
         )
     return unique_sets
 
-def fetch_all_sets(event_id):
-    query = get_event_sets_query()
+def fetch_all_sets(event_id, lightweight=False):
+    query = get_event_sets_light_query() if lightweight else get_event_sets_query()
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
     tried = []
-    for per_page in SETS_PER_PAGE_FALLBACKS:
+    fallback_values = LIGHTWEIGHT_SETS_PER_PAGE_FALLBACKS if lightweight else SETS_PER_PAGE_FALLBACKS
+    default_page_size = LIGHTWEIGHT_SETS_PER_PAGE if lightweight else SETS_PER_PAGE
+    for per_page in fallback_values:
         tried.append(per_page)
         try:
             all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
@@ -323,7 +331,7 @@ def fetch_all_sets(event_id):
         set_ids = [node.get("id") for node in all_sets if node.get("id") is not None]
         duplicate_ids = [set_id for set_id, count in Counter(set_ids).items() if count > 1]
         if not duplicate_ids:
-            if per_page != SETS_PER_PAGE:
+            if per_page != default_page_size:
                 print(
                     f"Event {event_id}: duplicate set ids disappeared after retrying with per_page={per_page}."
                 )
@@ -335,6 +343,33 @@ def fetch_all_sets(event_id):
     raise FetchError(
         f"Duplicate set ids remained for event {event_id} after retries with per_page values {tried}."
     )
+
+
+def fetch_entrant_user_map(event_id):
+    query = get_event_entrants_query()
+    variables = {"eventId": event_id}
+    keys = ["event", "entrants"]
+    entrants = fetch_with_page_fallback(
+        query,
+        variables,
+        keys,
+        ENTRANTS_PER_PAGE_FALLBACKS,
+        "entrants",
+        event_id,
+    )
+    entrant2user = {}
+    for entrant in entrants:
+        participants = entrant.get("participants") or []
+        if not participants:
+            continue
+        user = participants[0].get("user")
+        if user is None:
+            continue
+        entrant_id = entrant.get("id")
+        user_id = user.get("id")
+        if entrant_id is not None and user_id is not None:
+            entrant2user[entrant_id] = user_id
+    return entrant2user
 
 
 def fetch_with_page_fallback(query, variables, keys, per_page_values, label, event_id):
@@ -378,12 +413,13 @@ def write_matches(all_nodes, entrant2user, event_dir):
             if set_id in seen_set_ids:
                 continue
             seen_set_ids.add(set_id)
-        if node['slots'] is None or len(node['slots']) != 2:
+        slots = node.get('slots')
+        if slots is None or len(slots) != 2:
             continue
 
-        slot0 = node['slots'][0]
-        slot1 = node['slots'][1]
-        if slot0['entrant'] is None or slot1['entrant'] is None or slot0['standing'] is None or slot1['standing'] is None:
+        slot0 = slots[0]
+        slot1 = slots[1]
+        if slot0.get('entrant') is None or slot1.get('entrant') is None or slot0.get('standing') is None or slot1.get('standing') is None:
             continue
         
         # スコアがNoneの場合は0を設定
@@ -398,14 +434,15 @@ def write_matches(all_nodes, entrant2user, event_dir):
         dq = (score0 < 0 or score1 < 0)
         cancel = score0 == 0 and score1 == 0
         
+        games = node.get('games')
         details = [
                     {
-                        "game_id": game['id'],
-                        "order_num": game['orderNum'],
-                        "winner_id": entrant2user[game['winnerId']] if game['winnerId'] in entrant2user else None,
-                        "entrant1_score": game['entrant1Score'],
-                        "entrant2_score": game['entrant2Score'],
-                        "stage": game['stage']['name'] if game['stage'] else None,
+                        "game_id": game.get('id'),
+                        "order_num": game.get('orderNum'),
+                        "winner_id": entrant2user[game['winnerId']] if game.get('winnerId') in entrant2user else None,
+                        "entrant1_score": game.get('entrant1Score'),
+                        "entrant2_score": game.get('entrant2Score'),
+                        "stage": game['stage']['name'] if game.get('stage') else None,
                         "selections": [
                             {
                                 "user_id": entrant2user[selection['entrant']['id']] if selection['entrant']['id'] in entrant2user else None,
@@ -413,30 +450,33 @@ def write_matches(all_nodes, entrant2user, event_dir):
                                 "character_id": selection['character']['id'],
                                 "character_name": selection['character']['name']
                             }
-                            for i, selection in enumerate(game['selections'])
-                        ] if game['selections'] is not None else []
+                            for i, selection in enumerate(game.get('selections') or [])
+                            if selection.get('entrant') is not None and selection.get('character') is not None
+                        ]
                     }
-                    for game in node['games']
-                ] if node['games'] is not None else []
+                    for game in games
+                ] if games is not None else []
 
         phase = None
         wave = None
-        if node['phaseGroup'] is not None:
-            phase = node['phaseGroup']['displayIdentifier']
-            if node['phaseGroup']['wave'] is not None:
-                wave = node['phaseGroup']['wave']['identifier']
+        phase_group = node.get('phaseGroup')
+        if phase_group is not None:
+            phase = phase_group.get('displayIdentifier')
+            wave_info = phase_group.get('wave')
+            if wave_info is not None:
+                wave = wave_info.get('identifier')
         match_data = {
                 "winner_id": entrant2user[winner_slot['entrant']['id']] if winner_slot['entrant']['id'] in entrant2user else None,
                 "loser_id": entrant2user[loser_slot['entrant']['id']] if loser_slot['entrant']['id'] in entrant2user else None,
                 "winner_score": winner_score,
                 "loser_score": loser_score,
-                "round_text": node['fullRoundText'],
-                "round": node['round'],
+                "round_text": node.get('fullRoundText'),
+                "round": node.get('round'),
                 "phase": phase,
                 "wave": wave,
                 "dq": dq,
                 "cancel": cancel,
-                "state": node['state'],
+                "state": node.get('state'),
                 "details": details
             }
         match_key = build_match_dedupe_key(match_data)

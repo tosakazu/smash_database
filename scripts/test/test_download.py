@@ -140,6 +140,7 @@ class DownloadTests(unittest.TestCase):
     @patch("scripts.fetch.download.read_tournaments_jsonl", return_value={})
     @patch("scripts.fetch.download.fetch_latest_tournaments_by_game")
     @patch("scripts.fetch.download.fetch_event_ids_from_tournament")
+    @patch("scripts.fetch.download.fetch_entrant_user_map")
     @patch("scripts.fetch.download.download_all_set")
     @patch("scripts.fetch.download.download_standings")
     @patch("scripts.fetch.download.download_seeds")
@@ -154,6 +155,7 @@ class DownloadTests(unittest.TestCase):
         mock_download_seeds,
         mock_download_standings,
         mock_download_all_set,
+        mock_fetch_entrant_user_map,
         mock_fetch_event_ids,
         mock_fetch_tournaments,
         _mock_read_tournaments,
@@ -182,6 +184,7 @@ class DownloadTests(unittest.TestCase):
             1,
         )
         mock_fetch_event_ids.return_value = [(10, "Singles", False)]
+        mock_fetch_entrant_user_map.return_value = {11: 2716511}
 
         with tempfile.TemporaryDirectory() as tmpdir:
             event_dir = f"{tmpdir}/Japan/2024/05/04/Test Tournament/Singles"
@@ -199,7 +202,8 @@ class DownloadTests(unittest.TestCase):
                 matches_only=True,
             )
 
-        mock_download_all_set.assert_called_once_with(10, {}, event_dir)
+        mock_fetch_entrant_user_map.assert_called_once_with(10)
+        mock_download_all_set.assert_called_once_with(10, {11: 2716511}, event_dir, lightweight=True)
         mock_download_standings.assert_not_called()
         mock_download_seeds.assert_not_called()
         mock_extend_user_info.assert_not_called()
