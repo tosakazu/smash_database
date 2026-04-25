@@ -2,6 +2,7 @@ import os
 import argparse
 import sys
 from datetime import datetime
+from collections import Counter
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT_DIR not in sys.path:
@@ -26,6 +27,9 @@ TOURNAMENTS_PER_PAGE = 100
 STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
 SETS_PER_PAGE = 50
+STANDINGS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
+SEEDS_PER_PAGE_FALLBACKS = (200, 100, 50, 25, 10)
+SETS_PER_PAGE_FALLBACKS = (50, 25, 10, 5)
 
 def parse_date_or_datetime(value):
     for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
@@ -63,6 +67,11 @@ def main():
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
     parser.add_argument("--country_code", default="", help="Country code for tournament retrieval. e.g. JP")
+    parser.add_argument(
+        "--force_refresh",
+        action="store_true",
+        help="Re-download tournaments even when they are already marked done and event files exist.",
+    )
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
@@ -80,6 +89,7 @@ def main():
         args.done_file_path,
         args.users_file_path,
         args.tournament_file_path,
+        force_refresh=args.force_refresh,
     )
 
 def event_files_complete(event_dir):
@@ -95,7 +105,15 @@ def tournament_events_complete(tournament_entry):
             return False
     return True
 
-def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+def should_skip_tournament(tournament_id, tournaments, done_tournaments, force_refresh):
+    if force_refresh:
+        return False
+    if tournament_id not in done_tournaments:
+        return False
+    tournament_entry = tournaments.get(tournament_id)
+    return bool(tournament_entry and tournament_events_complete(tournament_entry))
+
+def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, force_refresh=False):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -155,11 +173,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     print(f"({tournament_name} {tournament_dt}) is newer than start_date. Skipping.")
                     continue
 
-                if tournament_id in done_tournaments:
-                    tournament_entry = tournaments.get(tournament_id)
-                    if tournament_entry and tournament_events_complete(tournament_entry):
+                if should_skip_tournament(tournament_id, tournaments, done_tournaments, force_refresh):
                         print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
                         continue
+                if force_refresh and tournament_id in done_tournaments:
+                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) force refresh enabled. Re-downloading.")
+                elif tournament_id in done_tournaments:
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
                 print(f"Download {tournament_name}, date: {tournament_dt}")
@@ -211,8 +230,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         pass
                     else:
                         extend_tournament_info(tournaments[tournament_id], tournament_file_path)
-                    done_tournaments.add(tournament_id)
-                    write_done_tournaments(tournament_id, done_file_path)
+                    if tournament_id not in done_tournaments:
+                        done_tournaments.add(tournament_id)
+                        write_done_tournaments(tournament_id, done_file_path)
 
             except FetchError as e:
                 print(e)
@@ -234,18 +254,103 @@ def download_all_set(event_id, entrant2user, event_dir):
     os.makedirs(event_dir, exist_ok=True)
     write_matches(all_sets, entrant2user, event_dir)
 
+def dedupe_set_nodes(all_sets, event_id=None):
+    unique_sets = []
+    seen_set_ids = set()
+    duplicate_ids = []
+    for node in all_sets:
+        set_id = node.get("id")
+        if set_id is None:
+            unique_sets.append(node)
+            continue
+        if set_id in seen_set_ids:
+            duplicate_ids.append(set_id)
+            continue
+        seen_set_ids.add(set_id)
+        unique_sets.append(node)
+
+    if duplicate_ids:
+        prefix = f"Event {event_id}: " if event_id is not None else ""
+        print(
+            f"{prefix}skipped {len(duplicate_ids)} duplicate sets while normalizing fetched nodes."
+        )
+    return unique_sets
+
 def fetch_all_sets(event_id):
     query = get_event_sets_query()
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
-    all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
-    
-    return all_sets
+    tried = []
+    for per_page in SETS_PER_PAGE_FALLBACKS:
+        tried.append(per_page)
+        try:
+            all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        except FetchError as exc:
+            message = str(exc).lower()
+            if "query complexity is too high" not in message:
+                raise
+            print(
+                f"Event {event_id}: sets query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
+            )
+            continue
+        set_ids = [node.get("id") for node in all_sets if node.get("id") is not None]
+        duplicate_ids = [set_id for set_id, count in Counter(set_ids).items() if count > 1]
+        if not duplicate_ids:
+            if per_page != SETS_PER_PAGE:
+                print(
+                    f"Event {event_id}: duplicate set ids disappeared after retrying with per_page={per_page}."
+                )
+            return dedupe_set_nodes(all_sets, event_id=event_id)
+        print(
+            f"Event {event_id}: detected {len(duplicate_ids)} duplicate set ids with per_page={per_page}. Retrying with a smaller page size."
+        )
+
+    raise FetchError(
+        f"Duplicate set ids remained for event {event_id} after retries with per_page values {tried}."
+    )
+
+
+def fetch_with_page_fallback(query, variables, keys, per_page_values, label, event_id):
+    last_error = None
+    for per_page in per_page_values:
+        try:
+            return fetch_all_nodes(query, variables, keys, per_page=per_page)
+        except FetchError as exc:
+            last_error = exc
+            message = str(exc).lower()
+            if "query complexity is too high" not in message:
+                raise
+            print(
+                f"Event {event_id}: {label} query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
+            )
+    raise last_error
+
+def build_match_dedupe_key(match_data):
+    return (
+        match_data.get("winner_id"),
+        match_data.get("loser_id"),
+        match_data.get("winner_score"),
+        match_data.get("loser_score"),
+        match_data.get("round_text"),
+        match_data.get("round"),
+        match_data.get("phase"),
+        match_data.get("wave"),
+        match_data.get("dq"),
+        match_data.get("cancel"),
+        match_data.get("state"),
+    )
 
 def write_matches(all_nodes, entrant2user, event_dir):
     """マッチデータを保存する関数"""
     json_data = {"data": []}
+    seen_set_ids = set()
+    seen_match_keys = set()
     for node in all_nodes:
+        set_id = node.get("id")
+        if set_id is not None:
+            if set_id in seen_set_ids:
+                continue
+            seen_set_ids.add(set_id)
         if node['slots'] is None or len(node['slots']) != 2:
             continue
 
@@ -307,6 +412,10 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "state": node['state'],
                 "details": details
             }
+        match_key = build_match_dedupe_key(match_data)
+        if match_key in seen_match_keys:
+            continue
+        seen_match_keys.add(match_key)
         json_data["data"].append(match_data)
         
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
@@ -335,7 +444,14 @@ def download_standings(event_id, event_dir):
     query = get_standings_query()
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
-    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
+    standings_data = fetch_with_page_fallback(
+        query,
+        variables,
+        keys,
+        STANDINGS_PER_PAGE_FALLBACKS,
+        "standings",
+        event_id,
+    )
 
     user_data = []
     player_data = []
@@ -370,7 +486,14 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     query = get_seeds_query()
     variables = {"phaseId": phase_id}
     keys = ["phase", "seeds"]
-    seeds_data = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
+    seeds_data = fetch_with_page_fallback(
+        query,
+        variables,
+        keys,
+        SEEDS_PER_PAGE_FALLBACKS,
+        "seeds",
+        event_id,
+    )
 
     for seed in seeds_data:
         if seed['entrant']['participants'] is not None:

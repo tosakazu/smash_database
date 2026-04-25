@@ -250,11 +250,21 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
         all_nodes.extend(nodes)
-        if len(nodes) > 0:
+        page_info = data.get("pageInfo") if isinstance(data, dict) else None
+        total_pages = page_info.get("totalPages") if isinstance(page_info, dict) else None
+        current_page = variables["page"]
+
+        if total_pages is not None:
+            if current_page >= total_pages:
+                break
             variables["page"] += 1
             time.sleep(__page_delay)
-        else:
+            continue
+
+        if len(nodes) == 0:
             break
+        variables["page"] += 1
+        time.sleep(__page_delay)
     return all_nodes
 
 def analyze_event_setting(openai_client, event_prompt, tournament_name, event_name, event_id):
