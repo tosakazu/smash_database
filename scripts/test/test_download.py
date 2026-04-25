@@ -2,11 +2,13 @@ import json
 import os
 import tempfile
 import unittest
+from argparse import Namespace
 from datetime import datetime
 from unittest.mock import patch
 
 from scripts.fetch.download import (
     build_match_dedupe_key,
+    configure_fetch_behavior,
     dedupe_set_nodes,
     download_all_tournaments,
     fetch_all_sets,
@@ -18,6 +20,34 @@ from scripts.utils import FetchError
 
 
 class DownloadTests(unittest.TestCase):
+    @patch("scripts.fetch.download.set_page_delay")
+    @patch("scripts.fetch.download.set_retry_parameters")
+    def test_configure_fetch_behavior_uses_faster_defaults_for_matches_only(
+        self,
+        mock_set_retry_parameters,
+        mock_set_page_delay,
+    ):
+        args = Namespace(matches_only=True, max_retries=100, retry_delay=5)
+
+        configure_fetch_behavior(args)
+
+        mock_set_retry_parameters.assert_called_once_with(8, 2)
+        mock_set_page_delay.assert_called_once_with(1)
+
+    @patch("scripts.fetch.download.set_page_delay")
+    @patch("scripts.fetch.download.set_retry_parameters")
+    def test_configure_fetch_behavior_preserves_explicit_retry_settings_for_matches_only(
+        self,
+        mock_set_retry_parameters,
+        mock_set_page_delay,
+    ):
+        args = Namespace(matches_only=True, max_retries=12, retry_delay=3)
+
+        configure_fetch_behavior(args)
+
+        mock_set_retry_parameters.assert_called_once_with(12, 3)
+        mock_set_page_delay.assert_called_once_with(1)
+
     @patch("scripts.fetch.download.fetch_all_nodes")
     def test_fetch_all_sets_retries_with_smaller_page_size_when_duplicate_ids_found(self, mock_fetch_all_nodes):
         mock_fetch_all_nodes.side_effect = [
