@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from scripts.fetch.download import fetch_all_sets, should_skip_tournament
+from scripts.fetch.download import dedupe_set_nodes, fetch_all_sets, should_skip_tournament
 
 
 class DownloadTests(unittest.TestCase):
@@ -18,6 +18,12 @@ class DownloadTests(unittest.TestCase):
         self.assertEqual(mock_fetch_all_nodes.call_count, 2)
         self.assertEqual(mock_fetch_all_nodes.call_args_list[0].kwargs["per_page"], 50)
         self.assertEqual(mock_fetch_all_nodes.call_args_list[1].kwargs["per_page"], 25)
+
+    def test_dedupe_set_nodes_removes_duplicate_set_ids_preserving_order(self):
+        self.assertEqual(
+            dedupe_set_nodes([{"id": 10}, {"id": 10}, {"id": 20}, {"name": "no-id"}]),
+            [{"id": 10}, {"id": 20}, {"name": "no-id"}],
+        )
 
     def test_should_skip_tournament_when_done_and_complete(self):
         tournaments = {
