@@ -283,7 +283,16 @@ def fetch_all_sets(event_id):
     tried = []
     for per_page in SETS_PER_PAGE_FALLBACKS:
         tried.append(per_page)
-        all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        try:
+            all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+        except FetchError as exc:
+            message = str(exc).lower()
+            if "query complexity is too high" not in message:
+                raise
+            print(
+                f"Event {event_id}: sets query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
+            )
+            continue
         set_ids = [node.get("id") for node in all_sets if node.get("id") is not None]
         duplicate_ids = [set_id for set_id, count in Counter(set_ids).items() if count > 1]
         if not duplicate_ids:
@@ -316,10 +325,26 @@ def fetch_with_page_fallback(query, variables, keys, per_page_values, label, eve
             )
     raise last_error
 
+def build_match_dedupe_key(match_data):
+    return (
+        match_data.get("winner_id"),
+        match_data.get("loser_id"),
+        match_data.get("winner_score"),
+        match_data.get("loser_score"),
+        match_data.get("round_text"),
+        match_data.get("round"),
+        match_data.get("phase"),
+        match_data.get("wave"),
+        match_data.get("dq"),
+        match_data.get("cancel"),
+        match_data.get("state"),
+    )
+
 def write_matches(all_nodes, entrant2user, event_dir):
     """マッチデータを保存する関数"""
     json_data = {"data": []}
     seen_set_ids = set()
+    seen_match_keys = set()
     for node in all_nodes:
         set_id = node.get("id")
         if set_id is not None:
@@ -387,6 +412,10 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "state": node['state'],
                 "details": details
             }
+        match_key = build_match_dedupe_key(match_data)
+        if match_key in seen_match_keys:
+            continue
+        seen_match_keys.add(match_key)
         json_data["data"].append(match_data)
         
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
