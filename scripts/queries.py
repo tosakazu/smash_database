@@ -77,6 +77,63 @@ def get_event_sets_query():
       }
     }"""
 
+def get_event_sets_light_query():
+    return """query EventSetsLight($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        id
+        name
+        sets(
+          page: $page
+          perPage: $perPage
+          sortType: STANDARD
+        ) {
+          pageInfo {
+            totalPages
+          }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            phaseGroup {
+              id
+              displayIdentifier
+              wave {
+                id
+                identifier
+              }
+            }
+            slots {
+              id
+              entrant {
+                id
+              }
+              standing {
+                stats {
+                  score {
+                    label
+                    value
+                  }
+                }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }"""
+
 def get_standings_query():
     return """query EventStandings($eventId: ID!, $page: Int!, $perPage: Int!) {
       event(id: $eventId) {
@@ -198,6 +255,25 @@ def get_tournament_events_query():
         }
       }
     }""" 
+
+def get_event_entrants_query():
+    return """query EventEntrants($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        entrants(query: {page: $page, perPage: $perPage}) {
+          pageInfo {
+            totalPages
+          }
+          nodes {
+            id
+            participants {
+              user {
+                id
+              }
+            }
+          }
+        }
+      }
+    }"""
 
 def get_phase_groups_query():
     return """query PhaseGroupsByEvent($eventId: ID!, $page: Int!, $perPage: Int!) {
