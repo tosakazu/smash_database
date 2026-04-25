@@ -15,6 +15,10 @@ on:
         description: "Country code filter (e.g. JP)."
         required: false
         default: "JP"
+      matches_only:
+        description: "Refresh only matches.json for existing events."
+        required: false
+        default: "false"
       target_branch:
         description: "Branch to run on and commit data into. Defaults to the branch selected in workflow_dispatch."
         required: false
@@ -79,21 +83,31 @@ jobs:
           if [ -z "$COUNTRY_CODE" ]; then
             COUNTRY_CODE="JP"
           fi
+          MATCHES_ONLY="${{ inputs.matches_only }}"
+          if [ -z "$MATCHES_ONLY" ]; then
+            MATCHES_ONLY="false"
+          fi
           echo "start_date=$START_DATE" >> "$GITHUB_OUTPUT"
           echo "end_date=$END_DATE" >> "$GITHUB_OUTPUT"
           echo "country_code=$COUNTRY_CODE" >> "$GITHUB_OUTPUT"
+          echo "matches_only=$MATCHES_ONLY" >> "$GITHUB_OUTPUT"
 
       - name: Force refresh tournaments (backfill)
         env:
           STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
         run: |
           set -euxo pipefail
+          EXTRA_ARGS=()
+          if [ "${{ steps.params.outputs.matches_only }}" = "true" ]; then
+            EXTRA_ARGS+=(--matches_only)
+          fi
           python scripts/fetch/download.py \
             --token "$STARTGG_TOKEN" \
             --country_code "${{ steps.params.outputs.country_code }}" \
             --start_date "${{ steps.params.outputs.start_date }}" \
             --finish_date "${{ steps.params.outputs.end_date }}" \
-            --force_refresh
+            --force_refresh \
+            "${EXTRA_ARGS[@]}"
 
       - name: Run tests
         run: |

@@ -72,6 +72,11 @@ def main():
         action="store_true",
         help="Re-download tournaments even when they are already marked done and event files exist.",
     )
+    parser.add_argument(
+        "--matches_only",
+        action="store_true",
+        help="Refresh only matches.json for existing event directories. Skip standings, seeds, attr, and user updates.",
+    )
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
@@ -90,6 +95,7 @@ def main():
         args.users_file_path,
         args.tournament_file_path,
         force_refresh=args.force_refresh,
+        matches_only=args.matches_only,
     )
 
 def event_files_complete(event_dir):
@@ -113,7 +119,18 @@ def should_skip_tournament(tournament_id, tournaments, done_tournaments, force_r
     tournament_entry = tournaments.get(tournament_id)
     return bool(tournament_entry and tournament_events_complete(tournament_entry))
 
-def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path, force_refresh=False):
+def download_all_tournaments(
+    game_id,
+    country_code,
+    start_date,
+    finish_date,
+    startgg_dir,
+    done_file_path,
+    users_file_path,
+    tournament_file_path,
+    force_refresh=False,
+    matches_only=False,
+):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -203,20 +220,30 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     year, month, day = get_date_parts(timestamp)
                     event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
-                    user_data, player_data, entrant2user = download_standings(event_id, event_dir)
-                    num_entrants = len(user_data)
-                    try:
-                        download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
-                    except NoPhaseError as e:
-                        print(f"No phase found for event {event_name}. Skipping.")
-                        continue
-                    extend_user_info(user_data, player_data, users, users_file_path)
-                    download_all_set(event_id, entrant2user, event_dir)
-                    labels = {}
-                    write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+                    if matches_only:
+                        if not os.path.isdir(event_dir):
+                            print(
+                                f"Skip matches-only refresh for {event_name}: existing event_dir not found ({event_dir})."
+                            )
+                            continue
+                        download_all_set(event_id, {}, event_dir)
+                    else:
+                        user_data, player_data, entrant2user = download_standings(event_id, event_dir)
+                        num_entrants = len(user_data)
+                        try:
+                            download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
+                        except NoPhaseError as e:
+                            print(f"No phase found for event {event_name}. Skipping.")
+                            continue
+                        extend_user_info(user_data, player_data, users, users_file_path)
+                        download_all_set(event_id, entrant2user, event_dir)
+                        labels = {}
+                        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
 
                     existing_events = tournaments[tournament_id]["events"]
                     if not any(e.get("event_id") == event_id for e in existing_events):
+                        if matches_only:
+                            continue
                         existing_events.append({
                             "event_id": event_id,
                             "event_name": event_name,

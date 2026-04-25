@@ -1,0 +1,32 @@
+name: "Reset chore-update After Merge"
+
+on:
+  pull_request_target:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+jobs:
+  reset-chore-update:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.ref == 'chore-update' &&
+      github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Reset chore-update to main
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main chore-update || true
+          git checkout -B chore-update origin/main
+          git push --force-with-lease origin chore-update

@@ -11,6 +11,7 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-tournament:
@@ -110,6 +111,35 @@ jobs:
             git pull --rebase origin chore-update
           done
           exit 1
+
+      - name: Ensure main PR uses rebase auto-merge
+        if: steps.detect_changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euxo pipefail
+          PR_NUMBER="$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --head chore-update \
+            --base main \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [ -z "$PR_NUMBER" ]; then
+            PR_URL="$(gh pr create \
+              --repo "$GITHUB_REPOSITORY" \
+              --base main \
+              --head chore-update \
+              --title "chore(data): sync chore-update into main" \
+              --body "Automated data update PR from \`chore-update\` into \`main\`." )"
+            PR_NUMBER="${PR_URL##*/}"
+          fi
+
+          gh pr merge "$PR_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --auto \
+            --rebase
 
       - name: Debug on failure
         if: failure()

@@ -1,7 +1,9 @@
 # GitHub Actions
 
 ## 概要
-- GitHub Actions による更新結果は、PR を作らず `chore-update` ブランチへ直接 commit / push する。
+- GitHub Actions による更新結果は、まず `chore-update` ブランチへ commit / push する。
+- `update_tournament.yml` / `update_user.yml` は `chore-update` から `main` への PR を自動で維持し、可能なら rebase auto-merge を有効にする。
+- `chore-update` の PR が `main` に merge された後は、専用 workflow が `chore-update` ブランチを `main` に同期し直す。
 - 大会データの取得状況は `docs/chore-tornament/README.md` に日付単位で記録する。
 - 記録対象の日付範囲は `2018-12-29` から当日まで。
 
@@ -17,6 +19,7 @@
   - `python -m unittest scripts.test.test_validate_data` を実行
   - `scripts/fix/update_chore_tournament_log.py` で `docs/chore-tornament/` を更新
   - 差分があれば `chore-update` ブランチへ直接 push
+  - `chore-update` -> `main` の PR を自動作成または再利用し、rebase auto-merge を設定する
 
 ### `update_user.yml`
 - 定義ファイル: `.github/workflows/update_user.yml`
@@ -26,6 +29,7 @@
 - 実行内容:
   - `scripts/fetch/refresh_users.py --max_users 300` を実行
   - 差分があれば `chore-update` ブランチへ直接 push
+  - `chore-update` -> `main` の PR を自動作成または再利用し、rebase auto-merge を設定する
 
 ### `data_backfill.yml`
 - 定義ファイル: `.github/workflows/data_backfill.yml`
@@ -72,7 +76,8 @@
 
 - 共通挙動
   - どの workflow も最初に `chore-update` ブランチへ checkout し、差分がある場合のみそのブランチへ commit / push する。
-  - PR は作成しない。
+  - `update_tournament.yml` と `update_user.yml` は `main` 向け PR を自動管理する。
+  - rebase merge 後の履歴ずれを避けるため、merge 後に `chore-update` は `main` に同期し直す。
   - `schedule` は GitHub Actions の仕様上、デフォルトブランチ上の workflow 定義を元に起動される。
 
 ## `docs/chore-tornament`
