@@ -4,6 +4,20 @@
       "winner_id": 1894370,
       "loser_id": 1669715,
       "winner_score": 3,
+      "loser_score": 2,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1894370,
+      "loser_id": 1669715,
+      "winner_score": 3,
       "loser_score": 1,
       "round_text": "Winners Final",
       "round": 4,
@@ -20,20 +34,7 @@
           "entrant1_score": 0,
           "entrant2_score": null,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1894370,
-              "selection_id": 48871870,
-              "character_id": 1290,
-              "character_name": "Ice Climbers"
-            },
-            {
-              "user_id": 1669715,
-              "selection_id": 48871871,
-              "character_id": 1328,
-              "character_name": "Samus"
-            }
-          ]
+          "selections": []
         },
         {
           "game_id": 33109163,
@@ -42,20 +43,7 @@
           "entrant1_score": null,
           "entrant2_score": 0,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1894370,
-              "selection_id": 48871872,
-              "character_id": 1290,
-              "character_name": "Ice Climbers"
-            },
-            {
-              "user_id": 1669715,
-              "selection_id": 48871873,
-              "character_id": 1328,
-              "character_name": "Samus"
-            }
-          ]
+          "selections": []
         },
         {
           "game_id": 33109164,
@@ -64,20 +52,7 @@
           "entrant1_score": 0,
           "entrant2_score": null,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1894370,
-              "selection_id": 48871874,
-              "character_id": 1290,
-              "character_name": "Ice Climbers"
-            },
-            {
-              "user_id": 1669715,
-              "selection_id": 48871875,
-              "character_id": 1328,
-              "character_name": "Samus"
-            }
-          ]
+          "selections": []
         },
         {
           "game_id": 33109165,
@@ -86,20 +61,7 @@
           "entrant1_score": 0,
           "entrant2_score": null,
           "stage": null,
-          "selections": [
-            {
-              "user_id": 1894370,
-              "selection_id": 48871876,
-              "character_id": 1290,
-              "character_name": "Ice Climbers"
-            },
-            {
-              "user_id": 1669715,
-              "selection_id": 48871877,
-              "character_id": 1328,
-              "character_name": "Samus"
-            }
-          ]
+          "selections": []
         }
       ]
     },
@@ -465,20 +427,6 @@
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": []
-    },
-    {
-      "winner_id": 1669715,
-      "loser_id": 1894370,
-      "winner_score": 0,
-      "loser_score": 0,
-      "round_text": "Grand Final",
-      "round": 5,
-      "phase": "1",
-      "wave": null,
-      "dq": false,
-      "cancel": true,
-      "state": 2,
       "details": []
     }
   ],
