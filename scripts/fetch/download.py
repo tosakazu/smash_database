@@ -17,13 +17,19 @@ from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
     read_users_jsonl, read_set, read_tournaments_jsonl,
     write_json, extend_jsonl, write_jsonl,
-    set_indent_num,
+    set_indent_num, set_page_delay,
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
     FetchError, NoPhaseError,
 )
 
 REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
+DEFAULT_MAX_RETRIES = 100
+DEFAULT_RETRY_DELAY = 5
+DEFAULT_PAGE_DELAY = 2
+MATCHES_ONLY_MAX_RETRIES = 8
+MATCHES_ONLY_RETRY_DELAY = 2
+MATCHES_ONLY_PAGE_DELAY = 1
 TOURNAMENTS_PER_PAGE = 100
 STANDINGS_PER_PAGE = 200
 SEEDS_PER_PAGE = 200
@@ -46,6 +52,25 @@ def parse_date_or_datetime(value):
         f"Invalid datetime '{value}'. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS."
     )
 
+
+def configure_fetch_behavior(args):
+    max_retries = args.max_retries
+    retry_delay = args.retry_delay
+    page_delay = DEFAULT_PAGE_DELAY
+
+    if args.matches_only:
+        if max_retries == DEFAULT_MAX_RETRIES:
+            max_retries = MATCHES_ONLY_MAX_RETRIES
+        if retry_delay == DEFAULT_RETRY_DELAY:
+            retry_delay = MATCHES_ONLY_RETRY_DELAY
+        page_delay = MATCHES_ONLY_PAGE_DELAY
+
+    set_retry_parameters(max_retries, retry_delay)
+    set_page_delay(page_delay)
+    print(
+        f"Fetch behavior: matches_only={args.matches_only} max_retries={max_retries} retry_delay={retry_delay}s page_delay={page_delay}s"
+    )
+
 def main():
     # コマンドライン引数の設定
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
@@ -63,8 +88,8 @@ def main():
         default=datetime(2018, 1, 1),
         help="Lower bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
     )
-    parser.add_argument("--max_retries", type=int, default=100, help="Maximum number of retries for API requests")
-    parser.add_argument("--retry_delay", type=int, default=5, help="Delay between retries in seconds")
+    parser.add_argument("--max_retries", type=int, default=DEFAULT_MAX_RETRIES, help="Maximum number of retries for API requests")
+    parser.add_argument("--retry_delay", type=int, default=DEFAULT_RETRY_DELAY, help="Delay between retries in seconds")
     parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
     parser.add_argument("--startgg_dir", default="data/startgg/events", help="Directory to save event data")
     parser.add_argument("--done_file_path", default="data/startgg/done.csv", help="Path to the file recording completed downloads")
@@ -85,7 +110,7 @@ def main():
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
-    set_retry_parameters(args.max_retries, args.retry_delay)
+    configure_fetch_behavior(args)
     set_api_parameters(args.url, args.token)
     if args.start_date is not None and args.start_date < args.finish_date:
         raise ValueError("--start_date must be greater than or equal to --finish_date.")
@@ -219,9 +244,14 @@ def download_all_tournaments(
                         "events": []
                     }
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
+                print(
+                    f"Tournament {tournament_id}: fetched {len(events_info)} events for {tournament_name}."
+                )
 
                 for event_id, event_name, is_online in events_info:
-                    
+                    print(
+                        f"Tournament {tournament_id}: processing event {event_id} ({event_name}) matches_only={matches_only}."
+                    )
                     year, month, day = get_date_parts(timestamp)
                     event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
@@ -245,6 +275,9 @@ def download_all_tournaments(
                         download_all_set(event_id, entrant2user, event_dir)
                         labels = {}
                         write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+                    print(
+                        f"Tournament {tournament_id}: finished event {event_id} ({event_name})."
+                    )
 
                     existing_events = tournaments[tournament_id]["events"]
                     if not any(e.get("event_id") == event_id for e in existing_events):
@@ -268,7 +301,7 @@ def download_all_tournaments(
                         write_done_tournaments(tournament_id, done_file_path)
 
             except FetchError as e:
-                print(e)
+                print(f"Tournament {tournament_id}: fetch failed, skipping. Error: {e}")
                 continue
 
         if page >= total_pages:

@@ -183,6 +183,7 @@ class NoPhaseError(Exception):
 __max_retries = 100
 __retry_delay = 5
 __page_delay = 2
+__request_timeout = 60
 __api_url = "https://api.start.gg/gql/alpha"
 __headers = {}
 
@@ -194,6 +195,10 @@ def set_retry_parameters(max_retries, retry_delay):
     global __max_retries, __retry_delay
     __max_retries = max_retries
     __retry_delay = retry_delay
+
+def set_request_timeout(timeout):
+    global __request_timeout
+    __request_timeout = timeout
 
 def set_api_parameters(url, token):
     global __api_url, __headers
@@ -208,7 +213,15 @@ def fetch_data_with_retries(query, variables):
     last_error_message = ""
     for attempt in range(__max_retries):
         try:
-            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers)
+            print(
+                f"Requesting start.gg data: page={variables.get('page', 1)} per_page={variables.get('perPage')} keys={sorted(variables.keys())}"
+            )
+            response = requests.post(
+                __api_url,
+                json={"query": query, "variables": json.dumps(variables)},
+                headers=__headers,
+                timeout=__request_timeout,
+            )
             response.raise_for_status()
             response_data = json.loads(response.text)
             return response_data

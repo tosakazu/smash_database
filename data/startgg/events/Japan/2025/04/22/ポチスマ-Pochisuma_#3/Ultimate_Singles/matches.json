@@ -2,6 +2,20 @@
   "data": [
     {
       "winner_id": 1683493,
+      "loser_id": 1037104,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 6,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 1683493,
       "loser_id": 1035491,
       "winner_score": 3,
       "loser_score": 1,
@@ -1382,20 +1396,6 @@
           "selections": []
         }
       ]
-    },
-    {
-      "winner_id": 1037104,
-      "loser_id": 1683493,
-      "winner_score": 0,
-      "loser_score": 0,
-      "round_text": "Grand Final",
-      "round": 6,
-      "phase": "1",
-      "wave": null,
-      "dq": false,
-      "cancel": true,
-      "state": 2,
-      "details": []
     }
   ],
   "version": "1.0"

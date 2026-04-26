@@ -1,6 +1,34 @@
 {
   "data": [
     {
+      "winner_id": 2051169,
+      "loser_id": 1637767,
+      "winner_score": 3,
+      "loser_score": 0,
+      "round_text": "Grand Final",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "winner_id": 2051169,
+      "loser_id": 1637767,
+      "winner_score": 3,
+      "loser_score": 1,
+      "round_text": "Grand Final Reset",
+      "round": 5,
+      "phase": "1",
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
       "winner_id": 1637767,
       "loser_id": 2051169,
       "winner_score": 3,
@@ -264,20 +292,6 @@
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": []
-    },
-    {
-      "winner_id": 2051169,
-      "loser_id": 1637767,
-      "winner_score": 0,
-      "loser_score": 0,
-      "round_text": "Grand Final",
-      "round": 5,
-      "phase": "1",
-      "wave": null,
-      "dq": false,
-      "cancel": true,
-      "state": 1,
       "details": []
     }
   ],
