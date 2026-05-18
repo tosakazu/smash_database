@@ -384,7 +384,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         "bracket_capacity": bracket_capacity,
     }
     seen_set_ids = set()
-    seen_match_keys = set()  # (pg_id, round, winner_uid, loser_uid) — start.gg が同じ試合を異なる set id で返す稀ケース対応
+    seen_match_keys = set()  # (pg_id, round, round_text, winner_uid, loser_uid) — set.id dedup の補助 (= start.gg が同じ試合を異なる set id で返す稀ケース対応)
     dup_set_id = 0
     dup_match_key = 0
     for node, phase_info, pg_info in all_sets_with_phase:
@@ -477,12 +477,15 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "state": node.get("state"),
             "details": details,
         }
-        # 二重チェック: 同じ (pg, round, winner_uid, loser_uid) を持つ試合が既に
+        # 二重チェック: 同じ (pg, round_text, winner_uid, loser_uid) を持つ試合が既に
         # 別 set id で書かれていたら重複と見なして skip.
+        # 注: round だけだと Grand Final と Grand Final Reset が同 round + 同 winner/loser
+        # で識別不能になる (= LB-side が GF1+GF Reset の双方を勝つケースで GF Reset が
+        # 誤削除される). round_text を加えてその偽陽性を排除.
         wuid = match_data.get("winner_id")
         luid = match_data.get("loser_id")
         if wuid is not None and luid is not None:
-            mkey = (pg_info.get("id"), round_n, wuid, luid)
+            mkey = (pg_info.get("id"), round_n, round_text or '', wuid, luid)
             if mkey in seen_match_keys:
                 dup_match_key += 1
                 continue
@@ -628,7 +631,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
     for m in kept_matches:
         wuid = m.get("winner_id"); luid = m.get("loser_id")
         if wuid is not None and luid is not None:
-            seen_match_keys.add((m.get("phase_group_id"), m.get("round"), wuid, luid))
+            seen_match_keys.add((m.get("phase_group_id"), m.get("round"), m.get("round_text") or '', wuid, luid))
 
     new_match_data = []
     dup_set_id = 0
@@ -689,7 +692,8 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
         )
         winner_uid = entrant2user.get(wid_ent)
         if winner_uid is not None and loser_uid is not None:
-            mkey = (pg_info.get("id"), round_n, winner_uid, loser_uid)
+            # round_text を含めて GF vs GF Reset (= 同 round, 同 winner/loser) を識別.
+            mkey = (pg_info.get("id"), round_n, round_text or '', winner_uid, loser_uid)
             if mkey in seen_match_keys:
                 dup_match_key += 1
                 continue
