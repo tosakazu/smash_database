@@ -656,20 +656,27 @@ def fetch_event_ids_from_tournament(tournament_id, game_id):
     return out
 
 def fetch_phase_id(event_id):
-    page = 1
-    per_page = 10
-    while True:
-        response_data = fetch_data_with_retries(
-            get_phase_groups_query(),
-            {"eventId": event_id, "page": page, "perPage": per_page}
+    """event の最初の phase の id を返す (= seeding query 用).
+
+    元実装は while True ループで pagination 風だったが、両分岐で必ず return/raise する
+    無限ループ無し dead loop だった. per_page を大きめにして 1 ページで多くの phase を
+    取得するよう変更. (phase 数は通常 1-5 なので per_page=100 で十分.)
+    """
+    response_data = fetch_data_with_retries(
+        get_phase_groups_query(),
+        {"eventId": event_id, "page": 1, "perPage": 100},
+    )
+    if "data" not in response_data or "event" not in response_data["data"]:
+        raise FetchError(
+            f"Error: 'data' or 'event' key not found in response for event {event_id}. "
+            f"Response data: {response_data}\n in fetch_phase_id"
         )
-        if "data" not in response_data or "event" not in response_data["data"]:
-            raise FetchError(f"Error: 'data' or 'event' key not found in response for event {event_id}. Response data: {response_data}\n in fetch_phase_id")
-        event_data = response_data["data"]["event"]
-        if event_data and event_data["phases"]:
-            return event_data["phases"][0]["id"]
-        else:
-            raise NoPhaseError(f"Error: No phases found for event {event_id}. Response data: {response_data}\n in fetch_phase_id")
+    event_data = response_data["data"]["event"]
+    if event_data and event_data.get("phases"):
+        return event_data["phases"][0]["id"]
+    raise NoPhaseError(
+        f"Error: No phases found for event {event_id}. Response data: {response_data}\n in fetch_phase_id"
+    )
 
 def write_done_tournaments(tournament_id, file_path):
     with open(file_path, "a", encoding="utf-8") as f:

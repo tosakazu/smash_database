@@ -255,6 +255,10 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
     items_fetched = 0
     variables["page"] = 1
     variables["perPage"] = current_per_page
+    # query が pageInfo を含む場合に取得する authoritative な totals.
+    # totalPages を最終ページ判定に、total を取りこぼし検知に使う.
+    total_pages = None
+    expected_total = None
     keys = ["data"] + keys
     min_per_page = 2
     max_complexity_retries_per_call = 8
@@ -298,6 +302,12 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
         if data is None or "nodes" not in data:
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
+        # pageInfo (= 全件数 / total ページ数) を authoritative に使う.
+        # query が pageInfo を含む場合のみ取得できる. 含まない query は従来通り empty-page break.
+        page_info = data.get("pageInfo") or {}
+        if total_pages is None:
+            total_pages = page_info.get("totalPages")
+            expected_total = page_info.get("total")
         # After complexity-throttle retry, the new page boundary can overlap with items
         # we've already fetched (e.g., we had per_page=25 page=4 → items 1-75, then throttle
         # reduces to per_page=12 page=7 → items 73-84; items 73-75 are duplicates).
@@ -311,27 +321,83 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
                 nodes = nodes[overlap:]
         all_nodes.extend(nodes)
         items_fetched += len(nodes)
-        if len(nodes) > 0:
-            variables["page"] += 1
-            # Reset complexity retry counter after a successful page
-            complexity_retries = 0
-            successes_at_current += 1
-            # AIMD probe-up: after enough successes at lower per_page, try a step up
-            if successes_at_current >= SUCCESSES_BEFORE_PROBE and current_per_page < MAX_PER_PAGE:
-                new_per_page = min(MAX_PER_PAGE, max(current_per_page + 1, current_per_page * 3 // 2))
-                if new_per_page > current_per_page:
-                    new_page = items_fetched // new_per_page + 1
-                    print(
-                        f"[fetch_all_nodes] probing up per_page={current_per_page} → {new_per_page} page={new_page} (items_fetched={items_fetched}, after {successes_at_current} successes)",
-                        flush=True,
-                    )
-                    current_per_page = new_per_page
-                    variables["perPage"] = current_per_page
-                    variables["page"] = new_page
-                    successes_at_current = 0
-            time.sleep(__page_delay)
-        else:
+        # 終了判定: totalPages があれば authoritative に使う (= start.gg のページサイズ揺れで
+        # nodes が偶然空でも誤打切しない). pageInfo が無ければ従来の empty-page break.
+        if total_pages is not None and variables["page"] >= total_pages:
             break
+        if len(nodes) == 0 and total_pages is None:
+            break
+        variables["page"] += 1
+        # Reset complexity retry counter after a successful page
+        complexity_retries = 0
+        if len(nodes) > 0:
+            successes_at_current += 1
+        # AIMD probe-up: after enough successes at lower per_page, try a step up
+        if successes_at_current >= SUCCESSES_BEFORE_PROBE and current_per_page < MAX_PER_PAGE:
+            new_per_page = min(MAX_PER_PAGE, max(current_per_page + 1, current_per_page * 3 // 2))
+            if new_per_page > current_per_page:
+                new_page = items_fetched // new_per_page + 1
+                print(
+                    f"[fetch_all_nodes] probing up per_page={current_per_page} → {new_per_page} page={new_page} (items_fetched={items_fetched}, after {successes_at_current} successes)",
+                    flush=True,
+                )
+                current_per_page = new_per_page
+                variables["perPage"] = current_per_page
+                variables["page"] = new_page
+                # totalPages は per_page 変更後に再取得し直す.
+                total_pages = None
+                successes_at_current = 0
+        time.sleep(__page_delay)
+    # 取りこぼし fallback: expected_total に届かない場合、別 per_page で再走査.
+    # start.gg のページサイズ揺れで欠損したノードを回収する.
+    if expected_total is not None and items_fetched < expected_total:
+        # 重複検出用に既存ノードの id 集合を作る (= "id" フィールド前提).
+        seen_ids = {n.get("id") for n in all_nodes if isinstance(n, dict) and n.get("id") is not None}
+        fallback_per_page = max(2, min(current_per_page, MAX_PER_PAGE) // 2)
+        retry_page = 1
+        retry_total_pages = None
+        retry_variables = variables.copy()
+        retry_variables["perPage"] = fallback_per_page
+        retry_variables["page"] = retry_page
+        max_retry_pages = 100
+        print(
+            f"[fetch_all_nodes] short by {expected_total - items_fetched} items (have {items_fetched}/{expected_total}), "
+            f"retrying at per_page={fallback_per_page}",
+            flush=True,
+        )
+        while retry_page <= max_retry_pages:
+            retry_variables["page"] = retry_page
+            retry_resp = fetch_data_with_retries(query, retry_variables)
+            if _is_complexity_error(retry_resp):
+                break  # 簡略化: complexity 出たら fallback 終了
+            r_data = retry_resp
+            try:
+                for key in keys:
+                    r_data = r_data[key]
+            except (KeyError, TypeError):
+                break
+            if not isinstance(r_data, dict) or "nodes" not in r_data:
+                break
+            r_nodes = r_data["nodes"] or []
+            r_page_info = r_data.get("pageInfo") or {}
+            if retry_total_pages is None:
+                retry_total_pages = r_page_info.get("totalPages")
+            for n in r_nodes:
+                nid = n.get("id") if isinstance(n, dict) else None
+                if nid is not None and nid in seen_ids:
+                    continue
+                all_nodes.append(n)
+                if nid is not None:
+                    seen_ids.add(nid)
+                items_fetched += 1
+            if not r_nodes:
+                break
+            if retry_total_pages is not None and retry_page >= retry_total_pages:
+                break
+            if items_fetched >= expected_total:
+                break
+            retry_page += 1
+            time.sleep(__page_delay)
     return all_nodes
 
 def analyze_event_setting(openai_client, event_prompt, tournament_name, event_name, event_id):
