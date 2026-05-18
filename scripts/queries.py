@@ -1,5 +1,37 @@
 from datetime import datetime
 
+def get_event_sets_slim_query():
+    """Slim version of get_event_sets_query: drops `games` (stage/character selections) to
+    reduce query complexity ~10x. Use for matches.json re-fetch when only winner/loser/phase/round
+    are needed (SPSP build does not use games data).
+    """
+    return """query EventSetsSlim($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          nodes {
+            id
+            state
+            round
+            fullRoundText
+            phaseGroup {
+              id
+              displayIdentifier
+            }
+            slots {
+              entrant {
+                participants { user { id } }
+              }
+              standing {
+                stats { score { value } }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
 def get_event_sets_query():
     return """query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
       event(id: $eventId) {
@@ -180,18 +212,25 @@ def get_user_player_query():
     }"""
 
 def get_tournament_events_query():
-    return """query TournamentEvents($tournamentId: ID!, $gameId: ID!) {
+    # videogameId フィルタを外し、イベントの videogame.id を取得して
+    # download.py 側で「SSBU タグ or 下位クラス bracket 名」を判定する.
+    # (start.gg では Bクラス side event を videogameId 未設定で登録するケースがあるため)
+    # $gameId は呼び出し側互換のため受け取るが、クエリ内では未使用.
+    return """query TournamentEvents($tournamentId: ID!) {
       tournament(id: $tournamentId) {
         id
         name
-        events(filter: {videogameId: [$gameId]}) {
+        events {
           id
           name
           startAt
           isOnline
+          videogame {
+            id
+          }
         }
       }
-    }""" 
+    }"""
 
 def get_phase_groups_query():
     return """query PhaseGroupsByEvent($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -202,6 +241,145 @@ def get_phase_groups_query():
             pageInfo {
               total
             }
+            nodes {
+              id
+              displayIdentifier
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_event_phases_full_query():
+    """Event の phases 一覧 (phase_groups 含む、メタ情報付き). 各 phase の num_seeds, bracket_type, name を取得.
+    各 phase_group の id, displayIdentifier, wave も含める."""
+    return """query EventPhasesFull($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        phases {
+          id
+          name
+          numSeeds
+          bracketType
+          phaseOrder
+          phaseGroups(query: {page: 1, perPage: 500}) {
+            nodes {
+              id
+              displayIdentifier
+              wave {
+                id
+                identifier
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_full_query():
+    """Phase group 内の sets を取得 (games フィールド除外で complexity 抑制).
+    page/perPage 指定可能. 224 sets × 100 perPage で complexity 1000以下に収まる.
+    games (character/stage 選択履歴) は ranking 計算で不要なため除外."""
+    return """query PhaseGroupSetsFull($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            slots {
+              id
+              entrant {
+                id
+                participants {
+                  user { id }
+                }
+              }
+              standing {
+                stats {
+                  score { label value }
+                }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_minimal_query():
+    """Phase group の sets を最小限のフィールドで取得 (DQ filter 用).
+    player_ids per set: slots[].entrant.participants[].user.id のみ. 軽量で complexity throttling 回避.
+    """
+    return """query PhaseGroupSetsMinimal($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            slots {
+              standing {
+                stats {
+                  score { value }
+                }
+              }
+              entrant {
+                participants { user { id } }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_standings_query():
+    """Phase group の standings を取得 (placement / user_id / 名前).
+    Phase group ごとの sub-bracket placement. 複数 phase_groups を持つ phase の場合、
+    各 group の standings を別々に取得して合算する必要がある.
+    """
+    return """query PhaseGroupStandings($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        displayIdentifier
+        standings(query: {page: $page, perPage: $perPage}) {
+          pageInfo { total totalPages }
+          nodes {
+            placement
+            entrant {
+              id
+              name
+              participants { user { id } }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_event_phases_named_query():
+    """Event の phase メタ (name / order / bracketType / phaseGroups の displayIdentifier).
+    クラス phase (B-class etc) 検出と placement clip 用.
+    """
+    return """query EventPhasesNamed($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        name
+        phases {
+          id
+          name
+          phaseOrder
+          bracketType
+          numSeeds
+          phaseGroups(query: {page: 1, perPage: 500}) {
             nodes {
               id
               displayIdentifier

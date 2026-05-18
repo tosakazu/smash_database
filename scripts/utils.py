@@ -208,7 +208,7 @@ def fetch_data_with_retries(query, variables):
     last_error_message = ""
     for attempt in range(__max_retries):
         try:
-            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers)
+            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers, verify=False)
             response.raise_for_status()
             response_data = json.loads(response.text)
             return response_data
@@ -249,6 +249,7 @@ def _is_complexity_error(response_data):
 def fetch_all_nodes(query, variables, keys, per_page=10):
     all_nodes = []
     variables = variables.copy()
+    MAX_PER_PAGE = per_page
     current_per_page = per_page
     # Track item offset so we can recompute page when per_page changes
     items_fetched = 0
@@ -256,8 +257,14 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
     variables["perPage"] = current_per_page
     keys = ["data"] + keys
     min_per_page = 2
-    max_complexity_retries_per_call = 6
+    max_complexity_retries_per_call = 8
     complexity_retries = 0
+    # AIMD-style adaptive per_page tuning: after enough consecutive successes at a
+    # reduced per_page, try probing back up to test if the throttle has lifted.
+    # This finds optimal per_page automatically across long fetches where the
+    # complexity threshold may fluctuate.
+    SUCCESSES_BEFORE_PROBE = 30
+    successes_at_current = 0
     while True:
         response_data = fetch_data_with_retries(query, variables)
         # Adaptive per_page: if startgg complains about complexity, halve and retry.
@@ -280,6 +287,7 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
             variables["perPage"] = current_per_page
             variables["page"] = new_page
             complexity_retries += 1
+            successes_at_current = 0
             time.sleep(__page_delay)
             continue
         data = response_data
@@ -290,12 +298,37 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
         if data is None or "nodes" not in data:
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
+        # After complexity-throttle retry, the new page boundary can overlap with items
+        # we've already fetched (e.g., we had per_page=25 page=4 → items 1-75, then throttle
+        # reduces to per_page=12 page=7 → items 73-84; items 73-75 are duplicates).
+        # Skip the overlap on the current page so all_nodes stays free of dups.
+        expected_start = (variables["page"] - 1) * current_per_page  # 0-indexed
+        if expected_start < items_fetched:
+            overlap = items_fetched - expected_start
+            if overlap >= len(nodes):
+                nodes = []
+            else:
+                nodes = nodes[overlap:]
         all_nodes.extend(nodes)
         items_fetched += len(nodes)
         if len(nodes) > 0:
             variables["page"] += 1
             # Reset complexity retry counter after a successful page
             complexity_retries = 0
+            successes_at_current += 1
+            # AIMD probe-up: after enough successes at lower per_page, try a step up
+            if successes_at_current >= SUCCESSES_BEFORE_PROBE and current_per_page < MAX_PER_PAGE:
+                new_per_page = min(MAX_PER_PAGE, max(current_per_page + 1, current_per_page * 3 // 2))
+                if new_per_page > current_per_page:
+                    new_page = items_fetched // new_per_page + 1
+                    print(
+                        f"[fetch_all_nodes] probing up per_page={current_per_page} → {new_per_page} page={new_page} (items_fetched={items_fetched}, after {successes_at_current} successes)",
+                        flush=True,
+                    )
+                    current_per_page = new_per_page
+                    variables["perPage"] = current_per_page
+                    variables["page"] = new_page
+                    successes_at_current = 0
             time.sleep(__page_delay)
         else:
             break

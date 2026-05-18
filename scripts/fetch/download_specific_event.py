@@ -33,27 +33,26 @@ def event_files_complete(event_dir):
     return all(os.path.exists(os.path.join(event_dir, name)) for name in REQUIRED_EVENT_FILES)
 
 # --- 元のスクリプトから流用する関数群 ---
+# v2 (refetch) と同じ phase_group 単位の fetch logic + rich schema (match_id /
+# bracket_label / global_round) を生成するため、download.py の関数を共有する.
+from scripts.fetch.download import (
+    fetch_all_sets as _fetch_all_sets_v2,
+    download_all_set as _download_all_set_v2,
+)
 
 # イベントのセットデータを保存する関数
 def download_all_set(event_id, entrant2user, event_dir):
-    """イベントの全セットデータを取得し、matches.jsonとして保存する"""
-    all_sets = fetch_all_sets(event_id)
-    if not all_sets:
-        print(f"No sets found for event {event_id}.")
-        return
-
-    os.makedirs(event_dir, exist_ok=True)
-    write_matches(all_sets, entrant2user, event_dir)
-    print(f"Successfully wrote matches.json for event {event_id} to {event_dir}")
+    """イベントの全セットデータを v2 schema で matches.json に保存する.
+    entrant2user は互換性のため受け取るが内部では未使用 (write_matches_v2 が再構築).
+    """
+    _download_all_set_v2(event_id, entrant2user, event_dir)
 
 def fetch_all_sets(event_id):
-    """APIからイベントの全セットデータを取得する"""
-    query = get_event_sets_query()
-    variables = {"eventId": event_id}
-    keys = ["event", "sets"]
+    """API から event の全 sets を v2 logic で取得.
+    Returns: (set_node, phase_info, pg_info) tuple のリスト.
+    """
     try:
-        all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
-        return all_sets
+        return _fetch_all_sets_v2(event_id)
     except FetchError as e:
         print(f"Error fetching sets for event {event_id}: {e}")
         return None
@@ -89,8 +88,18 @@ def write_matches(all_nodes, entrant2user, event_dir):
         score0 = slot0['standing']['stats']['score']['value'] if slot0['standing']['stats']['score']['value'] is not None else 0
         score1 = slot1['standing']['stats']['score']['value'] if slot1['standing']['stats']['score']['value'] is not None else 0
 
-        # 勝者と敗者を決定
-        winner_slot = slot0 if score0 > score1 else slot1
+        # 勝者と敗者を決定: node.winnerId (entrant ID) を優先使用.
+        # score 比較だけだと score 0/0 (cancel/DQ で score 取得失敗) で常に slot1 winner と
+        # 誤判定するバグがあった (池スマ#4 メロンおじさんで発覚).
+        winner_eid = node.get('winnerId')
+        if winner_eid is not None and winner_eid in (entrant0_id, entrant1_id):
+            winner_slot = slot0 if winner_eid == entrant0_id else slot1
+        else:
+            # winnerId 不明 → score 比較. 同点 (0-0 等) なら確定できないので skip.
+            if score0 == score1:
+                skipped_count += 1
+                continue
+            winner_slot = slot0 if score0 > score1 else slot1
         loser_slot = slot1 if winner_slot == slot0 else slot0
         winner_score = score0 if winner_slot == slot0 else score1
         loser_score = score1 if winner_slot == slot0 else score0
@@ -100,7 +109,7 @@ def write_matches(all_nodes, entrant2user, event_dir):
 
         dq = (score0 < 0 or score1 < 0)
         # start.ggではスコア0-0は未プレイまたはキャンセルを示すことが多い
-        cancel = score0 == 0 and score1 == 0 and not dq
+        cancel = (score0 == 0 and score1 == 0 and not dq and winner_eid is None)
 
         # ゲーム詳細情報の処理
         details = []
@@ -278,7 +287,7 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     variables = {"phaseId": phase_id}
     keys = ["phase", "seeds"]
     try:
-    seeds_nodes = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
+        seeds_nodes = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
         if not seeds_nodes:
             print(f"No seeds data found for phase {phase_id} in event {event_id}.")
             # シードファイルがなくても処理は続行可能なので空ファイルを作成しない
