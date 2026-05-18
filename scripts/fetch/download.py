@@ -1,4 +1,6 @@
 import os
+import re
+import shutil
 import argparse
 import sys
 from datetime import datetime
@@ -8,8 +10,15 @@ if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
 from scripts.queries import (
-    get_event_sets_query, get_standings_query, get_seeds_query, 
+    get_event_sets_query, get_standings_query, get_seeds_query,
     get_tournament_events_query, get_phase_groups_query, get_tournaments_by_game_query,
+)
+
+# 下位クラス bracket: Bクラス/Cクラス/Bclass/B_Class/b_class 等.
+# start.gg で videogame タグが未設定の side event を救うためのフォールバック.
+_LOWER_CLASS_NAME_PAT = re.compile(
+    r'[BCDEＢＣＤＥ]\s*クラス|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
+    re.IGNORECASE,
 )
 from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
@@ -19,6 +28,13 @@ from scripts.utils import (
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
     FetchError, NoPhaseError,
+)
+# v2 (refetch) の fetch / write logic を流用して新規 daily download でも同一スキーマを生成.
+from scripts.fetch.redownload_matches_v2 import (
+    write_matches_v2 as _write_matches_v2_impl,
+    fetch_event_phases as _fetch_event_phases_impl,
+    fetch_phase_group_sets as _fetch_phase_group_sets_impl,
+    API_DELAY_SEC as _V2_API_DELAY_SEC,
 )
 
 REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
@@ -95,6 +111,17 @@ def tournament_events_complete(tournament_entry):
             return False
     return True
 
+def _build_event_id_index(tournaments):
+    """Build {event_id: (tournament_id, event_path)} from existing tournaments.jsonl data."""
+    idx = {}
+    for tid, entry in tournaments.items():
+        for ev in entry.get("events", []):
+            eid = ev.get("event_id")
+            if eid:
+                idx[eid] = (tid, ev.get("path"))
+    return idx
+
+
 def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
@@ -104,6 +131,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     print(f"tournaments: {len(tournaments)}")
     rewrite_tournaments = False
     existing_tournament_ids = set(tournaments.keys())
+    # Index of event_id -> (tournament_id, old_path) for detecting date-change duplicates.
+    event_id_index = _build_event_id_index(tournaments)
 
     page = 1
     while True:
@@ -158,7 +187,34 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 if tournament_id in done_tournaments:
                     tournament_entry = tournaments.get(tournament_id)
                     if tournament_entry and tournament_events_complete(tournament_entry):
-                        print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
+                        # Check if any event is stored under an outdated date
+                        # directory. If so, move it to the correct path.
+                        year, month, day = get_date_parts(timestamp)
+                        needs_move = False
+                        for ev in tournament_entry.get("events", []):
+                            old_path = ev.get("path", "")
+                            new_path = get_event_directory(
+                                startgg_dir, country_code, year, month, day,
+                                tournament_name, ev.get("event_name", ""),
+                            )
+                            if old_path and new_path and old_path != new_path and os.path.isdir(old_path):
+                                print(f"  [move] {tournament_name}: {old_path} -> {new_path}")
+                                os.makedirs(os.path.dirname(new_path), exist_ok=True)
+                                shutil.move(old_path, new_path)
+                                ev["path"] = new_path
+                                # Update event_id index
+                                eid = ev.get("event_id")
+                                if eid:
+                                    event_id_index[eid] = (tournament_id, new_path)
+                                needs_move = True
+                                # Clean up empty parent dirs
+                                old_parent = os.path.dirname(old_path)
+                                if os.path.isdir(old_parent) and not os.listdir(old_parent):
+                                    os.rmdir(old_parent)
+                        if needs_move:
+                            rewrite_tournaments = True
+                        else:
+                            print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
                         continue
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
@@ -185,6 +241,25 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         year, month, day = get_date_parts(timestamp)
                         event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
+                        # Date-change dedup: if this event_id was previously saved
+                        # at a different path (due to tournament date change on
+                        # start.gg), remove the old directory and update the index.
+                        if event_id in event_id_index:
+                            old_tid, old_path = event_id_index[event_id]
+                            if old_path and old_path != event_dir and os.path.isdir(old_path):
+                                print(f"  [dedup] event {event_id} date changed: removing old dir {old_path}")
+                                shutil.rmtree(old_path)
+                                # Update tournaments entry to drop the old path
+                                if old_tid in tournaments:
+                                    tournaments[old_tid]["events"] = [
+                                        e for e in tournaments[old_tid]["events"]
+                                        if e.get("event_id") != event_id
+                                    ]
+                                    rewrite_tournaments = True
+                            elif old_path == event_dir and event_files_complete(old_path):
+                                # Same path, files present — skip re-download
+                                continue
+
                         user_data, player_data, entrant2user = download_standings(event_id, event_dir)
                         num_entrants = len(user_data)
                         try:
@@ -195,7 +270,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         extend_user_info(user_data, player_data, users, users_file_path)
                         download_all_set(event_id, entrant2user, event_dir)
                         labels = {}
-                        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+                        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir, end_timestamp=end_timestamp)
 
                         existing_events = tournaments[tournament_id]["events"]
                         if not any(e.get("event_id") == event_id for e in existing_events):
@@ -206,6 +281,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                             })
                             if tournament_id in existing_tournament_ids:
                                 rewrite_tournaments = True
+                        # Keep event_id index up to date for subsequent iterations.
+                        event_id_index[event_id] = (tournament_id, event_dir)
                     except FetchError as e:
                         any_event_failed = True
                         print(f"FetchError on event {event_id} ({event_name}) in tournament {tournament_name}: {e}")
@@ -250,25 +327,81 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
 # イベントのセットデータを保存する関数
 def download_all_set(event_id, entrant2user, event_dir):
-    all_sets = fetch_all_sets(event_id)
-    if not all_sets:
-        return
+    """event の matches.json を v2 schema で生成 (match_id / bracket_label / global_round 等).
 
+    entrant2user 引数は API 互換性のため受け取るが、内部で all_sets から再構築するので未使用.
+    """
+    all_sets_with_phase = fetch_all_sets(event_id)
+    if not all_sets_with_phase:
+        return
     os.makedirs(event_dir, exist_ok=True)
-    write_matches(all_sets, entrant2user, event_dir)
+    from pathlib import Path as _Path
+    _write_matches_v2_impl(event_id, all_sets_with_phase, _Path(event_dir))
 
 def fetch_all_sets(event_id):
-    query = get_event_sets_query()
-    variables = {"eventId": event_id}
-    keys = ["event", "sets"]
-    all_sets = fetch_all_nodes(query, variables, keys, per_page=SETS_PER_PAGE)
-    
-    return all_sets
+    """event の全 sets を (set_node, phase_info, pg_info) tuple のリストで返す.
+
+    v1 (event-level query + fetch_all_nodes) から v2 logic (phase_group 単位 + totalPages
+    + fallback retry + dedup) に変更. 篝火#15 等の大型 event での取りこぼしバグを修正.
+    write_matches_v2 に渡せるよう phase_info / pg_info を enrich した tuple リストを返す.
+    """
+    import time as _time
+    phases = _fetch_event_phases_impl(event_id)
+    _time.sleep(_V2_API_DELAY_SEC)  # phases query 後に rate-limit 緩和.
+    all_sets_with_phase = []
+    seen_ids = set()
+    pg_failures = []
+    for ph in phases:
+        phase_info = {
+            "id": ph.get("id"),
+            "name": ph.get("name"),
+            "numSeeds": ph.get("numSeeds"),
+            "bracketType": ph.get("bracketType"),
+            "phaseOrder": ph.get("phaseOrder"),
+        }
+        for pg in (ph.get("phaseGroups") or {}).get("nodes") or []:
+            pg_id = pg.get("id")
+            if pg_id is None:
+                continue
+            pg_info = {
+                "id": pg_id,
+                "displayIdentifier": pg.get("displayIdentifier"),
+                "wave": pg.get("wave"),
+            }
+            try:
+                pg_sets = _fetch_phase_group_sets_impl(pg_id, per_page=50)
+            except FetchError as e:
+                print(f"[fetch_all_sets] WARN pg={pg_id} failed: {e}", flush=True)
+                pg_failures.append(pg_id)
+                pg_sets = []
+            for s in pg_sets:
+                sid = s.get("id")
+                if sid is None or sid in seen_ids:
+                    continue
+                seen_ids.add(sid)
+                all_sets_with_phase.append((s, phase_info, pg_info))
+            _time.sleep(_V2_API_DELAY_SEC)  # 各 phase_group 間で rate-limit 緩和 (v2 と同じ).
+    if pg_failures:
+        print(f"[fetch_all_sets] event={event_id}: {len(pg_failures)} phase_groups failed: {pg_failures}", flush=True)
+    return all_sets_with_phase
 
 def write_matches(all_nodes, entrant2user, event_dir):
     """マッチデータを保存する関数"""
     json_data = {"data": []}
+    # set.id ベース dedup (= fetch 層を通り抜けた同 ID の重複を最終 cut).
+    # tuple (pg_id, round, winner_uid, loser_uid) ベース dedup (= start.gg が同じ試合を
+    # 異なる set id で返す稀ケース対策, v2 と同じポリシー).
+    seen_set_ids = set()
+    seen_match_keys = set()
+    dup_set_id = 0
+    dup_match_key = 0
     for node in all_nodes:
+        nid = node.get('id') if isinstance(node, dict) else None
+        if nid is not None:
+            if nid in seen_set_ids:
+                dup_set_id += 1
+                continue
+            seen_set_ids.add(nid)
         if node['slots'] is None or len(node['slots']) != 2:
             continue
 
@@ -280,14 +413,26 @@ def write_matches(all_nodes, entrant2user, event_dir):
         # スコアがNoneの場合は0を設定
         score0 = slot0['standing']['stats']['score']['value'] if slot0['standing']['stats']['score']['value'] is not None else 0
         score1 = slot1['standing']['stats']['score']['value'] if slot1['standing']['stats']['score']['value'] is not None else 0
-        
-        winner_slot = slot0 if score0 > score1 else slot1
+
+        # winner/loser 判定は node.winnerId (entrant ID) を優先使用.
+        # score 比較だけだと score 0/0 (cancel/DQ で score 取得失敗) で常に slot1 winner と
+        # 誤判定するバグがあった (池スマ#4 メロンおじさんで発覚).
+        winner_eid = node.get('winnerId')
+        ent0_id = slot0['entrant']['id']
+        ent1_id = slot1['entrant']['id']
+        if winner_eid is not None and winner_eid in (ent0_id, ent1_id):
+            winner_slot = slot0 if winner_eid == ent0_id else slot1
+        else:
+            # winnerId 不明 → score 比較. 同点 (0-0等) なら確定できないので skip.
+            if score0 == score1:
+                continue
+            winner_slot = slot0 if score0 > score1 else slot1
         loser_slot = slot1 if winner_slot == slot0 else slot0
         winner_score = score0 if winner_slot == slot0 else score1
         loser_score = score1 if winner_slot == slot0 else score0
-        
+
         dq = (score0 < 0 or score1 < 0)
-        cancel = score0 == 0 and score1 == 0
+        cancel = (score0 == 0 and score1 == 0 and winner_eid is None)
         
         details = [
                     {
@@ -330,11 +475,23 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "state": node['state'],
                 "details": details
             }
+        # tuple-level dedup: 同じ (pg_id, round, winner_uid, loser_uid) を持つ match が既に
+        # 別 set_id で書かれていたら重複扱いで skip (v2 と同じポリシー).
+        wuid = match_data["winner_id"]
+        luid = match_data["loser_id"]
+        pg_id = node['phaseGroup']['id'] if (node.get('phaseGroup') is not None) else None
+        if wuid is not None and luid is not None:
+            mkey = (pg_id, node['round'], wuid, luid)
+            if mkey in seen_match_keys:
+                dup_match_key += 1
+                continue
+            seen_match_keys.add(mkey)
         json_data["data"].append(match_data)
-        
+    if dup_set_id or dup_match_key:
+        print(f"  [write_matches] dedup: set_id_dups={dup_set_id} match_key_dups={dup_match_key}", flush=True)
     write_json(json_data, f"{event_dir}/matches.json", with_version=True)
 
-def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir):
+def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir, end_timestamp=None):
     json_data = {
         "event_id": event_id,
         "tournament_name": tournament_name,
@@ -347,6 +504,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "labels": labels,
         "status": "completed",
         "timestamp": timestamp,
+        "end_timestamp": end_timestamp,
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
 
@@ -474,15 +632,28 @@ def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1):
     return tournaments, total_pages
 
 def fetch_event_ids_from_tournament(tournament_id, game_id):
+    # クエリは videogameId フィルタを外したので $gameId は不要だが、
+    # game_id 比較で SSBU タグマッチを確認するため引数として受け取る.
     response_data = fetch_data_with_retries(
         get_tournament_events_query(),
-        {"tournamentId": tournament_id, "gameId": game_id},
+        {"tournamentId": tournament_id},
     )
     if "data" not in response_data or response_data["data"] is None or "tournament" not in response_data["data"] or response_data["data"]["tournament"] is None:
         raise FetchError(f"Error: 'data' or 'tournament' key not found in response for tournament {tournament_id}. Response data: {response_data}\n in fetch_event_ids_from_tournament")
-    
-    events = response_data["data"]["tournament"]["events"]
-    return [(event["id"], event["name"], event["isOnline"]) for event in events]
+
+    events = response_data["data"]["tournament"]["events"] or []
+    out = []
+    for event in events:
+        vg = (event.get("videogame") or {}).get("id")
+        name = event.get("name") or ""
+        # 通常: 指定 game_id にマッチするイベントのみ採用.
+        # 例外: 下位クラス bracket (Bクラス/Cクラス/Bclass 等) は videogame タグ未設定でも採用.
+        # (start.gg では Bクラス side event の videogame を設定し忘れているケースがある)
+        if str(vg) == str(game_id):
+            out.append((event["id"], event["name"], event["isOnline"]))
+        elif _LOWER_CLASS_NAME_PAT.search(name):
+            out.append((event["id"], event["name"], event["isOnline"]))
+    return out
 
 def fetch_phase_id(event_id):
     page = 1
