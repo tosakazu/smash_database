@@ -366,7 +366,8 @@ def fetch_all_sets(event_id):
             pg_info = {
                 "id": pg_id,
                 "displayIdentifier": pg.get("displayIdentifier"),
-                "wave": pg.get("wave"),
+                "startAt": pg.get("startAt"),  # phase_group 開始予定時刻 (Unix timestamp)
+                "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
                 pg_sets = _fetch_phase_group_sets_impl(pg_id, per_page=50)

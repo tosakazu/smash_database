@@ -52,9 +52,11 @@ def get_event_sets_query():
             phaseGroup {
               id
               displayIdentifier
+              startAt
               wave {
                 id
                 identifier
+                startAt
               }
             }
             slots {
@@ -269,9 +271,11 @@ def get_event_phases_full_query():
             nodes {
               id
               displayIdentifier
+              startAt
               wave {
                 id
                 identifier
+                startAt
               }
             }
           }

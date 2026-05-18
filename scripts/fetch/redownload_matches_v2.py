@@ -470,8 +470,10 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "global_top_x": global_top_x,                  # bracket_capacity / 2^(global_round-1) or LB は placement bucket
             "global_bracket_label": global_bracket_label,  # = "Winners TOP X" / "Losers TOP X" (global)
             "phase_group_id": pg_info.get("id"),
+            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; phase_group 開始予定時刻
             "wave_id": wave.get("id"),
             "wave": wave.get("identifier"),
+            "wave_start_at": wave.get("startAt"),  # Unix timestamp; wave 開始予定時刻
             "dq": dq,
             "cancel": cancel,
             "state": node.get("state"),
@@ -519,7 +521,8 @@ def refetch_event(event_id, event_dir: Path, per_page=50):
             pg_info = {
                 "id": pg.get("id"),
                 "displayIdentifier": pg.get("displayIdentifier"),
-                "wave": pg.get("wave"),
+                "startAt": pg.get("startAt"),  # phase_group 開始予定時刻 (Unix timestamp)
+                "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
                 sets = fetch_phase_group_sets(pg.get("id"), per_page=per_page)
@@ -577,7 +580,8 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             pg_info = {
                 "id": pg.get("id"),
                 "displayIdentifier": pg.get("displayIdentifier"),
-                "wave": pg.get("wave"),
+                "startAt": pg.get("startAt"),  # phase_group 開始予定時刻 (Unix timestamp)
+                "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
                 sets = fetch_phase_group_sets(pg.get("id"), per_page=per_page)
@@ -719,8 +723,10 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             "global_top_x": global_top_x,
             "global_bracket_label": global_bracket_label,
             "phase_group_id": pg_info.get("id"),
+            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; phase_group 開始予定時刻
             "wave_id": wave.get("id"),
             "wave": wave.get("identifier"),
+            "wave_start_at": wave.get("startAt"),  # Unix timestamp; wave 開始予定時刻
             "dq": dq,
             "cancel": cancel,
             "state": node.get("state"),
