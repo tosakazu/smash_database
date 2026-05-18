@@ -475,13 +475,15 @@ def write_matches(all_nodes, entrant2user, event_dir):
                 "state": node['state'],
                 "details": details
             }
-        # tuple-level dedup: 同じ (pg_id, round, winner_uid, loser_uid) を持つ match が既に
-        # 別 set_id で書かれていたら重複扱いで skip (v2 と同じポリシー).
+        # tuple-level dedup: 同じ (pg_id, round, round_text, winner_uid, loser_uid) を持つ
+        # match が既に別 set_id で書かれていたら重複扱いで skip.
+        # round_text を含めるのは GF vs GF Reset (= 同 round + 同 winner/loser だが別試合)
+        # を誤って削除しないため.
         wuid = match_data["winner_id"]
         luid = match_data["loser_id"]
         pg_id = node['phaseGroup']['id'] if (node.get('phaseGroup') is not None) else None
         if wuid is not None and luid is not None:
-            mkey = (pg_id, node['round'], wuid, luid)
+            mkey = (pg_id, node['round'], node.get('fullRoundText') or '', wuid, luid)
             if mkey in seen_match_keys:
                 dup_match_key += 1
                 continue
