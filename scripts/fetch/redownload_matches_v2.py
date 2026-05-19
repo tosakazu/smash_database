@@ -135,6 +135,10 @@ def compute_phase_global_rounds(all_sets_with_phase):
         pname = phase_info.get('name') or ''
         if _is_class_phase(pname):
             continue
+        # ROUND_ROBIN / SINGLE_ELIMINATION / CUSTOM_SCHEDULE は WB bracket-position の概念無し
+        bt = phase_info.get('bracketType')
+        if bt and bt != 'DOUBLE_ELIMINATION':
+            continue
         pid = phase_info.get('id')
         if pid is None:
             continue
@@ -187,6 +191,10 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
         return (None, None, None)
     pname = phase_info.get('name') or ''
     if _is_class_phase(pname):
+        return (None, None, None)
+    # ROUND_ROBIN / SINGLE_ELIMINATION / CUSTOM_SCHEDULE: WB-bracket position label 適用外.
+    bt = phase_info.get('bracketType')
+    if bt and bt != 'DOUBLE_ELIMINATION':
         return (None, None, None)
     pid = phase_info.get('id')
     info = phase_global_info.get(pid)
@@ -484,9 +492,12 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         # 注: round だけだと Grand Final と Grand Final Reset が同 round + 同 winner/loser
         # で識別不能になる (= LB-side が GF1+GF Reset の双方を勝つケースで GF Reset が
         # 誤削除される). round_text を加えてその偽陽性を排除.
+        # ただし ROUND_ROBIN phase では同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
         wuid = match_data.get("winner_id")
         luid = match_data.get("loser_id")
-        if wuid is not None and luid is not None:
+        # ROUND_ROBIN / MATCHMAKING phase は同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
+        is_rr_phase = phase_info.get("bracketType") in ("ROUND_ROBIN", "MATCHMAKING")
+        if wuid is not None and luid is not None and not is_rr_phase:
             mkey = (pg_info.get("id"), round_n, round_text or '', wuid, luid)
             if mkey in seen_match_keys:
                 dup_match_key += 1
@@ -695,7 +706,9 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             placements_map, loser_uid,
         )
         winner_uid = entrant2user.get(wid_ent)
-        if winner_uid is not None and loser_uid is not None:
+        # ROUND_ROBIN / MATCHMAKING phase は同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
+        _is_rr_phase = phase_info.get("bracketType") in ("ROUND_ROBIN", "MATCHMAKING")
+        if winner_uid is not None and loser_uid is not None and not _is_rr_phase:
             # round_text を含めて GF vs GF Reset (= 同 round, 同 winner/loser) を識別.
             mkey = (pg_info.get("id"), round_n, round_text or '', winner_uid, loser_uid)
             if mkey in seen_match_keys:
