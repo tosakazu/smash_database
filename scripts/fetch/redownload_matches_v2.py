@@ -92,8 +92,9 @@ def next_pow2(n: int) -> int:
     return p
 
 
-# クラス phase (B/C/D/E-class) 判定 — main bracket と分離するためのフィルタ
-_CLASS_PHASE_RE = re.compile(r'\b[A-E][- ]?class\b', re.IGNORECASE)
+# クラス phase (B/C/D/E-class) 判定 — main bracket と分離するためのフィルタ.
+# A-class は最上位ブラケット (= TO WIN 系) で main 扱いするので除外しない.
+_CLASS_PHASE_RE = re.compile(r'\b[B-E][- ]?class\b', re.IGNORECASE)
 def _is_class_phase(phase_name: str) -> bool:
     return bool(phase_name and _CLASS_PHASE_RE.search(phase_name))
 
@@ -468,6 +469,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "phase": pg_info.get("displayIdentifier"),
             "phase_id": phase_info.get("id"),
             "phase_name": phase_info.get("name"),
+            "phase_order": phase_info.get("phaseOrder"),     # multi-phase 大会で phase 順序を保持
             "phase_num_seeds": phase_info.get("numSeeds"),
             "phase_bracket_type": phase_info.get("bracketType"),
             "phase_top_n": phase_top_n,        # phase 内 bracket の入場サイズ
@@ -726,6 +728,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             "phase": pg_info.get("displayIdentifier"),
             "phase_id": phase_info.get("id"),
             "phase_name": phase_info.get("name"),
+            "phase_order": phase_info.get("phaseOrder"),
             "phase_num_seeds": phase_info.get("numSeeds"),
             "phase_bracket_type": phase_info.get("bracketType"),
             "phase_top_n": phase_top_n,
