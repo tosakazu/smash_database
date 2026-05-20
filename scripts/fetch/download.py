@@ -160,6 +160,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     print(f"users: {len(users)}")
     print(f"tournaments: {len(tournaments)}")
     rewrite_tournaments = False
+    # 既存 user の情報が更新された id を集める. 最後にまとめて users.jsonl を書き戻す.
+    dirty_user_ids = set()
     existing_tournament_ids = set(tournaments.keys())
     # Index of event_id -> (tournament_id, old_path) for detecting date-change duplicates.
     event_id_index = _build_event_id_index(tournaments)
@@ -252,6 +254,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
                 if tournament_dt < finish_date:
                     print("!!!downloaded all!!!")
+                    _flush_dirty_users(users, dirty_user_ids, users_file_path)
                     return
 
                 if tournament_id in tournaments:
@@ -297,7 +300,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         except NoPhaseError as e:
                             print(f"No phase found for event {event_name}. Skipping.")
                             continue
-                        extend_user_info(user_data, player_data, users, users_file_path)
+                        extend_user_info(user_data, player_data, users, users_file_path, dirty_user_ids=dirty_user_ids)
                         download_all_set(event_id, entrant2user, event_dir)
                         labels = {}
                         write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir, end_timestamp=end_timestamp)
@@ -354,6 +357,19 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
     if rewrite_tournaments:
         write_jsonl(list(tournaments.values()), tournament_file_path, with_version=True)
+
+    # 既存 user の更新があれば users.jsonl を書き戻し
+    _flush_dirty_users(users, dirty_user_ids, users_file_path)
+
+
+def _flush_dirty_users(users, dirty_user_ids, users_file_path):
+    """既存 user で API 反映で更新された記録があれば users.jsonl 全体を書き直す.
+    新規 user は extend_jsonl で append 済なので、ここでは全件 write_jsonl で上書き保存し直す.
+    """
+    if not dirty_user_ids:
+        return
+    print(f"[users] {len(dirty_user_ids)} existing users updated, rewriting {users_file_path}", flush=True)
+    write_jsonl(list(users.values()), users_file_path, with_version=True)
 
 # イベントのセットデータを保存する関数
 def download_all_set(event_id, entrant2user, event_dir):
@@ -605,9 +621,14 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     }
     write_json(json_data, f"{event_dir}/seeds.json", with_version=True)
 
-def extend_user_info(user_data, player_data, users, users_file_path):
+def extend_user_info(user_data, player_data, users, users_file_path, dirty_user_ids=None):
+    """新規 user は users.jsonl に追記、既存 user は差分があれば in-memory 更新.
+
+    dirty_user_ids: 既存 user が更新されたら id を追加する set (= caller がまとめて
+        最後に write_jsonl で全件書き戻すために使う).
+    """
     new_users = []
-    
+
     for user, player in zip(user_data, player_data):
         if user is None or player is None:
             continue
@@ -630,21 +651,32 @@ def extend_user_info(user_data, player_data, users, users_file_path):
                     discord_id = authorization['externalId']
                     discord_name = authorization['externalUsername']
 
+        api_record = {
+            "user_id": user_id,
+            "player_id": player_id,
+            "gamer_tag": gamer_tag,
+            "prefix": prefix,
+            "gender_pronoun": gender_pronoun,
+            "startgg_discriminator": startgg_discriminator,
+            "x_id": x_id,
+            "x_name": x_name,
+            "discord_id": discord_id,
+            "discord_name": discord_name,
+        }
         if user_id not in users:
-            new_user = {
-                "user_id": user_id,
-                "player_id": player_id,
-                "gamer_tag": gamer_tag,
-                "prefix": prefix,
-                "gender_pronoun": gender_pronoun,
-                "startgg_discriminator": startgg_discriminator,
-                "x_id": x_id,
-                "x_name": x_name,
-                "discord_id": discord_id,
-                "discord_name": discord_name
-            }
-            users[user_id] = new_user
-            new_users.append(new_user)
+            users[user_id] = api_record
+            new_users.append(api_record)
+        else:
+            # 既存 user の差分検出. API 値が None (= 未取得 / 削除) でも上書き反映
+            # (= start.gg 側の最新状態を信用する).
+            existing = users[user_id]
+            changed = False
+            for k, v in api_record.items():
+                if existing.get(k) != v:
+                    existing[k] = v
+                    changed = True
+            if changed and dirty_user_ids is not None:
+                dirty_user_ids.add(user_id)
 
     extend_jsonl(new_users, users_file_path, with_version=True)
 
