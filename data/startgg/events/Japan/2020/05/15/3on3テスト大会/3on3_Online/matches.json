@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 28960802,
       "winner_id": 596768,
       "loser_id": 1144604,
       "winner_score": 1,
@@ -8,23 +9,28 @@
       "round_text": "Grand Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 810661,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 2,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 1301087,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 3928346,
-          "order_num": 1,
-          "winner_id": 596768,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": []
-        }
-      ]
+      "details": [],
+      "phase_group_start_at": 1589525100
     },
     {
+      "match_id": 28960801,
       "winner_id": 596768,
       "loser_id": 1144604,
       "winner_score": 1,
@@ -32,22 +38,26 @@
       "round_text": "Winners Final",
       "round": 1,
       "phase": "1",
+      "phase_id": 810661,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 2,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 1301087,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 3928327,
-          "order_num": 1,
-          "winner_id": 596768,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": []
-        }
-      ]
+      "details": [],
+      "phase_group_start_at": 1589525100
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 2
 }

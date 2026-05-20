@@ -1,0 +1,103 @@
+{
+  "event_id": 1170102,
+  "event_name": "Singles Tournament",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1703027,
+      "name": "Round1/BO3",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 274,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2531760,
+          "display": "1"
+        },
+        {
+          "id": 2531761,
+          "display": "2"
+        },
+        {
+          "id": 2531762,
+          "display": "3"
+        },
+        {
+          "id": 2531763,
+          "display": "4"
+        },
+        {
+          "id": 2531764,
+          "display": "5"
+        },
+        {
+          "id": 2531765,
+          "display": "6"
+        },
+        {
+          "id": 2531766,
+          "display": "7"
+        },
+        {
+          "id": 2531767,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1703028,
+      "name": "TOP96/BO5",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2531776,
+          "display": "1"
+        },
+        {
+          "id": 2531777,
+          "display": "2"
+        },
+        {
+          "id": 2531778,
+          "display": "3"
+        },
+        {
+          "id": 2531779,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1703029,
+      "name": "TOP32/BO5",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2531780,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1703030,
+      "name": "TOP8/BO5",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2531781,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

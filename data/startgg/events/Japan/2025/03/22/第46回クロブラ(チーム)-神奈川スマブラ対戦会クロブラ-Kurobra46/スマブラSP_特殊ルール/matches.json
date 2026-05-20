@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 86882398,
       "winner_id": 394396,
       "loser_id": 355812,
       "winner_score": 0,
@@ -8,6 +9,19 @@
       "round_text": "Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 1904961,
+      "phase_name": "スマブラSP 特殊ルール",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "SINGLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 2800197,
+      "wave_id": null,
       "wave": null,
       "dq": true,
       "cancel": false,
@@ -15,6 +29,7 @@
       "details": []
     },
     {
+      "match_id": 86882397,
       "winner_id": 394396,
       "loser_id": 1345723,
       "winner_score": 0,
@@ -22,6 +37,19 @@
       "round_text": "Semi-Final",
       "round": 1,
       "phase": "1",
+      "phase_id": 1904961,
+      "phase_name": "スマブラSP 特殊ルール",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "SINGLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 3,
+      "global_bracket_label": "Winners TOP 3",
+      "phase_group_id": 2800197,
+      "wave_id": null,
       "wave": null,
       "dq": true,
       "cancel": false,
@@ -29,5 +57,5 @@
       "details": []
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 2
 }

@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 98733177,
       "winner_id": 998485,
       "loser_id": 1960213,
       "winner_score": 2,
@@ -8,80 +9,27 @@
       "round_text": "Grand Final",
       "round": 6,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 5,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479474,
-          "order_num": 1,
-          "winner_id": 998485,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654807,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1960213,
-              "selection_id": 52654808,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            }
-          ]
-        },
-        {
-          "game_id": 35479475,
-          "order_num": 2,
-          "winner_id": 1960213,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654809,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1960213,
-              "selection_id": 52654810,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            }
-          ]
-        },
-        {
-          "game_id": 35479476,
-          "order_num": 3,
-          "winner_id": 998485,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654811,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1960213,
-              "selection_id": 52654812,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733176,
       "winner_id": 998485,
       "loser_id": 1644134,
       "winner_score": 2,
@@ -89,80 +37,27 @@
       "round_text": "Winners Final",
       "round": 5,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 4,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479320,
-          "order_num": 1,
-          "winner_id": 998485,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654504,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654505,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        },
-        {
-          "game_id": 35479321,
-          "order_num": 2,
-          "winner_id": 1644134,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654506,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654507,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        },
-        {
-          "game_id": 35479322,
-          "order_num": 3,
-          "winner_id": 998485,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654508,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654509,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733240,
       "winner_id": 1960213,
       "loser_id": 1644134,
       "winner_score": 2,
@@ -170,58 +65,27 @@
       "round_text": "Losers Final",
       "round": -10,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 64",
+      "winners_top": null,
+      "losers_top": 64,
+      "global_round": null,
+      "global_top_x": 3,
+      "global_bracket_label": "Losers TOP 3",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479472,
-          "order_num": 1,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654803,
-              "character_id": 1766,
-              "character_name": "Steve"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654804,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        },
-        {
-          "game_id": 35479473,
-          "order_num": 2,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654805,
-              "character_id": 1766,
-              "character_name": "Steve"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654806,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733239,
       "winner_id": 1960213,
       "loser_id": 1632826,
       "winner_score": 2,
@@ -229,80 +93,27 @@
       "round_text": "Losers Semi-Final",
       "round": -9,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 48",
+      "winners_top": null,
+      "losers_top": 48,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Losers TOP 4",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479469,
-          "order_num": 1,
-          "winner_id": 1632826,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654797,
-              "character_id": 1766,
-              "character_name": "Steve"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654798,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 35479470,
-          "order_num": 2,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654799,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654800,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 35479471,
-          "order_num": 3,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654801,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654802,
-              "character_id": 1319,
-              "character_name": "Pikachu"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733174,
       "winner_id": 1644134,
       "loser_id": 2044084,
       "winner_score": 2,
@@ -310,58 +121,27 @@
       "round_text": "Winners Semi-Final",
       "round": 4,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 3,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479246,
-          "order_num": 1,
-          "winner_id": 1644134,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2044084,
-              "selection_id": 52654356,
-              "character_id": 1408,
-              "character_name": "Dark Samus"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654357,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        },
-        {
-          "game_id": 35479247,
-          "order_num": 2,
-          "winner_id": 1644134,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2044084,
-              "selection_id": 52654358,
-              "character_id": 1408,
-              "character_name": "Dark Samus"
-            },
-            {
-              "user_id": 1644134,
-              "selection_id": 52654359,
-              "character_id": 1321,
-              "character_name": "Pokemon Trainer"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733175,
       "winner_id": 998485,
       "loser_id": 1960213,
       "winner_score": 2,
@@ -369,65 +149,19 @@
       "round_text": "Winners Semi-Final",
       "round": 4,
       "phase": "1",
-      "wave": null,
-      "dq": false,
-      "cancel": false,
-      "state": 3,
-      "details": [
-        {
-          "game_id": 35479275,
-          "order_num": 1,
-          "winner_id": 998485,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654414,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1960213,
-              "selection_id": 52654415,
-              "character_id": 1766,
-              "character_name": "Steve"
-            }
-          ]
-        },
-        {
-          "game_id": 35479276,
-          "order_num": 2,
-          "winner_id": 998485,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 998485,
-              "selection_id": 52654416,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 1960213,
-              "selection_id": 52654417,
-              "character_id": 1766,
-              "character_name": "Steve"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "winner_id": 1960213,
-      "loser_id": 1974326,
-      "winner_score": 2,
-      "loser_score": 1,
-      "round_text": "Losers Quarter-Final",
-      "round": -8,
-      "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 3,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -435,6 +169,35 @@
       "details": []
     },
     {
+      "match_id": 98733237,
+      "winner_id": 1960213,
+      "loser_id": 1974326,
+      "winner_score": 2,
+      "loser_score": 1,
+      "round_text": "Losers Quarter-Final",
+      "round": -8,
+      "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 32",
+      "winners_top": null,
+      "losers_top": 32,
+      "global_round": null,
+      "global_top_x": 6,
+      "global_bracket_label": "Losers TOP 6",
+      "phase_group_id": 3178790,
+      "wave_id": null,
+      "wave": null,
+      "dq": false,
+      "cancel": false,
+      "state": 3,
+      "details": []
+    },
+    {
+      "match_id": 98733238,
       "winner_id": 1632826,
       "loser_id": 2044084,
       "winner_score": 2,
@@ -442,80 +205,27 @@
       "round_text": "Losers Quarter-Final",
       "round": -8,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 32",
+      "winners_top": null,
+      "losers_top": 32,
+      "global_round": null,
+      "global_top_x": 6,
+      "global_bracket_label": "Losers TOP 6",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479464,
-          "order_num": 1,
-          "winner_id": 2044084,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2044084,
-              "selection_id": 52654787,
-              "character_id": 1408,
-              "character_name": "Dark Samus"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654788,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 35479465,
-          "order_num": 2,
-          "winner_id": 1632826,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2044084,
-              "selection_id": 52654789,
-              "character_id": 1408,
-              "character_name": "Dark Samus"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654790,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 35479466,
-          "order_num": 3,
-          "winner_id": 1632826,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2044084,
-              "selection_id": 52654791,
-              "character_id": 1408,
-              "character_name": "Dark Samus"
-            },
-            {
-              "user_id": 1632826,
-              "selection_id": 52654792,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733235,
       "winner_id": 1974326,
       "loser_id": 770694,
       "winner_score": 2,
@@ -523,6 +233,19 @@
       "round_text": "Losers Round 4",
       "round": -7,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 24",
+      "winners_top": null,
+      "losers_top": 24,
+      "global_round": null,
+      "global_top_x": 8,
+      "global_bracket_label": "Losers TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -530,6 +253,7 @@
       "details": []
     },
     {
+      "match_id": 98733236,
       "winner_id": 1632826,
       "loser_id": 1532076,
       "winner_score": 2,
@@ -537,6 +261,19 @@
       "round_text": "Losers Round 4",
       "round": -7,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 24",
+      "winners_top": null,
+      "losers_top": 24,
+      "global_round": null,
+      "global_top_x": 8,
+      "global_bracket_label": "Losers TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -544,6 +281,7 @@
       "details": []
     },
     {
+      "match_id": 98733170,
       "winner_id": 1644134,
       "loser_id": 1974326,
       "winner_score": 2,
@@ -551,6 +289,19 @@
       "round_text": "Winners Quarter-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -558,6 +309,7 @@
       "details": []
     },
     {
+      "match_id": 98733171,
       "winner_id": 2044084,
       "loser_id": 770694,
       "winner_score": 2,
@@ -565,6 +317,19 @@
       "round_text": "Winners Quarter-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -572,6 +337,7 @@
       "details": []
     },
     {
+      "match_id": 98733172,
       "winner_id": 998485,
       "loser_id": 1632826,
       "winner_score": 2,
@@ -579,6 +345,19 @@
       "round_text": "Winners Quarter-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -586,6 +365,7 @@
       "details": []
     },
     {
+      "match_id": 98733173,
       "winner_id": 1960213,
       "loser_id": 1532076,
       "winner_score": 2,
@@ -593,58 +373,27 @@
       "round_text": "Winners Quarter-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479230,
-          "order_num": 1,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654332,
-              "character_id": 1766,
-              "character_name": "Steve"
-            },
-            {
-              "user_id": 1532076,
-              "selection_id": 52654333,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            }
-          ]
-        },
-        {
-          "game_id": 35479231,
-          "order_num": 2,
-          "winner_id": 1960213,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1960213,
-              "selection_id": 52654334,
-              "character_id": 1766,
-              "character_name": "Steve"
-            },
-            {
-              "user_id": 1532076,
-              "selection_id": 52654335,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733231,
       "winner_id": 770694,
       "loser_id": 2955565,
       "winner_score": 2,
@@ -652,6 +401,19 @@
       "round_text": "Losers Round 3",
       "round": -6,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -659,6 +421,7 @@
       "details": []
     },
     {
+      "match_id": 98733232,
       "winner_id": 1974326,
       "loser_id": 1866759,
       "winner_score": 2,
@@ -666,6 +429,19 @@
       "round_text": "Losers Round 3",
       "round": -6,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -673,6 +449,7 @@
       "details": []
     },
     {
+      "match_id": 98733233,
       "winner_id": 1532076,
       "loser_id": 2617790,
       "winner_score": 2,
@@ -680,6 +457,19 @@
       "round_text": "Losers Round 3",
       "round": -6,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -687,6 +477,7 @@
       "details": []
     },
     {
+      "match_id": 98733234,
       "winner_id": 1632826,
       "loser_id": 2473547,
       "winner_score": 2,
@@ -694,6 +485,19 @@
       "round_text": "Losers Round 3",
       "round": -6,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -701,6 +505,7 @@
       "details": []
     },
     {
+      "match_id": 98733230,
       "winner_id": 2473547,
       "loser_id": 2420938,
       "winner_score": 2,
@@ -708,6 +513,19 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Losers TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -715,6 +533,7 @@
       "details": []
     },
     {
+      "match_id": 98733227,
       "winner_id": 2955565,
       "loser_id": 2335909,
       "winner_score": 2,
@@ -722,6 +541,19 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Losers TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -729,6 +561,7 @@
       "details": []
     },
     {
+      "match_id": 98733228,
       "winner_id": 1866759,
       "loser_id": 2516359,
       "winner_score": 2,
@@ -736,6 +569,19 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Losers TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -743,6 +589,7 @@
       "details": []
     },
     {
+      "match_id": 98733229,
       "winner_id": 2617790,
       "loser_id": 1934676,
       "winner_score": 2,
@@ -750,6 +597,19 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Losers TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -757,6 +617,7 @@
       "details": []
     },
     {
+      "match_id": 98733162,
       "winner_id": 1974326,
       "loser_id": 2420938,
       "winner_score": 2,
@@ -764,6 +625,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -771,6 +645,7 @@
       "details": []
     },
     {
+      "match_id": 98733163,
       "winner_id": 1644134,
       "loser_id": 2473547,
       "winner_score": 2,
@@ -778,6 +653,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -785,6 +673,7 @@
       "details": []
     },
     {
+      "match_id": 98733164,
       "winner_id": 770694,
       "loser_id": 2617790,
       "winner_score": 2,
@@ -792,58 +681,27 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479228,
-          "order_num": 1,
-          "winner_id": 770694,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 770694,
-              "selection_id": 52654328,
-              "character_id": 1319,
-              "character_name": "Pikachu"
-            },
-            {
-              "user_id": 2617790,
-              "selection_id": 52654329,
-              "character_id": 1406,
-              "character_name": "Incineroar"
-            }
-          ]
-        },
-        {
-          "game_id": 35479229,
-          "order_num": 2,
-          "winner_id": 770694,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 770694,
-              "selection_id": 52654330,
-              "character_id": 1319,
-              "character_name": "Pikachu"
-            },
-            {
-              "user_id": 2617790,
-              "selection_id": 52654331,
-              "character_id": 1406,
-              "character_name": "Incineroar"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 98733165,
       "winner_id": 2044084,
       "loser_id": 1934676,
       "winner_score": 2,
@@ -851,6 +709,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -858,6 +729,7 @@
       "details": []
     },
     {
+      "match_id": 98733166,
       "winner_id": 998485,
       "loser_id": 2516359,
       "winner_score": 2,
@@ -865,6 +737,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -872,6 +757,7 @@
       "details": []
     },
     {
+      "match_id": 98733167,
       "winner_id": 1632826,
       "loser_id": 1866759,
       "winner_score": 2,
@@ -879,6 +765,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -886,6 +785,7 @@
       "details": []
     },
     {
+      "match_id": 98733168,
       "winner_id": 1960213,
       "loser_id": 2335909,
       "winner_score": 2,
@@ -893,6 +793,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -900,6 +813,7 @@
       "details": []
     },
     {
+      "match_id": 98733169,
       "winner_id": 1532076,
       "loser_id": 2955565,
       "winner_score": 2,
@@ -907,6 +821,19 @@
       "round_text": "Winners Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -914,6 +841,7 @@
       "details": []
     },
     {
+      "match_id": 98733219,
       "winner_id": 2955565,
       "loser_id": 2162413,
       "winner_score": 2,
@@ -921,6 +849,19 @@
       "round_text": "Losers Round 1",
       "round": -4,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 24,
+      "global_bracket_label": "Losers TOP 24",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -928,6 +869,7 @@
       "details": []
     },
     {
+      "match_id": 98733223,
       "winner_id": 1934676,
       "loser_id": 2173036,
       "winner_score": 2,
@@ -935,6 +877,19 @@
       "round_text": "Losers Round 1",
       "round": -4,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 24,
+      "global_bracket_label": "Losers TOP 24",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -942,6 +897,7 @@
       "details": []
     },
     {
+      "match_id": 98733225,
       "winner_id": 2473547,
       "loser_id": 2219425,
       "winner_score": 2,
@@ -949,6 +905,19 @@
       "round_text": "Losers Round 1",
       "round": -4,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 24,
+      "global_bracket_label": "Losers TOP 24",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -956,6 +925,7 @@
       "details": []
     },
     {
+      "match_id": 98733147,
       "winner_id": 2420938,
       "loser_id": 2162413,
       "winner_score": 0,
@@ -963,6 +933,19 @@
       "round_text": "Winners Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 32,
+      "global_bracket_label": "Winners TOP 32",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": true,
       "cancel": false,
@@ -970,6 +953,7 @@
       "details": []
     },
     {
+      "match_id": 98733155,
       "winner_id": 2516359,
       "loser_id": 2173036,
       "winner_score": 0,
@@ -977,6 +961,19 @@
       "round_text": "Winners Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 32,
+      "global_bracket_label": "Winners TOP 32",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": true,
       "cancel": false,
@@ -984,6 +981,7 @@
       "details": []
     },
     {
+      "match_id": 98733159,
       "winner_id": 2335909,
       "loser_id": 2219425,
       "winner_score": 2,
@@ -991,57 +989,25 @@
       "round_text": "Winners Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2185856,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 19,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 32,
+      "global_bracket_label": "Winners TOP 32",
+      "phase_group_id": 3178790,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 35479248,
-          "order_num": 1,
-          "winner_id": 2335909,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2335909,
-              "selection_id": 52654360,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 2219425,
-              "selection_id": 52654361,
-              "character_id": 1273,
-              "character_name": "Bowser"
-            }
-          ]
-        },
-        {
-          "game_id": 35479249,
-          "order_num": 2,
-          "winner_id": 2335909,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2335909,
-              "selection_id": 52654362,
-              "character_id": 1299,
-              "character_name": "Lucas"
-            },
-            {
-              "user_id": 2219425,
-              "selection_id": 52654363,
-              "character_id": 1273,
-              "character_name": "Bowser"
-            }
-          ]
-        }
-      ]
+      "details": []
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 16
 }

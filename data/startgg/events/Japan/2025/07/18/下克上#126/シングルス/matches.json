@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 91526671,
       "winner_id": 394343,
       "loser_id": 1890252,
       "winner_score": 3,
@@ -8,6 +9,19 @@
       "round_text": "Grand Final",
       "round": 5,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 4,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -15,6 +29,7 @@
       "details": []
     },
     {
+      "match_id": 91526670,
       "winner_id": 394343,
       "loser_id": 2369357,
       "winner_score": 3,
@@ -22,124 +37,27 @@
       "round_text": "Winners Final",
       "round": 4,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 3,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343695,
-          "order_num": 1,
-          "winner_id": 2369357,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2369357,
-              "selection_id": 46124537,
-              "character_id": 1324,
-              "character_name": "Robin"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124538,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343696,
-          "order_num": 2,
-          "winner_id": 394343,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2369357,
-              "selection_id": 46124539,
-              "character_id": 1324,
-              "character_name": "Robin"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124540,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343697,
-          "order_num": 3,
-          "winner_id": 2369357,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2369357,
-              "selection_id": 46124541,
-              "character_id": 1324,
-              "character_name": "Robin"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124542,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343698,
-          "order_num": 4,
-          "winner_id": 394343,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2369357,
-              "selection_id": 46124543,
-              "character_id": 1324,
-              "character_name": "Robin"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124544,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343699,
-          "order_num": 5,
-          "winner_id": 394343,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2369357,
-              "selection_id": 46124545,
-              "character_id": 1324,
-              "character_name": "Robin"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124546,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526702,
       "winner_id": 1890252,
       "loser_id": 2369357,
       "winner_score": 3,
@@ -147,80 +65,27 @@
       "round_text": "Losers Final",
       "round": -8,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 32",
+      "winners_top": null,
+      "losers_top": 32,
+      "global_round": null,
+      "global_top_x": 3,
+      "global_bracket_label": "Losers TOP 3",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343764,
-          "order_num": 1,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124643,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124644,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343765,
-          "order_num": 2,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124645,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124646,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343766,
-          "order_num": 3,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124647,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124648,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526701,
       "winner_id": 1890252,
       "loser_id": 894226,
       "winner_score": 3,
@@ -228,102 +93,27 @@
       "round_text": "Losers Semi-Final",
       "round": -7,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 24",
+      "winners_top": null,
+      "losers_top": 24,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Losers TOP 4",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343712,
-          "order_num": 1,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124571,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124572,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343713,
-          "order_num": 2,
-          "winner_id": 894226,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124573,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124574,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343714,
-          "order_num": 3,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124575,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124576,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343715,
-          "order_num": 4,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124577,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124578,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526668,
       "winner_id": 2369357,
       "loser_id": 2969951,
       "winner_score": 3,
@@ -331,102 +121,27 @@
       "round_text": "Winners Semi-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343622,
-          "order_num": 1,
-          "winner_id": 2969951,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124412,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124413,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343623,
-          "order_num": 2,
-          "winner_id": 2369357,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124414,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124415,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343624,
-          "order_num": 3,
-          "winner_id": 2369357,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124416,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124417,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343625,
-          "order_num": 4,
-          "winner_id": 2369357,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124418,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46124419,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526669,
       "winner_id": 394343,
       "loser_id": 1890252,
       "winner_score": 3,
@@ -434,124 +149,27 @@
       "round_text": "Winners Semi-Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 2,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343575,
-          "order_num": 1,
-          "winner_id": 394343,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124338,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124339,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343576,
-          "order_num": 2,
-          "winner_id": 394343,
-          "entrant1_score": 0,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124340,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124341,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343577,
-          "order_num": 3,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124342,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124343,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343578,
-          "order_num": 4,
-          "winner_id": 1890252,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124344,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124345,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343579,
-          "order_num": 5,
-          "winner_id": 394343,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124346,
-              "character_id": 1291,
-              "character_name": "Ike"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124347,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526699,
       "winner_id": 894226,
       "loser_id": 2969951,
       "winner_score": 2,
@@ -559,58 +177,27 @@
       "round_text": "Losers Quarter-Final",
       "round": -6,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 6,
+      "global_bracket_label": "Losers TOP 6",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343704,
-          "order_num": 1,
-          "winner_id": 894226,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124555,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124556,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343705,
-          "order_num": 2,
-          "winner_id": 894226,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124557,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124558,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526700,
       "winner_id": 1890252,
       "loser_id": 837605,
       "winner_score": 2,
@@ -618,68 +205,27 @@
       "round_text": "Losers Quarter-Final",
       "round": -6,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 16",
+      "winners_top": null,
+      "losers_top": 16,
+      "global_round": null,
+      "global_top_x": 6,
+      "global_bracket_label": "Losers TOP 6",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343687,
-          "order_num": 1,
-          "winner_id": 1890252,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124534,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            }
-          ]
-        },
-        {
-          "game_id": 31343688,
-          "order_num": 2,
-          "winner_id": 837605,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124535,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            }
-          ]
-        },
-        {
-          "game_id": 31343689,
-          "order_num": 3,
-          "winner_id": 1890252,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 837605,
-              "selection_id": 46124523,
-              "character_id": 1331,
-              "character_name": "Snake"
-            },
-            {
-              "user_id": 1890252,
-              "selection_id": 46124536,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526697,
       "winner_id": 894226,
       "loser_id": 936864,
       "winner_score": 2,
@@ -687,80 +233,27 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 8,
+      "global_bracket_label": "Losers TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343593,
-          "order_num": 1,
-          "winner_id": 894226,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 894226,
-              "selection_id": 46124370,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            },
-            {
-              "user_id": 936864,
-              "selection_id": 46124371,
-              "character_id": 1412,
-              "character_name": "Richter"
-            }
-          ]
-        },
-        {
-          "game_id": 31343594,
-          "order_num": 2,
-          "winner_id": 894226,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 894226,
-              "selection_id": 46124372,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            },
-            {
-              "user_id": 936864,
-              "selection_id": 46124373,
-              "character_id": 1412,
-              "character_name": "Richter"
-            }
-          ]
-        },
-        {
-          "game_id": 31343595,
-          "order_num": 3,
-          "winner_id": 936864,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 894226,
-              "selection_id": 46124374,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            },
-            {
-              "user_id": 936864,
-              "selection_id": 46124375,
-              "character_id": 1412,
-              "character_name": "Richter"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526698,
       "winner_id": 837605,
       "loser_id": 2016900,
       "winner_score": 2,
@@ -768,80 +261,27 @@
       "round_text": "Losers Round 2",
       "round": -5,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 12",
+      "winners_top": null,
+      "losers_top": 12,
+      "global_round": null,
+      "global_top_x": 8,
+      "global_bracket_label": "Losers TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343569,
-          "order_num": 1,
-          "winner_id": 837605,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 837605,
-              "selection_id": 46124332,
-              "character_id": 1331,
-              "character_name": "Snake"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124333,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343570,
-          "order_num": 2,
-          "winner_id": 2016900,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 837605,
-              "selection_id": 46124334,
-              "character_id": 1331,
-              "character_name": "Snake"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124335,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343571,
-          "order_num": 3,
-          "winner_id": 837605,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 837605,
-              "selection_id": 46124336,
-              "character_id": 1331,
-              "character_name": "Snake"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124337,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526664,
       "winner_id": 2969951,
       "loser_id": 837605,
       "winner_score": 3,
@@ -849,124 +289,27 @@
       "round_text": "Winners Quarter-Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343499,
-          "order_num": 1,
-          "winner_id": 837605,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124196,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 837605,
-              "selection_id": 46124197,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            }
-          ]
-        },
-        {
-          "game_id": 31343500,
-          "order_num": 2,
-          "winner_id": 837605,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124198,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 837605,
-              "selection_id": 46124199,
-              "character_id": 1331,
-              "character_name": "Snake"
-            }
-          ]
-        },
-        {
-          "game_id": 31343501,
-          "order_num": 3,
-          "winner_id": 2969951,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124200,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 837605,
-              "selection_id": 46124201,
-              "character_id": 1331,
-              "character_name": "Snake"
-            }
-          ]
-        },
-        {
-          "game_id": 31343502,
-          "order_num": 4,
-          "winner_id": 2969951,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124202,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 837605,
-              "selection_id": 46124203,
-              "character_id": 1331,
-              "character_name": "Snake"
-            }
-          ]
-        },
-        {
-          "game_id": 31343503,
-          "order_num": 5,
-          "winner_id": 2969951,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124204,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 837605,
-              "selection_id": 46124205,
-              "character_id": 1331,
-              "character_name": "Snake"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526665,
       "winner_id": 2369357,
       "loser_id": 906815,
       "winner_score": 3,
@@ -974,80 +317,27 @@
       "round_text": "Winners Quarter-Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343369,
-          "order_num": 1,
-          "winner_id": 2369357,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46123978,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46123979,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343370,
-          "order_num": 2,
-          "winner_id": 2369357,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46123980,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46123981,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        },
-        {
-          "game_id": 31343371,
-          "order_num": 3,
-          "winner_id": 2369357,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46123982,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2369357,
-              "selection_id": 46123983,
-              "character_id": 1324,
-              "character_name": "Robin"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526666,
       "winner_id": 394343,
       "loser_id": 936864,
       "winner_score": 3,
@@ -1055,80 +345,27 @@
       "round_text": "Winners Quarter-Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343709,
-          "order_num": 1,
-          "winner_id": 394343,
-          "entrant1_score": 0,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46124565,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124566,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343710,
-          "order_num": 2,
-          "winner_id": 394343,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46124567,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124568,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        },
-        {
-          "game_id": 31343711,
-          "order_num": 3,
-          "winner_id": 394343,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46124569,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 394343,
-              "selection_id": 46124570,
-              "character_id": 1747,
-              "character_name": "Min Min"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526667,
       "winner_id": 1890252,
       "loser_id": 894226,
       "winner_score": 3,
@@ -1136,80 +373,27 @@
       "round_text": "Winners Quarter-Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 8,
+      "global_bracket_label": "Winners TOP 8",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343395,
-          "order_num": 1,
-          "winner_id": 1890252,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124026,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124027,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343396,
-          "order_num": 2,
-          "winner_id": 1890252,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124028,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124029,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        },
-        {
-          "game_id": 31343397,
-          "order_num": 3,
-          "winner_id": 1890252,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 1890252,
-              "selection_id": 46124030,
-              "character_id": 1339,
-              "character_name": "Young Link"
-            },
-            {
-              "user_id": 894226,
-              "selection_id": 46124031,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526693,
       "winner_id": 894226,
       "loser_id": 2552236,
       "winner_score": 2,
@@ -1217,58 +401,27 @@
       "round_text": "Losers Round 1",
       "round": -4,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343700,
-          "order_num": 1,
-          "winner_id": 894226,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 894226,
-              "selection_id": 46124547,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            },
-            {
-              "user_id": 2552236,
-              "selection_id": 46124548,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        },
-        {
-          "game_id": 31343701,
-          "order_num": 2,
-          "winner_id": 894226,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 894226,
-              "selection_id": 46124549,
-              "character_id": 1409,
-              "character_name": "Chrom"
-            },
-            {
-              "user_id": 2552236,
-              "selection_id": 46124550,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526695,
       "winner_id": 2016900,
       "loser_id": 906815,
       "winner_score": 3,
@@ -1276,124 +429,27 @@
       "round_text": "Losers Round 1",
       "round": -4,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 12,
+      "global_bracket_label": "Losers TOP 12",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343484,
-          "order_num": 1,
-          "winner_id": 906815,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46124174,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124175,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343485,
-          "order_num": 2,
-          "winner_id": 906815,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46124176,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124177,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343486,
-          "order_num": 3,
-          "winner_id": 2016900,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46124178,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124179,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343487,
-          "order_num": 4,
-          "winner_id": 2016900,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46124180,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124181,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343488,
-          "order_num": 5,
-          "winner_id": 2016900,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 906815,
-              "selection_id": 46124182,
-              "character_id": 1330,
-              "character_name": "Shulk"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46124183,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526657,
       "winner_id": 2969951,
       "loser_id": 2552236,
       "winner_score": 3,
@@ -1401,80 +457,27 @@
       "round_text": "Winners Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343389,
-          "order_num": 1,
-          "winner_id": 2969951,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124014,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2552236,
-              "selection_id": 46124015,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        },
-        {
-          "game_id": 31343390,
-          "order_num": 2,
-          "winner_id": 2969951,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124016,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2552236,
-              "selection_id": 46124017,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        },
-        {
-          "game_id": 31343391,
-          "order_num": 3,
-          "winner_id": 2969951,
-          "entrant1_score": null,
-          "entrant2_score": 0,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 2969951,
-              "selection_id": 46124018,
-              "character_id": 1305,
-              "character_name": "Mega Man"
-            },
-            {
-              "user_id": 2552236,
-              "selection_id": 46124019,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        }
-      ]
+      "details": []
     },
     {
+      "match_id": 91526661,
       "winner_id": 936864,
       "loser_id": 2016900,
       "winner_score": 3,
@@ -1482,79 +485,25 @@
       "round_text": "Winners Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2020910,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 10,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 16,
+      "global_bracket_label": "Winners TOP 16",
+      "phase_group_id": 2959688,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 31343377,
-          "order_num": 1,
-          "winner_id": 936864,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46123994,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46123995,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343378,
-          "order_num": 2,
-          "winner_id": 936864,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46123996,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46123997,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        },
-        {
-          "game_id": 31343379,
-          "order_num": 3,
-          "winner_id": 936864,
-          "entrant1_score": 0,
-          "entrant2_score": null,
-          "stage": null,
-          "selections": [
-            {
-              "user_id": 936864,
-              "selection_id": 46123998,
-              "character_id": 1412,
-              "character_name": "Richter"
-            },
-            {
-              "user_id": 2016900,
-              "selection_id": 46123999,
-              "character_id": 1310,
-              "character_name": "Mewtwo"
-            }
-          ]
-        }
-      ]
+      "details": []
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 8
 }

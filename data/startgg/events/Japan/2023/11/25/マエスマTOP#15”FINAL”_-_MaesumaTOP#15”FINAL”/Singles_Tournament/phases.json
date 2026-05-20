@@ -1,0 +1,127 @@
+{
+  "event_id": 998646,
+  "event_name": "Singles Tournament",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1481997,
+      "name": "Round1[Day1]",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 379,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2238851,
+          "display": "A1"
+        },
+        {
+          "id": 2238854,
+          "display": "A2"
+        },
+        {
+          "id": 2238855,
+          "display": "A3"
+        },
+        {
+          "id": 2238858,
+          "display": "A4"
+        },
+        {
+          "id": 2238859,
+          "display": "A5"
+        },
+        {
+          "id": 2238862,
+          "display": "A6"
+        },
+        {
+          "id": 2238863,
+          "display": "A7"
+        },
+        {
+          "id": 2238866,
+          "display": "A8"
+        },
+        {
+          "id": 2238852,
+          "display": "B1"
+        },
+        {
+          "id": 2238853,
+          "display": "B2"
+        },
+        {
+          "id": 2238856,
+          "display": "B3"
+        },
+        {
+          "id": 2238857,
+          "display": "B4"
+        },
+        {
+          "id": 2238860,
+          "display": "B5"
+        },
+        {
+          "id": 2238861,
+          "display": "B6"
+        },
+        {
+          "id": 2238864,
+          "display": "B7"
+        },
+        {
+          "id": 2238865,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 1520567,
+      "name": "TOP64[Day2]",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2289390,
+          "display": "1"
+        },
+        {
+          "id": 2289391,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1520570,
+      "name": "TOP32[Day2]",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2289394,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1520571,
+      "name": "TOP8[Day2]",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2289395,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

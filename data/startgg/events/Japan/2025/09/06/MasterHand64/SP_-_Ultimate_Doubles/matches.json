@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 93528887,
       "winner_id": 1852835,
       "loser_id": 1628277,
       "winner_score": 3,
@@ -8,6 +9,19 @@
       "round_text": "Round 3",
       "round": 3,
       "phase": "1",
+      "phase_id": 2038930,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "ROUND_ROBIN",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": null,
+      "global_bracket_label": "総当たり",
+      "phase_group_id": 2984836,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -15,6 +29,7 @@
       "details": []
     },
     {
+      "match_id": 93528886,
       "winner_id": 1210760,
       "loser_id": 1628277,
       "winner_score": 2,
@@ -22,6 +37,19 @@
       "round_text": "Round 2",
       "round": 2,
       "phase": "1",
+      "phase_id": 2038930,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "ROUND_ROBIN",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": null,
+      "global_bracket_label": "総当たり",
+      "phase_group_id": 2984836,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -29,6 +57,7 @@
       "details": []
     },
     {
+      "match_id": 93528885,
       "winner_id": 1210760,
       "loser_id": 1852835,
       "winner_score": 2,
@@ -36,6 +65,19 @@
       "round_text": "Round 1",
       "round": 1,
       "phase": "1",
+      "phase_id": 2038930,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "ROUND_ROBIN",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": null,
+      "global_bracket_label": "総当たり",
+      "phase_group_id": 2984836,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -43,5 +85,5 @@
       "details": []
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 2
 }

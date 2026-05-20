@@ -1,0 +1,201 @@
+{
+  "event_id": 1404607,
+  "event_name": "1on1 Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2005409,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 423,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2938863,
+          "display": "1"
+        },
+        {
+          "id": 2938864,
+          "display": "2"
+        },
+        {
+          "id": 2938865,
+          "display": "3"
+        },
+        {
+          "id": 2938866,
+          "display": "4"
+        },
+        {
+          "id": 2938867,
+          "display": "5"
+        },
+        {
+          "id": 2938868,
+          "display": "6"
+        },
+        {
+          "id": 2938869,
+          "display": "7"
+        },
+        {
+          "id": 2938870,
+          "display": "8"
+        },
+        {
+          "id": 2938871,
+          "display": "9"
+        },
+        {
+          "id": 2938872,
+          "display": "10"
+        },
+        {
+          "id": 2938873,
+          "display": "11"
+        },
+        {
+          "id": 2938874,
+          "display": "12"
+        },
+        {
+          "id": 2938875,
+          "display": "13"
+        },
+        {
+          "id": 2938876,
+          "display": "14"
+        },
+        {
+          "id": 2938877,
+          "display": "15"
+        },
+        {
+          "id": 2938878,
+          "display": "16"
+        },
+        {
+          "id": 2938899,
+          "display": "17"
+        },
+        {
+          "id": 2938900,
+          "display": "18"
+        },
+        {
+          "id": 2938901,
+          "display": "19"
+        },
+        {
+          "id": 2938902,
+          "display": "20"
+        },
+        {
+          "id": 2938903,
+          "display": "21"
+        },
+        {
+          "id": 2938904,
+          "display": "22"
+        },
+        {
+          "id": 2938905,
+          "display": "23"
+        },
+        {
+          "id": 2938906,
+          "display": "24"
+        },
+        {
+          "id": 2938907,
+          "display": "25"
+        },
+        {
+          "id": 2938908,
+          "display": "26"
+        },
+        {
+          "id": 2938909,
+          "display": "27"
+        },
+        {
+          "id": 2938910,
+          "display": "28"
+        },
+        {
+          "id": 2938911,
+          "display": "29"
+        },
+        {
+          "id": 2938912,
+          "display": "30"
+        },
+        {
+          "id": 2938913,
+          "display": "31"
+        },
+        {
+          "id": 2938914,
+          "display": "32"
+        }
+      ]
+    },
+    {
+      "id": 2005410,
+      "name": "本選：TOP128",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2938879,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2005411,
+      "name": "TOP8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2938880,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2005412,
+      "name": "B-Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2938881,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2005413,
+      "name": "C-Class",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 167,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2938882,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

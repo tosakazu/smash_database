@@ -1,0 +1,109 @@
+{
+  "event_id": 1055517,
+  "event_name": "シングルストーナメント/Singles",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1554892,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 288,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2334620,
+          "display": "1"
+        },
+        {
+          "id": 2334621,
+          "display": "2"
+        },
+        {
+          "id": 2334622,
+          "display": "3"
+        },
+        {
+          "id": 2334623,
+          "display": "4"
+        },
+        {
+          "id": 2334624,
+          "display": "5"
+        },
+        {
+          "id": 2334625,
+          "display": "6"
+        },
+        {
+          "id": 2334626,
+          "display": "7"
+        },
+        {
+          "id": 2334627,
+          "display": "8"
+        },
+        {
+          "id": 2334628,
+          "display": "9"
+        },
+        {
+          "id": 2334629,
+          "display": "10"
+        },
+        {
+          "id": 2334630,
+          "display": "11"
+        },
+        {
+          "id": 2334631,
+          "display": "12"
+        },
+        {
+          "id": 2334632,
+          "display": "13"
+        },
+        {
+          "id": 2334633,
+          "display": "14"
+        },
+        {
+          "id": 2334634,
+          "display": "15"
+        },
+        {
+          "id": 2334635,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1554893,
+      "name": "本戦-top64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2334636,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1554894,
+      "name": "top8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2334637,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

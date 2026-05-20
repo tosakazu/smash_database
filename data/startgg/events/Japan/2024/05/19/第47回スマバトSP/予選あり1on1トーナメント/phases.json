@@ -1,0 +1,123 @@
+{
+  "event_id": 1123873,
+  "event_name": "予選あり1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1642556,
+      "name": "Braket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 312,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2450717,
+          "display": "1"
+        },
+        {
+          "id": 2450718,
+          "display": "2"
+        },
+        {
+          "id": 2450719,
+          "display": "3"
+        },
+        {
+          "id": 2450720,
+          "display": "4"
+        },
+        {
+          "id": 2450721,
+          "display": "5"
+        },
+        {
+          "id": 2450722,
+          "display": "6"
+        },
+        {
+          "id": 2450723,
+          "display": "7"
+        },
+        {
+          "id": 2450724,
+          "display": "8"
+        },
+        {
+          "id": 2450725,
+          "display": "9"
+        },
+        {
+          "id": 2450726,
+          "display": "10"
+        },
+        {
+          "id": 2450727,
+          "display": "11"
+        },
+        {
+          "id": 2450728,
+          "display": "12"
+        },
+        {
+          "id": 2450729,
+          "display": "13"
+        },
+        {
+          "id": 2450730,
+          "display": "14"
+        },
+        {
+          "id": 2450731,
+          "display": "15"
+        },
+        {
+          "id": 2450732,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1642559,
+      "name": "TOP96",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2450735,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1642558,
+      "name": "TOP8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2450734,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1642557,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 198,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2450733,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

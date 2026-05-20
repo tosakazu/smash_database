@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 28961190,
       "winner_id": 1128956,
       "loser_id": 1144604,
       "winner_score": 2,
@@ -8,58 +9,28 @@
       "round_text": "Grand Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 811738,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 2,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 1302809,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 3928411,
-          "order_num": 1,
-          "winner_id": 1128956,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": "Town and City",
-          "selections": [
-            {
-              "user_id": 1144604,
-              "selection_id": 5004421,
-              "character_id": 1405,
-              "character_name": "Mr. Game & Watch"
-            },
-            {
-              "user_id": 1128956,
-              "selection_id": 5004422,
-              "character_id": 1453,
-              "character_name": "Joker"
-            }
-          ]
-        },
-        {
-          "game_id": 3928415,
-          "order_num": 2,
-          "winner_id": 1128956,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": "Kalos Pokémon League",
-          "selections": [
-            {
-              "user_id": 1128956,
-              "selection_id": 5004429,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            },
-            {
-              "user_id": 1144604,
-              "selection_id": 5004430,
-              "character_id": 1405,
-              "character_name": "Mr. Game & Watch"
-            }
-          ]
-        }
-      ]
+      "details": [],
+      "phase_group_start_at": 1589526600
     },
     {
+      "match_id": 28961189,
       "winner_id": 1128956,
       "loser_id": 1144604,
       "winner_score": 2,
@@ -67,57 +38,26 @@
       "round_text": "Winners Final",
       "round": 1,
       "phase": "1",
+      "phase_id": 811738,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 2,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 1302809,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
       "state": 3,
-      "details": [
-        {
-          "game_id": 3928365,
-          "order_num": 1,
-          "winner_id": 1128956,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": "Smashville",
-          "selections": [
-            {
-              "user_id": 1128956,
-              "selection_id": 5004329,
-              "character_id": 1453,
-              "character_name": "Joker"
-            },
-            {
-              "user_id": 1144604,
-              "selection_id": 5004330,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            }
-          ]
-        },
-        {
-          "game_id": 3928369,
-          "order_num": 2,
-          "winner_id": 1128956,
-          "entrant1_score": null,
-          "entrant2_score": null,
-          "stage": "Smashville",
-          "selections": [
-            {
-              "user_id": 1128956,
-              "selection_id": 5004337,
-              "character_id": 1453,
-              "character_name": "Joker"
-            },
-            {
-              "user_id": 1144604,
-              "selection_id": 5004338,
-              "character_id": 1316,
-              "character_name": "Palutena"
-            }
-          ]
-        }
-      ]
+      "details": [],
+      "phase_group_start_at": 1589526600
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 2
 }

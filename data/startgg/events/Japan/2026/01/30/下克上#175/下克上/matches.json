@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "match_id": 98733309,
       "winner_id": 2616902,
       "loser_id": 910507,
       "winner_score": 3,
@@ -8,6 +9,19 @@
       "round_text": "Grand Final",
       "round": 3,
       "phase": "1",
+      "phase_id": 2184524,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": 1,
+      "global_top_x": 2,
+      "global_bracket_label": "Winners TOP 2",
+      "phase_group_id": 3176948,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -15,6 +29,7 @@
       "details": []
     },
     {
+      "match_id": 98733308,
       "winner_id": 2616902,
       "loser_id": 910507,
       "winner_score": 3,
@@ -22,6 +37,19 @@
       "round_text": "Winners Final",
       "round": 2,
       "phase": "1",
+      "phase_id": 2184524,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 3176948,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -29,6 +57,7 @@
       "details": []
     },
     {
+      "match_id": 98733316,
       "winner_id": 910507,
       "loser_id": 894226,
       "winner_score": 3,
@@ -36,6 +65,19 @@
       "round_text": "Losers Final",
       "round": -4,
       "phase": "1",
+      "phase_id": 2184524,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": "Losers TOP 8",
+      "winners_top": null,
+      "losers_top": 8,
+      "global_round": null,
+      "global_top_x": 3,
+      "global_bracket_label": "Losers TOP 3",
+      "phase_group_id": 3176948,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -43,6 +85,7 @@
       "details": []
     },
     {
+      "match_id": 98733307,
       "winner_id": 2616902,
       "loser_id": 894226,
       "winner_score": 3,
@@ -50,6 +93,19 @@
       "round_text": "Winners Semi-Final",
       "round": 1,
       "phase": "1",
+      "phase_id": 2184524,
+      "phase_name": "Bracket",
+      "phase_num_seeds": 3,
+      "phase_bracket_type": "DOUBLE_ELIMINATION",
+      "phase_top_n": null,
+      "bracket_label": null,
+      "winners_top": null,
+      "losers_top": null,
+      "global_round": null,
+      "global_top_x": 4,
+      "global_bracket_label": "Winners TOP 4",
+      "phase_group_id": 3176948,
+      "wave_id": null,
       "wave": null,
       "dq": false,
       "cancel": false,
@@ -57,5 +113,5 @@
       "details": []
     }
   ],
-  "version": "1.0"
+  "bracket_capacity": 2
 }

@@ -1,0 +1,81 @@
+{
+  "event_id": 1332951,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1912674,
+      "name": "TOP256",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 238,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2813284,
+          "display": "A1"
+        },
+        {
+          "id": 2813285,
+          "display": "A2"
+        },
+        {
+          "id": 2813286,
+          "display": "A3"
+        },
+        {
+          "id": 2813287,
+          "display": "A4"
+        },
+        {
+          "id": 2813288,
+          "display": "A5"
+        },
+        {
+          "id": 2813289,
+          "display": "A6"
+        },
+        {
+          "id": 2813290,
+          "display": "A7"
+        },
+        {
+          "id": 2813291,
+          "display": "A8"
+        }
+      ]
+    },
+    {
+      "id": 1912675,
+      "name": "TOP64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2813316,
+          "display": "1"
+        },
+        {
+          "id": 2813317,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1912678,
+      "name": "TOP16",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2813326,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
