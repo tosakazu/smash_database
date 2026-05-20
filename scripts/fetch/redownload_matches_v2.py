@@ -92,11 +92,37 @@ def next_pow2(n: int) -> int:
     return p
 
 
+def effective_bracket_capacity(n: int) -> int:
+    """play-in 補正後の有効 bracket 容量 = 最大の pow2 で <= n.
+    例: n=64 → 64 (= そのまま), n=69 → 64, n=128 → 128, n=192 → 128.
+    DE bracket で n が pow2 でない場合、余剰 (n - prev_pow2) が R1 play-in に吸収され、
+    R2 以降の effective 構造は prev_pow2 名 SE と同じ. ラベル付けはこの effective 容量を使う.
+    """
+    if n is None or n <= 1: return 1
+    np = next_pow2(n)
+    if np == n: return n      # n is already pow2
+    return np // 2            # n 未満の最大 pow2
+
+
 # クラス phase (B/C/D/E-class) 判定 — main bracket と分離するためのフィルタ.
 # A-class は最上位ブラケット (= TO WIN 系) で main 扱いするので除外しない.
-_CLASS_PHASE_RE = re.compile(r'\b[B-E][- ]?class\b', re.IGNORECASE)
+# English ("B class" / "B-class" / "BClass") + Japanese ("Bクラス") 両対応.
+_CLASS_PHASE_RE = re.compile(r'\b[B-E][- ]?class\b|[B-EＢＣＤＥ][- ]?クラス', re.IGNORECASE)
 def _is_class_phase(phase_name: str) -> bool:
     return bool(phase_name and _CLASS_PHASE_RE.search(phase_name))
+
+
+# 全角→半角 マップ (= "Ｂ" → "B" 等)
+_FULLWIDTH_TO_ASCII = str.maketrans('ＡＢＣＤＥ', 'ABCDE')
+
+def _get_class_letter(phase_name: str) -> str | None:
+    """class phase の letter (= 'B'/'C'/'D'/'E') を返す. 該当なし None."""
+    if not phase_name: return None
+    m = _CLASS_PHASE_RE.search(phase_name)
+    if not m: return None
+    # m.group(0) は "B class" / "b-class" / "Bクラス" / "Ｂクラス" 等. 先頭の letter を半角大文字に.
+    first = m.group(0)[0]
+    return first.translate(_FULLWIDTH_TO_ASCII).upper()
 
 
 def placement_to_bucket(p: int) -> int:
@@ -121,6 +147,9 @@ def compute_phase_global_rounds(all_sets_with_phase):
     各 phase の WB rounds を列挙、play-in 判定 (= 試合数が次の round より少ない) して除外、
     残った effective rounds を phaseOrder 順に並べて累積した index を global_round とする.
 
+    SE phase は WB-only (= LB なし) として WB と同じ扱い.
+    ROUND_ROBIN / SWISS / MATCHMAKING / CUSTOM_SCHEDULE は bracket-position 概念無しで skip.
+
     Returns:
         phase_info: dict[phase_id] = {
             'phase_order': int,
@@ -128,17 +157,17 @@ def compute_phase_global_rounds(all_sets_with_phase):
             'effective_wb_rounds_sorted': list,
             'play_in_rounds': set,
             'global_round_offset': int (累積 offset),
+            'is_se': bool (= SE phase か),
         }
         max_main_phase_order: int (LB の "final phase" 判定用)
     """
     by_phase: dict = {}
+    # main + class 両方の phase を収集. main は global_round 累積, class は自己完結 (= prefix label のみ).
     for set_node, phase_info, _ in all_sets_with_phase:
         pname = phase_info.get('name') or ''
-        if _is_class_phase(pname):
-            continue
-        # ROUND_ROBIN / SINGLE_ELIMINATION / CUSTOM_SCHEDULE は WB bracket-position の概念無し
         bt = phase_info.get('bracketType')
-        if bt and bt != 'DOUBLE_ELIMINATION':
+        # DE と SE のみ bracket-position 概念あり (= SE は WB-only として扱う).
+        if bt and bt not in ('DOUBLE_ELIMINATION', 'SINGLE_ELIMINATION'):
             continue
         pid = phase_info.get('id')
         if pid is None:
@@ -146,36 +175,59 @@ def compute_phase_global_rounds(all_sets_with_phase):
         r = set_node.get('round')
         if r is None or r <= 0:
             continue
+        class_letter = _get_class_letter(pname)
         by_phase.setdefault(pid, {
             'phase_order': phase_info.get('phaseOrder') or 0,
             'wb_round_counts': {},
+            'is_se': (bt == 'SINGLE_ELIMINATION'),
+            'class_letter': class_letter,
+            'num_seeds': phase_info.get('numSeeds') or 0,
         })
         by_phase[pid]['wb_round_counts'][r] = by_phase[pid]['wb_round_counts'].get(r, 0) + 1
+    # main bracket は phase_order 順に global_round 累積. class bracket は自己完結 (= offset 0).
     sorted_pids = sorted(by_phase.keys(), key=lambda pid: (by_phase[pid]['phase_order'], pid))
     out = {}
-    cumulative = 0
+    cumulative_main = 0  # class 以外の累積
     for pid in sorted_pids:
         info = by_phase[pid]
         all_rounds = sorted(info['wb_round_counts'].keys())
-        # play-in: 最も小さい side から連続して "次の round より試合数が少ない" rounds
-        # 例: R1(766), R2(1024), R3(512) → R1 < R2 なので R1 は play-in. R2 と R3 は effective.
         play_in = set()
+        # play-in 検出: 連続する先頭の round が後続 round の自然な doubling pattern (= R[i+1]*2)
+        # に乗らない場合 play-in 扱い.
+        # 例:
+        #   - 759名 SE: R1=247, R2=256. R1 < R2*2=512 → play-in.
+        #   - 413名 SE: R1=157, R2=128. R1 < R2*2=256 → play-in.
+        #   - 24seed A class: R1=4, R2=2. R1 = R2*2=4 → play-in でない.
+        #   - 32seed SE: R1=16, R2=8. R1 = R2*2=16 → play-in でない.
+        # numSeeds は信用できない (= 同一 phase でも phase_groups 間で不整合あり) ので使わない.
         for i in range(len(all_rounds) - 1):
             cur = all_rounds[i]; nxt = all_rounds[i + 1]
-            if info['wb_round_counts'][cur] < info['wb_round_counts'][nxt]:
+            cur_n = info['wb_round_counts'][cur]
+            nxt_n = info['wb_round_counts'][nxt]
+            # 後続 round の自然な doubling パターンと一致しなければ play-in
+            if cur_n != nxt_n * 2:
                 play_in.add(cur)
             else:
                 break
         effective = [r for r in all_rounds if r not in play_in]
+        is_class = info.get('class_letter') is not None
+        # class bracket は global_round 累積に含めない (= 各 class が独立した bracket)
+        offset = 0 if is_class else cumulative_main
         out[pid] = {
             'phase_order': info['phase_order'],
             'all_wb_rounds_sorted': all_rounds,
             'effective_wb_rounds_sorted': effective,
             'play_in_rounds': play_in,
-            'global_round_offset': cumulative,
+            'global_round_offset': offset,
+            'is_se': info.get('is_se', False),
+            'class_letter': info.get('class_letter'),
         }
-        cumulative += len(effective)
-    max_main_phase_order = max((info['phase_order'] for info in out.values()), default=0)
+        if not is_class:
+            cumulative_main += len(effective)
+    max_main_phase_order = max(
+        (info['phase_order'] for info in out.values() if not info.get('class_letter')),
+        default=0,
+    )
     return out, max_main_phase_order
 
 
@@ -185,48 +237,113 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
 
     WB: bracket-position 基準. play-in round は global_round=None, global_top_x=bracket_capacity.
     LB: loser placement を standings から引いて placement_to_bucket で bucket 化.
+        loser_uid が無い (= account 削除 player 等) / placement 取得不可なら round_n から
+        losers_top_x で round-based fallback (= 大体一致, 非pow2 では微妙にズレる).
     GF (round=0): global_top_x=2.
-    Class phase / 不明: None.
+    SE phase: WB-only (= LB なし) として WB ロジック適用. ただし bracket_capacity は
+        per-phase の next_pow2(numSeeds) を使う (= SE には play-in 概念ないので effective じゃない).
+    Class phase (B/C/D/E): 同じ計算式だが label に "{letter}-" prefix を付ける.
+        例: B-Winners TOP 64 / C-Losers TOP 8 / D-Grand Final.
+        bracket_capacity も per-phase の numSeeds から計算 (= main の bracket_capacity は使わない).
+    ROUND_ROBIN / SWISS / MATCHMAKING / CUSTOM_SCHEDULE: None.
     """
     if round_n is None:
         return (None, None, None)
     pname = phase_info.get('name') or ''
-    if _is_class_phase(pname):
-        return (None, None, None)
-    # ROUND_ROBIN / SINGLE_ELIMINATION / CUSTOM_SCHEDULE: WB-bracket position label 適用外.
     bt = phase_info.get('bracketType')
-    if bt and bt != 'DOUBLE_ELIMINATION':
+    class_letter = _get_class_letter(pname)
+    prefix = f"{class_letter}-" if class_letter else ""
+    # DE / SE 以外は bracket-position 概念無し → カテゴリラベルのみ付与 (= 日本語表記).
+    # CUSTOM_SCHEDULE 等の "その他" は null (= 表示しない).
+    _BT_LABEL = {
+        'ROUND_ROBIN': '総当たり',
+        'SWISS': 'スイスドロー',
+        'MATCHMAKING': 'レート戦',
+    }
+    if bt and bt not in ('DOUBLE_ELIMINATION', 'SINGLE_ELIMINATION'):
+        cat = _BT_LABEL.get(bt)
+        if cat:
+            return (None, None, f"{prefix}{cat}")
         return (None, None, None)
     pid = phase_info.get('id')
     info = phase_global_info.get(pid)
+    is_se = bool(info and info.get('is_se'))
+    if class_letter is None and info and info.get('class_letter'):
+        class_letter = info.get('class_letter')
+        prefix = f"{class_letter}-"
+
+    # class phase は per-phase の bracket_capacity を使う (= main の bracket_capacity に依存しない).
+    # SE: cap = effective_bracket_capacity (= prev_pow2). 非pow2 でも R2 以降の effective bracket で計算.
+    # DE: cap = effective_bracket_capacity. play-in label は cap*2 = next_pow2.
+    if class_letter:
+        ns = phase_info.get('numSeeds') or 0
+        cap = effective_bracket_capacity(ns)
+    else:
+        cap = bracket_capacity
+
     if round_n > 0:
         if info is None:
             return (None, None, None)
+        if is_se:
+            # SE: play-in round 敗者は placement_to_bucket(numSeeds) でラベル付け (= 最終 placement に直結).
+            # 例: 759名 SE R1 losers は placement 513-759 → bucket 768.
+            # effective rounds は cap (= prev_pow2) / 2^(r-1) で計算.
+            if cap is None or cap <= 1:
+                return (None, None, None)
+            if round_n in info['play_in_rounds']:
+                ns = phase_info.get('numSeeds') or 0
+                top = placement_to_bucket(ns) or (cap * 2)
+                return (None, top, f"{prefix}Winners TOP {top}")
+            eff = info['effective_wb_rounds_sorted']
+            if round_n not in eff:
+                return (None, None, None)
+            idx = eff.index(round_n)
+            global_r = info['global_round_offset'] + idx + 1
+            top = max(2, cap // (2 ** (global_r - 1)))
+            return (global_r, top, f"{prefix}Winners TOP {top}")
+        # DE bracket (main or class)
         if round_n in info['play_in_rounds']:
-            # play-in: 敗者は最下位 bucket
-            return (None, bracket_capacity, f"Winners TOP {bracket_capacity}" if bracket_capacity else None)
+            # play-in 敗者は bracket-size (= effective * 2 = next_pow2) でラベル付け
+            play_in_label_n = cap * 2 if cap else None
+            return (None, play_in_label_n,
+                    f"{prefix}Winners TOP {play_in_label_n}" if play_in_label_n else None)
         eff = info['effective_wb_rounds_sorted']
         if round_n not in eff:
             return (None, None, None)
         idx = eff.index(round_n)
         global_r = info['global_round_offset'] + idx + 1
-        if bracket_capacity is None or bracket_capacity <= 0:
+        if cap is None or cap <= 0:
             return (global_r, None, None)
-        top = max(2, bracket_capacity // (2 ** (global_r - 1)))
-        return (global_r, top, f"Winners TOP {top}")
+        top = max(2, cap // (2 ** (global_r - 1)))
+        return (global_r, top, f"{prefix}Winners TOP {top}")
     if round_n < 0:
-        # LB: loser placement → bucket
-        if loser_uid is None or placements_map is None:
-            return (None, None, None)
-        p = placements_map.get(loser_uid)
-        if p is None:
-            return (None, None, None)
-        bucket = placement_to_bucket(p)
+        if is_se:
+            return (None, None, None)  # SE には LB 無し
+        # LB ラベルの算出:
+        #   - main bracket: placements_map (= 大会全体 standings) から bucket 化
+        #   - class bracket: 大会全体 placement は class 内の position を表さないので round-based 一択
+        if class_letter:
+            bucket = losers_top_x(round_n)
+            if bucket is None:
+                return (None, None, None)
+            return (None, bucket, f"{prefix}Losers TOP {bucket}")
+        # main: 1st choice = loser placement → bucket
+        p = None
+        if loser_uid is not None and placements_map is not None:
+            p = placements_map.get(loser_uid)
+        if p is not None:
+            bucket = placement_to_bucket(p)
+            if bucket is not None:
+                return (None, bucket, f"Losers TOP {bucket}")
+        # Fallback: round-based losers_top_x (= account 削除 player 等)
+        bucket = losers_top_x(round_n)
         if bucket is None:
             return (None, None, None)
         return (None, bucket, f"Losers TOP {bucket}")
     # round == 0 (Grand Final)
-    return (None, 2, "Grand Final")
+    if is_se:
+        return (None, None, None)
+    return (None, 2, f"{prefix}Grand Final")
 
 
 def fetch_event_phases(event_id):
@@ -386,7 +503,8 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
     # all_sets_with_phase: list of (set_node, phase_info dict, pg_info dict)
     entrant2user = _build_entrant2user([s for s, _, _ in all_sets_with_phase])
     placements_map = _load_placements_map(event_dir)
-    bracket_capacity = next_pow2(_phase_max_numseeds(all_sets_with_phase))
+    # play-in 補正後の有効 capacity を使う (= 69 名 → 64, 192 名 → 128 等. pow2 ならそのまま)
+    bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(all_sets_with_phase))
     phase_global_info, max_main_phase_order = compute_phase_global_rounds(all_sets_with_phase)
     json_data = {
         "data": [],
@@ -636,9 +754,10 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
     entrant2user = _build_entrant2user([s for s, _, _ in new_sets_with_phase])
     placements_map = _load_placements_map(event_dir)
     # bracket_capacity: existing or recompute. Use existing if present, else recompute.
+    # play-in 補正後の有効 capacity を使う (= effective_bracket_capacity)
     bracket_capacity = existing_md.get("bracket_capacity")
     if bracket_capacity is None:
-        bracket_capacity = next_pow2(_phase_max_numseeds(combined_sets_for_phase_global))
+        bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(combined_sets_for_phase_global))
     phase_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global)
 
     # 既存 matches を target_phase_ids 以外で保持

@@ -209,11 +209,20 @@ def build_upcoming(country_code: str, lookahead_days: int) -> list[dict]:
     nodes = fetch_upcoming_tournaments(country_code, after_ts, before_ts)
     print(f"[fetch_upcoming] fetched {len(nodes)} tournaments raw", flush=True)
     out = []
+    skipped_past = 0
     for n in nodes:
         norm = normalize_tournament(n)
         if norm is None:
             continue
+        # 過去大会の除外 (= API afterDate に頼らず再確認. server clock との差で
+        # 既に開始時刻が過ぎた tournament が混入することがある).
+        st = norm.get("start_at")
+        if st is not None and int(st) < after_ts:
+            skipped_past += 1
+            continue
         out.append(norm)
+    if skipped_past:
+        print(f"[fetch_upcoming] skipped {skipped_past} past tournaments", flush=True)
     out.sort(key=lambda t: (t.get("start_at") or 0))
     return out
 

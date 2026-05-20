@@ -79,6 +79,13 @@ def main():
     parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
     parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
     parser.add_argument("--country_code", default="", help="Country code for tournament retrieval. e.g. JP")
+    # 未開催大会 (upcoming) の取得設定 (= seed ピッカー UI 用 upcoming.json 生成).
+    parser.add_argument("--upcoming_out", default=None,
+                        help="Path for upcoming.json output. Empty/None で skip.")
+    parser.add_argument("--upcoming_lookahead_days", type=int, default=21,
+                        help="未開催大会の取得期間 (= 何日先まで). default 21日.")
+    parser.add_argument("--upcoming_country", default="JP",
+                        help="未開催大会の country filter (= 既に有名な国 SSBU).")
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
@@ -97,6 +104,29 @@ def main():
         args.users_file_path,
         args.tournament_file_path,
     )
+
+    # 未開催大会 (= 直近 N 日以内) を fetch して upcoming.json に出力.
+    # daily download の最後に実行することで data 取得と upcoming list を同期させる.
+    if args.upcoming_out:
+        try:
+            from scripts.fetch.fetch_upcoming import build_upcoming
+            from datetime import datetime as _dt
+            import json as _json
+            upcoming = build_upcoming(args.upcoming_country, args.upcoming_lookahead_days)
+            out_path = os.path.abspath(os.path.expanduser(args.upcoming_out))
+            os.makedirs(os.path.dirname(out_path), exist_ok=True)
+            payload = {
+                "generated_at": int(_dt.utcnow().timestamp()),
+                "country_code": args.upcoming_country,
+                "lookahead_days": args.upcoming_lookahead_days,
+                "count": len(upcoming),
+                "tournaments": upcoming,
+            }
+            with open(out_path, "w", encoding="utf-8") as f:
+                _json.dump(payload, f, ensure_ascii=False, indent=2)
+            print(f"[upcoming] wrote {len(upcoming)} tournaments → {out_path}", flush=True)
+        except Exception as e:
+            print(f"[upcoming] FAILED: {e}", flush=True)
 
 def event_files_complete(event_dir):
     return all(os.path.exists(os.path.join(event_dir, name)) for name in REQUIRED_EVENT_FILES)
