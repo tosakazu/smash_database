@@ -245,6 +245,11 @@ def main():
             # を skip し、TJPR (placement scoring) だけ動かす.
             matches = []
             # Build attr (inherit from parent event)
+            # 下位クラスは本戦より処理順が後 (= 当日の本戦進行後に開催される).
+            # timestamp を letter 順に +1s ずつずらし、sort で必ず親 event の後に来るようにする
+            # (B=+1s, C=+2s, ...). JST 日付は変わらない.
+            _ts = ev_attr.get("timestamp")
+            _ts_virtual = (_ts + (ord(letter) - ord("A"))) if isinstance(_ts, (int, float)) else _ts
             virt_event_id = -(int(ev_attr.get("event_id") or 0) * 10 + ord(letter) - ord("A"))
             virt_attr_d = {
                 "event_id": virt_event_id,  # synthetic negative ID
@@ -255,7 +260,7 @@ def main():
                 "num_entrants": num_ent,
                 "offline": ev_attr.get("offline", True),
                 "status": "completed",
-                "timestamp": ev_attr.get("timestamp"),
+                "timestamp": _ts_virtual,
                 "end_timestamp": ev_attr.get("end_timestamp"),
                 "version": "1.0",
                 "labels": {**(ev_attr.get("labels") or {}), "is_class_virtual": True, "class_letter": letter},
