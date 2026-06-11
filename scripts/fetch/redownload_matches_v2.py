@@ -381,6 +381,7 @@ def fetch_phase_group_sets(pg_id, per_page=50):
         variables = {"phaseGroupId": pg_id, "page": page, "perPage": per_page}
         cur_per_page = per_page
         attempts = 0
+        soft_attempts = 0
         while True:
             variables["perPage"] = cur_per_page
             resp = fetch_data_with_retries(get_phase_group_sets_full_query(), variables)
@@ -391,6 +392,16 @@ def fetch_phase_group_sets(pg_id, per_page=50):
                 cur_per_page = max(4, cur_per_page // 2)
                 attempts += 1
                 time.sleep(API_DELAY_SEC)
+                continue
+            # rate limit 等の GraphQL エラーは HTTP 200 + errors / data.phaseGroup=null で
+            # 返ってくる. 旧実装はこれを「sets 0 件」と解釈して silent partial になっていた
+            # (= 兵庫対戦会#31 で Bクラス phase 96 sets が丸ごと欠落). retry → 最終 raise.
+            _pg_null = not ((resp.get("data") or {}).get("phaseGroup") if isinstance(resp, dict) else None)
+            if errs or _pg_null:
+                if soft_attempts >= 4:
+                    raise FetchError(f"pg={pg_id} page={page}: errors or null phaseGroup after retries: {str(errs)[:200]}")
+                soft_attempts += 1
+                time.sleep(API_DELAY_SEC * (soft_attempts + 1))
                 continue
             break
         pg_data = (resp.get("data", {}) or {}).get("phaseGroup") or {}
@@ -441,6 +452,10 @@ def fetch_phase_group_sets(pg_id, per_page=50):
                 break
             page += 1
             time.sleep(API_DELAY_SEC)
+    # fallback 後も expected_total に届かない場合は silent partial にせず fail させる
+    # (= caller 側で event を done にしない → 次回 nightly で再取得される).
+    if expected_total is not None and len(sets) < expected_total:
+        raise FetchError(f"pg={pg_id} incomplete: fetched {len(sets)}/{expected_total} sets")
     return sets
 
 

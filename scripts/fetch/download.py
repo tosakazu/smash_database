@@ -44,11 +44,15 @@ SEEDS_PER_PAGE = 100
 SETS_PER_PAGE = 20
 
 def parse_date_or_datetime(value):
-    for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"):
-        try:
-            return datetime.strptime(value, fmt)
-        except ValueError:
-            continue
+    # YYYY-MM-DD は終日扱い (=23:59:59) にして start_date 比較で当日分も含めるようにする.
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").replace(hour=23, minute=59, second=59)
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+    except ValueError:
+        pass
     raise argparse.ArgumentTypeError(
         f"Invalid datetime '{value}'. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS."
     )
@@ -181,6 +185,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
             try:
                 tournament_id = tournament["id"]
                 tournament_name = tournament["name"]
+                tournament_state = tournament.get("state")
                 timestamp = tournament["startAt"]
                 end_timestamp = tournament["endAt"]
 
@@ -207,7 +212,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 }
 
                 now_timestamp = int(datetime.now().timestamp())
-                if end_timestamp is None or end_timestamp > now_timestamp:
+                # state == 3 (COMPLETED) なら endAt 前でも結果は確定済みなので取り込む.
+                if tournament_state != 3 and (end_timestamp is None or end_timestamp > now_timestamp):
                     print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is not finished yet.")
                     continue
 
@@ -429,7 +435,10 @@ def fetch_all_sets(event_id):
                 all_sets_with_phase.append((s, phase_info, pg_info))
             _time.sleep(_V2_API_DELAY_SEC)  # 各 phase_group 間で rate-limit 緩和 (v2 と同じ).
     if pg_failures:
-        print(f"[fetch_all_sets] event={event_id}: {len(pg_failures)} phase_groups failed: {pg_failures}", flush=True)
+        # silent partial の matches.json を書いて done マークされると二度と再取得されない
+        # (= 兵庫対戦会#31 で発覚). fail させて caller 側で retry 対象に残す.
+        raise FetchError(
+            f"[fetch_all_sets] event={event_id}: {len(pg_failures)} phase_groups failed: {pg_failures}")
     return all_sets_with_phase
 
 def write_matches(all_nodes, entrant2user, event_dir):
@@ -638,6 +647,10 @@ def extend_user_info(user_data, player_data, users, users_file_path, dirty_user_
         prefix = player['prefix']
         gender_pronoun = user['genderPronoun'] if user['genderPronoun'] is not None else "unknown"
         startgg_discriminator = user.get('discriminator')
+        location = user.get('location') or {}
+        country = location.get('country')
+        addr_state = location.get('state')
+        city = location.get('city')
         x_id = None
         x_name = None
         discord_id = None
@@ -658,6 +671,9 @@ def extend_user_info(user_data, player_data, users, users_file_path, dirty_user_
             "prefix": prefix,
             "gender_pronoun": gender_pronoun,
             "startgg_discriminator": startgg_discriminator,
+            "country": country,
+            "addr_state": addr_state,
+            "city": city,
             "x_id": x_id,
             "x_name": x_name,
             "discord_id": discord_id,
