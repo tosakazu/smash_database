@@ -114,7 +114,7 @@ def main():
     rc |= run([args.python, "-u", str(HERE / "fetch_class_phase_players.py"),
                "--token", args.token])
     rc |= run([args.python, "-u",
-               str(ROOT.parent / "ranking_eval" / "build_class_virtual_tournaments.py"),
+               str(HERE / "build_class_virtual_tournaments.py"),
                "--events-root", str(EVENTS_ROOT)])
     print(f"[update_class_data] done rc={rc}", flush=True)
     sys.exit(1 if rc else 0)
