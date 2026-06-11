@@ -298,9 +298,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                     rewrite_tournaments = True
                             elif old_path == event_dir and event_files_complete(old_path):
                                 # Same path, files present — skip re-download.
-                                # ただし standings に優勝者が居ない (= 結果未確定) 場合は
-                                # スキップせず取り直す (champion_missing retry の実体).
-                                if _standings_has_champion(old_path):
+                                # ただし standings に優勝者が居ない (= 結果未確定) 場合、
+                                # 大会終了 7 日以内に限りスキップせず取り直す
+                                # (champion_missing retry の実体. 7 日超は未完として確定).
+                                _ref_end2 = end_timestamp or timestamp
+                                _in_retry_window = bool(_ref_end2) and (now_timestamp - _ref_end2) < 7 * 86400
+                                if _standings_has_champion(old_path) or not _in_retry_window:
                                     continue
 
                         user_data, player_data, entrant2user = download_standings(event_id, event_dir)
@@ -317,7 +320,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
                         # 優勝者 (placement=1) が無い standings は「結果未確定スナップショット」
                         # の可能性が高い (= 主催者が決勝の入力を後日行うケース. 兵庫対戦会#31 で発覚).
-                        # 大会終了から 14 日間は done にせず毎晩取り直す.
+                        # 大会終了から 7 日間だけ done にせず毎晩取り直す. 窓を過ぎたら
+                        # 未完のまま done マーク (= 以後ダウンロードしない).
                         try:
                             with open(os.path.join(event_dir, "standings.json"), "rb") as _sf:
                                 _srows = json.loads(_sf.read()).get("data") or []
@@ -325,9 +329,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                        if isinstance(r.get("placement"), int)]
                             if len(_srows) >= 8 and _places and min(_places) != 1:
                                 _ref_end = end_timestamp or timestamp
-                                if _ref_end and (now_timestamp - _ref_end) < 14 * 86400:
+                                if _ref_end and (now_timestamp - _ref_end) < 7 * 86400:
                                     champion_missing = True
-                                    print(f"  [pending] {event_name}: standings に優勝者なし — 14日間は再取得対象に残す")
+                                    print(f"  [pending] {event_name}: standings に優勝者なし — 7日間は再取得対象に残す")
                         except Exception:
                             pass
 
