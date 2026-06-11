@@ -275,6 +275,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
 
                 any_event_failed = False
+                champion_missing = False
                 for event_id, event_name, is_online in events_info:
                     try:
                         year, month, day = get_date_parts(timestamp)
@@ -296,8 +297,11 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                     ]
                                     rewrite_tournaments = True
                             elif old_path == event_dir and event_files_complete(old_path):
-                                # Same path, files present — skip re-download
-                                continue
+                                # Same path, files present — skip re-download.
+                                # ただし standings に優勝者が居ない (= 結果未確定) 場合は
+                                # スキップせず取り直す (champion_missing retry の実体).
+                                if _standings_has_champion(old_path):
+                                    continue
 
                         user_data, player_data, entrant2user = download_standings(event_id, event_dir)
                         num_entrants = len(user_data)
@@ -310,6 +314,22 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         download_all_set(event_id, entrant2user, event_dir)
                         labels = {}
                         write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir, end_timestamp=end_timestamp)
+
+                        # 優勝者 (placement=1) が無い standings は「結果未確定スナップショット」
+                        # の可能性が高い (= 主催者が決勝の入力を後日行うケース. 兵庫対戦会#31 で発覚).
+                        # 大会終了から 14 日間は done にせず毎晩取り直す.
+                        try:
+                            with open(os.path.join(event_dir, "standings.json"), "rb") as _sf:
+                                _srows = json.loads(_sf.read()).get("data") or []
+                            _places = [r.get("placement") for r in _srows
+                                       if isinstance(r.get("placement"), int)]
+                            if len(_srows) >= 8 and _places and min(_places) != 1:
+                                _ref_end = end_timestamp or timestamp
+                                if _ref_end and (now_timestamp - _ref_end) < 14 * 86400:
+                                    champion_missing = True
+                                    print(f"  [pending] {event_name}: standings に優勝者なし — 14日間は再取得対象に残す")
+                        except Exception:
+                            pass
 
                         existing_events = tournaments[tournament_id]["events"]
                         if not any(e.get("event_id") == event_id for e in existing_events):
@@ -348,7 +368,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     # Only mark done if no event failed (so retry will pick it up).
                     # Use the in-memory done_tournaments set to avoid double-writing
                     # the same tid to done.csv when a tournament is re-processed.
-                    if not any_event_failed:
+                    if not any_event_failed and not champion_missing:
                         if tournament_id not in done_tournaments:
                             write_done_tournaments(tournament_id, done_file_path)
                             done_tournaments.add(tournament_id)
@@ -378,6 +398,17 @@ def _flush_dirty_users(users, dirty_user_ids, users_file_path):
     write_jsonl(list(users.values()), users_file_path, with_version=True)
 
 # イベントのセットデータを保存する関数
+def _standings_has_champion(event_dir):
+    """standings.json に placement=1 が居るか. 読めない場合は True (= 問題なし扱い)."""
+    try:
+        with open(os.path.join(event_dir, "standings.json"), "rb") as f:
+            rows = json.loads(f.read()).get("data") or []
+        places = [r.get("placement") for r in rows if isinstance(r.get("placement"), int)]
+        return not (len(rows) >= 8 and places and min(places) != 1)
+    except Exception:
+        return True
+
+
 def download_all_set(event_id, entrant2user, event_dir):
     """event の matches.json を v2 schema で生成 (match_id / bracket_label / global_round 等).
 
