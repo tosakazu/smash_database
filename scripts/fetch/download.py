@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import shutil
 import argparse
 import sys
@@ -224,7 +225,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
                 if tournament_id in done_tournaments:
                     tournament_entry = tournaments.get(tournament_id)
-                    if tournament_entry and tournament_events_complete(tournament_entry):
+                    # done 済み & ファイル完備でも、終了 7 日以内で優勝者未確定の
+                    # event を含む場合は skip せず取り直す (= champion_missing retry の
+                    # 実体. これが無いと下の per-event retry は永久に到達しない).
+                    _champ_retry = _tournament_needs_champion_retry(
+                        tournament_entry, end_timestamp or timestamp, now_timestamp)
+                    if tournament_entry and tournament_events_complete(tournament_entry) and not _champ_retry:
                         # Check if any event is stored under an outdated date
                         # directory. If so, move it to the correct path.
                         year, month, day = get_date_parts(timestamp)
@@ -254,7 +260,10 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         else:
                             print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) already downloaded.")
                         continue
-                    print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
+                    if _champ_retry:
+                        print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) marked done but champion missing within 7d. Re-downloading.")
+                    else:
+                        print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) is marked done but files are missing. Re-downloading.")
 
                 print(f"Download {tournament_name}, date: {tournament_dt}")
 
@@ -411,6 +420,24 @@ def _standings_has_champion(event_dir):
         return not (len(rows) >= 8 and places and min(places) != 1)
     except Exception:
         return True
+
+
+def _tournament_needs_champion_retry(tournament_entry, ref_end_ts, now_timestamp):
+    """done 済みでも再取得すべきか. 終了 7 日以内 & 優勝者未確定の event を含むなら True.
+
+    download.py の outer done-skip は file 完備のみ判定するため、これが無いと
+    per-event の champion_missing retry (= standings に place=1 が出るまで取り直す)
+    に永久に到達しない. 7 日超は「未完として確定」とみなし再取得しない.
+    """
+    if not tournament_entry or not ref_end_ts:
+        return False
+    if (now_timestamp - ref_end_ts) >= 7 * 86400:
+        return False
+    for event in tournament_entry.get("events", []):
+        ed = event.get("path")
+        if ed and event_files_complete(ed) and not _standings_has_champion(ed):
+            return True
+    return False
 
 
 def download_all_set(event_id, entrant2user, event_dir):
