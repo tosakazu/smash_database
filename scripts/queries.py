@@ -124,6 +124,11 @@ def get_standings_query():
                   id
                   genderPronoun
                   discriminator
+                  location {
+                    country
+                    state
+                    city
+                  }
                   authorizations(types: [TWITTER, DISCORD]) {
                     externalId
                     externalUsername
@@ -164,6 +169,11 @@ def get_seeds_query():
                   id
                   genderPronoun
                   discriminator
+                  location {
+                    country
+                    state
+                    city
+                  }
                   authorizations(types: [TWITTER, DISCORD]) {
                     externalId
                     externalUsername
@@ -188,6 +198,11 @@ def get_user_query():
         id
         genderPronoun
         discriminator
+        location {
+          country
+          state
+          city
+        }
         authorizations(types: [TWITTER, DISCORD]) {
           externalId
           externalUsername
@@ -202,6 +217,11 @@ def get_user_player_query():
         id
         genderPronoun
         discriminator
+        location {
+          country
+          state
+          city
+        }
         authorizations(types: [TWITTER, DISCORD]) {
           externalId
           externalUsername
@@ -319,6 +339,107 @@ def get_phase_group_sets_full_query():
     }"""
 
 
+def get_phase_group_sets_with_games_query():
+    """Phase group の sets を games (character/stage 選択履歴) 付きで取得.
+    複合複雑性が高いので perPage を 5〜10 に抑えて呼ぶこと.
+    sidecar character_games.json 生成用."""
+    return """query PhaseGroupSetsWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            slots {
+              id
+              entrant {
+                id
+                participants { user { id } }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage { id name }
+              selections {
+                id
+                entrant {
+                  id
+                  participants { user { id } }
+                }
+                character { id name }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_full_with_games_query():
+    """Phase group の sets を スコア + games (character/stage 選択履歴) の両方付きで取得.
+
+    get_phase_group_sets_full_query (スコア, games無し) と
+    get_phase_group_sets_with_games_query (games, スコア無し) を統合したもの。
+    1 パスで試合結果 (standing.stats.score) と キャラ details を同時取得できるため、
+    定期更新で download とキャラ取得を二重に叩く必要がなくなる。
+
+    games を含むので complexity が高い。perPage は 4〜8 程度に抑えて呼ぶこと
+    (fetch_phase_group_sets の with_games=True 経路が自動でクランプ・backoff する)。"""
+    return """query PhaseGroupSetsFullWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            slots {
+              id
+              entrant {
+                id
+                participants {
+                  user { id }
+                }
+              }
+              standing {
+                stats {
+                  score { label value }
+                }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage { id name }
+              selections {
+                id
+                entrant {
+                  id
+                  participants { user { id } }
+                }
+                character { id name }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
 def get_phase_group_sets_minimal_query():
     """Phase group の sets を最小限のフィールドで取得 (DQ filter 用).
     player_ids per set: slots[].entrant.participants[].user.id のみ. 軽量で complexity throttling 回避.
@@ -397,10 +518,11 @@ def get_event_phases_named_query():
 
 def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
     first_row = """query TournamentsByGame($gameId: ID!, $perPage: Int!, $page: Int!) {"""
-    second_row = """tournaments(query: {perPage: $perPage, page: $page, sortBy: "startAt desc", filter: {videogameIds: [$gameId], published: true, *other_filters*}}) {"""
+    second_row = """tournaments(query: {perPage: $perPage, page: $page, sortBy: "startAt desc", filter: {videogameIds: [$gameId], published: true *other_filters*}}) {"""
     nodes_query = """nodes {
             id
             name
+            state
             startAt
             endAt
             countryCode

@@ -484,7 +484,10 @@ def fetch_all_sets(event_id):
                 "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
-                pg_sets = _fetch_phase_group_sets_impl(pg_id, per_page=50)
+                # with_games=True: スコア + キャラ/ステージ選択を 1 パスで取得し、
+                # matches.json の details にキャラ情報も書き込む (= 別途 fetch_character_games で
+                # 同じ sets を二重取得していたのを統合).
+                pg_sets = _fetch_phase_group_sets_impl(pg_id, per_page=50, with_games=True)
             except FetchError as e:
                 print(f"[fetch_all_sets] WARN pg={pg_id} failed: {e}", flush=True)
                 pg_failures.append(pg_id)

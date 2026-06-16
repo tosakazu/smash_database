@@ -27,7 +27,10 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-from scripts.queries import get_event_phases_full_query, get_phase_group_sets_full_query
+from scripts.queries import (
+    get_event_phases_full_query, get_phase_group_sets_full_query,
+    get_phase_group_sets_full_with_games_query,
+)
 from scripts.utils import (
     fetch_data_with_retries, fetch_all_nodes, set_retry_parameters, set_api_parameters,
     FetchError,
@@ -361,8 +364,13 @@ def fetch_event_phases(event_id):
     return phases
 
 
-def fetch_phase_group_sets(pg_id, per_page=50):
+def fetch_phase_group_sets(pg_id, per_page=50, with_games=False):
     """1 phase_group の sets を全件取得.
+
+    with_games=True のときは スコア + games (キャラ/ステージ選択) 統合クエリを使い、
+    1 パスで試合結果とキャラ details の両方を取得する (= download とキャラ取得の二重叩き解消).
+    games は complexity が高いので開始 perPage を 8 にクランプし、complexity backoff で
+    最小 4 まで自動で下げる。
 
     変更点 (バグ修正):
       - `len(nodes) < cur_per_page` の break 条件は start.gg の不安定なページサイズで
@@ -371,6 +379,10 @@ def fetch_phase_group_sets(pg_id, per_page=50):
       - 並びは `sortType: NONE` (= ID 順) に切替えて安定化.
       - 取得後、`set.id` で dedup. pageInfo.total と一致しなければ再試行.
     """
+    _query = (get_phase_group_sets_full_with_games_query if with_games
+              else get_phase_group_sets_full_query)
+    if with_games:
+        per_page = min(per_page, 8)  # games は complexity が高いので小さめに開始
     sets = []
     seen_ids = set()
     total_pages = None
@@ -384,7 +396,7 @@ def fetch_phase_group_sets(pg_id, per_page=50):
         soft_attempts = 0
         while True:
             variables["perPage"] = cur_per_page
-            resp = fetch_data_with_retries(get_phase_group_sets_full_query(), variables)
+            resp = fetch_data_with_retries(_query(), variables)
             errs = resp.get("errors") if isinstance(resp, dict) else None
             if errs and any("complexity" in str(e).lower() for e in errs):
                 if cur_per_page <= 4 or attempts >= 6:
@@ -426,12 +438,12 @@ def fetch_phase_group_sets(pg_id, per_page=50):
     # 取得 sets 数が expected_total に届かない場合、もう一度全 page を別 per_page で試行.
     # start.gg のページサイズ揺れで取りこぼした sets を回収するための fallback.
     if expected_total is not None and len(sets) < expected_total:
-        fallback_per_page = max(8, per_page // 2)
+        fallback_per_page = max(4 if with_games else 8, per_page // 2)
         page = 1
         while page <= max_pages:
             variables = {"phaseGroupId": pg_id, "page": page, "perPage": fallback_per_page}
             try:
-                resp = fetch_data_with_retries(get_phase_group_sets_full_query(), variables)
+                resp = fetch_data_with_retries(_query(), variables)
             except Exception:
                 break
             pg_data = (resp.get("data", {}) or {}).get("phaseGroup") or {}
@@ -474,6 +486,44 @@ def _build_entrant2user(all_nodes):
             if uid is not None:
                 out[eid] = uid
     return out
+
+
+def _games_to_details(node, entrant2user):
+    """set node の games (character/stage 選択履歴) を matches.json `details[]` schema へ変換.
+
+    games 無しクエリ (= get_phase_group_sets_full_query) で取得した node では
+    node['games'] が存在しないため [] を返す。games 付きクエリ
+    (= get_phase_group_sets_full_with_games_query) のときのみ中身が入る。
+    schema は download_specific_event.py / merge_character_games.py と一致。"""
+    details = []
+    for game in (node.get("games") or []):
+        if not isinstance(game, dict):
+            continue
+        winner_id_in_game = game.get("winnerId")
+        selections_data = []
+        for selection in (game.get("selections") or []):
+            if not isinstance(selection, dict):
+                continue
+            ent = selection.get("entrant") or {}
+            char = selection.get("character") or {}
+            if ent.get("id") is None or char.get("id") is None or char.get("name") is None:
+                continue
+            selections_data.append({
+                "user_id": entrant2user.get(ent.get("id")),
+                "selection_id": selection.get("id"),
+                "character_id": char.get("id"),
+                "character_name": char.get("name"),
+            })
+        details.append({
+            "game_id": game.get("id"),
+            "order_num": game.get("orderNum"),
+            "winner_id": entrant2user.get(winner_id_in_game) if winner_id_in_game else None,
+            "entrant1_score": game.get("entrant1Score"),
+            "entrant2_score": game.get("entrant2Score"),
+            "stage": (game.get("stage") or {}).get("name") if game.get("stage") else None,
+            "selections": selections_data,
+        })
+    return details
 
 
 def _load_placements_map(event_dir: Path):
@@ -563,8 +613,9 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         loser_score = score1 if winner_slot is slot0 else score0
         dq = (score0 < 0 or score1 < 0)
         cancel = (score0 == 0 and score1 == 0 and winner_eid is None)
-        # games / details: 廃止 (complexity 抑制のため query から削除). 必要なら別 query で取得.
-        details = []
+        # games / details: with_games クエリのときのみ node['games'] が入る (= キャラ選択).
+        # games 無しクエリでは [] (従来どおり).
+        details = _games_to_details(node, entrant2user)
         wave = pg_info.get("wave") or {}
         wid_ent = (winner_slot.get("entrant") or {}).get("id")
         lid_ent = (loser_slot.get("entrant") or {}).get("id")
@@ -880,7 +931,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             "dq": dq,
             "cancel": cancel,
             "state": node.get("state"),
-            "details": [],
+            "details": _games_to_details(node, entrant2user),
         }
         new_match_data.append(match_data)
 
