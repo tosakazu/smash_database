@@ -1,0 +1,120 @@
+name: "StartGG: Fetch Large Event"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tournament_ids:
+        description: "Comma-separated tournament IDs to fetch (e.g. 851706,123456)"
+        required: true
+        type: string
+      timeout_minutes:
+        description: "Job timeout in minutes"
+        required: false
+        default: "120"
+        type: string
+
+concurrency:
+  group: fetch-large-event-${{ github.run_number }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch-large-event:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euxo pipefail
+          python -m pip install --upgrade pip requests
+
+      - name: Prepare branch
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          DATE="$(TZ=Asia/Tokyo date +%F)"
+          BRANCH="fetch-large-event/${DATE}-${{ github.run_number }}"
+          git fetch origin main
+          git checkout -B "$BRANCH" origin/main
+          echo "event_branch=$BRANCH" >> "$GITHUB_ENV"
+
+      - name: Fetch large events
+        env:
+          STARTGG_TOKEN: ${{ secrets.STARTGG_TOKEN }}
+        run: |
+          set -euxo pipefail
+          python scripts/fetch/download.py \
+            --token "$STARTGG_TOKEN" \
+            --country_code "JP" \
+            --tournament_ids "${{ inputs.tournament_ids }}" \
+            2>&1 | tee /tmp/download_large.log
+
+      - name: Run tests
+        run: |
+          set -euxo pipefail
+          python -m unittest scripts.test.test_validate_data
+
+      - name: Check for changes
+        id: changes
+        run: |
+          set -euo pipefail
+          if git diff --quiet && git diff --cached --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          git add -A
+          git commit -m "chore(data): fetch large event (tournament_ids=${{ inputs.tournament_ids }})"
+
+      - name: Push branch
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          set -euxo pipefail
+          git push --set-upstream origin "$event_branch"
+
+      - name: Create PR
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euxo pipefail
+          {
+            echo "Large event fetch triggered manually via workflow_dispatch."
+            echo ""
+            echo "**Tournament IDs:** \`${{ inputs.tournament_ids }}\`"
+            echo "**Timeout:** ${{ inputs.timeout_minutes }} minutes"
+            echo "**Run:** ${{ github.run_number }}"
+            echo ""
+            echo "調査後に手動でマージしてください。"
+          } > /tmp/pr_body_large.md
+          gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base main \
+            --head "$event_branch" \
+            --title "chore(data): fetch large event (tournament_ids=${{ inputs.tournament_ids }})" \
+            --body-file /tmp/pr_body_large.md
+
+      - name: Debug on failure
+        if: failure()
+        run: |
+          echo "Workflow failed."
+          git status --porcelain
+          ls -la data/startgg

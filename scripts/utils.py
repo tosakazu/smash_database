@@ -183,6 +183,15 @@ class NoPhaseError(Exception):
 class AllFallbacksExhaustedError(Exception):
     pass
 
+class MaxPagesExceededError(Exception):
+    def __init__(self, total_pages, max_pages, per_page):
+        self.total_pages = total_pages
+        self.max_pages = max_pages
+        self.per_page = per_page
+        super().__init__(
+            f"total_pages={total_pages} exceeds max_pages={max_pages} at per_page={per_page}"
+        )
+
 __max_retries = 100
 __retry_delay = 5
 __page_delay = 2
@@ -249,7 +258,7 @@ def fetch_data_with_retries(query, variables):
     status_message = f"Max retries exceeded for query. Last status code: {status_code}. Last error: {last_error_message}"
     raise FetchError(status_message)
 
-def fetch_all_nodes(query, variables, keys, per_page=10):
+def fetch_all_nodes(query, variables, keys, per_page=10, max_pages=None):
     all_nodes = []
     variables = variables.copy()
     variables["page"] = 1
@@ -271,6 +280,8 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
         current_page = variables["page"]
 
         if total_pages is not None:
+            if max_pages is not None and current_page == 1 and total_pages > max_pages:
+                raise MaxPagesExceededError(total_pages, max_pages, per_page)
             if current_page >= total_pages:
                 break
             variables["page"] += 1

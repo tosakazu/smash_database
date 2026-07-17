@@ -1,5 +1,6 @@
 import os
 import argparse
+import json
 import sys
 from datetime import datetime
 from collections import Counter
@@ -12,6 +13,7 @@ from scripts.queries import (
     get_event_sets_query, get_event_sets_light_query, get_standings_query, get_seeds_query,
     get_event_entrants_query,
     get_tournament_events_query, get_phase_groups_query, get_tournaments_by_game_query,
+    get_tournament_by_id_query,
 )
 from scripts.utils import (
     country_code2region, get_date_parts, get_event_directory,
@@ -20,7 +22,7 @@ from scripts.utils import (
     set_indent_num, set_page_delay,
     fetch_data_with_retries, fetch_all_nodes,
     set_retry_parameters, set_api_parameters,
-    FetchError, NoPhaseError, AllFallbacksExhaustedError,
+    FetchError, NoPhaseError, AllFallbacksExhaustedError, MaxPagesExceededError,
 )
 
 REQUIRED_EVENT_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
@@ -107,11 +109,41 @@ def main():
         action="store_true",
         help="Refresh only matches.json for existing event directories. Skip standings, seeds, attr, and user updates.",
     )
+    parser.add_argument(
+        "--max_pages",
+        type=int,
+        default=None,
+        help="Skip events whose page count exceeds this value at the minimum per_page (10). Skipped events are logged with SKIP_LARGE_EVENT prefix.",
+    )
+    parser.add_argument(
+        "--skip_report_path",
+        default=None,
+        help="Path to write a JSON report of skipped large events.",
+    )
+    parser.add_argument(
+        "--tournament_ids",
+        default=None,
+        help="Comma-separated tournament IDs to fetch directly, bypassing date-range pagination.",
+    )
     args = parser.parse_args()
 
     set_indent_num(args.indent_num)
     configure_fetch_behavior(args)
     set_api_parameters(args.url, args.token)
+
+    if args.tournament_ids:
+        tournament_id_list = [int(tid.strip()) for tid in args.tournament_ids.split(",") if tid.strip()]
+        download_by_ids(
+            tournament_id_list,
+            args.game_id,
+            args.country_code,
+            args.startgg_dir,
+            args.done_file_path,
+            args.users_file_path,
+            args.tournament_file_path,
+        )
+        return
+
     if args.start_date is not None and args.start_date < args.finish_date:
         raise ValueError("--start_date must be greater than or equal to --finish_date.")
 
@@ -126,6 +158,8 @@ def main():
         args.tournament_file_path,
         force_refresh=args.force_refresh,
         matches_only=args.matches_only,
+        max_pages=args.max_pages,
+        skip_report_path=args.skip_report_path,
     )
 
 def event_files_complete(event_dir):
@@ -149,6 +183,24 @@ def should_skip_tournament(tournament_id, tournaments, done_tournaments, force_r
     tournament_entry = tournaments.get(tournament_id)
     return bool(tournament_entry and tournament_events_complete(tournament_entry))
 
+def _record_skip(skipped_events, tournament_id, tournament_name, event_id, event_name, exc):
+    record = {
+        "tournament_id": tournament_id,
+        "tournament_name": tournament_name,
+        "event_id": event_id,
+        "event_name": event_name,
+        "total_pages": exc.total_pages,
+        "max_pages": exc.max_pages,
+        "per_page": exc.per_page,
+    }
+    skipped_events.append(record)
+    print(
+        f"SKIP_LARGE_EVENT tournament_id={tournament_id} name={tournament_name} "
+        f"event_id={event_id} event_name={event_name} "
+        f"total_pages={exc.total_pages} max_pages={exc.max_pages}"
+    )
+
+
 def download_all_tournaments(
     game_id,
     country_code,
@@ -160,6 +212,8 @@ def download_all_tournaments(
     tournament_file_path,
     force_refresh=False,
     matches_only=False,
+    max_pages=None,
+    skip_report_path=None,
 ):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
@@ -169,6 +223,7 @@ def download_all_tournaments(
     print(f"tournaments: {len(tournaments)}")
     rewrite_tournaments = False
     existing_tournament_ids = set(tournaments.keys())
+    skipped_events = []
 
     page = 1
     while True:
@@ -264,15 +319,26 @@ def download_all_tournaments(
                         entrant2user = fetch_entrant_user_map(event_id)
                         download_all_set(event_id, entrant2user, event_dir, lightweight=True)
                     else:
-                        user_data, player_data, entrant2user = download_standings(event_id, event_dir)
+                        try:
+                            user_data, player_data, entrant2user = download_standings(event_id, event_dir, max_pages=max_pages)
+                        except MaxPagesExceededError as e:
+                            _record_skip(skipped_events, tournament_id, tournament_name, event_id, event_name, e)
+                            continue
                         num_entrants = len(user_data)
                         try:
-                            download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
-                        except NoPhaseError as e:
+                            download_seeds(event_id, user_data, player_data, entrant2user, event_dir, max_pages=max_pages)
+                        except NoPhaseError:
                             print(f"No phase found for event {event_name}. Skipping.")
                             continue
+                        except MaxPagesExceededError as e:
+                            _record_skip(skipped_events, tournament_id, tournament_name, event_id, event_name, e)
+                            continue
                         extend_user_info(user_data, player_data, users, users_file_path)
-                        download_all_set(event_id, entrant2user, event_dir)
+                        try:
+                            download_all_set(event_id, entrant2user, event_dir, max_pages=max_pages)
+                        except MaxPagesExceededError as e:
+                            _record_skip(skipped_events, tournament_id, tournament_name, event_id, event_name, e)
+                            continue
                         labels = {}
                         write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
                     print(
@@ -311,9 +377,17 @@ def download_all_tournaments(
     if rewrite_tournaments:
         write_jsonl(list(tournaments.values()), tournament_file_path, with_version=True)
 
+    if skipped_events:
+        print(f"Skipped {len(skipped_events)} event(s) due to max_pages={max_pages}.")
+        if skip_report_path:
+            with open(skip_report_path, "w", encoding="utf-8") as f:
+                json.dump(skipped_events, f, ensure_ascii=False, indent=2)
+            print(f"Skip report written to {skip_report_path}")
+
+
 # イベントのセットデータを保存する関数
-def download_all_set(event_id, entrant2user, event_dir, lightweight=False):
-    all_sets = fetch_all_sets(event_id, lightweight=lightweight)
+def download_all_set(event_id, entrant2user, event_dir, lightweight=False, max_pages=None):
+    all_sets = fetch_all_sets(event_id, lightweight=lightweight, max_pages=max_pages)
     if not all_sets:
         return
 
@@ -342,17 +416,21 @@ def dedupe_set_nodes(all_sets, event_id=None):
         )
     return unique_sets
 
-def fetch_all_sets(event_id, lightweight=False):
+def fetch_all_sets(event_id, lightweight=False, max_pages=None):
     query = get_event_sets_light_query() if lightweight else get_event_sets_query()
     variables = {"eventId": event_id}
     keys = ["event", "sets"]
     tried = []
     fallback_values = LIGHTWEIGHT_SETS_PER_PAGE_FALLBACKS if lightweight else SETS_PER_PAGE_FALLBACKS
     default_page_size = LIGHTWEIGHT_SETS_PER_PAGE if lightweight else SETS_PER_PAGE
+    min_per_page = min(fallback_values)
     for per_page in fallback_values:
         tried.append(per_page)
+        effective_max = max_pages if (max_pages is not None and per_page == min_per_page) else None
         try:
-            all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page)
+            all_sets = fetch_all_nodes(query, variables, keys, per_page=per_page, max_pages=effective_max)
+        except MaxPagesExceededError:
+            raise
         except FetchError as exc:
             message = str(exc).lower()
             if "query complexity is too high" not in message:
@@ -405,11 +483,16 @@ def fetch_entrant_user_map(event_id):
     return entrant2user
 
 
-def fetch_with_page_fallback(query, variables, keys, per_page_values, label, event_id):
+def fetch_with_page_fallback(query, variables, keys, per_page_values, label, event_id, max_pages=None):
     last_error = None
-    for per_page in per_page_values:
+    per_page_list = list(per_page_values)
+    min_per_page = min(per_page_list)
+    for per_page in per_page_list:
+        effective_max = max_pages if (max_pages is not None and per_page == min_per_page) else None
         try:
-            return fetch_all_nodes(query, variables, keys, per_page=per_page)
+            return fetch_all_nodes(query, variables, keys, per_page=per_page, max_pages=effective_max)
+        except MaxPagesExceededError:
+            raise
         except FetchError as exc:
             last_error = exc
             message = str(exc).lower()
@@ -419,7 +502,7 @@ def fetch_with_page_fallback(query, variables, keys, per_page_values, label, eve
                 f"Event {event_id}: {label} query hit complexity limits with per_page={per_page}. Retrying with a smaller page size."
             )
     raise AllFallbacksExhaustedError(
-        f"Event {event_id}: {label} query failed at all page sizes {list(per_page_values)}. Last error: {last_error}"
+        f"Event {event_id}: {label} query failed at all page sizes {per_page_list}. Last error: {last_error}"
     ) from last_error
 
 def build_match_dedupe_key(match_data):
@@ -538,7 +621,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
 
-def download_standings(event_id, event_dir):
+def download_standings(event_id, event_dir, max_pages=None):
     """スタンディングデータを保存する関数"""
     standings_data = []
     user_data = []
@@ -553,6 +636,7 @@ def download_standings(event_id, event_dir):
         STANDINGS_PER_PAGE_FALLBACKS,
         "standings",
         event_id,
+        max_pages=max_pages,
     )
 
     user_data = []
@@ -583,7 +667,7 @@ def download_standings(event_id, event_dir):
     write_json(json_data, f"{event_dir}/standings.json", with_version=True)
     return user_data, player_data, entrant2user
 
-def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
+def download_seeds(event_id, user_data, player_data, entrant2user, event_dir, max_pages=None):
     phase_id = fetch_phase_id(event_id)
     query = get_seeds_query()
     variables = {"phaseId": phase_id}
@@ -595,6 +679,7 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
         SEEDS_PER_PAGE_FALLBACKS,
         "seeds",
         event_id,
+        max_pages=max_pages,
     )
 
     for seed in seeds_data:
@@ -706,6 +791,126 @@ def write_done_tournaments(tournament_id, file_path):
     with open(file_path, "a", encoding="utf-8") as f:
         f.write(f"{tournament_id}\n")
         f.flush()
+
+
+def fetch_tournament_by_id(tournament_id):
+    response_data = fetch_data_with_retries(
+        get_tournament_by_id_query(),
+        {"tournamentId": tournament_id},
+    )
+    if "data" not in response_data or response_data["data"] is None or "tournament" not in response_data["data"]:
+        raise FetchError(
+            f"Error: 'data' or 'tournament' key not found in response for tournament {tournament_id}. "
+            f"Response data: {response_data}\n in fetch_tournament_by_id"
+        )
+    return response_data["data"]["tournament"]
+
+
+def download_by_ids(
+    tournament_id_list,
+    game_id,
+    country_code,
+    startgg_dir,
+    done_file_path,
+    users_file_path,
+    tournament_file_path,
+):
+    done_tournaments = read_set(done_file_path, as_int=True)
+    users = read_users_jsonl(users_file_path)
+    tournaments = read_tournaments_jsonl(tournament_file_path)
+    print(f"download_by_ids: fetching {len(tournament_id_list)} tournament(s)")
+
+    for tournament_id in tournament_id_list:
+        try:
+            tournament = fetch_tournament_by_id(tournament_id)
+        except FetchError as e:
+            print(f"Tournament {tournament_id}: failed to fetch metadata, skipping. Error: {e}")
+            continue
+
+        tournament_name = tournament["name"]
+        timestamp = tournament["startAt"]
+        end_timestamp = tournament["endAt"]
+        _country_code = tournament["countryCode"] or country_code
+        place = {
+            "country_code": _country_code,
+            "city": tournament["city"],
+            "lat": tournament["lat"],
+            "lng": tournament["lng"],
+            "venue_name": tournament["venueName"],
+            "timezone": tournament["timezone"],
+            "postal_code": tournament["postalCode"],
+            "venue_address": tournament["venueAddress"],
+            "maps_place_id": tournament["mapsPlaceId"],
+        }
+        url = tournament["url"]
+
+        print(f"Tournament {tournament_id}: {tournament_name}")
+
+        if tournament_id in tournaments:
+            tournaments[tournament_id]["name"] = tournament_name
+            tournaments[tournament_id].setdefault("events", [])
+        else:
+            tournaments[tournament_id] = {
+                "tournament_id": tournament_id,
+                "name": tournament_name,
+                "events": [],
+            }
+
+        try:
+            events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
+        except FetchError as e:
+            print(f"Tournament {tournament_id}: failed to fetch events, skipping. Error: {e}")
+            continue
+
+        print(f"Tournament {tournament_id}: fetched {len(events_info)} event(s).")
+
+        for event_id, event_name, is_online in events_info:
+            print(f"Tournament {tournament_id}: processing event {event_id} ({event_name}).")
+            year, month, day = get_date_parts(timestamp)
+            event_dir = get_event_directory(startgg_dir, _country_code, year, month, day, tournament_name, event_name)
+
+            try:
+                user_data, player_data, entrant2user = download_standings(event_id, event_dir)
+            except FetchError as e:
+                print(f"Tournament {tournament_id}: event {event_id} standings failed, skipping. Error: {e}")
+                continue
+
+            num_entrants = len(user_data)
+            try:
+                download_seeds(event_id, user_data, player_data, entrant2user, event_dir)
+            except NoPhaseError:
+                print(f"No phase found for event {event_name}. Skipping.")
+                continue
+            except FetchError as e:
+                print(f"Tournament {tournament_id}: event {event_id} seeds failed, skipping. Error: {e}")
+                continue
+
+            extend_user_info(user_data, player_data, users, users_file_path)
+
+            try:
+                download_all_set(event_id, entrant2user, event_dir)
+            except FetchError as e:
+                print(f"Tournament {tournament_id}: event {event_id} sets failed, skipping. Error: {e}")
+                continue
+
+            labels = {}
+            write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir)
+            print(f"Tournament {tournament_id}: finished event {event_id} ({event_name}).")
+
+            existing_events = tournaments[tournament_id]["events"]
+            if not any(e.get("event_id") == event_id for e in existing_events):
+                existing_events.append({
+                    "event_id": event_id,
+                    "event_name": event_name,
+                    "path": event_dir,
+                })
+
+        if tournaments[tournament_id]["events"]:
+            extend_tournament_info(tournaments[tournament_id], tournament_file_path)
+            if tournament_id not in done_tournaments:
+                done_tournaments.add(tournament_id)
+                write_done_tournaments(tournament_id, done_file_path)
+
 
 if __name__ == "__main__":
     main()
