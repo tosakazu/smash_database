@@ -3,8 +3,8 @@
 GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD` の存在状況を記録します。
 
 - 集計開始日: `2018-12-29`
-- 集計終了日: `2026-06-26`
-- 最終更新 (UTC): `2026-06-25 17:28:07 UTC`
+- 集計終了日: `2026-07-17`
+- 最終更新 (UTC): `2026-07-16 19:11:01 UTC`
 
 | Date | Folder Exists | Checked By GitHub Actions | Last Checked At (JST) | Workflow |
 | --- | --- | --- | --- | --- |
@@ -2684,64 +2684,85 @@ GitHub Actions が確認した日付と、`data/startgg/events/Japan/YYYY/MM/DD`
 | 2026-04-24 | yes | yes | 2026-04-25 03:53:32 JST | update_tournament |
 | 2026-04-25 | yes | yes | 2026-04-26 04:01:54 JST | update_tournament |
 | 2026-04-26 | yes | yes | 2026-04-27 03:53:31 JST | update_tournament |
-| 2026-04-27 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-04-28 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-04-29 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-04-30 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-01 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-02 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-03 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-04 | no | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-05 | no | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-06 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-07 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-08 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-09 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-10 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-11 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-12 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-13 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-14 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-15 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-16 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-17 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-18 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-19 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-20 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-21 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-22 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-23 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-24 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-25 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-26 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-27 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-28 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-29 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-30 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-05-31 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-01 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-02 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-03 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-04 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-05 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-06 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-07 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-08 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-09 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-10 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-11 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-12 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-13 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-14 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-15 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-16 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-17 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-18 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-19 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-20 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-21 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-22 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-23 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-24 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-25 | yes | yes | 2026-06-26 02:28:07 JST | data_gap_check |
-| 2026-06-26 | no | yes | 2026-06-26 02:28:07 JST | data_gap_check |
+| 2026-04-27 | yes | yes | 2026-04-28 04:18:41 JST | update_tournament |
+| 2026-04-28 | yes | yes | 2026-04-29 04:39:57 JST | update_tournament |
+| 2026-04-29 | yes | yes | 2026-04-30 04:24:55 JST | update_tournament |
+| 2026-04-30 | yes | yes | 2026-05-01 04:19:26 JST | update_tournament |
+| 2026-05-01 | yes | yes | 2026-05-02 04:10:43 JST | update_tournament |
+| 2026-05-02 | yes | yes | 2026-05-03 03:57:44 JST | update_tournament |
+| 2026-05-03 | no | yes | 2026-05-04 03:57:44 JST | update_tournament |
+| 2026-05-04 | no | yes | 2026-05-05 04:27:18 JST | update_tournament |
+| 2026-05-05 | no | yes | 2026-05-06 04:17:04 JST | update_tournament |
+| 2026-05-06 | yes | yes | 2026-05-07 04:44:42 JST | update_tournament |
+| 2026-05-07 | yes | yes | 2026-05-08 04:42:22 JST | update_tournament |
+| 2026-05-08 | yes | yes | 2026-05-09 04:15:20 JST | update_tournament |
+| 2026-05-09 | yes | yes | 2026-05-10 04:02:52 JST | update_tournament |
+| 2026-05-10 | yes | yes | 2026-05-11 04:16:44 JST | update_tournament |
+| 2026-05-11 | yes | yes | 2026-05-12 04:44:45 JST | update_tournament |
+| 2026-05-12 | yes | yes | 2026-05-13 04:48:51 JST | update_tournament |
+| 2026-05-13 | yes | yes | 2026-05-14 04:52:36 JST | update_tournament |
+| 2026-05-14 | yes | yes | 2026-05-15 04:44:52 JST | update_tournament |
+| 2026-05-15 | yes | yes | 2026-05-16 04:28:29 JST | update_tournament |
+| 2026-05-16 | no | yes | 2026-05-16 04:28:29 JST | update_tournament |
+| 2026-05-17 | no | no |  |  |
+| 2026-05-18 | no | no |  |  |
+| 2026-05-19 | no | no |  |  |
+| 2026-05-20 | no | no |  |  |
+| 2026-05-21 | no | no |  |  |
+| 2026-05-22 | no | no |  |  |
+| 2026-05-23 | no | no |  |  |
+| 2026-05-24 | no | no |  |  |
+| 2026-05-25 | no | no |  |  |
+| 2026-05-26 | no | no |  |  |
+| 2026-05-27 | no | no |  |  |
+| 2026-05-28 | no | no |  |  |
+| 2026-05-29 | no | no |  |  |
+| 2026-05-30 | no | no |  |  |
+| 2026-05-31 | no | no |  |  |
+| 2026-06-01 | no | no |  |  |
+| 2026-06-02 | no | no |  |  |
+| 2026-06-03 | no | no |  |  |
+| 2026-06-04 | no | no |  |  |
+| 2026-06-05 | no | no |  |  |
+| 2026-06-06 | no | no |  |  |
+| 2026-06-07 | no | no |  |  |
+| 2026-06-08 | no | no |  |  |
+| 2026-06-09 | no | no |  |  |
+| 2026-06-10 | no | no |  |  |
+| 2026-06-11 | no | no |  |  |
+| 2026-06-12 | no | no |  |  |
+| 2026-06-13 | no | no |  |  |
+| 2026-06-14 | no | no |  |  |
+| 2026-06-15 | no | no |  |  |
+| 2026-06-16 | no | no |  |  |
+| 2026-06-17 | no | no |  |  |
+| 2026-06-18 | no | no |  |  |
+| 2026-06-19 | no | no |  |  |
+| 2026-06-20 | yes | yes | 2026-06-21 04:31:59 JST | update_tournament |
+| 2026-06-21 | yes | yes | 2026-06-22 04:43:55 JST | update_tournament |
+| 2026-06-22 | yes | yes | 2026-06-23 05:49:35 JST | update_tournament |
+| 2026-06-23 | yes | yes | 2026-06-24 05:06:07 JST | update_tournament |
+| 2026-06-24 | yes | yes | 2026-06-25 04:46:46 JST | update_tournament |
+| 2026-06-25 | yes | yes | 2026-06-26 05:01:36 JST | update_tournament |
+| 2026-06-26 | yes | yes | 2026-06-27 04:49:13 JST | update_tournament |
+| 2026-06-27 | yes | yes | 2026-06-28 04:33:28 JST | update_tournament |
+| 2026-06-28 | yes | yes | 2026-06-29 04:20:53 JST | update_tournament |
+| 2026-06-29 | yes | yes | 2026-06-30 04:58:26 JST | update_tournament |
+| 2026-06-30 | yes | yes | 2026-07-01 04:58:29 JST | update_tournament |
+| 2026-07-01 | yes | yes | 2026-07-02 04:56:51 JST | update_tournament |
+| 2026-07-02 | yes | yes | 2026-07-03 04:25:59 JST | update_tournament |
+| 2026-07-03 | yes | yes | 2026-07-04 04:23:09 JST | update_tournament |
+| 2026-07-04 | yes | yes | 2026-07-05 04:15:12 JST | update_tournament |
+| 2026-07-05 | yes | yes | 2026-07-06 04:18:09 JST | update_tournament |
+| 2026-07-06 | yes | yes | 2026-07-07 04:57:32 JST | update_tournament |
+| 2026-07-07 | yes | yes | 2026-07-08 04:55:22 JST | update_tournament |
+| 2026-07-08 | yes | yes | 2026-07-09 04:26:05 JST | update_tournament |
+| 2026-07-09 | yes | yes | 2026-07-10 04:47:10 JST | update_tournament |
+| 2026-07-10 | yes | yes | 2026-07-11 04:28:41 JST | update_tournament |
+| 2026-07-11 | yes | yes | 2026-07-12 04:15:41 JST | update_tournament |
+| 2026-07-12 | yes | yes | 2026-07-13 04:15:16 JST | update_tournament |
+| 2026-07-13 | yes | yes | 2026-07-14 04:23:35 JST | update_tournament |
+| 2026-07-14 | yes | yes | 2026-07-15 04:20:16 JST | update_tournament |
+| 2026-07-15 | yes | yes | 2026-07-16 04:11:18 JST | update_tournament |
+| 2026-07-16 | yes | yes | 2026-07-17 04:11:01 JST | update_tournament |
+| 2026-07-17 | no | yes | 2026-07-17 04:11:01 JST | update_tournament |
