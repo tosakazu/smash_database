@@ -281,6 +281,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "labels": labels if labels is not None else [], # 追加メタ情報（現在は空）
         "status": "completed", # イベントが終了していることを前提とする
         "timestamp": timestamp, # イベント開始タイムスタンプ
+        "fetched_at": int(datetime.now().timestamp()), # データ取得日時
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
     print(f"Successfully wrote attr.json for event {event_id} to {event_dir}")

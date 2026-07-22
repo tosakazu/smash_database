@@ -618,6 +618,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "labels": labels,
         "status": "completed",
         "timestamp": timestamp,
+        "fetched_at": int(datetime.now().timestamp()),
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
 
