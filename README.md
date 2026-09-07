@@ -96,7 +96,7 @@ Data files are written with fixed key order and indentation. Downstream readers
   same way: `git -C data add -A -- startgg && git -C data commit`.
 * **Adding a region.** Create an orphan branch `data-<Region>` whose first commit
   contains `startgg/<Region>/` and `startgg/events/<Region>/`, plus the same
-  `.gitignore` as `data-Japan`. Run `scripts/common/download.py --country_code <CC>`;
+  `.gitignore` as `data-Japan`. Run `scripts/common/download.py --country-code <CC>`;
   the index-file defaults follow the region derived from the country code.
 * **Combining regions.** Since region branches only touch their own paths,
   `git merge data-North_America` on a `data-Japan` checkout (or into a dedicated
@@ -130,20 +130,20 @@ Typical nightly commands (the dates are the window's upper and lower bounds):
 
 ```sh
 export STARTGG_TOKEN=...
-python3 scripts/common/download.py --country_code JP \
-    --start_date 2026-09-07 --finish_date 2026-08-24 \
-    --startgg_dir data/startgg/events \
-    --done_file_path data/startgg/Japan/done.csv \
-    --users_file_path data/startgg/Japan/users.jsonl \
-    --tournament_file_path data/startgg/Japan/tournaments.jsonl \
-    [--awaiting_file path/to/awaiting_resume.json]
+python3 scripts/common/download.py --country-code JP \
+    --start-date 2026-09-07 --finish-date 2026-08-24 \
+    --startgg-dir data/startgg/events \
+    --done-file-path data/startgg/Japan/done.csv \
+    --users-file-path data/startgg/Japan/users.jsonl \
+    --tournament-file-path data/startgg/Japan/tournaments.jsonl \
+    [--awaiting-file path/to/awaiting_resume.json]
 python3 scripts/common/fetch_upcoming.py --country JP --lookahead-days 21 --out upcoming.json
 python3 scripts/Japan/update_class_data.py --since-days 30
 ```
 
-`--done_file_path`, `--users_file_path` and `--tournament_file_path` default to
-`data/startgg/<Region>/...` where the region is derived from `--country_code`, so they can
-be omitted. `--awaiting_file` points at a registry of postponed or interrupted events:
+`--done-file-path`, `--users-file-path` and `--tournament-file-path` default to
+`data/startgg/<Region>/...` where the region is derived from `--country-code`, so they can
+be omitted. `--awaiting-file` points at a registry of postponed or interrupted events:
 those are re-fetched on every run until a winner exists, ignoring the normal
 "done after 7 days" rule.
 
@@ -154,7 +154,7 @@ those are re-fetched on every run until a winner exists, ignoring the normal
 | `utils.py` | API layer: `fetch_data_with_retries` is the only place that performs HTTP; `fetch_all_nodes` handles paging. Also the JSON/JSONL readers and writers |
 | `queries.py` | GraphQL query strings |
 | `clock.py` | The single source of "now" (`now()` / `set_now()`), so tests can freeze time |
-| `_cli.py` | Common CLI options (`--token --url --max_retries --retry_delay`) and API-layer setup |
+| `_cli.py` | Common CLI options (`--token --url --max-retries --retry-delay`) and API-layer setup |
 | `storeJson.py` | Legacy JSON store helper |
 
 ### Manual tools (`scripts/common/manual/`, `scripts/Japan/manual/`)
@@ -170,7 +170,7 @@ Not used by the pipeline and independent of each other; removing one breaks noth
 
 Tools that read or write the index files take `--region <Region>`; the defaults then
 become `data/startgg/<Region>/{users.jsonl,tournaments.jsonl,...}`. Explicit
-`--users_file_path` etc. override them. Without either, the tool exits with an error
+`--users-file-path` etc. override them. Without either, the tool exits with an error
 instead of guessing a path.
 
 ### Validation / repair (`scripts/common/fix/`)

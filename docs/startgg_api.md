@@ -15,7 +15,7 @@ which is what makes the record/replay tests possible.
 
 `setup_api(args)` in `_cli.py` configures the module-level URL, headers, retry count,
 retry delay and page delay from the common CLI options
-(`--token --url --max_retries --retry_delay`; some manual tools spell the last two with
+(`--token --url --max-retries --retry-delay`; some manual tools spell the last two with
 hyphens).
 
 ## Retries (`fetch_data_with_retries`)
@@ -55,7 +55,7 @@ groups.
 start.gg allows roughly 80 requests per minute per token. The nightly run for Japan
 (a two-week window, ~100–150 tournaments, most already downloaded) takes a few minutes;
 a full re-download of a large event is dominated by the per-page delay. If you see many
-429 lines, raise `--retry_delay` rather than lowering the page delay.
+429 lines, raise `--retry-delay` rather than lowering the page delay.
 
 ## Queries
 

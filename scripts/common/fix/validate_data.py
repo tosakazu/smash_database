@@ -221,12 +221,12 @@ def main() -> int:
         description="Validate downloaded start.gg data directories and schema."
     )
     parser.add_argument(
-        "--events_root",
+        "--events-root",
         default="data/startgg/events",
         help="Root directory containing event data.",
     )
     parser.add_argument(
-        "--tournaments_file",
+        "--tournaments-file",
         default=None,
         help="tournaments.jsonl to validate paths.",
     )

@@ -51,8 +51,8 @@ runs (the run takes ~15 min every 3 hours; check `pgrep -f update_and_deploy`).
 
 2. Mount it: `git worktree add data-na data-North_America` (or at `data/` on a machine
    dedicated to that region).
-3. Download: `STARTGG_TOKEN=... python3 scripts/common/download.py --country_code US --start_date ... --finish_date ...`
-   from the repository root, with `--startgg_dir <mount>/startgg/events` and the three
+3. Download: `STARTGG_TOKEN=... python3 scripts/common/download.py --country-code US --start-date ... --finish-date ...`
+   from the repository root, with `--startgg-dir <mount>/startgg/events` and the three
    index paths under `<mount>/startgg/North_America/` (or run it from a checkout whose
    `data/` is that worktree, in which case the defaults apply).
 4. Commit and push the data branch. Add a nightly job on the operator's machine that
@@ -93,16 +93,16 @@ Never squash `main`.
 
 All commands run from the repository root with `STARTGG_TOKEN` set. Tools that read or
 write index files take `--region <Region>` (the index paths become
-`data/startgg/<Region>/...`) or explicit `--users_file_path` / `--tournament_file_path`
-/ `--done_file_path` arguments.
+`data/startgg/<Region>/...`) or explicit `--users-file-path` / `--tournament-file-path`
+/ `--done-file-path` arguments.
 
 | Task | Command |
 |---|---|
 | Re-download one tournament / event | edit `target_events` in `scripts/common/manual/download_specific_event.py`, then `python3 scripts/common/manual/download_specific_event.py --region Japan` |
-| Re-download a window (e.g. after a results correction) | `python3 scripts/common/download.py --country_code JP --start_date <d1> --finish_date <d0>` — done tournaments inside the refresh window are re-fetched automatically; for older ones remove the tournament id from `done.csv` first |
+| Re-download a window (e.g. after a results correction) | `python3 scripts/common/download.py --country-code JP --start-date <d1> --finish-date <d0>` — done tournaments inside the refresh window are re-fetched automatically; for older ones remove the tournament id from `done.csv` first |
 | Events with missing champion or missing sets | `python3 scripts/common/manual/refetch_incomplete_events.py --token "$STARTGG_TOKEN" [--dry-run]` (detects them locally under `data/startgg/events`, then refetches; takes no index arguments) |
-| Refresh player profiles (city, tag, links) | `python3 scripts/common/manual/refresh_users.py --region Japan [--max_users N]` (resumable; keeps a checkpoint and cursor) |
-| Refresh profiles of the top N ranked players only | `python3 scripts/common/manual/refresh_top_ranked.py --region Japan --rank_source <latest_tjpr_full.jsonl>` |
+| Refresh player profiles (city, tag, links) | `python3 scripts/common/manual/refresh_users.py --region Japan [--max-users N]` (resumable; keeps a checkpoint and cursor) |
+| Refresh profiles of the top N ranked players only | `python3 scripts/common/manual/refresh_top_ranked.py --region Japan --rank-source <latest_tjpr_full.jsonl>` |
 | Rescan for class brackets missed earlier | `python3 scripts/Japan/manual/rescan_lower_class.py --region Japan` |
 | Backfill a new field into existing files | `manual/backfill_end_at.py --region Japan`, `manual/backfill_wave_start_at.py` (walks `data/startgg/events`), `fix/backfill_events.py --region Japan` (see each `--help`) |
 | Character picks for older events | `fetch_character_games.py` then `merge_character_games.py` |

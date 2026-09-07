@@ -3,11 +3,11 @@
 refresh_users.py の refresh_user_record を再利用し、対象を「ランキング上位 N 人」に限定する。
 
 特徴:
-  - 対象: --rank_source (= latest_tjpr_full.jsonl) を ranks.ensemble 昇順でソートした上位 N の user_id。
+  - 対象: --rank-source (= latest_tjpr_full.jsonl) を ranks.ensemble 昇順でソートした上位 N の user_id。
   - checkpoint (処理済 user_id を1行ずつ追記) により再開可能。
-  - CPU 予算 (--cpu_budget 秒) を超えたら users.jsonl を書き戻して exit code 75 で終了する。
+  - CPU 予算 (--cpu-budget 秒) を超えたら users.jsonl を書き戻して exit code 75 で終了する。
     ConoHa の CPU 制限(~300s/プロセス)対策。呼び出し側 shell ループが code 75 を見て再起動すれば続きから処理できる。
-  - --flush_every 件ごとに users.jsonl を書き戻すので、SIGKILL されても進捗は概ね保存される。
+  - --flush-every 件ごとに users.jsonl を書き戻すので、SIGKILL されても進捗は概ね保存される。
   - 全対象が処理済になったら exit code 0。
 
 使い方 (shell ループ例):
@@ -79,24 +79,24 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--token", required=True)
     ap.add_argument("--url", default="https://api.start.gg/gql/alpha")
-    ap.add_argument("--users_file_path", default=None)
-    ap.add_argument("--rank_source", required=True,
+    ap.add_argument("--users-file-path", default=None)
+    ap.add_argument("--rank-source", required=True,
                     help="latest_tjpr_full.jsonl (user_id + ranks.ensemble)")
     ap.add_argument("--top", type=int, default=10000)
-    ap.add_argument("--checkpoint_path", required=True,
+    ap.add_argument("--checkpoint-path", required=True,
                     help="処理済 user_id を追記して再開に使う")
     ap.add_argument("--sleep", type=float, default=0.25)
-    ap.add_argument("--user_retries", type=int, default=5)
-    ap.add_argument("--max_retries", type=int, default=10)
-    ap.add_argument("--retry_delay", type=int, default=5)
-    ap.add_argument("--indent_num", type=int, default=2)
-    ap.add_argument("--flush_every", type=int, default=200,
+    ap.add_argument("--user-retries", type=int, default=5)
+    ap.add_argument("--max-retries", type=int, default=10)
+    ap.add_argument("--retry-delay", type=int, default=5)
+    ap.add_argument("--indent-num", type=int, default=2)
+    ap.add_argument("--flush-every", type=int, default=200,
                     help="この件数ごとに users.jsonl を書き戻す")
-    ap.add_argument("--cpu_budget", type=float, default=200.0,
+    ap.add_argument("--cpu-budget", type=float, default=200.0,
                     help="この CPU 秒を超えたら flush して exit 75 (再起動用)")
-    ap.add_argument("--pause_every", type=int, default=200)
-    ap.add_argument("--pause_seconds", type=float, default=20.0)
-    ap.add_argument("--progress_interval", type=int, default=25)
+    ap.add_argument("--pause-every", type=int, default=200)
+    ap.add_argument("--pause-seconds", type=float, default=20.0)
+    ap.add_argument("--progress-interval", type=int, default=25)
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(ap)
     args = ap.parse_args()

@@ -65,27 +65,27 @@ def parse_date_or_datetime(value):
 def main():
     # コマンドライン引数の設定
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
-    add_api_args(parser, max_retries=100, retry_delay=5)   # --token --url --max_retries --retry_delay
+    add_api_args(parser, max_retries=100, retry_delay=5)   # --token --url --max-retries --retry-delay
     parser.add_argument(
-        "--start_date",
+        "--start-date",
         type=parse_date_or_datetime,
         default=None,
         help="Upper bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
     )
     parser.add_argument(
-        "--finish_date",
+        "--finish-date",
         type=parse_date_or_datetime,
         default=datetime(2018, 1, 1),
         help="Lower bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
     )
-    parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
-    parser.add_argument("--startgg_dir", default="data/startgg/events", help="Directory to save event data")
-    parser.add_argument("--done_file_path", default=None, help="完了大会の記録 (既定: data/startgg/<地域>/done.csv。地域は --country_code から)")
-    parser.add_argument("--users_file_path", default=None, help="ユーザー情報 (既定: data/startgg/<地域>/users.jsonl)")
-    parser.add_argument("--tournament_file_path", default=None, help="大会情報 (既定: data/startgg/<地域>/tournaments.jsonl)")
-    parser.add_argument("--game_id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
-    parser.add_argument("--country_code", default="", help="Country code for tournament retrieval. e.g. JP")
-    parser.add_argument("--awaiting_file", default=None,
+    parser.add_argument("--indent-num", type=int, default=2, help="Indentation level for JSON output")
+    parser.add_argument("--startgg-dir", default="data/startgg/events", help="Directory to save event data")
+    parser.add_argument("--done-file-path", default=None, help="完了大会の記録 (既定: data/startgg/<地域>/done.csv。地域は --country-code から)")
+    parser.add_argument("--users-file-path", default=None, help="ユーザー情報 (既定: data/startgg/<地域>/users.jsonl)")
+    parser.add_argument("--tournament-file-path", default=None, help="大会情報 (既定: data/startgg/<地域>/tournaments.jsonl)")
+    parser.add_argument("--game-id", default="1386", help="Game ID for tournament retrieval. see https://developer.start.gg/docs/examples/queries/videogame-id-by-name/")
+    parser.add_argument("--country-code", default="", help="Country code for tournament retrieval. e.g. JP")
+    parser.add_argument("--awaiting-file", default=None,
                         help="再開待ち登録簿 (build/data/awaiting_resume.json)。載っている event は優勝者が出るまで "
                              "7 日窓に関係なく毎回取り直し、done にしない。無指定/不在なら従来どおり。")
     args = parser.parse_args()
@@ -103,7 +103,7 @@ def main():
     set_indent_num(args.indent_num)
     set_awaiting_resume_ids(load_awaiting_resume_file(args.awaiting_file))
     if args.start_date is not None and args.start_date < args.finish_date:
-        raise ValueError("--start_date must be greater than or equal to --finish_date.")
+        raise ValueError("--start-date must be greater than or equal to --finish-date.")
 
     download_all_tournaments(
         args.game_id,
@@ -129,7 +129,7 @@ RECENT_REFRESH_MIN_HOURS = float(os.environ.get("SPSP_REFRESH_MIN_HOURS", "12"))
 
 # ── 再開待ち (awaiting resume) ──
 # 延期・中断で後日再開する大会。優勝者が出るまで 7 日窓に関係なく毎回取り直し、done にしない
-# (= 途中結果を build 側が暫定集計する。登録簿は build/data/awaiting_resume.json、--awaiting_file で渡す)。
+# (= 途中結果を build 側が暫定集計する。登録簿は build/data/awaiting_resume.json、--awaiting-file で渡す)。
 _AWAITING_RESUME_IDS: set = set()
 
 

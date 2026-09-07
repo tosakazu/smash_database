@@ -110,9 +110,9 @@ def main(argv=None) -> int:
         rc |= fetch_event_phases.main(["--event-dirs-file", "-"], event_dirs=dirs) or 0
     # 2-4 は冪等 (既存出力 skip) なので毎回全体に対して実行
     print("+ fetch_class_phase_standings ...", flush=True)
-    rc |= fetch_class_phase_standings.main(["--events_root", str(events_root)]) or 0
+    rc |= fetch_class_phase_standings.main(["--events-root", str(events_root)]) or 0
     print("+ fetch_class_phase_players ...", flush=True)
-    rc |= fetch_class_phase_players.main(["--events_root", str(events_root)]) or 0
+    rc |= fetch_class_phase_players.main(["--events-root", str(events_root)]) or 0
     print("+ build_class_virtual_tournaments ...", flush=True)
     rc |= build_class_virtual_tournaments.main(["--events-root", str(events_root)]) or 0
     print(f"[update_class_data] done rc={rc}", flush=True)

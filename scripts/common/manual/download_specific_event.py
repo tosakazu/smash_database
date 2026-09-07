@@ -710,18 +710,18 @@ def main():
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
     parser.add_argument("--token", required=True, help="API token")
     # finish_date は特定イベントDLには不要だが、他の関数で使われる可能性を考慮し残すか削除
-    # parser.add_argument("--finish_date", type=lambda s: datetime.strptime(s, '%Y-%m-%d'), default=datetime(2018, 1, 1), help="Finish date (not used for specific download)")
-    parser.add_argument("--max_retries", type=int, default=10, help="Maximum number of retries for API requests") # デフォルト値を少し下げる
-    parser.add_argument("--retry_delay", type=int, default=5, help="Delay between retries in seconds")
-    parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
-    parser.add_argument("--startgg_dir", default="data/startgg/events", help="Directory to save event data")
+    # parser.add_argument("--finish-date", type=lambda s: datetime.strptime(s, '%Y-%m-%d'), default=datetime(2018, 1, 1), help="Finish date (not used for specific download)")
+    parser.add_argument("--max-retries", type=int, default=10, help="Maximum number of retries for API requests") # デフォルト値を少し下げる
+    parser.add_argument("--retry-delay", type=int, default=5, help="Delay between retries in seconds")
+    parser.add_argument("--indent-num", type=int, default=2, help="Indentation level for JSON output")
+    parser.add_argument("--startgg-dir", default="data/startgg/events", help="Directory to save event data")
     # 完了済みリストはイベント単位にする
-    parser.add_argument("--done_file_path", default=None, help="Path to the file recording completed event downloads")
-    parser.add_argument("--users_file_path", default=None, help="Path to the file recording startgg user info")
-    parser.add_argument("--tournament_file_path", default=None, help="Path to the file recording tournament info")
+    parser.add_argument("--done-file-path", default=None, help="Path to the file recording completed event downloads")
+    parser.add_argument("--users-file-path", default=None, help="Path to the file recording startgg user info")
+    parser.add_argument("--tournament-file-path", default=None, help="Path to the file recording tournament info")
     # game_id, country_code は特定イベントDLには直接不要
-    # parser.add_argument("--game_id", default="1386", help="Game ID (not used for specific download)")
-    # parser.add_argument("--country_code", default="", help="Country code (not used for specific download)")
+    # parser.add_argument("--game-id", default="1386", help="Game ID (not used for specific download)")
+    # parser.add_argument("--country-code", default="", help="Country code (not used for specific download)")
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(parser)
     args = parser.parse_args()

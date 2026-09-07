@@ -44,7 +44,7 @@ def main(argv=None, event_dirs=None):
     parser.add_argument("--min-entrants", type=int, default=200,
                         help="Only fetch events with at least this many entrants (class brackets typically exist only in large events)")
     parser.add_argument("--region", default="Japan")
-    parser.add_argument("--tournament_file_path", default="data/startgg/Japan/tournaments.jsonl")
+    parser.add_argument("--tournament-file-path", default="data/startgg/Japan/tournaments.jsonl")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Overwrite existing phases.json")
     parser.add_argument("--dry-run", action="store_true")

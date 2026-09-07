@@ -1,6 +1,6 @@
 """_cli — fetch スクリプト共通のコマンドライン定型。
 
-以前は --token / --url / --max_retries / --retry_delay の定義と set_api_parameters の呼び出しが 6 本に複製されていた
+以前は --token / --url / --max-retries / --retry-delay の定義と set_api_parameters の呼び出しが 6 本に複製されていた
 (既定値も script ごとに違う: download は 100 回 / 5 秒、他は 5 回 / 10 秒。ここでは script ごとの現行値を引数で渡す)。
 トークンは --token 省略時に環境変数 STARTGG_TOKEN から読む (argv に載せない)。
 """
@@ -27,16 +27,16 @@ def resolve_index_paths(parser: argparse.ArgumentParser, args: argparse.Namespac
         if getattr(args, dest) is None:
             region = getattr(args, "region", None)
             if not region:
-                parser.error(f"--region is required when --{dest} is omitted")
+                parser.error(f"--region is required when --{dest.replace('_', '-')} is omitted")
             setattr(args, dest, os.path.join("data", "startgg", region.replace(" ", "_"), fname))
 
 
-def add_api_args(parser: argparse.ArgumentParser, *, max_retries: int, retry_delay: int, dash: bool = False) -> None:
-    """--token --url --max_retries --retry_delay を足す。dash=True なら --max-retries / --retry-delay (fetch_upcoming の流儀)。"""
+def add_api_args(parser: argparse.ArgumentParser, *, max_retries: int, retry_delay: int) -> None:
+    """--token --url --max-retries --retry-delay を足す (オプション名はハイフン区切りで統一)。"""
     parser.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"),
                         help="start.gg API token (省略時は環境変数 STARTGG_TOKEN)")
     parser.add_argument("--url", default=API_URL, help="API URL")
-    mr, rd = ("--max-retries", "--retry-delay") if dash else ("--max_retries", "--retry_delay")
+    mr, rd = "--max-retries", "--retry-delay"
     parser.add_argument(mr, dest="max_retries", type=int, default=max_retries, help="API リクエストの最大再試行回数")
     parser.add_argument(rd, dest="retry_delay", type=int, default=retry_delay, help="再試行の間隔 (秒)")
 

@@ -97,7 +97,7 @@ def main():
     ap.add_argument("--root", required=True, help="events root (e.g., data/startgg/events/Japan)")
     ap.add_argument("--state", default="/tmp/backfill_wave_state.json", help="resume state file")
     ap.add_argument("--delay", type=float, default=0.6, help="seconds between API calls")
-    ap.add_argument("--api_url", default="https://api.start.gg/gql/alpha")
+    ap.add_argument("--api-url", default="https://api.start.gg/gql/alpha")
     args = ap.parse_args()
 
     set_api_parameters(args.api_url, args.token)

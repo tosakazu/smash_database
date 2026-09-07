@@ -115,29 +115,29 @@ def main():
     )
     parser.add_argument("--token", required=True, help="start.gg API token")
     parser.add_argument(
-        "--users_file_path",
+        "--users-file-path",
         default=None,
         help="Existing users.jsonl file to read",
     )
     parser.add_argument(
-        "--output_file_path",
+        "--output-file-path",
         default=None,
         help="Destination file path (defaults to users_file_path)",
     )
     parser.add_argument(
-        "--max_retries",
+        "--max-retries",
         type=int,
         default=10,
         help="Maximum number of retries for API requests",
     )
     parser.add_argument(
-        "--retry_delay",
+        "--retry-delay",
         type=int,
         default=5,
         help="Delay between retries in seconds",
     )
     parser.add_argument(
-        "--indent_num",
+        "--indent-num",
         type=int,
         default=2,
         help="Indentation level for JSON output",
@@ -149,47 +149,47 @@ def main():
         help="Optional sleep duration between API calls to avoid rate limits",
     )
     parser.add_argument(
-        "--user_retries",
+        "--user-retries",
         type=int,
         default=5,
         help="Maximum refresh attempts per user before falling back to existing data",
     )
     parser.add_argument(
-        "--pause_every",
+        "--pause-every",
         type=int,
         default=200,
         help="Pause after processing this many users (0 disables pauses)",
     )
     parser.add_argument(
-        "--pause_seconds",
+        "--pause-seconds",
         type=float,
         default=20.0,
         help="Duration of the periodic pause in seconds",
     )
     parser.add_argument(
-        "--progress_interval",
+        "--progress-interval",
         type=int,
         default=50,
         help="Print progress every N users (0 disables periodic progress output)",
     )
     parser.add_argument(
-        "--checkpoint_path",
+        "--checkpoint-path",
         default=None,
         help="Path to store intermediate refreshed users for resuming later",
     )
     parser.add_argument(
-        "--force_refresh",
+        "--force-refresh",
         action="store_true",
         help="Ignore checkpoint data and refresh all users",
     )
     parser.add_argument(
-        "--max_users",
+        "--max-users",
         type=int,
         default=0,
         help="Maximum users to refresh in a single run (0 means all users).",
     )
     parser.add_argument(
-        "--cursor_path",
+        "--cursor-path",
         default=None,
         help="Path to store and read the refresh cursor index.",
     )

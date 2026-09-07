@@ -118,8 +118,8 @@ def write_end_timestamp(attr_paths, end_ts):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--token", required=True)
-    ap.add_argument("--events_root", default="data/startgg/events")
-    ap.add_argument("--tournaments_jsonl", default=None)
+    ap.add_argument("--events-root", default="data/startgg/events")
+    ap.add_argument("--tournaments-jsonl", default=None)
     ap.add_argument("--batch", type=int, default=BATCH)
     ap.add_argument("--workers", type=int, default=MAX_WORKERS)
     ap.add_argument("--max", type=int, default=0, help="if > 0, only process this many tournaments")

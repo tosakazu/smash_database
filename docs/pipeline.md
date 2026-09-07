@@ -9,7 +9,7 @@ How data gets from start.gg into a data branch. Code: `scripts/common/download.p
 The spsp deployment script (`deploy/update_and_deploy.sh` in the spsp repository) runs
 every 3 hours on the production host, from the `smash_db_tournament/` checkout:
 
-1. `scripts/common/download.py --country_code JP --start_date <today> --finish_date <today-14d> ...`
+1. `scripts/common/download.py --country-code JP --start-date <today> --finish-date <today-14d> ...`
    downloads tournaments whose end date falls in the last two weeks.
 2. `scripts/common/fetch_upcoming.py` writes the upcoming-tournament list for the seed tool.
 3. `scripts/Japan/update_class_data.py --since-days 30` separates class brackets.
@@ -28,9 +28,9 @@ Tournaments are listed with `get_tournaments_by_game_query` (game id 1386 = SSBU
 | Situation | Action | Where |
 |---|---|---|
 | Not finished (`state != 3` and `endAt` in the future) | skip | `tournament_skip_reason` |
-| `startAt` newer than `--start_date` | skip | `tournament_skip_reason` |
-| `endAt` older than `--finish_date` | stop enumeration (the list is sorted by `endAt`) | driver |
-| `endAt` unset and `startAt` older than `--finish_date` | skip this one, keep going | driver |
+| `startAt` newer than `--start-date` | skip | `tournament_skip_reason` |
+| `endAt` older than `--finish-date` | stop enumeration (the list is sorted by `endAt`) | driver |
+| `endAt` unset and `startAt` older than `--finish-date` | skip this one, keep going | driver |
 | Listed in `done.csv`, all event files present, no re-download rule applies | skip (only move directories if the date changed) | `done_tournament_action` |
 | Otherwise | download | |
 
@@ -74,7 +74,7 @@ bracket).
 ### Awaiting resume
 
 Tournaments that were interrupted (weather, venue trouble) and resume on a later date
-are registered in a JSON file passed with `--awaiting_file`
+are registered in a JSON file passed with `--awaiting-file`
 (`build/data/awaiting_resume.json` in spsp). Their events are re-downloaded every run
 regardless of the 7-day window and are not marked done until a champion exists, so the
 ranking build can use partial results in the meantime.
@@ -88,7 +88,7 @@ the old directory, and rewrites the `path` in `tournaments.jsonl`
 
 ### Failures
 
-`fetch_data_with_retries` retries each request `--max_retries` times (see
+`fetch_data_with_retries` retries each request `--max-retries` times (see
 [startgg_api.md](startgg_api.md)). If an event still fails, it is written to
 `failed_events.log` in the current directory and the run continues; the tournament is
 not marked done, so it is retried on the next run. If the tournament listing itself

@@ -120,12 +120,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--token", required=True)
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha")
-    parser.add_argument("--max_retries", type=int, default=5)
-    parser.add_argument("--retry_delay", type=int, default=10)
-    parser.add_argument("--per_page", type=int, default=50)
+    parser.add_argument("--max-retries", type=int, default=5)
+    parser.add_argument("--retry-delay", type=int, default=10)
+    parser.add_argument("--per-page", type=int, default=50)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true")
-    parser.add_argument("--events_root",
+    parser.add_argument("--events-root",
                         default="data/startgg/events/Japan")
     args = parser.parse_args()
 

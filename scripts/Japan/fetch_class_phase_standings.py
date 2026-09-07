@@ -82,10 +82,10 @@ def fetch_phase_group_standings(phase_group_id: int, per_page: int = 100) -> lis
 def main(argv=None):
     parser = argparse.ArgumentParser()
     add_api_args(parser, max_retries=5, retry_delay=10)
-    parser.add_argument("--per_page", type=int, default=100)
+    parser.add_argument("--per-page", type=int, default=100)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Overwrite existing class_phases/<phase_id>.json")
-    parser.add_argument("--events_root", default="data/startgg/events/Japan")
+    parser.add_argument("--events-root", default="data/startgg/events/Japan")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     setup_api(args)

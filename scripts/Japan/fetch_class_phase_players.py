@@ -76,11 +76,11 @@ def fetch_phase_group_played_uids(phase_group_id: int, per_page: int = 50) -> se
 def main(argv=None):
     parser = argparse.ArgumentParser()
     add_api_args(parser, max_retries=5, retry_delay=10)
-    parser.add_argument("--per_page", type=int, default=40)
+    parser.add_argument("--per-page", type=int, default=40)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true",
                         help="Overwrite existing played_user_ids in phase_group entries")
-    parser.add_argument("--events_root",
+    parser.add_argument("--events-root",
                         default="data/startgg/events/Japan")
     args = parser.parse_args(argv)
     setup_api(args)

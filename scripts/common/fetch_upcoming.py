@@ -229,7 +229,7 @@ def build_upcoming(country_code: str, lookahead_days: int) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser()
-    add_api_args(parser, max_retries=5, retry_delay=10, dash=True)
+    add_api_args(parser, max_retries=5, retry_delay=10)
     parser.add_argument("--country", default="JP")
     parser.add_argument("--lookahead-days", type=int, default=LOOKAHEAD_DAYS)
     parser.add_argument(
