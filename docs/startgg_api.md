@@ -15,8 +15,7 @@ which is what makes the record/replay tests possible.
 
 `setup_api(args)` in `_cli.py` configures the module-level URL, headers, retry count,
 retry delay and page delay from the common CLI options
-(`--token --url --max-retries --retry-delay`; some manual tools spell the last two with
-hyphens).
+(`--token --url --max-retries --retry-delay`).
 
 ## Retries (`fetch_data_with_retries`)
 
