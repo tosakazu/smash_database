@@ -1,7 +1,7 @@
 # Data model
 
-Everything lives under `data/startgg/` of a data branch (`data-<Region>`). Paths below
-are relative to the repository root; `<Region>` is `Japan`, `North_America`, ... as
+Everything lives under `data/startgg/` on a data branch (`data-<Region>`); `main` has no
+data. Paths below are relative to the repository root; `<Region>` is `Japan`, `North_America`, ... as
 returned by `country_code2region()` in `scripts/common/utils.py` (spaces replaced by `_`).
 
 ```

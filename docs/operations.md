@@ -9,7 +9,7 @@ the top-level [README](../README.md).
 | Branch | Commits allowed | Never |
 |---|---|---|
 | `main` | scripts, docs, tests | anything under `data/` |
-| `data-<Region>` | files under `startgg/<Region>/` and `startgg/events/<Region>/` | scripts, docs, other regions' paths |
+| `data-<Region>` | files under `data/startgg/<Region>/` and `data/startgg/events/<Region>/`, and merges of `main` | direct edits to scripts or docs, other regions' paths |
 
 * Script changes go through a branch or pull request against `main`. Run the tests
   before merging (below). `main` has no CI; the nightly run is the integration test,
@@ -21,42 +21,33 @@ the top-level [README](../README.md).
 
 ## Production checkout (Japan)
 
-On the production host the layout is:
+On the production host `~/spsp-ranking/smash_db_tournament` is a checkout of
+`data-Japan` (scripts, docs and `data/startgg/` in one tree). The spsp nightly
+(`deploy/update_and_deploy.sh`) runs the download there, then
+`git add -A -- data/startgg && git commit` and pushes `data-Japan`. It never touches
+`main`. Logs: `~/.local/log/spsp_nightly/<date>.log`, step `[2.65/5]`.
 
-```
-~/spsp-ranking/smash_db_tournament        main worktree
-~/spsp-ranking/smash_db_tournament/data   worktree of data-Japan
-```
-
-The spsp nightly (`deploy/update_and_deploy.sh`) runs the download, then
-`git -C data add -A -- startgg && git -C data commit` and pushes `data-Japan`. It does
-not commit or push `main`. Logs: `~/.local/log/spsp_nightly/<date>.log`, step
-`[2.65/5]`.
-
-To update scripts on the host: `git pull --ff-only` in the main worktree between
-runs (the run takes ~15 min every 3 hours; check `pgrep -f update_and_deploy`).
+To update scripts on the host: push them to `main`, then in the checkout run
+`git fetch origin main && git merge origin/main && git push origin data-Japan` between
+runs (a run takes ~15 min every 3 hours; check `pgrep -f update_and_deploy`).
 
 ## Adding a region
 
-1. On a checkout of `main`, create the branch and its first commit:
+1. Branch from `main` and replace the `.gitignore` with the data-branch version
+   (`main` ignores `data/`; a data branch must track it):
 
    ```sh
-   git checkout --orphan data-North_America
-   git rm -rf --cached . -q            # start with an empty index
-   mkdir -p startgg/North_America startgg/events/North_America
+   git checkout -b data-North_America main
    git show data-Japan:.gitignore > .gitignore
    git add .gitignore && git commit -m "data-North_America: init"
-   git checkout main
    ```
 
-2. Mount it: `git worktree add data-na data-North_America` (or at `data/` on a machine
-   dedicated to that region).
-3. Download: `STARTGG_TOKEN=... python3 scripts/common/download.py --country-code US --start-date ... --finish-date ...`
-   from the repository root, with `--startgg-dir <mount>/startgg/events` and the three
-   index paths under `<mount>/startgg/North_America/` (or run it from a checkout whose
-   `data/` is that worktree, in which case the defaults apply).
-4. Commit and push the data branch. Add a nightly job on the operator's machine that
-   repeats steps 3–4.
+2. Download from the repository root:
+   `STARTGG_TOKEN=... python3 scripts/common/download.py --country-code US --start-date ... --finish-date ...`.
+   The index files default to `data/startgg/North_America/` and events go to
+   `data/startgg/events/North_America/`.
+3. `git add -A -- data/startgg && git commit && git push -u origin data-North_America`.
+   Add a nightly job on the operator's machine that repeats steps 2–3.
 
 `country_code2region()` in `utils.py` decides the region name from the country code
 (`US`, `CA`, `MX`, `DO` → `North America`). Add codes there when a region needs them.
@@ -86,8 +77,7 @@ git branch -M tmp data-Japan
 git push --force-with-lease origin data-Japan
 ```
 
-Tell every operator to re-fetch (`git fetch origin && git worktree remove data && git worktree add data data-Japan`).
-Never squash `main`.
+Tell every operator to re-clone the branch. Never squash `main`.
 
 ## Manual downloads and repairs
 
@@ -110,9 +100,9 @@ write index files take `--region <Region>` (the index paths become
 After a manual repair, commit on the data branch:
 
 ```sh
-git -C data add -A -- startgg
-git -C data commit -m "data: <what and why>"
-git -C data push origin data-Japan
+git add -A -- data/startgg
+git commit -m "data: <what and why>"
+git push origin data-Japan
 ```
 
 ## Checks
@@ -135,12 +125,12 @@ The spsp log ends with a `FAILED_STEPS` list. For the download step:
 * **`failed_events.log` grew**: individual events failed. They are not marked done and
   are retried next run; if the same event keeps failing, download it with
   `download_specific_event.py` and look at the error.
-* **`data push failed`**: the data branch was pushed from elsewhere. In the `data/`
-  worktree run `git pull --rebase origin data-Japan` and push; the commit already
+* **`data push failed`**: the data branch was pushed from elsewhere. Run
+  `git pull --rebase origin data-Japan` in the checkout and push; the commit already
   exists locally.
-* **Worktree dirty with unexpected files**: only `startgg/` is committed. Stray files
-  under `data/` (checkpoints, `.bak`) are ignored by the data branch's `.gitignore`;
-  add new patterns there rather than committing them.
+* **Checkout dirty with unexpected files**: the nightly commits only `data/startgg/`.
+  Stray files (checkpoints, `.bak`) are ignored by the data branch's `.gitignore`; add
+  new patterns there (on `main`, then merge) rather than committing them.
 
 ## GitHub settings
 

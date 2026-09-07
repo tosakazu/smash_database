@@ -1,5 +1,5 @@
-# main はスクリプトだけを管理する。データは地域ブランチ (data-Japan / data-North_America ...) で管理し、
-# 本番では data/ にその worktree をネストして checkout する (data/startgg/... のパスは変わらない)。
+# main はスクリプトと文書だけを管理する。データは地域ブランチ (data-Japan / data-North_America ...) が持つ。
+# 地域ブランチは main を merge した上で data/startgg/<地域>/ を追跡する (地域ブランチ側の .gitignore は data/ を無視しない)。
 data/
 download.out
 */__pycache__/
