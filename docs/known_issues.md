@@ -30,7 +30,7 @@ tolerates them:
 | Count | Finding | Meaning |
 |---|---|---|
 | 202 | sets with missing winner/loser above threshold | sets whose entrants have no start.gg user (teams, guests) or brackets left unfinished |
-| 162 | `matches.json` missing | old events (2019–2020) downloaded before sets were collected; a re-download would fetch them |
+| 162 | `matches.json` missing | events whose set download failed at the time and then fell out of the 14-day window (spread over 2019–2026, 13 of them in 2026). `manual/refetch_incomplete_events.py` can restore them; note that doing so adds sets, i.e. changes ranking inputs |
 | 156 | standings with many `null` user ids | events where most entrants had no start.gg account |
 | 6 | set ids not in standings | organiser edits after the download |
 
