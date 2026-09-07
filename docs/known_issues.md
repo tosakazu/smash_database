@@ -22,6 +22,18 @@ a contributor is likely to hit or to want to pick up.
   `phase_group_start_at` on each set identify the pool and its scheduled time; the
   seeding tool's pool/wave logic itself lives in spsp, not here.
 
+## Validation status (2026-09-08, `validate_data.py --region Japan`)
+
+526 events out of ~4,600 report an error; none block the ranking build, which
+tolerates them:
+
+| Count | Finding | Meaning |
+|---|---|---|
+| 202 | sets with missing winner/loser above threshold | sets whose entrants have no start.gg user (teams, guests) or brackets left unfinished |
+| 162 | `matches.json` missing | old events (2019–2020) downloaded before sets were collected; a re-download would fetch them |
+| 156 | standings with many `null` user ids | events where most entrants had no start.gg account |
+| 6 | set ids not in standings | organiser edits after the download |
+
 ## Scripts
 
 * `manual/download_specific_event.py` adds an event to an existing tournament in
