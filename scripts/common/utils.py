@@ -1,0 +1,418 @@
+import time
+import os
+import json
+import sys
+import random
+import requests
+
+# 国コードをリージョンに変換する関数
+def country_code2region(country_code):
+    japan = ["JP"]
+    other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
+    europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
+    north_america = ["US", "CA", "DO", "MX"]
+
+    if country_code in japan:
+        return "Japan"
+    elif country_code in other_asia:
+        return "Other Asia"
+    elif country_code in europe:
+        return "Europe"
+    elif country_code in north_america:
+        return "North America"
+    else:
+        return "Other"
+
+
+def get_date_parts(date):
+    """日付を年、月、日に分割する関数"""
+    year = time.strftime("%Y", time.gmtime(date))
+    month = time.strftime("%m", time.gmtime(date))
+    day = time.strftime("%d", time.gmtime(date))
+    return year, month, day
+
+def get_event_directory(startgg_dir, region, year, month, day, tournament_name, event_name):
+    """保存するディレクトリのパスを取得する関数"""
+    region = country_code2region(region)
+    region = region.replace(" ", "_").replace("/", "-")
+    tournament_name = tournament_name.replace(" ", "_").replace("/", "-")
+    event_name = event_name.replace(" ", "_").replace("/", "-")
+    return f"{startgg_dir}/{region}/{year}/{month}/{day}/{tournament_name}/{event_name}"
+
+
+JSON_VERSION = "1.0"
+
+
+def write_json_pretty(path, obj) -> None:
+    """indent=2・ensure_ascii=False・version 無し・末尾改行無し (phases.json / class_phases/*.json / *_virtual/attr.json の書式)。"""
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(obj, ensure_ascii=False, indent=2))
+
+
+def write_json_compact(path, obj) -> None:
+    """json.dumps の既定区切り (", " ": ")・indent 無し (virtual の standings.json / matches.json の書式)。"""
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(obj, ensure_ascii=False))
+__indent_num = 2
+
+def write_json(data, file_path, with_version):
+    with open(file_path, "w", encoding="utf-8") as f:
+        if with_version:
+            data["version"] = JSON_VERSION
+        json.dump(data, f, indent=__indent_num, ensure_ascii=False)
+
+
+def write_jsonl(data, file_path, with_version):
+    """全書き換え。一時ファイルに書いてから os.replace で差し替える (原子的)。
+
+    以前は open(file_path, "w") で直接 truncate してから書いていた。
+    tournaments.jsonl は 6MB / 2 万行あり、書いている途中でプロセスが落ちると
+    (ConoHa は 1 プロセス ~300 秒 CPU で SIGKILL する) ファイルが途中で切れ、
+    それ以降のレコードが失われる。実際 2026-04〜05 に 146 event ぶんが
+    done.csv には残っているのに tournaments.jsonl から消えていた。
+    """
+    tmp = f"{file_path}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        for d in data:
+            if with_version:
+                d["version"] = JSON_VERSION
+            json.dump(d, f, ensure_ascii=False)
+            f.write("\n")
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, file_path)
+
+def extend_jsonl(data, file_path, with_version):
+    """追記。1 レコードを 1 回の write にまとめ、書いたら fsync する。
+
+    レコードごとに json.dump が細かく write すると、途中で殺されたときに
+    行の途中で切れたファイルが残る。先に文字列を組み立ててから 1 回で書けば、
+    切れるとしてもレコード境界になりやすい。
+    """
+    if not data:
+        return
+    buf = []
+    for d in data:
+        if with_version:
+            d["version"] = JSON_VERSION
+        buf.append(json.dumps(d, ensure_ascii=False) + "\n")
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write("".join(buf))
+        f.flush()
+        os.fsync(f.fileno())
+
+def _read_json_records(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        text = f.read()
+
+    if not text.strip():
+        return []
+
+    stripped = text.lstrip()
+    if stripped.startswith("["):
+        records = json.loads(text)
+        if not isinstance(records, list):
+            raise ValueError(f"{file_path} must contain a JSON array when JSON format is used.")
+        return records
+
+    records = []
+    decoder = json.JSONDecoder()
+    index = 0
+    length = len(text)
+    while index < length:
+        while index < length and text[index].isspace():
+            index += 1
+        if index >= length:
+            break
+        try:
+            record, index = decoder.raw_decode(text, index)
+        except json.JSONDecodeError as e:
+            # 壊れた行を黙って読み飛ばすと、以降のレコードが全部落ちたまま
+            # 次の全書き換えで確定してしまう。どこで壊れているかを出して止める。
+            line_no = text.count("\n", 0, index) + 1
+            raise ValueError(
+                f"{file_path}: {line_no} 行目 (byte {index}) から先が壊れています: {e}. "
+                f"ここまでに {len(records)} 件読めています。"
+                f"書き込みが中断した可能性があります "
+                f"(末尾の壊れた行を消すか、バックアップから復旧してください)。"
+            ) from e
+        records.append(record)
+    return records
+
+def read_jsonl(file_path):
+    return _read_json_records(file_path)
+
+def set_indent_num(num):
+    global __indent_num
+    __indent_num = num
+
+def read_users_jsonl(file_path):
+    if not os.path.exists(file_path):
+        return {}
+    users = {}
+    for user in _read_json_records(file_path):
+        if not isinstance(user, dict):
+            continue
+        if "user_id" not in user:
+            continue
+        user.pop("version", None)
+        if "startgg_discriminator" not in user:
+            user["startgg_discriminator"] = user.get("discriminator")
+        user.pop("discriminator", None)
+        users[user["user_id"]] = user
+    return users
+    
+def read_tournaments_jsonl(file_path):
+    if not os.path.exists(file_path):
+        return {}
+    tournaments = {}
+    for tournament in _read_json_records(file_path):
+        if not isinstance(tournament, dict):
+            continue
+        if "tournament_id" not in tournament:
+            continue
+        tournament.pop("version", None)
+        tournaments[tournament["tournament_id"]] = tournament
+    return tournaments
+
+    
+def read_set(file_path, as_int):
+    if not os.path.exists(file_path):
+        return set()
+    with open(file_path, "r") as f:
+        if as_int:
+            return set(int(line.strip()) for line in f)
+        else:
+            return set(line.strip() for line in f)
+
+
+            
+class FetchError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        print(message, file=sys.stderr)
+
+class NoPhaseError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+__max_retries = 100
+__retry_delay = 5
+__page_delay = 2
+__api_url = "https://api.start.gg/gql/alpha"
+__headers = {}
+
+def set_page_delay(delay):
+    global __page_delay
+    __page_delay = delay
+
+def set_retry_parameters(max_retries, retry_delay):
+    global __max_retries, __retry_delay
+    __max_retries = max_retries
+    __retry_delay = retry_delay
+
+def set_api_parameters(url, token):
+    global __api_url, __headers
+    __api_url = url
+    __headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+    }
+
+def fetch_data_with_retries(query, variables):
+    status_code = None
+    last_error_message = ""
+    for attempt in range(__max_retries):
+        try:
+            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers, verify=False)
+            response.raise_for_status()
+            response_data = json.loads(response.text)
+            return response_data
+        except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
+            print(query)
+            print(variables)
+            last_error_message = str(e)
+            wait = __retry_delay
+            status_code = None
+            if isinstance(e, requests.exceptions.HTTPError):
+                status_code = e.response.status_code if e.response is not None else None
+                if status_code == 429:
+                    wait = max(__retry_delay * (attempt + 1), __retry_delay)
+                    last_error_message = "Too Many Requests"
+                    print(f"Received HTTP 429 Too Many Requests. Waiting {wait} seconds before retrying...", file=sys.stderr)
+                elif status_code is not None and status_code >= 500:
+                    wait = __retry_delay * (attempt + 1)
+            jitter = random.uniform(0, max(1.0, wait * 0.1))
+            wait += jitter
+            print(f"Request or JSON parsing failed: {e}. Retrying {attempt + 1}/{__max_retries} after {wait:.2f} seconds...")
+            time.sleep(wait)
+    status_message = f"Max retries exceeded for query. Last status code: {status_code}. Last error: {last_error_message}"
+    raise FetchError(status_message)
+
+def _is_complexity_error(response_data):
+    """Detect startgg 'query complexity is too high' error."""
+    if not isinstance(response_data, dict):
+        return False
+    errors = response_data.get("errors")
+    if not errors:
+        return False
+    for err in errors:
+        msg = err.get("message", "") if isinstance(err, dict) else ""
+        if "complexity is too high" in msg.lower() or "complexity" in msg.lower():
+            return True
+    return False
+
+def fetch_all_nodes(query, variables, keys, per_page=10):
+    all_nodes = []
+    variables = variables.copy()
+    MAX_PER_PAGE = per_page
+    current_per_page = per_page
+    # Track item offset so we can recompute page when per_page changes
+    items_fetched = 0
+    variables["page"] = 1
+    variables["perPage"] = current_per_page
+    # query が pageInfo を含む場合に取得する authoritative な totals.
+    # totalPages を最終ページ判定に、total を取りこぼし検知に使う.
+    total_pages = None
+    expected_total = None
+    keys = ["data"] + keys
+    min_per_page = 2
+    max_complexity_retries_per_call = 8
+    complexity_retries = 0
+    # AIMD-style adaptive per_page tuning: after enough consecutive successes at a
+    # reduced per_page, try probing back up to test if the throttle has lifted.
+    # This finds optimal per_page automatically across long fetches where the
+    # complexity threshold may fluctuate.
+    SUCCESSES_BEFORE_PROBE = 30
+    successes_at_current = 0
+    while True:
+        response_data = fetch_data_with_retries(query, variables)
+        # Adaptive per_page: if startgg complains about complexity, halve and retry.
+        # Recompute page so we continue from where we left off (avoid dup/miss).
+        if _is_complexity_error(response_data):
+            if current_per_page <= min_per_page or complexity_retries >= max_complexity_retries_per_call:
+                raise FetchError(
+                    f"Query complexity exceeded at per_page={current_per_page}, retries={complexity_retries}. "
+                    f"Response: {response_data}. Variables: {variables}"
+                )
+            new_per_page = max(min_per_page, current_per_page // 2)
+            # Use 1-based pages with offset-based arithmetic
+            new_page = items_fetched // new_per_page + 1
+            print(
+                f"[fetch_all_nodes] complexity too high at per_page={current_per_page} page={variables['page']}, "
+                f"reducing to per_page={new_per_page} page={new_page} (items_fetched={items_fetched})",
+                flush=True,
+            )
+            current_per_page = new_per_page
+            variables["perPage"] = current_per_page
+            variables["page"] = new_page
+            complexity_retries += 1
+            successes_at_current = 0
+            time.sleep(__page_delay)
+            continue
+        data = response_data
+        for key in keys:
+            if not isinstance(data, dict) or key not in data:
+                raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
+            data = data[key]
+        if data is None or "nodes" not in data:
+            raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
+        nodes = data["nodes"]
+        # pageInfo (= 全件数 / total ページ数) を authoritative に使う.
+        # query が pageInfo を含む場合のみ取得できる. 含まない query は従来通り empty-page break.
+        page_info = data.get("pageInfo") or {}
+        if total_pages is None:
+            total_pages = page_info.get("totalPages")
+            expected_total = page_info.get("total")
+        # After complexity-throttle retry, the new page boundary can overlap with items
+        # we've already fetched (e.g., we had per_page=25 page=4 → items 1-75, then throttle
+        # reduces to per_page=12 page=7 → items 73-84; items 73-75 are duplicates).
+        # Skip the overlap on the current page so all_nodes stays free of dups.
+        expected_start = (variables["page"] - 1) * current_per_page  # 0-indexed
+        if expected_start < items_fetched:
+            overlap = items_fetched - expected_start
+            if overlap >= len(nodes):
+                nodes = []
+            else:
+                nodes = nodes[overlap:]
+        all_nodes.extend(nodes)
+        items_fetched += len(nodes)
+        # 終了判定: totalPages があれば authoritative に使う (= start.gg のページサイズ揺れで
+        # nodes が偶然空でも誤打切しない). pageInfo が無ければ従来の empty-page break.
+        if total_pages is not None and variables["page"] >= total_pages:
+            break
+        if len(nodes) == 0 and total_pages is None:
+            break
+        variables["page"] += 1
+        # Reset complexity retry counter after a successful page
+        complexity_retries = 0
+        if len(nodes) > 0:
+            successes_at_current += 1
+        # AIMD probe-up: after enough successes at lower per_page, try a step up
+        if successes_at_current >= SUCCESSES_BEFORE_PROBE and current_per_page < MAX_PER_PAGE:
+            new_per_page = min(MAX_PER_PAGE, max(current_per_page + 1, current_per_page * 3 // 2))
+            if new_per_page > current_per_page:
+                new_page = items_fetched // new_per_page + 1
+                print(
+                    f"[fetch_all_nodes] probing up per_page={current_per_page} → {new_per_page} page={new_page} (items_fetched={items_fetched}, after {successes_at_current} successes)",
+                    flush=True,
+                )
+                current_per_page = new_per_page
+                variables["perPage"] = current_per_page
+                variables["page"] = new_page
+                # totalPages は per_page 変更後に再取得し直す.
+                total_pages = None
+                successes_at_current = 0
+        time.sleep(__page_delay)
+    # 取りこぼし fallback: expected_total に届かない場合、別 per_page で再走査.
+    # start.gg のページサイズ揺れで欠損したノードを回収する.
+    if expected_total is not None and items_fetched < expected_total:
+        # 重複検出用に既存ノードの id 集合を作る (= "id" フィールド前提).
+        seen_ids = {n.get("id") for n in all_nodes if isinstance(n, dict) and n.get("id") is not None}
+        fallback_per_page = max(2, min(current_per_page, MAX_PER_PAGE) // 2)
+        retry_page = 1
+        retry_total_pages = None
+        retry_variables = variables.copy()
+        retry_variables["perPage"] = fallback_per_page
+        retry_variables["page"] = retry_page
+        max_retry_pages = 100
+        print(
+            f"[fetch_all_nodes] short by {expected_total - items_fetched} items (have {items_fetched}/{expected_total}), "
+            f"retrying at per_page={fallback_per_page}",
+            flush=True,
+        )
+        while retry_page <= max_retry_pages:
+            retry_variables["page"] = retry_page
+            retry_resp = fetch_data_with_retries(query, retry_variables)
+            if _is_complexity_error(retry_resp):
+                break  # 簡略化: complexity 出たら fallback 終了
+            r_data = retry_resp
+            try:
+                for key in keys:
+                    r_data = r_data[key]
+            except (KeyError, TypeError):
+                break
+            if not isinstance(r_data, dict) or "nodes" not in r_data:
+                break
+            r_nodes = r_data["nodes"] or []
+            r_page_info = r_data.get("pageInfo") or {}
+            if retry_total_pages is None:
+                retry_total_pages = r_page_info.get("totalPages")
+            for n in r_nodes:
+                nid = n.get("id") if isinstance(n, dict) else None
+                if nid is not None and nid in seen_ids:
+                    continue
+                all_nodes.append(n)
+                if nid is not None:
+                    seen_ids.add(nid)
+                items_fetched += 1
+            if not r_nodes:
+                break
+            if retry_total_pages is not None and retry_page >= retry_total_pages:
+                break
+            if items_fetched >= expected_total:
+                break
+            retry_page += 1
+            time.sleep(__page_delay)
+    return all_nodes
+

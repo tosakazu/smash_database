@@ -1,0 +1,14 @@
+# main はスクリプトだけを管理する。データは地域ブランチ (Japan / North_America ...) で管理し、
+# 本番では data/ にその worktree をネストして checkout する (data/startgg/... のパスは変わらない)。
+data/
+download.out
+*/__pycache__/
+__pycache__/
+*.py[cod]
+*.bak
+*.dupbak
+affected_tournament_ids.txt
+data_integrity_report.jsonl
+failed_events.log
+data_audits/
+logs/
