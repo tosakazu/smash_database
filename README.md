@@ -23,7 +23,7 @@ own, and regions never touch each other's paths.
 | `main` | `scripts/`, `docs/`, this README. No data (`data/` is git-ignored here). No history before 2026-09-07 | Everyone (shared code) |
 | `data-Japan` | everything on `main` (merged in), plus `data/startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` and `data/startgg/events/Japan/**` | Japan operator. Data committed and pushed nightly by the spsp pipeline |
 | `data-<Region>` (future, e.g. `data-North_America`) | everything on `main`, plus `data/startgg/<Region>/{...}` and `data/startgg/events/<Region>/**` | That region's operator |
-| `data-all` | the merge of every `data-<Region>` branch: all regions' data in one tree | Whoever builds with several regions (the spsp ranking build). Nobody commits data here directly |
+| `data-all` (local only, not on GitHub) | the merge of every `data-<Region>` branch: all regions' data in one tree | Made on the build machine by whoever needs several regions. Never pushed, never committed to directly |
 
 Rules that keep the branches mergeable:
 
@@ -97,20 +97,19 @@ Data files are written with fixed key order and indentation. Downstream readers
   `data/startgg/<Region>/` (region derived from the country code) and events go to
   `data/startgg/events/<Region>/`. Commit, push, and run it nightly on the operator's
   machine.
-* **Combining regions: `data-all`.** Consumers that need more than one region (the
-  ranking build, once it covers more than Japan) check out `data-all` and never switch
-  branches. `data-all` is only ever advanced by merging the region branches:
+* **Combining regions: a local `data-all`.** Consumers that need more than one region
+  (the ranking build, once it covers more than Japan) create a local branch that merges
+  the region branches, and never switch branches afterwards:
 
   ```sh
-  git checkout data-all
-  git merge --no-edit origin/data-Japan
-  git merge --no-edit origin/data-North_America
-  git push origin data-all
+  git checkout -b data-all origin/data-Japan          # once
+  git fetch origin && git merge --no-edit origin/data-Japan && git merge --no-edit origin/data-North_America   # whenever a region advances
   ```
 
-  Region paths are disjoint and every region branch carries the same `main`, so these
-  merges never conflict. Do not commit data or scripts on `data-all` directly; fix them
-  on the region branch or `main` and merge again. The one shared concept is the player
+  `data-all` stays on that machine; it is not pushed to GitHub (it would only duplicate
+  the region branches). Region paths are disjoint and every region branch carries the
+  same `main`, so these merges never conflict. Do not commit data or scripts on
+  `data-all`; fix them on the region branch or `main` and merge again. The one shared concept is the player
   index: `data/startgg/<Region>/users.jsonl` files are per region and a player who
   enters tournaments in two regions appears in both. Consumers must union them by
   `user_id` (the spsp build currently reads Japan's only).
