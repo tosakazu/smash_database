@@ -14,43 +14,39 @@ Detailed documentation in `docs/`: [data_model.md](docs/data_model.md) (file for
 
 ## Repository layout
 
-The repository is split into one **script branch** and one **data branch per region**.
-They never share files, so a region branch can be merged into another region branch
-without conflicts, and scripts can change without touching data history.
+The repository has one **script branch** and one **data branch per region**. A data
+branch is `main` plus that region's data, so it is a complete, runnable checkout on its
+own, and regions never touch each other's paths.
 
 | Branch | Contents | Who maintains it |
 |---|---|---|
-| `main` | `scripts/`, `docs/`, this README. `data/` is git-ignored. No history before 2026-09-07 | Everyone (shared code) |
-| `data-Japan` | `startgg/events/Japan/**` and `startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` | Japan operator. Committed and pushed nightly by the spsp pipeline |
-| `data-<Region>` (future, e.g. `data-North_America`) | `startgg/events/<Region>/**` and `startgg/<Region>/{...}` | That region's operator |
+| `main` | `scripts/`, `docs/`, this README. No data (`data/` is git-ignored here). No history before 2026-09-07 | Everyone (shared code) |
+| `data-Japan` | everything on `main` (merged in), plus `data/startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` and `data/startgg/events/Japan/**` | Japan operator. Data committed and pushed nightly by the spsp pipeline |
+| `data-<Region>` (future, e.g. `data-North_America`) | everything on `main`, plus `data/startgg/<Region>/{...}` and `data/startgg/events/<Region>/**` | That region's operator |
 
-A data branch contains nothing but `startgg/` and a `.gitignore`. The `.gitignore`
-lists `scripts/`, `docs/`, `README.md`: that is only a guard so that copies of the
-script tree placed inside a standalone data checkout are never committed to a data
-branch. It does not mean scripts are unnecessary there.
+Rules that keep the branches mergeable:
 
-### Working checkout
+* Scripts and docs are changed **only on `main`**. A data branch picks them up with
+  `git merge main` (the production checkout does this when scripts are updated).
+* Data is committed **only on its data branch**, and only under `data/startgg/<Region>/`
+  and `data/startgg/events/<Region>/`.
+* Because every data branch carries the same `main`, merging one data branch into
+  another (or into a combined branch) merges cleanly: the script files are identical
+  and the data paths are disjoint.
 
-Check out `main`, then mount the data branch as a git worktree at `data/`. Every
-script defaults to `data/startgg/...`, so paths look like a single repository:
+### Checkout
 
 ```sh
-git clone --single-branch --branch main git@github.com:tosakazu/smash_database.git smash_db_tournament
-cd smash_db_tournament
-git fetch origin data-Japan
-git worktree add data data-Japan        # -> data/startgg/events/Japan/... , data/startgg/Japan/...
+git clone --single-branch --branch data-Japan git@github.com:tosakazu/smash_database.git smash_db_tournament
+cd smash_db_tournament        # scripts/, docs/, README.md, data/startgg/... all present
 ```
 
-Use `--single-branch`: a plain `git clone` downloads the data history of every region.
-To work on another region, fetch and mount that region's branch instead
-(`git worktree add data data-North_America`). A checkout can hold several regions at
-once by mounting them at different directories, but the nightly pipeline expects
-exactly one at `data/`.
-
-Resulting tree:
+Use `--single-branch`: a plain `git clone` downloads every region's data history. To
+work on scripts without data, clone `main` instead. To update the scripts in a data
+checkout: `git fetch origin main && git merge origin/main`.
 
 ```
-smash_db_tournament/            main worktree
+smash_db_tournament/            checkout of data-Japan
 ├── README.md
 ├── docs/
 ├── scripts/
@@ -59,26 +55,25 @@ smash_db_tournament/            main worktree
 │   │   ├── download_policy.py  pure decision logic used by download.py
 │   │   ├── fetch_upcoming.py   upcoming-tournament list
 │   │   ├── redownload_matches_v2.py
-│   │   ├── utils.py  queries.py  clock.py  _cli.py  storeJson.py
+│   │   ├── utils.py  queries.py  clock.py  _cli.py
 │   │   ├── manual/             one-off tools (not used by the pipeline)
 │   │   └── fix/                data validation / repair tools
 │   ├── Japan/                  Japan-specific: lower-class bracket separation
 │   └── test/                   unit tests
-└── data/                       worktree of data-Japan (git-ignored by main)
-    └── startgg/
-        ├── Japan/
-        │   ├── done.csv            tournament ids whose download is complete
-        │   ├── done_events.csv     event ids whose download is complete
-        │   ├── tournaments.jsonl   one line per tournament: id, name, events + paths
-        │   └── users.jsonl         one line per player: user_id, gamer_tag, country, city, ...
-        └── events/Japan/YYYY/MM/DD/<Tournament>/<Event>/
-            ├── attr.json           event attributes (entrants, offline, timestamp, url, ...)
-            ├── standings.json      {"data": [{placement, user_id}], "version"}
-            ├── seeds.json          {"data": [{seed_num, user_id}], "version"}
-            ├── matches.json        {"data": [{match_id, winner_id, loser_id, scores, round, phase, games...}], ...}
-            ├── phases.json         (Japan) bracket phases with is_class flags
-            └── class_phases/       (Japan) standings of each class bracket, and
-                └── <X>_virtual/    a class bracket materialised as its own event
+└── data/startgg/
+    ├── Japan/
+    │   ├── done.csv            tournament ids whose download is complete
+    │   ├── done_events.csv     event ids whose download is complete
+    │   ├── tournaments.jsonl   one line per tournament: id, name, events + paths
+    │   └── users.jsonl         one line per player: user_id, gamer_tag, country, city, ...
+    └── events/Japan/YYYY/MM/DD/<Tournament>/<Event>/
+        ├── attr.json           event attributes (entrants, offline, timestamp, url, ...)
+        ├── standings.json      {"data": [{placement, user_id}], "version"}
+        ├── seeds.json          {"data": [{seed_num, user_id}], "version"}
+        ├── matches.json        {"data": [{match_id, winner_id, loser_id, scores, round, phase, games...}], ...}
+        ├── phases.json         (Japan) bracket phases with is_class flags
+        └── class_phases/       (Japan) standings of each class bracket, and
+            └── <X>_virtual/    a class bracket materialised as its own event
 ```
 
 Data files are written with fixed key order and indentation. Downstream readers
@@ -89,25 +84,27 @@ Data files are written with fixed key order and indentation. Downstream readers
 ### Data branch operation
 
 * **Nightly (Japan).** The spsp pipeline (`deploy/update_and_deploy.sh`) runs the
-  download, commits everything under `startgg/` in the `data/` worktree as one commit
-  (`data: YYYY-MM-DD nightly`) and pushes it to `origin/data-Japan`. Nothing else is
-  committed automatically.
-* **Manual fixes** to data (re-downloads, backfills) are committed on the data branch the
-  same way: `git -C data add -A -- startgg && git -C data commit`.
-* **Adding a region.** Create an orphan branch `data-<Region>` whose first commit
-  contains `startgg/<Region>/` and `startgg/events/<Region>/`, plus the same
-  `.gitignore` as `data-Japan`. Run `scripts/common/download.py --country-code <CC>`;
-  the index-file defaults follow the region derived from the country code.
-* **Combining regions.** Since region branches only touch their own paths,
-  `git merge data-North_America` on a `data-Japan` checkout (or into a dedicated
-  `data-all` branch) yields both trees. The one shared concept is the player index:
-  `startgg/<Region>/users.jsonl` files are per region and a player who enters
-  tournaments in two regions appears in both. Consumers must union them by `user_id`
-  (the spsp build currently reads Japan's only).
+  download in the production checkout, commits everything under `data/startgg/` as one
+  commit (`data: YYYY-MM-DD nightly`) and pushes `data-Japan`. Nothing else is committed
+  automatically.
+* **Manual fixes** to data (re-downloads, backfills) are committed the same way:
+  `git add -A -- data/startgg && git commit`.
+* **Script updates** reach a data branch by merging `main` into it. Never edit scripts
+  on a data branch.
+* **Adding a region.** Branch from `main` (`git checkout -b data-North_America main`),
+  run `scripts/common/download.py --country-code <CC> ...`; the index files default to
+  `data/startgg/<Region>/` (region derived from the country code) and events go to
+  `data/startgg/events/<Region>/`. Commit, push, and run it nightly on the operator's
+  machine.
+* **Combining regions.** `git merge data-North_America` on a `data-Japan` checkout (or
+  into a dedicated `data-all` branch) yields both trees. The one shared concept is the
+  player index: `data/startgg/<Region>/users.jsonl` files are per region and a player
+  who enters tournaments in two regions appears in both. Consumers must union them by
+  `user_id` (the spsp build currently reads Japan's only).
 * **History size.** Every nightly commit rewrites `tournaments.jsonl` and `users.jsonl`,
   so a data branch grows steadily. Squash old history occasionally
   (e.g. once per season, `git checkout --orphan` + force-push) and tell other operators
-  to re-fetch. The script branch is unaffected.
+  to re-clone. The script branch is unaffected.
 
 ## Scripts
 

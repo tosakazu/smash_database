@@ -13,8 +13,8 @@ every 3 hours on the production host, from the `smash_db_tournament/` checkout:
    downloads tournaments whose end date falls in the last two weeks.
 2. `scripts/common/fetch_upcoming.py` writes the upcoming-tournament list for the seed tool.
 3. `scripts/Japan/update_class_data.py --since-days 30` separates class brackets.
-4. Everything under `startgg/` in the `data/` worktree is committed as
-   `data: YYYY-MM-DD nightly` and pushed to `origin/data-Japan`. Nothing else is committed.
+4. Everything under `data/startgg/` is committed as `data: YYYY-MM-DD nightly` and pushed
+   to `origin/data-Japan`. Nothing else is committed.
 
 The token is passed through the environment (`STARTGG_TOKEN`), never on the command line.
 
