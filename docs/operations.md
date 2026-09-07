@@ -10,6 +10,7 @@ the top-level [README](../README.md).
 |---|---|---|
 | `main` | scripts, docs, tests | anything under `data/` |
 | `data-<Region>` | files under `data/startgg/<Region>/` and `data/startgg/events/<Region>/`, and merges of `main` | direct edits to scripts or docs, other regions' paths |
+| `data-all` | merges of the `data-<Region>` branches | direct commits of any kind |
 
 * Script changes go through a branch or pull request against `main`. Run the tests
   before merging (below). `main` has no CI; the nightly run is the integration test,
@@ -54,18 +55,29 @@ branch does not), keep the data branch's version: `git checkout --ours -- .gitig
 `country_code2region()` in `utils.py` decides the region name from the country code
 (`US`, `CA`, `MX`, `DO` → `North America`). Add codes there when a region needs them.
 
-## Combining regions
+## Combining regions: `data-all`
 
-For a consumer that wants several regions:
+`data-all` is the merge of all region branches, for consumers that need several
+regions at once (the ranking build). It was created from `data-Japan` and is advanced
+only by merging:
 
 ```sh
-git checkout -b data-all data-Japan
-git merge --no-edit data-North_America
+git checkout data-all
+git fetch origin
+git merge --no-edit origin/data-Japan
+git merge --no-edit origin/data-North_America     # one line per region
+git push origin data-all
 ```
 
-The trees are disjoint, so this is a plain merge. Repeat `git merge` whenever a region
-branch advances. `users.jsonl` is per region; union them by `user_id` when loading
-(later rows win). No script does this yet.
+Run this whenever a region branch advances (a cron job on the build machine is the
+natural place; the spsp nightly does not do it yet because only Japan exists). The
+trees are disjoint and every region branch carries the same `main`, so the merges
+never conflict; if one does, something was committed on the wrong branch — fix it
+there, not on `data-all`. `users.jsonl` is per region; union them by `user_id` when
+loading (later rows win). No script does this yet.
+
+A consumer that needs one region only (the current spsp build) checks out that
+region's branch directly; `data-all` is not required.
 
 ## Squashing history
 
