@@ -30,6 +30,8 @@ On the production host `~/spsp-ranking/smash_db_tournament` is a checkout of
 To update scripts on the host: push them to `main`, then in the checkout run
 `git fetch origin main && git merge origin/main && git push origin data-Japan` between
 runs (a run takes ~15 min every 3 hours; check `pgrep -f update_and_deploy`).
+If the merge conflicts on `.gitignore` (it differs by design: `main` ignores `data/`, a data
+branch does not), keep the data branch's version: `git checkout --ours -- .gitignore && git add .gitignore && git commit`.
 
 ## Adding a region
 
