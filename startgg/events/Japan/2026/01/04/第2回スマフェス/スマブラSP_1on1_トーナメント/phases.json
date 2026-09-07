@@ -1,0 +1,123 @@
+{
+  "event_id": 1499136,
+  "event_name": "スマブラSP 1on1 トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2126232,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3099556,
+          "display": "1"
+        },
+        {
+          "id": 3099557,
+          "display": "2"
+        },
+        {
+          "id": 3099558,
+          "display": "3"
+        },
+        {
+          "id": 3099559,
+          "display": "4"
+        },
+        {
+          "id": 3099560,
+          "display": "5"
+        },
+        {
+          "id": 3099561,
+          "display": "6"
+        },
+        {
+          "id": 3099562,
+          "display": "7"
+        },
+        {
+          "id": 3099563,
+          "display": "8"
+        },
+        {
+          "id": 3117476,
+          "display": "9"
+        },
+        {
+          "id": 3117477,
+          "display": "10"
+        },
+        {
+          "id": 3117478,
+          "display": "11"
+        },
+        {
+          "id": 3117479,
+          "display": "12"
+        },
+        {
+          "id": 3117480,
+          "display": "13"
+        },
+        {
+          "id": 3117481,
+          "display": "14"
+        },
+        {
+          "id": 3117482,
+          "display": "15"
+        },
+        {
+          "id": 3117483,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 2126233,
+      "name": "本戦トーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3099564,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2126234,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3099565,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2149102,
+      "name": "C Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3129974,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

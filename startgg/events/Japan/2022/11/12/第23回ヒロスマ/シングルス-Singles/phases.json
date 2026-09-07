@@ -1,0 +1,77 @@
+{
+  "event_id": 799661,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1226774,
+      "name": "予選 (TOP64)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1889394,
+          "display": "1"
+        },
+        {
+          "id": 1889395,
+          "display": "2"
+        },
+        {
+          "id": 1889396,
+          "display": "3"
+        },
+        {
+          "id": 1889397,
+          "display": "4"
+        },
+        {
+          "id": 1915758,
+          "display": "5"
+        },
+        {
+          "id": 1915759,
+          "display": "6"
+        },
+        {
+          "id": 1915760,
+          "display": "7"
+        },
+        {
+          "id": 1915761,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1226775,
+      "name": "本選 (TOP32)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1889398,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1226776,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1889399,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

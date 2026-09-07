@@ -1,0 +1,75 @@
+{
+  "event_id": 1153628,
+  "event_name": "Singles Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1681465,
+      "name": "Round1",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2503032,
+          "display": "1"
+        },
+        {
+          "id": 2514411,
+          "display": "2"
+        },
+        {
+          "id": 2514454,
+          "display": "3"
+        },
+        {
+          "id": 2514455,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1681466,
+      "name": "TOP24",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2503033,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1690298,
+      "name": "B class",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2514379,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1690300,
+      "name": "C class",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2514381,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

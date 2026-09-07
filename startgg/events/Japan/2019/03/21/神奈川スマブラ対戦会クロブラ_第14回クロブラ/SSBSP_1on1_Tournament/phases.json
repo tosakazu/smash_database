@@ -1,0 +1,77 @@
+{
+  "event_id": 327334,
+  "event_name": "SSBSP 1on1 Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 545540,
+      "name": "Pool",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 82,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 922940,
+          "display": "A1"
+        },
+        {
+          "id": 932834,
+          "display": "A2"
+        },
+        {
+          "id": 932835,
+          "display": "A3"
+        },
+        {
+          "id": 932836,
+          "display": "A4"
+        },
+        {
+          "id": 932837,
+          "display": "B1"
+        },
+        {
+          "id": 932838,
+          "display": "B2"
+        },
+        {
+          "id": 932839,
+          "display": "B3"
+        },
+        {
+          "id": 932840,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 545674,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 923153,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 545675,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 923154,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

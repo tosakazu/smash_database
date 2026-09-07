@@ -1,0 +1,77 @@
+{
+  "event_id": 665795,
+  "event_name": "【Day1】SP シングルストーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1055356,
+      "name": "【Day1】スマブラSP予選",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1654477,
+          "display": "A1"
+        },
+        {
+          "id": 1654478,
+          "display": "A2"
+        },
+        {
+          "id": 1654479,
+          "display": "A3"
+        },
+        {
+          "id": 1654480,
+          "display": "A4"
+        },
+        {
+          "id": 1654481,
+          "display": "B1"
+        },
+        {
+          "id": 1654482,
+          "display": "B2"
+        },
+        {
+          "id": 1654483,
+          "display": "B3"
+        },
+        {
+          "id": 1654484,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1055357,
+      "name": "【Day1】スマブラSPトーナメント【Bクラス】",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1654485,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1055358,
+      "name": "【Day1】スマブラSPトーナメント【Aクラス】",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1654486,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

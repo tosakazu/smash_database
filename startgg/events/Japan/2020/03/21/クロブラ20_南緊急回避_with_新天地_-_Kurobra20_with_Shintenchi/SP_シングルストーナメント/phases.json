@@ -1,0 +1,77 @@
+{
+  "event_id": 462532,
+  "event_name": "SP シングルストーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 776948,
+      "name": "SP予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1248733,
+          "display": "A1"
+        },
+        {
+          "id": 1248757,
+          "display": "A2"
+        },
+        {
+          "id": 1248758,
+          "display": "A3"
+        },
+        {
+          "id": 1248759,
+          "display": "A4"
+        },
+        {
+          "id": 1248760,
+          "display": "B1"
+        },
+        {
+          "id": 1248761,
+          "display": "B2"
+        },
+        {
+          "id": 1248762,
+          "display": "B3"
+        },
+        {
+          "id": 1248763,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 776955,
+      "name": "SPトーナメントAクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1248755,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 776956,
+      "name": "SPトーナメントBクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1248756,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

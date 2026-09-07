@@ -1,0 +1,75 @@
+{
+  "event_id": 1045419,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1541843,
+      "name": "三つ巴予選 4Pools (Day2,  BO5)",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2317311,
+          "display": "1"
+        },
+        {
+          "id": 2317982,
+          "display": "2"
+        },
+        {
+          "id": 2317983,
+          "display": "3"
+        },
+        {
+          "id": 2317984,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1541844,
+      "name": "決勝トーナメント TOP12 (Day2, BO5)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2317312,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1541836,
+      "name": "LCQトーナメント Top64 (Day1, BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 33,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2317297,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1560995,
+      "name": "Bクラス トーナメント (Day2)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2343317,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

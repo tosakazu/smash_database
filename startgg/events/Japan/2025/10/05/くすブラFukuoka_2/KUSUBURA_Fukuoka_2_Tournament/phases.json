@@ -1,0 +1,75 @@
+{
+  "event_id": 1449053,
+  "event_name": "KUSUBURA Fukuoka 2 Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2062935,
+      "name": "予選(BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3017985,
+          "display": "1"
+        },
+        {
+          "id": 3017999,
+          "display": "2"
+        },
+        {
+          "id": 3018000,
+          "display": "3"
+        },
+        {
+          "id": 3018001,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2062944,
+      "name": "本戦(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3018006,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2062946,
+      "name": "TOP8(BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3018008,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2089540,
+      "name": "Bクラス(BO3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3052047,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

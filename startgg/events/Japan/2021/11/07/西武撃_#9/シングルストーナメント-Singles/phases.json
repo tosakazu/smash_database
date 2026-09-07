@@ -1,0 +1,103 @@
+{
+  "event_id": 637896,
+  "event_name": "シングルストーナメント/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1019963,
+      "name": "Round1(TOP192)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 192,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606117,
+          "display": "1"
+        },
+        {
+          "id": 1606118,
+          "display": "2"
+        },
+        {
+          "id": 1606119,
+          "display": "3"
+        },
+        {
+          "id": 1606120,
+          "display": "4"
+        },
+        {
+          "id": 1606121,
+          "display": "5"
+        },
+        {
+          "id": 1606122,
+          "display": "6"
+        },
+        {
+          "id": 1606123,
+          "display": "7"
+        },
+        {
+          "id": 1606124,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1019964,
+      "name": "Round2(TOP64)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606125,
+          "display": "1"
+        },
+        {
+          "id": 1606126,
+          "display": "2"
+        },
+        {
+          "id": 1606127,
+          "display": "3"
+        },
+        {
+          "id": 1606128,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1019965,
+      "name": "TOP8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606129,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1019966,
+      "name": "Bクラストーナメント",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1606130,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

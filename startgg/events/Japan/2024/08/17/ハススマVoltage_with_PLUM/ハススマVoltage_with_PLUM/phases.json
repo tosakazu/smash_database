@@ -1,0 +1,117 @@
+{
+  "event_id": 1178333,
+  "event_name": "ハススマVoltage with PLUM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1713745,
+      "name": "TOP96(BO5)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 103,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2547346,
+          "display": "1"
+        },
+        {
+          "id": 2547347,
+          "display": "2"
+        },
+        {
+          "id": 2547348,
+          "display": "3"
+        },
+        {
+          "id": 2547349,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1713746,
+      "name": "TOP32(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2547354,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1713749,
+      "name": "TOP8(BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2547359,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1713747,
+      "name": "Bクラス(BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2547356,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1713750,
+      "name": "BクラスTOP8(BO3)",
+      "order": 12,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2547360,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1735534,
+      "name": "Cクラス(BO3)",
+      "order": 13,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 39,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2576741,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1735535,
+      "name": "CクラスTOP8(BO3)",
+      "order": 14,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2576742,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

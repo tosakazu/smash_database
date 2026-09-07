@@ -1,0 +1,61 @@
+{
+  "event_id": 1083811,
+  "event_name": "RENMA#7",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1590952,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2382033,
+          "display": "1"
+        },
+        {
+          "id": 2382034,
+          "display": "2"
+        },
+        {
+          "id": 2382035,
+          "display": "3"
+        },
+        {
+          "id": 2382036,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1590953,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2382037,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1617549,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2417115,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

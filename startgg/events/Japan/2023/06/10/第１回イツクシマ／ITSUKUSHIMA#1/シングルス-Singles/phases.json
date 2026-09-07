@@ -1,0 +1,187 @@
+{
+  "event_id": 911914,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1369951,
+      "name": "Pools (総当たり(BO3))",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 181,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2083953,
+          "display": "A1"
+        },
+        {
+          "id": 2083955,
+          "display": "A2"
+        },
+        {
+          "id": 2083957,
+          "display": "A3"
+        },
+        {
+          "id": 2083959,
+          "display": "A4"
+        },
+        {
+          "id": 2086961,
+          "display": "A5"
+        },
+        {
+          "id": 2086963,
+          "display": "A6"
+        },
+        {
+          "id": 2086965,
+          "display": "A7"
+        },
+        {
+          "id": 2086967,
+          "display": "A8"
+        },
+        {
+          "id": 2086969,
+          "display": "A9"
+        },
+        {
+          "id": 2086971,
+          "display": "A10"
+        },
+        {
+          "id": 2086973,
+          "display": "A11"
+        },
+        {
+          "id": 2086975,
+          "display": "A12"
+        },
+        {
+          "id": 2086977,
+          "display": "A13"
+        },
+        {
+          "id": 2086979,
+          "display": "A14"
+        },
+        {
+          "id": 2086981,
+          "display": "A15"
+        },
+        {
+          "id": 2086983,
+          "display": "A16"
+        },
+        {
+          "id": 2083954,
+          "display": "B1"
+        },
+        {
+          "id": 2083956,
+          "display": "B2"
+        },
+        {
+          "id": 2083958,
+          "display": "B3"
+        },
+        {
+          "id": 2083960,
+          "display": "B4"
+        },
+        {
+          "id": 2086962,
+          "display": "B5"
+        },
+        {
+          "id": 2086964,
+          "display": "B6"
+        },
+        {
+          "id": 2086966,
+          "display": "B7"
+        },
+        {
+          "id": 2086968,
+          "display": "B8"
+        },
+        {
+          "id": 2086970,
+          "display": "B9"
+        },
+        {
+          "id": 2086972,
+          "display": "B10"
+        },
+        {
+          "id": 2086974,
+          "display": "B11"
+        },
+        {
+          "id": 2086976,
+          "display": "B12"
+        },
+        {
+          "id": 2086978,
+          "display": "B13"
+        },
+        {
+          "id": 2086980,
+          "display": "B14"
+        },
+        {
+          "id": 2086982,
+          "display": "B15"
+        },
+        {
+          "id": 2086984,
+          "display": "B16"
+        }
+      ]
+    },
+    {
+      "id": 1369952,
+      "name": "Top 96 (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2083961,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1369954,
+      "name": "Top 8 (BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2083963,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1369953,
+      "name": "B Class (BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 85,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2083962,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

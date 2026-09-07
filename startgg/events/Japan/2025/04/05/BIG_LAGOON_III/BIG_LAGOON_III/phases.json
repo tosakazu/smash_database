@@ -1,0 +1,91 @@
+{
+  "event_id": 1305161,
+  "event_name": "BIG LAGOON III",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1877401,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 122,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2764340,
+          "display": "1"
+        },
+        {
+          "id": 2805202,
+          "display": "2"
+        },
+        {
+          "id": 2805203,
+          "display": "3"
+        },
+        {
+          "id": 2805204,
+          "display": "4"
+        },
+        {
+          "id": 2805205,
+          "display": "5"
+        },
+        {
+          "id": 2805206,
+          "display": "6"
+        },
+        {
+          "id": 2805207,
+          "display": "7"
+        },
+        {
+          "id": 2805208,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1929447,
+      "name": "Aクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2835108,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1929448,
+      "name": "Bクラス",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2835109,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1929449,
+      "name": "Cクラス",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2835110,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

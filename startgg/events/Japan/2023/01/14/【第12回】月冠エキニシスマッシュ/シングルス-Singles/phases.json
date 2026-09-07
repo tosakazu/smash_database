@@ -1,0 +1,53 @@
+{
+  "event_id": 835316,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1272618,
+      "name": "予選 (スイスドロー/Swiss Draw)",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1950765,
+          "display": "1"
+        },
+        {
+          "id": 1962690,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1272619,
+      "name": "TOP24 (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1950769,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1272620,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1950770,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

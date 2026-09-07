@@ -1,0 +1,49 @@
+{
+  "event_id": 1671730,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2348423,
+      "name": "TOP20",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3392622,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2348424,
+      "name": "TOP8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3392623,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2348425,
+      "name": "Bクラス",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3392624,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

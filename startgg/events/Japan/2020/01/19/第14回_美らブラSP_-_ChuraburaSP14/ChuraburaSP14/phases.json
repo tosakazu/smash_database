@@ -1,0 +1,61 @@
+{
+  "event_id": 432894,
+  "event_name": "ChuraburaSP14",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 725858,
+      "name": "予選 / Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1170614,
+          "display": "1"
+        },
+        {
+          "id": 1170615,
+          "display": "2"
+        },
+        {
+          "id": 1170616,
+          "display": "3"
+        },
+        {
+          "id": 1170617,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 725859,
+      "name": "本戦Ａクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1170618,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 725860,
+      "name": "本戦Ｂクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1170619,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

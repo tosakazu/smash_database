@@ -1,0 +1,173 @@
+{
+  "event_id": 996542,
+  "event_name": "KOWLOON",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1479322,
+      "name": "TOP256(BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 256,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2234679,
+          "display": "1"
+        },
+        {
+          "id": 2234680,
+          "display": "2"
+        },
+        {
+          "id": 2234681,
+          "display": "3"
+        },
+        {
+          "id": 2234682,
+          "display": "4"
+        },
+        {
+          "id": 2234683,
+          "display": "5"
+        },
+        {
+          "id": 2234684,
+          "display": "6"
+        },
+        {
+          "id": 2234685,
+          "display": "7"
+        },
+        {
+          "id": 2234686,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1479323,
+      "name": "TOP96(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2234687,
+          "display": "1"
+        },
+        {
+          "id": 2234688,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1479326,
+      "name": "TOP16(BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2234697,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1479324,
+      "name": "Bクラス(BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2234691,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1479328,
+      "name": "BクラスTOP8(BO5)",
+      "order": 12,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2234699,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1479325,
+      "name": "Cクラス(BO3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2234693,
+          "display": "1"
+        },
+        {
+          "id": 2234694,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1479329,
+      "name": "CクラスTOP8(BO3)",
+      "order": 13,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2234700,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1504355,
+      "name": "Dクラス(BO3)",
+      "order": 14,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2268262,
+          "display": "1"
+        },
+        {
+          "id": 2273400,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1509179,
+      "name": "DクラスTOP16(BO3)",
+      "order": 15,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2274430,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

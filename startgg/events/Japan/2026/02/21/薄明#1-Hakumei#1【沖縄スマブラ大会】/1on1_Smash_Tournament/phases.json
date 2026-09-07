@@ -1,0 +1,67 @@
+{
+  "event_id": 1550952,
+  "event_name": "1on1 Smash Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2192103,
+      "name": "Pool",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3187702,
+          "display": "1"
+        },
+        {
+          "id": 3187705,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2192106,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3187708,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2211208,
+      "name": "Bclass",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3212032,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2211262,
+      "name": "サブイベ",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 0,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3212096,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

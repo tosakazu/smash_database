@@ -1,0 +1,137 @@
+{
+  "event_id": 1178866,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1714458,
+      "name": "Round 1 (BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 189,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2548439,
+          "display": "1"
+        },
+        {
+          "id": 2548440,
+          "display": "2"
+        },
+        {
+          "id": 2548441,
+          "display": "3"
+        },
+        {
+          "id": 2548442,
+          "display": "4"
+        },
+        {
+          "id": 2548443,
+          "display": "5"
+        },
+        {
+          "id": 2548444,
+          "display": "6"
+        },
+        {
+          "id": 2548445,
+          "display": "7"
+        },
+        {
+          "id": 2548446,
+          "display": "8"
+        },
+        {
+          "id": 2573321,
+          "display": "9"
+        },
+        {
+          "id": 2573322,
+          "display": "10"
+        },
+        {
+          "id": 2573323,
+          "display": "11"
+        },
+        {
+          "id": 2573324,
+          "display": "12"
+        },
+        {
+          "id": 2573325,
+          "display": "13"
+        },
+        {
+          "id": 2573326,
+          "display": "14"
+        },
+        {
+          "id": 2573327,
+          "display": "15"
+        },
+        {
+          "id": 2573328,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1723885,
+      "name": "Round 2(BO5)",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2561620,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1714459,
+      "name": "Top16 (BO5)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2548447,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1723886,
+      "name": "B Class(BO3)",
+      "order": 11,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2561628,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1723887,
+      "name": "C Class(BO3)",
+      "order": 12,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2561629,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

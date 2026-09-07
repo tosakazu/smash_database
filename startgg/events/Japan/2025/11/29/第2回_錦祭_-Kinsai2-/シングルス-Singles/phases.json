@@ -1,0 +1,105 @@
+{
+  "event_id": 1468741,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2087614,
+      "name": "予選 (BO3)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 122,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3049592,
+          "display": "1"
+        },
+        {
+          "id": 3049593,
+          "display": "2"
+        },
+        {
+          "id": 3049594,
+          "display": "3"
+        },
+        {
+          "id": 3049595,
+          "display": "4"
+        },
+        {
+          "id": 3049596,
+          "display": "5"
+        },
+        {
+          "id": 3049597,
+          "display": "6"
+        },
+        {
+          "id": 3049598,
+          "display": "7"
+        },
+        {
+          "id": 3049599,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2087615,
+      "name": "TOP64 (BO5)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3049600,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2087616,
+      "name": "Top 8 (BO5)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3049601,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2087613,
+      "name": "B Class (BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3049591,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2142398,
+      "name": "C Class (BO3)",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3120651,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "event_id": 1508830,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2138539,
+      "name": "Qualifying",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 72,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3115638,
+          "display": "1"
+        },
+        {
+          "id": 3122691,
+          "display": "2"
+        },
+        {
+          "id": 3122692,
+          "display": "3"
+        },
+        {
+          "id": 3122693,
+          "display": "4"
+        },
+        {
+          "id": 3122694,
+          "display": "5"
+        },
+        {
+          "id": 3122695,
+          "display": "6"
+        },
+        {
+          "id": 3122696,
+          "display": "7"
+        },
+        {
+          "id": 3122697,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2138590,
+      "name": "A Class",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3115698,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2138591,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3115699,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

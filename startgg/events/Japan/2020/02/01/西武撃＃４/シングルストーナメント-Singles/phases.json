@@ -1,0 +1,109 @@
+{
+  "event_id": 438128,
+  "event_name": "シングルストーナメント/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 735139,
+      "name": "予選総当たり",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 154,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1182931,
+          "display": "1"
+        },
+        {
+          "id": 1182932,
+          "display": "2"
+        },
+        {
+          "id": 1182934,
+          "display": "3"
+        },
+        {
+          "id": 1182935,
+          "display": "4"
+        },
+        {
+          "id": 1182936,
+          "display": "5"
+        },
+        {
+          "id": 1182937,
+          "display": "6"
+        },
+        {
+          "id": 1182938,
+          "display": "7"
+        },
+        {
+          "id": 1182939,
+          "display": "8"
+        },
+        {
+          "id": 1182940,
+          "display": "9"
+        },
+        {
+          "id": 1182941,
+          "display": "10"
+        },
+        {
+          "id": 1182942,
+          "display": "11"
+        },
+        {
+          "id": 1182943,
+          "display": "12"
+        },
+        {
+          "id": 1182944,
+          "display": "13"
+        },
+        {
+          "id": 1182945,
+          "display": "14"
+        },
+        {
+          "id": 1182930,
+          "display": "15"
+        },
+        {
+          "id": 1182933,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 735140,
+      "name": "メイントーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1182946,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 735159,
+      "name": "Bクラストーナメント",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 90,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1182977,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

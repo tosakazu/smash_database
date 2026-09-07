@@ -1,0 +1,89 @@
+{
+  "event_id": 1476869,
+  "event_name": "Ultmate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2097820,
+      "name": "予選(Bo3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 72,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3062244,
+          "display": "1"
+        },
+        {
+          "id": 3091313,
+          "display": "2"
+        },
+        {
+          "id": 3091434,
+          "display": "3"
+        },
+        {
+          "id": 3091435,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2097821,
+      "name": "TOP24 (Bo3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3062245,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2097823,
+      "name": "TOP8（Bo3）",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3062247,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2097822,
+      "name": "Bクラス",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3062246,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2097834,
+      "name": "Cクラス",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3062260,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

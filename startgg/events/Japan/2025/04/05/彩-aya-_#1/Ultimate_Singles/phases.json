@@ -1,0 +1,77 @@
+{
+  "event_id": 1332126,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1911580,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2811541,
+          "display": "1"
+        },
+        {
+          "id": 2832683,
+          "display": "2"
+        },
+        {
+          "id": 2832684,
+          "display": "3"
+        },
+        {
+          "id": 2832685,
+          "display": "4"
+        },
+        {
+          "id": 2832686,
+          "display": "5"
+        },
+        {
+          "id": 2832687,
+          "display": "6"
+        },
+        {
+          "id": 2832688,
+          "display": "7"
+        },
+        {
+          "id": 2832689,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1927595,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2832695,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1927600,
+      "name": "Bclass",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2832700,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

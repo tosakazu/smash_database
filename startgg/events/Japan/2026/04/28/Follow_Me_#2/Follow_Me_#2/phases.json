@@ -1,0 +1,61 @@
+{
+  "event_id": 1599364,
+  "event_name": "Follow Me #2",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2273768,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3293163,
+          "display": "1"
+        },
+        {
+          "id": 3293166,
+          "display": "2"
+        },
+        {
+          "id": 3293167,
+          "display": "3"
+        },
+        {
+          "id": 3293168,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2273769,
+      "name": "Ａクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3293169,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2273787,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3293189,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

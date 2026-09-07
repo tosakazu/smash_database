@@ -1,0 +1,61 @@
+{
+  "event_id": 432895,
+  "event_name": "ChuraburaSP14.5 Amateur",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 725861,
+      "name": "予選 / Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1170620,
+          "display": "1"
+        },
+        {
+          "id": 1196571,
+          "display": "2"
+        },
+        {
+          "id": 1196572,
+          "display": "3"
+        },
+        {
+          "id": 1196573,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 729175,
+      "name": "本戦Ａクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1174696,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 729176,
+      "name": "本戦Ｂクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1174697,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

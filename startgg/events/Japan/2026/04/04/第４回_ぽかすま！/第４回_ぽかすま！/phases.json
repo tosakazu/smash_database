@@ -1,0 +1,61 @@
+{
+  "event_id": 1576168,
+  "event_name": "第４回 ぽかすま！",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2224292,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3228422,
+          "display": "1"
+        },
+        {
+          "id": 3228431,
+          "display": "2"
+        },
+        {
+          "id": 3228432,
+          "display": "3"
+        },
+        {
+          "id": 3228433,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2224293,
+      "name": "本戦Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3228423,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2224295,
+      "name": "本戦Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3228425,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

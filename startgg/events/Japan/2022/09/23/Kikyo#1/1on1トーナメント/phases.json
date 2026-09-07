@@ -1,0 +1,91 @@
+{
+  "event_id": 777535,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1198623,
+      "name": "予選（BO3総当り）",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 45,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1851913,
+          "display": "1"
+        },
+        {
+          "id": 1851914,
+          "display": "2"
+        },
+        {
+          "id": 1854387,
+          "display": "3"
+        },
+        {
+          "id": 1854388,
+          "display": "4"
+        },
+        {
+          "id": 1854389,
+          "display": "5"
+        },
+        {
+          "id": 1854390,
+          "display": "6"
+        },
+        {
+          "id": 1854391,
+          "display": "7"
+        },
+        {
+          "id": 1854392,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1198624,
+      "name": "TOP32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1851915,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1198626,
+      "name": "TOP8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1851917,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1198625,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1851916,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

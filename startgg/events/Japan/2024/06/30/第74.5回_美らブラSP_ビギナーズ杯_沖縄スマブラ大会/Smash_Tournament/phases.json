@@ -1,0 +1,61 @@
+{
+  "event_id": 1150341,
+  "event_name": "Smash Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1677113,
+      "name": "Pools",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2497147,
+          "display": "1"
+        },
+        {
+          "id": 2497148,
+          "display": "2"
+        },
+        {
+          "id": 2527174,
+          "display": "3"
+        },
+        {
+          "id": 2527175,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1677114,
+      "name": "Top 8 double elimination",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2497149,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1700056,
+      "name": "B Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2527719,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

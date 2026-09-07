@@ -1,0 +1,77 @@
+{
+  "event_id": 1684776,
+  "event_name": "Ultmate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2365371,
+      "name": "予選(Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3414746,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2365372,
+      "name": "TOP16 (Bo5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3414747,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2365374,
+      "name": "TOP8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3414749,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2365373,
+      "name": "Bクラス",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3414748,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2365386,
+      "name": "Bクラス TOP8",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3414767,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

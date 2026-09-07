@@ -1,0 +1,123 @@
+{
+  "event_id": 727891,
+  "event_name": "KOWLOON",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1134504,
+      "name": "Pool",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 256,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1762636,
+          "display": "1"
+        },
+        {
+          "id": 1769339,
+          "display": "2"
+        },
+        {
+          "id": 1782615,
+          "display": "3"
+        },
+        {
+          "id": 1782616,
+          "display": "4"
+        },
+        {
+          "id": 1782617,
+          "display": "5"
+        },
+        {
+          "id": 1782618,
+          "display": "6"
+        },
+        {
+          "id": 1782619,
+          "display": "7"
+        },
+        {
+          "id": 1782620,
+          "display": "8"
+        },
+        {
+          "id": 1782621,
+          "display": "9"
+        },
+        {
+          "id": 1782622,
+          "display": "10"
+        },
+        {
+          "id": 1782623,
+          "display": "11"
+        },
+        {
+          "id": 1782624,
+          "display": "12"
+        },
+        {
+          "id": 1782625,
+          "display": "13"
+        },
+        {
+          "id": 1782626,
+          "display": "14"
+        },
+        {
+          "id": 1782627,
+          "display": "15"
+        },
+        {
+          "id": 1782628,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1138859,
+      "name": "Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1769336,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1138860,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1769337,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1138861,
+      "name": "Cクラス",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1769338,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

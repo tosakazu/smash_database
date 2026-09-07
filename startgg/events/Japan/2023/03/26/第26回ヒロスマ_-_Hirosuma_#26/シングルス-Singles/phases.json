@@ -1,0 +1,91 @@
+{
+  "event_id": 872319,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1319623,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 61,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2014155,
+          "display": "1"
+        },
+        {
+          "id": 2014156,
+          "display": "2"
+        },
+        {
+          "id": 2014157,
+          "display": "3"
+        },
+        {
+          "id": 2014158,
+          "display": "4"
+        },
+        {
+          "id": 2014159,
+          "display": "5"
+        },
+        {
+          "id": 2014160,
+          "display": "6"
+        },
+        {
+          "id": 2014161,
+          "display": "7"
+        },
+        {
+          "id": 2014162,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1319624,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2014171,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1319721,
+      "name": "Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2014297,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1319625,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2014172,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

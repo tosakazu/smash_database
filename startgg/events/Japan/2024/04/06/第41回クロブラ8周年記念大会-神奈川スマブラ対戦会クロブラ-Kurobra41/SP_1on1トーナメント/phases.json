@@ -1,0 +1,109 @@
+{
+  "event_id": 1096126,
+  "event_name": "SP 1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1606881,
+      "name": "スマブラSP予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 192,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2402710,
+          "display": "A1"
+        },
+        {
+          "id": 2402711,
+          "display": "A2"
+        },
+        {
+          "id": 2402712,
+          "display": "A3"
+        },
+        {
+          "id": 2402713,
+          "display": "A4"
+        },
+        {
+          "id": 2402718,
+          "display": "A5"
+        },
+        {
+          "id": 2402719,
+          "display": "A6"
+        },
+        {
+          "id": 2402720,
+          "display": "A7"
+        },
+        {
+          "id": 2402721,
+          "display": "A8"
+        },
+        {
+          "id": 2402714,
+          "display": "B1"
+        },
+        {
+          "id": 2402715,
+          "display": "B2"
+        },
+        {
+          "id": 2402716,
+          "display": "B3"
+        },
+        {
+          "id": 2402717,
+          "display": "B4"
+        },
+        {
+          "id": 2402722,
+          "display": "B5"
+        },
+        {
+          "id": 2402723,
+          "display": "B6"
+        },
+        {
+          "id": 2402724,
+          "display": "B7"
+        },
+        {
+          "id": 2402725,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 1606882,
+      "name": "スマブラSP Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2402726,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1606883,
+      "name": "スマブラSP Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2402727,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

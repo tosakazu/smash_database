@@ -1,0 +1,61 @@
+{
+  "event_id": 1468774,
+  "event_name": "まめブラSP#15",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2087661,
+      "name": "予選プール",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 26,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3049676,
+          "display": "1"
+        },
+        {
+          "id": 3049677,
+          "display": "2"
+        },
+        {
+          "id": 3049678,
+          "display": "3"
+        },
+        {
+          "id": 3049679,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2087662,
+      "name": "Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3049680,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2087665,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3049683,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

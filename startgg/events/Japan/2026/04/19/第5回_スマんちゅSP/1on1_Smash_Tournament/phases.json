@@ -1,0 +1,53 @@
+{
+  "event_id": 1585726,
+  "event_name": "1on1 Smash Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2236560,
+      "name": "予選/Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3243739,
+          "display": "1"
+        },
+        {
+          "id": 3243740,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2236561,
+      "name": "本戦/Top8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3243741,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2266054,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3282320,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

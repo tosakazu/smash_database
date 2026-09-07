@@ -1,0 +1,119 @@
+{
+  "event_id": 1201293,
+  "event_name": "SIRIUS",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1743701,
+      "name": "予選/TOP128",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2588007,
+          "display": "1"
+        },
+        {
+          "id": 2589910,
+          "display": "2"
+        },
+        {
+          "id": 2589911,
+          "display": "3"
+        },
+        {
+          "id": 2589912,
+          "display": "4"
+        },
+        {
+          "id": 2589913,
+          "display": "5"
+        },
+        {
+          "id": 2589914,
+          "display": "6"
+        },
+        {
+          "id": 2589915,
+          "display": "7"
+        },
+        {
+          "id": 2589916,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1745145,
+      "name": "本戦/TOP32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2589938,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1745146,
+      "name": "決戦/TOP8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2589939,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1783126,
+      "name": "D class",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2639514,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1783127,
+      "name": "B class",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2639515,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1783128,
+      "name": "C class",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2639516,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 964132,
+  "event_name": "Smash Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1438780,
+      "name": "Pools",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 43,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2181460,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1438781,
+      "name": "Top8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2181461,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1438782,
+      "name": "B Class tournament",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 35,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2181462,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

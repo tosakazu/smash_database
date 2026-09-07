@@ -1,0 +1,77 @@
+{
+  "event_id": 1191822,
+  "event_name": "スマブラSP 1on1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1731357,
+      "name": "pool",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2571540,
+          "display": "1"
+        },
+        {
+          "id": 2571541,
+          "display": "2"
+        },
+        {
+          "id": 2571542,
+          "display": "3"
+        },
+        {
+          "id": 2571543,
+          "display": "4"
+        },
+        {
+          "id": 2571544,
+          "display": "5"
+        },
+        {
+          "id": 2571545,
+          "display": "6"
+        },
+        {
+          "id": 2571546,
+          "display": "7"
+        },
+        {
+          "id": 2571547,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1731358,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2571548,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1756219,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2605108,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

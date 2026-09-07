@@ -1,0 +1,75 @@
+{
+  "event_id": 1282896,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1848854,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2725628,
+          "display": "1"
+        },
+        {
+          "id": 2725629,
+          "display": "2"
+        },
+        {
+          "id": 2725630,
+          "display": "3"
+        },
+        {
+          "id": 2725631,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1848855,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2725632,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1848856,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2725633,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1860419,
+      "name": "デカイ大会",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2741523,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

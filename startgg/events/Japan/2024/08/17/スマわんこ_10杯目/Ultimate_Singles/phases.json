@@ -1,0 +1,75 @@
+{
+  "event_id": 1176517,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1711404,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2543981,
+          "display": "A1"
+        },
+        {
+          "id": 2543982,
+          "display": "A2"
+        },
+        {
+          "id": 2543983,
+          "display": "A3"
+        },
+        {
+          "id": 2543984,
+          "display": "A4"
+        }
+      ]
+    },
+    {
+      "id": 1711405,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2543985,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1711406,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2543986,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1737867,
+      "name": "おま5大会",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2580104,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

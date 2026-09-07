@@ -1,0 +1,81 @@
+{
+  "event_id": 1647071,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2316520,
+      "name": "TOP64(BO5)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3351559,
+          "display": "1"
+        },
+        {
+          "id": 3351560,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2316521,
+      "name": "TOP24(BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3351561,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2316522,
+      "name": "TOP8(BO5)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3351562,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2316524,
+      "name": "Bクラス(BO5)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3351564,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2316525,
+      "name": "Cクラス(BO3)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3351565,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

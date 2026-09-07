@@ -1,0 +1,103 @@
+{
+  "event_id": 1673913,
+  "event_name": "KOWLOON_SP",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2351257,
+      "name": "TOP128(BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 107,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3396481,
+          "display": "1"
+        },
+        {
+          "id": 3396482,
+          "display": "2"
+        },
+        {
+          "id": 3396483,
+          "display": "3"
+        },
+        {
+          "id": 3396484,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2351266,
+      "name": "TOP32(BO3)",
+      "order": 19,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3396513,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2351259,
+      "name": "Bクラス(BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3396501,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2351261,
+      "name": "TOP8(BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3396505,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2377129,
+      "name": "Cクラス(BO3)",
+      "order": 20,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3429889,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2377130,
+      "name": "Dクラス(BO3)",
+      "order": 21,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 59,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3429890,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

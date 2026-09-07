@@ -1,0 +1,67 @@
+{
+  "event_id": 1241582,
+  "event_name": "スマブラSP シングルス",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1795887,
+      "name": "TOP48(BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2657316,
+          "display": "1"
+        },
+        {
+          "id": 2657317,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1795888,
+      "name": "TOP24(BO3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2657320,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1795889,
+      "name": "TOP8(BO3)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2657321,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1795890,
+      "name": "Bクラストップ24(BO3)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2657322,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

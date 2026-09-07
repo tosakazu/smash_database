@@ -1,0 +1,109 @@
+{
+  "event_id": 847254,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1287779,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 106,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1971511,
+          "display": "1"
+        },
+        {
+          "id": 1971512,
+          "display": "2"
+        },
+        {
+          "id": 1971513,
+          "display": "3"
+        },
+        {
+          "id": 1971514,
+          "display": "4"
+        },
+        {
+          "id": 1971515,
+          "display": "5"
+        },
+        {
+          "id": 1971516,
+          "display": "6"
+        },
+        {
+          "id": 1971517,
+          "display": "7"
+        },
+        {
+          "id": 1971518,
+          "display": "8"
+        },
+        {
+          "id": 1997024,
+          "display": "9"
+        },
+        {
+          "id": 1997025,
+          "display": "10"
+        },
+        {
+          "id": 1997026,
+          "display": "11"
+        },
+        {
+          "id": 1997027,
+          "display": "12"
+        },
+        {
+          "id": 1997028,
+          "display": "13"
+        },
+        {
+          "id": 1997029,
+          "display": "14"
+        },
+        {
+          "id": 1997030,
+          "display": "15"
+        },
+        {
+          "id": 1997031,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1287780,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1971519,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1287781,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 42,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1971520,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "event_id": 1299277,
+  "event_name": "牛深ハイヤCUP",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1869955,
+      "name": "TOP64(BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2753830,
+          "display": "1"
+        },
+        {
+          "id": 2753831,
+          "display": "2"
+        },
+        {
+          "id": 2753832,
+          "display": "3"
+        },
+        {
+          "id": 2753833,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1869959,
+      "name": "TOP24(BO3)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2753843,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1869967,
+      "name": "TOP8(BO3)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2753853,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1897963,
+      "name": "Cクラストーナメント",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2790609,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1897964,
+      "name": "Bクラストーナメント",
+      "order": 8,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2790610,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

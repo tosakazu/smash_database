@@ -1,0 +1,49 @@
+{
+  "event_id": 868542,
+  "event_name": "tamasuma #15",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1314739,
+      "name": "WAVE1（BO3）",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2007467,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1314740,
+      "name": "TOP16(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2007468,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1314746,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2007474,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

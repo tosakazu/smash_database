@@ -1,0 +1,49 @@
+{
+  "event_id": 1506836,
+  "event_name": "GEKKEIJU Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2136051,
+      "name": "本戦(BO5)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3112454,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2136053,
+      "name": "TOP8(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3112456,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2136054,
+      "name": "Bクラス(BO5)",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3112457,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

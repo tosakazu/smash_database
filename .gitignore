@@ -1,0 +1,12 @@
+# データブランチ (Japan): startgg/ 配下だけを持つ。main の scripts/ 等は同じ場所に checkout しても混ぜない
+scripts/
+docs/
+README.md
+requirements*.txt
+*.py[cod]
+__pycache__/
+startgg/*.bak*
+startgg/*/*.bak*
+startgg/.refresh_*
+startgg/*/users_ranked.jsonl
+startgg/*/*checkpoint*

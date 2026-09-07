@@ -1,0 +1,235 @@
+{
+  "event_id": 1389275,
+  "event_name": "Singles Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1985305,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2911970,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1985306,
+      "name": "本戦",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2911974,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004149,
+      "name": "TOP17-24",
+      "order": 12,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937089,
+          "display": "1"
+        },
+        {
+          "id": 2937090,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2004151,
+      "name": "TOP17-18",
+      "order": 13,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937092,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004154,
+      "name": "TOP19-20",
+      "order": 14,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937095,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004155,
+      "name": "TOP21-22",
+      "order": 15,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937096,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004156,
+      "name": "TOP23-24",
+      "order": 16,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937097,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004157,
+      "name": "TOP13-16",
+      "order": 17,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937098,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004158,
+      "name": "TOP9-12",
+      "order": 18,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937099,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004159,
+      "name": "TOP7-8",
+      "order": 19,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937100,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004160,
+      "name": "TOP5-6",
+      "order": 20,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937101,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004341,
+      "name": "TOP4",
+      "order": 21,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2937354,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004133,
+      "name": "E class",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2937052,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004134,
+      "name": "D class",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2937053,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004135,
+      "name": "C class",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2937054,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2004136,
+      "name": "B class",
+      "order": 11,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2937055,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

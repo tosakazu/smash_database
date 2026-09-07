@@ -1,0 +1,49 @@
+{
+  "event_id": 1351378,
+  "event_name": "Ultmate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1936383,
+      "name": "TOP48(Bo3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2843865,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1936384,
+      "name": "TOP8 (Bo3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2843866,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1936385,
+      "name": "Bクラス",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2843867,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

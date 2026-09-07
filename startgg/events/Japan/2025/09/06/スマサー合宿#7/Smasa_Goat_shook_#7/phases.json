@@ -1,0 +1,91 @@
+{
+  "event_id": 1421499,
+  "event_name": "Smasa Goat shook #7",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2027180,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 213,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2967825,
+          "display": "1"
+        },
+        {
+          "id": 2967826,
+          "display": "2"
+        },
+        {
+          "id": 2967827,
+          "display": "3"
+        },
+        {
+          "id": 2967828,
+          "display": "4"
+        },
+        {
+          "id": 2967829,
+          "display": "5"
+        },
+        {
+          "id": 2967830,
+          "display": "6"
+        },
+        {
+          "id": 2967831,
+          "display": "7"
+        },
+        {
+          "id": 2967832,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2027181,
+      "name": "トップ64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2967833,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2027184,
+      "name": "トップ8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2967837,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2027185,
+      "name": "Bクラストーナメント",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 149,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2967838,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

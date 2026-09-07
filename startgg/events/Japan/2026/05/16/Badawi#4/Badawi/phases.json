@@ -1,0 +1,67 @@
+{
+  "event_id": 1583422,
+  "event_name": "Badawi",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2233725,
+      "name": "Pool",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3240304,
+          "display": "1"
+        },
+        {
+          "id": 3240305,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2233726,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3240308,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2285796,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3310087,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2285797,
+      "name": "Cクラス",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3310088,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

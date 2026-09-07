@@ -1,0 +1,109 @@
+{
+  "event_id": 764041,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1181208,
+      "name": "Round1 (TOP128)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1827997,
+          "display": "1"
+        },
+        {
+          "id": 1827998,
+          "display": "2"
+        },
+        {
+          "id": 1827999,
+          "display": "3"
+        },
+        {
+          "id": 1828000,
+          "display": "4"
+        },
+        {
+          "id": 1828001,
+          "display": "5"
+        },
+        {
+          "id": 1828002,
+          "display": "6"
+        },
+        {
+          "id": 1828003,
+          "display": "7"
+        },
+        {
+          "id": 1828004,
+          "display": "8"
+        },
+        {
+          "id": 1828007,
+          "display": "9"
+        },
+        {
+          "id": 1828008,
+          "display": "10"
+        },
+        {
+          "id": 1828009,
+          "display": "11"
+        },
+        {
+          "id": 1828010,
+          "display": "12"
+        },
+        {
+          "id": 1828011,
+          "display": "13"
+        },
+        {
+          "id": 1828012,
+          "display": "14"
+        },
+        {
+          "id": 1828013,
+          "display": "15"
+        },
+        {
+          "id": 1828014,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1181209,
+      "name": "Round2 (TOP64)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1828005,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1181210,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1828006,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

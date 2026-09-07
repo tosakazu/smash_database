@@ -1,0 +1,123 @@
+{
+  "event_id": 1380104,
+  "event_name": "FlyHigh!! 96人トーナメント 埼玉県熊谷市スマブラ大会",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1973422,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 95,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2895670,
+          "display": "1"
+        },
+        {
+          "id": 2895671,
+          "display": "2"
+        },
+        {
+          "id": 2895672,
+          "display": "3"
+        },
+        {
+          "id": 2895673,
+          "display": "4"
+        },
+        {
+          "id": 2895674,
+          "display": "5"
+        },
+        {
+          "id": 2895675,
+          "display": "6"
+        },
+        {
+          "id": 2895676,
+          "display": "7"
+        },
+        {
+          "id": 2895677,
+          "display": "8"
+        },
+        {
+          "id": 2909603,
+          "display": "9"
+        },
+        {
+          "id": 2909604,
+          "display": "10"
+        },
+        {
+          "id": 2909605,
+          "display": "11"
+        },
+        {
+          "id": 2909606,
+          "display": "12"
+        },
+        {
+          "id": 2909607,
+          "display": "13"
+        },
+        {
+          "id": 2909608,
+          "display": "14"
+        },
+        {
+          "id": 2909609,
+          "display": "15"
+        },
+        {
+          "id": 2909610,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1973423,
+      "name": "A Class",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2895678,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1973424,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2895679,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1973425,
+      "name": "C Class",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2895680,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

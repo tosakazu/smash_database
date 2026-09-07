@@ -1,0 +1,53 @@
+{
+  "event_id": 1009732,
+  "event_name": "Ultimate 1on1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1516504,
+      "name": "TOP32(BO5)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2283970,
+          "display": "1"
+        },
+        {
+          "id": 2283987,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1516505,
+      "name": "TOP12(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2283971,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1516507,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2283973,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

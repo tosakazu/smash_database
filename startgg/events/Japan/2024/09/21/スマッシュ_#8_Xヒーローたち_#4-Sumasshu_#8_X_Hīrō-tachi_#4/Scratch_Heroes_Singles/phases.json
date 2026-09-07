@@ -1,0 +1,91 @@
+{
+  "event_id": 1215571,
+  "event_name": "Scratch Heroes Singles",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1762559,
+      "name": "TOP300 (BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 300,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2613325,
+          "display": "1"
+        },
+        {
+          "id": 2613326,
+          "display": "2"
+        },
+        {
+          "id": 2613327,
+          "display": "3"
+        },
+        {
+          "id": 2613328,
+          "display": "4"
+        },
+        {
+          "id": 2613329,
+          "display": "5"
+        },
+        {
+          "id": 2613330,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 1762560,
+      "name": "Round 2 TOP192 (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 192,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2613333,
+          "display": "1"
+        },
+        {
+          "id": 2613334,
+          "display": "2"
+        },
+        {
+          "id": 2613566,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 1762569,
+      "name": "Round 3 TOP48 (BO5)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2613345,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1762561,
+      "name": "Round Final TOP8 (BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2613335,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

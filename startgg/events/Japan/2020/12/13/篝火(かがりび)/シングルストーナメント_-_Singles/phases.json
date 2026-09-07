@@ -1,0 +1,103 @@
+{
+  "event_id": 530534,
+  "event_name": "シングルストーナメント / Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 877798,
+      "name": "Round1 (BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 133,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1404351,
+          "display": "A1"
+        },
+        {
+          "id": 1404352,
+          "display": "A2"
+        },
+        {
+          "id": 1404353,
+          "display": "A3"
+        },
+        {
+          "id": 1404354,
+          "display": "A4"
+        },
+        {
+          "id": 1404355,
+          "display": "A5"
+        },
+        {
+          "id": 1404356,
+          "display": "A6"
+        },
+        {
+          "id": 1404357,
+          "display": "A7"
+        },
+        {
+          "id": 1404358,
+          "display": "A8"
+        }
+      ]
+    },
+    {
+      "id": 884225,
+      "name": "Bクラストーナメント",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 85,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1414225,
+          "display": "B1"
+        },
+        {
+          "id": 1414227,
+          "display": "B2"
+        },
+        {
+          "id": 1414226,
+          "display": "B3"
+        },
+        {
+          "id": 1414228,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 884226,
+      "name": "Bクラストーナメント TOP8",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1414229,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 877801,
+      "name": "Round2 TOP48（BO5）",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1404451,
+          "display": "C1"
+        }
+      ]
+    }
+  ]
+}

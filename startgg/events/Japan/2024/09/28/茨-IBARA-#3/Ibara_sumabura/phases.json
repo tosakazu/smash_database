@@ -1,0 +1,61 @@
+{
+  "event_id": 1214460,
+  "event_name": "Ibara sumabura",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1761075,
+      "name": "Bracket 予選",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2611331,
+          "display": "1"
+        },
+        {
+          "id": 2611332,
+          "display": "2"
+        },
+        {
+          "id": 2611333,
+          "display": "3"
+        },
+        {
+          "id": 2611330,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1761076,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2611334,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1761077,
+      "name": "Bクラス　トーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2611335,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

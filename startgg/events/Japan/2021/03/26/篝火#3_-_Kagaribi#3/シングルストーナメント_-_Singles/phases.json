@@ -1,0 +1,117 @@
+{
+  "event_id": 558662,
+  "event_name": "シングルストーナメント / Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 916616,
+      "name": "Round1 (2本先取)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 132,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1460283,
+          "display": "A1"
+        },
+        {
+          "id": 1460284,
+          "display": "A2"
+        },
+        {
+          "id": 1460285,
+          "display": "A3"
+        },
+        {
+          "id": 1460286,
+          "display": "A4"
+        },
+        {
+          "id": 1460287,
+          "display": "A5"
+        },
+        {
+          "id": 1460288,
+          "display": "A6"
+        },
+        {
+          "id": 1460289,
+          "display": "A7"
+        },
+        {
+          "id": 1460290,
+          "display": "A8"
+        }
+      ]
+    },
+    {
+      "id": 916617,
+      "name": "Round2 TOP48（3本先取）",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1460291,
+          "display": "C1"
+        }
+      ]
+    },
+    {
+      "id": 924306,
+      "name": "Round3 TOP8（3本先取）",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1472346,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 916618,
+      "name": "Bクラストーナメント",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 84,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1460292,
+          "display": "B1"
+        },
+        {
+          "id": 1460294,
+          "display": "B2"
+        },
+        {
+          "id": 1460293,
+          "display": "B3"
+        },
+        {
+          "id": 1460295,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 916619,
+      "name": "Bクラストーナメント TOP8",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1460296,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

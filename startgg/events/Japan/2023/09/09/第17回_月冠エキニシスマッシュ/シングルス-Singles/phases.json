@@ -1,0 +1,77 @@
+{
+  "event_id": 966457,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1441694,
+      "name": "予選 (2先(BO3)総当たり)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2185331,
+          "display": "1"
+        },
+        {
+          "id": 2185332,
+          "display": "2"
+        },
+        {
+          "id": 2185333,
+          "display": "3"
+        },
+        {
+          "id": 2185334,
+          "display": "4"
+        },
+        {
+          "id": 2185335,
+          "display": "5"
+        },
+        {
+          "id": 2185336,
+          "display": "6"
+        },
+        {
+          "id": 2185337,
+          "display": "7"
+        },
+        {
+          "id": 2185338,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1441695,
+      "name": "本選 TOP24 (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2185339,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1441696,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2185340,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

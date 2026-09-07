@@ -1,0 +1,91 @@
+{
+  "event_id": 1011107,
+  "event_name": "シングルス",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1497847,
+      "name": "Round1 TOP96",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 67,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2259648,
+          "display": "1"
+        },
+        {
+          "id": 2259649,
+          "display": "2"
+        },
+        {
+          "id": 2259650,
+          "display": "3"
+        },
+        {
+          "id": 2259651,
+          "display": "4"
+        },
+        {
+          "id": 2259652,
+          "display": "5"
+        },
+        {
+          "id": 2259653,
+          "display": "6"
+        },
+        {
+          "id": 2259654,
+          "display": "7"
+        },
+        {
+          "id": 2259655,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1497848,
+      "name": "Round2 TOP32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2259656,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1497849,
+      "name": "Round3 TOP8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2259657,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1517291,
+      "name": "B Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 35,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2285080,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "event_id": 897289,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1351609,
+      "name": "TOP160",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 155,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2059199,
+          "display": "1"
+        },
+        {
+          "id": 2059200,
+          "display": "2"
+        },
+        {
+          "id": 2059201,
+          "display": "3"
+        },
+        {
+          "id": 2059202,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1351610,
+      "name": "BクラスTOP96（BO3)",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 91,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2059207,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1377404,
+      "name": "Bクラス TOP32（BO3)",
+      "order": 8,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2093891,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1377405,
+      "name": "Bクラス TOP8(BO3)",
+      "order": 9,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2093892,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1351611,
+      "name": "TOP64（BO3）",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2059208,
+          "display": "1"
+        },
+        {
+          "id": 2059328,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1351612,
+      "name": "TOP32（BO5）",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2059209,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1351691,
+      "name": "TOP8（BO5）",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2059334,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

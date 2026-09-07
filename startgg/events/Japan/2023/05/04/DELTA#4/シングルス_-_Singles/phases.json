@@ -1,0 +1,113 @@
+{
+  "event_id": 891100,
+  "event_name": "シングルス / Singles",
+  "has_class_phases": false,
+  "phases": [
+    {
+      "id": 1343743,
+      "name": "予選 / Qualifying round（BO3）",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 256,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2048116,
+          "display": "1"
+        },
+        {
+          "id": 2048117,
+          "display": "2"
+        },
+        {
+          "id": 2048118,
+          "display": "3"
+        },
+        {
+          "id": 2048119,
+          "display": "4"
+        },
+        {
+          "id": 2048120,
+          "display": "5"
+        },
+        {
+          "id": 2048121,
+          "display": "6"
+        },
+        {
+          "id": 2048122,
+          "display": "7"
+        },
+        {
+          "id": 2048123,
+          "display": "8"
+        },
+        {
+          "id": 2048124,
+          "display": "9"
+        },
+        {
+          "id": 2048125,
+          "display": "10"
+        },
+        {
+          "id": 2048126,
+          "display": "11"
+        },
+        {
+          "id": 2048127,
+          "display": "12"
+        },
+        {
+          "id": 2048128,
+          "display": "13"
+        },
+        {
+          "id": 2048129,
+          "display": "14"
+        },
+        {
+          "id": 2048130,
+          "display": "15"
+        },
+        {
+          "id": 2048131,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1343744,
+      "name": "TOP64（BO5）",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2048132,
+          "display": "1"
+        },
+        {
+          "id": 2048133,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1343745,
+      "name": "TOP8（BO5）",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2048134,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

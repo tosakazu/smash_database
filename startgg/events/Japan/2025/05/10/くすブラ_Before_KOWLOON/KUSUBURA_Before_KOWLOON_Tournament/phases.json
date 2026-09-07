@@ -1,0 +1,127 @@
+{
+  "event_id": 1351894,
+  "event_name": "KUSUBURA Before KOWLOON Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1937044,
+      "name": "予選(BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2844848,
+          "display": "1"
+        },
+        {
+          "id": 2845284,
+          "display": "2"
+        },
+        {
+          "id": 2845285,
+          "display": "3"
+        },
+        {
+          "id": 2845286,
+          "display": "4"
+        },
+        {
+          "id": 2850537,
+          "display": "5"
+        },
+        {
+          "id": 2850538,
+          "display": "6"
+        },
+        {
+          "id": 2850539,
+          "display": "7"
+        },
+        {
+          "id": 2850540,
+          "display": "8"
+        },
+        {
+          "id": 2850541,
+          "display": "9"
+        },
+        {
+          "id": 2850542,
+          "display": "10"
+        },
+        {
+          "id": 2850543,
+          "display": "11"
+        },
+        {
+          "id": 2850544,
+          "display": "12"
+        },
+        {
+          "id": 2850545,
+          "display": "13"
+        },
+        {
+          "id": 2850546,
+          "display": "14"
+        },
+        {
+          "id": 2850547,
+          "display": "15"
+        },
+        {
+          "id": 2850548,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1937371,
+      "name": "本戦(BO3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2845283,
+          "display": "1"
+        },
+        {
+          "id": 2850549,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1940905,
+      "name": "TOP8(BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2850550,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1967864,
+      "name": "Bクラス(BO3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2888726,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

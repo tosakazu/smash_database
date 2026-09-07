@@ -1,0 +1,77 @@
+{
+  "event_id": 537715,
+  "event_name": "SP シングルストーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 887657,
+      "name": "スマブラSP予選",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1418873,
+          "display": "A1"
+        },
+        {
+          "id": 1418874,
+          "display": "A2"
+        },
+        {
+          "id": 1418875,
+          "display": "A3"
+        },
+        {
+          "id": 1418876,
+          "display": "A4"
+        },
+        {
+          "id": 1418877,
+          "display": "B1"
+        },
+        {
+          "id": 1418878,
+          "display": "B2"
+        },
+        {
+          "id": 1418879,
+          "display": "B3"
+        },
+        {
+          "id": 1418880,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 887679,
+      "name": "スマブラSPトーナメント【Bクラス】",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1418909,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 893366,
+      "name": "スマブラSPトーナメント【Aクラス】",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1427638,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

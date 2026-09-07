@@ -1,0 +1,77 @@
+{
+  "event_id": 1055023,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1554165,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 57,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2333692,
+          "display": "1"
+        },
+        {
+          "id": 2333693,
+          "display": "2"
+        },
+        {
+          "id": 2333694,
+          "display": "3"
+        },
+        {
+          "id": 2333695,
+          "display": "4"
+        },
+        {
+          "id": 2333696,
+          "display": "5"
+        },
+        {
+          "id": 2333697,
+          "display": "6"
+        },
+        {
+          "id": 2333698,
+          "display": "7"
+        },
+        {
+          "id": 2333699,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1554166,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2333700,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1554167,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 25,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2333701,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

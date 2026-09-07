@@ -1,0 +1,137 @@
+{
+  "event_id": 1142064,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1666304,
+      "name": "総当たり予選 (BO3)",
+      "order": 7,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 127,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2482835,
+          "display": "A1"
+        },
+        {
+          "id": 2482837,
+          "display": "A2"
+        },
+        {
+          "id": 2482839,
+          "display": "A3"
+        },
+        {
+          "id": 2482841,
+          "display": "A4"
+        },
+        {
+          "id": 2482843,
+          "display": "A5"
+        },
+        {
+          "id": 2482845,
+          "display": "A6"
+        },
+        {
+          "id": 2482847,
+          "display": "A7"
+        },
+        {
+          "id": 2482849,
+          "display": "A8"
+        },
+        {
+          "id": 2482836,
+          "display": "B1"
+        },
+        {
+          "id": 2482838,
+          "display": "B2"
+        },
+        {
+          "id": 2482840,
+          "display": "B3"
+        },
+        {
+          "id": 2482842,
+          "display": "B4"
+        },
+        {
+          "id": 2482844,
+          "display": "B5"
+        },
+        {
+          "id": 2482846,
+          "display": "B6"
+        },
+        {
+          "id": 2482848,
+          "display": "B7"
+        },
+        {
+          "id": 2482850,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 1666302,
+      "name": "B Class (BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 63,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2482833,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1666303,
+      "name": "B Class Top16 (BO5)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2482834,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1666305,
+      "name": "TOP64 (BO5)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2482867,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1666306,
+      "name": "Top 24 (BO5)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2482868,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

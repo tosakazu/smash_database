@@ -1,0 +1,105 @@
+{
+  "event_id": 1518102,
+  "event_name": "FlyHigh!! 192人トーナメント 埼玉県熊谷市スマブラ大会",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2150517,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 191,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3131986,
+          "display": "1"
+        },
+        {
+          "id": 3131987,
+          "display": "2"
+        },
+        {
+          "id": 3131988,
+          "display": "3"
+        },
+        {
+          "id": 3131989,
+          "display": "4"
+        },
+        {
+          "id": 3131990,
+          "display": "5"
+        },
+        {
+          "id": 3131991,
+          "display": "6"
+        },
+        {
+          "id": 3131992,
+          "display": "7"
+        },
+        {
+          "id": 3131993,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2150518,
+      "name": "A Class",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3131994,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2150519,
+      "name": "BClass",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3131995,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2150520,
+      "name": "CClass",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3131996,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2150521,
+      "name": "DClass",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 63,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3131997,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

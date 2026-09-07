@@ -1,0 +1,61 @@
+{
+  "event_id": 1504255,
+  "event_name": "KUSUBURA Wakaba Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2132771,
+      "name": "予選(BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3108018,
+          "display": "1"
+        },
+        {
+          "id": 3108023,
+          "display": "2"
+        },
+        {
+          "id": 3108024,
+          "display": "3"
+        },
+        {
+          "id": 3108025,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2132774,
+      "name": "本戦(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3108021,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2132787,
+      "name": "Bクラス(BO3)",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3108040,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "event_id": 1019368,
+  "event_name": "RENMA#5",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1508412,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 51,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2273433,
+          "display": "1"
+        },
+        {
+          "id": 2273445,
+          "display": "2"
+        },
+        {
+          "id": 2273446,
+          "display": "3"
+        },
+        {
+          "id": 2273447,
+          "display": "4"
+        },
+        {
+          "id": 2273448,
+          "display": "5"
+        },
+        {
+          "id": 2273449,
+          "display": "6"
+        },
+        {
+          "id": 2273450,
+          "display": "7"
+        },
+        {
+          "id": 2273451,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1508438,
+      "name": "本戦",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2273477,
+          "display": "1"
+        },
+        {
+          "id": 2277185,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1508448,
+      "name": "Best 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2273495,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1537310,
+      "name": "B class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 27,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2311073,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

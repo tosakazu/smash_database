@@ -1,0 +1,109 @@
+{
+  "event_id": 834970,
+  "event_name": "SPシングルストーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1272161,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1950100,
+          "display": "1"
+        },
+        {
+          "id": 1950101,
+          "display": "2"
+        },
+        {
+          "id": 1950102,
+          "display": "3"
+        },
+        {
+          "id": 1950103,
+          "display": "4"
+        },
+        {
+          "id": 1950130,
+          "display": "5"
+        },
+        {
+          "id": 1950131,
+          "display": "6"
+        },
+        {
+          "id": 1950132,
+          "display": "7"
+        },
+        {
+          "id": 1950133,
+          "display": "8"
+        },
+        {
+          "id": 1950134,
+          "display": "9"
+        },
+        {
+          "id": 1950135,
+          "display": "10"
+        },
+        {
+          "id": 1950136,
+          "display": "11"
+        },
+        {
+          "id": 1950137,
+          "display": "12"
+        },
+        {
+          "id": 1950138,
+          "display": "13"
+        },
+        {
+          "id": 1950139,
+          "display": "14"
+        },
+        {
+          "id": 1950140,
+          "display": "15"
+        },
+        {
+          "id": 1950141,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1272162,
+      "name": "本選",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1950104,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1272163,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1950105,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

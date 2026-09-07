@@ -1,0 +1,109 @@
+{
+  "event_id": 879865,
+  "event_name": "修羅ブラSP10",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1329400,
+      "name": "TOP64（BO3）",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2028461,
+          "display": "1"
+        },
+        {
+          "id": 2059626,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1329401,
+      "name": "TOP16（BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2028469,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1330417,
+      "name": "Bクラス TOP20（BO3）",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2029803,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1352848,
+      "name": "Bクラス TOP8（BO3）",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2060814,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1330416,
+      "name": "TOP8（BO5）",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2029802,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1352798,
+      "name": "Cクラス TOP33（BO3）",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2060755,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1352849,
+      "name": "Cクラス TOP8（BO3)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2060815,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

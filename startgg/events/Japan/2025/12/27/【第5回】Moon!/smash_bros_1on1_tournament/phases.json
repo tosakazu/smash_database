@@ -1,0 +1,61 @@
+{
+  "event_id": 1521070,
+  "event_name": "smash bros 1on1 tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2154246,
+      "name": "予選(BO5)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 45,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3136932,
+          "display": "1"
+        },
+        {
+          "id": 3136933,
+          "display": "2"
+        },
+        {
+          "id": 3136934,
+          "display": "3"
+        },
+        {
+          "id": 3136935,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2154247,
+      "name": "TOP24(BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3136936,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2154248,
+      "name": "Bクラス(BO5)",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3136937,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

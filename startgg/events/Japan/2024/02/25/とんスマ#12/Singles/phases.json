@@ -1,0 +1,91 @@
+{
+  "event_id": 1056958,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1556747,
+      "name": "予選プール",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2337241,
+          "display": "1"
+        },
+        {
+          "id": 2337242,
+          "display": "2"
+        },
+        {
+          "id": 2337243,
+          "display": "3"
+        },
+        {
+          "id": 2337244,
+          "display": "4"
+        },
+        {
+          "id": 2337245,
+          "display": "5"
+        },
+        {
+          "id": 2337246,
+          "display": "6"
+        },
+        {
+          "id": 2337247,
+          "display": "7"
+        },
+        {
+          "id": 2337248,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1556748,
+      "name": "本戦トーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2337249,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1556749,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2337250,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1556750,
+      "name": "Cクラス",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2337251,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "event_id": 1410310,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2012613,
+      "name": "Top96 [Bo3]",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 70,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2947885,
+          "display": "1"
+        },
+        {
+          "id": 2997928,
+          "display": "2"
+        },
+        {
+          "id": 2997929,
+          "display": "3"
+        },
+        {
+          "id": 2997930,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2048772,
+      "name": "Top32 [Bo3]",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2997968,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2048763,
+      "name": "Top8 [Bo5]",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2997959,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2048843,
+      "name": "B class [Bo3]",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2998186,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2048844,
+      "name": "C class [Bo3]",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2998187,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2048845,
+      "name": "D class [Bo3]",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2998188,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

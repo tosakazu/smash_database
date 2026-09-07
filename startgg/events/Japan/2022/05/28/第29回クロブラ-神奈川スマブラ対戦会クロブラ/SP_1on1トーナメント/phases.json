@@ -1,0 +1,77 @@
+{
+  "event_id": 722250,
+  "event_name": "SP 1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1127002,
+      "name": "スマブラSP予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 91,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1751428,
+          "display": "A1"
+        },
+        {
+          "id": 1751429,
+          "display": "A2"
+        },
+        {
+          "id": 1751430,
+          "display": "A3"
+        },
+        {
+          "id": 1751431,
+          "display": "A4"
+        },
+        {
+          "id": 1751432,
+          "display": "B1"
+        },
+        {
+          "id": 1751433,
+          "display": "B2"
+        },
+        {
+          "id": 1751434,
+          "display": "B3"
+        },
+        {
+          "id": 1751435,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1127003,
+      "name": "スマブラSPトーナメント【Aクラス】",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1751436,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1127004,
+      "name": "スマブラSPトーナメント【Bクラス】",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 43,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1751437,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

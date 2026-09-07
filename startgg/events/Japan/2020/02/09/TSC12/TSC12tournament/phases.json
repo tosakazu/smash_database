@@ -1,0 +1,109 @@
+{
+  "event_id": 437497,
+  "event_name": "TSC12tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 734065,
+      "name": "Pool",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 171,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1181554,
+          "display": "1"
+        },
+        {
+          "id": 1181555,
+          "display": "2"
+        },
+        {
+          "id": 1181556,
+          "display": "3"
+        },
+        {
+          "id": 1181557,
+          "display": "4"
+        },
+        {
+          "id": 1181558,
+          "display": "5"
+        },
+        {
+          "id": 1181559,
+          "display": "6"
+        },
+        {
+          "id": 1181560,
+          "display": "7"
+        },
+        {
+          "id": 1181561,
+          "display": "8"
+        },
+        {
+          "id": 1181562,
+          "display": "9"
+        },
+        {
+          "id": 1181563,
+          "display": "10"
+        },
+        {
+          "id": 1181564,
+          "display": "11"
+        },
+        {
+          "id": 1181565,
+          "display": "12"
+        },
+        {
+          "id": 1181566,
+          "display": "13"
+        },
+        {
+          "id": 1181567,
+          "display": "14"
+        },
+        {
+          "id": 1181568,
+          "display": "15"
+        },
+        {
+          "id": 1181569,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 734066,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1181570,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 734067,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 123,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1181571,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

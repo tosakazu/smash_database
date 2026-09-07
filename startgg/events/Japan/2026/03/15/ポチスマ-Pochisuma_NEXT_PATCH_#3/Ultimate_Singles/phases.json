@@ -1,0 +1,69 @@
+{
+  "event_id": 1558892,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2202270,
+      "name": "Qualifying",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 47,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3200504,
+          "display": "1"
+        },
+        {
+          "id": 3200505,
+          "display": "2"
+        },
+        {
+          "id": 3200506,
+          "display": "3"
+        },
+        {
+          "id": 3200507,
+          "display": "4"
+        },
+        {
+          "id": 3200508,
+          "display": "5"
+        },
+        {
+          "id": 3200509,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 2230136,
+      "name": "Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3235677,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2230137,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3235678,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "event_id": 868695,
+  "event_name": "Ultimate 1on1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1314941,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2007695,
+          "display": "1"
+        },
+        {
+          "id": 2007697,
+          "display": "2"
+        },
+        {
+          "id": 2007698,
+          "display": "3"
+        },
+        {
+          "id": 2007699,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1314945,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2007716,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1314947,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2007718,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "event_id": 1104617,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1617989,
+      "name": "予選 (BO5)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 76,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2417646,
+          "display": "A1"
+        },
+        {
+          "id": 2417647,
+          "display": "A2"
+        },
+        {
+          "id": 2417648,
+          "display": "A3"
+        },
+        {
+          "id": 2417649,
+          "display": "A4"
+        },
+        {
+          "id": 2417650,
+          "display": "A5"
+        },
+        {
+          "id": 2417651,
+          "display": "A6"
+        },
+        {
+          "id": 2417652,
+          "display": "A7"
+        },
+        {
+          "id": 2417653,
+          "display": "A8"
+        }
+      ]
+    },
+    {
+      "id": 1617987,
+      "name": "B Class (BO3)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2417644,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1617988,
+      "name": "B Class Top16 (BO5)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2417645,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1617990,
+      "name": "TOP48 (BO5)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2417678,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1617991,
+      "name": "Top 8 (BO5)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2417679,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

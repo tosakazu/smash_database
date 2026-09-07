@@ -1,0 +1,61 @@
+{
+  "event_id": 823429,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1257304,
+      "name": "総当り予選（BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1929847,
+          "display": "1"
+        },
+        {
+          "id": 1929848,
+          "display": "2"
+        },
+        {
+          "id": 1929849,
+          "display": "3"
+        },
+        {
+          "id": 1929850,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1257305,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1929851,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1257306,
+      "name": "TOP12",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1929852,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

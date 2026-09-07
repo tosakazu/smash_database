@@ -1,0 +1,123 @@
+{
+  "event_id": 1347176,
+  "event_name": "FlyHigh!! 128人トーナメント 埼玉県さいたま市大宮スマブラ大会",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1931083,
+      "name": "予選",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2837277,
+          "display": "1"
+        },
+        {
+          "id": 2837279,
+          "display": "2"
+        },
+        {
+          "id": 2837280,
+          "display": "3"
+        },
+        {
+          "id": 2837281,
+          "display": "4"
+        },
+        {
+          "id": 2837282,
+          "display": "5"
+        },
+        {
+          "id": 2837283,
+          "display": "6"
+        },
+        {
+          "id": 2837284,
+          "display": "7"
+        },
+        {
+          "id": 2837285,
+          "display": "8"
+        },
+        {
+          "id": 2837286,
+          "display": "9"
+        },
+        {
+          "id": 2837287,
+          "display": "10"
+        },
+        {
+          "id": 2837288,
+          "display": "11"
+        },
+        {
+          "id": 2837289,
+          "display": "12"
+        },
+        {
+          "id": 2837290,
+          "display": "13"
+        },
+        {
+          "id": 2837291,
+          "display": "14"
+        },
+        {
+          "id": 2837292,
+          "display": "15"
+        },
+        {
+          "id": 2837293,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 1931084,
+      "name": "本選(Aクラス)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2837294,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1931090,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2837300,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1931347,
+      "name": "Cクラス",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2837638,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

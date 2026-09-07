@@ -1,0 +1,103 @@
+{
+  "event_id": 1008337,
+  "event_name": "R  smash",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1494284,
+      "name": "TOP128",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 137,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2254792,
+          "display": "1"
+        },
+        {
+          "id": 2254793,
+          "display": "2"
+        },
+        {
+          "id": 2254794,
+          "display": "3"
+        },
+        {
+          "id": 2254795,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1494285,
+      "name": "TOP48",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2254800,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1494286,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2254804,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1494289,
+      "name": "TOP8",
+      "order": 11,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2254811,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1534845,
+      "name": "Cクラス",
+      "order": 13,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2307849,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1536219,
+      "name": "Dクラス",
+      "order": 14,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 41,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2309601,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

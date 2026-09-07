@@ -1,0 +1,77 @@
+{
+  "event_id": 798432,
+  "event_name": "ishibura!SP18",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1225236,
+      "name": "予選(2先総当たり戦)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1887399,
+          "display": "1"
+        },
+        {
+          "id": 1887400,
+          "display": "2"
+        },
+        {
+          "id": 1887401,
+          "display": "3"
+        },
+        {
+          "id": 1887402,
+          "display": "4"
+        },
+        {
+          "id": 1887403,
+          "display": "5"
+        },
+        {
+          "id": 1887404,
+          "display": "6"
+        },
+        {
+          "id": 1887405,
+          "display": "7"
+        },
+        {
+          "id": 1887406,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1225237,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1887407,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1227502,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1890372,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

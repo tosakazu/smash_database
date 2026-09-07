@@ -1,0 +1,155 @@
+{
+  "event_id": 1435141,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2045043,
+      "name": "総当たり予選(BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2993454,
+          "display": "1"
+        },
+        {
+          "id": 2993455,
+          "display": "2"
+        },
+        {
+          "id": 3007434,
+          "display": "3"
+        },
+        {
+          "id": 3007435,
+          "display": "4"
+        },
+        {
+          "id": 3007444,
+          "display": "5"
+        },
+        {
+          "id": 3007445,
+          "display": "6"
+        },
+        {
+          "id": 3007446,
+          "display": "7"
+        },
+        {
+          "id": 3007447,
+          "display": "8"
+        },
+        {
+          "id": 3007448,
+          "display": "9"
+        },
+        {
+          "id": 3007449,
+          "display": "10"
+        },
+        {
+          "id": 3007450,
+          "display": "11"
+        },
+        {
+          "id": 3007451,
+          "display": "12"
+        },
+        {
+          "id": 3007452,
+          "display": "13"
+        },
+        {
+          "id": 3007453,
+          "display": "14"
+        },
+        {
+          "id": 3007454,
+          "display": "15"
+        },
+        {
+          "id": 3007455,
+          "display": "16"
+        }
+      ]
+    },
+    {
+      "id": 2045045,
+      "name": "TOP64(BO5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2993457,
+          "display": "1"
+        },
+        {
+          "id": 3007523,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2045046,
+      "name": "TOP16(BO5)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2993458,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2045044,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2993456,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2045047,
+      "name": "Cクラス(BO3)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2993459,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2056258,
+      "name": "Dクラス(BO3)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3009283,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

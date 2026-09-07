@@ -1,0 +1,61 @@
+{
+  "event_id": 1328019,
+  "event_name": "ダブルス/Doubles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1906378,
+      "name": "ダブルス/Doubles 予選 (BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 58,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2801901,
+          "display": "1"
+        },
+        {
+          "id": 2801902,
+          "display": "2"
+        },
+        {
+          "id": 2801903,
+          "display": "3"
+        },
+        {
+          "id": 2801904,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1906379,
+      "name": "ダブルス/Doubles TOP32 (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2801905,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1906382,
+      "name": "ダブルス/Doubles Bクラス (BO3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2801908,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

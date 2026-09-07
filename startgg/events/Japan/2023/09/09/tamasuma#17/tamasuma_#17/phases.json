@@ -1,0 +1,91 @@
+{
+  "event_id": 963163,
+  "event_name": "tamasuma #17",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1437560,
+      "name": "WAVE1（BO3）",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2179879,
+          "display": "1"
+        },
+        {
+          "id": 2181602,
+          "display": "2"
+        },
+        {
+          "id": 2181603,
+          "display": "3"
+        },
+        {
+          "id": 2181604,
+          "display": "4"
+        },
+        {
+          "id": 2181605,
+          "display": "5"
+        },
+        {
+          "id": 2181606,
+          "display": "6"
+        },
+        {
+          "id": 2181607,
+          "display": "7"
+        },
+        {
+          "id": 2181608,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1437561,
+      "name": "TOP32(BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2179880,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1438867,
+      "name": "TOP8(BO5)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2181629,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1459980,
+      "name": "B class",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 30,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2209645,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

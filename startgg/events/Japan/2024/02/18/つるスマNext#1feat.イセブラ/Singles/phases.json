@@ -1,0 +1,119 @@
+{
+  "event_id": 1058452,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1558604,
+      "name": "TOP128",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 128,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2339640,
+          "display": "1"
+        },
+        {
+          "id": 2339641,
+          "display": "2"
+        },
+        {
+          "id": 2339642,
+          "display": "3"
+        },
+        {
+          "id": 2339643,
+          "display": "4"
+        },
+        {
+          "id": 2339644,
+          "display": "5"
+        },
+        {
+          "id": 2339645,
+          "display": "6"
+        },
+        {
+          "id": 2339646,
+          "display": "7"
+        },
+        {
+          "id": 2339647,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1558605,
+      "name": "TOP 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2339656,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1558606,
+      "name": "TOP8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2339657,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1584710,
+      "name": "B Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2373554,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1584711,
+      "name": "C Class",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2373555,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1584712,
+      "name": "D Class",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2373556,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "event_id": 1456808,
+  "event_name": "Smash Masters",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2072693,
+      "name": "予選/TOP64",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 63,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3030870,
+          "display": "1"
+        },
+        {
+          "id": 3030871,
+          "display": "2"
+        },
+        {
+          "id": 3030872,
+          "display": "3"
+        },
+        {
+          "id": 3030873,
+          "display": "4"
+        },
+        {
+          "id": 3030874,
+          "display": "5"
+        },
+        {
+          "id": 3030875,
+          "display": "6"
+        },
+        {
+          "id": 3030876,
+          "display": "7"
+        },
+        {
+          "id": 3030877,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2072694,
+      "name": "本戦/TOP24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3030878,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2072695,
+      "name": "決戦/TOP8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3030879,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2072696,
+      "name": "B Class",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 39,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3030880,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

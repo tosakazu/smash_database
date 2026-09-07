@@ -1,0 +1,77 @@
+{
+  "event_id": 428981,
+  "event_name": "3on3トーナメント Day1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 719459,
+      "name": "予選総当り",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1162176,
+          "display": "1"
+        },
+        {
+          "id": 1169514,
+          "display": "2"
+        },
+        {
+          "id": 1169515,
+          "display": "3"
+        },
+        {
+          "id": 1169516,
+          "display": "4"
+        },
+        {
+          "id": 1169517,
+          "display": "5"
+        },
+        {
+          "id": 1169518,
+          "display": "6"
+        },
+        {
+          "id": 1169519,
+          "display": "7"
+        },
+        {
+          "id": 1169520,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 725054,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1169529,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 725063,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1169538,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

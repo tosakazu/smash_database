@@ -1,0 +1,91 @@
+{
+  "event_id": 1256934,
+  "event_name": "1on1メイントーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1815419,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2683019,
+          "display": "1"
+        },
+        {
+          "id": 2683028,
+          "display": "2"
+        },
+        {
+          "id": 2683029,
+          "display": "3"
+        },
+        {
+          "id": 2683030,
+          "display": "4"
+        },
+        {
+          "id": 2683031,
+          "display": "5"
+        },
+        {
+          "id": 2683032,
+          "display": "6"
+        },
+        {
+          "id": 2683033,
+          "display": "7"
+        },
+        {
+          "id": 2683034,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1815424,
+      "name": "本戦トーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2683024,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1815425,
+      "name": "Top8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2683025,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1815428,
+      "name": "Bクラストーナメント",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2683035,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

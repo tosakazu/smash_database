@@ -1,0 +1,61 @@
+{
+  "event_id": 690409,
+  "event_name": "美らブラSP シングルス",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1086553,
+      "name": "予選 / Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 27,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1696839,
+          "display": "1"
+        },
+        {
+          "id": 1696840,
+          "display": "2"
+        },
+        {
+          "id": 1696841,
+          "display": "3"
+        },
+        {
+          "id": 1696842,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1086554,
+      "name": "Ａクラス / Class A",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1696843,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1086555,
+      "name": "Ｂクラス / Class B",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1696844,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

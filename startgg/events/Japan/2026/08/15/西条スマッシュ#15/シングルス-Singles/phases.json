@@ -1,0 +1,49 @@
+{
+  "event_id": 1676059,
+  "event_name": "シングルス/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2354167,
+      "name": "TOP 38",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3400142,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2354168,
+      "name": "Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3400143,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2354169,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3400144,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "event_id": 821585,
+  "event_name": "ishibura!SP20",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1254862,
+      "name": "予選(2先総当たり戦)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 42,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1926377,
+          "display": "1"
+        },
+        {
+          "id": 1926378,
+          "display": "2"
+        },
+        {
+          "id": 1926379,
+          "display": "3"
+        },
+        {
+          "id": 1926380,
+          "display": "4"
+        },
+        {
+          "id": 1926381,
+          "display": "5"
+        },
+        {
+          "id": 1926382,
+          "display": "6"
+        },
+        {
+          "id": 1926383,
+          "display": "7"
+        },
+        {
+          "id": 1926384,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1254863,
+      "name": "Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1926385,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1254864,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1926386,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

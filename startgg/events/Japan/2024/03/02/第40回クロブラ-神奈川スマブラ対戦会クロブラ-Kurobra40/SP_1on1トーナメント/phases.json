@@ -1,0 +1,109 @@
+{
+  "event_id": 1063202,
+  "event_name": "SP 1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1564675,
+      "name": "スマブラSP予選",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 158,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2347780,
+          "display": "A1"
+        },
+        {
+          "id": 2347781,
+          "display": "A2"
+        },
+        {
+          "id": 2347782,
+          "display": "A3"
+        },
+        {
+          "id": 2347783,
+          "display": "A4"
+        },
+        {
+          "id": 2355665,
+          "display": "A5"
+        },
+        {
+          "id": 2355666,
+          "display": "A6"
+        },
+        {
+          "id": 2355667,
+          "display": "A7"
+        },
+        {
+          "id": 2355668,
+          "display": "A8"
+        },
+        {
+          "id": 2347784,
+          "display": "B1"
+        },
+        {
+          "id": 2347785,
+          "display": "B2"
+        },
+        {
+          "id": 2347786,
+          "display": "B3"
+        },
+        {
+          "id": 2347787,
+          "display": "B4"
+        },
+        {
+          "id": 2355669,
+          "display": "B5"
+        },
+        {
+          "id": 2355670,
+          "display": "B6"
+        },
+        {
+          "id": 2355671,
+          "display": "B7"
+        },
+        {
+          "id": 2355672,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 1564676,
+      "name": "スマブラSP Aクラストーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2347788,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1570976,
+      "name": "スマブラSP Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2355663,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

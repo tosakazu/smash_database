@@ -1,0 +1,61 @@
+{
+  "event_id": 422579,
+  "event_name": "大乱闘スマッシュブラザーズ SPECIAL",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 707928,
+      "name": "予選 / Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 27,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1146374,
+          "display": "1"
+        },
+        {
+          "id": 1146409,
+          "display": "2"
+        },
+        {
+          "id": 1146410,
+          "display": "3"
+        },
+        {
+          "id": 1146411,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 707958,
+      "name": "本戦Ａクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1146420,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 707967,
+      "name": "本戦Ｂクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1146432,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

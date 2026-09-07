@@ -1,0 +1,35 @@
+{
+  "event_id": 1678616,
+  "event_name": "シングルス / Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2357348,
+      "name": "Main Tournament",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3404187,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2357349,
+      "name": "B-Class Tournament",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3404188,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

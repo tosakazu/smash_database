@@ -1,0 +1,81 @@
+{
+  "event_id": 1000659,
+  "event_name": "1on1トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1484565,
+      "name": "TOP48",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 46,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2242139,
+          "display": "1"
+        },
+        {
+          "id": 2242140,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1484566,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2242141,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1484567,
+      "name": "TOP16",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2242142,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1484568,
+      "name": "Cクラス",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2242143,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1484569,
+      "name": "Dクラス",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2242144,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

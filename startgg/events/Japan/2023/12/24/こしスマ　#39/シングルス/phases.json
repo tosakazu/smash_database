@@ -1,0 +1,77 @@
+{
+  "event_id": 1025960,
+  "event_name": "シングルス",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1516844,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2284517,
+          "display": "1"
+        },
+        {
+          "id": 2284518,
+          "display": "2"
+        },
+        {
+          "id": 2284519,
+          "display": "3"
+        },
+        {
+          "id": 2284520,
+          "display": "4"
+        },
+        {
+          "id": 2284521,
+          "display": "5"
+        },
+        {
+          "id": 2284522,
+          "display": "6"
+        },
+        {
+          "id": 2284523,
+          "display": "7"
+        },
+        {
+          "id": 2284524,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1516845,
+      "name": "決勝トーナメント",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2284525,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1516846,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2284526,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

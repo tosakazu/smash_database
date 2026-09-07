@@ -1,0 +1,235 @@
+{
+  "event_id": 1457139,
+  "event_name": "Singles Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2073072,
+      "name": "予選【TOP80】",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031369,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073073,
+      "name": "本戦【TOP24】",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031370,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073078,
+      "name": "TOP17-24",
+      "order": 12,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031375,
+          "display": "1"
+        },
+        {
+          "id": 3031376,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2073079,
+      "name": "TOP17-18",
+      "order": 13,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031377,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073080,
+      "name": "TOP19-20",
+      "order": 14,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031378,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073081,
+      "name": "TOP21-22",
+      "order": 15,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031379,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073082,
+      "name": "TOP23-24",
+      "order": 16,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031380,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073083,
+      "name": "TOP13-16",
+      "order": 17,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031381,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073084,
+      "name": "TOP9-12",
+      "order": 18,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031382,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073085,
+      "name": "TOP7-8",
+      "order": 19,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031383,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073086,
+      "name": "TOP5-6",
+      "order": 20,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031384,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073087,
+      "name": "TOP4",
+      "order": 21,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3031385,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073074,
+      "name": "E class",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3031371,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073075,
+      "name": "D class",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3031372,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073076,
+      "name": "C class",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3031373,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2073077,
+      "name": "B class",
+      "order": 11,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3031374,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

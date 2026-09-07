@@ -1,0 +1,83 @@
+{
+  "event_id": 1056970,
+  "event_name": "KUSUBURA SAGA #1 1on1 Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1556764,
+      "name": "総当たり予選(BO3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2337267,
+          "display": "1"
+        },
+        {
+          "id": 2395707,
+          "display": "2"
+        },
+        {
+          "id": 2395708,
+          "display": "3"
+        },
+        {
+          "id": 2395709,
+          "display": "4"
+        },
+        {
+          "id": 2395716,
+          "display": "5"
+        },
+        {
+          "id": 2395717,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 1601705,
+      "name": "TOP36(BO3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2395712,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1601706,
+      "name": "Bクラストーナメント",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2395713,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1601707,
+      "name": "Cクラストーナメント",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2395714,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

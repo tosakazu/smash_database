@@ -1,0 +1,61 @@
+{
+  "event_id": 429862,
+  "event_name": "スマブラSP シングルス",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 721016,
+      "name": "予選 / Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 30,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1164624,
+          "display": "1"
+        },
+        {
+          "id": 1164625,
+          "display": "2"
+        },
+        {
+          "id": 1164626,
+          "display": "3"
+        },
+        {
+          "id": 1164627,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 721017,
+      "name": "本戦Ａクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1164628,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 721018,
+      "name": "本戦Ｂクラス",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1164629,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
