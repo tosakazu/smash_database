@@ -82,7 +82,7 @@ smash_db_tournament/            main worktree
 ```
 
 Data files are written with fixed key order and indentation. Downstream readers
-(spsp `build/data_loader.py`) depend on that format, so use the writers in
+(spsp `spsp/data_loader.py`) depend on that format, so use the writers in
 `scripts/common/utils.py` (`write_json`, `write_json_pretty`, `write_json_compact`,
 `write_matches_v2`) rather than `json.dump` directly.
 
