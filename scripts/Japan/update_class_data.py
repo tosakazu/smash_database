@@ -13,7 +13,7 @@ is_class マークされていない」ものを検出し、4 段階パイプラ
 小中規模大会 501 件でクラス bracket が未分離だった (2026-06-11 発覚).
 
 使い方 (smash_db_tournament ディレクトリから):
-  python3 scripts/fetch/update_class_data.py --token "$STARTGG_TOKEN" [--since-days 30]
+  STARTGG_TOKEN=... python3 scripts/Japan/update_class_data.py [--since-days 30]
 """
 from __future__ import annotations
 

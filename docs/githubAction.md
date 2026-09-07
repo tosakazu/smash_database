@@ -1,4 +1,8 @@
-# GitHub Actions（想定）
+# GitHub Actions（廃止・記録用）
+
+> 2026-09-07 に GitHub Actions による取得は廃止した (ワークフローも削除)。夜間取得は spsp の `deploy/update_and_deploy.sh` が担う。
+> 以下は廃止前の想定を記録として残したもの。
+
 
 ## 目的
 - 定期的に start.gg から最新データを取得し、`data/` を更新する。
