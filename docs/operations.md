@@ -10,7 +10,7 @@ the top-level [README](../README.md).
 |---|---|---|
 | `main` | scripts, docs, tests | anything under `data/` |
 | `data-<Region>` | files under `data/startgg/<Region>/` and `data/startgg/events/<Region>/`, and merges of `main` | direct edits to scripts or docs, other regions' paths |
-| `data-all` | merges of the `data-<Region>` branches | direct commits of any kind |
+| `data-all` (local only) | merges of the `data-<Region>` branches | direct commits of any kind, pushing |
 
 * Script changes go through a branch or pull request against `main`. Run the tests
   before merging (below). `main` has no CI; the nightly run is the integration test,
@@ -57,20 +57,19 @@ branch does not), keep the data branch's version: `git checkout --ours -- .gitig
 
 ## Combining regions: `data-all`
 
-`data-all` is the merge of all region branches, for consumers that need several
-regions at once (the ranking build). It was created from `data-Japan` and is advanced
-only by merging:
+`data-all` is a **local** branch on the machine that needs several regions at once
+(the ranking build). It is not on GitHub and is never pushed: it would only duplicate
+the region branches. Create it once and advance it only by merging:
 
 ```sh
-git checkout data-all
+git checkout -b data-all origin/data-Japan         # once
 git fetch origin
 git merge --no-edit origin/data-Japan
 git merge --no-edit origin/data-North_America     # one line per region
-git push origin data-all
 ```
 
-Run this whenever a region branch advances (a cron job on the build machine is the
-natural place; the spsp nightly does not do it yet because only Japan exists). The
+Run the merges whenever a region branch advances (a cron job on the build machine is
+the natural place; the spsp nightly does not do it yet because only Japan exists). The
 trees are disjoint and every region branch carries the same `main`, so the merges
 never conflict; if one does, something was committed on the wrong branch — fix it
 there, not on `data-all`. `users.jsonl` is per region; union them by `user_id` when
