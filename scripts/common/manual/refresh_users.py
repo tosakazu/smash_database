@@ -116,7 +116,7 @@ def main():
     parser.add_argument("--token", required=True, help="start.gg API token")
     parser.add_argument(
         "--users_file_path",
-        default="data/startgg/users.jsonl",
+        default=None,
         help="Existing users.jsonl file to read",
     )
     parser.add_argument(
@@ -193,7 +193,10 @@ def main():
         default=None,
         help="Path to store and read the refresh cursor index.",
     )
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(parser)
     args = parser.parse_args()
+    resolve_index_paths(parser, args, users_file_path="users.jsonl")
 
     output_path = args.output_file_path or args.users_file_path
 

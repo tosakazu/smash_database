@@ -176,6 +176,9 @@ def validate_event_dir(event_dir: Path) -> tuple[List[str], List[str]]:
 
 def iter_event_dirs(events_root: Path):
     for path in events_root.rglob("attr.json"):
+        # class_phases/<X>_virtual/ は派生物 (standings.json が素のリスト) なので検証対象外
+        if path.parent.name.endswith("_virtual"):
+            continue
         yield path.parent
 
 
@@ -207,6 +210,12 @@ def validate_tournaments_file(tournaments_file: Path, errors: List[str]) -> None
                     errors.append(f"{tournaments_file}:{line_no}: missing event dir {path}")
 
 
+import os as _os, sys as _sys
+_ROOT_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..", ".."))
+if _ROOT_DIR not in _sys.path:
+    _sys.path.insert(0, _ROOT_DIR)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate downloaded start.gg data directories and schema."
@@ -218,7 +227,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--tournaments_file",
-        default="data/startgg/tournaments.jsonl",
+        default=None,
         help="tournaments.jsonl to validate paths.",
     )
     parser.add_argument(
@@ -226,7 +235,10 @@ def main() -> int:
         action="store_true",
         help="Treat warnings as errors.",
     )
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(parser)
     args = parser.parse_args()
+    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl")
 
     events_root = Path(args.events_root)
     errors: List[str] = []

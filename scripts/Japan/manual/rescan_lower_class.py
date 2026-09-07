@@ -71,14 +71,16 @@ def main():
     parser.add_argument("--region", default="Japan")
     parser.add_argument("--game_id", default="1386")
     parser.add_argument("--startgg_dir", default="data/startgg/events")
-    parser.add_argument("--users_file_path", default="data/startgg/users.jsonl")
-    parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl")
+    parser.add_argument("--users_file_path", default=None)
+    parser.add_argument("--tournament_file_path", default=None)
     parser.add_argument("--max_retries", type=int, default=5)
     parser.add_argument("--retry_delay", type=int, default=10)
     parser.add_argument("--indent_num", type=int, default=2)
     parser.add_argument("--limit", type=int, default=0, help="0 = all")
     parser.add_argument("--dry-run", action="store_true")
+    from scripts.common._cli import resolve_index_paths
     args = parser.parse_args()
+    resolve_index_paths(parser, args, users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
 
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)

@@ -79,7 +79,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--token", required=True)
     ap.add_argument("--url", default="https://api.start.gg/gql/alpha")
-    ap.add_argument("--users_file_path", default="data/startgg/users.jsonl")
+    ap.add_argument("--users_file_path", default=None)
     ap.add_argument("--rank_source", required=True,
                     help="latest_tjpr_full.jsonl (user_id + ranks.ensemble)")
     ap.add_argument("--top", type=int, default=10000)
@@ -97,7 +97,10 @@ def main():
     ap.add_argument("--pause_every", type=int, default=200)
     ap.add_argument("--pause_seconds", type=float, default=20.0)
     ap.add_argument("--progress_interval", type=int, default=25)
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(ap)
     args = ap.parse_args()
+    resolve_index_paths(ap, args, users_file_path="users.jsonl")
 
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)

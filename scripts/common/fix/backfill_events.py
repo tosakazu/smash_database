@@ -98,8 +98,8 @@ def main() -> int:
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
     parser.add_argument("--token", required=True, help="start.gg API token")
     parser.add_argument("--events_root", default="data/startgg/events", help="Events root directory")
-    parser.add_argument("--users_file_path", default="data/startgg/users.jsonl", help="Path to users.jsonl")
-    parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to tournaments.jsonl")
+    parser.add_argument("--users_file_path", default=None, help="Path to users.jsonl")
+    parser.add_argument("--tournament_file_path", default=None, help="Path to tournaments.jsonl")
     parser.add_argument("--event_ids_file", default="", help="Optional file with event IDs (one per line)")
     parser.add_argument("--since", default="", help="Process events from this date (YYYY-MM-DD)")
     parser.add_argument("--until", default="", help="Process events up to this date (YYYY-MM-DD)")
@@ -107,7 +107,10 @@ def main() -> int:
     parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
     parser.add_argument("--max_retries", type=int, default=10, help="Maximum retries for API requests")
     parser.add_argument("--retry_delay", type=int, default=5, help="Delay between retries in seconds")
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(parser)
     args = parser.parse_args()
+    resolve_index_paths(parser, args, users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
 
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)

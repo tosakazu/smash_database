@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-DEFAULT_TOURNAMENTS = Path("data/startgg/tournaments.jsonl")
+DEFAULT_TOURNAMENTS = None   # --region から data/startgg/<region>/tournaments.jsonl を導く
 DEFAULT_EVENTS_ROOT = Path("data/startgg/events")
 DEFAULT_API_URL = "https://api.start.gg/gql/alpha"
 JSON_VERSION = "1.0"
@@ -40,6 +40,12 @@ class MissingEvent:
     reason: str
 
 
+import os as _os, sys as _sys
+_ROOT_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..", ".."))
+if _ROOT_DIR not in _sys.path:
+    _sys.path.insert(0, _ROOT_DIR)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
@@ -51,7 +57,7 @@ def parse_args() -> argparse.Namespace:
         "--tournaments-file",
         type=Path,
         default=DEFAULT_TOURNAMENTS,
-        help=f"Path to tournaments.jsonl (default: {DEFAULT_TOURNAMENTS})",
+        help="Path to tournaments.jsonl (default: data/startgg/<region>/tournaments.jsonl)",
     )
     parser.add_argument(
         "--events-root",
@@ -90,7 +96,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Report planned additions without writing tournaments.jsonl.",
     )
-    return parser.parse_args()
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(parser)
+    args = parser.parse_args()
+    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl")
+    args.tournaments_file = Path(args.tournaments_file)
+    return args
 
 
 def load_tournaments(path: Path) -> List[dict]:

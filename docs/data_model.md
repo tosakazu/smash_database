@@ -1,141 +1,226 @@
-# Data Model
+# Data model
 
-## 保存全体像
-- start.gg の取得結果は `data/startgg/` に集約。
-- 各イベントは `attr.json` / `standings.json` / `seeds.json` / `matches.json` に分割保存。
+Everything lives under `data/startgg/` of a data branch (`data-<Region>`). Paths below
+are relative to the repository root; `<Region>` is `Japan`, `North_America`, ... as
+returned by `country_code2region()` in `scripts/common/utils.py` (spaces replaced by `_`).
 
-## 管理ファイル
-
-### `data/startgg/done.csv`
-```csv
-12345
-67890
 ```
-- 1行1大会ID（既取得の大会）
-
-### `data/startgg/done_events.csv`
-```csv
-999
-1000
+data/startgg/
+├── <Region>/                       region index (four files, rewritten by the downloader)
+│   ├── done.csv
+│   ├── done_events.csv
+│   ├── tournaments.jsonl
+│   └── users.jsonl
+└── events/<Region>/YYYY/MM/DD/<Tournament>/<Event>/
+    ├── attr.json
+    ├── standings.json
+    ├── seeds.json
+    ├── matches.json
+    ├── phases.json                 (Japan class separation, optional)
+    └── class_phases/               (Japan class separation, optional)
+        ├── <phase_id>.json
+        └── <Letter>_virtual/{attr.json,standings.json,matches.json}
 ```
-- 1行1イベントID（個別取得済み）
 
-## 大会索引
+The date in the path is the tournament start date in UTC; `<Tournament>` and `<Event>`
+are the start.gg names with spaces replaced by `_` (and `/` removed). If start.gg later
+changes a tournament's date, the downloader moves the directory and updates
+`tournaments.jsonl` (see [pipeline.md](pipeline.md), "date changes").
 
-### `data/startgg/tournaments.jsonl`
+All JSON is UTF-8 with `ensure_ascii=False`, indent 2 unless noted, and carries a
+`"version": "1.0"` field. Key order is fixed by the writers in `scripts/common/utils.py`.
+Do not rewrite files with a different serializer.
+
+## Region index
+
+### `done.csv`
+
+One start.gg tournament id per line. A tournament is appended once every event of it
+has been downloaded and either has a champion or has passed the retry window
+(see pipeline.md). The downloader skips listed tournaments unless a re-download rule
+applies.
+
+### `done_events.csv`
+
+One event id per line. Written by `download_specific_event.py` (manual single-event
+downloads); the nightly downloader does not read it.
+
+### `tournaments.jsonl`
+
+One JSON object per line, one per tournament:
+
 ```json
-{"tournament_id": 12345, "name": "Example Tournament", "events": [{"event_id": 999, "event_name": "Ultimate Singles", "path": "data/startgg/events/Japan/2024/01/01/Example_Tournament/Ultimate_Singles"}], "version": "1.0"}
+{"tournament_id": 729207, "name": "渋谷BeeSmash 35",
+ "events": [{"event_id": 1255738, "event_name": "Singles",
+             "path": "data/startgg/events/Japan/2024/11/17/渋谷BeeSmash_35/Singles"}],
+ "version": "1.0"}
 ```
 
-## ユーザー
+`path` is the event directory relative to the repository root. This file is the index
+consumers use to enumerate events; the directory tree alone is not authoritative.
+There is no timestamp field yet (open issue #13).
 
-### `data/startgg/users.jsonl`
-```json
-{"user_id": 111, "player_id": 222, "gamer_tag": "PlayerName", "prefix": "Team", "gender_pronoun": "he/him", "startgg_discriminator": "1234", "x_id": "1", "x_name": "user_x", "discord_id": "2", "discord_name": "user#0001", "version": "1.0"}
-```
+### `users.jsonl`
 
-## イベント属性
+One JSON object per line, one per start.gg user seen in any standings or seeds:
 
-### `data/startgg/events/.../attr.json`
+| Key | Meaning |
+|---|---|
+| `user_id` | start.gg user id. The identifier used everywhere else (`standings`, `seeds`, `matches`) |
+| `player_id` | start.gg player id |
+| `gamer_tag`, `prefix` | tag and team prefix at the time of the last download |
+| `gender_pronoun` | as set on start.gg, or `"unknown"` |
+| `startgg_discriminator` | the short code shown after the tag on start.gg (`tag#code`) |
+| `country`, `addr_state`, `city` | location as registered on start.gg (free text, may be `null`) |
+| `x_id`, `x_name`, `discord_id`, `discord_name` | linked accounts, or `null` |
+| `version` | `"1.0"` |
+
+Rows are updated in place when a user reappears with new information. A player who
+enters tournaments in two regions has a row in both regions' files; merge by `user_id`.
+
+## Event files
+
+### `attr.json`
+
 ```json
 {
-  "version": "1.0",
-  "event_id": 999,
-  "tournament_name": "Example Tournament",
-  "event_name": "Ultimate Singles",
-  "timestamp": 1710001000,
+  "event_id": 1628310,
+  "tournament_name": "Victoire #1",
+  "event_name": "singles tournament",
   "region": "Japan",
-  "num_entrants": 128,
+  "place": {"country_code": "JP", "city": "北名古屋市", "lat": 35.24, "lng": 136.86,
+            "venue_name": null, "timezone": "Asia/Tokyo", "postal_code": "481-0033",
+            "venue_address": "...", "maps_place_id": "..."},
+  "num_entrants": 48,
   "offline": true,
-  "url": "https://www.start.gg/tournament/...",
-  "place": {
-    "country_code": "JP",
-    "city": "Tokyo",
-    "lat": 35.68,
-    "lng": 139.76,
-    "venue_name": "Example Hall",
-    "timezone": "Asia/Tokyo",
-    "postal_code": "100-0001",
-    "venue_address": "Tokyo, Japan",
-    "maps_place_id": "..."
-  },
-  "labels": {
-    "registration_type": "full-open",
-    "event_type": "main",
-    "game_rule": "1on1"
-  },
-  "status": "completed"
+  "url": "/tournament/victoire-1",
+  "labels": {},
+  "status": "completed",
+  "timestamp": 1786240800,
+  "end_timestamp": 1786273200,
+  "version": "1.0"
 }
 ```
 
-## standings
+* `timestamp` / `end_timestamp` are the tournament `startAt` / `endAt` (Unix seconds).
+  When `startAt` is more than 3 days away from the real set times (organisers sometimes
+  enter the announcement date or a placeholder), the downloader replaces the pair by
+  the first and last set time (`corrected_event_window` in `download.py`).
+* `url` is the tournament path on start.gg (prefix `https://www.start.gg`).
+* `labels` is free-form metadata. Real events currently have `{}`; virtual class events
+  set `is_class_virtual` (below). Historical values produced by an LLM classifier were
+  dropped.
+* `status` is `"completed"` for every downloaded event.
 
-### `data/startgg/events/.../standings.json`
+### `standings.json`
+
 ```json
-{
-  "version": "1.0",
-  "data": [
-    {"placement": 1, "user_id": 111},
-    {"placement": 2, "user_id": 112}
-  ]
-}
+{"data": [{"placement": 1, "user_id": 1787719}, {"placement": 2, "user_id": 12345}], "version": "1.0"}
 ```
 
-## seeds
+Sorted by placement. `user_id` is `null` for entrants without a start.gg user (teams,
+guests). Ties share a placement value.
 
-### `data/startgg/events/.../seeds.json`
+### `seeds.json`
+
 ```json
-{
-  "version": "1.0",
-  "data": [
-    {"seed_num": 1, "user_id": 111},
-    {"seed_num": 2, "user_id": 112}
-  ]
-}
+{"data": [{"seed_num": 1, "user_id": 1787719}], "version": "1.0"}
 ```
 
-## matches
+Seeds of the event's first phase, sorted by `seed_num`. May be empty for events run
+without seeding.
 
-### `data/startgg/events/.../matches.json`
+### `matches.json`
+
+Compact (single-line) JSON:
+
 ```json
-{
-  "version": "1.0",
-  "data": [
-    {
-      "winner_id": 111,
-      "loser_id": 112,
-      "winner_score": 2,
-      "loser_score": 1,
-      "round_text": "Winners Round 1",
-      "round": 1,
-      "phase": "A",
-      "wave": "Wave 1",
-      "dq": false,
-      "cancel": false,
-      "state": 3,
-      "details": [
-        {
-          "game_id": 9999,
-          "order_num": 1,
-          "winner_id": 111,
-          "entrant1_score": 1,
-          "entrant2_score": 0,
-          "stage": "Battlefield",
-          "selections": [
-            {
-              "user_id": 111,
-              "selection_id": 1,
-              "character_id": 10,
-              "character_name": "Mario"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+{"data": [ ...sets... ], "bracket_capacity": 32, "dup_set_id": 0, "dup_match_key": 0}
 ```
 
-## 注意点
-- doubles/crew などは user_id が取得できず `null` になる場合がある。
-- `labels` は OpenAI による推定であり、正確性は保証されない。
+* `bracket_capacity` is the size of the main bracket (number of slots) when known.
+* `dup_set_id` / `dup_match_key` count duplicates removed when the sets were merged
+  from several phase groups; non-zero values are diagnostics, not errors.
+
+Each element of `data` is one set:
+
+| Key | Meaning |
+|---|---|
+| `match_id` | start.gg set id |
+| `winner_id`, `loser_id` | start.gg user ids (`null` when the entrant has no user) |
+| `winner_score`, `loser_score` | game counts. A negative score on either side marks a DQ (and sets `dq`) |
+| `round`, `round_text` | start.gg round number (negative = losers side) and label such as `"Winners Round 1"` |
+| `phase`, `phase_id`, `phase_name`, `phase_order`, `phase_num_seeds`, `phase_bracket_type`, `phase_top_n` | the phase the set belongs to. `phase` is the phase group display identifier. `phase_bracket_type` is `DOUBLE_ELIMINATION`, `SINGLE_ELIMINATION`, `ROUND_ROBIN`, `SWISS`, ... |
+| `bracket_label`, `winners_top`, `losers_top`, `global_round`, `global_top_x`, `global_bracket_label` | derived labels for "which stage of the tournament" (e.g. `"総当たり"`, `"Top 8"`). `null` when not derivable |
+| `phase_group_id`, `phase_group_start_at`, `wave_id`, `wave`, `wave_start_at` | pool identification: the phase group (pool) and, for pooled events, the wave it was played in |
+| `dq`, `cancel` | flags for DQ sets and cancelled sets. Consumers should ignore both |
+| `state` | start.gg set state (`3` = completed) |
+| `started_at`, `completed_at` | Unix seconds, may be `null` |
+| `details` | per-game records (below). Empty when the organiser did not report games |
+
+Per-game record inside `details`:
+
+```json
+{"game_id": 39867329, "order_num": 1, "winner_id": 2568072,
+ "entrant1_score": null, "entrant2_score": 0, "stage": null,
+ "selections": [{"user_id": 2568072, "selection_id": 59643563,
+                 "character_id": 1405, "character_name": "Mr. Game & Watch"}]}
+```
+
+`selections` carry character picks per user; this is the source of character-usage
+statistics.
+
+## Class separation (Japan)
+
+Many Japanese tournaments run "B class" / "C class" brackets for players eliminated
+from the main bracket, as extra phases of the same start.gg event. Their sets are
+therefore mixed into `matches.json`, and their placements do not appear in
+`standings.json`. `scripts/Japan/update_class_data.py` separates them:
+
+### `phases.json`
+
+```json
+{"event_id": 1628310, "event_name": "singles tournament", "has_class_phases": true,
+ "phases": [{"id": 2291959, "name": "予選", "order": 1, "bracket_type": "ROUND_ROBIN",
+             "num_seeds": 48, "is_class": false,
+             "phase_groups": [{"id": 3318428, "display": "1"}]}, ...]}
+```
+
+`is_class` is set when the phase name matches the class pattern
+(`[BCDE]クラス`, `B class`, ...).
+
+### `class_phases/<phase_id>.json`
+
+Raw standings of one class phase, per phase group, plus `played_user_ids` (users who
+played at least one set in that group, used to exclude no-shows):
+
+```json
+{"event_id": 1628310, "phase_id": 2361991, "phase_name": "Bクラス", "phase_order": 3,
+ "bracket_type": "DOUBLE_ELIMINATION", "num_seeds": 24,
+ "phase_groups": [{"phase_group_id": 3410328, "display": "1",
+                   "standings": [{"placement": 1, "entrant_id": 23967900,
+                                  "entrant_name": "BJ999", "user_id": 1847578}, ...],
+                   "played_user_ids": [1847578, ...]}]}
+```
+
+### `class_phases/<Letter>_virtual/`
+
+One class letter materialised as an event of its own so that consumers can treat it
+like any other tournament:
+
+* `attr.json` — copy of the parent event's attributes with `event_name` suffixed
+  (`"Singles Tournament / Bクラス"`), `labels.is_class_virtual = true`, and a negative
+  `event_id` = `-(parent_event_id * 10 + ord(letter))`, which cannot collide with real ids.
+* `standings.json` — a plain list `[{"placement", "user_id"}]` (no `data` wrapper),
+  derived from the class phases: each player's deepest class phase and placement there.
+* `matches.json` — the parent's sets filtered to the class phase groups, same format as
+  above.
+
+The spsp loader reads these virtual directories as regular tournaments.
+
+## Other outputs
+
+* `upcoming.json` (from `fetch_upcoming.py`) is not stored in this repository. Shape:
+  `{"generated_at", "country_code", "lookahead_days", "count", "tournaments": [{tournament_id, tournament_slug, tournament_name, start_at, end_at, is_online, city, venue_name, country_code, num_attendees, url, events: [{event_id, event_slug, event_name, num_entrants, type, start_at}]}]}`.
+* `failed_events.log` (cwd of the downloader) lists events that failed after all
+  retries, one per line, for the operator to re-run.

@@ -6,7 +6,11 @@ results where available), event attributes, and a player index. The data feeds t
 [spsp](https://github.com/tosakazu/spsp) ranking build, but the repository is
 self-contained: the scripts here only need a start.gg API token.
 
-Japanese notes for individual topics live in `docs/`.
+Detailed documentation in `docs/`: [data_model.md](docs/data_model.md) (file formats),
+[pipeline.md](docs/pipeline.md) (what the downloader does and when it re-downloads),
+[startgg_api.md](docs/startgg_api.md) (API layer, paging, retries),
+[operations.md](docs/operations.md) (branches, adding a region, manual repairs, checks),
+[known_issues.md](docs/known_issues.md).
 
 ## Repository layout
 
@@ -73,8 +77,8 @@ smash_db_tournament/            main worktree
             ├── seeds.json          {"data": [{seed_num, user_id}], "version"}
             ├── matches.json        {"data": [{match_id, winner_id, loser_id, scores, round, phase, games...}], ...}
             ├── phases.json         (Japan) bracket phases with is_class flags
-            ├── class_phases/       (Japan) standings of each class bracket
-            └── <X>_virtual/        (Japan) a class bracket materialised as its own event
+            └── class_phases/       (Japan) standings of each class bracket, and
+                └── <X>_virtual/    a class bracket materialised as its own event
 ```
 
 Data files are written with fixed key order and indentation. Downstream readers
@@ -164,10 +168,10 @@ Not used by the pipeline and independent of each other; removing one breaks noth
 * `fetch_character_games.py` / `merge_character_games.py` – bulk backfill of character usage per game
 * `scripts/Japan/manual/rescan_lower_class.py` – rescan events for class brackets
 
-Known gap: the index-file defaults of the manual and fix tools (`--users_file_path`,
-`--tournament_file_path`, `--done_file_path`) still point at the pre-2026-09-07 location
-`data/startgg/<file>`. Until they are updated, always pass `data/startgg/<Region>/<file>`
-explicitly; a write to the old path would silently create a stray index file.
+Tools that read or write the index files take `--region <Region>`; the defaults then
+become `data/startgg/<Region>/{users.jsonl,tournaments.jsonl,...}`. Explicit
+`--users_file_path` etc. override them. Without either, the tool exits with an error
+instead of guessing a path.
 
 ### Validation / repair (`scripts/common/fix/`)
 

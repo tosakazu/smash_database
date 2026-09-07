@@ -14,6 +14,23 @@ from scripts.common import utils
 API_URL = "https://api.start.gg/gql/alpha"
 
 
+def add_region_arg(parser: argparse.ArgumentParser, default=None) -> None:
+    """--region: index ファイル (done.csv / users.jsonl / tournaments.jsonl) の既定を data/startgg/<region>/ にする。"""
+    parser.add_argument("--region", default=default,
+                        help="data region, e.g. Japan. Index files default to data/startgg/<region>/... "
+                             "(required unless every index path is given explicitly)")
+
+
+def resolve_index_paths(parser: argparse.ArgumentParser, args: argparse.Namespace, **files: str) -> None:
+    """files = {dest: filename}. None のままの dest を --region から埋める。--region も無ければ parser.error (推測しない)。"""
+    for dest, fname in files.items():
+        if getattr(args, dest) is None:
+            region = getattr(args, "region", None)
+            if not region:
+                parser.error(f"--region is required when --{dest} is omitted")
+            setattr(args, dest, os.path.join("data", "startgg", region.replace(" ", "_"), fname))
+
+
 def add_api_args(parser: argparse.ArgumentParser, *, max_retries: int, retry_delay: int, dash: bool = False) -> None:
     """--token --url --max_retries --retry_delay を足す。dash=True なら --max-retries / --retry-delay (fetch_upcoming の流儀)。"""
     parser.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"),

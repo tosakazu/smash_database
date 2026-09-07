@@ -119,11 +119,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--token", required=True)
     ap.add_argument("--events_root", default="data/startgg/events")
-    ap.add_argument("--tournaments_jsonl", default="data/startgg/tournaments.jsonl")
+    ap.add_argument("--tournaments_jsonl", default=None)
     ap.add_argument("--batch", type=int, default=BATCH)
     ap.add_argument("--workers", type=int, default=MAX_WORKERS)
     ap.add_argument("--max", type=int, default=0, help="if > 0, only process this many tournaments")
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(ap)
     args = ap.parse_args()
+    resolve_index_paths(ap, args, tournaments_jsonl="tournaments.jsonl")
 
     utils.set_api_parameters(API_URL, args.token)
     utils.set_retry_parameters(max_retries=5, retry_delay=2.0)

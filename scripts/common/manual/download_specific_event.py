@@ -716,13 +716,16 @@ def main():
     parser.add_argument("--indent_num", type=int, default=2, help="Indentation level for JSON output")
     parser.add_argument("--startgg_dir", default="data/startgg/events", help="Directory to save event data")
     # 完了済みリストはイベント単位にする
-    parser.add_argument("--done_file_path", default="data/startgg/done_events.csv", help="Path to the file recording completed event downloads")
-    parser.add_argument("--users_file_path", default="data/startgg/users.jsonl", help="Path to the file recording startgg user info")
-    parser.add_argument("--tournament_file_path", default="data/startgg/tournaments.jsonl", help="Path to the file recording tournament info")
+    parser.add_argument("--done_file_path", default=None, help="Path to the file recording completed event downloads")
+    parser.add_argument("--users_file_path", default=None, help="Path to the file recording startgg user info")
+    parser.add_argument("--tournament_file_path", default=None, help="Path to the file recording tournament info")
     # game_id, country_code は特定イベントDLには直接不要
     # parser.add_argument("--game_id", default="1386", help="Game ID (not used for specific download)")
     # parser.add_argument("--country_code", default="", help="Country code (not used for specific download)")
+    from scripts.common._cli import add_region_arg, resolve_index_paths
+    add_region_arg(parser)
     args = parser.parse_args()
+    resolve_index_paths(parser, args, done_file_path="done_events.csv", users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
 
     # 設定値のセット
     set_indent_num(args.indent_num)
