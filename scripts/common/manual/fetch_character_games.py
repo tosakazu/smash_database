@@ -1,6 +1,6 @@
 """Fetch character / stage selections for every set in past tournaments.
 
-For each event under data/startgg/events/Japan/{>= --since}/**/attr.json with
+For each event under data/startgg/Japan/events/{>= --since}/**/attr.json with
 num_entrants >= --min-entrants, refetch ALL sets including the `games` field
 (character/stage selections) and save a sidecar `character_games.json` next to
 the existing `matches.json`. The original matches.json is NOT modified.
@@ -53,7 +53,7 @@ from scripts.common.utils import (
     FetchError,
 )
 
-EVENTS_DIR = SMASH_DB / "data" / "startgg" / "events" / "Japan"
+EVENTS_DIR = SMASH_DB / "data" / "startgg" / "Japan" / "events"
 SIDECAR_NAME = "character_games.json"
 
 

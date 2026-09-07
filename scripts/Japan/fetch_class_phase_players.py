@@ -81,7 +81,7 @@ def main(argv=None):
     parser.add_argument("--force", action="store_true",
                         help="Overwrite existing played_user_ids in phase_group entries")
     parser.add_argument("--events-root",
-                        default="data/startgg/events/Japan")
+                        default="data/startgg/Japan/events")
     args = parser.parse_args(argv)
     setup_api(args)
 

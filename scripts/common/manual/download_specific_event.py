@@ -714,7 +714,7 @@ def main():
     parser.add_argument("--max-retries", type=int, default=10, help="Maximum number of retries for API requests") # デフォルト値を少し下げる
     parser.add_argument("--retry-delay", type=int, default=5, help="Delay between retries in seconds")
     parser.add_argument("--indent-num", type=int, default=2, help="Indentation level for JSON output")
-    parser.add_argument("--startgg-dir", default="data/startgg/events", help="Directory to save event data")
+    parser.add_argument("--startgg-dir", default="data/startgg", help="データルート (イベントは <root>/<地域>/events/... に保存)")
     # 完了済みリストはイベント単位にする
     parser.add_argument("--done-file-path", default=None, help="Path to the file recording completed event downloads")
     parser.add_argument("--users-file-path", default=None, help="Path to the file recording startgg user info")

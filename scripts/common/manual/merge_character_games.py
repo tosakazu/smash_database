@@ -1,6 +1,6 @@
 """Merge character_games.json sidecars into matches.json `details` field.
 
-For each event under data/startgg/events/Japan/**/ that has BOTH a matches.json
+For each event under data/startgg/Japan/events/**/ that has BOTH a matches.json
 and a character_games.json with character data, populate the `details` field
 on the corresponding match (joined by match_id == set_id) using the same
 schema that download.py / download_specific_event.py emit:
@@ -45,7 +45,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve()
 SMASH_DB = HERE.parents[3]   # scripts/common/manual/x.py → smash_db_tournament/
-EVENTS_DIR = SMASH_DB / "data" / "startgg" / "events" / "Japan"
+EVENTS_DIR = SMASH_DB / "data" / "startgg" / "Japan" / "events"
 
 
 def detect_indent(file_path: Path) -> int | None:

@@ -70,7 +70,7 @@ def main():
     parser.add_argument("--since", default="2023-01-01", help="YYYY-MM-DD")
     parser.add_argument("--region", default="Japan")
     parser.add_argument("--game-id", default="1386")
-    parser.add_argument("--startgg-dir", default="data/startgg/events")
+    parser.add_argument("--startgg-dir", default="data/startgg")
     parser.add_argument("--users-file-path", default=None)
     parser.add_argument("--tournament-file-path", default=None)
     parser.add_argument("--max-retries", type=int, default=5)

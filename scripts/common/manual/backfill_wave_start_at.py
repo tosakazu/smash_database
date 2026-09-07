@@ -11,7 +11,7 @@ Approach:
 実行 (smash_db_tournament/ root から):
     python3 -m scripts.common.manual.backfill_wave_start_at \
         --token "$STARTGG_TOKEN" \
-        --root data/startgg/events/Japan \
+        --root data/startgg/Japan/events \
         --state /tmp/backfill_wave_state.json
 
 Notes:
@@ -94,7 +94,7 @@ def patch_matches(matches_path: Path, wave_map: dict, pg_map: dict):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--token", required=True, help="start.gg API token")
-    ap.add_argument("--root", required=True, help="events root (e.g., data/startgg/events/Japan)")
+    ap.add_argument("--root", required=True, help="events root (e.g., data/startgg/Japan/events)")
     ap.add_argument("--state", default="/tmp/backfill_wave_state.json", help="resume state file")
     ap.add_argument("--delay", type=float, default=0.6, help="seconds between API calls")
     ap.add_argument("--api-url", default="https://api.start.gg/gql/alpha")

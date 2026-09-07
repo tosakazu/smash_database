@@ -150,7 +150,7 @@ def get_played_player_ids(event_dir: Path) -> set[int]:
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--events-root",
-                        default="/Users/kasaito/dev/delbugeki-seed/smash_db_tournament/data/startgg/events/Japan")
+                        default="data/startgg/Japan/events")
     parser.add_argument("--force", action="store_true", help="Overwrite existing virtual files")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)

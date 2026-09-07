@@ -5,13 +5,12 @@ data. Paths below are relative to the repository root; `<Region>` is `Japan`, `N
 returned by `country_code2region()` in `scripts/common/utils.py` (spaces replaced by `_`).
 
 ```
-data/startgg/
-├── <Region>/                       region index (four files, rewritten by the downloader)
-│   ├── done.csv
-│   ├── done_events.csv
-│   ├── tournaments.jsonl
-│   └── users.jsonl
-└── events/<Region>/YYYY/MM/DD/<Tournament>/<Event>/
+data/startgg/<Region>/              one directory per region
+├── done.csv                        region index (four files, rewritten by the downloader)
+├── done_events.csv
+├── tournaments.jsonl
+├── users.jsonl
+└── events/YYYY/MM/DD/<Tournament>/<Event>/
     ├── attr.json
     ├── standings.json
     ├── seeds.json
@@ -52,7 +51,7 @@ One JSON object per line, one per tournament:
 ```json
 {"tournament_id": 729207, "name": "渋谷BeeSmash 35",
  "events": [{"event_id": 1255738, "event_name": "Singles",
-             "path": "data/startgg/events/Japan/2024/11/17/渋谷BeeSmash_35/Singles"}],
+             "path": "data/startgg/Japan/events/2024/11/17/渋谷BeeSmash_35/Singles"}],
  "version": "1.0"}
 ```
 

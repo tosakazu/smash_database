@@ -97,7 +97,7 @@ def main() -> int:
     )
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
     parser.add_argument("--token", required=True, help="start.gg API token")
-    parser.add_argument("--events-root", default="data/startgg/events", help="Events root directory")
+    parser.add_argument("--events-root", default=None, help="Events root (default: data/startgg/<region>/events)")
     parser.add_argument("--users-file-path", default=None, help="Path to users.jsonl")
     parser.add_argument("--tournament-file-path", default=None, help="Path to tournaments.jsonl")
     parser.add_argument("--event-ids-file", default="", help="Optional file with event IDs (one per line)")
@@ -110,7 +110,7 @@ def main() -> int:
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(parser)
     args = parser.parse_args()
-    resolve_index_paths(parser, args, users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
+    resolve_index_paths(parser, args, users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl", events_root="events")
 
     set_indent_num(args.indent_num)
     set_retry_parameters(args.max_retries, args.retry_delay)
