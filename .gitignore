@@ -1,4 +1,4 @@
-# main はスクリプトだけを管理する。データは地域ブランチ (Japan / North_America ...) で管理し、
+# main はスクリプトだけを管理する。データは地域ブランチ (data-Japan / data-North_America ...) で管理し、
 # 本番では data/ にその worktree をネストして checkout する (data/startgg/... のパスは変わらない)。
 data/
 download.out

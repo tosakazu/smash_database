@@ -5,18 +5,22 @@
 | ブランチ | 中身 | 用途 |
 |---|---|---|
 | `main` | `scripts/` (取得スクリプト) と文書だけ。`data/` は gitignore | スクリプトの管理。全地域共通 |
-| `Japan` | `startgg/events/Japan/**` と `startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` | 日本の大会データ。毎晩の取得分を commit / push |
-| (今後) `North_America` など | `startgg/events/<地域>/**` と `startgg/<地域>/{...}` | 地域ごとに担当者が管理。パスが重ならないので merge で統合できる |
+| `data-Japan` | `startgg/events/Japan/**` と `startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` | 日本の大会データ。毎晩の取得分を commit / push |
+| (今後) `data-North_America` など | `startgg/events/<地域>/**` と `startgg/<地域>/{...}` | 地域ごとに担当者が管理。パスが重ならないので merge で統合できる |
 
 データブランチは `main` の worktree の `data/` にネストして checkout する:
 
 ```sh
 git clone --single-branch --branch main git@github.com:tosakazu/smash_database.git smash_db_tournament
 cd smash_db_tournament
-git fetch origin Japan && git worktree add data Japan     # → data/startgg/events/Japan/... (以前と同じパス)
+git fetch origin data-Japan && git worktree add data data-Japan    # → data/startgg/events/Japan/... (以前と同じパス)
 ```
 
 `git clone` を無指定で行うと全地域のデータ履歴も落ちてくるので `--single-branch` を付ける。
+
+この配置では `scripts/`・`docs/` は main の作業ツリー (1 つ上) にあり、`data/` の中には入らない。データブランチの `.gitignore` に
+`scripts/` `docs/` があるのは、データブランチを単独で checkout した所にスクリプトを置いても誤って commit しないための保険で、
+スクリプトや文書が不要という意味ではない。
 
 ## スクリプト
 
