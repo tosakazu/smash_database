@@ -1,12 +1,18 @@
-# データブランチ (data-Japan): startgg/ 配下だけを持つ。main の scripts/ 等は同じ場所に checkout しても混ぜない
-scripts/
-docs/
-README.md
-requirements*.txt
-*.py[cod]
+# data-Japan = main (scripts / docs / README) + 日本のデータ (data/startgg/...)。
+# main を merge して scripts を更新する。data/startgg/ 配下の生成物・一時ファイルだけ無視する。
+download.out
+*/__pycache__/
 __pycache__/
-startgg/*.bak*
-startgg/*/*.bak*
-startgg/.refresh_*
-startgg/*/users_ranked.jsonl
-startgg/*/*checkpoint*
+*.py[cod]
+*.bak
+*.dupbak
+affected_tournament_ids.txt
+data_integrity_report.jsonl
+failed_events.log
+data_audits/
+logs/
+data/startgg/*.bak*
+data/startgg/*/*.bak*
+data/startgg/.refresh_*
+data/startgg/*/users_ranked.jsonl
+data/startgg/*/*checkpoint*

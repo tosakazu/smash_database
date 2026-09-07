@@ -1,0 +1,646 @@
+from scripts.common import clock
+
+
+def get_event_sets_query():
+    return """query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        id
+        name
+        sets(
+          page: $page
+          perPage: $perPage
+          sortType: STANDARD
+        ) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            phaseGroup {
+              id
+              displayIdentifier
+              startAt
+              wave {
+                id
+                identifier
+                startAt
+              }
+            }
+            slots {
+              id
+              entrant {
+                id
+                participants {
+                  user {
+                    id
+                  }
+                }
+              }
+              standing {
+                stats {
+                  score {
+                    label
+                    value
+                  }
+                }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage {
+                id
+                name
+              }
+              selections {
+                id
+                entrant {
+                  id
+                  participants {
+                    user {
+                      id
+                    }
+                  }
+                }
+                character {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+def get_standings_query():
+    return """query EventStandings($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        standings(query: {page: $page, perPage: $perPage}) {
+          pageInfo { total totalPages }
+          nodes {
+            placement
+            entrant {
+              id
+              name
+              participants {
+                user {
+                  id
+                  genderPronoun
+                  discriminator
+                  location {
+                    country
+                    state
+                    city
+                  }
+                  authorizations(types: [TWITTER, DISCORD]) {
+                    externalId
+                    externalUsername
+                    type
+                  }
+                }
+                player {
+                  id
+                  gamerTag
+                  prefix
+                }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+def get_seeds_query():
+    return """query PhaseSeeds($phaseId: ID!, $page: Int!, $perPage: Int!) {
+      phase(id: $phaseId) {
+        id
+        seeds(query: {
+          page: $page
+          perPage: $perPage
+        }) {
+          pageInfo {
+            total
+            totalPages
+          }
+          nodes {
+            id
+            seedNum
+            entrant {
+              id
+              participants {
+                user {
+                  id
+                  genderPronoun
+                  discriminator
+                  location {
+                    country
+                    state
+                    city
+                  }
+                  authorizations(types: [TWITTER, DISCORD]) {
+                    externalId
+                    externalUsername
+                    type
+                  }
+                }
+                player {
+                  id
+                  gamerTag
+                  prefix
+                }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+def get_user_query():
+    return """query UserDetails($userId: ID!) {
+      user(id: $userId) {
+        id
+        genderPronoun
+        discriminator
+        location {
+          country
+          state
+          city
+        }
+        authorizations(types: [TWITTER, DISCORD]) {
+          externalId
+          externalUsername
+          type
+        }
+      }
+    }"""
+
+def get_user_player_query():
+    return """query UserAndPlayer($userId: ID!, $playerId: ID!) {
+      user(id: $userId) {
+        id
+        genderPronoun
+        discriminator
+        location {
+          country
+          state
+          city
+        }
+        authorizations(types: [TWITTER, DISCORD]) {
+          externalId
+          externalUsername
+          type
+        }
+      }
+      player(id: $playerId) {
+        id
+        gamerTag
+        prefix
+      }
+    }"""
+
+def get_tournament_events_query():
+    # videogameId フィルタを外し、イベントの videogame.id を取得して
+    # download.py 側で「SSBU タグ or 下位クラス bracket 名」を判定する.
+    # (start.gg では Bクラス side event を videogameId 未設定で登録するケースがあるため)
+    # $gameId は呼び出し側互換のため受け取るが、クエリ内では未使用.
+    return """query TournamentEvents($tournamentId: ID!) {
+      tournament(id: $tournamentId) {
+        id
+        name
+        events {
+          id
+          name
+          startAt
+          isOnline
+          videogame {
+            id
+          }
+        }
+      }
+    }"""
+
+def get_phase_groups_query():
+    return """query PhaseGroupsByEvent($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        phases {
+          id
+          phaseGroups(query: {page: $page, perPage: $perPage}) {
+            pageInfo {
+              total
+            }
+            nodes {
+              id
+              displayIdentifier
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_event_phases_full_query():
+    """Event の phases 一覧 (phase_groups 含む、メタ情報付き). 各 phase の num_seeds, bracket_type, name を取得.
+    各 phase_group の id, displayIdentifier, wave も含める."""
+    return """query EventPhasesFull($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        phases {
+          id
+          name
+          numSeeds
+          bracketType
+          phaseOrder
+          phaseGroups(query: {page: 1, perPage: 500}) {
+            nodes {
+              id
+              displayIdentifier
+              startAt
+              wave {
+                id
+                identifier
+                startAt
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_full_query():
+    """Phase group 内の sets を取得 (games フィールド除外で complexity 抑制).
+    page/perPage 指定可能. 224 sets × 100 perPage で complexity 1000以下に収まる.
+    games (character/stage 選択履歴) は ranking 計算で不要なため除外."""
+    return """query PhaseGroupSetsFull($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            slots {
+              id
+              entrant {
+                id
+                participants {
+                  user { id }
+                }
+              }
+              standing {
+                stats {
+                  score { label value }
+                }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_event_sets_full_query():
+    """event 直下の sets を full fields で取得 (= phase_group 巡回が throttle 下で空応答を
+    返す silent-partial バグの回避用. event.sets は低 complexity で頑健に全件返る).
+    各 set に phaseGroup / phase 情報を含めて write_matches_v2 用の tuple を組めるようにする."""
+    return """query EventSetsFull($eventId: ID!, $page: Int!, $perPage: Int!) {
+      event(id: $eventId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            slots {
+              id
+              entrant {
+                id
+                participants { user { id } }
+              }
+              standing {
+                stats {
+                  score { label value }
+                }
+              }
+            }
+            phaseGroup {
+              id
+              displayIdentifier
+              startAt
+              wave { id identifier startAt }
+              phase { id name numSeeds bracketType phaseOrder }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_with_games_query():
+    """Phase group の sets を games (character/stage 選択履歴) 付きで取得.
+    複合複雑性が高いので perPage を 5〜10 に抑えて呼ぶこと.
+    sidecar character_games.json 生成用."""
+    return """query PhaseGroupSetsWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            slots {
+              id
+              entrant {
+                id
+                participants { user { id } }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage { id name }
+              selections {
+                id
+                entrant {
+                  id
+                  participants { user { id } }
+                }
+                character { id name }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_full_with_games_query():
+    """Phase group の sets を スコア + games (character/stage 選択履歴) の両方付きで取得.
+
+    get_phase_group_sets_full_query (スコア, games無し) と
+    get_phase_group_sets_with_games_query (games, スコア無し) を統合したもの。
+    1 パスで試合結果 (standing.stats.score) と キャラ details を同時取得できるため、
+    定期更新で download とキャラ取得を二重に叩く必要がなくなる。
+
+    games を含むので complexity が高い。perPage は 4〜8 程度に抑えて呼ぶこと
+    (fetch_phase_group_sets の with_games=True 経路が自動でクランプ・backoff する)。"""
+    return """query PhaseGroupSetsFullWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            winnerId
+            round
+            fullRoundText
+            startedAt
+            completedAt
+            slots {
+              id
+              entrant {
+                id
+                participants {
+                  user { id }
+                }
+              }
+              standing {
+                stats {
+                  score { label value }
+                }
+              }
+            }
+            games {
+              id
+              orderNum
+              winnerId
+              entrant1Score
+              entrant2Score
+              stage { id name }
+              selections {
+                id
+                entrant {
+                  id
+                  participants { user { id } }
+                }
+                character { id name }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_sets_minimal_query():
+    """Phase group の sets を最小限のフィールドで取得 (DQ filter 用).
+    player_ids per set: slots[].entrant.participants[].user.id のみ. 軽量で complexity throttling 回避.
+    """
+    return """query PhaseGroupSetsMinimal($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        sets(page: $page, perPage: $perPage, sortType: STANDARD) {
+          pageInfo { total totalPages }
+          nodes {
+            id
+            state
+            slots {
+              standing {
+                stats {
+                  score { value }
+                }
+              }
+              entrant {
+                participants { user { id } }
+              }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_phase_group_standings_query():
+    """Phase group の standings を取得 (placement / user_id / 名前).
+    Phase group ごとの sub-bracket placement. 複数 phase_groups を持つ phase の場合、
+    各 group の standings を別々に取得して合算する必要がある.
+    """
+    return """query PhaseGroupStandings($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
+      phaseGroup(id: $phaseGroupId) {
+        id
+        displayIdentifier
+        standings(query: {page: $page, perPage: $perPage}) {
+          pageInfo { total totalPages }
+          nodes {
+            placement
+            entrant {
+              id
+              name
+              participants { user { id } }
+            }
+          }
+        }
+      }
+    }"""
+
+
+def get_event_phases_named_query():
+    """Event の phase メタ (name / order / bracketType / phaseGroups の displayIdentifier).
+    クラス phase (B-class etc) 検出と placement clip 用.
+    """
+    return """query EventPhasesNamed($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        name
+        phases {
+          id
+          name
+          phaseOrder
+          bracketType
+          numSeeds
+          phaseGroups(query: {page: 1, perPage: 500}) {
+            nodes {
+              id
+              displayIdentifier
+            }
+          }
+        }
+      }
+    }"""
+
+def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
+    first_row = """query TournamentsByGame($gameId: ID!, $perPage: Int!, $page: Int!) {"""
+    # sortBy は endAt 基準: TO が startAt を告知/登録開始日に設定する大会 (例: 船スマ
+    # 2026-07-19 開催分 = startAt 6/8) でも、endAt はほぼ実開催日に設定される
+    # (start.gg が「終了済み」判定に endAt を使うため大きく前倒しすると運営が壊れる)。
+    # startAt 基準列挙だと開催時には取得窓外に出て永久に取得漏れする (2026-07-21 発覚)。
+    second_row = """tournaments(query: {perPage: $perPage, page: $page, sortBy: "endAt desc", filter: {videogameIds: [$gameId], published: true *other_filters*}}) {"""
+    nodes_query = """nodes {
+            id
+            name
+            state
+            startAt
+            endAt
+            countryCode
+            isOnline
+            addrState
+            city
+            countryCode
+            lat
+            lng
+            mapsPlaceId
+            postalCode
+            venueAddress
+            venueName
+            timezone
+            url
+          }
+          pageInfo {
+            totalPages
+          }
+        }
+      }"""
+    
+    filters = ""
+    if country_code:
+      filters += f' ,countryCode: "{country_code}" '
+    if past:
+      filters += """ ,past: true """
+    if before_now:
+      filters += f" ,beforeDate: {clock.now_ts()} "   # 「今」は scripts.common.clock (テストで固定できる)
+    
+    second_row = second_row.replace("*other_filters*", filters)
+
+    query = "\n".join([first_row, second_row, nodes_query])
+    return query
+
+
+# 手動ツール (download_specific_event / fix/backfill_events) が使う。「未使用」と誤って消していた (2026-09-07 復元)
+def get_event_details_by_tournament_query():
+    """トーナメントスラッグからイベント詳細を取得するGraphQLクエリ"""
+    return """
+    query TournamentEventsQuery($tournamentSlug: String!, $eventSlug: String!) {
+      tournament(slug: $tournamentSlug) {
+        id
+        name
+        slug
+        countryCode
+        city
+        lat
+        lng
+        venueName
+        timezone
+        postalCode
+        venueAddress
+        mapsPlaceId
+        url
+        events(filter: {slug: $eventSlug}) {
+          id
+          name
+          slug
+          startAt
+          isOnline
+          numEntrants
+          state
+        }
+      }
+    }
+    """
+
+
+def get_event_details_by_id_query():
+    return """query EventById($eventId: ID!) {
+      event(id: $eventId) {
+        id
+        name
+        slug
+        startAt
+        numEntrants
+        isOnline
+        state
+        tournament {
+          id
+          name
+          slug
+          startAt
+          endAt
+          countryCode
+          city
+          lat
+          lng
+          venueName
+          timezone
+          postalCode
+          venueAddress
+          mapsPlaceId
+          url
+        }
+      }
+    }"""
