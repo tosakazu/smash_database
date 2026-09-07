@@ -126,7 +126,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--events-root",
-                        default="data/startgg/events/Japan")
+                        default="data/startgg/Japan/events")
     args = parser.parse_args()
 
     set_retry_parameters(args.max_retries, args.retry_delay)

@@ -13,7 +13,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 DEFAULT_TOURNAMENTS = None   # --region から data/startgg/<region>/tournaments.jsonl を導く
-DEFAULT_EVENTS_ROOT = Path("data/startgg/events")
+DEFAULT_EVENTS_ROOT = None   # --region から data/startgg/<region>/events を導く
 DEFAULT_API_URL = "https://api.start.gg/gql/alpha"
 JSON_VERSION = "1.0"
 
@@ -49,7 +49,7 @@ if _ROOT_DIR not in _sys.path:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Check that every event directory under data/startgg/events has a corresponding "
+            "Check that every event directory under data/startgg/<region>/events has a corresponding "
             "entry in tournaments.jsonl, and optionally add the missing ones."
         )
     )
@@ -63,7 +63,7 @@ def parse_args() -> argparse.Namespace:
         "--events-root",
         type=Path,
         default=DEFAULT_EVENTS_ROOT,
-        help=f"Root directory containing event folders (default: {DEFAULT_EVENTS_ROOT})",
+        help="Root directory containing event folders (default: data/startgg/<region>/events)",
     )
     parser.add_argument(
         "--repo-root",
@@ -99,8 +99,9 @@ def parse_args() -> argparse.Namespace:
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(parser)
     args = parser.parse_args()
-    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl")
+    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl", events_root="events")
     args.tournaments_file = Path(args.tournaments_file)
+    args.events_root = Path(args.events_root)
     return args
 
 

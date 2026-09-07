@@ -31,7 +31,7 @@ from scripts.common.download import download_standings, extend_user_info, _flush
 from scripts.common.utils import read_users_jsonl  # noqa: E402
 from scripts.common.redownload_matches_v2 import refetch_event, API_DELAY_SEC  # noqa: E402
 
-EVENTS_ROOT = ROOT / "data" / "startgg" / "events" / "Japan"
+EVENTS_ROOT = ROOT / "data" / "startgg" / "Japan" / "events"
 USERS_PATH = ROOT / "data" / "startgg" / "users.jsonl"
 
 

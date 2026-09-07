@@ -222,7 +222,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--events-root",
-        default="data/startgg/events",
+        default=None,
         help="Root directory containing event data.",
     )
     parser.add_argument(
@@ -238,7 +238,7 @@ def main() -> int:
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(parser)
     args = parser.parse_args()
-    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl")
+    resolve_index_paths(parser, args, tournaments_file="tournaments.jsonl", events_root="events")
 
     events_root = Path(args.events_root)
     errors: List[str] = []

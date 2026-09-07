@@ -21,8 +21,8 @@ own, and regions never touch each other's paths.
 | Branch | Contents | Who maintains it |
 |---|---|---|
 | `main` | `scripts/`, `docs/`, this README. No data (`data/` is git-ignored here). No history before 2026-09-07 | Everyone (shared code) |
-| `data-Japan` | everything on `main` (merged in), plus `data/startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` and `data/startgg/events/Japan/**` | Japan operator. Data committed and pushed nightly by the spsp pipeline |
-| `data-<Region>` (future, e.g. `data-North_America`) | everything on `main`, plus `data/startgg/<Region>/{...}` and `data/startgg/events/<Region>/**` | That region's operator |
+| `data-Japan` | everything on `main` (merged in), plus `data/startgg/Japan/{done.csv,done_events.csv,tournaments.jsonl,users.jsonl}` and `data/startgg/Japan/events/**` | Japan operator. Data committed and pushed nightly by the spsp pipeline |
+| `data-<Region>` (future, e.g. `data-North_America`) | everything on `main`, plus `data/startgg/<Region>/{...}` and `data/startgg/<Region>/events/**` | That region's operator |
 | `data-all` (local only, not on GitHub) | the merge of every `data-<Region>` branch: all regions' data in one tree | Made on the build machine by whoever needs several regions. Never pushed, never committed to directly |
 
 Rules that keep the branches mergeable:
@@ -30,7 +30,7 @@ Rules that keep the branches mergeable:
 * Scripts and docs are changed **only on `main`**. A data branch picks them up with
   `git merge main` (the production checkout does this when scripts are updated).
 * Data is committed **only on its data branch**, and only under `data/startgg/<Region>/`
-  and `data/startgg/events/<Region>/`.
+  and `data/startgg/<Region>/events/`.
 * Because every data branch carries the same `main`, merging one data branch into
   another (or into a combined branch) merges cleanly: the script files are identical
   and the data paths are disjoint.
@@ -61,13 +61,12 @@ smash_db_tournament/            checkout of data-Japan
 │   │   └── fix/                data validation / repair tools
 │   ├── Japan/                  Japan-specific: lower-class bracket separation
 │   └── test/                   unit tests
-└── data/startgg/
-    ├── Japan/
-    │   ├── done.csv            tournament ids whose download is complete
-    │   ├── done_events.csv     event ids whose download is complete
-    │   ├── tournaments.jsonl   one line per tournament: id, name, events + paths
-    │   └── users.jsonl         one line per player: user_id, gamer_tag, country, city, ...
-    └── events/Japan/YYYY/MM/DD/<Tournament>/<Event>/
+└── data/startgg/Japan/         one directory per region: index files + events
+    ├── done.csv                tournament ids whose download is complete
+    ├── done_events.csv         event ids whose download is complete
+    ├── tournaments.jsonl       one line per tournament: id, name, events + paths
+    ├── users.jsonl             one line per player: user_id, gamer_tag, country, city, ...
+    └── events/YYYY/MM/DD/<Tournament>/<Event>/
         ├── attr.json           event attributes (entrants, offline, timestamp, url, ...)
         ├── standings.json      {"data": [{placement, user_id}], "version"}
         ├── seeds.json          {"data": [{seed_num, user_id}], "version"}
@@ -95,7 +94,7 @@ Data files are written with fixed key order and indentation. Downstream readers
 * **Adding a region.** Branch from `main` (`git checkout -b data-North_America main`),
   run `scripts/common/download.py --country-code <CC> ...`; the index files default to
   `data/startgg/<Region>/` (region derived from the country code) and events go to
-  `data/startgg/events/<Region>/`. Commit, push, and run it nightly on the operator's
+  `data/startgg/<Region>/events/`. Commit, push, and run it nightly on the operator's
   machine.
 * **Combining regions: a local `data-all`.** Consumers that need more than one region
   (the ranking build, once it covers more than Japan) create a local branch that merges
@@ -129,7 +128,7 @@ shows up in the process list.
 
 | Script | Role |
 |---|---|
-| `scripts/common/download.py` | Enumerate tournaments in a date window for one country, then per event save `attr.json`, `standings.json`, `seeds.json`, `matches.json` under `data/startgg/events/<Region>/...` and update `users.jsonl`, `tournaments.jsonl`, `done.csv`, `done_events.csv`. Events that fail are appended to `failed_events.log` in the working directory |
+| `scripts/common/download.py` | Enumerate tournaments in a date window for one country, then per event save `attr.json`, `standings.json`, `seeds.json`, `matches.json` under `data/startgg/<Region>/events/...` and update `users.jsonl`, `tournaments.jsonl`, `done.csv`, `done_events.csv`. Events that fail are appended to `failed_events.log` in the working directory |
 | `scripts/common/download_policy.py` | "Download / skip / mark done" decisions used by `download.py`. Pure functions, no I/O; the decision table is tested in spsp `tests/fetch/test_dl_policy.py` |
 | `scripts/common/fetch_upcoming.py` | Upcoming tournaments for the next N days → one JSON file (used by the seed picker) |
 | `scripts/common/redownload_matches_v2.py` | Set download and the `matches.json` format. `download.py` imports its functions; run it directly only to re-fetch sets |
@@ -141,7 +140,7 @@ Typical nightly commands (the dates are the window's upper and lower bounds):
 export STARTGG_TOKEN=...
 python3 scripts/common/download.py --country-code JP \
     --start-date 2026-09-07 --finish-date 2026-08-24 \
-    --startgg-dir data/startgg/events \
+    --startgg-dir data/startgg \
     --done-file-path data/startgg/Japan/done.csv \
     --users-file-path data/startgg/Japan/users.jsonl \
     --tournament-file-path data/startgg/Japan/tournaments.jsonl \

@@ -32,12 +32,13 @@ def get_date_parts(date):
     return year, month, day
 
 def get_event_directory(startgg_dir, region, year, month, day, tournament_name, event_name):
-    """保存するディレクトリのパスを取得する関数"""
+    """イベントの保存先: <startgg_dir>/<地域>/events/<年>/<月>/<日>/<大会>/<イベント>
+    (startgg_dir はデータルート data/startgg。地域ごとに 1 ディレクトリ = index と events が同居する。2026-09-08〜)"""
     region = country_code2region(region)
     region = region.replace(" ", "_").replace("/", "-")
     tournament_name = tournament_name.replace(" ", "_").replace("/", "-")
     event_name = event_name.replace(" ", "_").replace("/", "-")
-    return f"{startgg_dir}/{region}/{year}/{month}/{day}/{tournament_name}/{event_name}"
+    return f"{startgg_dir}/{region}/events/{year}/{month}/{day}/{tournament_name}/{event_name}"
 
 
 JSON_VERSION = "1.0"

@@ -29,7 +29,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 sys.path.insert(0, str(ROOT))
 from scripts.common import clock  # noqa: E402
-EVENTS_ROOT = ROOT / "data" / "startgg" / "events" / "Japan"
+EVENTS_ROOT = ROOT / "data" / "startgg" / "Japan" / "events"
 
 LOWER_CLASS_PAT = re.compile(
     r'[BCDEＢＣＤＥ]\s*クラス|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
@@ -91,7 +91,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"), help="start.gg API token (省略時は環境変数 STARTGG_TOKEN)")
     ap.add_argument("--since-days", type=int, default=30)
-    ap.add_argument("--events-root", default=str(EVENTS_ROOT), help="data/startgg/events/Japan (テストでは一時ディレクトリ)")
+    ap.add_argument("--events-root", default=str(EVENTS_ROOT), help="data/startgg/Japan/events (テストでは一時ディレクトリ)")
     args = ap.parse_args(argv)
     if not args.token:
         raise SystemExit("ERROR: --token か環境変数 STARTGG_TOKEN が必要 (値は argv に載せず env 推奨)")

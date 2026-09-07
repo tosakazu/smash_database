@@ -118,7 +118,7 @@ def write_end_timestamp(attr_paths, end_ts):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--token", required=True)
-    ap.add_argument("--events-root", default="data/startgg/events")
+    ap.add_argument("--events-root", default=None, help="default: data/startgg/<region>/events")
     ap.add_argument("--tournaments-jsonl", default=None)
     ap.add_argument("--batch", type=int, default=BATCH)
     ap.add_argument("--workers", type=int, default=MAX_WORKERS)
@@ -126,7 +126,7 @@ def main():
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(ap)
     args = ap.parse_args()
-    resolve_index_paths(ap, args, tournaments_jsonl="tournaments.jsonl")
+    resolve_index_paths(ap, args, tournaments_jsonl="tournaments.jsonl", events_root="events")
 
     utils.set_api_parameters(API_URL, args.token)
     utils.set_retry_parameters(max_retries=5, retry_delay=2.0)

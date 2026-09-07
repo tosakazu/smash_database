@@ -79,7 +79,7 @@ def main():
         help="Lower bound datetime for retrieval (inclusive). Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS",
     )
     parser.add_argument("--indent-num", type=int, default=2, help="Indentation level for JSON output")
-    parser.add_argument("--startgg-dir", default="data/startgg/events", help="Directory to save event data")
+    parser.add_argument("--startgg-dir", default="data/startgg", help="データルート。イベントは <root>/<地域>/events/<年>/<月>/<日>/... に保存する")
     parser.add_argument("--done-file-path", default=None, help="完了大会の記録 (既定: data/startgg/<地域>/done.csv。地域は --country-code から)")
     parser.add_argument("--users-file-path", default=None, help="ユーザー情報 (既定: data/startgg/<地域>/users.jsonl)")
     parser.add_argument("--tournament-file-path", default=None, help="大会情報 (既定: data/startgg/<地域>/tournaments.jsonl)")
