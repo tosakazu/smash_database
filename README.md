@@ -72,6 +72,7 @@ smash_db_tournament/            checkout of data-Japan
         ├── seeds.json          {"data": [{seed_num, user_id}], "version"}
         ├── matches.json        {"data": [{match_id, winner_id, loser_id, scores, round, phase, games...}], ...}
         ├── phases.json         (Japan) bracket phases with is_class flags
+        ├── curated.json        judgements derived from the files above (scripts/common/curate.py)
         └── class_phases/       (Japan) standings of each class bracket, and
             └── <X>_virtual/    a class bracket materialised as its own event
 ```
@@ -133,6 +134,8 @@ shows up in the process list.
 | `scripts/common/fetch_upcoming.py` | Upcoming tournaments for the next N days → one JSON file (used by the seed picker) |
 | `scripts/common/redownload_matches_v2.py` | Set download and the `matches.json` format. `download.py` imports its functions; run it directly only to re-fetch sets |
 | `scripts/Japan/update_class_data.py` | Japan only. Finds recent events whose sets contain class brackets (B/C/D/E class) and runs `fetch_event_phases` → `fetch_class_phase_standings` → `fetch_class_phase_players` → `build_class_virtual_tournaments` in one process. Steps 2-4 skip existing output, so a full rescan is cheap |
+| `scripts/common/curate.py` | Writes `curated.json` next to each event: the data-side judgements (is it a 1-on-1 event, name-based flags such as special rules / private / restricted / lower class / pre-tournament, calendar flags, class-bracket phase groups). The rules live in `scripts/<Region>/classify.py` (Japan: `scripts/Japan/classify.py`); `--all` reprocesses everything after a rule change. Consumers (the spsp build) read these files and never re-derive them |
+| `scripts/common/fetch_upcoming_entrants.py`, `scripts/Japan/annotate_upcoming.py` | Entrant lists of upcoming events for the score simulator, and the same name/calendar judgements applied to upcoming events (they have no directory yet) |
 
 Typical nightly commands (the dates are the window's upper and lower bounds):
 
@@ -147,6 +150,7 @@ python3 scripts/common/download.py --country-code JP \
     [--awaiting-file path/to/awaiting_resume.json]
 python3 scripts/common/fetch_upcoming.py --country JP --lookahead-days 21 --out upcoming.json
 python3 scripts/Japan/update_class_data.py --since-days 30
+python3 scripts/common/curate.py --region Japan          # incremental; --all after changing classify.py
 ```
 
 `--done-file-path`, `--users-file-path` and `--tournament-file-path` default to
@@ -202,7 +206,10 @@ format is what downstream builds depend on.
 ## Conventions for contributors
 
 * Region-independent code goes in `scripts/common/`; anything that assumes one region's
-  tournament customs (class brackets, venue naming, ...) goes in `scripts/<Region>/`.
+  tournament customs (class brackets, tournament-name patterns, holidays, ...) goes in `scripts/<Region>/`.
+  Judgements about the data (what is a 1-on-1 event, which events are private or restricted, which
+  phase groups are class brackets) are made here and written to `curated.json`; downstream builds read
+  them instead of re-deriving them, so that every consumer sees the same classification.
   A region package may import `scripts.common`, never the other way round.
 * Keep HTTP inside `utils.fetch_data_with_retries` and time inside `clock.py`; the
   record/replay tests rely on those two seams.
