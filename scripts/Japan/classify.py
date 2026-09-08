@@ -1,6 +1,6 @@
 """classify (Japan) — 日本の大会・イベントの「データとしての判定」(名前パターン・暦・クラス bracket)。
 
-大会名のフィルタ・祝日・クラス bracket は地域依存なので scripts/Japan に置く。共通の駆動部は scripts/common/curate.py で、
+大会名のフィルタ・祝日・クラス bracket は地域依存なので scripts/Japan に置く。共通の駆動部は scripts/common/derive.py で、
 --region の地域モジュール (scripts/<地域>/classify.py) の classify_event() を呼ぶ。
 
 spsp のビルドが読み込み時にやっていた判定 (data_loader._is_1on1_event、common.py の名前パターン、
@@ -9,7 +9,7 @@ tjpr_cascade/meta.py の暦判定、class bracket の phase_group 集合) を 20
 どの phase_group がクラス bracket か。それをランキングでどう扱うか (Lv 除外、平日係数、
 同時開催の制限解除、参加者数の閾値) は spsp 側に残す。
 
-関数は副作用を持たない。判定を変えたら CLASSIFIER_VERSION を上げ、curate.py --all で全件再処理する。
+関数は副作用を持たない。判定を変えたら CLASSIFIER_VERSION を上げ、derive.py --all で全件再処理する。
 """
 from __future__ import annotations
 
@@ -119,7 +119,7 @@ def is_smacomi_name(tname: str, ename: str) -> bool:
 
 def is_force_weekday_tournament(tname: str, ename: str, nent) -> bool:
     """休日開催でも計算上は平日大会として扱う特別ルール (名前 + 参加者数)。大菊月 / 渋谷BeeSmash (BIG・上野除く) は常に、
-    上野スマコミは nent < 40 の回のみ。curated.json には名前部分 (force_weekday, smacomi) だけを書き、nent との合成は読む側が行う。"""
+    上野スマコミは nent < 40 の回のみ。derived.json には名前部分 (force_weekday, smacomi) だけを書き、nent との合成は読む側が行う。"""
     return is_force_weekday_name(tname, ename) or (is_smacomi_name(tname, ename) and (nent or 0) < SMACOMI_FORCE_WEEKDAY_MAX_NENT)
 
 
@@ -197,7 +197,7 @@ def name_flags(tname: str, ename: str) -> dict:
     }
 
 
-# ── 暦 (旧 spsp/common.py)。日付は JST (curate.py が TZ を固定する) ──
+# ── 暦 (旧 spsp/common.py)。日付は JST (derive.py が TZ を固定する) ──
 def is_weekend_date(d: dt.date) -> bool:
     if d.weekday() >= 5:
         return True
@@ -315,9 +315,9 @@ def classify_user(u: dict) -> dict | None:
     return {"prefecture": pref, "prefecture_reason": why}
 
 
-# ── curate.py から呼ばれる入口 ──
+# ── derive.py から呼ばれる入口 ──
 def classify_event(base: dict, ctx) -> dict:
-    """base (curate.py が作る共通部分) に日本固有の判定を足して返す。ctx: attr / tname / ename / phases / class_phase_files。"""
+    """base (derive.py が作る共通部分) に日本固有の判定を足して返す。ctx: attr / tname / ename / phases / class_phase_files。"""
     ok, reason = is_1on1_event(ctx.attr)
     ts = ctx.attr.get("timestamp")
     all_class, pg_ids = class_phase_group_ids(ctx.phases, ctx.class_phase_files)

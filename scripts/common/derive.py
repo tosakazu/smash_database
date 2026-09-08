@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""curate — 取得済みイベントごとに判定結果 (classify.py) を curated.json に書く。
+"""derive — 取得済みイベントごとに判定結果 (classify.py) を derived.json に書く (「導出」= 生データから機械的に導いたもの。人が編集する表は manual/)。
 
-  python3 scripts/common/curate.py --region Japan            # 更新のあったイベントだけ
-  python3 scripts/common/curate.py --region Japan --all      # 全件再処理 (判定を変えたとき)
+  python3 scripts/common/derive.py --region Japan            # 更新のあったイベントだけ
+  python3 scripts/common/derive.py --region Japan --all      # 全件再処理 (判定を変えたとき)
 
 判定そのもの (大会名のパターン・祝日・クラス bracket) は地域依存なので scripts/<地域>/classify.py にある。
 ここは駆動部と、地域に依らない事実 (standings / matches の形) だけ。
 
-生ファイル (attr.json 等) は書き換えない: curated.json は sidecar。download.py の取り直し判定は attr.json の
+生ファイル (attr.json 等) は書き換えない: derived.json は sidecar。download.py の取り直し判定は attr.json の
 mtime を見るので、そこに触らないため。内容が同じなら書き直さない (mtime も動かない = 冪等)。
-更新判定: curated.json が無い / classifier_version が古い / 入力 (attr, standings, matches, phases, class_phases/*.json)
-のどれかが curated.json より新しい。日付は JST で決める (TZ を固定)。
+更新判定: derived.json が無い / classifier_version が古い / 入力 (attr, standings, matches, phases, class_phases/*.json)
+のどれかが derived.json より新しい。日付は JST で決める (TZ を固定)。
 """
 from __future__ import annotations
 
@@ -32,8 +32,8 @@ import importlib  # noqa: E402
 from types import SimpleNamespace  # noqa: E402
 from scripts.common._cli import add_region_arg, resolve_index_paths  # noqa: E402
 
-CURATED = "curated.json"
-USERS_CURATED = "users_curated.jsonl"   # data/startgg/<地域>/ に置く (users.jsonl の隣。users.jsonl 自体は download.py が書き直すので触らない)
+DERIVED = "derived.json"
+USERS_DERIVED = "users_derived.jsonl"   # data/startgg/<地域>/ に置く (users.jsonl の隣。users.jsonl 自体は download.py が書き直すので触らない)
 INPUT_FILES = ("attr.json", "standings.json", "matches.json", "phases.json")
 
 
@@ -93,7 +93,7 @@ def _rows(blob):
     return blob if isinstance(blob, list) else []
 
 
-def curate_event(event_dir: Path, clf) -> dict | None:
+def derive_event(event_dir: Path, clf) -> dict | None:
     attr = _load(event_dir / "attr.json")
     if not isinstance(attr, dict):
         return None
@@ -145,7 +145,7 @@ def _inputs_mtime(event_dir: Path) -> float:
 
 
 def needs_update(event_dir: Path, version: int) -> bool:
-    out = event_dir / CURATED
+    out = event_dir / DERIVED
     if not out.exists():
         return True
     try:
@@ -168,7 +168,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     add_region_arg(ap)
     ap.add_argument("--events-root", default=None, help="default: data/startgg/<region>/events")
-    ap.add_argument("--users-file-path", default=None, help="default: data/startgg/<region>/users.jsonl (users_curated.jsonl を隣に書く)")
+    ap.add_argument("--users-file-path", default=None, help="default: data/startgg/<region>/users.jsonl (users_derived.jsonl を隣に書く)")
     ap.add_argument("--all", action="store_true", help="全件再処理 (更新判定を無視)")
     ap.add_argument("--dry-run", action="store_true", help="書かずに件数だけ出す")
     ap.add_argument("--quiet", action="store_true")
@@ -190,12 +190,12 @@ def main(argv=None) -> int:
         if not args.all and not needs_update(ev, clf.CLASSIFIER_VERSION):
             continue
         checked += 1
-        cur = curate_event(ev, clf)
+        cur = derive_event(ev, clf)
         if cur is None:
             failed += 1
             continue
         text = json.dumps(cur, ensure_ascii=False, indent=2) + "\n"
-        out = ev / CURATED
+        out = ev / DERIVED
         if out.exists() and out.read_text(encoding="utf-8") == text:
             unchanged += 1
             if args.all:
@@ -206,7 +206,7 @@ def main(argv=None) -> int:
             tmp.write_text(text, encoding="utf-8")
             os.replace(tmp, out)
         written += 1
-    # ── users: users.jsonl → users_curated.jsonl (地域モジュールの classify_user が対象を決める) ──
+    # ── users: users.jsonl → users_derived.jsonl (地域モジュールの classify_user が対象を決める) ──
     users_written = None
     if hasattr(clf, "classify_user") and Path(args.users_file_path).exists():
         rows = []
@@ -225,7 +225,7 @@ def main(argv=None) -> int:
                 rows.append({"user_id": int(urec["user_id"]), **res})
         rows.sort(key=lambda r: r["user_id"])
         text = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
-        out = Path(args.users_file_path).parent / USERS_CURATED
+        out = Path(args.users_file_path).parent / USERS_DERIVED
         if out.exists() and out.read_text(encoding="utf-8") == text:
             users_written = False
         else:
@@ -237,8 +237,8 @@ def main(argv=None) -> int:
         users_n = len(rows)
     if not args.quiet:
         if users_written is not None:
-            print(f"[curate] users_curated.jsonl: {users_n} users {'written' if users_written else 'unchanged'}", flush=True)
-        print(f"[curate] events={seen} checked={checked} written={written} unchanged={unchanged} failed={failed}"
+            print(f"[derive] users_derived.jsonl: {users_n} users {'written' if users_written else 'unchanged'}", flush=True)
+        print(f"[derive] events={seen} checked={checked} written={written} unchanged={unchanged} failed={failed}"
               f"{' (dry-run)' if args.dry_run else ''} classifier_version={clf.CLASSIFIER_VERSION} region={args.region}", flush=True)
     return 1 if failed else 0
 
