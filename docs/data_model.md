@@ -16,6 +16,7 @@ data/startgg/<Region>/              one directory per region
     ├── seeds.json
     ├── matches.json
     ├── phases.json                 (Japan class separation, optional)
+    ├── curated.json                (judgements derived from the files above; scripts/common/curate.py)
     └── class_phases/               (Japan class separation, optional)
         ├── <phase_id>.json
         └── <Letter>_virtual/{attr.json,standings.json,matches.json}
@@ -216,6 +217,41 @@ like any other tournament:
   above.
 
 The spsp loader reads these virtual directories as regular tournaments.
+
+## `curated.json`
+
+Written by `scripts/common/curate.py` for every event directory (virtual class events
+included). It holds the judgements that consumers used to re-derive from the raw files;
+the rules are in `scripts/Japan/classify.py` and `classifier_version` records which rule
+set produced the file. The file is a sidecar: raw files are never rewritten, and it is
+rewritten only when its content changes (so its mtime is stable). When `classify.py`
+changes, bump `CLASSIFIER_VERSION` and run `curate.py --region Japan --all`.
+
+```json
+{
+  "classifier_version": 1,
+  "event_id": 1628310, "tournament_name": "Victoire #1", "event_name": "singles tournament", "num_entrants": 48,
+  "is_class_virtual": false, "parent_event_id": null, "class_letter": null,
+  "results": {"n_standings": 48, "min_placement": 1, "has_de_phase": true, "has_gf_recorded": null},
+  "is_1on1": true, "not_1on1_reason": null,
+  "names": {"special_rules": false, "uchi": false, "non_serious": false, "restricted_tname": false,
+            "restricted_ename": false, "lower_class": false, "pre": false, "smapa": false,
+            "force_weekday": false, "smacomi": false},
+  "calendar": {"date": "2026-08-09", "end_date": "2026-08-09", "is_weekend_real": true, "is_force_weekend_period": false},
+  "class_bracket": {"all_phases_class": false, "phase_group_ids": [3410328]}
+}
+```
+
+| Key | Meaning |
+|---|---|
+| `is_1on1`, `not_1on1_reason` | whether the event is a singles 1-on-1 event (doubles, crews, squad strike, character-limited, casual, online and test events are excluded; an allow-list rescues known false positives). The reason names the rule that excluded it |
+| `names.*` | tournament/event-name patterns: `special_rules` (random-character, crew, doubles, ...), `uchi` (private / invitational), `non_serious` (= either), `restricted_tname` / `restricted_ename` (entry-restricted series, matched on the tournament name and the event name separately so consumers can apply the "restriction belongs to the restricted sibling event" rule), `lower_class` (B/C class naming), `pre` (preliminary), `smapa`, `force_weekday` (series treated as weekday events even on weekends), `smacomi` (上野スマコミ; consumers apply the entrant-count threshold) |
+| `calendar` | dates in JST; `is_weekend_real` = any day of the event is a weekend or Japanese holiday; `is_force_weekend_period` = the event overlaps Obon (8/13-15) or the year-end break (12/26-1/5) |
+| `results` | facts from `standings.json` / `matches.json`: number of standings rows with a user, best placement present, whether any completed set belongs to a double-elimination phase, and the `has_gf_recorded` backfill flag |
+| `class_bracket` | phase-group ids of the class brackets inside the event (empty when the whole event is a class bracket) |
+
+These are facts about the data. How they are combined (weekday handling for small
+events, minimum entrant counts, level filters) is up to the consumer.
 
 ## Other outputs
 
