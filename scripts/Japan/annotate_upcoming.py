@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """upcoming_entrants.json に本番ビルドと同一判定 (休日/pre/制限/下位クラス) を注釈する (日本の大会名パターン)。
 
-判定の定義元は scripts/Japan/classify.py (取得済みイベントは curate.py が同じ判定を curated.json に書く)。
+判定の定義元は scripts/Japan/classify.py (取得済みイベントは derive.py が同じ判定を derived.json に書く)。
 2026-09-08 に spsp/download から smash_database へ移動。
 
 fetch_upcoming_entrants.py の後に実行する。--in と --out を分けると
