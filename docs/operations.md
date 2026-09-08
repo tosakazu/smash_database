@@ -118,6 +118,20 @@ git commit -m "data: <what and why>"
 git push origin data-Japan
 ```
 
+## Hand-maintained tables (`data/startgg/Japan/curation/`)
+
+Edit the JSON, commit on `data-Japan`, push. The next nightly picks it up (the build reads
+them directly; `user_merges.json` is also copied to the site for the seed tool).
+
+* `user_merges.json` — add `{"old": <uid>, "new": <uid>, "note": "why"}` to `merges`. Verify
+  first that the two accounts never entered the same tournament (a self-match is dropped, a
+  duplicate standing keeps the first row).
+* `overseas_manual.json` — `uids` (overseas players without a country) and `jp_uids`
+  (registered abroad, treated as Japanese). Players with a country are classified
+  automatically and do not need to be listed.
+* `awaiting_resume.json` — use `spsp/cli/awaiting_resume.py --add <event_id> "<note>"` /
+  `--prune` from the spsp checkout, or edit by hand.
+
 ## Checks
 
 | Check | Command |

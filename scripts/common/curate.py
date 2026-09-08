@@ -33,6 +33,7 @@ from types import SimpleNamespace  # noqa: E402
 from scripts.common._cli import add_region_arg, resolve_index_paths  # noqa: E402
 
 CURATED = "curated.json"
+USERS_CURATED = "users_curated.jsonl"   # data/startgg/<地域>/ に置く (users.jsonl の隣。users.jsonl 自体は download.py が書き直すので触らない)
 INPUT_FILES = ("attr.json", "standings.json", "matches.json", "phases.json")
 
 
@@ -167,11 +168,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     add_region_arg(ap)
     ap.add_argument("--events-root", default=None, help="default: data/startgg/<region>/events")
+    ap.add_argument("--users-file-path", default=None, help="default: data/startgg/<region>/users.jsonl (users_curated.jsonl を隣に書く)")
     ap.add_argument("--all", action="store_true", help="全件再処理 (更新判定を無視)")
     ap.add_argument("--dry-run", action="store_true", help="書かずに件数だけ出す")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
-    resolve_index_paths(ap, args, events_root="events")
+    resolve_index_paths(ap, args, events_root="events", users_file_path="users.jsonl")
     root = Path(args.events_root)
     if not root.is_dir():
         ap.error(f"events root が無い: {root}")
@@ -204,7 +206,38 @@ def main(argv=None) -> int:
             tmp.write_text(text, encoding="utf-8")
             os.replace(tmp, out)
         written += 1
+    # ── users: users.jsonl → users_curated.jsonl (地域モジュールの classify_user が対象を決める) ──
+    users_written = None
+    if hasattr(clf, "classify_user") and Path(args.users_file_path).exists():
+        rows = []
+        with open(args.users_file_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    urec = json.loads(line)
+                except Exception:
+                    continue
+                res = clf.classify_user(urec)
+                if res is None or urec.get("user_id") is None:
+                    continue
+                rows.append({"user_id": int(urec["user_id"]), **res})
+        rows.sort(key=lambda r: r["user_id"])
+        text = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
+        out = Path(args.users_file_path).parent / USERS_CURATED
+        if out.exists() and out.read_text(encoding="utf-8") == text:
+            users_written = False
+        else:
+            if not args.dry_run:
+                tmp = out.with_suffix(".jsonl.tmp")
+                tmp.write_text(text, encoding="utf-8")
+                os.replace(tmp, out)
+            users_written = True
+        users_n = len(rows)
     if not args.quiet:
+        if users_written is not None:
+            print(f"[curate] users_curated.jsonl: {users_n} users {'written' if users_written else 'unchanged'}", flush=True)
         print(f"[curate] events={seen} checked={checked} written={written} unchanged={unchanged} failed={failed}"
               f"{' (dry-run)' if args.dry_run else ''} classifier_version={clf.CLASSIFIER_VERSION} region={args.region}", flush=True)
     return 1 if failed else 0
