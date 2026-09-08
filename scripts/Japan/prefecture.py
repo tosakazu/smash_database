@@ -5,7 +5,7 @@ start.gg の user.location.city は日本では自由記述で、都道府県・
 漢字 / ローマ字 / かな で混在する (state 欄は日本だと常に空)。これを正規化して
 都道府県を 1 つに特定する。特定できない / 単一県に絞れない場合は None を返す。
 
-データ: scripts/Japan/data/municipal_master_with_wards.csv (2026-09-08 に spsp/prefecture_resolver.py から移動)
+データ: scripts/Japan/resources/municipal_master_with_wards.csv (2026-09-08 に spsp/prefecture_resolver.py から移動)
   (総務省 全国地方公共団体コード由来, 市区町村の漢字/かな/ローマ字 + 都道府県)
   出典: github.com/rooter-inc/governmental_statistics
 
@@ -21,7 +21,7 @@ import re
 import unicodedata
 from collections import defaultdict
 
-_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'municipal_master_with_wards.csv')
+_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'municipal_master_with_wards.csv')
 
 # 政令市/特別区の親市はローマ字を機械分割できないので明示 (例: 札幌市中央区=sapporoshichuuouku)
 _POLITAN = {

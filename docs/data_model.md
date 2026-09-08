@@ -272,7 +272,7 @@ whose start.gg country is Japan and who filled in a city:
 `prefecture` is `null` when the free text cannot be resolved to exactly one prefecture;
 `prefecture_reason` names the rule that matched (or why it failed: `ambig_muni`,
 `unmatched`, ...). The resolver and its municipality master (総務省 codes, kanji / kana /
-romaji) live in `scripts/Japan/prefecture.py` and `scripts/Japan/data/`.
+romaji) live in `scripts/Japan/prefecture.py` and `scripts/Japan/resources/`.
 
 ## `curation/` (hand-maintained)
 
