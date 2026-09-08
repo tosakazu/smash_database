@@ -16,7 +16,9 @@ from __future__ import annotations
 import datetime as dt
 import re
 
-CLASSIFIER_VERSION = 1
+from scripts.Japan.prefecture import resolve as resolve_prefecture
+
+CLASSIFIER_VERSION = 2   # 2: place.prefecture (開催地の都道府県) を追加 (2026-09-08)
 
 # ── 1on1 判定 (旧 spsp/data_loader.py) ──
 # 明示的に弾く event/tournament name patterns. これら以外はデフォルト accept.
@@ -268,6 +270,51 @@ def class_phase_group_ids(phases_data: dict | None, class_phase_files: list[dict
     return False, sorted(ids)
 
 
+# ── 都道府県 (旧 spsp/cli/build_tournament_prefectures.py と build_player_prefectures.py) ──
+PREFECTURES = ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県',
+               '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県',
+               '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府',
+               '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県',
+               '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県',
+               '鹿児島県', '沖縄県']
+_PREF_RE = re.compile('(' + '|'.join(PREFECTURES) + ')')
+
+
+def place_prefecture(place: dict | None) -> str | None:
+    """大会の開催地 (attr.json の place) → 都道府県 (漢字)。日本以外 (country_code が JP でも None でもない) は None。
+    1. venue_address 中の都道府県表記を直接採用 (最も確実)、2. city を resolver で、3. venue_address 全文を resolver で。"""
+    if not place:
+        return None
+    cc = place.get('country_code')
+    if cc not in ('JP', None):
+        return None
+    va = place.get('venue_address') or ''
+    m = _PREF_RE.search(va)
+    if m:
+        return m.group(1)
+    city = place.get('city')
+    if city:
+        p, _ = resolve_prefecture(city)
+        if p:
+            return p
+    if va:
+        p, _ = resolve_prefecture(va)
+        if p:
+            return p
+    return None
+
+
+def classify_user(u: dict) -> dict | None:
+    """users.jsonl の 1 行 → 居住地 (city) から都道府県。country が Japan で city がある人だけ対象 (それ以外は None = 行を書かない)。"""
+    if u.get('country') != 'Japan':
+        return None
+    city = (u.get('city') or '').strip()
+    if not city:
+        return None
+    pref, why = resolve_prefecture(city)
+    return {"prefecture": pref, "prefecture_reason": why}
+
+
 # ── curate.py から呼ばれる入口 ──
 def classify_event(base: dict, ctx) -> dict:
     """base (curate.py が作る共通部分) に日本固有の判定を足して返す。ctx: attr / tname / ename / phases / class_phase_files。"""
@@ -281,5 +328,6 @@ def classify_event(base: dict, ctx) -> dict:
         "names": name_flags(ctx.tname, ctx.ename),
         "calendar": calendar_flags(ts, ctx.attr.get("end_timestamp")) if ts is not None else None,
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
+        "place": {"prefecture": place_prefecture(ctx.attr.get("place"))},
     })
     return out
