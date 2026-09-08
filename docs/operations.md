@@ -118,7 +118,7 @@ git commit -m "data: <what and why>"
 git push origin data-Japan
 ```
 
-## Hand-maintained tables (`data/startgg/Japan/curation/`)
+## Hand-maintained tables (`data/startgg/Japan/manual/`)
 
 Edit the JSON, commit on `data-Japan`, push. The next nightly picks it up (the build reads
 them directly; `user_merges.json` is also copied to the site for the seed tool).
