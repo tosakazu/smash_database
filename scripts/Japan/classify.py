@@ -103,6 +103,8 @@ BEESMASH_PATTERN = re.compile(r'beesmash', re.IGNORECASE)
 BEESMASH_EXCLUDE_PATTERN = re.compile(r'BIG|上野|Ueno', re.IGNORECASE)
 # 上野スマコミ: 参加者数がこの値未満の回だけ平日扱い (判定は nent を持つ spsp 側)
 SMACOMI_FORCE_WEEKDAY_MAX_NENT = 40
+# 実質休日 (お盆・年末年始) は暦上平日でもこの参加者数以上なら休日扱い (期間判定は calendar_flags、合成は spsp 側)
+FORCE_WEEKEND_MIN_NENT = 80
 
 
 def is_force_weekday_name(tname: str, ename: str) -> bool:

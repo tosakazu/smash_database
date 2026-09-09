@@ -76,6 +76,18 @@ class NameFlagTests(unittest.TestCase):
         self.assertFalse(flags["restricted_tname"])
         self.assertTrue(flags["restricted_ename"])
 
+    def test_smacomi_is_weekday_only_for_small_editions(self):
+        # 上野スマコミは規模で決まるので、名前だけの force_weekday には入れない。
+        # derived.json には smacomi フラグを書き、参加者数との合成は読む側 (spsp) が行う。
+        flags = classify.name_flags("上野スマコミ #48", "シングルス")
+        self.assertTrue(flags["smacomi"])
+        self.assertFalse(flags["force_weekday"])
+        limit = classify.SMACOMI_FORCE_WEEKDAY_MAX_NENT
+        self.assertTrue(classify.is_force_weekday_tournament("上野スマコミ #48", "シングルス", limit - 1))
+        self.assertFalse(classify.is_force_weekday_tournament("上野スマコミ #48", "シングルス", limit))
+        # 名前で決まるシリーズは参加者数によらず平日扱い
+        self.assertTrue(classify.is_force_weekday_tournament("大菊月 #7", "シングルス", 500))
+
     def test_force_weekday_series(self):
         self.assertTrue(classify.name_flags("大菊月 #7", "シングルス")["force_weekday"])
         self.assertTrue(classify.name_flags("渋谷BeeSmash #12", "シングルス")["force_weekday"])
