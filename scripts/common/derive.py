@@ -10,7 +10,8 @@
 生ファイル (attr.json 等) は書き換えない: derived.json は sidecar。download.py の取り直し判定は attr.json の
 mtime を見るので、そこに触らないため。内容が同じなら書き直さない (mtime も動かない = 冪等)。
 更新判定: derived.json が無い / classifier_version が古い / 入力 (attr, standings, matches, phases, class_phases/*.json)
-のどれかが derived.json より新しい。日付は JST で決める (TZ を固定)。
+のどれかが derived.json より新しい。日付を決めるタイムゾーンは地域モジュールの TIMEZONE
+(例 Japan = Asia/Tokyo) で、ここでは決め打ちしない。
 """
 from __future__ import annotations
 
@@ -20,9 +21,6 @@ import os
 import sys
 import time
 from pathlib import Path
-
-os.environ["TZ"] = "Asia/Tokyo"
-time.tzset()
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT_DIR not in sys.path:
@@ -182,10 +180,19 @@ def main(argv=None) -> int:
     if not args.region:
         ap.error("--region が要る (判定モジュール scripts/<地域>/classify.py を選ぶ)")
     clf = load_region_classifier(args.region)
-    try:
-        import jpholiday  # noqa: F401  (暦判定に必要)
-    except ImportError:
-        ap.error("jpholiday が無い (pip install jpholiday)")
+    # 日付を決めるタイムゾーンは地域が決める (日本の暦で北米のイベントを判定しない)。既定は持たない。
+    tz = getattr(clf, "TIMEZONE", None)
+    if not tz:
+        ap.error(f"scripts/{args.region}/classify.py に TIMEZONE が無い (例: TIMEZONE = \"Asia/Tokyo\")")
+    os.environ["TZ"] = tz
+    time.tzset()
+    # 地域固有の依存 (日本なら jpholiday) はその地域モジュールが確かめる
+    check = getattr(clf, "check_requirements", None)
+    if check is not None:
+        try:
+            check()
+        except Exception as e:
+            ap.error(str(e))
     seen = checked = written = unchanged = failed = 0
     for ev in iter_event_dirs(root):
         seen += 1

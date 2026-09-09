@@ -60,6 +60,7 @@ smash_db_tournament/            checkout of data-Japan
 │   │   ├── utils.py  queries.py  clock.py  _cli.py
 │   │   ├── manual/             one-off tools (not used by the pipeline)
 │   │   └── fix/                data validation / repair tools
+│   ├── North_America/          North America rules (classify.py: 1-on-1 detection + calendar)
 │   ├── Japan/                  Japan-specific: lower-class brackets,
 │   │                            classify.py (name/calendar/class flags), naming.py (series, award labels),
 │   │                            prefecture.py (city → prefecture), country.py (country names)
@@ -102,10 +103,12 @@ Data files are written with fixed key order and indentation. Downstream readers
 * **Script updates** reach a data branch by merging `main` into it. Never edit scripts
   on a data branch.
 * **Adding a region.** Branch from `main` (`git checkout -b data-North_America main`),
-  run `scripts/common/download.py --country-code <CC> ...`; the index files default to
-  `data/startgg/<Region>/` (region derived from the country code) and events go to
-  `data/startgg/<Region>/events/`. Commit, push, and run it nightly on the operator's
-  machine.
+  take the data-branch `.gitignore`, and check that `scripts/<Region>/classify.py` exists
+  (`derive.py` refuses to run without it). Then one command does a cycle:
+  `STARTGG_TOKEN=... bash scripts/common/run_region.sh --country-code US --days 14`
+  — download, judgements, checks, commit and push on `data-<Region>`. Run it from the
+  operator's own cron; nothing runs on GitHub. Details and the rule-module contract:
+  [docs/operations.md](docs/operations.md).
 * **Combining regions: a local `data-all`.** Consumers that need more than one region
   (the ranking build, once it covers more than Japan) create a local branch that merges
   the region branches, and never switch branches afterwards:
@@ -144,6 +147,7 @@ shows up in the process list.
 | `scripts/common/redownload_matches_v2.py` | Set download and the `matches.json` format. `download.py` imports its functions; run it directly only to re-fetch sets |
 | `scripts/Japan/update_class_data.py` | Japan only. Finds recent events whose sets contain class brackets (B/C/D/E class) and runs `fetch_event_phases` → `fetch_class_phase_standings` → `fetch_class_phase_players` → `build_class_virtual_tournaments` in one process. Steps 2-4 skip existing output, so a full rescan is cheap |
 | `scripts/common/derive.py` | Writes `derived.json` next to each event (is it a 1-on-1 event, name-based flags such as special rules / private / restricted / lower class / pre-tournament, calendar flags, class-bracket phase groups, venue prefecture) and `users_derived.jsonl` (player prefecture from the free-text city). The rules live in `scripts/<Region>/classify.py` (Japan: `scripts/Japan/classify.py`, `prefecture.py`); `--all` reprocesses everything after a rule change. Consumers (the spsp build) read these files and never re-derive them |
+| `scripts/common/run_region.sh` | One cycle for a region: download → `derive.py` → `validate_data.py` → commit and push `data-<Region>`. `--dry-run` prints the commands; `--no-commit` / `--no-push` stop before git. Japan is driven by the spsp nightly instead |
 | `scripts/Japan/{classify,naming,prefecture,country}.py` | The judgement rules themselves for Japan: event/name/calendar flags, series and award naming (including `community_series()`, which merges sibling series run by one community into a single series), city → prefecture, and the English → Japanese country table with the overseas test (`country_ja()`, `is_overseas_country()`). `derive.py` calls them per event; the spsp build imports the same modules for the few judgements it makes on a bare name (upcoming tournaments, series names) so there is one definition of each rule |
 | `scripts/common/fetch_upcoming_entrants.py`, `scripts/Japan/annotate_upcoming.py` | Entrant lists of upcoming events for the score simulator, and the same name/calendar judgements applied to upcoming events (they have no directory yet) |
 

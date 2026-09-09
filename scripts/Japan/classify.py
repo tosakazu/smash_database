@@ -203,7 +203,18 @@ def name_flags(tname: str, ename: str) -> dict:
     }
 
 
-# ── 暦 (旧 spsp/common.py)。日付は JST (derive.py が TZ を固定する) ──
+# ── 暦 (旧 spsp/common.py)。日付は TIMEZONE (= JST) で決める。derive.py がこの値でプロセスの TZ を設定する ──
+TIMEZONE = "Asia/Tokyo"
+
+
+def check_requirements() -> None:
+    """この地域の判定に要る外部パッケージ (祝日表)。無ければ推測せず止める。"""
+    try:
+        import jpholiday  # noqa: F401
+    except ImportError:
+        raise RuntimeError("jpholiday が無い (pip install jpholiday) — 日本の祝日判定に要る")
+
+
 def is_weekend_date(d: dt.date) -> bool:
     if d.weekday() >= 5:
         return True
