@@ -8,13 +8,16 @@ derive.py が書く derived.json / users_derived.jsonl の中身はここのル�
 
 import datetime as dt
 import os
+import pathlib
 import time
 import unittest
+from zoneinfo import ZoneInfo
 
 os.environ.setdefault("TZ", "Asia/Tokyo")
 time.tzset()
 
 from scripts.Japan import classify, country, naming, prefecture
+from scripts.North_America import classify as na
 
 
 def jst(text: str) -> int:
@@ -202,6 +205,67 @@ class ClassifyUserTests(unittest.TestCase):
     def test_user_without_city_or_outside_japan_is_skipped(self):
         self.assertIsNone(classify.classify_user({"user_id": 1, "country": "Japan", "city": None}))
         self.assertIsNone(classify.classify_user({"user_id": 2, "country": "France", "city": "Paris"}))
+
+
+class RegionModuleContractTests(unittest.TestCase):
+    """derive.py が地域モジュールに求めるもの。地域を足したらここが落ちて気づける。"""
+
+    def _region_modules(self):
+        import importlib
+        root = pathlib.Path(__file__).resolve().parents[1]
+        for d in sorted(root.iterdir()):
+            if d.is_dir() and (d / "classify.py").exists() and d.name not in ("common", "test"):
+                yield d.name, importlib.import_module(f"scripts.{d.name}.classify")
+
+    def test_every_region_declares_the_contract(self):
+        found = 0
+        for name, mod in self._region_modules():
+            found += 1
+            with self.subTest(region=name):
+                self.assertIsInstance(mod.CLASSIFIER_VERSION, int)
+                # 暦を決めるタイムゾーン。日本の暦で他地域を判定しないための必須項目
+                self.assertTrue(getattr(mod, "TIMEZONE", None), f"{name}: TIMEZONE が要る")
+                ZoneInfo(mod.TIMEZONE)      # 実在するタイムゾーン名か
+                self.assertTrue(callable(mod.classify_event))
+                self.assertTrue(callable(mod.classify_user))
+        self.assertGreaterEqual(found, 2, "Japan と North_America が見えるはず")
+
+
+class NorthAmericaTests(unittest.TestCase):
+    """北米の初版ルール (1on1 判定と暦だけ)。日本固有の判定を持ち込まないことも確かめる。"""
+
+    def test_singles_and_excluded_formats(self):
+        self.assertEqual(na.is_1on1_event({"event_name": "Ultimate Singles", "tournament_name": "Genesis 9"}),
+                         (True, None))
+        for ename, reason in (("Ultimate Doubles", "keyword:doubles"),
+                              ("2v2 Crew Battle", "keyword:2v2"),
+                              ("Squad Strike", "keyword:squad strike"),
+                              ("Arcadian Bracket", "keyword:arcadian"),
+                              ("Dobles Amistosos", "keyword:dobles")):
+            with self.subTest(ename=ename):
+                self.assertEqual(na.is_1on1_event({"event_name": ename, "tournament_name": "X"}),
+                                 (False, reason))
+        ok, why = na.is_1on1_event({"event_name": "3 vs 3 Invitational", "tournament_name": "X"})
+        self.assertEqual((ok, why), (False, "regex:NvN"))
+
+    def test_calendar_uses_the_events_own_timezone(self):
+        ts = 1788944400   # 2026-09-10 09:00 JST = 2026-09-09 17:00 PT
+        west = na.calendar_flags(ts, None, {"timezone": "America/Los_Angeles"})
+        self.assertEqual((west["date"], west["timezone"]), ("2026-09-09", "America/Los_Angeles"))
+        # place に timezone が無ければ地域の既定
+        default = na.calendar_flags(ts, None, None)
+        self.assertEqual(default["timezone"], na.TIMEZONE)
+
+    def test_no_japanese_calendar_rules(self):
+        # 正月 (1/2) は日本では休日扱いだが、北米で休日とするかは未定なので週末にしない
+        newyear = dt.date(2026, 1, 2)
+        self.assertFalse(na.is_weekend_date(newyear))
+        self.assertNotIn("is_force_weekend_period",
+                         na.calendar_flags(int(dt.datetime(2026, 1, 2, 12).timestamp()), None, None))
+        self.assertEqual(na.HOLIDAY_DATES, frozenset())   # 祝日は運用担当者が入れる
+
+    def test_no_user_derivation_yet(self):
+        self.assertIsNone(na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"}))
 
 
 if __name__ == "__main__":

@@ -45,15 +45,44 @@ branch does not), keep the data branch's version: `git checkout --ours -- .gitig
    git add .gitignore && git commit -m "data-North_America: init"
    ```
 
-2. Download from the repository root:
-   `STARTGG_TOKEN=... python3 scripts/common/download.py --country-code US --start-date ... --finish-date ...`.
-   The index files default to `data/startgg/North_America/` and events go to
-   `data/startgg/North_America/events/`.
-3. `git add -A -- data/startgg && git commit && git push -u origin data-North_America`.
-   Add a nightly job on the operator's machine that repeats steps 2–3.
+2. Make sure the region has a rule module, `scripts/<Region>/classify.py` (North America
+   ships with one). `derive.py` refuses to run without it rather than guessing, and the
+   module owns everything that differs by region — see "Region modules" below.
+
+3. Run one cycle from the repository root:
+
+   ```sh
+   STARTGG_TOKEN=... bash scripts/common/run_region.sh --country-code US --days 14
+   ```
+
+   It downloads the window, writes the judgements, checks the data, then commits and
+   pushes `data/startgg/<Region>/` on the `data-<Region>` branch (it refuses to commit
+   from another branch). `--dry-run` prints the commands, `--no-commit` / `--no-push`
+   stop before git. Put this in the operator's own cron; nothing runs on GitHub.
+   The individual steps are in the [README](../README.md) if you need to run them by hand.
 
 `country_code2region()` in `utils.py` decides the region name from the country code
-(`US`, `CA`, `MX`, `DO` → `North America`). Add codes there when a region needs them.
+(`US`, `CA`, `MX`, `DO` → `North America`, spaces become `_` in paths and branch names).
+Add codes there when a region needs them.
+
+## Region modules
+
+`scripts/<Region>/classify.py` is what `derive.py` loads for a region. It must declare:
+
+| Name | Meaning |
+|---|---|
+| `CLASSIFIER_VERSION` | Bump after changing any rule, then run `derive.py --region <Region> --all` so every `derived.json` is rewritten |
+| `TIMEZONE` | The zone the region's dates are decided in (`Asia/Tokyo` for Japan). `derive.py` sets the process TZ from it — there is no default, so no region is ever judged on another region's clock |
+| `classify_event(base, ctx)` | Adds the region's judgements to the common facts and returns the `derived.json` body |
+| `classify_user(u)` | One line of `users.jsonl` → what to record in `users_derived.jsonl` (`None` = record nothing) |
+| `check_requirements()` (optional) | Verify region-specific dependencies (Japan needs `jpholiday` for its holiday table) |
+
+Nothing else is shared: holidays, "treat this period as a weekend", name patterns and
+series naming are per region. Japan treats お盆 and 年末年始 as weekends; North America
+declares no holidays at all until its operator decides what belongs there. Copying
+Japan's rules into a new region is the one thing not to do — start from
+`scripts/North_America/classify.py`, which is deliberately minimal (1-on-1 detection
+and the calendar), and add what you can actually verify for that region.
 
 ## Combining regions: `data-all`
 
