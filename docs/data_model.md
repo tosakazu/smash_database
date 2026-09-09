@@ -99,7 +99,6 @@ enters tournaments in two regions has a row in both regions' files; merge by `us
   "num_entrants": 48,
   "offline": true,
   "url": "/tournament/victoire-1",
-  "labels": {},
   "status": "completed",
   "timestamp": 1786240800,
   "end_timestamp": 1786273200,
@@ -112,15 +111,11 @@ enters tournaments in two regions has a row in both regions' files; merge by `us
   enter the announcement date or a placeholder), the downloader replaces the pair by
   the first and last set time (`corrected_event_window` in `download.py`).
 * `url` is the tournament path on start.gg (prefix `https://www.start.gg`).
-* `labels` is free-form metadata. **New downloads write `{}`** — nothing classifies events
-  at download time any more. Events fetched before 2026-02 still carry three fields produced
-  by an LLM classifier that no longer runs: `game_rule` (`1on1`, `doubles`, `crew-battle`,
-  `squad-strike`, `oma-5`, `random`), `event_type` (`main` / `sub` / `spectator`) and
-  `registration_type` (`full-open` / `casual` / `restricted-open` / `full-invite`).
-  Only `game_rule` is still read (by `scripts/Japan/classify.py`, to exclude non-singles
-  events); the other two are dead weight kept because rewriting every `attr.json` would
-  churn the data branch. Virtual class events additionally set `is_class_virtual` and
-  `class_letter` (below).
+* There is no `labels` field any more (removed 2026-09-09). It used to hold `game_rule`,
+  `event_type` and `registration_type` from an LLM classifier that no longer runs, plus
+  `is_class_virtual` / `class_letter` on virtual class events. Nothing read the first three,
+  and the last two are now derived from the directory name and recorded in `derived.json`.
+  `attr.json` holds only what start.gg returned.
 * `status` is `"completed"` for every downloaded event.
 
 ### `standings.json`
@@ -220,7 +215,7 @@ One class letter materialised as an event of its own so that consumers can treat
 like any other tournament:
 
 * `attr.json` — copy of the parent event's attributes with `event_name` suffixed
-  (`"Singles Tournament / Bクラス"`), `labels.is_class_virtual = true`, and a negative
+  (`"Singles Tournament / Bクラス"`) and a negative
   `event_id` = `-(parent_event_id * 10 + ord(letter))`, which cannot collide with real ids.
 * `standings.json` — a plain list `[{"placement", "user_id"}]` (no `data` wrapper),
   derived from the class phases: each player's deepest class phase and placement there.
