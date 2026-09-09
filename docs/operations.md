@@ -137,10 +137,24 @@ them directly; `user_merges.json` is also copied to the site for the seed tool).
 | Check | Command |
 |---|---|
 | Structural validation of every event directory and the index | `python3 scripts/common/fix/validate_data.py --region Japan [--strict]` |
+| Same, as per-category counts compared with the accepted baseline (what the nightly runs) | `python3 scripts/common/fix/validate_data.py --region Japan --baseline data/startgg/Japan/validation_baseline.json` |
 | Every event directory is registered in `tournaments.jsonl` | `python3 scripts/common/fix/check_events_in_tournaments.py --region Japan` |
 | Index entries whose files are missing | `python3 scripts/common/fix/fix_missing_tournaments.py --region Japan --dry-run` |
 | Unit tests | `python3 -m unittest discover -s scripts/test` |
 | Download regression (spsp repository) | `SPSP_DL_SCRIPTS=<this checkout> python3 tests/fetch/dl_golden.py replay --fixture tests/fetch/fixtures/dl_202609` plus `python3 -m pytest tests/fetch` |
+
+The nightly (spsp step `[2.57/5]`) runs the baseline form. Several hundred events always
+report something — entrants without a start.gg account, tournaments that never ran a
+bracket — and the ranking build tolerates all of it, so the check only watches for a
+**jump**: it counts the findings per category and compares them with
+`data/startgg/<Region>/validation_baseline.json`. Within the tolerance (`--tolerance`,
+default 10 per category) the baseline is rewritten to the current counts, so slow growth
+follows along by itself; above it the run prints `REGRESSION:` lines, adds a warning to
+`FAILED_STEPS` and leaves the baseline untouched, so the warning stays until someone looks.
+The build is never stopped by this step. After confirming a jump is legitimate (a bulk
+import, a new kind of event), accept it with
+`--baseline <file> --write-baseline`.
+
 
 ## When the nightly fails
 
@@ -155,6 +169,10 @@ The spsp log ends with a `FAILED_STEPS` list. For the download step:
 * **`data push failed`**: the data branch was pushed from elsewhere. Run
   `git pull --rebase origin data-Japan` in the checkout and push; the commit already
   exists locally.
+* **`validate_data`**: a category of known inconsistency grew beyond the tolerance. The
+  `REGRESSION:` lines in the log name it; run the check by hand (see "Checks") to see the
+  individual events. Nothing is broken for the build — decide whether the jump is a real
+  download problem or a legitimate change, then re-baseline.
 * **Checkout dirty with unexpected files**: the nightly commits only `data/startgg/`.
   Stray files (checkpoints, `.bak`) are ignored by the data branch's `.gitignore`; add
   new patterns there (on `main`, then merge) rather than committing them.

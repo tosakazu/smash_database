@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -215,6 +217,64 @@ if _ROOT_DIR not in _sys.path:
     _sys.path.insert(0, _ROOT_DIR)
 
 
+# ── エラーの種別分け (件数の推移を見るため。個々のメッセージには件数や比率が入るので落とす) ──
+CATEGORY_PATTERNS = (
+    (re.compile(r"missing file (\S+)"), r"missing_file:\1"),
+    (re.compile(r"matches missing winner/loser ratio"), "sets_missing_winner_loser"),
+    (re.compile(r"standings missing user_id ratio"), "standings_missing_user_id"),
+    (re.compile(r"match IDs not in standings ratio"), "set_ids_not_in_standings"),
+    (re.compile(r"missing field '([^']+)'"), r"missing_field:\1"),
+    (re.compile(r"missing event dir"), "index_points_at_missing_dir"),
+    (re.compile(r"invalid JSON"), "invalid_json"),
+)
+
+
+def categorize(message: str) -> str:
+    """1 件のエラーメッセージ → 種別。どのパターンにも当たらなければ other。"""
+    for pattern, label in CATEGORY_PATTERNS:
+        m = pattern.search(message)
+        if m:
+            return m.expand(label) if "\\" in label else label
+    return "other"
+
+
+def summarize(messages: List[str]) -> Dict[str, int]:
+    counts: Dict[str, int] = {}
+    for message in messages:
+        counts[categorize(message)] = counts.get(categorize(message), 0) + 1
+    return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
+
+
+def print_summary(counts: Dict[str, int], total: int) -> None:
+    for label, n in counts.items():
+        print(f"  {n:6d}  {label}")
+    print(f"  {total:6d}  total")
+
+
+def compare_with_baseline(counts: Dict[str, int], baseline_file: Path, tolerance: int) -> List[str]:
+    """基準ファイルと突き合わせ、許容幅を超えて増えた種別を返す (存在しなければ基準を作るだけ)。"""
+    if not baseline_file.exists():
+        print(f"baseline {baseline_file} が無いので現在値で作成する")
+        return []
+    baseline = json.loads(baseline_file.read_text(encoding="utf-8")).get("counts", {})
+    regressions = []
+    for label, n in counts.items():
+        before = baseline.get(label, 0)
+        if n > before + tolerance:
+            regressions.append(f"{label}: {before} → {n} (+{n - before}, 許容 {tolerance})")
+    return regressions
+
+
+def write_baseline(counts: Dict[str, int], baseline_file: Path) -> None:
+    baseline_file.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "updated_at": dt.datetime.now().isoformat(timespec="seconds"),
+        "counts": counts,
+    }
+    baseline_file.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate downloaded start.gg data directories and schema."
@@ -233,6 +293,28 @@ def main() -> int:
         "--strict",
         action="store_true",
         help="Treat warnings as errors.",
+    )
+    parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="Print per-category counts instead of every message.",
+    )
+    parser.add_argument(
+        "--baseline",
+        default=None,
+        help="JSON file with the accepted per-category counts. Exit 2 when a category "
+             "grows by more than --tolerance; the file is refreshed while it stays within it.",
+    )
+    parser.add_argument(
+        "--tolerance",
+        type=int,
+        default=10,
+        help="Allowed growth per category before --baseline reports a regression (default 10).",
+    )
+    parser.add_argument(
+        "--write-baseline",
+        action="store_true",
+        help="Write the current counts to --baseline and exit 0.",
     )
     from scripts.common._cli import add_region_arg, resolve_index_paths
     add_region_arg(parser)
@@ -253,9 +335,33 @@ def main() -> int:
 
     validate_tournaments_file(Path(args.tournaments_file), errors)
 
+    counts = summarize(errors)
+
+    if args.baseline:
+        baseline_file = Path(args.baseline)
+        print(f"検出 {len(errors)} 件:")
+        print_summary(counts, len(errors))
+        if args.write_baseline:
+            write_baseline(counts, baseline_file)
+            print(f"baseline を更新: {baseline_file}")
+            return 0
+        regressions = compare_with_baseline(counts, baseline_file, args.tolerance)
+        if regressions:
+            for line in regressions:
+                print(f"REGRESSION: {line}")
+            print(f"Validation regression: {len(regressions)} categories grew beyond the tolerance.")
+            return 2
+        write_baseline(counts, baseline_file)   # 許容内なので基準を現在値に寄せる
+        print("baseline 内 (許容幅を超えた増加なし)")
+        return 0
+
     if errors:
-        for error in errors:
-            print(f"ERROR: {error}")
+        if args.summary:
+            print(f"検出 {len(errors)} 件:")
+            print_summary(counts, len(errors))
+        else:
+            for error in errors:
+                print(f"ERROR: {error}")
         print(f"Validation failed: {len(errors)} issues found.")
         return 1
 
