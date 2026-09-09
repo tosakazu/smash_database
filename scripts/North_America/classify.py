@@ -8,12 +8,18 @@
 
 いま derived.json に入るもの:
   is_1on1 / not_1on1_reason   ダブルス・チーム戦・amiibo などを名前で除外したか
-  calendar                    開催日 (現地時間)、土日か、開催国の祝日か
+  calendar                    開催日 (現地時間)、土日か、開催国の祝日か (US / CA / MX / DO)
 
 まだ無いもの (足すときはこのファイルに):
   休日扱いする期間 (日本のお盆・年末年始に相当するもの。北米で何をそう見なすかは未定)、
-  州・県ごとの祝日 (いまは国の祝日だけ)、大会名からのラベル (シリーズ名・制限大会など)、
+  州・県ごとの祝日 (Family Day など。attr.place に州が入っていないので、まず venue_address
+  から州を取る仕組みが要る)、大会名からのラベル (シリーズ名・制限大会など)、
   開催地の州、プレイヤーの居住地。
+
+確認しきれていない点 (担当者が現地の暦で検証すること):
+  - DO の月曜寄せ (ley 139-97) は「火・水 → 前の月曜、木・金・土 → 次の月曜」で実装し、
+    日曜に当たった場合は動かしていない。
+  - DO の 8/16 (Restauración) は大統領就任の年は固定日として扱う説があるが、区別していない。
 """
 from __future__ import annotations
 
@@ -21,7 +27,8 @@ import datetime as dt
 import functools
 import re
 
-CLASSIFIER_VERSION = 2   # 2: 祝日 (US / CA / MX の国民の祝日) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
+CLASSIFIER_VERSION = 3   # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
+                         # 2: 祝日 (US / CA / MX) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
 
 # 北米は複数のタイムゾーンにまたがる。イベントの place.timezone があればそれを使い、
 # 無いときだけこの既定を使う (プロセスの TZ もこの値で derive.py が設定する)。
@@ -68,7 +75,9 @@ def is_1on1_event(attr: dict) -> tuple[bool, str | None]:
 # 国民の祝日。国ごとに違うので開催国 (attr.place.country_code) で引く。州・県の祝日は入れていない
 # (Family Day やメキシコ各州の祝日など。必要になったら country_code だけでなく州も見ること)。
 # 表記: ("fixed", 月, 日) / ("nth", 月, 曜日 0=月, n 番目。-1 = 最後) / ("easter", 復活祭からの日数)
-DEFAULT_COUNTRY = "US"
+#      / ("movable", 月, 日) = 月曜に寄せる祝日 (DO) / ("transmission",) = メキシコの大統領就任式
+# 表の無い国 (この地域に新しい国が入ったとき) は祝日を当てない。他国の表で代用しない。
+DEFAULT_COUNTRY = "US"      # place.timezone が無いときの既定タイムゾーン用 (祝日の既定ではない)
 
 HOLIDAY_RULES: dict[str, tuple] = {
     "US": (
@@ -103,13 +112,30 @@ HOLIDAY_RULES: dict[str, tuple] = {
         ("fixed", 5, 1),            # Día del Trabajo
         ("fixed", 9, 16),           # Día de la Independencia
         ("nth", 11, 0, 3),          # Revolución Mexicana
+        ("transmission",),          # 12/1 大統領就任式 (6 年ごと)
         ("fixed", 12, 25),          # Navidad
     ),
 }
-HOLIDAY_RULES["DO"] = HOLIDAY_RULES["MX"]   # 暫定: ドミニカ共和国の祝日表は未調査 (担当者が入れる)
+HOLIDAY_RULES["DO"] = (
+    ("fixed", 1, 1),            # Año Nuevo
+    ("movable", 1, 6),          # Día de Reyes
+    ("fixed", 1, 21),           # Nuestra Señora de la Altagracia
+    ("movable", 1, 26),         # Día de Duarte
+    ("fixed", 2, 27),           # Día de la Independencia
+    ("easter", -2),             # Viernes Santo
+    ("easter", 60),             # Corpus Christi
+    ("movable", 5, 1),          # Día del Trabajo
+    ("movable", 8, 16),         # Día de la Restauración
+    ("fixed", 9, 24),           # Nuestra Señora de las Mercedes
+    ("movable", 11, 6),         # Día de la Constitución
+    ("fixed", 12, 25),          # Navidad
+)
 
 # 土日に当たった祝日を前後の平日に振り替える国 (振替日も休みになる = 大会が組まれやすい)
 OBSERVED_SHIFT_COUNTRIES = ("US", "CA")
+
+# 12/1 が休日になる年 (メキシコの大統領就任式。6 年ごと、直近は 2024 年)
+MX_TRANSMISSION_BASE_YEAR = 2024
 
 # 上の規則で出ない日を足したいとき (単発の祝日・大型イベント週など) はここに実日付を書く
 EXTRA_HOLIDAY_DATES: frozenset[dt.date] = frozenset()
@@ -142,12 +168,31 @@ def _easter(year: int) -> dt.date:
     return dt.date(year, month, day + 1)
 
 
+def _movable_to_monday(d: dt.date) -> dt.date:
+    """ドミニカ共和国 (ley 139-97): 火・水は前の月曜、木・金・土は次の月曜に移す。
+    日曜のときの扱いは確認できていないので動かさない (要確認)。"""
+    wd = d.weekday()
+    if wd in (1, 2):                                  # 火・水
+        return d - dt.timedelta(days=wd)
+    if wd in (3, 4, 5):                               # 木・金・土
+        return d + dt.timedelta(days=7 - wd)
+    return d
+
+
+def holidays_source(country_code: str | None) -> str | None:
+    """その国の祝日表があるか (無ければ None = 祝日を当てない。他国の表で代用しない)。"""
+    cc = (country_code or "").upper()
+    return cc if cc in HOLIDAY_RULES else None
+
+
 @functools.lru_cache(maxsize=None)
 def holidays_for(country_code: str | None, year: int) -> frozenset[dt.date]:
-    """その国・その年の祝日 (振替日を含む)。表の無い国は既定 (US) を使う。"""
-    rules = HOLIDAY_RULES.get((country_code or "").upper()) or HOLIDAY_RULES[DEFAULT_COUNTRY]
+    """その国・その年の祝日 (振替日を含む)。表の無い国は空 (推測しない)。"""
+    cc = holidays_source(country_code)
+    if cc is None:
+        return frozenset(EXTRA_HOLIDAY_DATES)
     days: set[dt.date] = set()
-    for rule in rules:
+    for rule in HOLIDAY_RULES[cc]:
         kind = rule[0]
         if kind == "fixed":
             days.add(dt.date(year, rule[1], rule[2]))
@@ -160,7 +205,12 @@ def holidays_for(country_code: str | None, year: int) -> frozenset[dt.date]:
             while d.weekday() != 0:
                 d -= dt.timedelta(days=1)
             days.add(d)
-    if (country_code or "").upper() in OBSERVED_SHIFT_COUNTRIES:
+        elif kind == "movable":
+            days.add(_movable_to_monday(dt.date(year, rule[1], rule[2])))
+        elif kind == "transmission":
+            if (year - MX_TRANSMISSION_BASE_YEAR) % 6 == 0:
+                days.add(dt.date(year, 12, 1))
+    if cc in OBSERVED_SHIFT_COUNTRIES:
         for d in list(days):
             if d.weekday() == 5:
                 days.add(d - dt.timedelta(days=1))    # 土曜 → 前日の金曜
@@ -170,7 +220,7 @@ def holidays_for(country_code: str | None, year: int) -> frozenset[dt.date]:
 
 
 def is_weekend_date(d: dt.date, country_code: str | None = None) -> bool:
-    """土日、または開催国の祝日 (振替日を含む)。"""
+    """土日、または開催国の祝日 (振替日を含む)。表の無い国は土日だけ。"""
     return d.weekday() >= 5 or d in holidays_for(country_code, d.year)
 
 
@@ -208,6 +258,7 @@ def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None
         "end_date": end_d.isoformat(),
         "timezone": str(tz),
         "country_code": cc,
+        "holidays": holidays_source(cc),      # どの国の祝日表を当てたか (None = 当てていない)
         "is_weekend_real": is_weekend_range(d, end_d, cc),
     }
 

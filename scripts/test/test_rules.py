@@ -267,6 +267,27 @@ class NorthAmericaTests(unittest.TestCase):
         self.assertFalse(na.is_weekend_date(dt.date(2026, 4, 3), "US"))
         self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 24), "US"))   # ただの火曜
 
+    def test_dominican_republic_moves_holidays_to_monday(self):
+        # ley 139-97: 火・水は前の月曜、木・金・土は次の月曜
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 1, 5), "DO"))    # 1/6 (火) → 1/5 (月)
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 1, 6), "DO"))
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 5, 4), "DO"))    # 5/1 (金) → 5/4 (月)
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 2, 27), "DO"))   # 独立記念日は動かさない
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 6, 4), "DO"))    # Corpus Christi (復活祭 +60 日)
+
+    def test_unknown_country_gets_no_holidays(self):
+        # 表の無い国に他国の暦を当てない (土日だけ)。当てた表は derived.json に記録する
+        self.assertIsNone(na.holidays_source("BR"))
+        self.assertEqual(na.holidays_for("BR", 2026), frozenset())
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "BR"))   # US なら振替休日
+        ts = int(dt.datetime(2026, 7, 3, 12, tzinfo=ZoneInfo("America/New_York")).timestamp())
+        self.assertIsNone(na.calendar_flags(ts, None, {"country_code": "BR"})["holidays"])
+        self.assertEqual(na.calendar_flags(ts, None, {"country_code": "US"})["holidays"], "US")
+
+    def test_mexican_transmission_day(self):
+        self.assertTrue(na.is_weekend_date(dt.date(2030, 12, 1), "MX"))   # 6 年ごとの就任式
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 12, 1), "MX"))
+
     def test_holiday_on_a_weekend_shifts_to_a_weekday(self):
         # 2026-07-04 (独立記念日) は土曜なので、休みは前日の金曜に振り替わる
         self.assertTrue(na.is_weekend_date(dt.date(2026, 7, 3), "US"))
