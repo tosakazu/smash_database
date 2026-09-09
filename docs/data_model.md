@@ -112,9 +112,15 @@ enters tournaments in two regions has a row in both regions' files; merge by `us
   enter the announcement date or a placeholder), the downloader replaces the pair by
   the first and last set time (`corrected_event_window` in `download.py`).
 * `url` is the tournament path on start.gg (prefix `https://www.start.gg`).
-* `labels` is free-form metadata. Real events currently have `{}`; virtual class events
-  set `is_class_virtual` (below). Historical values produced by an LLM classifier were
-  dropped.
+* `labels` is free-form metadata. **New downloads write `{}`** — nothing classifies events
+  at download time any more. Events fetched before 2026-02 still carry three fields produced
+  by an LLM classifier that no longer runs: `game_rule` (`1on1`, `doubles`, `crew-battle`,
+  `squad-strike`, `oma-5`, `random`), `event_type` (`main` / `sub` / `spectator`) and
+  `registration_type` (`full-open` / `casual` / `restricted-open` / `full-invite`).
+  Only `game_rule` is still read (by `scripts/Japan/classify.py`, to exclude non-singles
+  events); the other two are dead weight kept because rewriting every `attr.json` would
+  churn the data branch. Virtual class events additionally set `is_class_virtual` and
+  `class_letter` (below).
 * `status` is `"completed"` for every downloaded event.
 
 ### `standings.json`
