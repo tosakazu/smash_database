@@ -351,7 +351,11 @@ def main() -> int:
                 print(f"REGRESSION: {line}")
             print(f"Validation regression: {len(regressions)} categories grew beyond the tolerance.")
             return 2
-        write_baseline(counts, baseline_file)   # 許容内なので基準を現在値に寄せる
+        # 許容内なので基準を現在値に寄せる。件数が同じなら書かない (毎回 commit されるのを避ける)
+        current = json.loads(baseline_file.read_text(encoding="utf-8")).get("counts", {}) if baseline_file.exists() else None
+        if current != counts:
+            write_baseline(counts, baseline_file)
+            print(f"baseline を現在値に更新: {baseline_file}")
         print("baseline 内 (許容幅を超えた増加なし)")
         return 0
 
