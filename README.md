@@ -236,3 +236,9 @@ The history was recreated on 2026-09-07. Earlier commits and the data of four ov
 regions that were downloaded before then are not kept. GitHub Actions workflows that
 used to run the download were retired at the same time; the nightly download is driven
 by the spsp deployment pipeline.
+
+## Licence
+
+Code: MIT ([LICENSE](LICENSE)). Tournament data on the `data-<Region>` branches comes
+from the start.gg API and stays subject to start.gg's terms; this repository mirrors it
+so the rankings built from it can be reproduced.

@@ -217,6 +217,29 @@ The spsp log ends with a `FAILED_STEPS` list. For the download step:
 
 ## GitHub settings
 
-Issues are enabled; wiki, projects and GitHub Actions are disabled (the download is
-not run on GitHub). The default branch is `main`. Data branches are fetched by
-operators only; keep `--single-branch` in clone instructions.
+Issues are enabled; wiki and projects are disabled. The default branch is `main`.
+Data branches are fetched by operators only; keep `--single-branch` in clone
+instructions.
+
+**Actions.** One workflow, `.github/workflows/tests.yml`, runs
+`python -m unittest discover -s scripts/test` on pull requests to `main` (and on pushes
+to it). It installs `jpholiday` and nothing else, downloads no data and needs no token —
+the actual downloading always runs on an operator's own machine, never here.
+
+**Protected branches.**
+
+| Branch | Rule |
+|---|---|
+| `main` | Pull request required (0 approvals), `tests` must pass, conversations resolved, no force-push, no deletion. Administrators are exempt, so the owner can still push directly; everyone else goes through a PR |
+| `data-*` | Force-push and deletion blocked by a repository ruleset (administrators can bypass). Ordinary pushes are untouched, so an operator's nightly keeps working |
+
+A region operator therefore needs write access, pushes only their own `data-<Region>`
+branch, and proposes script or documentation changes as a pull request against `main`.
+
+## Licence
+
+The code is MIT (see [LICENSE](../LICENSE)). The tournament data on the data branches
+comes from the start.gg API and is not ours to relicense — it is mirrored here so the
+rankings can be reproduced, and stays subject to start.gg's terms. `users.jsonl` holds
+only what players made public on their start.gg profile; removal requests are handled by
+deleting the records from the branch head (see LICENSE).
