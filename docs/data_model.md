@@ -245,7 +245,9 @@ changes, bump `CLASSIFIER_VERSION` and run `derive.py --region Japan --all`.
             "force_weekday": false, "smacomi": false},
   "calendar": {"date": "2026-08-09", "end_date": "2026-08-09", "is_weekend_real": true, "is_force_weekend_period": false},
   "class_bracket": {"all_phases_class": false, "phase_group_ids": [3410328]},
-  "place": {"prefecture": "愛知県"}
+  "place": {"prefecture": "愛知県"},
+  "naming": {"series": "Victoire", "series_number": 1, "award_label": "Victoire",
+             "individual_label": "Victoire#1", "cancelled": false, "test_page": false}
 }
 ```
 
@@ -256,6 +258,7 @@ changes, bump `CLASSIFIER_VERSION` and run `derive.py --region Japan --all`.
 | `calendar` | dates in JST; `is_weekend_real` = any day of the event is a weekend or Japanese holiday; `is_force_weekend_period` = the event overlaps Obon (8/13-15) or the year-end break (12/26-1/5) |
 | `results` | facts from `standings.json` / `matches.json`: number of standings rows with a user, best placement present, whether any completed set belongs to a double-elimination phase, and the `has_gf_recorded` backfill flag |
 | `class_bracket` | phase-group ids of the class brackets inside the event (empty when the whole event is a class bracket) |
+| `naming` | labels derived from the tournament name: `series` (series name with numbering and subtitles stripped), `series_number` (the Nth edition), `award_label` (key that groups a series into one achievement badge), `individual_label` (same normalisation but keeping the number, for large events), `cancelled` (the name says cancelled or postponed), `test_page` (a test/verification page). Rules in `scripts/Japan/naming.py` |
 | `place.prefecture` | prefecture (kanji) of the venue, from the address, the city, or the free-text address via the resolver in `scripts/Japan/prefecture.py`; `null` outside Japan or when unresolvable |
 
 These are facts about the data. How they are combined (weekday handling for small
