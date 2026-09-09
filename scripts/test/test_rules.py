@@ -256,13 +256,36 @@ class NorthAmericaTests(unittest.TestCase):
         default = na.calendar_flags(ts, None, None)
         self.assertEqual(default["timezone"], na.TIMEZONE)
 
+    def test_holidays_are_per_country(self):
+        # 祝日は開催国で引く (州・県の祝日はまだ入れていない)
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 11, 26), "US"))    # Thanksgiving (4th Thu)
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 26), "MX"))   # メキシコは平日
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 7, 1), "CA"))      # Canada Day
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 1), "US"))
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 9, 16), "MX"))     # Día de la Independencia
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 4, 3), "CA"))      # Good Friday (復活祭 4/5 の 2 日前)
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 4, 3), "US"))
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 24), "US"))   # ただの火曜
+
+    def test_holiday_on_a_weekend_shifts_to_a_weekday(self):
+        # 2026-07-04 (独立記念日) は土曜なので、休みは前日の金曜に振り替わる
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 7, 3), "US"))
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "MX"))     # 振替は US / CA だけ
+
     def test_no_japanese_calendar_rules(self):
-        # 正月 (1/2) は日本では休日扱いだが、北米で休日とするかは未定なので週末にしない
-        newyear = dt.date(2026, 1, 2)
-        self.assertFalse(na.is_weekend_date(newyear))
+        # 日本は年末年始 (12/26〜1/5) を丸ごと休日扱いするが、北米にその概念は入れていない。
+        # 1/2 はどの国の祝日でもないので平日のまま。
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 1, 2), "US"))
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 8, 14), "US"))    # お盆も同じ
         self.assertNotIn("is_force_weekend_period",
                          na.calendar_flags(int(dt.datetime(2026, 1, 2, 12).timestamp()), None, None))
-        self.assertEqual(na.HOLIDAY_DATES, frozenset())   # 祝日は運用担当者が入れる
+
+    def test_calendar_flags_record_the_country(self):
+        ts = int(dt.datetime(2026, 11, 26, 12, tzinfo=ZoneInfo("America/New_York")).timestamp())
+        flags = na.calendar_flags(ts, None, {"country_code": "US", "timezone": "America/New_York"})
+        self.assertEqual(flags["date"], "2026-11-26")
+        self.assertEqual(flags["country_code"], "US")
+        self.assertTrue(flags["is_weekend_real"])       # Thanksgiving
 
     def test_no_user_derivation_yet(self):
         self.assertIsNone(na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"}))

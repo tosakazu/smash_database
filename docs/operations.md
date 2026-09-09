@@ -78,11 +78,15 @@ Add codes there when a region needs them.
 | `check_requirements()` (optional) | Verify region-specific dependencies (Japan needs `jpholiday` for its holiday table) |
 
 Nothing else is shared: holidays, "treat this period as a weekend", name patterns and
-series naming are per region. Japan treats お盆 and 年末年始 as weekends; North America
-declares no holidays at all until its operator decides what belongs there. Copying
-Japan's rules into a new region is the one thing not to do — start from
-`scripts/North_America/classify.py`, which is deliberately minimal (1-on-1 detection
-and the calendar), and add what you can actually verify for that region.
+series naming are per region. Japan treats 土日祝 plus お盆 and 年末年始 as weekends
+(`jpholiday` supplies the holiday table). North America decides holidays per country from
+the event's `place.country_code` — the national holidays of US / CA / MX are in
+`HOLIDAY_RULES`, a holiday falling on a weekend shifts to the neighbouring weekday for
+US and CA, and there is no equivalent of お盆 / 年末年始 because nobody has decided what
+北米 would treat that way. Provincial and state holidays are not in yet, and the
+Dominican Republic borrows Mexico's table until someone checks it — both are marked in
+the module. Copying Japan's rules into a new region is the one thing not to do: start
+from `scripts/North_America/classify.py` and add only what you can verify for that region.
 
 ## Combining regions: `data-all`
 
