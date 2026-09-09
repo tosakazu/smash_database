@@ -6,6 +6,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:      # 手動実行 (Actions タブから)
 
 permissions:
   contents: read
