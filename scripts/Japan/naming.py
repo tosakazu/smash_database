@@ -818,3 +818,145 @@ def naming_labels(tname: str, ename: str) -> dict:
         "cancelled": is_cancelled(tname) or is_cancelled(ename),
         "test_page": is_test_page(tname) or is_test_page(ename),
     }
+
+
+# ── Community-level シリーズマージ ──
+# tournament_series() は実績用 (= サブタイトル/Anniversary 等を区別) なので strict.
+# ローカルランキングは「同じコミュニティ = 同じ参加者層」基準でより緩く統合する.
+# (純粋な表記揺れマージは tournament_series() 側で既に処理済み)
+_COMMUNITY_DIRECT_MERGES: dict[str, str] = {
+    # スマパ 拡大版 は実績では別シリーズ (= 別の実績バッジ) だが、community 上は同じ参加者層なので統合.
+    'スマパ 拡大版': 'スマパ',
+    # プレ大会 → 本大会 (コラボシリーズではないもののみ). コラボ pre (Pre-DELTA = デルブゲキ系合同
+    # クルーバトル併設) は別シリーズのまま.
+    'Pre-篝火': '篝火',
+    'プレ大会マエスマTOP': 'マエスマTOP',
+    'プレローカルマエスマTOP': 'マエスマTOP',
+    # サブタイトル・派生回をメインに統合 (community のみ, 実績は別).
+    '#EVISUMA_duo': '#EVISUMA',
+    '#EVISUMA_night': '#EVISUMA',
+    'おばすまOFT': 'おばすま',
+    'おばすまOST': 'おばすま',
+    'さしすまQ.E.D.': 'さしすま',
+    'まめブラSP': 'まめブラ',
+    'growup': 'grow',
+    'ミニ神威': 'Kamui',
+    '神威Turning Point': 'Kamui',
+    'ベルスマin四日市': 'ベルスマ',
+    'ベルスマトナメ': 'ベルスマ',
+    '兵庫大対戦会': '兵庫対戦会',
+    '兵庫県スマブラ大対戦会': '兵庫対戦会',
+    '兵庫県スマブラ対戦会': '兵庫対戦会',
+    '兵庫県対戦会': '兵庫対戦会',
+    '唐津スマブラ対戦会': '唐スマ',
+    'スマコミ': '上野スマコミ',
+    'Ueno Smash Ultimate Weekly-上野スマブラＳＰ平日大会': '上野スマコミ',
+    'Lowkey TENSUMA': 'TENSUMA',
+    # るゆぶらっ！: 其の壱 / 其の弐 を統合.
+    'るゆぶらっ！其の壱': 'るゆぶらっ！',
+    'るゆぶらっ！其の弐': 'るゆぶらっ！',
+    # 九龍 LIMIT BREAK は制限大会のため、元シリーズ (九龍) とは community でも別維持.
+    # スマバト/篝火 との合同は他ブランドとのコラボなので別維持.
+    # 駒battle + 駒battle mini → 駒battle (駒スマは別).
+    '駒battle mini': '駒battle',
+    # 修羅ブラSP → 修羅ブラ (通常版の表記揺れ統合). 新風 は制限大会なので別維持.
+    '修羅ブラSP': '修羅ブラ',
+    # 新Impact(仮) → IMPACT ARENA (IMPACT 系列).
+    '新Impact(仮)': 'IMPACT ARENA',
+    # イツクシマ外伝 → イツクシマ (実績は別維持、community のみ統合).
+    'イツクシマ外伝': 'イツクシマ',
+    # ウメブラJapanMajor → ウメブラ (実績は別の特別大会、community は同一コミュニティ).
+    'ウメブラJapanMajor': 'ウメブラ',
+    # ウメブラがんばれ大会も同じ.
+    'ウメブラがんばれ大会': 'ウメブラ',
+}
+
+# パターンマージ: 正規表現で strict series 名にヒットすれば community 名へ.
+# 並び順優先 (= 最初にマッチしたものが勝つ). チーム除外などの先行ルールを上に置く.
+_COMMUNITY_PATTERN_MERGES = [
+    # チーム/Team 系列はメインと分離 (= クロブラ流ポリシー).
+    (re.compile(r'^カリスマ\s*(?:チーム|Team)', re.I), 'カリスマチーム'),
+    # メイン系列 (サブタイトル統合)
+    (re.compile(r'^INNOSUMA', re.I), 'INNOSUMA'),
+    (re.compile(r'^Double\s*G\b', re.I), 'Double G'),
+    # WAVE Champions シリーズは Champions FINAL 含めて統合. WAVE 本体 (single) は別に維持.
+    (re.compile(r'^WAVE\s*Champions', re.I), 'WAVE Champions'),
+    # 彩 系列: 彩 / 彩Trial / 彩trial / 彩in池袋 全部統合.
+    (re.compile(r'^彩(?:Trial|trial|in池袋|$)', re.I), '彩'),
+    # ── 以下、サブタイトル/Anniversary/季節バージョン等の統合 (実績は別、community のみ) ──
+    (re.compile(r'^A-Leg', re.I), 'A-Leg'),
+    (re.compile(r'^After Eight Smash', re.I), 'After Eight Smash'),
+    (re.compile(r'^Cafeteria Cup', re.I), 'Cafeteria Cup'),
+    (re.compile(r'^Comic Con Okinawa', re.I), 'Comic Con Okinawa'),
+    # DIVE UnderGround は制限大会のため別維持 (= negative lookahead で除外).
+    (re.compile(r'^(?:Re:)?DIVE(?!\s*Under\s*Ground)', re.I), 'DIVE'),
+    (re.compile(r'^ELEVATE', re.I), 'ELEVATE'),
+    (re.compile(r'^GAME COMクウガ', re.I), 'GAME COMクウガ'),
+    (re.compile(r'^Generations of Tournament Mode', re.I), 'Generations of Tournament Mode'),
+    (re.compile(r'^Greca League', re.I), 'Greca League'),
+    (re.compile(r'^HSTSP', re.I), 'HSTSP'),
+    (re.compile(r'^Kadena', re.I), 'Kadena'),
+    (re.compile(r'^MaKoTnLeague', re.I), 'MaKoTnLeague'),
+    (re.compile(r'^Mind[Ss]et', re.I), 'Mindset'),
+    (re.compile(r'^OEBスマブラSP', re.I), 'OEBスマブラSP'),
+    (re.compile(r'^(?:SMP|Single Marine Program)', re.I), 'SMP'),
+    (re.compile(r'SmashCruise', re.I), 'SmashCruiseTournament'),
+    (re.compile(r'^Tokyo\s+Nights', re.I), 'Tokyo Nights'),
+    (re.compile(r'^TOKYO SMASH', re.I), 'TOKYO SMASH'),
+    (re.compile(r'^TRY DASH', re.I), 'TRY DASH'),
+    # 日本語サブタイトル統合
+    # くすブラ若葉 は制限大会のため別維持 (= negative lookahead で除外).
+    (re.compile(r'くすブラ(?!\s*若葉)', re.I), 'くすブラ'),
+    (re.compile(r'こしスマ', re.I), 'こしスマ'),
+    (re.compile(r'^スマえもん', re.I), 'スマえもん'),
+    (re.compile(r'^スマわんこ', re.I), 'スマわんこ'),
+    (re.compile(r'^スマキャン', re.I), 'スマキャン'),
+    (re.compile(r'^スマサー(?:連合)?合宿', re.I), 'スマサー合宿'),
+    (re.compile(r'^バケスマSP', re.I), 'バケスマSP'),
+    (re.compile(r'^マエスマHIT', re.I), 'マエスマHIT'),
+    (re.compile(r'マエスマTOP$', re.I), 'マエスマTOP'),
+    (re.compile(r'^ユニブラ', re.I), 'ユニブラ'),
+    (re.compile(r'^ロンスマWKD', re.I), 'ロンスマWKD'),
+    (re.compile(r'^兵庫(?:県?スマブラ)?(?:大)?対戦会', re.I), '兵庫対戦会'),
+    (re.compile(r'^函武激', re.I), '函武激'),
+    (re.compile(r'^夢スマ', re.I), '夢スマ'),
+    (re.compile(r'^(?:平日)?極強', re.I), '極強'),
+    (re.compile(r'^真・スマ', re.I), '真・スマのみや'),
+    (re.compile(r'^知恵捨', re.I), '知恵捨'),
+    (re.compile(r'^西条スマッシュ', re.I), '西条スマッシュ'),
+    (re.compile(r'^船スマ', re.I), '船スマ'),
+    (re.compile(r'^なにわSMASH', re.I), 'なにわSMASH'),
+    (re.compile(r'^ももブラ', re.I), 'ももブラ'),
+    (re.compile(r'^鹿児スマ', re.I), '鹿児スマ'),
+    (re.compile(r'^ポチスマ', re.I), 'ポチスマ'),
+    (re.compile(r'^Re:?肥後ブラ|^肥後ブラ', re.I), '肥後ブラSP'),
+    (re.compile(r'^やさしいスマッシュ', re.I), 'やさしいスマッシュ'),
+    (re.compile(r'^(?:Re:)?\s*IMPACT\s*(?:ARENA|MAJOR)?', re.I), 'IMPACT ARENA'),
+    (re.compile(r'^カリスマ(?:SP|ぷち)?', re.I), 'カリスマ'),
+    (re.compile(r'^スマ王', re.I), 'スマ王'),
+    (re.compile(r'^Mjolner', re.I), 'Mjolner'),
+    (re.compile(r'^BIG\s*LAGOON', re.I), 'BIG LAGOON'),
+    (re.compile(r'^YASUブラ', re.I), 'YASUブラSP'),
+    (re.compile(r'^Smash\s*Open', re.I), 'Smash Open'),
+    (re.compile(r'^しのスマ|^平日しのスマ', re.I), 'しのスマ'),
+    (re.compile(r'^LOVEスマ', re.I), 'LOVEスマ'),
+    # 美らブラ ビギナーズ杯 は制限大会のため community でも別維持 (= negative lookahead).
+    (re.compile(r'美らブラ(?!\s*ビギナー)', re.I), '美らブラ'),
+    (re.compile(r'^カミスマ|^平日カミスマ|Kamisuma', re.I), 'カミスマ'),
+    (re.compile(r'^いろスマ|^平日いろスマ', re.I), 'いろスマ'),
+    (re.compile(r'こくブラ', re.I), 'こくブラ'),
+]
+
+
+def community_series(strict: str) -> str:
+    """tournament_series() の結果からコミュニティレベルの集約名を返す."""
+    if not strict:
+        return strict
+    if strict in _COMMUNITY_DIRECT_MERGES:
+        return _COMMUNITY_DIRECT_MERGES[strict]
+    for pat, target in _COMMUNITY_PATTERN_MERGES:
+        if pat.search(strict):
+            return target
+    return strict
+
+
