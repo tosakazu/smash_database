@@ -173,7 +173,6 @@ those are re-fetched on every run until a winner exists, ignoring the normal
 | `queries.py` | GraphQL query strings |
 | `clock.py` | The single source of "now" (`now()` / `set_now()`), so tests can freeze time |
 | `_cli.py` | Common CLI options (`--token --url --max-retries --retry-delay`) and API-layer setup |
-| `storeJson.py` | Legacy JSON store helper |
 
 ### Manual tools (`scripts/common/manual/`, `scripts/Japan/manual/`)
 
