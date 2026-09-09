@@ -18,7 +18,7 @@ import re
 
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 
-CLASSIFIER_VERSION = 2   # 2: place.prefecture (開催地の都道府県) を追加 (2026-09-08)
+CLASSIFIER_VERSION = 3   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃) (2026-09-09)   # 2: place.prefecture (開催地の都道府県)
 
 # ── 1on1 判定 (旧 spsp/data_loader.py) ──
 # 明示的に弾く event/tournament name patterns. これら以外はデフォルト accept.
@@ -49,24 +49,26 @@ EXCLUDE_PATTERNS = (
     "テスト", "検証", "test", "sample",
     # Items / variant rules
     "item on", "アイテム", "変則",
+    # 変則ルールのサイドイベント (以前は attr.json の labels.game_rule = 旧 LLM 分類でだけ弾けていたもの)
+    "スマッシュサバイバル", "amiibo", "でかい乱闘", "タックルマッハスタンプ",
 )
 # 「[N]vs[M]」「[N]v[M]」「[N]on[M]」のチーム戦パターン (Lv4 等の偽陽性を避けるため数字 prefix 必須 + word boundary 風)
-EXCLUDE_REGEX = re.compile(r'(?<!\w)[2-9]\s*(?:vs?|on|on\s|×|x)\s*[2-9](?!\w)', re.IGNORECASE)
+# 区切りのハイフン・長音も許す ("2-on-2" / "3ｰon-3" 等)
+EXCLUDE_REGEX = re.compile(r'(?<!\w)[2-9]\s*[-‐ー]?\s*(?:vs?|on|on\s|×|x)\s*[-‐ー]?\s*[2-9](?!\w)', re.IGNORECASE)
 # 除外パターンに引っかかるが実際は通常 1on1 として救済する allow-list (チバスマ交流会 = 普通の 1on1)
 ALLOW_PATTERNS = ("チバスマ",)
 
 
 def is_1on1_event(attr: dict) -> tuple[bool, str | None]:
-    """(1on1 として扱うか, 弾いた理由)。理由は "game_rule:<rule>" / "keyword:<kw>" / "regex:NvN"。
-    - labels.game_rule が明示的に非 1on1 (doubles, crew, squad, oma5, random) なら False
+    """(1on1 として扱うか, 弾いた理由)。理由は "keyword:<kw>" / "regex:NvN"。
+
+    判定は大会名・イベント名だけで行う。2026-02 以前のデータには LLM 分類由来の labels.game_rule が
+    残っているが、新規取得では付かないので依存しない (2026-09-09 に撤廃。game_rule でしか弾けていなかった
+    9 event は EXCLUDE_PATTERNS / EXCLUDE_REGEX に取り込んだ)。
     - ALLOW_PATTERNS に一致すれば True (除外より優先)
     - EXCLUDE_PATTERNS / EXCLUDE_REGEX に一致すれば False
-    - それ以外は True (game_rule=None = 主催者が設定し忘れ も True)
+    - それ以外は True
     """
-    labels = attr.get("labels") or {}
-    rule = labels.get("game_rule")
-    if rule in ("doubles", "crew-battle", "squad-strike", "oma-5", "random"):
-        return False, f"game_rule:{rule}"
     event_name_orig = attr.get("event_name") or ""
     tournament_name_orig = attr.get("tournament_name") or ""
     haystack_orig = event_name_orig + " | " + tournament_name_orig
