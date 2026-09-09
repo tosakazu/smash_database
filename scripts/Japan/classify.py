@@ -18,7 +18,7 @@ import re
 
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 
-CLASSIFIER_VERSION = 3   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃) (2026-09-09)   # 2: place.prefecture (開催地の都道府県)
+CLASSIFIER_VERSION = 4   # 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
 
 # ── 1on1 判定 (旧 spsp/data_loader.py) ──
 # 明示的に弾く event/tournament name patterns. これら以外はデフォルト accept.
@@ -157,8 +157,9 @@ NON_SERIOUS_PATTERN = re.compile(SPECIAL_RULES_PATTERN.pattern + '|' + UCHI_PATT
 RESTRICTED_PATTERN = re.compile(
     r'雛囃子|灰神楽|鬼灯火'
     r'|西武撃[^/／]*[Rr]ising|[Rr]ising[^/／]*西武撃'
-    r'|R\s*\d{3,4}\s*(?:未満|以下|制限)'
-    r'|レート\s*\d+\s*(?:未満|以下|制限)'
+    r'|R\s*\d{3,4}\s*(?:未満|以下|以上|制限)'
+    r'|レート\s*\d+\s*(?:未満|以下|以上|制限)'
+    r'|\d{3,4}\s*(?:未満|以下|以上)\s*制限'          # R / レート の字が無い書き方 (例: 風雲「1700未満制限大会」)
     r'|ビギナー(?:ズ)?\s*杯'
     r'|Beginner'
     r'|VIP\s*未満|未\s*VIP'
