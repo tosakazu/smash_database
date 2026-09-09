@@ -60,7 +60,9 @@ smash_db_tournament/            checkout of data-Japan
 │   │   ├── utils.py  queries.py  clock.py  _cli.py
 │   │   ├── manual/             one-off tools (not used by the pipeline)
 │   │   └── fix/                data validation / repair tools
-│   ├── Japan/                  Japan-specific: lower-class brackets, classify.py / naming.py / prefecture.py
+│   ├── Japan/                  Japan-specific: lower-class brackets,
+│   │                            classify.py (name/calendar/class flags), naming.py (series, award labels),
+│   │                            prefecture.py (city → prefecture), country.py (country names)
 │   └── test/                   unit tests
 └── data/startgg/Japan/         one directory per region: index files + events
     ├── done.csv                tournament ids whose download is complete
