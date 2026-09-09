@@ -16,9 +16,10 @@ from __future__ import annotations
 import datetime as dt
 import re
 
+from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 
-CLASSIFIER_VERSION = 4   # 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
+CLASSIFIER_VERSION = 5   # 5: naming (シリーズ名・開催回・実績ラベル・中止/テスト検出) を追加 (2026-09-09)   # 4: 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
 
 # ── 1on1 判定 (旧 spsp/data_loader.py) ──
 # 明示的に弾く event/tournament name patterns. これら以外はデフォルト accept.
@@ -332,5 +333,6 @@ def classify_event(base: dict, ctx) -> dict:
         "calendar": calendar_flags(ts, ctx.attr.get("end_timestamp")) if ts is not None else None,
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
         "place": {"prefecture": place_prefecture(ctx.attr.get("place"))},
+        "naming": naming_labels(ctx.tname, ctx.ename),
     })
     return out
