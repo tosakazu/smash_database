@@ -562,6 +562,7 @@ def fetch_event_details_by_slug(tournament_slug, event_slug):
             "id": tournament_data.get("id"),
             "name": tournament_data.get("name"),
             "slug": tournament_data.get("slug"),
+            "endAt": tournament_data.get("endAt"),   # attr.json の end_timestamp (休日判定・取り直し窓が使う)
             "url": tournament_data.get("url"),
             "countryCode": tournament_data.get("countryCode"),
             "city": tournament_data.get("city"),
