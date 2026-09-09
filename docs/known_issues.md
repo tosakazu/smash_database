@@ -22,10 +22,11 @@ a contributor is likely to hit or to want to pick up.
   `phase_group_start_at` on each set identify the pool and its scheduled time; the
   seeding tool's pool/wave logic itself lives in spsp, not here.
 
-## Validation status (2026-09-08, `validate_data.py --region Japan`)
+## Validation status (2026-09-09, `validate_data.py --region Japan`)
 
 526 events out of ~4,600 report an error; none block the ranking build, which
-tolerates them:
+tolerates them. The counts below are also the accepted baseline
+(`data/startgg/Japan/validation_baseline.json`) that the nightly compares against:
 
 | Count | Finding | Meaning |
 |---|---|---|
