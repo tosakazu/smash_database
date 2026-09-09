@@ -1,5 +1,5 @@
 {
-  "classifier_version": 2,
+  "classifier_version": 3,
   "event_id": 789276,
   "tournament_name": "TSB#16",
   "event_name": "Special 2-on-2",
@@ -14,7 +14,7 @@
     "has_gf_recorded": false
   },
   "is_1on1": false,
-  "not_1on1_reason": "game_rule:doubles",
+  "not_1on1_reason": "regex:NvN",
   "names": {
     "special_rules": false,
     "uchi": false,
