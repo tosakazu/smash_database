@@ -239,10 +239,10 @@ def main(argv=None):
                 "timestamp": _ts_virtual,
                 "end_timestamp": ev_attr.get("end_timestamp"),
                 "version": "1.0",
-                "labels": {**(ev_attr.get("labels") or {}), "is_class_virtual": True, "class_letter": letter},
                 "url": ev_attr.get("url"),
-                "is_class_virtual": True,
             }
+            # 仮想大会であることと class letter はディレクトリ名 (class_phases/<字>_virtual) が持つ。
+            # attr.json は start.gg 由来の値だけにし、判定は derive.py が derived.json に書く (2026-09-09〜)
             if args.dry_run:
                 print(f"DRY: would write {virt_dir.relative_to(root)} ({len(standings)} std, {len(matches)} matches)")
                 n_virtual += 1

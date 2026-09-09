@@ -99,10 +99,12 @@ def derive_event(event_dir: Path, clf) -> dict | None:
         return None
     tname = attr.get("tournament_name") or event_dir.parent.name
     ename = attr.get("event_name") or event_dir.name
-    is_virtual = bool(attr.get("is_class_virtual", False))
-    labels = attr.get("labels") or {}
+    # クラス bracket の仮想大会かどうかはディレクトリの形 (class_phases/<字>_virtual) で決まる。
+    # build_class_virtual_tournaments.py がその名前で作る = 生データ側にフラグを持たせない (2026-09-09〜)
+    is_virtual = event_dir.parent.name == "class_phases" and event_dir.name.endswith("_virtual")
+    class_letter = event_dir.name[: -len("_virtual")] or None if is_virtual else None
     parent_eid = None
-    if is_virtual and event_dir.parent.name == "class_phases":
+    if is_virtual:
         parent_attr = _load(event_dir.parent.parent / "attr.json")
         if isinstance(parent_attr, dict) and parent_attr.get("event_id") is not None:
             parent_eid = int(parent_attr["event_id"])
@@ -123,7 +125,7 @@ def derive_event(event_dir: Path, clf) -> dict | None:
         "num_entrants": int(attr.get("num_entrants") or 0),
         "is_class_virtual": is_virtual,
         "parent_event_id": parent_eid,
-        "class_letter": (labels.get("class_letter") or None) if is_virtual else None,
+        "class_letter": class_letter,
         "results": result_facts(attr, _rows(_load(event_dir / "standings.json")), _rows(_load(event_dir / "matches.json"))),
     }
     ctx = SimpleNamespace(event_dir=event_dir, attr=attr, tname=tname, ename=ename,

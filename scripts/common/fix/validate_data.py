@@ -21,7 +21,6 @@ ATTR_REQUIRED_FIELDS = (
     "offline",
     "url",
     "place",
-    "labels",
     "status",
 )
 PLACE_REQUIRED_FIELDS = (
