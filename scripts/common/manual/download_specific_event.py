@@ -179,7 +179,7 @@ def write_matches(all_nodes, entrant2user, event_dir):
         print(f"No processable matches found after filtering. Skipped {skipped_count} incomplete sets.")
 
 
-def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, labels, is_online, event_dir):
+def write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, url, is_online, event_dir, end_timestamp=None):
     """イベントの属性情報をattr.jsonとして保存する"""
     os.makedirs(event_dir, exist_ok=True) # ディレクトリが存在しない場合は作成
     json_data = {
@@ -191,9 +191,9 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "num_entrants": num_entrants,
         "offline": not is_online if is_online is not None else None, # is_onlineがNoneの場合を考慮
         "url": url, # トーナメントのURL
-        "labels": labels if labels is not None else [], # 追加メタ情報（現在は空）
         "status": "completed", # イベントが終了していることを前提とする
         "timestamp": timestamp, # イベント開始タイムスタンプ
+        "end_timestamp": end_timestamp, # 大会の終了タイムスタンプ (休日判定・取り直し窓が使う)
     }
     write_json(json_data, f"{event_dir}/attr.json", with_version=True)
     print(f"Successfully wrote attr.json for event {event_id} to {event_dir}")
@@ -652,9 +652,9 @@ def download_specific_event(tournament_slug, event_slug, startgg_dir, done_file_
         download_all_set(event_id, entrant2user, event_dir)
 
         # 5e. イベント属性
-        labels = {}
 
-        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, tournament_url, labels, is_online, event_dir)
+        write_event_attributes(num_entrants, event_id, event_name, tournament_name, timestamp, place, tournament_url, is_online, event_dir,
+                               end_timestamp=tournament_info.get("endAt"))
 
         # 6. tournaments.jsonl を更新
         # トーナメントがまだ記録されていなければ追加、存在すればイベント情報を追加
@@ -708,7 +708,8 @@ def main():
     # コマンドライン引数の設定 (元のスクリプトから流用・調整)
     parser = argparse.ArgumentParser(description="Download specific tournament event data from start.gg")
     parser.add_argument("--url", default="https://api.start.gg/gql/alpha", help="API URL")
-    parser.add_argument("--token", required=True, help="API token")
+    parser.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"),
+                        help="start.gg API token (省略時は環境変数 STARTGG_TOKEN)")
     # finish_date は特定イベントDLには不要だが、他の関数で使われる可能性を考慮し残すか削除
     # parser.add_argument("--finish-date", type=lambda s: datetime.strptime(s, '%Y-%m-%d'), default=datetime(2018, 1, 1), help="Finish date (not used for specific download)")
     parser.add_argument("--max-retries", type=int, default=10, help="Maximum number of retries for API requests") # デフォルト値を少し下げる

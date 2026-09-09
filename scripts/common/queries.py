@@ -591,6 +591,7 @@ def get_event_details_by_tournament_query():
         id
         name
         slug
+        endAt
         countryCode
         city
         lat
