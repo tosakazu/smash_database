@@ -266,25 +266,77 @@ def calendar_flags(timestamp: int, end_timestamp: int | None) -> dict:
     }
 
 
-# ── クラス bracket (旧 spsp/data_loader._load_class_phase_group_ids) ──
-def class_phase_group_ids(phases_data: dict | None, class_phase_files: list[dict]) -> tuple[bool, list[int]]:
-    """(全 phase がクラスか, クラス bracket の phase_group_id 一覧)。
-    全 phase が is_class の event は「event 自体がクラス大会」なので、その試合は本戦扱い (= 空リスト)。"""
-    if not phases_data:
-        return False, []
-    phs = phases_data.get("phases") or []
-    if phs and all(p.get("is_class") for p in phs):
-        return True, []
-    ids: set[int] = set()
-    for cp in class_phase_files:
-        for pg in (cp.get("phase_groups") or []):
-            pgid = pg.get("phase_group_id")
-            if pgid is not None:
-                try:
-                    ids.add(int(pgid))
-                except (ValueError, TypeError):
-                    pass
-    return False, sorted(ids)
+# ── 開催予定 (upcoming) の注釈。取得済みイベントの derived.json と同じ判定を、まだディレクトリの無い
+#    大会に対して名前と開始日だけで行う (scripts/common/annotate_upcoming.py が呼ぶ) ──
+def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, start_ts: int | None) -> dict:
+    """開催予定 1 件に付ける判定。キーは spsp のフロントが読む名前で、build 側の規約に合わせる。"""
+    hay = f"{tournament_name or ''} {event_name or ''}"
+    is_pre = bool(PRE_PATTERN.search(hay))
+    out = {
+        "is_pre": is_pre,
+        "is_restricted": bool(RESTRICTED_PATTERN.search(hay)),
+        "is_lower_class": bool(LOWER_CLASS_PATTERN.search(hay)),
+        "is_smapa": bool(SMAPA_PATTERN.search(hay)),
+        # 本ビルドは NON_SERIOUS_PATTERN = 特殊ルール ∪ 身内 で判定する。ここを特殊ルールだけに
+        # していたため、身内大会が予定一覧で「ポイントが入る大会」に見えていた (2026-08 発覚)。
+        "is_non_serious": bool(NON_SERIOUS_PATTERN.search(hay)),
+        # 内訳も出す (表示側で「身内」と「特殊ルール」を出し分けられるように)
+        "is_uchi": bool(UCHI_PATTERN.search(hay)),
+        "is_special_rules": bool(SPECIAL_RULES_PATTERN.search(hay)),
+    }
+    if start_ts:
+        start = dt.datetime.fromtimestamp(int(start_ts)).date()
+        # 実質休日 (お盆/年末年始 nent>=80) 込み。upcoming の nent は登録者数なので
+        # 本ビルド (standings ベース) と境界付近で食い違い得る点は許容。
+        wk_real = is_weekend_range(start, start)
+        wk = wk_real or (num_entrants >= FORCE_WEEKEND_MIN_NENT and is_force_weekend_range(start, start))
+        out["is_weekend"] = (wk and not is_pre
+                             and not is_force_weekday_tournament(tournament_name, event_name, num_entrants))
+        # is_weekend_real = 実暦の土日祝。食い違いをフロントで「実質休日」表示する
+        out["is_weekend_real"] = wk_real
+    else:
+        out["is_weekend"] = False       # 開始日不明は保守的に平日扱い
+        out["is_weekend_real"] = False
+    return out
+
+
+# ── クラス bracket (B/C/D/E クラス)。判定と命名は日本固有、束ねる処理は scripts/common/ にある ──
+CLASS_LETTERS = ("B", "C", "D", "E")
+# phases.json の is_class を決めるパターン (fetch_event_phases.py が使う)
+CLASS_PHASE_PATTERN = re.compile(r'[BCDEＢＣＤＥ]\s*[-_\s]*[Cc]lass|[BCDEＢＣＤＥ]\s*クラス', re.IGNORECASE)
+# matches.json の phase 名から「phases.json でまだ分離されていないクラス戦」を見つけるパターン。
+# 上とほぼ同じだが英字側に語境界がある (経緯: 別々に書かれたものをそのまま持ってきた)
+CLASS_IN_MATCH_PATTERN = re.compile(
+    r'[BCDEＢＣＤＥ]\s*クラス|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
+CLASS_LETTER_PATTERN = re.compile(r'([BCDE])\s*(?:[-_\s]*[Cc]lass|クラス)', re.IGNORECASE)
+_CLASS_FULLWIDTH = str.maketrans('ＢＣＤＥｂｃｄｅ', 'BCDEbcde')
+
+
+def is_class_phase(name: str | None) -> bool:
+    """phase 名がクラス bracket か。"""
+    return bool(CLASS_PHASE_PATTERN.search(name or ''))
+
+
+def is_unseparated_class_phase(name: str | None) -> bool:
+    """matches.json の phase 名がクラス戦か (phases.json 未分離の検出用)。"""
+    return bool(CLASS_IN_MATCH_PATTERN.search(name or ''))
+
+
+def class_letter(name: str | None) -> str | None:
+    """phase 名 → クラスの字 (B/C/D/E)。全角も受ける。"""
+    if not name:
+        return None
+    m = CLASS_LETTER_PATTERN.search(name.translate(_CLASS_FULLWIDTH))
+    return m.group(1).upper() if m else None
+
+
+def class_virtual_event_name(event_name: str, letter: str) -> str:
+    """クラスを 1 大会として切り出すときのイベント名。"""
+    return f"{event_name} / {letter}クラス"
+
+
+# ── クラス bracket の集計 (旧 spsp/data_loader._load_class_phase_group_ids) ──
+from scripts.common.region import class_phase_group_ids  # noqa: E402,F401  (地域に依らないので共通へ移した)
 
 
 # ── 都道府県 (旧 spsp/cli/build_tournament_prefectures.py と build_player_prefectures.py) ──

@@ -43,8 +43,8 @@ def main(argv=None, event_dirs=None):
     parser.add_argument("--since", default="2023-01-01")
     parser.add_argument("--min-entrants", type=int, default=200,
                         help="Only fetch events with at least this many entrants (class brackets typically exist only in large events)")
-    parser.add_argument("--region", default="Japan")
-    parser.add_argument("--tournament-file-path", default="data/startgg/Japan/tournaments.jsonl")
+    parser.add_argument("--region", required=True, help="判定モジュール scripts/<地域>/classify.py を選ぶ")
+    parser.add_argument("--tournament-file-path", default=None, help="既定 data/startgg/<地域>/tournaments.jsonl")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Overwrite existing phases.json")
     parser.add_argument("--dry-run", action="store_true")
@@ -53,6 +53,14 @@ def main(argv=None, event_dirs=None):
                              "(bypasses since/min-entrants filters)")
     args = parser.parse_args(argv)
     setup_api(args)
+    from scripts.common.region import load_region_classifier, class_support
+    cls = class_support(load_region_classifier(args.region))
+    if cls is None:
+        print(f"地域 {args.region} はクラス bracket を扱わない (classify.py に宣言が無い) — 何もしない", flush=True)
+        return 0
+    _is_class = lambda name: bool(cls.is_class_phase(name))   # noqa: E731
+    if args.tournament_file_path is None:
+        args.tournament_file_path = os.path.join("data", "startgg", args.region.replace(" ", "_"), "tournaments.jsonl")
 
     targets = []
     if event_dirs is None and args.event_dirs_file:
@@ -79,7 +87,7 @@ def main(argv=None, event_dirs=None):
         print(f"Loading tournaments.jsonl ...", flush=True)
         tournaments = read_tournaments_jsonl(args.tournament_file_path)
 
-        # Build target list: events from Japan tournaments post-cutoff with >= min-entrants
+        # Build target list: events from the region's tournaments post-cutoff with >= min-entrants
         for tid, entry in tournaments.items():
             for ev in entry.get("events") or []:
                 ep = ev.get("path", "")
@@ -126,10 +134,8 @@ def main(argv=None, event_dirs=None):
             n_fail += 1
             continue
         phases = ev_data.get("phases") or []
-        # Detect class phases
-        import re
-        CLASS_PAT = re.compile(r'[BCDEＢＣＤＥ]\s*[-_\s]*[Cc]lass|[BCDEＢＣＤＥ]\s*クラス', re.IGNORECASE)
-        has_class = any(CLASS_PAT.search(p.get("name") or "") for p in phases)
+        # クラス phase かどうかの判定は地域モジュールが持つ (日本 = B/C/D/E クラス)
+        has_class = any(_is_class(p.get("name")) for p in phases)
         if has_class:
             n_class += 1
         # Save phases.json
@@ -144,7 +150,7 @@ def main(argv=None, event_dirs=None):
                     "order": p.get("phaseOrder"),
                     "bracket_type": p.get("bracketType"),
                     "num_seeds": p.get("numSeeds"),
-                    "is_class": bool(CLASS_PAT.search(p.get("name") or "")),
+                    "is_class": _is_class(p.get("name")),
                     "phase_groups": [
                         {"id": pg.get("id"), "display": pg.get("displayIdentifier")}
                         for pg in ((p.get("phaseGroups") or {}).get("nodes") or [])

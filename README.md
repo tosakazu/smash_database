@@ -60,8 +60,8 @@ smash_db_tournament/            checkout of data-Japan
 │   │   ├── utils.py  queries.py  clock.py  _cli.py
 │   │   ├── manual/             one-off tools (not used by the pipeline)
 │   │   └── fix/                data validation / repair tools
-│   ├── North_America/          North America rules (classify.py: 1-on-1 detection + calendar)
-│   ├── Japan/                  Japan-specific: lower-class brackets,
+│   ├── North_America/          North America rules (classify.py: 1-on-1 detection, calendar, class brackets)
+│   ├── Japan/                  Japan-specific rules:
 │   │                            classify.py (name/calendar/class flags), naming.py (series, award labels),
 │   │                            prefecture.py (city → prefecture), country.py (country names)
 │   └── test/                   unit tests
@@ -143,13 +143,13 @@ shows up in the process list.
 |---|---|
 | `scripts/common/download.py` | Enumerate tournaments in a date window for one country, then per event save `attr.json`, `standings.json`, `seeds.json`, `matches.json` under `data/startgg/<Region>/events/...` and update `users.jsonl`, `tournaments.jsonl`, `done.csv`, `done_events.csv`. Events that fail are appended to `failed_events.log` in the working directory |
 | `scripts/common/download_policy.py` | "Download / skip / mark done" decisions used by `download.py`. Pure functions, no I/O; the decision table is tested in spsp `tests/fetch/test_dl_policy.py` |
-| `scripts/common/fetch_upcoming.py` | Upcoming tournaments for the next N days → one JSON file (used by the seed picker) |
+| `scripts/common/fetch_upcoming.py` | Upcoming tournaments for the next N days → `data/startgg/<Region>/upcoming.json` (used by the seed picker). The region comes from `--country`, or `--region` |
 | `scripts/common/redownload_matches_v2.py` | Set download and the `matches.json` format. `download.py` imports its functions; run it directly only to re-fetch sets |
-| `scripts/Japan/update_class_data.py` | Japan only. Finds recent events whose sets contain class brackets (B/C/D/E class) and runs `fetch_event_phases` → `fetch_class_phase_standings` → `fetch_class_phase_players` → `build_class_virtual_tournaments` in one process. Steps 2-4 skip existing output, so a full rescan is cheap |
+| `scripts/common/update_class_data.py` | Class brackets (a lower-class bracket inside a tournament). Finds recent events whose sets contain one that `phases.json` has not separated yet, then runs `fetch_event_phases` → `fetch_class_phase_standings` → `fetch_class_phase_players` → `build_class_virtual_tournaments` in one process. Steps 2-4 skip existing output, so a full rescan is cheap. What counts as a class bracket comes from the region module, and a region that declares none is a no-op |
 | `scripts/common/derive.py` | Writes `derived.json` next to each event (is it a 1-on-1 event, name-based flags such as special rules / private / restricted / lower class / pre-tournament, calendar flags, class-bracket phase groups, venue prefecture) and `users_derived.jsonl` (player prefecture from the free-text city). The rules live in `scripts/<Region>/classify.py` (Japan: `scripts/Japan/classify.py`, `prefecture.py`); `--all` reprocesses everything after a rule change. Consumers (the spsp build) read these files and never re-derive them |
 | `scripts/common/run_region.sh` | One cycle for a region: download → `derive.py` → `validate_data.py` → commit and push `data-<Region>`. `--dry-run` prints the commands; `--no-commit` / `--no-push` stop before git. Japan is driven by the spsp nightly instead |
 | `scripts/Japan/{classify,naming,prefecture,country}.py` | The judgement rules themselves for Japan: event/name/calendar flags, series and award naming (including `community_series()`, which merges sibling series run by one community into a single series), city → prefecture, and the English → Japanese country table with the overseas test (`country_ja()`, `is_overseas_country()`). `derive.py` calls them per event; the spsp build imports the same modules for the few judgements it makes on a bare name (upcoming tournaments, series names) so there is one definition of each rule |
-| `scripts/common/fetch_upcoming_entrants.py`, `scripts/Japan/annotate_upcoming.py` | Entrant lists of upcoming events for the score simulator, and the same name/calendar judgements applied to upcoming events (they have no directory yet) |
+| `scripts/common/fetch_upcoming_entrants.py`, `scripts/common/annotate_upcoming.py` | Entrant lists of upcoming events for the score simulator, and the same name/calendar judgements applied to them (they have no event directory yet). The judgements come from the region module's `upcoming_flags()`; a region without it is a no-op |
 
 Typical nightly commands (the dates are the window's upper and lower bounds):
 
@@ -163,7 +163,7 @@ python3 scripts/common/download.py --country-code JP \
     --tournament-file-path data/startgg/Japan/tournaments.jsonl \
     [--awaiting-file path/to/awaiting_resume.json]
 python3 scripts/common/fetch_upcoming.py --country JP --lookahead-days 21 --out upcoming.json
-python3 scripts/Japan/update_class_data.py --since-days 30
+python3 scripts/common/update_class_data.py --region Japan --since-days 30
 python3 scripts/common/derive.py --region Japan          # incremental; --all after changing classify.py
 ```
 
