@@ -81,8 +81,13 @@ def main(argv=None):
     parser.add_argument("--force", action="store_true",
                         help="Overwrite existing played_user_ids in phase_group entries")
     parser.add_argument("--events-root",
-                        default="data/startgg/Japan/events")
+                        default=None, help="既定 data/startgg/<地域>/events")
+    parser.add_argument("--region", default=None, help="--events-root 省略時に使う地域")
     args = parser.parse_args(argv)
+    if args.events_root is None:
+        if not args.region:
+            parser.error("--events-root か --region のどちらかが要る")
+        args.events_root = os.path.join("data", "startgg", args.region.replace(" ", "_"), "events")
     setup_api(args)
 
     root = Path(args.events_root)

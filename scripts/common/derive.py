@@ -26,22 +26,13 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-import importlib  # noqa: E402
 from types import SimpleNamespace  # noqa: E402
 from scripts.common._cli import add_region_arg, resolve_index_paths  # noqa: E402
+from scripts.common.region import load_region_classifier  # noqa: E402
 
 DERIVED = "derived.json"
 USERS_DERIVED = "users_derived.jsonl"   # data/startgg/<地域>/ に置く (users.jsonl の隣。users.jsonl 自体は download.py が書き直すので触らない)
 INPUT_FILES = ("attr.json", "standings.json", "matches.json", "phases.json")
-
-
-def load_region_classifier(region: str):
-    """scripts/<地域>/classify.py (CLASSIFIER_VERSION と classify_event を持つ)。無ければ止める (推測しない)。"""
-    modname = f"scripts.{region.replace(' ', '_')}.classify"
-    try:
-        return importlib.import_module(modname)
-    except ModuleNotFoundError as e:
-        raise SystemExit(f"地域 {region!r} の判定モジュール {modname} が無い: {e}")
 
 
 def result_facts(attr: dict, standings_rows: list, matches_rows: list) -> dict:

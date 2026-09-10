@@ -9,12 +9,18 @@
 いま derived.json に入るもの:
   is_1on1 / not_1on1_reason   ダブルス・チーム戦・amiibo などを名前で除外したか
   calendar                    開催日 (現地時間)、土日か、開催国の祝日か (US / CA / MX / DO)
+  class_bracket               大会の中の下位クラス別ブラケット (Amateur など) の phase_group
 
 まだ無いもの (足すときはこのファイルに):
   休日扱いする期間 (日本のお盆・年末年始に相当するもの。北米で何をそう見なすかは未定)、
   州・県ごとの祝日 (Family Day など。attr.place に州が入っていないので、まず venue_address
   から州を取る仕組みが要る)、大会名からのラベル (シリーズ名・制限大会など)、
   開催地の州、プレイヤーの居住地。
+
+クラス bracket の呼び名 (CLASS_PHASE_PATTERN) は実データで要確認。日本の B/C/D/E クラスに
+当たるものとして Amateur / Novice / Beginner と B-E class を入れてあるが、実際の phase 名を
+見て足し引きすること (CLASS_LETTERS の並びは仮想イベント ID の採番に使うので、後から順序を
+変えないこと。足すときは末尾に足す)。
 
 確認しきれていない点 (担当者が現地の暦で検証すること):
   - DO の月曜寄せ (ley 139-97) は「火・水 → 前の月曜、木・金・土 → 次の月曜」で実装し、
@@ -27,7 +33,10 @@ import datetime as dt
 import functools
 import re
 
-CLASSIFIER_VERSION = 3   # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
+from scripts.common.region import class_phase_group_ids
+
+CLASSIFIER_VERSION = 4   # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
+                         # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
                          # 2: 祝日 (US / CA / MX) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
 
 # 北米は複数のタイムゾーンにまたがる。イベントの place.timezone があればそれを使い、
@@ -263,17 +272,78 @@ def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None
     }
 
 
+# ── クラス bracket (大会の中の下位クラス別ブラケット) ──
+# 日本の B/C/D/E クラスに当たるもの。北米は Amateur / Novice 等の呼び名が多い (要確認)。
+# CLASS_LETTERS の並び = 仮想イベント ID のずらし幅。後から順序を変えない (末尾に足す)。
+CLASS_LETTERS = ("AMATEUR", "NOVICE", "BEGINNER", "B", "C", "D", "E")
+
+CLASS_PHASE_PATTERN = re.compile(
+    r'(?<![A-Za-z])(?:amateur|amateurs|novice|beginner)(?![A-Za-z])'
+    r'|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
+    re.IGNORECASE,
+)
+CLASS_LETTER_PATTERN = re.compile(
+    r'(?<![A-Za-z])(amateur|novice|beginner)s?(?![A-Za-z])'
+    r'|(?<![A-Za-z])([BCDE])[\s_\-]*class(?![A-Za-z])',
+    re.IGNORECASE,
+)
+
+
+def is_class_phase(name: str | None) -> bool:
+    """phase 名がクラス bracket か (phases.json の is_class)。"""
+    return bool(CLASS_PHASE_PATTERN.search(name or ''))
+
+
+def is_unseparated_class_phase(name: str | None) -> bool:
+    """matches.json の phase 名がクラス戦か (phases.json 未分離の検出用)。北米は同じ判定でよい。"""
+    return is_class_phase(name)
+
+
+def class_letter(name: str | None) -> str | None:
+    """phase 名 → クラスの識別子 (AMATEUR / NOVICE / BEGINNER / B / C / D / E)。"""
+    if not name:
+        return None
+    m = CLASS_LETTER_PATTERN.search(name)
+    if not m:
+        return None
+    return (m.group(1) or m.group(2)).upper()
+
+
+def class_virtual_event_name(event_name: str, letter: str) -> str:
+    """クラスを 1 大会として切り出すときのイベント名。"""
+    label = f"{letter} class" if len(letter) == 1 else letter.title()
+    return f"{event_name} / {label}"
+
+
+# ── 開催予定 (upcoming) の注釈。まだディレクトリの無い大会に、名前と開始日だけで判定を付ける ──
+def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, start_ts: int | None) -> dict:
+    """開催予定 1 件に付ける判定。北米は 1on1 かどうかと暦だけ (大会名からのラベルがまだ無いため)。
+    開催国が分からない (upcoming には place が無い) ので祝日は当てず、土日だけを見る。"""
+    ok, reason = is_1on1_event({"tournament_name": tournament_name, "event_name": event_name})
+    out = {"is_1on1": ok, "not_1on1_reason": reason}
+    if start_ts:
+        start = dt.datetime.fromtimestamp(int(start_ts)).date()
+        out["is_weekend_real"] = start.weekday() >= 5
+        out["is_weekend"] = out["is_weekend_real"]
+    else:
+        out["is_weekend"] = False       # 開始日不明は保守的に平日扱い
+        out["is_weekend_real"] = False
+    return out
+
+
 # ── derive.py から呼ばれる入口 ──
 def classify_event(base: dict, ctx) -> dict:
     """base (derive.py が作る共通部分) に北米の判定を足して返す。ctx: attr / tname / ename / phases / class_phase_files。"""
     ok, reason = is_1on1_event(ctx.attr)
     ts = ctx.attr.get("timestamp")
+    all_class, pg_ids = class_phase_group_ids(ctx.phases, ctx.class_phase_files)
     out = dict(base)
     out.update({
         "is_1on1": ok,
         "not_1on1_reason": reason,
         "calendar": (calendar_flags(ts, ctx.attr.get("end_timestamp"), ctx.attr.get("place"))
                      if ts is not None else None),
+        "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
     })
     return out
 

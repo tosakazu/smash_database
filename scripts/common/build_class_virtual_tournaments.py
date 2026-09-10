@@ -28,17 +28,21 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 from scripts.common.utils import write_json_pretty, write_json_compact  # noqa: E402
 
 
-CLASS_LETTER_PAT = re.compile(r'([BCDE])\s*(?:[-_\s]*[Cc]lass|クラス)', re.IGNORECASE)
+# クラスの字の取り出しと命名は地域モジュールが持つ (main で束ねて _CLS に入れる)
+_CLS = None
 
-# Use the same fullwidth-to-halfwidth normalization implicitly in regex
+
 def _class_letter(name: str) -> str | None:
-    if not name: return None
-    # Normalize fullwidth letters
-    n = name.translate(str.maketrans('ＢＣＤＥｂｃｄｅ', 'BCDEbcde'))
-    m = CLASS_LETTER_PAT.search(n)
-    if m:
-        return m.group(1).upper()
-    return None
+    return _CLS.class_letter(name)
+
+
+def _class_index(letter: str) -> int:
+    """仮想イベント ID / 時刻のずらし幅。地域の CLASS_LETTERS の並び順で決める
+    (日本は B/C/D/E = 1/2/3/4 で、字コード基準だった頃と同じ値になる)。"""
+    try:
+        return _CLS.CLASS_LETTERS.index(letter) + 1
+    except ValueError:
+        return 0
 
 
 def load_class_phase_files(event_dir: Path) -> list[dict]:
@@ -150,10 +154,19 @@ def get_played_player_ids(event_dir: Path) -> set[int]:
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--events-root",
-                        default="data/startgg/Japan/events")
+                        default=None, help="既定 data/startgg/<地域>/events")
+    parser.add_argument("--region", required=True, help="判定モジュール scripts/<地域>/classify.py を選ぶ")
     parser.add_argument("--force", action="store_true", help="Overwrite existing virtual files")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
+    global _CLS
+    from scripts.common.region import load_region_classifier, class_support
+    _CLS = class_support(load_region_classifier(args.region))
+    if _CLS is None:
+        print(f"地域 {args.region} はクラス bracket を扱わない — 何もしない", flush=True)
+        return 0
+    if args.events_root is None:
+        args.events_root = os.path.join("data", "startgg", args.region.replace(" ", "_"), "events")
 
     root = Path(args.events_root)
     n_events = 0
@@ -225,13 +238,14 @@ def main(argv=None):
             # timestamp を letter 順に +1s ずつずらし、sort で必ず親 event の後に来るようにする
             # (B=+1s, C=+2s, ...). JST 日付は変わらない.
             _ts = ev_attr.get("timestamp")
-            _ts_virtual = (_ts + (ord(letter) - ord("A"))) if isinstance(_ts, (int, float)) else _ts
-            virt_event_id = -(int(ev_attr.get("event_id") or 0) * 10 + ord(letter) - ord("A"))
+            _idx = _class_index(letter)
+            _ts_virtual = (_ts + _idx) if isinstance(_ts, (int, float)) else _ts
+            virt_event_id = -(int(ev_attr.get("event_id") or 0) * 10 + _idx)
             virt_attr_d = {
                 "event_id": virt_event_id,  # synthetic negative ID
                 "tournament_name": ev_attr.get("tournament_name", ""),
-                "event_name": f"{ev_attr.get('event_name', 'Singles')} / {letter}クラス",
-                "region": ev_attr.get("region", "Japan"),
+                "event_name": _CLS.class_virtual_event_name(ev_attr.get('event_name', 'Singles'), letter),
+                "region": ev_attr.get("region"),
                 "place": ev_attr.get("place"),
                 "num_entrants": num_ent,
                 "offline": ev_attr.get("offline", True),

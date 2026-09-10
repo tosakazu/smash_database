@@ -76,6 +76,8 @@ Add codes there when a region needs them.
 | `classify_event(base, ctx)` | Adds the region's judgements to the common facts and returns the `derived.json` body |
 | `classify_user(u)` | One line of `users.jsonl` → what to record in `users_derived.jsonl` (`None` = record nothing) |
 | `check_requirements()` (optional) | Verify region-specific dependencies (Japan needs `jpholiday` for its holiday table) |
+| `upcoming_flags(tournament_name, event_name, num_entrants, start_ts)` (optional) | The same judgements for a tournament that has not happened yet (no event directory, so only the name and the start time). `scripts/common/annotate_upcoming.py` reads it; a region without it is a no-op |
+| `CLASS_LETTERS`, `is_class_phase()`, `is_unseparated_class_phase()`, `class_letter()`, `class_virtual_event_name()` (optional, all or nothing) | Class brackets — a lower-class bracket run inside a tournament (Japan: B/C/D/E クラス, North America: Amateur / Novice / B-E class). `scripts/common/update_class_data.py` and the three fetchers it drives are region-independent and read these; a region that declares none skips the whole step. `CLASS_LETTERS` decides the id of the virtual event each class is materialised as, so append to it, never reorder |
 
 Nothing else is shared: holidays, "treat this period as a weekend", name patterns and
 series naming are per region. Japan treats 土日祝 plus お盆 and 年末年始 as weekends

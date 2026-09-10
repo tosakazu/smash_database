@@ -231,12 +231,18 @@ def main():
     parser = argparse.ArgumentParser()
     add_api_args(parser, max_retries=5, retry_delay=10)
     parser.add_argument("--country", default="JP")
+    parser.add_argument("--region", default=None,
+                        help="出力先の地域 (既定: --country から決まる)")
     parser.add_argument("--lookahead-days", type=int, default=LOOKAHEAD_DAYS)
     parser.add_argument(
-        "--out",
-        default=str(Path(ROOT_DIR).parent / "site" / "data" / "upcoming.json"),
+        "--out", default=None,
+        help="既定 data/startgg/<地域>/upcoming.json (地域ごとにこのリポジトリで持つ)",
     )
     args = parser.parse_args()
+    if args.out is None:
+        from scripts.common.utils import country_code2region
+        region = (args.region or country_code2region(args.country)).replace(" ", "_")
+        args.out = str(Path(ROOT_DIR) / "data" / "startgg" / region / "upcoming.json")
     setup_api(args)
 
 

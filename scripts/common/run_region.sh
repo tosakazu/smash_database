@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 [[ -n "$COUNTRY" ]] || { echo "ERROR: --country-code が要る (例: --country-code US)" >&2; exit 2; }
-[[ -d scripts/common && -d data ]] || { echo "ERROR: リポジトリのルートで実行すること" >&2; exit 2; }
+[[ -d scripts/common && -e .git ]] || { echo "ERROR: リポジトリのルートで実行すること" >&2; exit 2; }
 : "${STARTGG_TOKEN:?ERROR: STARTGG_TOKEN が未設定}"
 
 PY="${PYTHON:-python3}"
@@ -36,13 +36,19 @@ RUN() { echo "+ $*"; [[ $DRY -eq 1 ]] || "$@"; }
 
 echo "=== $REGION ($COUNTRY): $FINISH 〜 $START ==="
 
-echo "[1/4] ダウンロード"
+echo "[1/6] ダウンロード"
 RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH"
 
-echo "[2/4] 判定 (derived.json / users_derived.jsonl)"
+echo "[2/6] 開催予定の取得 (data/startgg/<地域>/upcoming.json)"
+RUN "$PY" -u scripts/common/fetch_upcoming.py --country "$COUNTRY" --region "$REGION"
+
+echo "[3/6] クラス bracket (地域が扱う場合のみ。扱わない地域では即終了する)"
+RUN "$PY" -u scripts/common/update_class_data.py --region "$REGION" --since-days "$DAYS"
+
+echo "[4/6] 判定 (derived.json / users_derived.jsonl)"
 RUN "$PY" -u scripts/common/derive.py --region "$REGION"
 
-echo "[3/4] 検査 (既知の不整合が急増していないか。失敗しても止めない)"
+echo "[5/6] 検査 (既知の不整合が急増していないか。失敗しても止めない)"
 if [[ $DRY -eq 1 ]]; then
   echo "+ $PY -u scripts/common/fix/validate_data.py --region $REGION --baseline data/startgg/$REGION/validation_baseline.json"
 else
@@ -50,7 +56,7 @@ else
       --baseline "data/startgg/$REGION/validation_baseline.json" || echo "  WARN: 不整合が baseline より増えている (上の REGRESSION 行を見る)"
 fi
 
-echo "[4/4] commit / push"
+echo "[6/6] commit / push"
 if [[ $DO_COMMIT -eq 0 ]]; then
   echo "  → --no-commit なので何もしない (git status で差分を確認)"
   exit 0

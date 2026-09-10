@@ -217,6 +217,16 @@ class RegionModuleContractTests(unittest.TestCase):
             if d.is_dir() and (d / "classify.py").exists() and d.name not in ("common", "test"):
                 yield d.name, importlib.import_module(f"scripts.{d.name}.classify")
 
+    def test_class_hooks_are_all_or_nothing(self):
+        from scripts.common.region import class_support
+        for name, mod in self._region_modules():
+            with self.subTest(region=name):
+                cls = class_support(mod)      # 中途半端な宣言なら SystemExit
+                if cls is not None:
+                    self.assertTrue(cls.CLASS_LETTERS, f"{name}: CLASS_LETTERS が空")
+                    for letter in cls.CLASS_LETTERS:
+                        self.assertIsInstance(cls.class_virtual_event_name("Singles", letter), str)
+
     def test_every_region_declares_the_contract(self):
         found = 0
         for name, mod in self._region_modules():
@@ -229,6 +239,75 @@ class RegionModuleContractTests(unittest.TestCase):
                 self.assertTrue(callable(mod.classify_event))
                 self.assertTrue(callable(mod.classify_user))
         self.assertGreaterEqual(found, 2, "Japan と North_America が見えるはず")
+
+
+class UpcomingTests(unittest.TestCase):
+    """開催予定 (まだイベントのディレクトリが無い大会) に付ける判定。地域ごと。"""
+
+    def test_japan_upcoming_matches_the_event_rules(self):
+        sat = int(dt.datetime(2026, 9, 5, 12).timestamp())      # 土曜
+        flags = classify.upcoming_flags("篝火#10", "シングルス", 200, sat)
+        self.assertTrue(flags["is_weekend"])
+        self.assertTrue(flags["is_weekend_real"])
+        self.assertFalse(flags["is_restricted"])
+        # 大会名の判定は derived.json と同じ定義元を使う
+        self.assertTrue(classify.upcoming_flags("風雲 #1 1700未満制限大会", "シングルス", 30, sat)["is_restricted"])
+        self.assertTrue(classify.upcoming_flags("プレ大会 スマバト", "シングルス", 30, sat)["is_pre"])
+        # プレ大会は週末でもポイント対象外なので is_weekend を落とす (build と同じ規約)
+        self.assertFalse(classify.upcoming_flags("プレ大会 スマバト", "シングルス", 30, sat)["is_weekend"])
+
+    def test_japan_force_weekend_needs_the_size(self):
+        newyear = int(dt.datetime(2026, 1, 2, 12).timestamp())   # 金曜だが年末年始
+        self.assertTrue(classify.upcoming_flags("大会", "シングルス", 200, newyear)["is_weekend"])
+        self.assertFalse(classify.upcoming_flags("大会", "シングルス", 20, newyear)["is_weekend"])
+        self.assertFalse(classify.upcoming_flags("大会", "シングルス", 200, newyear)["is_weekend_real"])
+
+    def test_north_america_upcoming_is_minimal(self):
+        sat = int(dt.datetime(2026, 9, 5, 12).timestamp())
+        flags = na.upcoming_flags("Genesis 9", "Ultimate Singles", 500, sat)
+        self.assertEqual((flags["is_1on1"], flags["is_weekend"]), (True, True))
+        self.assertFalse(na.upcoming_flags("Genesis 9", "Ultimate Doubles", 500, sat)["is_1on1"])
+        # 開始日が無ければ平日扱い
+        self.assertFalse(na.upcoming_flags("X", "Singles", 0, None)["is_weekend"])
+
+
+class ClassBracketTests(unittest.TestCase):
+    """大会の中の下位クラス別ブラケット。呼び名は地域ごと (日本 = B/C/D/E クラス、北米 = Amateur 等)。"""
+
+    def test_japan_letters_and_naming(self):
+        self.assertTrue(classify.is_class_phase("Bクラス"))
+        self.assertTrue(classify.is_class_phase("B Class"))
+        self.assertTrue(classify.is_class_phase("Ｃクラス"))       # 全角
+        self.assertFalse(classify.is_class_phase("Winners Bracket"))
+        self.assertEqual(classify.class_letter("Ｄクラス"), "D")
+        self.assertEqual(classify.class_virtual_event_name("Singles", "B"), "Singles / Bクラス")
+        # 仮想イベント ID の採番はこの並び順に依存する (変えると過去の ID がずれる)
+        self.assertEqual(classify.CLASS_LETTERS, ("B", "C", "D", "E"))
+
+    def test_japan_match_phase_pattern_has_word_boundaries(self):
+        # matches.json 用のパターンは英字側に語境界がある (subclass などを拾わない)
+        self.assertTrue(classify.is_unseparated_class_phase("B class"))
+        self.assertFalse(classify.is_unseparated_class_phase("subclass"))
+
+    def test_north_america_labels(self):
+        self.assertTrue(na.is_class_phase("Ultimate Amateur"))
+        self.assertTrue(na.is_class_phase("Novice Singles"))
+        self.assertTrue(na.is_class_phase("B Class"))
+        self.assertFalse(na.is_class_phase("Winners Bracket"))
+        self.assertEqual(na.class_letter("Amateur Bracket"), "AMATEUR")
+        self.assertEqual(na.class_letter("B Class"), "B")
+        self.assertEqual(na.class_virtual_event_name("Ultimate Singles", "AMATEUR"),
+                         "Ultimate Singles / Amateur")
+        self.assertEqual(na.class_virtual_event_name("Ultimate Singles", "B"),
+                         "Ultimate Singles / B class")
+
+    def test_group_ids_are_region_independent(self):
+        from scripts.common.region import class_phase_group_ids
+        phases = {"phases": [{"is_class": False}, {"is_class": True}]}
+        files = [{"phase_groups": [{"phase_group_id": 7}, {"phase_group_id": 3}]}]
+        self.assertEqual(class_phase_group_ids(phases, files), (False, [3, 7]))
+        # 全 phase がクラス = イベント自体がクラス大会なので、その試合は本戦扱い
+        self.assertEqual(class_phase_group_ids({"phases": [{"is_class": True}]}, files), (True, []))
 
 
 class NorthAmericaTests(unittest.TestCase):

@@ -85,9 +85,14 @@ def main(argv=None):
     parser.add_argument("--per-page", type=int, default=100)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Overwrite existing class_phases/<phase_id>.json")
-    parser.add_argument("--events-root", default="data/startgg/Japan/events")
+    parser.add_argument("--events-root", default=None, help="既定 data/startgg/<地域>/events")
+    parser.add_argument("--region", default=None, help="--events-root 省略時に使う地域")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
+    if args.events_root is None:
+        if not args.region:
+            parser.error("--events-root か --region のどちらかが要る")
+        args.events_root = os.path.join("data", "startgg", args.region.replace(" ", "_"), "events")
     setup_api(args)
 
     root = Path(args.events_root)
