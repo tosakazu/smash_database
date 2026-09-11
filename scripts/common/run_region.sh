@@ -94,9 +94,11 @@ echo "═══ $REGION ($COUNTRY) 開始 $(date '+%F %T')  窓 $FINISH 〜 $STA
 EV0=$(count_events); TJ0=$(count_lines "$DATA_DIR/tournaments.jsonl"); US0=$(count_lines "$DATA_DIR/users.jsonl")
 
 step 1/6 "ダウンロード (done.csv を見て続きから。失敗したら $RETRIES 回までやり直す)"
+AWAITING=()   # 再開待ちの登録簿があれば渡す (載っている event は優勝者が出るまで毎回取り直す)
+[[ -s "$DATA_DIR/manual/awaiting_resume.json" ]] && AWAITING=(--awaiting-file "$DATA_DIR/manual/awaiting_resume.json")
 ok=0
 for ((i = 0; i <= RETRIES; i++)); do
-  if RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH"; then ok=1; break; fi
+  if RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH" "${AWAITING[@]}"; then ok=1; break; fi
   echo "  download rc≠0 (try $((i + 1))/$((RETRIES + 1)))"; sleep 30
 done
 [[ $ok -eq 1 ]] || { echo "ERROR: ダウンロードが $((RETRIES + 1)) 回失敗。done.csv の分は残っているので次回続きから" >&2; exit 1; }
