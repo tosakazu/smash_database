@@ -1,0 +1,49 @@
+{
+  "event_id": 1705252,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2392008,
+      "name": "Ultimate Singles (Pools)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3449131,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2392009,
+      "name": "Top 8 (Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3449132,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2392010,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 3,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3449133,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
