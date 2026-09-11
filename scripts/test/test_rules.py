@@ -415,3 +415,28 @@ class NorthAmericaTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DownloadSpecificEventSpecTests(unittest.TestCase):
+    """download_specific_event --event が受ける書き方 (URL のどのタブでもよい)。"""
+
+    def test_accepted_forms(self):
+        from scripts.common.manual.download_specific_event import parse_event_spec as P
+        for spec, want in (
+            ("genesis-x2/ultimate-singles", ("genesis-x2", "ultimate-singles")),
+            ("tournament/genesis-x2/event/ultimate-singles", ("genesis-x2", "ultimate-singles")),
+            ("https://www.start.gg/tournament/genesis-x2/event/ultimate-singles/standings?page=2", ("genesis-x2", "ultimate-singles")),
+            ("https://www.start.gg/tournament/3-1700/event/sp-1on1/brackets/1234/5678", ("3-1700", "sp-1on1")),
+            ("https://www.start.gg/tournament/genesis-x2/events", ("genesis-x2", None)),
+            ("start.gg/tournament/genesis-x2/details", ("genesis-x2", None)),
+            ("genesis-x2", ("genesis-x2", None)),
+        ):
+            with self.subTest(spec=spec):
+                self.assertEqual(P(spec), want)
+
+    def test_rejected_forms(self):
+        from scripts.common.manual.download_specific_event import parse_event_spec as P
+        for spec in ("", "https://www.start.gg/", "https://www.start.gg/tournament//event/x"):
+            with self.subTest(spec=spec):
+                with self.assertRaises(ValueError):
+                    P(spec)
