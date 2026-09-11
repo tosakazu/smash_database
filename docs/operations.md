@@ -49,7 +49,8 @@ branch does not), keep the data branch's version: `git checkout --ours -- .gitig
    ships with one). `derive.py` refuses to run without it rather than guessing, and the
    module owns everything that differs by region — see "Region modules" below.
 
-3. Run one cycle from the repository root:
+3. Run one cycle from the repository root (the operator's guide is
+   [region_operator.md](region_operator.md)):
 
    ```sh
    STARTGG_TOKEN=... bash scripts/common/run_region.sh --country-code US --days 14
