@@ -115,6 +115,8 @@ def derive_event(event_dir: Path, clf) -> dict | None:
         "is_class_virtual": is_virtual,
         "parent_event_id": parent_eid,
         "class_letter": class_letter,
+        # start.gg の isOnline (attr.offline)。オンライン大会は集計しない、を名前ではなくこの事実で決める (2026-09-12〜)
+        "is_offline": bool(attr["offline"]) if attr.get("offline") is not None else None,
         "results": result_facts(attr, _rows(_load(event_dir / "standings.json")), _rows(_load(event_dir / "matches.json"))),
     }
     ctx = SimpleNamespace(event_dir=event_dir, attr=attr, tname=tname, ename=ename,

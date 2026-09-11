@@ -35,7 +35,8 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 4   # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
+CLASSIFIER_VERSION = 5   # 5: is_offline (derive.py の共通部) を追加
+                         #  # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
                          # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
                          # 2: 祝日 (US / CA / MX) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
 
