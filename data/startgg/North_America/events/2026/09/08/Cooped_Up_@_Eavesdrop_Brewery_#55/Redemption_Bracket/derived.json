@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1702901,
   "tournament_name": "Cooped Up @ Eavesdrop Brewery #55",
   "event_name": "Redemption Bracket",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

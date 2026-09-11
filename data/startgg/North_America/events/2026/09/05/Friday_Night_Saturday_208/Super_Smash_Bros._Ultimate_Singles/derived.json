@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1702824,
   "tournament_name": "Friday Night Saturday 208",
   "event_name": "Super Smash Bros. Ultimate Singles",
@@ -25,7 +25,9 @@
     "is_weekend_real": true
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

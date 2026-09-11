@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1675012,
   "tournament_name": "REDSPARK 3 ($100 Pot Bonus!)",
   "event_name": "Ultimate Doubles",
@@ -25,7 +25,9 @@
     "is_weekend_real": true
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

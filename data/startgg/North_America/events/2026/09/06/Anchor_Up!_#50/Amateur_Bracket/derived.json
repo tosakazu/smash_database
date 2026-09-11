@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1699675,
   "tournament_name": "Anchor Up! #50",
   "event_name": "Amateur Bracket",
@@ -25,7 +25,9 @@
     "is_weekend_real": true
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1705589,
   "tournament_name": "The Retro Collection: September 9th - 10th, 2026",
   "event_name": "Ultimate Thursday #256: Redemption Bracket (Free bracket | 8:30 PM start time)",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

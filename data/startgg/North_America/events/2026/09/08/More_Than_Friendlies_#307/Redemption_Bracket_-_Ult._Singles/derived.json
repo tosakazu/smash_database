@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1704045,
   "tournament_name": "More Than Friendlies #307",
   "event_name": "Redemption Bracket - Ult. Singles",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

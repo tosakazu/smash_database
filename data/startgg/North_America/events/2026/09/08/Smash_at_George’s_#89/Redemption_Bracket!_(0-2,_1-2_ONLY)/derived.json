@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1705091,
   "tournament_name": "Smash at George’s #89",
   "event_name": "Redemption Bracket! (0-2, 1-2 ONLY)",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

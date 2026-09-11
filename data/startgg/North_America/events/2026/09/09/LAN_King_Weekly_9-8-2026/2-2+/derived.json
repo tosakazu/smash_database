@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1701353,
   "tournament_name": "LAN King Weekly 9/8/2026",
   "event_name": "2-2+",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

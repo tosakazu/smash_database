@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1707115,
   "tournament_name": "The Mines 2 - FA '26 (ft. Local Man's Revised Stage List)",
   "event_name": "Ultimate Singles",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

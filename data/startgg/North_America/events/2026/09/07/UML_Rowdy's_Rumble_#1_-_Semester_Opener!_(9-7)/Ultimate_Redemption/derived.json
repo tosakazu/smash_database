@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1700341,
   "tournament_name": "UML Rowdy's Rumble #1 - Semester Opener! (9/7)",
   "event_name": "Ultimate Redemption",
@@ -25,7 +25,9 @@
     "is_weekend_real": true
   },
   "names": {
-    "lower_class": true
+    "lower_class": true,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

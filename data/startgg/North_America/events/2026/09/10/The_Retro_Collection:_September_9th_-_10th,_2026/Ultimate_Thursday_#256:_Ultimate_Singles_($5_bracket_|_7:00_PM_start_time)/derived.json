@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1705588,
   "tournament_name": "The Retro Collection: September 9th - 10th, 2026",
   "event_name": "Ultimate Thursday #256: Ultimate Singles ($5 bracket | 7:00 PM start time)",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": false
   },
   "class_bracket": {
     "all_phases_class": false,

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1701813,
   "tournament_name": "Black Hills Fall 2026 #2",
   "event_name": "Ultimate Arcadian",
@@ -14,8 +14,8 @@
     "has_de_phase": true,
     "has_gf_recorded": null
   },
-  "is_1on1": false,
-  "not_1on1_reason": "keyword:arcadian",
+  "is_1on1": true,
+  "not_1on1_reason": null,
   "calendar": {
     "date": "2026-09-05",
     "end_date": "2026-09-05",
@@ -25,7 +25,9 @@
     "is_weekend_real": true
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": true
   },
   "class_bracket": {
     "all_phases_class": false,

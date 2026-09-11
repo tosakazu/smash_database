@@ -1,5 +1,5 @@
 {
-  "classifier_version": 6,
+  "classifier_version": 7,
   "event_id": 1706797,
   "tournament_name": "Novice Knockout",
   "event_name": "Arcadian Bracket",
@@ -14,8 +14,8 @@
     "has_de_phase": true,
     "has_gf_recorded": null
   },
-  "is_1on1": false,
-  "not_1on1_reason": "keyword:arcadian",
+  "is_1on1": true,
+  "not_1on1_reason": null,
   "calendar": {
     "date": "2026-09-10",
     "end_date": "2026-09-10",
@@ -25,7 +25,9 @@
     "is_weekend_real": false
   },
   "names": {
-    "lower_class": false
+    "lower_class": false,
+    "restricted_tname": false,
+    "restricted_ename": true
   },
   "class_bracket": {
     "all_phases_class": false,
