@@ -725,6 +725,8 @@ def main():
     # parser.add_argument("--game-id", default="1386", help="Game ID (not used for specific download)")
     # parser.add_argument("--country-code", default="", help="Country code (not used for specific download)")
     from scripts.common._cli import add_region_arg, resolve_index_paths
+    parser.add_argument("--event", action="append", default=[], metavar="T_SLUG/E_SLUG", required=True,
+                        help="取り込むイベント (繰り返し可)。start.gg の URL /tournament/<T_SLUG>/event/<E_SLUG> の 2 つの slug を / で繋ぐ")
     add_region_arg(parser)
     args = parser.parse_args()
     resolve_index_paths(parser, args, done_file_path="done_events.csv", users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
@@ -750,11 +752,13 @@ def main():
     print(f"Loaded {len(users)} users.")
     print(f"Loaded {len(tournaments)} tournaments.")
 
-    # ダウンロード対象のイベントリスト (tournament_slug, event_slug)
-    target_events = [
-        ("battle-of-bc-7-6", "main-event-ultimate-singles"),
-        ("genesis-x2", "ultimate-singles"),
-    ]
+    # ダウンロード対象 (--event で指定。start.gg の URL /tournament/<t_slug>/event/<e_slug> の 2 つの slug)
+    target_events = []
+    for spec in args.event:
+        t_slug, sep, e_slug = spec.partition("/")
+        if not sep or not t_slug or not e_slug:
+            parser.error(f"--event は tournament-slug/event-slug の形で指定する: {spec!r}")
+        target_events.append((t_slug, e_slug))
 
     # 各イベントを処理
     success_count = 0

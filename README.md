@@ -134,8 +134,8 @@ Data files are written with fixed key order and indentation. Downstream readers
 
 All scripts run from the repository root (`smash_db_tournament/`), read the token from
 the `STARTGG_TOKEN` environment variable (or `--token`), and need Python 3.10+ with
-`pip install -r requirements.txt`. A region operator's day-to-day is in
-[docs/region_operator.md](docs/region_operator.md). Do not pass the token on the command line in shared environments; it
+`pip install -r requirements.txt`. **If you run a region, read
+[docs/region_operator.md](docs/region_operator.md)** — it is the complete guide (layout, data, scripts, routine). Do not pass the token on the command line in shared environments; it
 shows up in the process list.
 
 ### Nightly pipeline
