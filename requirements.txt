@@ -1,3 +1,4 @@
-# Runtime dependencies of scripts/. Python 3.10+.
+# Runtime dependencies of scripts/. Python 3.10+ on Linux or macOS (Windows: use WSL — the runner needs flock).
 requests>=2.31
-jpholiday>=1.0      # only scripts/Japan (holiday table); harmless elsewhere
+charset_normalizer>=3.0   # requests warns without it
+jpholiday>=1.0            # only scripts/Japan (holiday table); harmless elsewhere

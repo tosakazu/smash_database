@@ -49,6 +49,18 @@ chmod 600 ~/.config/smash_database/STARTGG_TOKEN
 The scripts look for the token in the environment variable `STARTGG_TOKEN`, then
 `--token-file`, then `./STARTGG_TOKEN`, then `~/.config/smash_database/STARTGG_TOKEN`.
 Every script runs from the repository root and finds its region's files by itself.
+Linux or macOS; on Windows use WSL (the runner needs `flock`).
+
+Then confirm the environment:
+
+```sh
+bash scripts/common/run_region.sh --country-code US --check --python .venv/bin/python3
+```
+
+It reports Python, dependencies, the token, the branch, GitHub and the start.gg API
+one line each and ends with `→ 準備できている` (ready). Optionally
+`git config gc.autoPackLimit 8` so a year of daily pushes does not leave the local
+repository in dozens of pack files.
 
 ## 3. Where the data lives
 

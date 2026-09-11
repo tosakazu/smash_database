@@ -2,7 +2,7 @@
 # run_region.sh — 1 地域ぶんの取り込みを 1 コマンドで回す (cron から毎日呼ぶ想定)。
 #
 #   bash scripts/common/run_region.sh --country-code US [--days 14] [--token-file PATH]
-#        [--python PATH] [--log-dir DIR] [--no-commit] [--no-push] [--dry-run]
+#        [--python PATH] [--log-dir DIR] [--no-commit] [--no-push] [--dry-run] [--check]
 #
 # 手順: [1] ダウンロード → [2] 開催予定 → [3] クラス bracket → [4] 判定 (derived.json)
 #       → [5] 検査 (件数の急増検知) → [6] data/startgg/<地域>/ を commit して data-<地域> へ push
@@ -20,10 +20,11 @@
 #          --download-retries (既定 2) 回まで続きからやり直す。検査は WARN だけで止めない。
 #
 # 出力の最後に要約 (取得した大会/イベント数、判定の更新数、commit) を出す。
+# --check:  環境の確認だけして終わる (Python / 依存 / トークン / ブランチ / GitHub / start.gg API)。初回セットアップ後に。
 set -uo pipefail
 
 ORIG_ARGS=("$@")
-COUNTRY=""; DAYS=14; DO_COMMIT=1; DO_PUSH=1; DRY=0; TOKEN_FILE=""; PY="${PYTHON:-python3}"
+COUNTRY=""; DAYS=14; DO_COMMIT=1; DO_PUSH=1; DRY=0; CHECK=0; TOKEN_FILE=""; PY="${PYTHON:-python3}"
 LOG_DIR="${SMASH_DB_LOG_DIR:-$HOME/.local/log/smash_database}"; RETRIES=2
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -36,6 +37,7 @@ while [[ $# -gt 0 ]]; do
     --no-commit) DO_COMMIT=0; DO_PUSH=0; shift;;
     --no-push) DO_PUSH=0; shift;;
     --dry-run) DRY=1; shift;;
+    --check) CHECK=1; shift;;
     -h|--help) sed -n '2,24p' "$0"; exit 0;;
     *) echo "unknown arg: $1" >&2; exit 2;;
   esac
@@ -49,7 +51,7 @@ if [[ -z "${STARTGG_TOKEN:-}" ]]; then
     [[ -n "$f" && -s "$f" ]] && { STARTGG_TOKEN="$(tr -d '[:space:]' < "$f")"; break; }
   done
 fi
-if [[ -z "${STARTGG_TOKEN:-}" && $DRY -eq 0 ]]; then
+if [[ -z "${STARTGG_TOKEN:-}" && $DRY -eq 0 && $CHECK -eq 0 ]]; then
   echo "ERROR: STARTGG_TOKEN が無い (環境変数か --token-file / ./STARTGG_TOKEN / ~/.config/smash_database/STARTGG_TOKEN)" >&2; exit 2
 fi
 export STARTGG_TOKEN="${STARTGG_TOKEN:-dry-run}"
@@ -60,6 +62,32 @@ REGION="$("$PY" -c "from scripts.common.utils import country_code2region as f; p
 [[ -n "$REGION" && "$REGION" != "Other" ]] || { echo "ERROR: $COUNTRY の地域が決まらない (scripts/common/utils.py の country_code2region に足す)" >&2; exit 2; }
 BRANCH="data-$REGION"; DATA_DIR="data/startgg/$REGION"
 START="$(date +%F)"; FINISH="$(date -d "-${DAYS} days" +%F 2>/dev/null || date -v-"${DAYS}"d +%F)"
+
+# ── --check: 環境の確認だけ ──
+if [[ $CHECK -eq 1 ]]; then
+  ok=1
+  say() { printf '  %-10s %s\n' "$1" "$2"; }
+  pyver="$("$PY" -c 'import sys; print("%d.%d" % sys.version_info[:2])' 2>/dev/null)" || { say "NG" "python が動かない: $PY"; exit 1; }
+  "$PY" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' && say "ok" "python $pyver ($PY)" || { say "NG" "python $pyver は古い (3.10 以上)"; ok=0; }
+  "$PY" -c 'import requests' 2>/dev/null && say "ok" "requests" || { say "NG" "requests が無い (pip install -r requirements.txt)"; ok=0; }
+  command -v flock >/dev/null && say "ok" "flock" || { say "NG" "flock が無い (util-linux)"; ok=0; }
+  [[ "$STARTGG_TOKEN" != "dry-run" && -n "$STARTGG_TOKEN" ]] && say "ok" "token (${#STARTGG_TOKEN} 文字)" || { say "NG" "STARTGG_TOKEN が見つからない"; ok=0; }
+  say "ok" "region $REGION ← $COUNTRY (branch $BRANCH, dir $DATA_DIR)"
+  cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"; [[ "$cur" == "$BRANCH" ]] && say "ok" "branch $cur" || { say "WARN" "branch は $cur (commit するには $BRANCH にいること)"; }
+  "$PY" -c "import scripts.$REGION.classify as m; print(m.CLASSIFIER_VERSION, m.TIMEZONE)" >/dev/null 2>&1 && say "ok" "scripts/$REGION/classify.py" || { say "NG" "scripts/$REGION/classify.py が読めない"; ok=0; }
+  git ls-remote -q --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1 && say "ok" "origin/$BRANCH に到達できる" || say "WARN" "origin/$BRANCH が無いか到達できない (初回 push 前なら正常)"
+  if [[ "$STARTGG_TOKEN" != "dry-run" ]]; then
+    "$PY" - <<'PYEOF' && say "ok" "start.gg API" || { say "NG" "start.gg API に届かない (トークン / ネットワーク)"; ok=0; }
+import os, sys, warnings; warnings.simplefilter("ignore")
+from scripts.common.utils import set_api_parameters, set_retry_parameters, fetch_data_with_retries
+set_api_parameters("https://api.start.gg/gql/alpha", os.environ["STARTGG_TOKEN"]); set_retry_parameters(1, 2)
+r = fetch_data_with_retries("query { videogame(id: 1386) { name } }", {})
+sys.exit(0 if ((r or {}).get("data") or {}).get("videogame") else 1)
+PYEOF
+  fi
+  [[ $ok -eq 1 ]] && echo "→ 準備できている" || { echo "→ NG がある"; exit 1; }
+  exit 0
+fi
 
 # ── ログ (画面とファイルの両方へ。プロセス置換が使えない環境があるので自分を tee 越しに呼び直す) ──
 mkdir -p "$LOG_DIR"
