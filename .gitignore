@@ -1,6 +1,5 @@
-# main はスクリプトと文書だけを管理する。データは地域ブランチ (data-Japan / data-North_America ...) が持つ。
-# 地域ブランチは main を merge した上で data/startgg/<地域>/ を追跡する (地域ブランチ側の .gitignore は data/ を無視しない)。
-data/
+# data-Japan = main (scripts / docs / README) + 日本のデータ (data/startgg/...)。
+# main を merge して scripts を更新する。data/startgg/ 配下の生成物・一時ファイルだけ無視する。
 download.out
 */__pycache__/
 __pycache__/
@@ -12,3 +11,8 @@ data_integrity_report.jsonl
 failed_events.log
 data_audits/
 logs/
+data/startgg/*.bak*
+data/startgg/*/*.bak*
+data/startgg/.refresh_*
+data/startgg/*/users_ranked.jsonl
+data/startgg/*/*checkpoint*
