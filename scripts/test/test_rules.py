@@ -301,6 +301,16 @@ class ClassBracketTests(unittest.TestCase):
         # 末尾に足したので既存の採番は動かない
         self.assertEqual(na.CLASS_LETTERS.index("REDEMPTION"), len(na.CLASS_LETTERS) - 1)
 
+    def test_arcadian_is_restricted_not_excluded(self):
+        # Arcadian = PR 入り選手は出られない大会。日本の制限大会と同じく、集計はするが印を付ける
+        self.assertEqual(na.is_1on1_event({"tournament_name": "Arcadian Bracket", "event_name": "Ultimate Singles"}),
+                         (True, None))
+        flags = na.name_flags("Arcadian Bracket", "Ultimate Singles")
+        self.assertTrue(flags["restricted_tname"])
+        self.assertFalse(flags["restricted_ename"])
+        self.assertTrue(na.name_flags("Weekly #5", "Arcadian Singles")["restricted_ename"])
+        self.assertFalse(na.name_flags("Genesis 9", "Ultimate Singles")["restricted_tname"])
+
     def test_north_america_labels(self):
         self.assertTrue(na.is_class_phase("Ultimate Amateur"))
         self.assertTrue(na.is_class_phase("Novice Singles"))
@@ -331,7 +341,6 @@ class NorthAmericaTests(unittest.TestCase):
         for ename, reason in (("Ultimate Doubles", "keyword:doubles"),
                               ("2v2 Crew Battle", "keyword:2v2"),
                               ("Squad Strike", "keyword:squad strike"),
-                              ("Arcadian Bracket", "keyword:arcadian"),
                               ("Dobles Amistosos", "keyword:dobles")):
             with self.subTest(ename=ename):
                 self.assertEqual(na.is_1on1_event({"event_name": ename, "tournament_name": "X"}),
