@@ -9,7 +9,10 @@
 いま derived.json に入るもの:
   is_1on1 / not_1on1_reason   ダブルス・チーム戦・amiibo などを名前で除外したか
   calendar                    開催日 (現地時間)、土日か、開催国の祝日か (US / CA / MX / DO)
-  class_bracket               大会の中の下位クラス別ブラケット (Amateur など) の phase_group
+  class_bracket               大会の中の下位クラス別ブラケット (Redemption / Amateur など) の phase_group
+  names.lower_class           イベント自体が下位ブラケット (「Redemption Bracket」というイベント) か
+  names.restricted            参加できる層が絞られた大会 (Arcadian = 地域 PR 入りの選手は出られない)。
+                              日本の制限大会 (レート上限) に当たる。集計はするが扱いを変える
 
 まだ無いもの (足すときはこのファイルに):
   休日扱いする期間 (日本のお盆・年末年始に相当するもの。北米で何をそう見なすかは未定)、
@@ -17,10 +20,10 @@
   から州を取る仕組みが要る)、大会名からのラベル (シリーズ名・制限大会など)、
   開催地の州、プレイヤーの居住地。
 
-クラス bracket の呼び名 (CLASS_PHASE_PATTERN) は実データで要確認。日本の B/C/D/E クラスに
-当たるものとして Amateur / Novice / Beginner と B-E class を入れてあるが、実際の phase 名を
-見て足し引きすること (CLASS_LETTERS の並びは仮想イベント ID の採番に使うので、後から順序を
-変えないこと。足すときは末尾に足す)。
+クラス bracket の呼び名は米国の 1 週間ぶん (2026-09-05〜11、513 イベント) で確認した:
+実際に多いのは **Redemption** (敗者救済ブラケット。phase としても、別イベント "Redemption
+Bracket" としても現れる) で、Amateur / Novice は無かった (大型大会で使われる想定で残す)。
+CLASS_LETTERS の並びは仮想イベント ID の採番に使うので、後から順序を変えないこと (足すときは末尾)。
 
 確認しきれていない点 (担当者が現地の暦で検証すること):
   - DO の月曜寄せ (ley 139-97) は「火・水 → 前の月曜、木・金・土 → 次の月曜」で実装し、
@@ -35,7 +38,9 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 5   # 5: is_offline (derive.py の共通部) を追加
+CLASSIFIER_VERSION = 7   # 7: Arcadian (PR 入り選手は出られない大会) を 1on1 の除外から外し names.restricted で印を付ける
+                         # 6: Redemption (敗者救済ブラケット) をクラス bracket として扱い、names.lower_class を追加 (米国 1 週間ぶんの実データで確認)
+                         # 5: is_offline (derive.py の共通部) を追加
                          #  # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
                          # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
                          # 2: 祝日 (US / CA / MX) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
@@ -55,7 +60,7 @@ def check_requirements() -> None:
 EXCLUDE_PATTERNS = (
     "doubles", "dubs", "2v2", "teams", "team event",
     "crew battle", "crews", "squad strike", "squadstrike",
-    "amiibo", "ladder", "arcadian",          # arcadian = 上位者を除く別枠
+    "amiibo", "ladder",
     "dobles", "equipos",                     # es
     "doublette", "équipes", "equipes",       # fr
     "test", "testing",
@@ -276,18 +281,41 @@ def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None
 # ── クラス bracket (大会の中の下位クラス別ブラケット) ──
 # 日本の B/C/D/E クラスに当たるもの。北米は Amateur / Novice 等の呼び名が多い (要確認)。
 # CLASS_LETTERS の並び = 仮想イベント ID のずらし幅。後から順序を変えない (末尾に足す)。
-CLASS_LETTERS = ("AMATEUR", "NOVICE", "BEGINNER", "B", "C", "D", "E")
+CLASS_LETTERS = ("AMATEUR", "NOVICE", "BEGINNER", "B", "C", "D", "E", "REDEMPTION")
 
 CLASS_PHASE_PATTERN = re.compile(
-    r'(?<![A-Za-z])(?:amateur|amateurs|novice|beginner)(?![A-Za-z])'
+    r'(?<![A-Za-z])(?:amateur|amateurs|novice|beginner|redemption)(?![A-Za-z])'
     r'|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
     re.IGNORECASE,
 )
 CLASS_LETTER_PATTERN = re.compile(
-    r'(?<![A-Za-z])(amateur|novice|beginner)s?(?![A-Za-z])'
+    r'(?<![A-Za-z])(amateur|novice|beginner|redemption)s?(?![A-Za-z])'
     r'|(?<![A-Za-z])([BCDE])[\s_\-]*class(?![A-Za-z])',
     re.IGNORECASE,
 )
+
+# イベント自体が下位ブラケットのもの (例: "Redemption Bracket" / "Ultimate Redemption" という別イベント)。
+# 日本の names.lower_class (「Bクラス限定」など) に当たる。本戦の 1on1 とは別に扱いたいので印を付ける
+LOWER_CLASS_EVENT_PATTERN = re.compile(
+    r'(?<![A-Za-z])(?:redemption|amateur|amateurs|novice|beginner)(?![A-Za-z])'
+    r'|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
+    re.IGNORECASE,
+)
+
+
+# 参加条件で層が絞られる大会。Arcadian = 地域の Power Ranking に載っている選手は出場不可 (上位勢抜きの大会)。
+# 日本の「レート 1700 未満制限」に当たるので、1on1 から外すのではなく restricted の印を付ける
+RESTRICTED_PATTERN = re.compile(r'(?<![A-Za-z])arcadian(?![A-Za-z])', re.IGNORECASE)
+
+
+def name_flags(tname: str, ename: str) -> dict:
+    """大会名・イベント名から決まるフラグ。restricted は日本と同じく大会名とイベント名を分けて持つ
+    (同時開催の本戦を巻き込まないため)。プレ大会・特殊ルールなどはまだ未定義。"""
+    return {
+        "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
+        "restricted_tname": bool(RESTRICTED_PATTERN.search(tname or '')),
+        "restricted_ename": bool(RESTRICTED_PATTERN.search(ename or '')),
+    }
 
 
 def is_class_phase(name: str | None) -> bool:
@@ -344,6 +372,7 @@ def classify_event(base: dict, ctx) -> dict:
         "not_1on1_reason": reason,
         "calendar": (calendar_flags(ts, ctx.attr.get("end_timestamp"), ctx.attr.get("place"))
                      if ts is not None else None),
+        "names": name_flags(ctx.tname, ctx.ename),
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
     })
     return out
