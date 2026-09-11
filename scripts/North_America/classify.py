@@ -38,7 +38,8 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 7   # 7: Arcadian (PR 入り選手は出られない大会) を 1on1 の除外から外し names.restricted で印を付ける
+CLASSIFIER_VERSION = 8   # 8: lower_class を大会名でも見る (日本と同じ。"Novice Knockout" のような大会全体が下位向けのもの)
+                         # 7: Arcadian (PR 入り選手は出られない大会) を 1on1 の除外から外し names.restricted で印を付ける
                          # 6: Redemption (敗者救済ブラケット) をクラス bracket として扱い、names.lower_class を追加 (米国 1 週間ぶんの実データで確認)
                          # 5: is_offline (derive.py の共通部) を追加
                          #  # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
@@ -312,7 +313,7 @@ def name_flags(tname: str, ename: str) -> dict:
     """大会名・イベント名から決まるフラグ。restricted は日本と同じく大会名とイベント名を分けて持つ
     (同時開催の本戦を巻き込まないため)。プレ大会・特殊ルールなどはまだ未定義。"""
     return {
-        "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
+        "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(tname or '') or LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
         "restricted_tname": bool(RESTRICTED_PATTERN.search(tname or '')),
         "restricted_ename": bool(RESTRICTED_PATTERN.search(ename or '')),
     }
