@@ -289,6 +289,18 @@ class ClassBracketTests(unittest.TestCase):
         self.assertTrue(classify.is_unseparated_class_phase("B class"))
         self.assertFalse(classify.is_unseparated_class_phase("subclass"))
 
+    def test_north_america_redemption_is_a_class_bracket(self):
+        # 米国の実データで最も多い下位ブラケット。phase としても別イベントとしても現れる
+        self.assertTrue(na.is_class_phase("Redemption Bracket"))
+        self.assertTrue(na.is_class_phase("Redemption"))
+        self.assertEqual(na.class_letter("Redemption Bracket"), "REDEMPTION")
+        self.assertEqual(na.class_virtual_event_name("Ultimate Singles", "REDEMPTION"),
+                         "Ultimate Singles / Redemption")
+        self.assertTrue(na.name_flags("Weekly #5", "Ultimate Redemption")["lower_class"])
+        self.assertFalse(na.name_flags("Weekly #5", "Ultimate Singles")["lower_class"])
+        # 末尾に足したので既存の採番は動かない
+        self.assertEqual(na.CLASS_LETTERS.index("REDEMPTION"), len(na.CLASS_LETTERS) - 1)
+
     def test_north_america_labels(self):
         self.assertTrue(na.is_class_phase("Ultimate Amateur"))
         self.assertTrue(na.is_class_phase("Novice Singles"))
