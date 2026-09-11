@@ -134,7 +134,8 @@ Data files are written with fixed key order and indentation. Downstream readers
 
 All scripts run from the repository root (`smash_db_tournament/`), read the token from
 the `STARTGG_TOKEN` environment variable (or `--token`), and need Python 3.10+ with
-`requests`. Do not pass the token on the command line in shared environments; it
+`pip install -r requirements.txt`. A region operator's day-to-day is in
+[docs/region_operator.md](docs/region_operator.md). Do not pass the token on the command line in shared environments; it
 shows up in the process list.
 
 ### Nightly pipeline
@@ -147,7 +148,7 @@ shows up in the process list.
 | `scripts/common/redownload_matches_v2.py` | Set download and the `matches.json` format. `download.py` imports its functions; run it directly only to re-fetch sets |
 | `scripts/common/update_class_data.py` | Class brackets (a lower-class bracket inside a tournament). Finds recent events whose sets contain one that `phases.json` has not separated yet, then runs `fetch_event_phases` → `fetch_class_phase_standings` → `fetch_class_phase_players` → `build_class_virtual_tournaments` in one process. Steps 2-4 skip existing output, so a full rescan is cheap. What counts as a class bracket comes from the region module, and a region that declares none is a no-op |
 | `scripts/common/derive.py` | Writes `derived.json` next to each event (is it a 1-on-1 event, name-based flags such as special rules / private / restricted / lower class / pre-tournament, calendar flags, class-bracket phase groups, venue prefecture) and `users_derived.jsonl` (player prefecture from the free-text city). The rules live in `scripts/<Region>/classify.py` (Japan: `scripts/Japan/classify.py`, `prefecture.py`); `--all` reprocesses everything after a rule change. Consumers (the spsp build) read these files and never re-derive them |
-| `scripts/common/run_region.sh` | One cycle for a region: download → `derive.py` → `validate_data.py` → commit and push `data-<Region>`. `--dry-run` prints the commands; `--no-commit` / `--no-push` stop before git. Japan is driven by the spsp nightly instead |
+| `scripts/common/run_region.sh` | One cycle for a region, meant for cron: download (resumable, retried) → upcoming → class brackets → `derive.py` → `validate_data.py` → commit and push `data-<Region>`. Logs to `~/.local/log/smash_database/`, refuses to overlap itself, ends with a summary. `--dry-run` / `--no-commit` / `--no-push`. Japan is driven by the spsp nightly instead |
 | `scripts/Japan/{classify,naming,prefecture,country}.py` | The judgement rules themselves for Japan: event/name/calendar flags, series and award naming (including `community_series()`, which merges sibling series run by one community into a single series), city → prefecture, and the English → Japanese country table with the overseas test (`country_ja()`, `is_overseas_country()`). `derive.py` calls them per event; the spsp build imports the same modules for the few judgements it makes on a bare name (upcoming tournaments, series names) so there is one definition of each rule |
 | `scripts/common/fetch_upcoming_entrants.py`, `scripts/common/annotate_upcoming.py` | Entrant lists of upcoming events for the score simulator, and the same name/calendar judgements applied to them (they have no event directory yet). The judgements come from the region module's `upcoming_flags()`; a region without it is a no-op |
 
