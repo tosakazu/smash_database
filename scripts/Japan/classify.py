@@ -269,21 +269,11 @@ def calendar_flags(timestamp: int, end_timestamp: int | None) -> dict:
 # ── 開催予定 (upcoming) の注釈。取得済みイベントの derived.json と同じ判定を、まだディレクトリの無い
 #    大会に対して名前と開始日だけで行う (scripts/common/annotate_upcoming.py が呼ぶ) ──
 def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, start_ts: int | None) -> dict:
-    """開催予定 1 件に付ける判定。キーは spsp のフロントが読む名前で、build 側の規約に合わせる。"""
+    """開催予定 1 件に付ける判定。キーは spsp のフロントが読む名前。キーの並びも出力ファイルの
+    バイト列に影響するので、以前の annotate_upcoming.py と同じ順で作る。"""
     hay = f"{tournament_name or ''} {event_name or ''}"
     is_pre = bool(PRE_PATTERN.search(hay))
-    out = {
-        "is_pre": is_pre,
-        "is_restricted": bool(RESTRICTED_PATTERN.search(hay)),
-        "is_lower_class": bool(LOWER_CLASS_PATTERN.search(hay)),
-        "is_smapa": bool(SMAPA_PATTERN.search(hay)),
-        # 本ビルドは NON_SERIOUS_PATTERN = 特殊ルール ∪ 身内 で判定する。ここを特殊ルールだけに
-        # していたため、身内大会が予定一覧で「ポイントが入る大会」に見えていた (2026-08 発覚)。
-        "is_non_serious": bool(NON_SERIOUS_PATTERN.search(hay)),
-        # 内訳も出す (表示側で「身内」と「特殊ルール」を出し分けられるように)
-        "is_uchi": bool(UCHI_PATTERN.search(hay)),
-        "is_special_rules": bool(SPECIAL_RULES_PATTERN.search(hay)),
-    }
+    out: dict = {}
     if start_ts:
         start = dt.datetime.fromtimestamp(int(start_ts)).date()
         # 実質休日 (お盆/年末年始 nent>=80) 込み。upcoming の nent は登録者数なので
@@ -297,6 +287,16 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
     else:
         out["is_weekend"] = False       # 開始日不明は保守的に平日扱い
         out["is_weekend_real"] = False
+    out["is_pre"] = is_pre
+    out["is_restricted"] = bool(RESTRICTED_PATTERN.search(hay))
+    out["is_lower_class"] = bool(LOWER_CLASS_PATTERN.search(hay))
+    out["is_smapa"] = bool(SMAPA_PATTERN.search(hay))
+    # 本ビルドは NON_SERIOUS_PATTERN = 特殊ルール ∪ 身内 で判定する。ここを特殊ルールだけに
+    # していたため、身内大会が予定一覧で「ポイントが入る大会」に見えていた (2026-08 発覚)。
+    out["is_non_serious"] = bool(NON_SERIOUS_PATTERN.search(hay))
+    # 内訳も出す (表示側で「身内」と「特殊ルール」を出し分けられるように)
+    out["is_uchi"] = bool(UCHI_PATTERN.search(hay))
+    out["is_special_rules"] = bool(SPECIAL_RULES_PATTERN.search(hay))
     return out
 
 

@@ -163,7 +163,7 @@ def main(argv=None, event_dirs=None):
             write_json_pretty(os.path.join(ep, "phases.json"), out)
         n_ok += 1
         if has_class:
-            class_phase_names = [p.get("name") for p in phases if CLASS_PAT.search(p.get("name") or "")]
+            class_phase_names = [p.get("name") for p in phases if _is_class(p.get("name"))]
             print(f"  CLASS event_id={event_id} '{tname} / {ename}' ({nent} ent): {class_phase_names}", flush=True)
 
     print(f"\nDone. ok={n_ok} class={n_class} fail={n_fail}", flush=True)
