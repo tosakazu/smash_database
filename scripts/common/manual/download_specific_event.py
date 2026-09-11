@@ -1,4 +1,5 @@
 import os
+import re
 import argparse
 import sys
 from datetime import datetime
@@ -11,7 +12,7 @@ if ROOT_DIR not in sys.path:
 # get_event_details_by_slug_query を追加する必要がある
 from scripts.common.queries import (
     get_event_sets_query, get_standings_query, get_seeds_query,
-    get_phase_groups_query, get_event_details_by_tournament_query # この関数を queries.py に追加想定
+    get_phase_groups_query, get_event_details_by_tournament_query, get_tournament_events_query
 )
 # utils.py から必要なユーティリティ関数をインポート
 from scripts.common.utils import (
@@ -523,6 +524,49 @@ def write_done_event(event_id, file_path):
 
 # --- 新しく追加する関数 ---
 
+# ── 取り込み対象の指定 (start.gg の URL か slug) ──
+_SPEC_RE = re.compile(r'^(?:https?://)?(?:www\.)?(?:start\.gg|smash\.gg)?/?(?:tournament/)?([^/?#\s]+)(?:/event/([^/?#\s]+))?', re.IGNORECASE)
+
+
+def parse_event_spec(spec: str):
+    """--event の値 → (tournament_slug, event_slug | None)。
+
+    受け付ける形 (どれも同じ大会・イベントを指す):
+      genesis-x2/ultimate-singles
+      tournament/genesis-x2/event/ultimate-singles
+      https://www.start.gg/tournament/genesis-x2/event/ultimate-singles/standings?page=2
+      https://www.start.gg/tournament/genesis-x2/events        (イベント指定なし = 大会の対象ゲームの全イベント)
+      https://www.start.gg/tournament/genesis-x2
+    """
+    s = spec.strip()
+    m = _SPEC_RE.match(s)
+    if not m or not m.group(1):
+        raise ValueError(f"大会を読み取れない: {spec!r}")
+    t_slug, e_slug = m.group(1), m.group(2)
+    if e_slug is None and '/' in s and not re.search(r'^(?:https?://|www\.|start\.gg|smash\.gg|tournament/)', s, re.IGNORECASE):
+        # "genesis-x2/ultimate-singles" の短い形
+        t_slug, e_slug = s.split('/', 1)
+        e_slug = e_slug.split('/')[0] or None
+    if t_slug in ('tournament', 'event', 'events', 'details', 'attendees', 'overview', 'standings', 'brackets') \
+            or not re.fullmatch(r'[A-Za-z0-9_-]+', t_slug) or (e_slug and not re.fullmatch(r'[A-Za-z0-9_-]+', e_slug)):
+        raise ValueError(f"大会の slug が無い / 読み取れない: {spec!r}")
+    return t_slug, e_slug
+
+
+def list_tournament_events(tournament_slug, game_id):
+    """大会の、指定ゲームのイベント slug 一覧 (URL に event が無いとき用)。"""
+    resp = fetch_data_with_retries(get_tournament_events_query(), {"tournamentSlug": tournament_slug, "gameId": int(game_id)})
+    t = ((resp or {}).get("data") or {}).get("tournament")
+    if not t:
+        raise FetchError(f"大会が見つからない: {tournament_slug}")
+    out = []
+    for ev in t.get("events") or []:
+        slug = (ev.get("slug") or "").rsplit("/", 1)[-1]
+        if slug:
+            out.append(slug)
+    return out
+
+
 def fetch_event_details_by_slug(tournament_slug, event_slug):
     """トーナメントとイベントのスラッグからイベント詳細を取得する"""
     query = get_event_details_by_tournament_query()
@@ -725,8 +769,10 @@ def main():
     # parser.add_argument("--game-id", default="1386", help="Game ID (not used for specific download)")
     # parser.add_argument("--country-code", default="", help="Country code (not used for specific download)")
     from scripts.common._cli import add_region_arg, resolve_index_paths
-    parser.add_argument("--event", action="append", default=[], metavar="T_SLUG/E_SLUG", required=True,
-                        help="取り込むイベント (繰り返し可)。start.gg の URL /tournament/<T_SLUG>/event/<E_SLUG> の 2 つの slug を / で繋ぐ")
+    parser.add_argument("--event", action="append", default=[], metavar="URL_OR_SLUG", required=True,
+                        help="取り込むイベント (繰り返し可)。start.gg の URL (大会ページのどのタブでもよい) か、"
+                             "tournament-slug/event-slug。イベントの無い URL なら大会の対象ゲームの全イベント")
+    parser.add_argument("--game-id", default="1386", help="URL にイベントが無いときに列挙するゲーム (既定 1386 = Smash Ultimate)")
     add_region_arg(parser)
     args = parser.parse_args()
     resolve_index_paths(parser, args, done_file_path="done_events.csv", users_file_path="users.jsonl", tournament_file_path="tournaments.jsonl")
@@ -752,13 +798,21 @@ def main():
     print(f"Loaded {len(users)} users.")
     print(f"Loaded {len(tournaments)} tournaments.")
 
-    # ダウンロード対象 (--event で指定。start.gg の URL /tournament/<t_slug>/event/<e_slug> の 2 つの slug)
+    # ダウンロード対象 (--event: start.gg の URL か slug。イベント指定が無ければ大会の対象ゲームの全イベント)
     target_events = []
     for spec in args.event:
-        t_slug, sep, e_slug = spec.partition("/")
-        if not sep or not t_slug or not e_slug:
-            parser.error(f"--event は tournament-slug/event-slug の形で指定する: {spec!r}")
-        target_events.append((t_slug, e_slug))
+        try:
+            t_slug, e_slug = parse_event_spec(spec)
+        except ValueError as e:
+            parser.error(str(e))
+        if e_slug:
+            target_events.append((t_slug, e_slug))
+        else:
+            slugs = list_tournament_events(t_slug, args.game_id)
+            print(f"{t_slug}: 対象ゲームのイベント {len(slugs)} 件 {slugs}")
+            target_events.extend((t_slug, e) for e in slugs)
+    if not target_events:
+        parser.error("取り込むイベントが 1 つも無い")
 
     # 各イベントを処理
     success_count = 0

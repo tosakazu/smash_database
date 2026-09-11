@@ -327,7 +327,7 @@ After confirming a jump is legitimate, `--write-baseline` accepts it.
 
 | Tool | When |
 |---|---|
-| `scripts/common/manual/download_specific_event.py --region North_America --event <t-slug>/<e-slug> [--event …]` | Import one event that the window missed (an old tournament, or one start.gg's listing does not return). The slugs are the two parts of the start.gg URL `/tournament/<t-slug>/event/<e-slug>`. Then run `fix/check_events_in_tournaments.py --region North_America --apply` so the index knows the new directory, and `derive.py` |
+| `scripts/common/manual/download_specific_event.py --region North_America --event <URL> [--event …]` | Import events that the window missed (an old tournament, or one start.gg's listing does not return). `--event` takes any start.gg URL of the tournament — `…/tournament/<t>/event/<e>/standings`, `…/tournament/<t>/events`, `…/tournament/<t>` — or `<t-slug>/<e-slug>`. With no event in the URL every Ultimate event of the tournament is imported (`--game-id` to change the game). Then run `fix/check_events_in_tournaments.py --region North_America --apply` so the index knows the new directories, and `derive.py` |
 | `scripts/common/fix/check_events_in_tournaments.py --region North_America [--apply]` | Every event directory must appear in `tournaments.jsonl`; this lists (and with `--apply` adds) the missing ones |
 | `scripts/common/fix/fix_missing_tournaments.py --region North_America --dry-run` | The reverse: index lines whose directory is gone |
 | `scripts/common/manual/refetch_incomplete_events.py [--dry-run] [--limit N]` | Re-download events whose standings have no winner |
