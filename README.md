@@ -60,7 +60,7 @@ smash_db_tournament/            checkout of data-Japan
 │   │   ├── utils.py  queries.py  clock.py  _cli.py
 │   │   ├── manual/             one-off tools (not used by the pipeline)
 │   │   └── fix/                data validation / repair tools
-│   ├── North_America/          North America rules (classify.py: 1-on-1 detection, calendar, class brackets)
+│   ├── <Region>/               a region's rules — on main (Japan) or only on that region's data branch (North_America)
 │   ├── Japan/                  Japan-specific rules:
 │   │                            classify.py (name/calendar/class flags), naming.py (series, award labels),
 │   │                            prefecture.py (city → prefecture), country.py (country names)
