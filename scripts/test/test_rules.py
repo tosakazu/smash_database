@@ -297,6 +297,7 @@ class ClassBracketTests(unittest.TestCase):
         self.assertEqual(na.class_virtual_event_name("Ultimate Singles", "REDEMPTION"),
                          "Ultimate Singles / Redemption")
         self.assertTrue(na.name_flags("Weekly #5", "Ultimate Redemption")["lower_class"])
+        self.assertTrue(na.name_flags("Novice Knockout", "Arcadian Bracket")["lower_class"])   # 大会名でも見る
         self.assertFalse(na.name_flags("Weekly #5", "Ultimate Singles")["lower_class"])
         # 末尾に足したので既存の採番は動かない
         self.assertEqual(na.CLASS_LETTERS.index("REDEMPTION"), len(na.CLASS_LETTERS) - 1)
