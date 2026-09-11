@@ -11,6 +11,8 @@
   calendar                    開催日 (現地時間)、土日か、開催国の祝日か (US / CA / MX / DO)
   class_bracket               大会の中の下位クラス別ブラケット (Redemption / Amateur など) の phase_group
   names.lower_class           イベント自体が下位ブラケット (「Redemption Bracket」というイベント) か
+  names.restricted            参加できる層が絞られた大会 (Arcadian = 地域 PR 入りの選手は出られない)。
+                              日本の制限大会 (レート上限) に当たる。集計はするが扱いを変える
 
 まだ無いもの (足すときはこのファイルに):
   休日扱いする期間 (日本のお盆・年末年始に相当するもの。北米で何をそう見なすかは未定)、
@@ -36,7 +38,8 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 6   # 6: Redemption (敗者救済ブラケット) をクラス bracket として扱い、names.lower_class を追加 (米国 1 週間ぶんの実データで確認)
+CLASSIFIER_VERSION = 7   # 7: Arcadian (PR 入り選手は出られない大会) を 1on1 の除外から外し names.restricted で印を付ける
+                         # 6: Redemption (敗者救済ブラケット) をクラス bracket として扱い、names.lower_class を追加 (米国 1 週間ぶんの実データで確認)
                          # 5: is_offline (derive.py の共通部) を追加
                          #  # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
                          # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
@@ -57,7 +60,7 @@ def check_requirements() -> None:
 EXCLUDE_PATTERNS = (
     "doubles", "dubs", "2v2", "teams", "team event",
     "crew battle", "crews", "squad strike", "squadstrike",
-    "amiibo", "ladder", "arcadian",          # arcadian = 上位者を除く別枠
+    "amiibo", "ladder",
     "dobles", "equipos",                     # es
     "doublette", "équipes", "equipes",       # fr
     "test", "testing",
@@ -300,9 +303,19 @@ LOWER_CLASS_EVENT_PATTERN = re.compile(
 )
 
 
+# 参加条件で層が絞られる大会。Arcadian = 地域の Power Ranking に載っている選手は出場不可 (上位勢抜きの大会)。
+# 日本の「レート 1700 未満制限」に当たるので、1on1 から外すのではなく restricted の印を付ける
+RESTRICTED_PATTERN = re.compile(r'(?<![A-Za-z])arcadian(?![A-Za-z])', re.IGNORECASE)
+
+
 def name_flags(tname: str, ename: str) -> dict:
-    """大会名・イベント名から決まるフラグ。北米はまだ lower_class だけ (制限大会・プレ大会などは未定義)。"""
-    return {"lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(ename or ''))}
+    """大会名・イベント名から決まるフラグ。restricted は日本と同じく大会名とイベント名を分けて持つ
+    (同時開催の本戦を巻き込まないため)。プレ大会・特殊ルールなどはまだ未定義。"""
+    return {
+        "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
+        "restricted_tname": bool(RESTRICTED_PATTERN.search(tname or '')),
+        "restricted_ename": bool(RESTRICTED_PATTERN.search(ename or '')),
+    }
 
 
 def is_class_phase(name: str | None) -> bool:
