@@ -27,11 +27,12 @@ Contents
 |---|---|
 | Branch | `data-North_America` — only you push to it. It is `main` (scripts, docs) plus your data |
 | Directory | `data/startgg/North_America/` — everything under it is yours; nothing outside it is |
-| Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). Changes go to `main` by pull request |
+| Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). It lives **on your branch, not on `main`**: you edit it directly, no pull request |
 | Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Each run downloads **one** country (`--country-code`); run once per country if you cover several |
 
-Not yours: `main` (never push to it directly), other regions' directories, the ranking
-build that reads this data (a separate repository).
+Not yours: `main` (never push to it directly — that is where the shared scripts under
+`scripts/common/` live, and changes there go through a pull request), other regions'
+directories, the ranking build that reads this data (a separate repository).
 
 ## 2. Setup
 
@@ -410,19 +411,19 @@ its own data (a week of the US: Redemption is the class bracket, Arcadian is a
 restricted tournament) and grows from there. Provincial / state holidays are not in
 yet because `attr.place` has no state field.
 
-Workflow for a change:
+The module and its tests (`scripts/North_America/test_classify.py`) live on your
+branch only, so a change is an ordinary commit — no pull request, nobody to wait for:
 
 ```sh
-git switch -c na-rules-redemption origin/main       # a branch off main, not your data branch
-# edit scripts/North_America/classify.py, bump CLASSIFIER_VERSION, add a case to scripts/test/test_rules.py
-python3 -m unittest discover -s scripts/test
-git push -u origin na-rules-redemption               # open a pull request; the tests run on it
-# after the merge:
-git switch data-North_America && git fetch origin main && git merge --no-edit origin/main
+# edit scripts/North_America/classify.py, bump CLASSIFIER_VERSION, add a case to scripts/North_America/test_classify.py
+python3 -m unittest scripts.North_America.test_classify
 python3 scripts/common/derive.py --region North_America --all
-python3 scripts/common/update_class_data.py --region North_America --since-days 3650   # if class patterns changed
-git add -A -- data/startgg/North_America && git commit -m "data: rules v9" && git push
+python3 scripts/common/update_class_data.py --region North_America --since-days 3650   # only if class-bracket patterns changed
+git add scripts/North_America data/startgg/North_America && git commit -m "North America rules v9: …" && git push
 ```
+
+`scripts/common/` (the downloader, `derive.py`, the runner) is shared by every region
+and stays on `main`; a change there is a pull request against `main`.
 
 ## 8. When something is off
 
@@ -438,15 +439,17 @@ git add -A -- data/startgg/North_America && git commit -m "data: rules v9" && gi
 | `push failed` | Someone else pushed to your branch. `git pull --rebase origin data-North_America` and run again |
 | `ERROR: いま main にいる` | Not on the data branch. `git switch data-North_America` |
 | `already running` | A previous run is still going (or died leaving the lock held — check `ps`, then delete `~/.local/log/smash_database/.North_America.lock`) |
-| The checkout shows changes outside `data/startgg/North_America/` | Do not commit them. Scripts change only through `main`; stray files belong in `.gitignore` (on `main`) |
+| The checkout shows changes outside `data/startgg/North_America/` and `scripts/North_America/` | Do not commit them. Shared scripts change only through `main`; stray files belong in `.gitignore` (on `main`) |
 
 ## 9. Git rules
 
-* `data-North_America`: you commit `data/startgg/North_America/` only, fast-forward
-  only (force-push and deletion are blocked). Bring script updates in with
-  `git fetch origin main && git merge --no-edit origin/main && git push`.
-* `main`: pull requests only; the unit tests must pass. Never edit scripts on the data
-  branch.
+* `data-North_America`: you commit `data/startgg/North_America/` and
+  `scripts/North_America/`, fast-forward only (force-push and deletion are blocked).
+  Bring shared-script updates in with
+  `git fetch origin main && git merge --no-edit origin/main && git push` — the merge
+  keeps your `scripts/North_America/` (it does not exist on `main`).
+* `main`: pull requests only; the unit tests must pass. Never edit `scripts/common/`
+  or the docs on the data branch.
 * Other regions' directories and branches: never touch.
 * The repository is public. `users.jsonl` holds only what players published on their
   profile; a removal request is handled by deleting the lines and committing.

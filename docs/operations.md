@@ -9,7 +9,7 @@ the top-level [README](../README.md).
 | Branch | Commits allowed | Never |
 |---|---|---|
 | `main` | scripts, docs, tests | anything under `data/` |
-| `data-<Region>` | files under `data/startgg/<Region>/` and `data/startgg/<Region>/events/`, and merges of `main` | direct edits to scripts or docs, other regions' paths |
+| `data-<Region>` | files under `data/startgg/<Region>/`, merges of `main`, and — if the region keeps its rules on its own branch — `scripts/<Region>/` | edits to `scripts/common/`, docs, or other regions' paths |
 | `data-all` (local only) | merges of the `data-<Region>` branches | direct commits of any kind, pushing |
 
 * Script changes go through a branch or pull request against `main`. Run the tests
@@ -68,7 +68,15 @@ Add codes there when a region needs them.
 
 ## Region modules
 
-`scripts/<Region>/classify.py` is what `derive.py` loads for a region. It must declare:
+`scripts/<Region>/classify.py` is what `derive.py` loads for a region. Where it lives is
+the region's choice: Japan's is on `main` (the ranking build depends on it and its tests
+run in CI); North America's lives only on `data-North_America`, edited directly by its
+operator without a pull request, with its tests next to it
+(`python3 -m unittest scripts.North_America.test_classify`). Merging `main` into a data
+branch never removes a branch-only directory, so a region module kept on its branch
+survives every script update. The shared code (`scripts/common/`) is always on `main`.
+
+The module must declare:
 
 | Name | Meaning |
 |---|---|
