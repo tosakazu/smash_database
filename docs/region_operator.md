@@ -433,6 +433,7 @@ and stays on `main`; a change there is a pull request against `main`.
 | `Max retries exceeded` on the tournament list | start.gg is down or the token is wrong. Nothing was lost; run again later |
 | `429 Too Many Requests` lines | Normal; the client backs off and retries. They only matter if the run finally fails |
 | `failed_events.log` grew | Individual events failed; they are not marked done and are retried next run. If one keeps failing, import it with `download_specific_event.py` and read its error |
+| `WARN: N FetchError line(s) during download` in the summary | Whole tournaments failed to download (API error, bad response). They are not marked done and are retried next run. If every tournament fails, the token or a script is broken: read the first `FetchError on tournament` line in the log |
 | `REGRESSION:` from the check step | A kind of inconsistency jumped. Run `validate_data.py --region North_America` without `--baseline` to see the events. Legitimate (bulk import, new kind of event) → `--write-baseline` |
 | `[pending] … no champion in standings` in the download log | The bracket was not finished when fetched; the tournament is re-fetched every run for 7 days. If it will resume later than that, register it in `manual/awaiting_resume.json` |
 | A phase that is a class bracket was not separated (or the reverse) | Adjust `CLASS_PHASE_PATTERN` / `CLASS_LETTER_PATTERN` (section 7), then `fetch_event_phases.py --region North_America --force` on the affected events and `update_class_data.py` |
