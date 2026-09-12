@@ -18,6 +18,7 @@ Contents
 7. [Changing the rules for your region](#7-changing-the-rules-for-your-region)
 8. [When something is off](#8-when-something-is-off)
 9. [Git rules](#9-git-rules)
+10. [Getting help](#10-getting-help)
 
 ---
 
@@ -459,3 +460,14 @@ and stays on `main`; a change there is a pull request against `main`.
   can file one with the "Removal request" issue template; handle the ones for your
   region (delete the player's lines from `users.jsonl` and `users_derived.jsonl`; the
   `user_id` stays in the event files as an opaque number).
+
+## 10. Getting help
+
+* Something in the data or the scripts looks wrong → open an issue with the
+  "Data issue" template (the repository's Issues tab). Include the run's summary block
+  and the tournament URL; the log line that mentions the event is enough to reproduce.
+* You want a change in `scripts/common/` → open a pull request against `main`; the
+  owner reviews it (expect a few days) and also checks that the Japan nightly's output
+  does not change.
+* You are locked out (cannot push, token questions, access) → the repository owner
+  (GitHub: tosakazu). Never paste a token into an issue or a commit.
