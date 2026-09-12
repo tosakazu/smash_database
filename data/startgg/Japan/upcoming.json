@@ -1,8 +1,8 @@
 {
-  "generated_at": 1789236216,
+  "generated_at": 1789246944,
   "country_code": "JP",
   "lookahead_days": 21,
-  "count": 49,
+  "count": 50,
   "tournaments": [
     {
       "tournament_id": 943233,
@@ -175,14 +175,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/14-547",
       "events": [
         {
           "event_id": 1690088,
           "event_slug": "tournament/14-547/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 10,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1789372800
         }
@@ -336,7 +336,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 77,
+      "num_attendees": 79,
       "url": "/tournament/weekly-smash-party-245",
       "events": [
         {
@@ -612,14 +612,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 58,
+      "num_attendees": 60,
       "url": "/tournament/19-552",
       "events": [
         {
           "event_id": 1701381,
           "event_slug": "tournament/19-552/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 58,
+          "num_entrants": 60,
           "type": 1,
           "start_at": 1789786800
         }
@@ -1049,14 +1049,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 171,
+      "num_attendees": 175,
       "url": "/tournament/73-sp-1",
       "events": [
         {
           "event_id": 1702406,
           "event_slug": "tournament/73-sp-1/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 169,
+          "num_entrants": 173,
           "type": 1,
           "start_at": 1790474400
         }
@@ -1128,6 +1128,29 @@
           "num_entrants": 4,
           "type": 1,
           "start_at": 1790937000
+        }
+      ]
+    },
+    {
+      "tournament_id": 950114,
+      "tournament_slug": "tournament/2-203",
+      "tournament_name": "プルガトリオ#2",
+      "start_at": 1790992800,
+      "end_at": 1791028800,
+      "is_online": false,
+      "city": "信濃町",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/2-203",
+      "events": [
+        {
+          "event_id": 1703199,
+          "event_slug": "tournament/2-203/event/sp",
+          "event_name": "【スマブラSP】シングルス",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1790992800
         }
       ]
     }
