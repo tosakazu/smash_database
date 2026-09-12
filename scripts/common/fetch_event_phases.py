@@ -2,7 +2,7 @@
 """Fetch event phase metadata and save to event_dir/phases.json.
 
 For events where lower-class brackets (B-class / C-class etc) exist as PHASES
-within a single Singles event (e.g., 篝火#15), we need the phase structure to
+within a single Singles event (e.g., Kagaribi #15), we need the phase structure to
 properly clip standings at the main-bracket cutoff.
 
 Usage:
@@ -37,14 +37,14 @@ def load_attr(event_path: str) -> dict | None:
 
 
 def main(argv=None, event_dirs=None):
-    """event_dirs (list[str]) を直接渡せる (update_class_data が in-process で呼ぶ)。無ければ --event-dirs-file / 走査。"""
+    """event_dirs (list[str]) may be passed directly (update_class_data calls this in-process). Otherwise use --event-dirs-file or scan."""
     parser = argparse.ArgumentParser()
     add_api_args(parser, max_retries=5, retry_delay=10)
     parser.add_argument("--since", default="2023-01-01")
     parser.add_argument("--min-entrants", type=int, default=200,
                         help="Only fetch events with at least this many entrants (class brackets typically exist only in large events)")
-    parser.add_argument("--region", required=True, help="判定モジュール scripts/<地域>/classify.py を選ぶ")
-    parser.add_argument("--tournament-file-path", default=None, help="既定 data/startgg/<地域>/tournaments.jsonl")
+    parser.add_argument("--region", required=True, help="Select the classifier module scripts/<region>/classify.py")
+    parser.add_argument("--tournament-file-path", default=None, help="Default: data/startgg/<region>/tournaments.jsonl")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--force", action="store_true", help="Overwrite existing phases.json")
     parser.add_argument("--dry-run", action="store_true")
@@ -56,7 +56,7 @@ def main(argv=None, event_dirs=None):
     from scripts.common.region import load_region_classifier, class_support
     cls = class_support(load_region_classifier(args.region))
     if cls is None:
-        print(f"地域 {args.region} はクラス bracket を扱わない (classify.py に宣言が無い) — 何もしない", flush=True)
+        print(f"Region {args.region} does not handle class brackets (no declaration in classify.py) — nothing to do", flush=True)
         return 0
     _is_class = lambda name: bool(cls.is_class_phase(name))   # noqa: E731
     if args.tournament_file_path is None:
@@ -134,7 +134,7 @@ def main(argv=None, event_dirs=None):
             n_fail += 1
             continue
         phases = ev_data.get("phases") or []
-        # クラス phase かどうかの判定は地域モジュールが持つ (日本 = B/C/D/E クラス)
+        # Whether a phase is a class phase is decided by the region module (Japan = B/C/D/E classes)
         has_class = any(_is_class(p.get("name")) for p in phases)
         if has_class:
             n_class += 1

@@ -81,12 +81,12 @@ def main(argv=None):
     parser.add_argument("--force", action="store_true",
                         help="Overwrite existing played_user_ids in phase_group entries")
     parser.add_argument("--events-root",
-                        default=None, help="既定 data/startgg/<地域>/events")
-    parser.add_argument("--region", default=None, help="--events-root 省略時に使う地域")
+                        default=None, help="Default: data/startgg/<region>/events")
+    parser.add_argument("--region", default=None, help="Region used when --events-root is omitted")
     args = parser.parse_args(argv)
     if args.events_root is None:
         if not args.region:
-            parser.error("--events-root か --region のどちらかが要る")
+            parser.error("Either --events-root or --region is required")
         args.events_root = os.path.join("data", "startgg", args.region.replace(" ", "_"), "events")
     setup_api(args)
 
@@ -101,7 +101,7 @@ def main(argv=None):
         event_dir = pf.parent
         cp_dir = event_dir / "class_phases"
         if not cp_dir.is_dir(): continue
-        # 各 class phase の JSON file
+        # One JSON file per class phase
         for cp in cp_dir.glob("*.json"):
             if "_virtual" in cp.name: continue
             try:

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Re-download matches.json using phase_group iteration (instead of event-level pagination).
 
-問題: 既存の event-level pagination (fetch_all_nodes) は AIMD overlap-skip が
-legitimate な sets を捨てる可能性があり、大規模 event で取りこぼしが発生.
-篝火#15 Yuzha の例: start.gg では 9 試合あるが我々のデータでは 6 試合しか取れていない.
+Problem: the existing event-level pagination (fetch_all_nodes) has an AIMD overlap-skip that may
+drop legitimate sets, causing missing sets on large events.
+Example, Kagaribi #15 Yuzha: start.gg shows 9 matches but our data only has 6.
 
-新方式 (v2):
-  1. event の phases 一覧を取得
-  2. 各 phase の phase_groups 一覧を取得
-  3. 各 phase_group ごとに sets を fetch (phase_group 単位は小さいので 1-2 ページで完結する場合が多い)
-  4. set ごとに phase_id, phase_name, phase_num_seeds, phase_group_id, wave_id を付与
-  5. matches.json に追加: phase_id, phase_name, phase_num_seeds, wave_id
+New approach (v2):
+  1. fetch the event's phase list
+  2. fetch the phase_groups of each phase
+  3. fetch sets per phase_group (phase_groups are small, so usually 1-2 pages suffice)
+  4. attach phase_id, phase_name, phase_num_seeds, phase_group_id, wave_id to each set
+  5. add to matches.json: phase_id, phase_name, phase_num_seeds, wave_id
 
 Usage:
     python3 scripts/fetch/redownload_matches_v2.py --token <T> --dup-list /tmp/all_events_to_refetch.json --min-dups 0
@@ -36,11 +36,11 @@ from scripts.common.utils import (
     FetchError,
 )
 
-# Inter-call delay to avoid rate limiting (start.gg は 1-2 RPS 程度推奨)
+# Inter-call delay to avoid rate limiting (start.gg recommends roughly 1-2 RPS)
 API_DELAY_SEC = 0.6
 
 
-# Phase name から TOP X を抽出 (= bracket size)
+# Extract TOP X from the phase name (= bracket size)
 def parse_phase_top_n(name: str) -> int | None:
     if not name:
         return None
@@ -51,11 +51,11 @@ def parse_phase_top_n(name: str) -> int | None:
     return None
 
 
-# DE bracket における W2W (Wins-to-Win) → placement bucket upper bound (= TOP X) のテーブル.
-# 例: W2W=2 (LB Final 敗者=3位) → TOP 3, W2W=5 → TOP 8, W2W=23 → TOP 4096.
-# 算式:
-#   W2W=2k (偶数) → TOP = 3 × 2^(k-1)   (例: w2w=4 → k=2 → 6 = 5-6 上限)
-#   W2W=2k+1 (奇数) → TOP = 2^(k+1)     (例: w2w=5 → k=2 → 8 = 7-8 上限)
+# Table mapping W2W (Wins-to-Win) in a DE bracket -> placement bucket upper bound (= TOP X).
+# e.g. W2W=2 (LB Final loser = 3rd) -> TOP 3, W2W=5 -> TOP 8, W2W=23 -> TOP 4096.
+# Formula:
+#   W2W=2k (even) -> TOP = 3 x 2^(k-1)   (e.g. w2w=4 -> k=2 -> 6 = upper bound of 5-6)
+#   W2W=2k+1 (odd) -> TOP = 2^(k+1)     (e.g. w2w=5 -> k=2 -> 8 = upper bound of 7-8)
 def w2w_to_top_x(w2w: int) -> int:
     if w2w <= 0:
         return 1
@@ -68,22 +68,22 @@ def w2w_to_top_x(w2w: int) -> int:
 
 
 def winners_top_x(round_n: int, phase_top_n: int) -> int:
-    """Winners side round で「この試合に負けたら下にいく」placement bucket の上限."""
-    # WB R r で敗北 → LB へ. LB R1 (= WB R r-1 losers が落ちてくる) でさらに負けると
-    # placement: TOP {N / 2^(r-1)} のバケット. 即ち WB 段階での「TOP X」境界.
+    """Upper bound of the placement bucket a loser of this winners-side round drops into."""
+    # Losing in WB R r -> LB. Losing again in LB R1 (= where WB R r-1 losers land) gives
+    # placement: TOP {N / 2^(r-1)} bucket. I.e. the "TOP X" boundary at the WB stage.
     if round_n <= 0 or phase_top_n is None or phase_top_n <= 0:
         return None
     return max(2, phase_top_n // (2 ** max(0, round_n - 1)))
 
 
 def losers_top_x(round_n: int) -> int:
-    """Losers side round で敗北したときの最終 placement bucket 上限 (= TOP X).
-    start.gg の round 表記: round=-1 → LB Final, -2 → LB Semi, ... と LB final から離れるほど大きな絶対値.
+    """Final placement bucket upper bound (= TOP X) when losing in a losers-side round.
+    start.gg round notation: round=-1 -> LB Final, -2 -> LB Semi, ... larger absolute values the further from the LB final.
     """
     if round_n >= 0:
         return None
-    # LB Round (start.gg, |round|=k) の敗者 W2W = k + 1
-    # 例: LB Final (k=1) 敗者 = 3位 (W2W=2)
+    # Loser of an LB round (start.gg, |round|=k) has W2W = k + 1
+    # e.g. LB Final (k=1) loser = 3rd (W2W=2)
     w2w = abs(round_n) + 1
     return w2w_to_top_x(w2w)
 
@@ -96,34 +96,34 @@ def next_pow2(n: int) -> int:
 
 
 def effective_bracket_capacity(n: int) -> int:
-    """play-in 補正後の有効 bracket 容量 = 最大の pow2 で <= n.
-    例: n=64 → 64 (= そのまま), n=69 → 64, n=128 → 128, n=192 → 128.
-    DE bracket で n が pow2 でない場合、余剰 (n - prev_pow2) が R1 play-in に吸収され、
-    R2 以降の effective 構造は prev_pow2 名 SE と同じ. ラベル付けはこの effective 容量を使う.
+    """Effective bracket capacity after play-in correction = largest pow2 <= n.
+    e.g. n=64 -> 64 (= unchanged), n=69 -> 64, n=128 -> 128, n=192 -> 128.
+    In a DE bracket where n is not pow2, the surplus (n - prev_pow2) is absorbed by R1 play-ins and
+    the effective structure from R2 on is the same as a prev_pow2-entrant SE. Labeling uses this effective capacity.
     """
     if n is None or n <= 1: return 1
     np = next_pow2(n)
     if np == n: return n      # n is already pow2
-    return np // 2            # n 未満の最大 pow2
+    return np // 2            # largest pow2 below n
 
 
-# クラス phase (B/C/D/E-class) 判定 — main bracket と分離するためのフィルタ.
-# A-class は最上位ブラケット (= TO WIN 系) で main 扱いするので除外しない.
-# English ("B class" / "B-class" / "BClass") + Japanese ("Bクラス") 両対応.
+# Class phase (B/C/D/E-class) detection — filter to separate from the main bracket.
+# A-class is the top bracket (= TO WIN type) and treated as main, so it is not excluded.
+# Supports both English ("B class" / "B-class" / "BClass") and Japanese (letter + katakana "kurasu").
 _CLASS_PHASE_RE = re.compile(r'\b[B-E][- ]?class\b|[B-EＢＣＤＥ][- ]?クラス', re.IGNORECASE)
 def _is_class_phase(phase_name: str) -> bool:
     return bool(phase_name and _CLASS_PHASE_RE.search(phase_name))
 
 
-# 全角→半角 マップ (= "Ｂ" → "B" 等)
+# Fullwidth -> ASCII map (= fullwidth "B" -> "B", etc.)
 _FULLWIDTH_TO_ASCII = str.maketrans('ＡＢＣＤＥ', 'ABCDE')
 
 def _get_class_letter(phase_name: str) -> str | None:
-    """class phase の letter (= 'B'/'C'/'D'/'E') を返す. 該当なし None."""
+    """Return the class phase letter (= 'B'/'C'/'D'/'E'). None if not a class phase."""
     if not phase_name: return None
     m = _CLASS_PHASE_RE.search(phase_name)
     if not m: return None
-    # m.group(0) は "B class" / "b-class" / "Bクラス" / "Ｂクラス" 等. 先頭の letter を半角大文字に.
+    # m.group(0) is "B class" / "b-class" / the Japanese or fullwidth form, etc. Take the first letter as ASCII uppercase.
     first = m.group(0)[0]
     return first.translate(_FULLWIDTH_TO_ASCII).upper()
 
@@ -145,13 +145,13 @@ def placement_to_bucket(p: int) -> int:
 
 
 def compute_phase_global_rounds(all_sets_with_phase):
-    """Main phase (= non-class) について global round 番号を計算する.
+    """Compute global round numbers for main (= non-class) phases.
 
-    各 phase の WB rounds を列挙、play-in 判定 (= 試合数が次の round より少ない) して除外、
-    残った effective rounds を phaseOrder 順に並べて累積した index を global_round とする.
+    List the WB rounds of each phase, detect and drop play-ins (= fewer matches than the next round),
+    order the remaining effective rounds by phaseOrder and use the cumulative index as global_round.
 
-    SE phase は WB-only (= LB なし) として WB と同じ扱い.
-    ROUND_ROBIN / SWISS / MATCHMAKING / CUSTOM_SCHEDULE は bracket-position 概念無しで skip.
+    SE phases are treated like WB (WB-only, no LB).
+    ROUND_ROBIN / SWISS / MATCHMAKING / CUSTOM_SCHEDULE have no bracket-position concept and are skipped.
 
     Returns:
         phase_info: dict[phase_id] = {
@@ -159,17 +159,17 @@ def compute_phase_global_rounds(all_sets_with_phase):
             'all_wb_rounds_sorted': list,
             'effective_wb_rounds_sorted': list,
             'play_in_rounds': set,
-            'global_round_offset': int (累積 offset),
-            'is_se': bool (= SE phase か),
+            'global_round_offset': int (cumulative offset),
+            'is_se': bool (= whether an SE phase),
         }
-        max_main_phase_order: int (LB の "final phase" 判定用)
+        max_main_phase_order: int (for the LB "final phase" check)
     """
     by_phase: dict = {}
-    # main + class 両方の phase を収集. main は global_round 累積, class は自己完結 (= prefix label のみ).
+    # Collect both main and class phases. main accumulates global_round; class is self-contained (= prefix label only).
     for set_node, phase_info, _ in all_sets_with_phase:
         pname = phase_info.get('name') or ''
         bt = phase_info.get('bracketType')
-        # DE と SE のみ bracket-position 概念あり (= SE は WB-only として扱う).
+        # Only DE and SE have a bracket-position concept (= SE is treated as WB-only).
         if bt and bt not in ('DOUBLE_ELIMINATION', 'SINGLE_ELIMINATION'):
             continue
         pid = phase_info.get('id')
@@ -187,34 +187,34 @@ def compute_phase_global_rounds(all_sets_with_phase):
             'num_seeds': phase_info.get('numSeeds') or 0,
         })
         by_phase[pid]['wb_round_counts'][r] = by_phase[pid]['wb_round_counts'].get(r, 0) + 1
-    # main bracket は phase_order 順に global_round 累積. class bracket は自己完結 (= offset 0).
+    # Main bracket accumulates global_round in phase_order. Class brackets are self-contained (= offset 0).
     sorted_pids = sorted(by_phase.keys(), key=lambda pid: (by_phase[pid]['phase_order'], pid))
     out = {}
-    cumulative_main = 0  # class 以外の累積
+    cumulative_main = 0  # cumulative count excluding class
     for pid in sorted_pids:
         info = by_phase[pid]
         all_rounds = sorted(info['wb_round_counts'].keys())
         play_in = set()
-        # play-in 検出: 連続する先頭の round が後続 round の自然な doubling pattern (= R[i+1]*2)
-        # に乗らない場合 play-in 扱い.
-        # 例:
-        #   - 759名 SE: R1=247, R2=256. R1 < R2*2=512 → play-in.
-        #   - 413名 SE: R1=157, R2=128. R1 < R2*2=256 → play-in.
-        #   - 24seed A class: R1=4, R2=2. R1 = R2*2=4 → play-in でない.
-        #   - 32seed SE: R1=16, R2=8. R1 = R2*2=16 → play-in でない.
-        # numSeeds は信用できない (= 同一 phase でも phase_groups 間で不整合あり) ので使わない.
+        # Play-in detection: leading consecutive rounds that do not follow the natural doubling pattern
+        # of the following round (= R[i+1]*2) are treated as play-ins.
+        # Examples:
+        #   - 759-entrant SE: R1=247, R2=256. R1 < R2*2=512 -> play-in.
+        #   - 413-entrant SE: R1=157, R2=128. R1 < R2*2=256 -> play-in.
+        #   - 24-seed A class: R1=4, R2=2. R1 = R2*2=4 -> not a play-in.
+        #   - 32-seed SE: R1=16, R2=8. R1 = R2*2=16 -> not a play-in.
+        # numSeeds is unreliable (= inconsistent across phase_groups even within a phase), so it is not used.
         for i in range(len(all_rounds) - 1):
             cur = all_rounds[i]; nxt = all_rounds[i + 1]
             cur_n = info['wb_round_counts'][cur]
             nxt_n = info['wb_round_counts'][nxt]
-            # 後続 round の自然な doubling パターンと一致しなければ play-in
+            # play-in if it does not match the natural doubling pattern of the next round
             if cur_n != nxt_n * 2:
                 play_in.add(cur)
             else:
                 break
         effective = [r for r in all_rounds if r not in play_in]
         is_class = info.get('class_letter') is not None
-        # class bracket は global_round 累積に含めない (= 各 class が独立した bracket)
+        # Class brackets are not included in the global_round accumulation (= each class is an independent bracket)
         offset = 0 if is_class else cumulative_main
         out[pid] = {
             'phase_order': info['phase_order'],
@@ -236,18 +236,18 @@ def compute_phase_global_rounds(all_sets_with_phase):
 
 def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacity,
                           placements_map, loser_uid):
-    """Per-match の (global_round, global_top_x, global_bracket_label) を返す.
+    """Return (global_round, global_top_x, global_bracket_label) per match.
 
-    WB: bracket-position 基準. play-in round は global_round=None, global_top_x=bracket_capacity.
-    LB: loser placement を standings から引いて placement_to_bucket で bucket 化.
-        loser_uid が無い (= account 削除 player 等) / placement 取得不可なら round_n から
-        losers_top_x で round-based fallback (= 大体一致, 非pow2 では微妙にズレる).
+    WB: based on bracket position. Play-in rounds get global_round=None, global_top_x=bracket_capacity.
+    LB: look up the loser's placement in standings and bucket it with placement_to_bucket.
+        If loser_uid is missing (= deleted account, etc.) / placement unavailable, fall back to a round-based
+        losers_top_x from round_n (= mostly matches; slightly off for non-pow2).
     GF (round=0): global_top_x=2.
-    SE phase: WB-only (= LB なし) として WB ロジック適用. ただし bracket_capacity は
-        per-phase の next_pow2(numSeeds) を使う (= SE には play-in 概念ないので effective じゃない).
-    Class phase (B/C/D/E): 同じ計算式だが label に "{letter}-" prefix を付ける.
-        例: B-Winners TOP 64 / C-Losers TOP 8 / D-Grand Final.
-        bracket_capacity も per-phase の numSeeds から計算 (= main の bracket_capacity は使わない).
+    SE phase: WB logic applied as WB-only (= no LB). bracket_capacity however uses the per-phase
+        next_pow2(numSeeds) (= SE has no play-in concept, so not the effective one).
+    Class phase (B/C/D/E): same formula, but the label gets a "{letter}-" prefix.
+        e.g. B-Winners TOP 64 / C-Losers TOP 8 / D-Grand Final.
+        bracket_capacity is also computed from the per-phase numSeeds (= the main bracket_capacity is not used).
     ROUND_ROBIN / SWISS / MATCHMAKING / CUSTOM_SCHEDULE: None.
     """
     if round_n is None:
@@ -256,8 +256,8 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
     bt = phase_info.get('bracketType')
     class_letter = _get_class_letter(pname)
     prefix = f"{class_letter}-" if class_letter else ""
-    # DE / SE 以外は bracket-position 概念無し → カテゴリラベルのみ付与 (= 日本語表記).
-    # CUSTOM_SCHEDULE 等の "その他" は null (= 表示しない).
+    # Non-DE/SE have no bracket-position concept -> only a category label (= Japanese text; written to matches.json, do not change).
+    # "Other" such as CUSTOM_SCHEDULE is null (= not displayed).
     _BT_LABEL = {
         'ROUND_ROBIN': '総当たり',
         'SWISS': 'スイスドロー',
@@ -275,9 +275,9 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
         class_letter = info.get('class_letter')
         prefix = f"{class_letter}-"
 
-    # class phase は per-phase の bracket_capacity を使う (= main の bracket_capacity に依存しない).
-    # SE: cap = effective_bracket_capacity (= prev_pow2). 非pow2 でも R2 以降の effective bracket で計算.
-    # DE: cap = effective_bracket_capacity. play-in label は cap*2 = next_pow2.
+    # Class phases use a per-phase bracket_capacity (= independent of the main bracket_capacity).
+    # SE: cap = effective_bracket_capacity (= prev_pow2). Even for non-pow2, computed on the effective bracket from R2 on.
+    # DE: cap = effective_bracket_capacity. Play-in label is cap*2 = next_pow2.
     if class_letter:
         ns = phase_info.get('numSeeds') or 0
         cap = effective_bracket_capacity(ns)
@@ -288,9 +288,9 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
         if info is None:
             return (None, None, None)
         if is_se:
-            # SE: play-in round 敗者は placement_to_bucket(numSeeds) でラベル付け (= 最終 placement に直結).
-            # 例: 759名 SE R1 losers は placement 513-759 → bucket 768.
-            # effective rounds は cap (= prev_pow2) / 2^(r-1) で計算.
+            # SE: play-in round losers are labeled with placement_to_bucket(numSeeds) (= maps directly to final placement).
+            # e.g. 759-entrant SE R1 losers have placement 513-759 -> bucket 768.
+            # Effective rounds are computed as cap (= prev_pow2) / 2^(r-1).
             if cap is None or cap <= 1:
                 return (None, None, None)
             if round_n in info['play_in_rounds']:
@@ -306,7 +306,7 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
             return (global_r, top, f"{prefix}Winners TOP {top}")
         # DE bracket (main or class)
         if round_n in info['play_in_rounds']:
-            # play-in 敗者は bracket-size (= effective * 2 = next_pow2) でラベル付け
+            # Play-in losers are labeled with the bracket size (= effective * 2 = next_pow2)
             play_in_label_n = cap * 2 if cap else None
             return (None, play_in_label_n,
                     f"{prefix}Winners TOP {play_in_label_n}" if play_in_label_n else None)
@@ -321,10 +321,10 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
         return (global_r, top, f"{prefix}Winners TOP {top}")
     if round_n < 0:
         if is_se:
-            return (None, None, None)  # SE には LB 無し
-        # LB ラベルの算出:
-        #   - main bracket: placements_map (= 大会全体 standings) から bucket 化
-        #   - class bracket: 大会全体 placement は class 内の position を表さないので round-based 一択
+            return (None, None, None)  # SE has no LB
+        # LB label computation:
+        #   - main bracket: bucket from placements_map (= tournament-wide standings)
+        #   - class bracket: tournament-wide placement does not reflect position within the class, so round-based only
         if class_letter:
             bucket = losers_top_x(round_n)
             if bucket is None:
@@ -338,7 +338,7 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
             bucket = placement_to_bucket(p)
             if bucket is not None:
                 return (None, bucket, f"Losers TOP {bucket}")
-        # Fallback: round-based losers_top_x (= account 削除 player 等)
+        # Fallback: round-based losers_top_x (= deleted account, etc.)
         bucket = losers_top_x(round_n)
         if bucket is None:
             return (None, None, None)
@@ -350,7 +350,7 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
 
 
 def fetch_event_phases(event_id):
-    """phases + phase_groups リストを取得."""
+    """Fetch the list of phases + phase_groups."""
     resp = fetch_data_with_retries(
         get_event_phases_full_query(),
         {"eventId": event_id},
@@ -365,30 +365,30 @@ def fetch_event_phases(event_id):
 
 
 def fetch_phase_group_sets(pg_id, per_page=50, with_games=False):
-    """1 phase_group の sets を全件取得.
+    """Fetch all sets of one phase_group.
 
-    with_games=True のときは スコア + games (キャラ/ステージ選択) 統合クエリを使い、
-    1 パスで試合結果とキャラ details の両方を取得する (= download とキャラ取得の二重叩き解消).
-    games は complexity が高いので開始 perPage を 8 にクランプし、complexity backoff で
-    最小 4 まで自動で下げる。
+    With with_games=True, use the combined scores + games (character/stage selections) query to
+    fetch match results and character details in one pass (= no more double calls for download and character fetch).
+    games are high-complexity, so the starting perPage is clamped to 8 and complexity backoff
+    lowers it automatically down to a minimum of 4.
 
-    変更点 (バグ修正):
-      - `len(nodes) < cur_per_page` の break 条件は start.gg の不安定なページサイズで
-        早期 break する原因になっていた (production で 50→12 と返ってきて 62 件で打切るケース観測).
-      - 代わりに **page 1 の totalPages を authoritative とし、その回数まで pagination する**.
-      - 並びは `sortType: NONE` (= ID 順) に切替えて安定化.
-      - 取得後、`set.id` で dedup. pageInfo.total と一致しなければ再試行.
+    Changes (bug fixes):
+      - The `len(nodes) < cur_per_page` break condition caused early breaks due to start.gg's unstable
+        page size (observed in production: 50->12 returned, cut off at 62 items).
+      - Instead, **page 1's totalPages is authoritative and pagination runs that many times**.
+      - Ordering switched to `sortType: NONE` (= ID order) for stability.
+      - After fetching, dedup by `set.id`. Retry if the count does not match pageInfo.total.
     """
     _query = (get_phase_group_sets_full_with_games_query if with_games
               else get_phase_group_sets_full_query)
     if with_games:
-        per_page = min(per_page, 8)  # games は complexity が高いので小さめに開始
+        per_page = min(per_page, 8)  # games are high-complexity, so start small
     sets = []
     seen_ids = set()
     total_pages = None
     expected_total = None
     page = 1
-    max_pages = 50  # 安全装置
+    max_pages = 50  # safety limit
     while page <= max_pages:
         variables = {"phaseGroupId": pg_id, "page": page, "perPage": per_page}
         cur_per_page = per_page
@@ -405,9 +405,9 @@ def fetch_phase_group_sets(pg_id, per_page=50, with_games=False):
                 attempts += 1
                 time.sleep(API_DELAY_SEC)
                 continue
-            # rate limit 等の GraphQL エラーは HTTP 200 + errors / data.phaseGroup=null で
-            # 返ってくる. 旧実装はこれを「sets 0 件」と解釈して silent partial になっていた
-            # (= 兵庫対戦会#31 で Bクラス phase 96 sets が丸ごと欠落). retry → 最終 raise.
+            # GraphQL errors such as rate limits come back as HTTP 200 + errors / data.phaseGroup=null.
+            # The old implementation read that as "0 sets" and produced a silent partial
+            # (= at Hyogo Taisenkai #31 the whole B-class phase, 96 sets, went missing). Retry -> raise at the end.
             _pg_null = not ((resp.get("data") or {}).get("phaseGroup") if isinstance(resp, dict) else None)
             if errs or _pg_null:
                 if soft_attempts >= 4:
@@ -435,8 +435,8 @@ def fetch_phase_group_sets(pg_id, per_page=50, with_games=False):
             break
         page += 1
         time.sleep(API_DELAY_SEC)
-    # 取得 sets 数が expected_total に届かない場合、もう一度全 page を別 per_page で試行.
-    # start.gg のページサイズ揺れで取りこぼした sets を回収するための fallback.
+    # If the fetched set count is short of expected_total, try all pages again with a different per_page.
+    # Fallback to recover sets dropped by start.gg page-size jitter.
     if expected_total is not None and len(sets) < expected_total:
         fallback_per_page = max(4 if with_games else 8, per_page // 2)
         page = 1
@@ -464,8 +464,8 @@ def fetch_phase_group_sets(pg_id, per_page=50, with_games=False):
                 break
             page += 1
             time.sleep(API_DELAY_SEC)
-    # fallback 後も expected_total に届かない場合は silent partial にせず fail させる
-    # (= caller 側で event を done にしない → 次回 nightly で再取得される).
+    # If still short of expected_total after the fallback, fail instead of writing a silent partial
+    # (= the caller does not mark the event done -> re-fetched on the next nightly).
     if expected_total is not None and len(sets) < expected_total:
         raise FetchError(f"pg={pg_id} incomplete: fetched {len(sets)}/{expected_total} sets")
     return sets
@@ -489,12 +489,12 @@ def _build_entrant2user(all_nodes):
 
 
 def _games_to_details(node, entrant2user):
-    """set node の games (character/stage 選択履歴) を matches.json `details[]` schema へ変換.
+    """Convert a set node's games (character/stage selection history) into the matches.json `details[]` schema.
 
-    games 無しクエリ (= get_phase_group_sets_full_query) で取得した node では
-    node['games'] が存在しないため [] を返す。games 付きクエリ
-    (= get_phase_group_sets_full_with_games_query) のときのみ中身が入る。
-    schema は download_specific_event.py / merge_character_games.py と一致。"""
+    Nodes fetched with the no-games query (= get_phase_group_sets_full_query) have no
+    node['games'], so [] is returned. Only nodes from the games query
+    (= get_phase_group_sets_full_with_games_query) yield content.
+    The schema matches download_specific_event.py / merge_character_games.py."""
     details = []
     for game in (node.get("games") or []):
         if not isinstance(game, dict):
@@ -527,7 +527,7 @@ def _games_to_details(node, entrant2user):
 
 
 def _load_placements_map(event_dir: Path):
-    """standings.json → {user_id: placement} を読む. 無ければ {} を返す."""
+    """Read standings.json -> {user_id: placement}. Returns {} if missing."""
     sp = event_dir / "standings.json"
     if not sp.exists():
         return {}
@@ -545,14 +545,14 @@ def _load_placements_map(event_dir: Path):
         uid = it.get("user_id")
         p = it.get("placement")
         if uid is None or p is None: continue
-        # 同じ uid が複数 placement に出る場合は最も上位を採用
+        # If the same uid appears with multiple placements, take the best one
         if uid not in out or p < out[uid]:
             out[uid] = p
     return out
 
 
 def _phase_max_numseeds(all_sets_with_phase):
-    """main phase の max numSeeds (= 総参加者) を返す. class phase は除外."""
+    """Return the max numSeeds (= total entrants) of the main phases. Class phases excluded."""
     seen_phase = {}
     for _, phase_info, _ in all_sets_with_phase:
         pid = phase_info.get('id')
@@ -568,7 +568,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
     # all_sets_with_phase: list of (set_node, phase_info dict, pg_info dict)
     entrant2user = _build_entrant2user([s for s, _, _ in all_sets_with_phase])
     placements_map = _load_placements_map(event_dir)
-    # play-in 補正後の有効 capacity を使う (= 69 名 → 64, 192 名 → 128 等. pow2 ならそのまま)
+    # Use the effective capacity after play-in correction (= 69 entrants -> 64, 192 -> 128, etc.; pow2 unchanged)
     bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(all_sets_with_phase))
     phase_global_info, max_main_phase_order = compute_phase_global_rounds(all_sets_with_phase)
     json_data = {
@@ -576,7 +576,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         "bracket_capacity": bracket_capacity,
     }
     seen_set_ids = set()
-    seen_match_keys = set()  # (pg_id, round, round_text, winner_uid, loser_uid) — set.id dedup の補助 (= start.gg が同じ試合を異なる set id で返す稀ケース対応)
+    seen_match_keys = set()  # (pg_id, round, round_text, winner_uid, loser_uid) — supplements set.id dedup (= handles the rare case where start.gg returns the same match under different set ids)
     dup_set_id = 0
     dup_match_key = 0
     for node, phase_info, pg_info in all_sets_with_phase:
@@ -598,7 +598,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         score1 = ((st1.get("stats") or {}).get("score") or {}).get("value")
         if score0 is None: score0 = 0
         if score1 is None: score1 = 0
-        # winnerId 優先
+        # winnerId takes precedence
         winner_eid = node.get("winnerId")
         ent0_id = (slot0.get("entrant") or {}).get("id")
         ent1_id = (slot1.get("entrant") or {}).get("id")
@@ -613,8 +613,8 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         loser_score = score1 if winner_slot is slot0 else score0
         dq = (score0 < 0 or score1 < 0)
         cancel = (score0 == 0 and score1 == 0 and winner_eid is None)
-        # games / details: with_games クエリのときのみ node['games'] が入る (= キャラ選択).
-        # games 無しクエリでは [] (従来どおり).
+        # games / details: node['games'] is present only with the with_games query (= character selections).
+        # With the no-games query it is [] (as before).
         details = _games_to_details(node, entrant2user)
         wave = pg_info.get("wave") or {}
         wid_ent = (winner_slot.get("entrant") or {}).get("id")
@@ -623,9 +623,9 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         phase_top_n = parse_phase_top_n(phase_info.get("name"))
         round_n = node.get("round")
         round_text = node.get("fullRoundText") or ""
-        # bracket_label: 「この試合の敗者の placement (= TOP X)」を表す.
-        # Winners side: WB R r 敗北 → LB へ. 即ち WB R r の TOP X = phase_top_n / 2^(r-1)
-        # Losers side: LB R r 敗北 → 即 elimination. placement = W2W (= |round|+1) から逆引き.
+        # bracket_label: represents "the placement of this match's loser (= TOP X)".
+        # Winners side: losing in WB R r -> LB. I.e. TOP X of WB R r = phase_top_n / 2^(r-1)
+        # Losers side: losing in LB R r -> immediate elimination. placement derived from W2W (= |round|+1).
         winners_top = winners_top_x(round_n, phase_top_n) if (round_n is not None and round_n > 0) else None
         losers_top = losers_top_x(round_n) if (round_n is not None and round_n < 0) else None
         bracket_label = None
@@ -636,7 +636,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
                 bracket_label = f"Losers TOP {losers_top}"
             elif round_n == 0:
                 bracket_label = "Grand Final"
-        # Global bracket position labels (class phase は None になる).
+        # Global bracket position labels (None for class phases).
         loser_uid = entrant2user.get(lid_ent)
         global_round, global_top_x, global_bracket_label = compute_global_top_x(
             round_n, phase_info, phase_global_info, bracket_capacity,
@@ -653,37 +653,37 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "phase": pg_info.get("displayIdentifier"),
             "phase_id": phase_info.get("id"),
             "phase_name": phase_info.get("name"),
-            "phase_order": phase_info.get("phaseOrder"),     # multi-phase 大会で phase 順序を保持
+            "phase_order": phase_info.get("phaseOrder"),     # keeps phase order in multi-phase tournaments
             "phase_num_seeds": phase_info.get("numSeeds"),
             "phase_bracket_type": phase_info.get("bracketType"),
-            "phase_top_n": phase_top_n,        # phase 内 bracket の入場サイズ
-            "bracket_label": bracket_label,    # = "Winners TOP X" / "Losers TOP X" (敗者着地, phase-internal)
-            "winners_top": winners_top,        # WB 側: 敗北で落ちる TOP X (phase-internal)
-            "losers_top": losers_top,          # LB 側: 敗北で確定する TOP X (phase-internal)
-            "global_round": global_round,                  # main bracket での累積 WB round 番号
-            "global_top_x": global_top_x,                  # bracket_capacity / 2^(global_round-1) or LB は placement bucket
+            "phase_top_n": phase_top_n,        # entry size of the bracket within the phase
+            "bracket_label": bracket_label,    # = "Winners TOP X" / "Losers TOP X" (where the loser lands, phase-internal)
+            "winners_top": winners_top,        # WB side: TOP X the loser drops to (phase-internal)
+            "losers_top": losers_top,          # LB side: TOP X finalized on losing (phase-internal)
+            "global_round": global_round,                  # cumulative WB round number in the main bracket
+            "global_top_x": global_top_x,                  # bracket_capacity / 2^(global_round-1), or the placement bucket for LB
             "global_bracket_label": global_bracket_label,  # = "Winners TOP X" / "Losers TOP X" (global)
             "phase_group_id": pg_info.get("id"),
-            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; phase_group 開始予定時刻
+            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; scheduled start of the phase_group
             "wave_id": wave.get("id"),
             "wave": wave.get("identifier"),
-            "wave_start_at": wave.get("startAt"),  # Unix timestamp; wave 開始予定時刻
+            "wave_start_at": wave.get("startAt"),  # Unix timestamp; scheduled start of the wave
             "dq": dq,
             "cancel": cancel,
             "state": node.get("state"),
-            "started_at": node.get("startedAt"),      # Unix timestamp; set 開始 (実時刻)
-            "completed_at": node.get("completedAt"),  # Unix timestamp; set 完了 (実時刻)
+            "started_at": node.get("startedAt"),      # Unix timestamp; set start (actual)
+            "completed_at": node.get("completedAt"),  # Unix timestamp; set completion (actual)
             "details": details,
         }
-        # 二重チェック: 同じ (pg, round_text, winner_uid, loser_uid) を持つ試合が既に
-        # 別 set id で書かれていたら重複と見なして skip.
-        # 注: round だけだと Grand Final と Grand Final Reset が同 round + 同 winner/loser
-        # で識別不能になる (= LB-side が GF1+GF Reset の双方を勝つケースで GF Reset が
-        # 誤削除される). round_text を加えてその偽陽性を排除.
-        # ただし ROUND_ROBIN phase では同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
+        # Double check: if a match with the same (pg, round_text, winner_uid, loser_uid) was already
+        # written under a different set id, treat it as a duplicate and skip.
+        # Note: with round alone, Grand Final and Grand Final Reset share the same round + same winner/loser
+        # and are indistinguishable (= when the LB side wins both GF1 and GF Reset, GF Reset would be
+        # wrongly dropped). round_text is added to eliminate that false positive.
+        # In ROUND_ROBIN phases the same pair legitimately plays multiple times -> skip tuple-key dedup.
         wuid = match_data.get("winner_id")
         luid = match_data.get("loser_id")
-        # ROUND_ROBIN / MATCHMAKING phase は同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
+        # ROUND_ROBIN / MATCHMAKING phases legitimately have repeated pairings -> skip tuple-key dedup.
         is_rr_phase = phase_info.get("bracketType") in ("ROUND_ROBIN", "MATCHMAKING")
         if wuid is not None and luid is not None and not is_rr_phase:
             mkey = (pg_info.get("id"), round_n, round_text or '', wuid, luid)
@@ -701,7 +701,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
 
 
 def _event_sets_total(event_id):
-    """event-level sets.total を返す (取りこぼし検証用; 失敗時 None). 低 complexity で頑健."""
+    """Return the event-level sets.total (for missing-set verification; None on failure). Low complexity, robust."""
     q = "query($e:ID!){ event(id:$e){ sets(page:1,perPage:1){ pageInfo{ total } } } }"
     try:
         r = fetch_data_with_retries(q, {"e": event_id})
@@ -711,12 +711,12 @@ def _event_sets_total(event_id):
 
 
 def fetch_event_sets_full(event_id, per_page=40):
-    """event.sets を full fields でページング取得し (node, phase_info, pg_info) tuple リストを返す.
+    """Fetch event.sets with full fields by paging and return a list of (node, phase_info, pg_info) tuples.
 
-    phase_group 巡回 (fetch_phase_group_sets) が rate-limit 下で phaseGroup.sets を空
-    (total=0 / error 無し / phaseGroup 非 null) で返す silent-partial を回避する代替経路.
-    event.sets は低 complexity で頑健に全件返るため取りこぼし event の復旧に使う.
-    pageInfo.total と一致しなければ FetchError (= 部分取得を silent に書かせない).
+    Alternative path avoiding the silent partial where phase_group iteration (fetch_phase_group_sets) returns
+    empty phaseGroup.sets under rate limiting (total=0 / no error / phaseGroup non-null).
+    event.sets is low-complexity and robustly returns everything, so it is used to recover events with missing sets.
+    FetchError if the count does not match pageInfo.total (= never silently write a partial fetch).
     """
     out = []
     seen = set()
@@ -768,14 +768,14 @@ def fetch_event_sets_full(event_id, per_page=40):
 
 
 def refetch_event_robust(event_id, event_dir: Path, per_page=40):
-    """event.sets 経由で matches を再取得 (phase_group 巡回の silent-partial を回避). (n, total) 返す."""
+    """Re-fetch matches via event.sets (avoids the silent partial of phase_group iteration). Returns (n, total)."""
     all_sets = fetch_event_sets_full(event_id, per_page=per_page)
     n = write_matches_v2(event_id, all_sets, event_dir)
     return n, len(all_sets)
 
 
 def refetch_event(event_id, event_dir: Path, per_page=50):
-    """Phase group iteration で event の matches を再取得."""
+    """Re-fetch the event's matches by phase group iteration."""
     phases = fetch_event_phases(event_id)
     time.sleep(API_DELAY_SEC)
     all_sets_with_phase = []
@@ -794,7 +794,7 @@ def refetch_event(event_id, event_dir: Path, per_page=50):
             pg_info = {
                 "id": pg.get("id"),
                 "displayIdentifier": pg.get("displayIdentifier"),
-                "startAt": pg.get("startAt"),  # phase_group 開始予定時刻 (Unix timestamp)
+                "startAt": pg.get("startAt"),  # scheduled start of the phase_group (Unix timestamp)
                 "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
@@ -810,9 +810,9 @@ def refetch_event(event_id, event_dir: Path, per_page=50):
     if pg_failures:
         # Raise to flag this event as needing manual retry
         raise FetchError(f"{len(pg_failures)}/{total_pgs} phase_groups failed for event {event_id}: {pg_failures[:3]}")
-    # silent-partial 検出: phase_group 巡回が rate-limit 下で phaseGroup.sets を空応答
-    # (error 無し) で返すと 0 件で素通りする. event-level sets.total と照合し、大幅に少なければ
-    # raise して retry 対象に残す (= 空 matches.json を done マークさせない).
+    # Silent-partial detection: under rate limiting, phase_group iteration may return empty phaseGroup.sets
+    # (no error) and pass through with 0 items. Compare with the event-level sets.total and, if far short,
+    # raise so it stays a retry target (= do not let an empty matches.json be marked done).
     _exp = _event_sets_total(event_id)
     if _exp and len(all_sets_with_phase) < _exp * 0.9:
         raise FetchError(f"event={event_id}: phase_group iteration got {len(all_sets_with_phase)} "
@@ -822,12 +822,12 @@ def refetch_event(event_id, event_dir: Path, per_page=50):
 
 
 def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=50):
-    """指定 phase_id 群だけを refetch して既存 matches.json に merge.
+    """Re-fetch only the given phase_ids and merge into the existing matches.json.
 
-    - target_phase_ids: 再取得対象の phase_id (= int の set/list)
-    - 他の phase の match data は既存値を保持
-    - 新しい match の global_round は新規取得 set 全てから compute_phase_global_rounds で計算
-      (= 非対象 phase の round 情報も既存 match_data から fake set にして渡す)
+    - target_phase_ids: phase_ids to re-fetch (= set/list of int)
+    - match data of other phases keeps its existing values
+    - global_round of new matches is computed by compute_phase_global_rounds from all newly fetched sets
+      (= round info of non-target phases is passed as fake sets built from existing match_data)
     """
     target_phase_ids = set(int(p) for p in target_phase_ids)
     # 1. Load existing matches.json
@@ -860,7 +860,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             pg_info = {
                 "id": pg.get("id"),
                 "displayIdentifier": pg.get("displayIdentifier"),
-                "startAt": pg.get("startAt"),  # phase_group 開始予定時刻 (Unix timestamp)
+                "startAt": pg.get("startAt"),  # scheduled start of the phase_group (Unix timestamp)
                 "wave": pg.get("wave"),  # { id, identifier, startAt }
             }
             try:
@@ -872,7 +872,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             for s in sets:
                 new_sets_with_phase.append((s, phase_info, pg_info))
             time.sleep(API_DELAY_SEC)
-    # 3. 非対象 phase の match_data → fake set_node (= round 情報のみ) を作って phase_global_info 計算に渡す.
+    # 3. Build fake set_nodes (= round info only) from the match_data of non-target phases and pass them to the phase_global_info computation.
     existing_phases_info_by_pid = {}
     for ph in phases:
         existing_phases_info_by_pid[ph.get("id")] = {
@@ -898,18 +898,18 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             }
         fake_node = {"round": m.get("round")}
         fake_sets_for_global_calc.append((fake_node, ph_info, {"id": m.get("phase_group_id")}))
-    # 4. write_matches_v2 ロジックを再現: 新規 set のみ match_data に変換、既存 match_data は保持.
+    # 4. Replicate the write_matches_v2 logic: convert only new sets to match_data; keep existing match_data.
     combined_sets_for_phase_global = new_sets_with_phase + fake_sets_for_global_calc
     entrant2user = _build_entrant2user([s for s, _, _ in new_sets_with_phase])
     placements_map = _load_placements_map(event_dir)
     # bracket_capacity: existing or recompute. Use existing if present, else recompute.
-    # play-in 補正後の有効 capacity を使う (= effective_bracket_capacity)
+    # Use the effective capacity after play-in correction (= effective_bracket_capacity)
     bracket_capacity = existing_md.get("bracket_capacity")
     if bracket_capacity is None:
         bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(combined_sets_for_phase_global))
     phase_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global)
 
-    # 既存 matches を target_phase_ids 以外で保持
+    # Keep existing matches outside target_phase_ids
     kept_matches = [m for m in existing_matches if m.get("phase_id") not in target_phase_ids]
     seen_set_ids = set(m.get("match_id") for m in kept_matches if m.get("match_id") is not None)
     seen_match_keys = set()
@@ -976,10 +976,10 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             placements_map, loser_uid,
         )
         winner_uid = entrant2user.get(wid_ent)
-        # ROUND_ROBIN / MATCHMAKING phase は同ペアが複数回対戦するのが正当 → tuple-key dedup skip.
+        # ROUND_ROBIN / MATCHMAKING phases legitimately have repeated pairings -> skip tuple-key dedup.
         _is_rr_phase = phase_info.get("bracketType") in ("ROUND_ROBIN", "MATCHMAKING")
         if winner_uid is not None and loser_uid is not None and not _is_rr_phase:
-            # round_text を含めて GF vs GF Reset (= 同 round, 同 winner/loser) を識別.
+            # Include round_text to distinguish GF vs GF Reset (= same round, same winner/loser).
             mkey = (pg_info.get("id"), round_n, round_text or '', winner_uid, loser_uid)
             if mkey in seen_match_keys:
                 dup_match_key += 1
@@ -1007,10 +1007,10 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             "global_top_x": global_top_x,
             "global_bracket_label": global_bracket_label,
             "phase_group_id": pg_info.get("id"),
-            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; phase_group 開始予定時刻
+            "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; scheduled start of the phase_group
             "wave_id": wave.get("id"),
             "wave": wave.get("identifier"),
-            "wave_start_at": wave.get("startAt"),  # Unix timestamp; wave 開始予定時刻
+            "wave_start_at": wave.get("startAt"),  # Unix timestamp; scheduled start of the wave
             "dq": dq,
             "cancel": cancel,
             "state": node.get("state"),

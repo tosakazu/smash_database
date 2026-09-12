@@ -1,18 +1,18 @@
-"""download_policy — download.py の「取るか・飛ばすか・done にするか」の判定 (副作用なし)。
+"""download_policy — the "fetch / skip / mark done" decisions of download.py (no side effects).
 
-download.py の大会ループは API 呼び出し・ファイル移動・書き込みと判定が絡み合っていて読みにくく、
-判定の分岐を単体で試せなかった。ここに判定だけを切り出す (入力は事実、出力は行動と理由)。
-挙動は切り出し前と同じ (tests/fetch/test_dl_policy.py に判定表、tests/fetch/dl_golden.py に工程全体の再生比較)。
+The tournament loop in download.py mixes API calls, file moves and writes with the decisions, which is hard to read,
+and the decision branches could not be tested in isolation. Only the decisions live here (input: facts, output: action and reason).
+Behaviour is unchanged from before the extraction (decision table in tests/fetch/test_dl_policy.py, full-pipeline replay in tests/fetch/dl_golden.py).
 """
 from __future__ import annotations
 
-RETRY_WINDOW_SEC = 7 * 86400   # 優勝者未確定の大会を取り直し続ける期間 (終了から 7 日)
+RETRY_WINDOW_SEC = 7 * 86400   # how long to keep re-fetching tournaments without a champion (7 days after the end)
 
 
 def tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_ts, start_date_ts):
-    """大会一覧の段階で飛ばす理由。None なら処理する。
-    - state == 3 (COMPLETED) なら endAt 前でも結果は確定済みなので取り込む
-    - start_date (取得窓の上限) より新しい大会は飛ばす
+    """Reason to skip at the tournament-list stage. None means process it.
+    - state == 3 (COMPLETED): results are final even before endAt, so take it
+    - tournaments newer than start_date (upper bound of the fetch window) are skipped
     """
     if tournament_state != 3 and (end_timestamp is None or end_timestamp > now_ts):
         return "not_finished"
@@ -22,8 +22,8 @@ def tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_ts, s
 
 
 def done_tournament_action(entry, events_complete, champ_retry, recent_refresh):
-    """done.csv に載っている大会をどうするか。
-    返り値: ("skip", 理由) = 取り直さない (ディレクトリの移動だけ確かめる) / ("redownload", 理由)
+    """What to do with a tournament listed in done.csv.
+    Returns: ("skip", reason) = do not re-fetch (only check directory moves) / ("redownload", reason)
     """
     if entry and events_complete and not champ_retry and not recent_refresh:
         return "skip", "already downloaded"
@@ -35,8 +35,8 @@ def done_tournament_action(entry, events_complete, champ_retry, recent_refresh):
 
 
 def plan_event_moves(entry, new_path_for):
-    """done 済み大会の event が古い日付のディレクトリにあれば移動先を返す: [(event, old_path, new_path)]。
-    new_path_for(event) は今の日付でのディレクトリ名。old_path が実在するかは呼び出し側が確かめる。"""
+    """For a done tournament, return events stored under an old date directory and their destinations: [(event, old_path, new_path)].
+    new_path_for(event) gives the directory name for the current date. The caller checks whether old_path actually exists."""
     moves = []
     for ev in (entry or {}).get("events", []):
         old_path = ev.get("path", "")
@@ -47,8 +47,8 @@ def plan_event_moves(entry, new_path_for):
 
 
 def existing_event_action(files_complete, needs_recent_refresh, has_champion, ref_end_ts, now_ts, awaiting):
-    """同じパスに event のファイルが揃っているときに取り直すか。
-    返り値: ("skip", 理由) / ("download", 理由)。has_champion は needs_recent_refresh のとき見ない。
+    """Whether to re-fetch when the event's files are all present at the same path.
+    Returns: ("skip", reason) / ("download", reason). has_champion is ignored when needs_recent_refresh.
     """
     if not files_complete:
         return "download", "files missing"
@@ -65,7 +65,7 @@ def existing_event_action(files_complete, needs_recent_refresh, has_champion, re
 
 
 def champion_missing_reason(has_champion, awaiting, ref_end_ts, now_ts):
-    """ダウンロード後、done にせず取り直し対象に残す理由 (None = 残さない)。"""
+    """After downloading, the reason to keep the event as a re-fetch target instead of marking done (None = do not keep)."""
     if has_champion:
         return None
     if awaiting:

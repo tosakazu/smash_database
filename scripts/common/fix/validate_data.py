@@ -177,7 +177,7 @@ def validate_event_dir(event_dir: Path) -> tuple[List[str], List[str]]:
 
 def iter_event_dirs(events_root: Path):
     for path in events_root.rglob("attr.json"):
-        # class_phases/<X>_virtual/ は派生物 (standings.json が素のリスト) なので検証対象外
+        # class_phases/<X>_virtual/ is derived output (standings.json is a bare list), so it is not validated
         if path.parent.name.endswith("_virtual"):
             continue
         yield path.parent
@@ -217,7 +217,7 @@ if _ROOT_DIR not in _sys.path:
     _sys.path.insert(0, _ROOT_DIR)
 
 
-# ── エラーの種別分け (件数の推移を見るため。個々のメッセージには件数や比率が入るので落とす) ──
+# ── error categorization (to track counts over time; individual messages carry counts/ratios, so those are dropped) ──
 CATEGORY_PATTERNS = (
     (re.compile(r"missing file (\S+)"), r"missing_file:\1"),
     (re.compile(r"matches missing winner/loser ratio"), "sets_missing_winner_loser"),
@@ -230,7 +230,7 @@ CATEGORY_PATTERNS = (
 
 
 def categorize(message: str) -> str:
-    """1 件のエラーメッセージ → 種別。どのパターンにも当たらなければ other。"""
+    """One error message → category. "other" if no pattern matches."""
     for pattern, label in CATEGORY_PATTERNS:
         m = pattern.search(message)
         if m:
@@ -252,16 +252,16 @@ def print_summary(counts: Dict[str, int], total: int) -> None:
 
 
 def compare_with_baseline(counts: Dict[str, int], baseline_file: Path, tolerance: int) -> List[str]:
-    """基準ファイルと突き合わせ、許容幅を超えて増えた種別を返す (存在しなければ基準を作るだけ)。"""
+    """Compare against the baseline file and return categories that grew beyond the tolerance (if absent, just create the baseline)."""
     if not baseline_file.exists():
-        print(f"baseline {baseline_file} が無いので現在値で作成する")
+        print(f"baseline {baseline_file} not found; creating it from the current counts")
         return []
     baseline = json.loads(baseline_file.read_text(encoding="utf-8")).get("counts", {})
     regressions = []
     for label, n in counts.items():
         before = baseline.get(label, 0)
         if n > before + tolerance:
-            regressions.append(f"{label}: {before} → {n} (+{n - before}, 許容 {tolerance})")
+            regressions.append(f"{label}: {before} → {n} (+{n - before}, tolerance {tolerance})")
     return regressions
 
 
@@ -339,11 +339,11 @@ def main() -> int:
 
     if args.baseline:
         baseline_file = Path(args.baseline)
-        print(f"検出 {len(errors)} 件:")
+        print(f"found {len(errors)} issues:")
         print_summary(counts, len(errors))
         if args.write_baseline:
             write_baseline(counts, baseline_file)
-            print(f"baseline を更新: {baseline_file}")
+            print(f"baseline updated: {baseline_file}")
             return 0
         regressions = compare_with_baseline(counts, baseline_file, args.tolerance)
         if regressions:
@@ -351,17 +351,17 @@ def main() -> int:
                 print(f"REGRESSION: {line}")
             print(f"Validation regression: {len(regressions)} categories grew beyond the tolerance.")
             return 2
-        # 許容内なので基準を現在値に寄せる。件数が同じなら書かない (毎回 commit されるのを避ける)
+        # Within tolerance, so move the baseline to the current counts. Skip the write if unchanged (avoids a commit every run)
         current = json.loads(baseline_file.read_text(encoding="utf-8")).get("counts", {}) if baseline_file.exists() else None
         if current != counts:
             write_baseline(counts, baseline_file)
-            print(f"baseline を現在値に更新: {baseline_file}")
-        print("baseline 内 (許容幅を超えた増加なし)")
+            print(f"baseline refreshed to current counts: {baseline_file}")
+        print("within baseline (no category grew beyond the tolerance)")
         return 0
 
     if errors:
         if args.summary:
-            print(f"検出 {len(errors)} 件:")
+            print(f"found {len(errors)} issues:")
             print_summary(counts, len(errors))
         else:
             for error in errors:

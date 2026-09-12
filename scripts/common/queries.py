@@ -207,10 +207,10 @@ def get_user_player_query():
     }"""
 
 def get_tournament_events_query():
-    # videogameId フィルタを外し、イベントの videogame.id を取得して
-    # download.py 側で「SSBU タグ or 下位クラス bracket 名」を判定する.
-    # (start.gg では Bクラス side event を videogameId 未設定で登録するケースがあるため)
-    # $gameId は呼び出し側互換のため受け取るが、クエリ内では未使用.
+    # Drop the videogameId filter and fetch each event's videogame.id so that
+    # download.py decides "SSBU tag or lower-class bracket name".
+    # (On start.gg, B-class side events are sometimes registered without videogameId.)
+    # $gameId is accepted for caller compatibility but unused in the query.
     return """query TournamentEvents($tournamentId: ID!) {
       tournament(id: $tournamentId) {
         id
@@ -247,8 +247,8 @@ def get_phase_groups_query():
 
 
 def get_event_phases_full_query():
-    """Event の phases 一覧 (phase_groups 含む、メタ情報付き). 各 phase の num_seeds, bracket_type, name を取得.
-    各 phase_group の id, displayIdentifier, wave も含める."""
+    """List the event's phases (including phase_groups, with metadata). Fetches num_seeds, bracket_type, name of each phase,
+    plus id, displayIdentifier, wave of each phase_group."""
     return """query EventPhasesFull($eventId: ID!) {
       event(id: $eventId) {
         id
@@ -276,9 +276,9 @@ def get_event_phases_full_query():
 
 
 def get_phase_group_sets_full_query():
-    """Phase group 内の sets を取得 (games フィールド除外で complexity 抑制).
-    page/perPage 指定可能. 224 sets × 100 perPage で complexity 1000以下に収まる.
-    games (character/stage 選択履歴) は ranking 計算で不要なため除外."""
+    """Fetch the sets in a phase group (games field excluded to keep complexity down).
+    page/perPage selectable. 224 sets x 100 perPage stays under complexity 1000.
+    games (character/stage selection history) is not needed for ranking, so it is excluded."""
     return """query PhaseGroupSetsFull($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
       phaseGroup(id: $phaseGroupId) {
         id
@@ -313,9 +313,9 @@ def get_phase_group_sets_full_query():
 
 
 def get_event_sets_full_query():
-    """event 直下の sets を full fields で取得 (= phase_group 巡回が throttle 下で空応答を
-    返す silent-partial バグの回避用. event.sets は低 complexity で頑健に全件返る).
-    各 set に phaseGroup / phase 情報を含めて write_matches_v2 用の tuple を組めるようにする."""
+    """Fetch sets directly under the event with full fields (= workaround for the silent-partial bug where
+    phase_group iteration returns empty responses under throttling. event.sets is low-complexity and robustly returns everything).
+    Each set includes phaseGroup / phase info so tuples for write_matches_v2 can be built."""
     return """query EventSetsFull($eventId: ID!, $page: Int!, $perPage: Int!) {
       event(id: $eventId) {
         id
@@ -355,9 +355,9 @@ def get_event_sets_full_query():
 
 
 def get_phase_group_sets_with_games_query():
-    """Phase group の sets を games (character/stage 選択履歴) 付きで取得.
-    複合複雑性が高いので perPage を 5〜10 に抑えて呼ぶこと.
-    sidecar character_games.json 生成用."""
+    """Fetch the sets of a phase group with games (character/stage selection history).
+    Combined complexity is high, so call with perPage kept to 5-10.
+    For generating the sidecar character_games.json."""
     return """query PhaseGroupSetsWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
       phaseGroup(id: $phaseGroupId) {
         id
@@ -401,15 +401,15 @@ def get_phase_group_sets_with_games_query():
 
 
 def get_phase_group_sets_full_with_games_query():
-    """Phase group の sets を スコア + games (character/stage 選択履歴) の両方付きで取得.
+    """Fetch the sets of a phase group with both scores and games (character/stage selection history).
 
-    get_phase_group_sets_full_query (スコア, games無し) と
-    get_phase_group_sets_with_games_query (games, スコア無し) を統合したもの。
-    1 パスで試合結果 (standing.stats.score) と キャラ details を同時取得できるため、
-    定期更新で download とキャラ取得を二重に叩く必要がなくなる。
+    Merges get_phase_group_sets_full_query (scores, no games) and
+    get_phase_group_sets_with_games_query (games, no scores).
+    Match results (standing.stats.score) and character details come in one pass, so
+    the periodic update no longer has to hit the API twice for download and character fetch.
 
-    games を含むので complexity が高い。perPage は 4〜8 程度に抑えて呼ぶこと
-    (fetch_phase_group_sets の with_games=True 経路が自動でクランプ・backoff する)。"""
+    Complexity is high because games are included. Keep perPage around 4-8
+    (the with_games=True path of fetch_phase_group_sets clamps and backs off automatically)."""
     return """query PhaseGroupSetsFullWithGames($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
       phaseGroup(id: $phaseGroupId) {
         id
@@ -460,8 +460,8 @@ def get_phase_group_sets_full_with_games_query():
 
 
 def get_phase_group_sets_minimal_query():
-    """Phase group の sets を最小限のフィールドで取得 (DQ filter 用).
-    player_ids per set: slots[].entrant.participants[].user.id のみ. 軽量で complexity throttling 回避.
+    """Fetch the sets of a phase group with minimal fields (for the DQ filter).
+    player_ids per set: only slots[].entrant.participants[].user.id. Lightweight; avoids complexity throttling.
     """
     return """query PhaseGroupSetsMinimal($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
       phaseGroup(id: $phaseGroupId) {
@@ -488,9 +488,9 @@ def get_phase_group_sets_minimal_query():
 
 
 def get_phase_group_standings_query():
-    """Phase group の standings を取得 (placement / user_id / 名前).
-    Phase group ごとの sub-bracket placement. 複数 phase_groups を持つ phase の場合、
-    各 group の standings を別々に取得して合算する必要がある.
+    """Fetch the standings of a phase group (placement / user_id / name).
+    Per-phase-group sub-bracket placement. For a phase with multiple phase_groups,
+    each group's standings must be fetched separately and combined.
     """
     return """query PhaseGroupStandings($phaseGroupId: ID!, $page: Int!, $perPage: Int!) {
       phaseGroup(id: $phaseGroupId) {
@@ -512,8 +512,8 @@ def get_phase_group_standings_query():
 
 
 def get_event_phases_named_query():
-    """Event の phase メタ (name / order / bracketType / phaseGroups の displayIdentifier).
-    クラス phase (B-class etc) 検出と placement clip 用.
+    """Event phase metadata (name / order / bracketType / displayIdentifier of phaseGroups).
+    For detecting class phases (B-class etc.) and placement clipping.
     """
     return """query EventPhasesNamed($eventId: ID!) {
       event(id: $eventId) {
@@ -537,10 +537,10 @@ def get_event_phases_named_query():
 
 def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
     first_row = """query TournamentsByGame($gameId: ID!, $perPage: Int!, $page: Int!) {"""
-    # sortBy は endAt 基準: TO が startAt を告知/登録開始日に設定する大会 (例: 船スマ
-    # 2026-07-19 開催分 = startAt 6/8) でも、endAt はほぼ実開催日に設定される
-    # (start.gg が「終了済み」判定に endAt を使うため大きく前倒しすると運営が壊れる)。
-    # startAt 基準列挙だと開催時には取得窓外に出て永久に取得漏れする (2026-07-21 発覚)。
+    # sortBy uses endAt: even when a TO sets startAt to the announcement/registration date (e.g. Funasuma
+    # held 2026-07-19 = startAt 6/8), endAt is almost always set to the actual date
+    # (start.gg uses endAt to decide "finished", so moving it far earlier would break the organizer's setup).
+    # Listing by startAt would push such tournaments out of the fetch window by the time they run, so they would never be fetched (found 2026-07-21).
     second_row = """tournaments(query: {perPage: $perPage, page: $page, sortBy: "endAt desc", filter: {videogameIds: [$gameId], published: true *other_filters*}}) {"""
     nodes_query = """nodes {
             id
@@ -574,7 +574,7 @@ def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
     if past:
       filters += """ ,past: true """
     if before_now:
-      filters += f" ,beforeDate: {clock.now_ts()} "   # 「今」は scripts.common.clock (テストで固定できる)
+      filters += f" ,beforeDate: {clock.now_ts()} "   # "now" comes from scripts.common.clock (can be pinned in tests)
     
     second_row = second_row.replace("*other_filters*", filters)
 
@@ -582,9 +582,9 @@ def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
     return query
 
 
-# 手動ツール (download_specific_event / fix/backfill_events) が使う。「未使用」と誤って消していた (2026-09-07 復元)
+# Used by manual tools (download_specific_event / fix/backfill_events). Was mistakenly removed as "unused" (restored 2026-09-07)
 def get_event_details_by_tournament_query():
-    """トーナメントスラッグからイベント詳細を取得するGraphQLクエリ"""
+    """GraphQL query fetching event details from a tournament slug"""
     return """
     query TournamentEventsQuery($tournamentSlug: String!, $eventSlug: String!) {
       tournament(slug: $tournamentSlug) {
@@ -648,7 +648,7 @@ def get_event_details_by_id_query():
 
 
 def get_tournament_event_list_query():
-    """トーナメントスラッグから、指定ゲームのイベント (id / name / slug) を列挙する (download_specific_event の URL 指定用)。"""
+    """List the events (id / name / slug) of the given game from a tournament slug (for URL input in download_specific_event)."""
     return """
     query TournamentEventListQuery($tournamentSlug: String!, $gameId: ID!) {
       tournament(slug: $tournamentSlug) {

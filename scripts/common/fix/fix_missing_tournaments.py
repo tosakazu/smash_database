@@ -8,7 +8,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-DEFAULT_TOURNAMENTS = None   # --region から data/startgg/<region>/tournaments.jsonl を導く
+DEFAULT_TOURNAMENTS = None   # derived from --region as data/startgg/<region>/tournaments.jsonl
 DEFAULT_REQUIRED_FILES = ("attr.json", "matches.json", "standings.json", "seeds.json")
 JSON_VERSION = "1.0"
 

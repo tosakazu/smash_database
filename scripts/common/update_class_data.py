@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""クラス bracket (大会の中の下位クラス別ブラケット) データの更新ドライバ.
+"""Update driver for class-bracket data (separate lower-tier brackets inside a tournament).
 
-直近 N 日のイベントから「matches.json にクラス phase があるのに phases.json で
-is_class マークされていない」ものを検出し、4 段階パイプラインを通す:
-  1. fetch_event_phases.py --event-dirs-file ...   (phases.json 生成)
+Detects events from the last N days where matches.json has a class phase but
+phases.json does not mark it is_class, and runs them through a 4-stage pipeline:
+  1. fetch_event_phases.py --event-dirs-file ...   (creates phases.json)
   2. fetch_class_phase_standings.py               (class_phases/<pid>.json)
-  3. fetch_class_phase_players.py                 (played_user_ids 追記)
-  4. build_class_virtual_tournaments.py           (<letter>_virtual/ 生成)
+  3. fetch_class_phase_players.py                 (appends played_user_ids)
+  4. build_class_virtual_tournaments.py           (creates <letter>_virtual/)
 
-2-4 は既存出力をスキップする冪等スクリプトなので全体走査でも軽い.
-背景: phases.json は元々 200 人以上の大会への手動バックフィルのみで、
-小中規模大会 501 件でクラス bracket が未分離だった (2026-06-11 発覚).
+Stages 2-4 are idempotent (existing output is skipped), so a full scan is cheap.
+Background: phases.json originally came only from manual backfill of tournaments with 200+ entrants,
+leaving class brackets unseparated in 501 small/mid-size tournaments (found 2026-06-11).
 
-クラスの呼び名も有無も地域による (日本 = B/C/D/E クラス、北米 = Amateur 等) ので、
-名前の判定は地域モジュール (scripts/<地域>/classify.py) が持つ。宣言の無い地域では何もしない。
+Class names and their existence vary by region (Japan = B/C/D/E classes, NA = Amateur etc.), so
+name detection belongs to the region module (scripts/<region>/classify.py). Regions without a declaration do nothing.
 
-使い方 (smash_db_tournament ディレクトリから):
+Usage (from the smash_db_tournament directory):
   STARTGG_TOKEN=... python3 scripts/common/update_class_data.py --region Japan [--since-days 30]
 """
 from __future__ import annotations
@@ -40,8 +40,8 @@ def events_root_for(region: str) -> Path:
 
 
 def detect_unseparated(since_days: int, events_root: Path, is_class_name) -> list[str]:
-    """直近 since_days 日のイベントで class phase 未マークの event dir を返す。
-    is_class_name: phase 名がクラス戦かを返す地域の関数。"""
+    """Return event dirs from the last since_days days whose class phases are not marked.
+    is_class_name: the region's function that says whether a phase name is a class bracket."""
     events_root = Path(events_root)
     cutoff = clock.today() - dt.timedelta(days=since_days)
     out = []
@@ -92,25 +92,25 @@ def detect_unseparated(since_days: int, events_root: Path, is_class_name) -> lis
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"), help="start.gg API token (省略時は環境変数 STARTGG_TOKEN)")
-    ap.add_argument("--region", required=True, help="判定モジュール scripts/<地域>/classify.py を選ぶ")
+    ap.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"), help="start.gg API token (default: env var STARTGG_TOKEN)")
+    ap.add_argument("--region", required=True, help="selects the classifier module scripts/<region>/classify.py")
     ap.add_argument("--since-days", type=int, default=30)
-    ap.add_argument("--events-root", default=None, help="既定 data/startgg/<地域>/events (テストでは一時ディレクトリ)")
+    ap.add_argument("--events-root", default=None, help="default data/startgg/<region>/events (a temp dir in tests)")
     args = ap.parse_args(argv)
     clf = load_region_classifier(args.region)
     cls = class_support(clf)
     if cls is None:
-        print(f"[update_class_data] 地域 {args.region} はクラス bracket を扱わない (classify.py に宣言が無い) — 何もしない", flush=True)
+        print(f"[update_class_data] region {args.region} does not handle class brackets (no declaration in classify.py) — nothing to do", flush=True)
         return 0
     if args.events_root is None:
         args.events_root = str(events_root_for(args.region))
     if not args.token:
-        raise SystemExit("ERROR: --token か環境変数 STARTGG_TOKEN が必要 (値は argv に載せず env 推奨)")
-    os.environ["STARTGG_TOKEN"] = args.token   # 子 (fetch_*.py の main) は env から読む (argv に載せない)
+        raise SystemExit("ERROR: --token or env var STARTGG_TOKEN is required (prefer env; keep the value out of argv)")
+    os.environ["STARTGG_TOKEN"] = args.token   # children (main of fetch_*.py) read it from env (kept out of argv)
     events_root = Path(args.events_root)
 
-    # 以前は子 4 本を subprocess で起動し、対象一覧をシステム tmp のファイルで渡していた (掃除されず残る)。
-    # 同じ順で in-process に呼ぶ。各 main は自分で API 層を設定する (token は env)。
+    # Previously the 4 children were launched as subprocesses with the target list passed via a file in the system tmp (left behind, never cleaned).
+    # Now they are called in-process in the same order. Each main sets up its own API layer (token from env).
     from scripts.common import (fetch_event_phases, fetch_class_phase_standings, fetch_class_phase_players,
                                 build_class_virtual_tournaments)
     dirs = detect_unseparated(args.since_days, events_root, cls.is_unseparated_class_phase)
@@ -119,7 +119,7 @@ def main(argv=None) -> int:
     if dirs:
         print("+ fetch_event_phases ...", flush=True)
         rc |= fetch_event_phases.main(["--event-dirs-file", "-", "--region", args.region], event_dirs=dirs) or 0
-    # 2-4 は冪等 (既存出力 skip) なので毎回全体に対して実行
+    # Stages 2-4 are idempotent (existing output skipped), so run them over everything each time
     print("+ fetch_class_phase_standings ...", flush=True)
     rc |= fetch_class_phase_standings.main(["--events-root", str(events_root), "--region", args.region]) or 0
     print("+ fetch_class_phase_players ...", flush=True)

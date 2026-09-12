@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""upcoming.json の各シングルスイベントのエントラント一覧を取得する.
+"""Fetch the entrant list for each singles event in upcoming.json.
 
-出力: --out (spsp では site/data/upcoming_entrants.json)。2026-09-08 に spsp/download から smash_database へ移動。
+Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/download to smash_database on 2026-09-08.
 {
   "generated_at": <ts>,
   "events": {
@@ -14,8 +14,8 @@
   "by_uid": {"<uid>": [<event_id>, ...]}
 }
 
-使い方: fetch_upcoming_entrants.py [--upcoming PATH] [--out PATH] [--max-events N]
-トークンは $STARTGG_TOKEN → $SPSP_SECRETS_DIR/STARTGG_TOKEN (既定 ~/spsp-secrets) → ~/spsp-ranking/STARTGG_TOKEN の順に読む (値は表示しない).
+Usage: fetch_upcoming_entrants.py [--upcoming PATH] [--out PATH] [--max-events N]
+The token is read from $STARTGG_TOKEN → $SPSP_SECRETS_DIR/STARTGG_TOKEN (default ~/spsp-secrets) → ~/spsp-ranking/STARTGG_TOKEN, in that order (the value is never printed).
 """
 import argparse
 import datetime
@@ -36,10 +36,10 @@ def _read_token() -> str:
     for p in TOKEN_PATHS:
         if os.path.exists(p):
             return open(p).read().strip()
-    raise SystemExit('STARTGG_TOKEN が無い (env か ' + ' / '.join(TOKEN_PATHS) + ')')
+    raise SystemExit('STARTGG_TOKEN not found (env or ' + ' / '.join(TOKEN_PATHS) + ')')
 DELAY = 0.6
 
-# キャンセル待ち/補欠枠イベント (本戦と別 event として立つ) は除外する
+# Exclude waitlist / alternate-slot events (set up as separate events from the main bracket)
 WAITLIST_PATTERN = re.compile(r'wait(?:ing)?\s*list|waiting for|キャンセル待ち|補欠|抽選', re.IGNORECASE)
 
 ENTRANTS_QUERY = '''
@@ -68,7 +68,7 @@ def gql(token, query, variables, retries=4):
         except (urllib.error.URLError, RuntimeError, TimeoutError) as e:
             if attempt == retries - 1:
                 raise
-            # 429 (分単位レート制限) を跨げるよう指数バックオフ: 5s/15s/45s
+            # Exponential backoff to ride out 429 (per-minute rate limit): 5s/15s/45s
             wait = 5.0 * (3 ** attempt)
             print(f'  retry in {wait:.0f}s after error: {e}', file=sys.stderr)
             time.sleep(wait)
@@ -104,12 +104,12 @@ def fetch_event_entrants(token, eid):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--upcoming', required=True, help='fetch_upcoming.py の出力 (upcoming.json)')
+    ap.add_argument('--upcoming', required=True, help='Output of fetch_upcoming.py (upcoming.json)')
     ap.add_argument('--out', required=True)
     ap.add_argument('--prev', default=None,
-                    help='前回の公開ファイル (開催後24h以内の大会の持ち越し元)')
-    ap.add_argument('--max-events', type=int, default=0, help='0=無制限')
-    ap.add_argument('--token', default=None, help='未指定なら $STARTGG_TOKEN → トークンファイルの順')
+                    help='Previously published file (source for carrying over tournaments within 24h after start)')
+    ap.add_argument('--max-events', type=int, default=0, help='0=unlimited')
+    ap.add_argument('--token', default=None, help='If omitted, $STARTGG_TOKEN then the token file')
     args = ap.parse_args()
 
     token = args.token or os.environ.get('STARTGG_TOKEN') or _read_token()
@@ -128,7 +128,7 @@ def main():
             if WAITLIST_PATTERN.search(ev.get('event_name') or ''):
                 continue
             start = ev.get('start_at') or t.get('start_at')
-            # 開催後 24h までは対象に残す (当日〜進行中のシミュレーション用)
+            # Keep events up to 24h after start (for same-day / in-progress simulation)
             if start and start + 86400 < now:
                 continue
             eid = ev['event_id']
@@ -155,15 +155,15 @@ def main():
             n_done += 1
             time.sleep(DELAY)
 
-    # 大量失敗時は前回データを守る (半分以上 or 全滅で書き込まず異常終了)
+    # Protect the previous data on mass failure (more than half or all failed: do not write, exit with error)
     candidates = n_done + n_skip
     if candidates > 0 and (n_done == 0 or n_skip > n_done):
         print(f'ERROR: too many failures ({n_skip}/{candidates} skipped), keeping previous file',
               file=sys.stderr)
         sys.exit(1)
 
-    # 前回ファイルから「開催後 24h 以内でまだ残すべき大会」を持ち越す
-    # (upcoming.json は開始済み大会を含まないため、当日大会はここで維持される)
+    # Carry over tournaments from the previous file that should still be kept (within 24h after start)
+    # (upcoming.json does not include tournaments that already started, so same-day events are preserved here)
     try:
         with open(args.prev) as f:
             prev = json.load(f)
@@ -183,7 +183,7 @@ def main():
     tmp = args.out + '.tmp'
     with open(tmp, 'w') as f:
         json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
-    os.replace(tmp, args.out)  # 配信中の読者が部分ファイルを見ないように atomic に置換
+    os.replace(tmp, args.out)  # atomic replace so live readers never see a partial file
     print(f'wrote {args.out}: {len(events)} events ({n_done} fetched, {n_skip} skipped), '
           f'{len(by_uid)} uids', file=sys.stderr)
 

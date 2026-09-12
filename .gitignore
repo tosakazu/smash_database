@@ -1,5 +1,5 @@
-# main はスクリプトと文書だけを管理する。データは地域ブランチ (data-Japan / data-North_America ...) が持つ。
-# 地域ブランチは main を merge した上で data/startgg/<地域>/ を追跡する (地域ブランチ側の .gitignore は data/ を無視しない)。
+# main tracks only scripts and docs. Data lives on the region branches (data-Japan / data-North_America ...).
+# Region branches merge main and then track data/startgg/<region>/ (their .gitignore does not ignore data/).
 data/
 download.out
 */__pycache__/

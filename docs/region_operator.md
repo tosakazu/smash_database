@@ -28,7 +28,7 @@ Contents
 | Branch | `data-North_America` — only you push to it. It is `main` (scripts, docs) plus your data |
 | Directory | `data/startgg/North_America/` — everything under it is yours; nothing outside it is |
 | Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). It lives **on your branch, not on `main`**: you edit it directly, no pull request |
-| Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Each run downloads **one** country (`--country-code`); run once per country if you cover several |
+| Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Each run downloads **one** country (`--country-code`); run once per country if you cover several. Note that `upcoming.json` and `validation_baseline.json` are per region, not per country: `upcoming.json` holds the country of the *last* run only (`fetch_upcoming.py` takes one country), so if you cover more than the US and need all of them listed, say so and the file will be made per country |
 
 Not yours: `main` (never push to it directly — that is where the shared scripts under
 `scripts/common/` live, and changes there go through a pull request), other regions'
@@ -50,7 +50,8 @@ chmod 600 ~/.config/smash_database/STARTGG_TOKEN
 The scripts look for the token in the environment variable `STARTGG_TOKEN`, then
 `--token-file`, then `./STARTGG_TOKEN`, then `~/.config/smash_database/STARTGG_TOKEN`.
 Every script runs from the repository root and finds its region's files by itself.
-Linux or macOS; on Windows use WSL (the runner needs `flock`).
+Linux is the reference environment. On macOS install `flock` first (`brew install flock`;
+the runner uses it to refuse overlapping runs), and on Windows use WSL.
 
 Then confirm the environment:
 
@@ -59,7 +60,7 @@ bash scripts/common/run_region.sh --country-code US --check --python .venv/bin/p
 ```
 
 It reports Python, dependencies, the token, the branch, GitHub and the start.gg API
-one line each and ends with `→ 準備できている` (ready). Optionally
+one line each and ends with `→ ready`. Optionally
 `git config gc.autoPackLimit 8` so a year of daily pushes does not leave the local
 repository in dozens of pack files.
 
@@ -261,7 +262,7 @@ a summary:
 
 ```
 ═══ North_America (US) 2026-09-12 02:27:09  rc=0  475s ═══
-  events: 513 → 515   tournaments.jsonl: 332 → 332 行   users.jsonl: 5424 → 5424 行
+  events: 513 → 515   tournaments.jsonl: 332 → 332 rows   users.jsonl: 5424 → 5424 rows
   commit: 5a879f7114
 ```
 
@@ -433,11 +434,11 @@ and stays on `main`; a change there is a pull request against `main`.
 | `429 Too Many Requests` lines | Normal; the client backs off and retries. They only matter if the run finally fails |
 | `failed_events.log` grew | Individual events failed; they are not marked done and are retried next run. If one keeps failing, import it with `download_specific_event.py` and read its error |
 | `REGRESSION:` from the check step | A kind of inconsistency jumped. Run `validate_data.py --region North_America` without `--baseline` to see the events. Legitimate (bulk import, new kind of event) → `--write-baseline` |
-| `[pending] … standings に優勝者なし` in the download log | The bracket was not finished when fetched; the tournament is re-fetched every run for 7 days. If it will resume later than that, register it in `manual/awaiting_resume.json` |
+| `[pending] … no champion in standings` in the download log | The bracket was not finished when fetched; the tournament is re-fetched every run for 7 days. If it will resume later than that, register it in `manual/awaiting_resume.json` |
 | A phase that is a class bracket was not separated (or the reverse) | Adjust `CLASS_PHASE_PATTERN` / `CLASS_LETTER_PATTERN` (section 7), then `fetch_event_phases.py --region North_America --force` on the affected events and `update_class_data.py` |
 | A holiday is wrong or missing | `HOLIDAY_RULES` / `EXTRA_HOLIDAY_DATES` (section 7) |
 | `push failed` | Someone else pushed to your branch. `git pull --rebase origin data-North_America` and run again |
-| `ERROR: いま main にいる` | Not on the data branch. `git switch data-North_America` |
+| `ERROR: currently on main …` | Not on the data branch. `git switch data-North_America` |
 | `already running` | A previous run is still going (or died leaving the lock held — check `ps`, then delete `~/.local/log/smash_database/.North_America.lock`) |
 | The checkout shows changes outside `data/startgg/North_America/` and `scripts/North_America/` | Do not commit them. Shared scripts change only through `main`; stray files belong in `.gitignore` (on `main`) |
 
@@ -448,8 +449,12 @@ and stays on `main`; a change there is a pull request against `main`.
   Bring shared-script updates in with
   `git fetch origin main && git merge --no-edit origin/main && git push` — the merge
   keeps your `scripts/North_America/` (it does not exist on `main`).
-* `main`: pull requests only; the unit tests must pass. Never edit `scripts/common/`
-  or the docs on the data branch.
+* `main`: pull requests only; the unit tests must pass and the owner approves (the
+  owner also checks that the Japan nightly's output is unchanged). Never edit
+  `scripts/common/` or the docs on the data branch.
 * Other regions' directories and branches: never touch.
 * The repository is public. `users.jsonl` holds only what players published on their
-  profile; a removal request is handled by deleting the lines and committing.
+  profile; a removal request is handled by deleting the lines and committing. Players
+  can file one with the "Removal request" issue template; handle the ones for your
+  region (delete the player's lines from `users.jsonl` and `users_derived.jsonl`; the
+  `user_id` stays in the event files as an opaque number).

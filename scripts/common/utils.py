@@ -5,7 +5,7 @@ import sys
 import random
 import requests
 
-# 国コードをリージョンに変換する関数
+# Convert a country code to a region
 def country_code2region(country_code):
     japan = ["JP"]
     other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
@@ -25,15 +25,15 @@ def country_code2region(country_code):
 
 
 def get_date_parts(date):
-    """日付を年、月、日に分割する関数"""
+    """Split a date into year, month, day"""
     year = time.strftime("%Y", time.gmtime(date))
     month = time.strftime("%m", time.gmtime(date))
     day = time.strftime("%d", time.gmtime(date))
     return year, month, day
 
 def get_event_directory(startgg_dir, region, year, month, day, tournament_name, event_name):
-    """イベントの保存先: <startgg_dir>/<地域>/events/<年>/<月>/<日>/<大会>/<イベント>
-    (startgg_dir はデータルート data/startgg。地域ごとに 1 ディレクトリ = index と events が同居する。2026-09-08〜)"""
+    """Event save path: <startgg_dir>/<region>/events/<year>/<month>/<day>/<tournament>/<event>
+    (startgg_dir is the data root data/startgg. One directory per region = index and events live together. Since 2026-09-08)"""
     region = country_code2region(region)
     region = region.replace(" ", "_").replace("/", "-")
     tournament_name = tournament_name.replace(" ", "_").replace("/", "-")
@@ -45,13 +45,13 @@ JSON_VERSION = "1.0"
 
 
 def write_json_pretty(path, obj) -> None:
-    """indent=2・ensure_ascii=False・version 無し・末尾改行無し (phases.json / class_phases/*.json / *_virtual/attr.json の書式)。"""
+    """indent=2, ensure_ascii=False, no version, no trailing newline (format of phases.json / class_phases/*.json / *_virtual/attr.json)."""
     with open(path, "w", encoding="utf-8") as f:
         f.write(json.dumps(obj, ensure_ascii=False, indent=2))
 
 
 def write_json_compact(path, obj) -> None:
-    """json.dumps の既定区切り (", " ": ")・indent 無し (virtual の standings.json / matches.json の書式)。"""
+    """Default json.dumps separators (", " ": "), no indent (format of virtual standings.json / matches.json)."""
     with open(path, "w", encoding="utf-8") as f:
         f.write(json.dumps(obj, ensure_ascii=False))
 __indent_num = 2
@@ -64,13 +64,13 @@ def write_json(data, file_path, with_version):
 
 
 def write_jsonl(data, file_path, with_version):
-    """全書き換え。一時ファイルに書いてから os.replace で差し替える (原子的)。
+    """Full rewrite. Write to a temp file, then swap in with os.replace (atomic).
 
-    以前は open(file_path, "w") で直接 truncate してから書いていた。
-    tournaments.jsonl は 6MB / 2 万行あり、書いている途中でプロセスが落ちると
-    (ConoHa は 1 プロセス ~300 秒 CPU で SIGKILL する) ファイルが途中で切れ、
-    それ以降のレコードが失われる。実際 2026-04〜05 に 146 event ぶんが
-    done.csv には残っているのに tournaments.jsonl から消えていた。
+    Previously this truncated file_path directly with open(file_path, "w") and then wrote.
+    tournaments.jsonl is 6MB / 20k lines; if the process dies mid-write
+    (ConoHa SIGKILLs a process after ~300 s CPU) the file is cut short and
+    every record after that point is lost. This actually happened in 2026-04/05: 146 events
+    remained in done.csv but had vanished from tournaments.jsonl.
     """
     tmp = f"{file_path}.tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -84,11 +84,11 @@ def write_jsonl(data, file_path, with_version):
     os.replace(tmp, file_path)
 
 def extend_jsonl(data, file_path, with_version):
-    """追記。1 レコードを 1 回の write にまとめ、書いたら fsync する。
+    """Append. Combine records into a single write, then fsync.
 
-    レコードごとに json.dump が細かく write すると、途中で殺されたときに
-    行の途中で切れたファイルが残る。先に文字列を組み立ててから 1 回で書けば、
-    切れるとしてもレコード境界になりやすい。
+    If json.dump writes each record in small pieces, being killed mid-way leaves
+    a file cut in the middle of a line. Building the string first and writing once
+    makes any cut more likely to land on a record boundary.
     """
     if not data:
         return
@@ -128,14 +128,14 @@ def _read_json_records(file_path):
         try:
             record, index = decoder.raw_decode(text, index)
         except json.JSONDecodeError as e:
-            # 壊れた行を黙って読み飛ばすと、以降のレコードが全部落ちたまま
-            # 次の全書き換えで確定してしまう。どこで壊れているかを出して止める。
+            # Silently skipping a broken line would drop every later record, and the next
+            # full rewrite would make that permanent. Report where it is broken and stop.
             line_no = text.count("\n", 0, index) + 1
             raise ValueError(
-                f"{file_path}: {line_no} 行目 (byte {index}) から先が壊れています: {e}. "
-                f"ここまでに {len(records)} 件読めています。"
-                f"書き込みが中断した可能性があります "
-                f"(末尾の壊れた行を消すか、バックアップから復旧してください)。"
+                f"{file_path}: corrupt from line {line_no} (byte {index}) onward: {e}. "
+                f"{len(records)} records were read before that. "
+                f"A write may have been interrupted "
+                f"(remove the broken trailing line or restore from a backup)."
             ) from e
         records.append(record)
     return records
@@ -272,8 +272,8 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
     items_fetched = 0
     variables["page"] = 1
     variables["perPage"] = current_per_page
-    # query が pageInfo を含む場合に取得する authoritative な totals.
-    # totalPages を最終ページ判定に、total を取りこぼし検知に使う.
+    # Authoritative totals, available when the query includes pageInfo.
+    # totalPages is used for the last-page check, total for detecting missed items.
     total_pages = None
     expected_total = None
     keys = ["data"] + keys
@@ -319,8 +319,8 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
         if data is None or "nodes" not in data:
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
-        # pageInfo (= 全件数 / total ページ数) を authoritative に使う.
-        # query が pageInfo を含む場合のみ取得できる. 含まない query は従来通り empty-page break.
+        # Use pageInfo (= total count / total pages) as authoritative.
+        # Only available when the query includes pageInfo. Queries without it break on an empty page as before.
         page_info = data.get("pageInfo") or {}
         if total_pages is None:
             total_pages = page_info.get("totalPages")
@@ -338,8 +338,8 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
                 nodes = nodes[overlap:]
         all_nodes.extend(nodes)
         items_fetched += len(nodes)
-        # 終了判定: totalPages があれば authoritative に使う (= start.gg のページサイズ揺れで
-        # nodes が偶然空でも誤打切しない). pageInfo が無ければ従来の empty-page break.
+        # Termination: use totalPages authoritatively when present (= no false stop when nodes happens to be
+        # empty due to start.gg page-size jitter). Without pageInfo, break on an empty page as before.
         if total_pages is not None and variables["page"] >= total_pages:
             break
         if len(nodes) == 0 and total_pages is None:
@@ -361,14 +361,14 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
                 current_per_page = new_per_page
                 variables["perPage"] = current_per_page
                 variables["page"] = new_page
-                # totalPages は per_page 変更後に再取得し直す.
+                # Re-fetch totalPages after the per_page change.
                 total_pages = None
                 successes_at_current = 0
         time.sleep(__page_delay)
-    # 取りこぼし fallback: expected_total に届かない場合、別 per_page で再走査.
-    # start.gg のページサイズ揺れで欠損したノードを回収する.
+    # Missed-items fallback: if short of expected_total, rescan with a different per_page.
+    # Recovers nodes dropped by start.gg page-size jitter.
     if expected_total is not None and items_fetched < expected_total:
-        # 重複検出用に既存ノードの id 集合を作る (= "id" フィールド前提).
+        # Build the id set of existing nodes for duplicate detection (= assumes an "id" field).
         seen_ids = {n.get("id") for n in all_nodes if isinstance(n, dict) and n.get("id") is not None}
         fallback_per_page = max(2, min(current_per_page, MAX_PER_PAGE) // 2)
         retry_page = 1
@@ -386,7 +386,7 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
             retry_variables["page"] = retry_page
             retry_resp = fetch_data_with_retries(query, retry_variables)
             if _is_complexity_error(retry_resp):
-                break  # 簡略化: complexity 出たら fallback 終了
+                break  # simplification: stop the fallback on a complexity error
             r_data = retry_resp
             try:
                 for key in keys:

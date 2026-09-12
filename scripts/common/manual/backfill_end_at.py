@@ -18,7 +18,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent.parent.parent  # smash_db_tournament/ (scripts/common/manual から 3 つ上)
+ROOT = HERE.parent.parent.parent  # smash_db_tournament/ (3 levels above scripts/common/manual)
 sys.path.insert(0, str(ROOT))
 
 from scripts.common import utils  # noqa: E402
