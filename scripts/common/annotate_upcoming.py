@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""upcoming_entrants.json に本番ビルドと同一判定 (休日/pre/制限/下位クラス) を注釈する。
+"""Annotate upcoming_entrants.json with the same flags as the production build (weekend/pre/restricted/lower class).
 
-判定の定義元は地域モジュール scripts/<地域>/classify.py の upcoming_flags()
-(取得済みイベントは derive.py が同じ判定を derived.json に書く)。地域が upcoming_flags を
-持たなければ何もしない。2026-09-08 に spsp/download から smash_database へ移動。
+The flags are defined by upcoming_flags() in the region module scripts/<region>/classify.py
+(for downloaded events, derive.py writes the same flags to derived.json). If the region has no
+upcoming_flags, nothing is done. Moved from spsp/download to smash_database on 2026-09-08.
 
-fetch_upcoming_entrants.py の後に実行する。--in と --out を分けると
-「注釈なしのファイルが公開される」事故を防げる (fetch は staging に書き、
-本ツールが注釈済みを公開先へ atomic に書く)。
+Run after fetch_upcoming_entrants.py. Separating --in and --out prevents the accident
+of publishing an unannotated file (fetch writes to staging, and
+this tool atomically writes the annotated file to the public location).
 
-使い方:
+Usage:
   annotate_upcoming.py --region Japan --in STAGING --out PUBLIC
-  annotate_upcoming.py --region Japan PATH      # 旧形式 (in-place)
+  annotate_upcoming.py --region Japan PATH      # legacy form (in-place)
 """
 import argparse
 import json
@@ -27,24 +27,24 @@ from scripts.common.region import load_region_classifier  # noqa: E402
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--region', required=True, help='判定モジュール scripts/<地域>/classify.py を選ぶ')
-    ap.add_argument('path', nargs='?', default=None, help='旧形式: in-place で注釈')
+    ap.add_argument('--region', required=True, help='Select the classifier module scripts/<region>/classify.py')
+    ap.add_argument('path', nargs='?', default=None, help='Legacy form: annotate in place')
     ap.add_argument('--in', dest='inp', default=None)
     ap.add_argument('--out', dest='out', default=None)
     args = ap.parse_args()
     inp = args.inp or args.path
     out = args.out or args.path
     if not inp or not out:
-        ap.error('--in と --out (または PATH) が要る')
+        ap.error('--in and --out (or PATH) are required')
 
     clf = load_region_classifier(args.region)
     flags_of = getattr(clf, 'upcoming_flags', None)
     if flags_of is None:
-        print(f'地域 {args.region} は upcoming の判定を持たない (classify.py に upcoming_flags が無い) — 何もしない')
+        print(f'Region {args.region} has no upcoming flags (no upcoming_flags in classify.py) — nothing to do')
         return 0
     tz = getattr(clf, 'TIMEZONE', None)
     if not tz:
-        ap.error(f'scripts/{args.region}/classify.py に TIMEZONE が無い')
+        ap.error(f'scripts/{args.region}/classify.py has no TIMEZONE')
     os.environ['TZ'] = tz
     time.tzset()
 

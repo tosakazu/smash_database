@@ -47,9 +47,9 @@ def write_matches(all_nodes, event_dir: Path):
     """Rewrite matches.json from sets data with FULL schema (incl. details/games).
     Dedupes by node.id (start.gg set id) to handle any leftover pagination overlap.
 
-    Winner/loser 判定は node.winnerId (entrant ID) を優先使用.
-    score だけで判定すると、score 0/0 (cancel/DQ で score 取得失敗) の場合に
-    常に slot1 を winner と誤判定するバグがあった (池スマ#4 メロンおじさんで発覚).
+    Winner/loser determination prefers node.winnerId (entrant ID).
+    Deciding by score alone had a bug where score 0/0 (score unavailable due to cancel/DQ)
+    always misjudged slot1 as the winner (found via Melon Ojisan at Ike-Suma #4).
     """
     entrant2user = _build_entrant2user(all_nodes)
     json_data = {"data": []}
@@ -71,14 +71,14 @@ def write_matches(all_nodes, event_dir: Path):
         score1 = ((st1.get("stats") or {}).get("score") or {}).get("value")
         if score0 is None: score0 = 0
         if score1 is None: score1 = 0
-        # winnerId (entrant ID) を優先. fallback として score 比較を使用.
+        # Prefer winnerId (entrant ID); fall back to comparing scores.
         winner_eid = node.get("winnerId")
         ent0_id = (slot0.get("entrant") or {}).get("id")
         ent1_id = (slot1.get("entrant") or {}).get("id")
         if winner_eid is not None and winner_eid in (ent0_id, ent1_id):
             winner_slot = slot0 if winner_eid == ent0_id else slot1
         else:
-            # winnerId 不明 → score 比較. 同点なら確定できないので skip.
+            # winnerId unknown -> compare scores. A tie cannot be resolved, so skip.
             if score0 == score1:
                 continue
             winner_slot = slot0 if score0 > score1 else slot1

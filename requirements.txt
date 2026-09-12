@@ -1,4 +1,4 @@
-# Runtime dependencies of scripts/. Python 3.10+ on Linux or macOS (Windows: use WSL — the runner needs flock).
+# Runtime dependencies of scripts/. Python 3.10+ on Linux (macOS: `brew install flock` for the runner; Windows: use WSL).
 requests>=2.31
 charset_normalizer>=3.0   # requests warns without it
 jpholiday>=1.0            # only scripts/Japan (holiday table); harmless elsewhere

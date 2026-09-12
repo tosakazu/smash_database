@@ -214,8 +214,8 @@ def build_upcoming(country_code: str, lookahead_days: int) -> list[dict]:
         norm = normalize_tournament(n)
         if norm is None:
             continue
-        # 過去大会の除外 (= API afterDate に頼らず再確認. server clock との差で
-        # 既に開始時刻が過ぎた tournament が混入することがある).
+        # Exclude past tournaments (= re-check instead of trusting the API afterDate; clock skew
+        # with the server can let tournaments whose start time has already passed slip in).
         st = norm.get("start_at")
         if st is not None and int(st) < after_ts:
             skipped_past += 1
@@ -232,11 +232,11 @@ def main():
     add_api_args(parser, max_retries=5, retry_delay=10)
     parser.add_argument("--country", default="JP")
     parser.add_argument("--region", default=None,
-                        help="出力先の地域 (既定: --country から決まる)")
+                        help="output region (default: derived from --country)")
     parser.add_argument("--lookahead-days", type=int, default=LOOKAHEAD_DAYS)
     parser.add_argument(
         "--out", default=None,
-        help="既定 data/startgg/<地域>/upcoming.json (地域ごとにこのリポジトリで持つ)",
+        help="default data/startgg/<region>/upcoming.json (kept per region in this repository)",
     )
     args = parser.parse_args()
     if args.out is None:

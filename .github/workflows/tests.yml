@@ -1,4 +1,4 @@
-# main への PR で走る唯一の自動チェック。データのダウンロードはしない (トークンも要らない)。
+# The only automated check that runs on PRs to main. Downloads no data (and needs no token).
 name: tests
 
 on:
@@ -6,7 +6,7 @@ on:
     branches: [main]
   push:
     branches: [main]
-  workflow_dispatch:      # 手動実行 (Actions タブから)
+  workflow_dispatch:      # manual run (from the Actions tab)
 
 permissions:
   contents: read
@@ -20,6 +20,6 @@ jobs:
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: pip install jpholiday      # 日本の祝日判定 (scripts/Japan/classify.py) にだけ要る
+        run: pip install jpholiday      # only needed for Japanese holiday detection (scripts/Japan/classify.py)
       - name: Unit tests
         run: python -m unittest discover -s scripts/test -v

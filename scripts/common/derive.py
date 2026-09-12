@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""derive — 取得済みイベントごとに判定結果 (classify.py) を derived.json に書く (「導出」= 生データから機械的に導いたもの。人が編集する表は manual/)。
+"""derive — write the classification result (classify.py) for each downloaded event to derived.json ("derived" = mechanically derived from raw data; human-edited tables live in manual/).
 
-  python3 scripts/common/derive.py --region Japan            # 更新のあったイベントだけ
-  python3 scripts/common/derive.py --region Japan --all      # 全件再処理 (判定を変えたとき)
+  python3 scripts/common/derive.py --region Japan            # only events that changed
+  python3 scripts/common/derive.py --region Japan --all      # reprocess everything (after changing the classifier)
 
-判定そのもの (大会名のパターン・祝日・クラス bracket) は地域依存なので scripts/<地域>/classify.py にある。
-ここは駆動部と、地域に依らない事実 (standings / matches の形) だけ。
+The classification itself (tournament-name patterns, holidays, class brackets) is region-specific and lives in scripts/<region>/classify.py.
+This file is only the driver plus region-independent facts (the shape of standings / matches).
 
-生ファイル (attr.json 等) は書き換えない: derived.json は sidecar。download.py の取り直し判定は attr.json の
-mtime を見るので、そこに触らないため。内容が同じなら書き直さない (mtime も動かない = 冪等)。
-更新判定: derived.json が無い / classifier_version が古い / 入力 (attr, standings, matches, phases, class_phases/*.json)
-のどれかが derived.json より新しい。日付を決めるタイムゾーンは地域モジュールの TIMEZONE
-(例 Japan = Asia/Tokyo) で、ここでは決め打ちしない。
+Raw files (attr.json etc.) are never rewritten: derived.json is a sidecar. download.py decides re-fetches from the
+mtime of attr.json, so that must stay untouched. If the content is unchanged it is not rewritten (mtime stays = idempotent).
+Update rule: derived.json missing / classifier_version outdated / any input (attr, standings, matches, phases, class_phases/*.json)
+newer than derived.json. The timezone used to decide dates is the region module's TIMEZONE
+(e.g. Japan = Asia/Tokyo); nothing is hard-coded here.
 """
 from __future__ import annotations
 
@@ -31,13 +31,13 @@ from scripts.common._cli import add_region_arg, resolve_index_paths  # noqa: E40
 from scripts.common.region import load_region_classifier  # noqa: E402
 
 DERIVED = "derived.json"
-USERS_DERIVED = "users_derived.jsonl"   # data/startgg/<地域>/ に置く (users.jsonl の隣。users.jsonl 自体は download.py が書き直すので触らない)
+USERS_DERIVED = "users_derived.jsonl"   # placed in data/startgg/<region>/ (next to users.jsonl; users.jsonl itself is rewritten by download.py, so leave it alone)
 INPUT_FILES = ("attr.json", "standings.json", "matches.json", "phases.json")
 
 
 def result_facts(attr: dict, standings_rows: list, matches_rows: list) -> dict:
-    """standings / matches から見える事実 (地域に依らない): 有効 standings 行数、最小 placement、DE phase の有無
-    (完了・非キャンセル・非 DQ・両者 user あり・自己対戦でない試合に限る = spsp の読み込み条件と同じ)。"""
+    """Facts visible from standings / matches (region-independent): valid standings row count, min placement, presence of a DE phase
+    (only completed, non-cancelled, non-DQ matches with both users present and not self-play = same as spsp's load conditions)."""
     places = []
     n = 0
     for s in standings_rows or []:
@@ -72,7 +72,7 @@ def _load(path: Path):
     except FileNotFoundError:
         return None
     except Exception as e:
-        print(f"  WARN: {path} が読めない: {e}", file=sys.stderr)
+        print(f"  WARN: cannot read {path}: {e}", file=sys.stderr)
         return None
 
 
@@ -88,8 +88,8 @@ def derive_event(event_dir: Path, clf) -> dict | None:
         return None
     tname = attr.get("tournament_name") or event_dir.parent.name
     ename = attr.get("event_name") or event_dir.name
-    # クラス bracket の仮想大会かどうかはディレクトリの形 (class_phases/<字>_virtual) で決まる。
-    # build_class_virtual_tournaments.py がその名前で作る = 生データ側にフラグを持たせない (2026-09-09〜)
+    # Whether this is a class-bracket virtual tournament is decided by the directory shape (class_phases/<letter>_virtual).
+    # build_class_virtual_tournaments.py creates it under that name = no flag is kept in the raw data (since 2026-09-09)
     is_virtual = event_dir.parent.name == "class_phases" and event_dir.name.endswith("_virtual")
     class_letter = event_dir.name[: -len("_virtual")] or None if is_virtual else None
     parent_eid = None
@@ -115,7 +115,7 @@ def derive_event(event_dir: Path, clf) -> dict | None:
         "is_class_virtual": is_virtual,
         "parent_event_id": parent_eid,
         "class_letter": class_letter,
-        # start.gg の isOnline (attr.offline)。オンライン大会は集計しない、を名前ではなくこの事実で決める (2026-09-12〜)
+        # start.gg isOnline (attr.offline). "Online tournaments are not counted" is decided by this fact, not by the name (since 2026-09-12)
         "is_offline": bool(attr["offline"]) if attr.get("offline") is not None else None,
         "results": result_facts(attr, _rows(_load(event_dir / "standings.json")), _rows(_load(event_dir / "matches.json"))),
     }
@@ -161,25 +161,25 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     add_region_arg(ap)
     ap.add_argument("--events-root", default=None, help="default: data/startgg/<region>/events")
-    ap.add_argument("--users-file-path", default=None, help="default: data/startgg/<region>/users.jsonl (users_derived.jsonl を隣に書く)")
-    ap.add_argument("--all", action="store_true", help="全件再処理 (更新判定を無視)")
-    ap.add_argument("--dry-run", action="store_true", help="書かずに件数だけ出す")
+    ap.add_argument("--users-file-path", default=None, help="default: data/startgg/<region>/users.jsonl (users_derived.jsonl is written next to it)")
+    ap.add_argument("--all", action="store_true", help="reprocess every event (ignore the update rule)")
+    ap.add_argument("--dry-run", action="store_true", help="print counts only, write nothing")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
     resolve_index_paths(ap, args, events_root="events", users_file_path="users.jsonl")
     root = Path(args.events_root)
     if not root.is_dir():
-        ap.error(f"events root が無い: {root}")
+        ap.error(f"events root not found: {root}")
     if not args.region:
-        ap.error("--region が要る (判定モジュール scripts/<地域>/classify.py を選ぶ)")
+        ap.error("--region is required (selects the classifier module scripts/<region>/classify.py)")
     clf = load_region_classifier(args.region)
-    # 日付を決めるタイムゾーンは地域が決める (日本の暦で北米のイベントを判定しない)。既定は持たない。
+    # The region decides the timezone used for dates (never classify NA events on Japan's calendar). No default.
     tz = getattr(clf, "TIMEZONE", None)
     if not tz:
-        ap.error(f"scripts/{args.region}/classify.py に TIMEZONE が無い (例: TIMEZONE = \"Asia/Tokyo\")")
+        ap.error(f"scripts/{args.region}/classify.py has no TIMEZONE (e.g. TIMEZONE = \"Asia/Tokyo\")")
     os.environ["TZ"] = tz
     time.tzset()
-    # 地域固有の依存 (日本なら jpholiday) はその地域モジュールが確かめる
+    # Region-specific dependencies (jpholiday for Japan) are checked by the region module itself
     check = getattr(clf, "check_requirements", None)
     if check is not None:
         try:
@@ -201,14 +201,14 @@ def main(argv=None) -> int:
         if out.exists() and out.read_text(encoding="utf-8") == text:
             unchanged += 1
             if args.all:
-                os.utime(out, None)   # 入力より新しいことを記録 (内容は同じ)
+                os.utime(out, None)   # record that it is newer than the inputs (content unchanged)
             continue
         if not args.dry_run:
             tmp = out.with_suffix(".json.tmp")
             tmp.write_text(text, encoding="utf-8")
             os.replace(tmp, out)
         written += 1
-    # ── users: users.jsonl → users_derived.jsonl (地域モジュールの classify_user が対象を決める) ──
+    # ── users: users.jsonl → users_derived.jsonl (the region module's classify_user decides who is included) ──
     users_written = None
     if hasattr(clf, "classify_user") and Path(args.users_file_path).exists():
         rows = []

@@ -126,9 +126,10 @@ Data files are written with fixed key order and indentation. Downstream readers
   enters tournaments in two regions appears in both. Consumers must union them by
   `user_id` (the spsp build currently reads Japan's only).
 * **History size.** Every nightly commit rewrites `tournaments.jsonl` and `users.jsonl`,
-  so a data branch grows steadily. Squash old history occasionally
-  (e.g. once per season, `git checkout --orphan` + force-push) and tell other operators
-  to re-clone. The script branch is unaffected.
+  so a data branch grows steadily. The repository owner squashes old history
+  occasionally (e.g. once per season, `git checkout --orphan` + force-push — the
+  ruleset blocks force-pushes from everyone else, so ask the owner) and tells the
+  operators to re-clone. The script branch is unaffected.
 
 ## Scripts
 

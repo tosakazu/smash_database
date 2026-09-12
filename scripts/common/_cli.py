@@ -1,8 +1,8 @@
-"""_cli — fetch スクリプト共通のコマンドライン定型。
+"""_cli — command-line boilerplate shared by the fetch scripts.
 
-以前は --token / --url / --max-retries / --retry-delay の定義と set_api_parameters の呼び出しが 6 本に複製されていた
-(既定値も script ごとに違う: download は 100 回 / 5 秒、他は 5 回 / 10 秒。ここでは script ごとの現行値を引数で渡す)。
-トークンは --token 省略時に環境変数 STARTGG_TOKEN から読む (argv に載せない)。
+Previously the --token / --url / --max-retries / --retry-delay definitions and the set_api_parameters call were duplicated across 6 scripts
+(with differing defaults: download uses 100 retries / 5 s, the others 5 / 10 s; each script passes its current values as arguments here).
+The token is read from the env var STARTGG_TOKEN when --token is omitted (kept out of argv).
 """
 from __future__ import annotations
 
@@ -15,14 +15,14 @@ API_URL = "https://api.start.gg/gql/alpha"
 
 
 def add_region_arg(parser: argparse.ArgumentParser, default=None) -> None:
-    """--region: index ファイル (done.csv / users.jsonl / tournaments.jsonl) の既定を data/startgg/<region>/ にする。"""
+    """--region: default the index files (done.csv / users.jsonl / tournaments.jsonl) to data/startgg/<region>/."""
     parser.add_argument("--region", default=default,
                         help="data region, e.g. Japan. Index files default to data/startgg/<region>/... "
                              "(required unless every index path is given explicitly)")
 
 
 def resolve_index_paths(parser: argparse.ArgumentParser, args: argparse.Namespace, **files: str) -> None:
-    """files = {dest: filename}. None のままの dest を --region から埋める。--region も無ければ parser.error (推測しない)。"""
+    """files = {dest: filename}. Fill any dest still None from --region. Without --region, parser.error (never guess)."""
     for dest, fname in files.items():
         if getattr(args, dest) is None:
             region = getattr(args, "region", None)
@@ -32,18 +32,18 @@ def resolve_index_paths(parser: argparse.ArgumentParser, args: argparse.Namespac
 
 
 def add_api_args(parser: argparse.ArgumentParser, *, max_retries: int, retry_delay: int) -> None:
-    """--token --url --max-retries --retry-delay を足す (オプション名はハイフン区切りで統一)。"""
+    """Add --token --url --max-retries --retry-delay (option names consistently hyphenated)."""
     parser.add_argument("--token", default=os.environ.get("STARTGG_TOKEN"),
-                        help="start.gg API token (省略時は環境変数 STARTGG_TOKEN)")
+                        help="start.gg API token (default: env var STARTGG_TOKEN)")
     parser.add_argument("--url", default=API_URL, help="API URL")
     mr, rd = "--max-retries", "--retry-delay"
-    parser.add_argument(mr, dest="max_retries", type=int, default=max_retries, help="API リクエストの最大再試行回数")
-    parser.add_argument(rd, dest="retry_delay", type=int, default=retry_delay, help="再試行の間隔 (秒)")
+    parser.add_argument(mr, dest="max_retries", type=int, default=max_retries, help="max retries per API request")
+    parser.add_argument(rd, dest="retry_delay", type=int, default=retry_delay, help="delay between retries (seconds)")
 
 
 def setup_api(args: argparse.Namespace) -> None:
-    """引数から API 層を設定する。token が無ければ止める (黙って空で続けない)。"""
+    """Configure the API layer from args. Stop if there is no token (never continue silently with an empty one)."""
     if not args.token:
-        raise SystemExit("ERROR: --token か環境変数 STARTGG_TOKEN が必要 (値は argv に載せず env 推奨)")
+        raise SystemExit("ERROR: --token or env var STARTGG_TOKEN is required (prefer env; keep the value out of argv)")
     utils.set_api_parameters(args.url, args.token)
     utils.set_retry_parameters(args.max_retries, args.retry_delay)

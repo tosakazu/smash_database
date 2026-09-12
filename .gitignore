@@ -1,5 +1,5 @@
-# data-Japan = main (scripts / docs / README) + 日本のデータ (data/startgg/...)。
-# main を merge して scripts を更新する。data/startgg/ 配下の生成物・一時ファイルだけ無視する。
+# data-<Region> = main (scripts / docs / README) + that region's data under data/startgg/.
+# Merge main to update the scripts. Only generated and temporary files under data/startgg/ are ignored here.
 download.out
 */__pycache__/
 __pycache__/

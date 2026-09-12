@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""順位表/試合データが不完全なイベントを一括再取得する.
+"""Bulk re-fetch events whose standings/match data are incomplete.
 
-対象 (ローカルデータから自動検出):
-  A. standings に place 1 (優勝者) が無いイベント (= 大会途中スナップショット疑い)
-  B. standings の 25%+ が試合ゼロのイベント (= matches 部分欠損疑い, nent>=16)
+Targets (auto-detected from local data):
+  A. events whose standings have no place 1 (champion) (= suspected mid-tournament snapshot)
+  B. events where 25%+ of standings have zero matches (= suspected partial loss of matches, nent>=16)
 
-各イベントについて standings + matches を start.gg から取り直す.
-- 取得失敗 (FetchError) や新データが明らかに退化している場合は元ファイルを温存
-- 元ファイルは --backup-dir に退避してから上書き
+For each event, re-fetch standings + matches from start.gg.
+- On fetch failure (FetchError) or when the new data is clearly degraded, the original files are kept
+- Original files are backed up to --backup-dir before overwriting
 
-使い方:
+Usage:
   python3 scripts/fetch/refetch_incomplete_events.py --token <T> [--dry-run] [--limit N]
 """
 from __future__ import annotations
@@ -36,7 +36,7 @@ USERS_PATH = ROOT / "data" / "startgg" / "users.jsonl"
 
 
 def detect_targets():
-    """(eid, event_dir, reason, date_str, name) のリストを返す."""
+    """Return a list of (eid, event_dir, reason, date_str, name)."""
     targets = []
     for attr_path in EVENTS_ROOT.rglob("attr.json"):
         try:
@@ -55,9 +55,9 @@ def detect_targets():
         if not isinstance(rows, list):
             continue
         if not rows:
-            # C. standings が完全に空なのに試合データがある (= 大会当日の未確定
-            #    スナップショットが done 化した取りこぼし. Badawi#5 型).
-            #    num_entrants も 0 のままのことが多いので ne ゲートより先に判定する.
+            # C. standings completely empty but match data exists (= an unsettled same-day
+            #    snapshot got marked done and was missed. Badawi#5 pattern).
+            #    num_entrants is often still 0, so check this before the ne gate.
             try:
                 md = json.loads((attr_path.parent / "matches.json").read_bytes())
                 ms = md.get("data", md)
@@ -137,7 +137,7 @@ def main():
             new_rows = json.loads((event_dir / "standings.json").read_bytes()).get("data") or []
             old_rows = (json.loads(old_std).get("data") or []) if old_std else []
             if old_std and len(new_rows) < max(8, len(old_rows) // 2):
-                # 明らかな退化 (event リセット等) → 復元
+                # Clear degradation (e.g. event reset) -> restore
                 (event_dir / "standings.json").write_bytes(old_std)
                 print("   standings: DEGRADED → restored", flush=True)
             elif json.dumps(new_rows, sort_keys=True) != json.dumps(old_rows, sort_keys=True):
@@ -145,8 +145,8 @@ def main():
                 extend_user_info(user_data, player_data, users, str(USERS_PATH),
                                  dirty_user_ids=dirty_user_ids)
                 print(f"   standings: CHANGED ({len(old_rows)} → {len(new_rows)} rows)", flush=True)
-                # attr.json の num_entrants が古い (空 standings 時代の 0 等) と
-                # build 側の min_entrants フィルタで大会ごと落ちるため追随させる。
+                # If num_entrants in attr.json is stale (e.g. 0 from the empty-standings era),
+                # the build's min_entrants filter drops the whole tournament, so keep it in sync.
                 try:
                     attr_path = event_dir / "attr.json"
                     attr = json.loads(attr_path.read_bytes())
@@ -182,7 +182,7 @@ def main():
             n_fail += 1
         time.sleep(API_DELAY_SEC)
         if not (n_std_changed and n_match_changed):
-            n_unchanged += 0  # 集計は最後にまとめて出す
+            n_unchanged += 0  # totals are printed at the end
 
     _flush_dirty_users(users, dirty_user_ids, str(USERS_PATH))
     print(f"\nDone. standings_changed={n_std_changed} matches_changed={n_match_changed} "
