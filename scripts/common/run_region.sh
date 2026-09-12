@@ -125,11 +125,17 @@ step 1/6 "download (resumes from done.csv; retried up to $RETRIES times on failu
 AWAITING=()   # pass the awaiting-resume registry if present (listed events are re-fetched every run until a winner exists)
 [[ -s "$DATA_DIR/manual/awaiting_resume.json" ]] && AWAITING=(--awaiting-file "$DATA_DIR/manual/awaiting_resume.json")
 ok=0
+DL_OUT="$(mktemp)"   # download.py prints per-tournament FetchError lines and still exits 0; count them for the summary
 for ((i = 0; i <= RETRIES; i++)); do
-  if RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH" "${AWAITING[@]}"; then ok=1; break; fi
+  if RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH" "${AWAITING[@]}" 2>&1 | tee -a "$DL_OUT"; [[ ${PIPESTATUS[0]} -eq 0 ]]; then ok=1; break; fi
   echo "  download rc≠0 (try $((i + 1))/$((RETRIES + 1)))"; sleep 30
 done
+DL_ERRS=$(grep -c "FetchError" "$DL_OUT" || true); rm -f "$DL_OUT"
 [[ $ok -eq 1 ]] || { echo "ERROR: download failed $((RETRIES + 1)) times. Progress in done.csv is kept; next run resumes from there" >&2; exit 1; }
+if [[ "$DL_ERRS" -gt 0 ]]; then
+  echo "  WARN: $DL_ERRS FetchError line(s) during download (those tournaments are not marked done and are retried next run; see the 'FetchError on tournament' lines above)"
+  FAILED+=("download: $DL_ERRS FetchError line(s) (those tournaments are retried next run; see the log)")
+fi
 
 step 2/6 "upcoming tournaments ($DATA_DIR/upcoming.json)"
 RUN "$PY" -u scripts/common/fetch_upcoming.py --country "$COUNTRY" --region "$REGION" \
