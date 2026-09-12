@@ -12,7 +12,7 @@ if ROOT_DIR not in sys.path:
 # get_event_details_by_slug_query を追加する必要がある
 from scripts.common.queries import (
     get_event_sets_query, get_standings_query, get_seeds_query,
-    get_phase_groups_query, get_event_details_by_tournament_query, get_tournament_events_query
+    get_phase_groups_query, get_event_details_by_tournament_query, get_tournament_event_list_query
 )
 # utils.py から必要なユーティリティ関数をインポート
 from scripts.common.utils import (
@@ -555,7 +555,7 @@ def parse_event_spec(spec: str):
 
 def list_tournament_events(tournament_slug, game_id):
     """大会の、指定ゲームのイベント slug 一覧 (URL に event が無いとき用)。"""
-    resp = fetch_data_with_retries(get_tournament_events_query(), {"tournamentSlug": tournament_slug, "gameId": int(game_id)})
+    resp = fetch_data_with_retries(get_tournament_event_list_query(), {"tournamentSlug": tournament_slug, "gameId": int(game_id)})
     t = ((resp or {}).get("data") or {}).get("tournament")
     if not t:
         raise FetchError(f"大会が見つからない: {tournament_slug}")

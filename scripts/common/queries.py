@@ -647,7 +647,7 @@ def get_event_details_by_id_query():
     }"""
 
 
-def get_tournament_events_query():
+def get_tournament_event_list_query():
     """トーナメントスラッグから、指定ゲームのイベント (id / name / slug) を列挙する (download_specific_event の URL 指定用)。"""
     return """
     query TournamentEventListQuery($tournamentSlug: String!, $gameId: ID!) {
