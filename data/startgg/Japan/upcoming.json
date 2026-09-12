@@ -1,8 +1,8 @@
 {
-  "generated_at": 1789160411,
+  "generated_at": 1789171213,
   "country_code": "JP",
   "lookahead_days": 21,
-  "count": 51,
+  "count": 53,
   "tournaments": [
     {
       "tournament_id": 940824,
@@ -198,14 +198,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 59,
+      "num_attendees": 60,
       "url": "/tournament/to-win-13",
       "events": [
         {
           "event_id": 1694656,
           "event_slug": "tournament/to-win-13/event/singles",
           "event_name": "Singles",
-          "num_entrants": 59,
+          "num_entrants": 60,
           "type": 1,
           "start_at": 1789261200
         }
@@ -534,6 +534,29 @@
       ]
     },
     {
+      "tournament_id": 952093,
+      "tournament_slug": "tournament/sp-36",
+      "tournament_name": "平日いろスマSP～れーにゃん杯～",
+      "start_at": 1789641000,
+      "end_at": 1790947800,
+      "is_online": false,
+      "city": "大分市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/sp-36",
+      "events": [
+        {
+          "event_id": 1707313,
+          "event_slug": "tournament/sp-36/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1789641000
+        }
+      ]
+    },
+    {
       "tournament_id": 944221,
       "tournament_slug": "tournament/18-551",
       "tournament_name": "18(金)上野スマコミ#551(オープン)",
@@ -658,14 +681,14 @@
       "city": "熊谷市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 61,
+      "num_attendees": 62,
       "url": "/tournament/flyhigh-29-96",
       "events": [
         {
           "event_id": 1689225,
           "event_slug": "tournament/flyhigh-29-96/event/fly-high-96",
           "event_name": "Fly High!! 96人トーナメント 埼玉県熊谷市スマブラ大会",
-          "num_entrants": 61,
+          "num_entrants": 62,
           "type": 1,
           "start_at": 1789225200
         }
@@ -681,14 +704,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 50,
+      "num_attendees": 51,
       "url": "/tournament/19-552",
       "events": [
         {
           "event_id": 1701381,
           "event_slug": "tournament/19-552/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 50,
+          "num_entrants": 51,
           "type": 1,
           "start_at": 1789786800
         }
@@ -888,14 +911,14 @@
       "city": "川崎市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 135,
+      "num_attendees": 136,
       "url": "/tournament/3-133",
       "events": [
         {
           "event_id": 1584316,
           "event_slug": "tournament/3-133/event/singles",
           "event_name": "Singles",
-          "num_entrants": 108,
+          "num_entrants": 109,
           "type": 1,
           "start_at": 1790125200
         }
@@ -1174,6 +1197,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1790766000
+        }
+      ]
+    },
+    {
+      "tournament_id": 950623,
+      "tournament_slug": "tournament/8-76",
+      "tournament_name": "いろスマ#8",
+      "start_at": 1790937000,
+      "end_at": 1790947800,
+      "is_online": false,
+      "city": "大分市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/8-76",
+      "events": [
+        {
+          "event_id": 1704222,
+          "event_slug": "tournament/8-76/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1790937000
         }
       ]
     }
