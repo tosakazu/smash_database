@@ -8,16 +8,16 @@ Approach:
   4. For each match in matches.json, fill in 'wave_start_at' if wave_id matches
   5. Save back. State file enables resume.
 
-実行 (smash_db_tournament/ root から):
+Run (from the smash_db_tournament/ root):
     python3 -m scripts.common.manual.backfill_wave_start_at \
         --token "$STARTGG_TOKEN" \
         --root data/startgg/Japan/events \
         --state /tmp/backfill_wave_state.json
 
 Notes:
-  - phase_group_start_at は同じクエリで取れるので一緒に埋める.
-  - 既に wave_start_at が入ってる match は skip.
-  - 1 query/event なので 4297 events で ~70-80min 程度想定 (= rate-limit 込み).
+  - phase_group_start_at comes from the same query, so it is filled in as well.
+  - Matches that already have wave_start_at are skipped.
+  - 1 query/event, so ~70-80 min expected for 4297 events (rate limit included).
 """
 import argparse
 import json
@@ -27,7 +27,7 @@ import time
 from pathlib import Path
 
 THIS_DIR = Path(__file__).resolve().parent
-REPO_ROOT = THIS_DIR.parent.parent.parent  # smash_db_tournament/ (scripts/common/manual から 3 つ上)
+REPO_ROOT = THIS_DIR.parent.parent.parent  # smash_db_tournament/ (3 levels above scripts/common/manual)
 sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.common.utils import set_api_parameters, fetch_data_with_retries

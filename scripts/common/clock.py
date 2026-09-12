@@ -1,8 +1,8 @@
-"""clock — 「今」の唯一の取得口。
+"""clock — the single source of "now".
 
-ダウンロード工程は now に依存する判定が多い (未終了大会のスキップ、終了直後の取り直し、7 日窓、upcoming の窓、
-クラス大会の走査期間)。以前は datetime.now() / datetime.utcnow() / date.today() / time.time() が 6 箇所に散っていた。
-テスト (tests/fetch/_cassette.py) はここを差し替えて記録時刻に固定する。本番では実時刻。
+Many download-pipeline decisions depend on now (skipping unfinished tournaments, re-fetching right after completion, the 7-day
+window, the upcoming window, the class-tournament scan period). datetime.now() / datetime.utcnow() / date.today() / time.time() used to be scattered across 6 places.
+Tests (tests/fetch/_cassette.py) override this to pin the recorded time. In production it is the real time.
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ _override_ts: float | None = None
 
 
 def set_now(ts: float | None) -> None:
-    """テスト用: 固定する (None で解除)。"""
+    """For tests: pin the time (None to unpin)."""
     global _override_ts
     _override_ts = None if ts is None else float(ts)
 
@@ -23,7 +23,7 @@ def now_ts() -> int:
 
 
 def now() -> _dt.datetime:
-    """ローカル時刻 (naive)。本番ホストは TZ=Asia/Tokyo (deploy/paths.sh)。"""
+    """Local time (naive). The production host runs with TZ=Asia/Tokyo (deploy/paths.sh)."""
     return _dt.datetime.fromtimestamp(now_ts())
 
 

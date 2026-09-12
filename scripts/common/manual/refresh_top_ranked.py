@@ -1,20 +1,20 @@
-"""順位(ensemble)上位 N 人のユーザー情報(市区町村等)だけを start.gg から更新する。
+"""Refresh only the user info (city etc.) of the top N players by (ensemble) rank from start.gg.
 
-refresh_users.py の refresh_user_record を再利用し、対象を「ランキング上位 N 人」に限定する。
+Reuses refresh_user_record from refresh_users.py and limits the targets to the top N ranked players.
 
-特徴:
-  - 対象: --rank-source (= latest_tjpr_full.jsonl) を ranks.ensemble 昇順でソートした上位 N の user_id。
-  - checkpoint (処理済 user_id を1行ずつ追記) により再開可能。
-  - CPU 予算 (--cpu-budget 秒) を超えたら users.jsonl を書き戻して exit code 75 で終了する。
-    ConoHa の CPU 制限(~300s/プロセス)対策。呼び出し側 shell ループが code 75 を見て再起動すれば続きから処理できる。
-  - --flush-every 件ごとに users.jsonl を書き戻すので、SIGKILL されても進捗は概ね保存される。
-  - 全対象が処理済になったら exit code 0。
+Features:
+  - Targets: the top N user_ids of --rank-source (= latest_tjpr_full.jsonl) sorted by ranks.ensemble ascending.
+  - Resumable via a checkpoint (processed user_ids appended one per line).
+  - When the CPU budget (--cpu-budget seconds) is exceeded, users.jsonl is written back and the process exits with code 75.
+    Works around ConoHa's CPU limit (~300s/process). If the calling shell loop restarts on code 75, processing resumes where it left off.
+  - users.jsonl is written back every --flush-every records, so progress is mostly preserved even on SIGKILL.
+  - Exit code 0 once all targets are processed.
 
-使い方 (shell ループ例):
+Usage (shell loop example):
   while :; do
     python scripts/fetch/refresh_top_ranked.py --token "$TOK" --top 10000 ... ; rc=$?
-    [ "$rc" = 0 ] && break        # 完了
-    [ "$rc" = 75 ] || break       # 75 以外の異常は中断
+    [ "$rc" = 0 ] && break        # done
+    [ "$rc" = 75 ] || break       # any failure other than 75 aborts
   done
 """
 import argparse
@@ -45,7 +45,7 @@ def _cpu_seconds():
 
 
 def _load_top_ids(rank_source, top_n):
-    """rank_source を ensemble 昇順でソートし、上位 top_n の user_id(int) を返す。"""
+    """Sort rank_source by ensemble ascending and return the top_n user_ids (int)."""
     recs = []
     with open(rank_source, encoding="utf-8") as f:
         for line in f:
@@ -84,16 +84,16 @@ def main():
                     help="latest_tjpr_full.jsonl (user_id + ranks.ensemble)")
     ap.add_argument("--top", type=int, default=10000)
     ap.add_argument("--checkpoint-path", required=True,
-                    help="処理済 user_id を追記して再開に使う")
+                    help="Processed user_ids are appended here and used to resume")
     ap.add_argument("--sleep", type=float, default=0.25)
     ap.add_argument("--user-retries", type=int, default=5)
     ap.add_argument("--max-retries", type=int, default=10)
     ap.add_argument("--retry-delay", type=int, default=5)
     ap.add_argument("--indent-num", type=int, default=2)
     ap.add_argument("--flush-every", type=int, default=200,
-                    help="この件数ごとに users.jsonl を書き戻す")
+                    help="Write users.jsonl back every N records")
     ap.add_argument("--cpu-budget", type=float, default=200.0,
-                    help="この CPU 秒を超えたら flush して exit 75 (再起動用)")
+                    help="Flush and exit 75 (for restart) once this many CPU seconds are used")
     ap.add_argument("--pause-every", type=int, default=200)
     ap.add_argument("--pause-seconds", type=float, default=20.0)
     ap.add_argument("--progress-interval", type=int, default=25)
@@ -113,21 +113,21 @@ def main():
 
     targets = [uid for uid in top_ids if uid in users and uid not in done]
     total_targets = len([uid for uid in top_ids if uid in users])
-    print(f"[top_ranked] 上位{args.top} のうち users.jsonl 存在={total_targets}, "
-          f"処理済={len(done)}, 今回対象={len(targets)}")
+    print(f"[top_ranked] top {args.top}: in users.jsonl={total_targets}, "
+          f"done={len(done)}, targets this run={len(targets)}")
     if not targets:
-        print("[top_ranked] 残りなし。完了。")
+        print("[top_ranked] Nothing left. Done.")
         return 0
 
     ck = open(args.checkpoint_path, "a", encoding="utf-8")
     processed = 0
     failures = 0
     consecutive_rate_limits = 0
-    pending = []  # users.jsonl にまだ flush していない更新済 uid
+    pending = []  # updated uids not yet flushed to users.jsonl
 
     def flush_users():
-        # 必ず「users.jsonl を書く → checkpoint に uid を記録」の順。
-        # こうすれば SIGKILL されても checkpoint は永続済みの uid しか含まない。
+        # Always in this order: write users.jsonl -> record uids in the checkpoint.
+        # That way the checkpoint only ever contains persisted uids, even after a SIGKILL.
         if not pending:
             return
         write_jsonl([users[uid] for uid in user_order], args.users_file_path,
@@ -151,7 +151,7 @@ def main():
                     ok = True
                     break
                 except UserNotFoundError as e:
-                    print(f"  info: {e} 既存データ維持", file=sys.stderr)
+                    print(f"  info: {e} keeping existing data", file=sys.stderr)
                     ok = True
                     refreshed = record
                     break
@@ -172,7 +172,7 @@ def main():
 
             if not ok:
                 failures += 1
-                # 失敗は checkpoint に書かない (次回再試行)
+                # Failures are not written to the checkpoint (retried next run)
                 continue
 
             users[uid] = refreshed
@@ -180,7 +180,7 @@ def main():
             processed += 1
 
             if args.progress_interval and processed % args.progress_interval == 0:
-                print(f"[top_ranked] {processed}/{len(targets)} 件 "
+                print(f"[top_ranked] {processed}/{len(targets)} records "
                       f"(CPU {_cpu_seconds():.0f}s)")
 
             if args.flush_every and len(pending) >= args.flush_every:
@@ -192,12 +192,12 @@ def main():
             if _cpu_seconds() >= args.cpu_budget:
                 flush_users()
                 remaining = len(targets) - i
-                print(f"[top_ranked] CPU 予算({args.cpu_budget}s)到達。flush して中断。"
-                      f"今回処理={processed}, 残り≈{remaining}。再起動で続行可。")
+                print(f"[top_ranked] CPU budget ({args.cpu_budget}s) reached. Flushed and stopping. "
+                      f"processed this run={processed}, remaining≈{remaining}. Restart to continue.")
                 return 75
 
         flush_users()
-        print(f"[top_ranked] 完了。処理={processed}, 失敗={failures}。")
+        print(f"[top_ranked] Done. processed={processed}, failed={failures}.")
         return 0
     finally:
         ck.close()

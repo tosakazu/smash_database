@@ -1,5 +1,5 @@
-"""North America の判定ルールのテスト。このモジュールは data-North_America ブランチにあり、
-main には無い (地域の規則はその地域の担当者が持つ)。実行はリポジトリのルートで:
+"""Tests for the North America classification rules. This module lives on the data-North_America branch and
+is not on main (each region's rules are owned by that region's operator). Run from the repository root:
 
     python3 -m unittest scripts.North_America.test_classify
 """
@@ -21,7 +21,7 @@ class ContractTests(unittest.TestCase):
 
 
 class RulesTests(unittest.TestCase):
-    """北米の初版ルール (1on1 判定と暦だけ)。日本固有の判定を持ち込まないことも確かめる。"""
+    """The initial North American rules (1on1 check and calendar only). Also verifies that no Japan-specific rules leak in."""
 
     def test_singles_and_excluded_formats(self):
         self.assertEqual(na.is_1on1_event({"event_name": "Ultimate Singles", "tournament_name": "Genesis 9"}),
@@ -40,52 +40,52 @@ class RulesTests(unittest.TestCase):
         ts = 1788944400   # 2026-09-10 09:00 JST = 2026-09-09 17:00 PT
         west = na.calendar_flags(ts, None, {"timezone": "America/Los_Angeles"})
         self.assertEqual((west["date"], west["timezone"]), ("2026-09-09", "America/Los_Angeles"))
-        # place に timezone が無ければ地域の既定
+        # without a timezone in place, the region default is used
         default = na.calendar_flags(ts, None, None)
         self.assertEqual(default["timezone"], na.TIMEZONE)
 
     def test_holidays_are_per_country(self):
-        # 祝日は開催国で引く (州・県の祝日はまだ入れていない)
+        # holidays are looked up by host country (state/provincial holidays are not included yet)
         self.assertTrue(na.is_weekend_date(dt.date(2026, 11, 26), "US"))    # Thanksgiving (4th Thu)
-        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 26), "MX"))   # メキシコは平日
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 26), "MX"))   # an ordinary weekday in Mexico
         self.assertTrue(na.is_weekend_date(dt.date(2026, 7, 1), "CA"))      # Canada Day
         self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 1), "US"))
         self.assertTrue(na.is_weekend_date(dt.date(2026, 9, 16), "MX"))     # Día de la Independencia
-        self.assertTrue(na.is_weekend_date(dt.date(2026, 4, 3), "CA"))      # Good Friday (復活祭 4/5 の 2 日前)
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 4, 3), "CA"))      # Good Friday (2 days before Easter, 4/5)
         self.assertFalse(na.is_weekend_date(dt.date(2026, 4, 3), "US"))
-        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 24), "US"))   # ただの火曜
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 11, 24), "US"))   # just an ordinary Tuesday
 
     def test_dominican_republic_moves_holidays_to_monday(self):
-        # ley 139-97: 火・水は前の月曜、木・金・土は次の月曜
-        self.assertTrue(na.is_weekend_date(dt.date(2026, 1, 5), "DO"))    # 1/6 (火) → 1/5 (月)
+        # ley 139-97: Tue/Wed move to the preceding Monday, Thu/Fri/Sat to the following Monday
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 1, 5), "DO"))    # 1/6 (Tue) -> 1/5 (Mon)
         self.assertFalse(na.is_weekend_date(dt.date(2026, 1, 6), "DO"))
-        self.assertTrue(na.is_weekend_date(dt.date(2026, 5, 4), "DO"))    # 5/1 (金) → 5/4 (月)
-        self.assertTrue(na.is_weekend_date(dt.date(2026, 2, 27), "DO"))   # 独立記念日は動かさない
-        self.assertTrue(na.is_weekend_date(dt.date(2026, 6, 4), "DO"))    # Corpus Christi (復活祭 +60 日)
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 5, 4), "DO"))    # 5/1 (Fri) -> 5/4 (Mon)
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 2, 27), "DO"))   # Independence Day is not moved
+        self.assertTrue(na.is_weekend_date(dt.date(2026, 6, 4), "DO"))    # Corpus Christi (Easter + 60 days)
 
     def test_unknown_country_gets_no_holidays(self):
-        # 表の無い国に他国の暦を当てない (土日だけ)。当てた表は derived.json に記録する
+        # never apply another country's calendar to a country without a table (weekends only). The table applied is recorded in derived.json
         self.assertIsNone(na.holidays_source("BR"))
         self.assertEqual(na.holidays_for("BR", 2026), frozenset())
-        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "BR"))   # US なら振替休日
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "BR"))   # would be an observed holiday in the US
         ts = int(dt.datetime(2026, 7, 3, 12, tzinfo=ZoneInfo("America/New_York")).timestamp())
         self.assertIsNone(na.calendar_flags(ts, None, {"country_code": "BR"})["holidays"])
         self.assertEqual(na.calendar_flags(ts, None, {"country_code": "US"})["holidays"], "US")
 
     def test_mexican_transmission_day(self):
-        self.assertTrue(na.is_weekend_date(dt.date(2030, 12, 1), "MX"))   # 6 年ごとの就任式
+        self.assertTrue(na.is_weekend_date(dt.date(2030, 12, 1), "MX"))   # inauguration day, every 6 years
         self.assertFalse(na.is_weekend_date(dt.date(2026, 12, 1), "MX"))
 
     def test_holiday_on_a_weekend_shifts_to_a_weekday(self):
-        # 2026-07-04 (独立記念日) は土曜なので、休みは前日の金曜に振り替わる
+        # 2026-07-04 (Independence Day) is a Saturday, so the day off is observed on the preceding Friday
         self.assertTrue(na.is_weekend_date(dt.date(2026, 7, 3), "US"))
-        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "MX"))     # 振替は US / CA だけ
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 7, 3), "MX"))     # observed days only for US / CA
 
     def test_no_japanese_calendar_rules(self):
-        # 日本は年末年始 (12/26〜1/5) を丸ごと休日扱いするが、北米にその概念は入れていない。
-        # 1/2 はどの国の祝日でもないので平日のまま。
+        # Japan treats the whole New Year period (12/26 to 1/5) as holidays, but North America has no such concept.
+        # 1/2 is not a public holiday in any of these countries, so it stays a weekday.
         self.assertFalse(na.is_weekend_date(dt.date(2026, 1, 2), "US"))
-        self.assertFalse(na.is_weekend_date(dt.date(2026, 8, 14), "US"))    # お盆も同じ
+        self.assertFalse(na.is_weekend_date(dt.date(2026, 8, 14), "US"))    # likewise for Obon
         self.assertNotIn("is_force_weekend_period",
                          na.calendar_flags(int(dt.datetime(2026, 1, 2, 12).timestamp()), None, None))
 
@@ -108,16 +108,16 @@ if __name__ == "__main__":
 class ClassBracketTests(unittest.TestCase):
 
     def test_north_america_redemption_is_a_class_bracket(self):
-        # 米国の実データで最も多い下位ブラケット。phase としても別イベントとしても現れる
+        # The most common lower-class bracket in real US data. It appears both as a phase and as a separate event
         self.assertTrue(na.is_class_phase("Redemption Bracket"))
         self.assertTrue(na.is_class_phase("Redemption"))
         self.assertEqual(na.class_letter("Redemption Bracket"), "REDEMPTION")
         self.assertEqual(na.class_virtual_event_name("Ultimate Singles", "REDEMPTION"),
                          "Ultimate Singles / Redemption")
         self.assertTrue(na.name_flags("Weekly #5", "Ultimate Redemption")["lower_class"])
-        self.assertTrue(na.name_flags("Novice Knockout", "Arcadian Bracket")["lower_class"])   # 大会名でも見る
+        self.assertTrue(na.name_flags("Novice Knockout", "Arcadian Bracket")["lower_class"])   # the tournament name is checked too
         self.assertFalse(na.name_flags("Weekly #5", "Ultimate Singles")["lower_class"])
-        # 末尾に足したので既存の採番は動かない
+        # appended at the end, so the existing numbering is unchanged
         self.assertEqual(na.CLASS_LETTERS.index("REDEMPTION"), len(na.CLASS_LETTERS) - 1)
 
     def test_north_america_labels(self):
@@ -140,11 +140,11 @@ class UpcomingAndRestrictedTests(unittest.TestCase):
         flags = na.upcoming_flags("Genesis 9", "Ultimate Singles", 500, sat)
         self.assertEqual((flags["is_1on1"], flags["is_weekend"]), (True, True))
         self.assertFalse(na.upcoming_flags("Genesis 9", "Ultimate Doubles", 500, sat)["is_1on1"])
-        # 開始日が無ければ平日扱い
+        # no start date means it is treated as a weekday
         self.assertFalse(na.upcoming_flags("X", "Singles", 0, None)["is_weekend"])
 
     def test_arcadian_is_restricted_not_excluded(self):
-        # Arcadian = PR 入り選手は出られない大会。日本の制限大会と同じく、集計はするが印を付ける
+        # Arcadian = a tournament that players on the PR may not enter. As with Japan's restricted tournaments, it is aggregated but flagged
         self.assertEqual(na.is_1on1_event({"tournament_name": "Arcadian Bracket", "event_name": "Ultimate Singles"}),
                          (True, None))
         flags = na.name_flags("Arcadian Bracket", "Ultimate Singles")

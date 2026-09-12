@@ -130,7 +130,9 @@ region's branch directly; `data-all` is not required.
 ## Squashing history
 
 Nightly commits rewrite the two index files, so a data branch grows by a few MB per
-week. Once a season (or whenever a clone becomes annoying):
+week. Once a season (or whenever a clone becomes annoying) the repository owner does
+this — the `data-*` ruleset blocks force-pushes from everyone else, so an operator asks
+for it instead of doing it:
 
 ```sh
 git checkout data-Japan
@@ -241,8 +243,9 @@ the actual downloading always runs on an operator's own machine, never here.
 
 | Branch | Rule |
 |---|---|
-| `main` | Pull request required (0 approvals), `tests` must pass, conversations resolved, no force-push, no deletion. Administrators are exempt, so the owner can still push directly; everyone else goes through a PR |
+| `main` | Pull request required with **1 approval** from someone other than the author, `tests` must pass, conversations resolved, no force-push, no deletion. Administrators are exempt, so the owner can still push directly; everyone else goes through a PR that the owner reviews (the CI runs only the unit tests; the owner also runs the spsp replay / golden comparison for changes under `scripts/common/`) |
 | `data-*` | Force-push and deletion blocked by a repository ruleset (administrators can bypass). Ordinary pushes are untouched, so an operator's nightly keeps working |
+| `data-Japan` | Additionally, only administrators can push (ruleset "data-Japan: owner only"). The Japan branch is written by the production nightly; a push from anyone else would make that nightly's push fail |
 
 A region operator therefore needs write access, pushes only their own `data-<Region>`
 branch, and proposes script or documentation changes as a pull request against `main`.

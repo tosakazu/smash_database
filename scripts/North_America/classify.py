@@ -1,34 +1,34 @@
 # -*- coding: utf-8 -*-
-"""North America の判定ルール (derive.py が読む地域モジュール)。
+"""North America classification rules (the region module that derive.py loads).
 
-日本 (scripts/Japan/classify.py) の写しではなく、**この地域で確かめられたものだけ**を書く。
-日本固有の暦 (お盆・年末年始を休日扱いする) や大会名パターン (制限大会・下位クラス・プレ大会)
-はここには無い。必要なら北米の運用担当者が足すこと。足したら CLASSIFIER_VERSION を上げて
-`derive.py --region North_America --all` を回す (全イベントの derived.json が作り直される)。
+This is not a copy of Japan (scripts/Japan/classify.py): it contains **only what has been verified for this region**.
+The Japan-specific calendar (treating Obon and the New Year period as holidays) and Japan's tournament-name patterns (restricted tournaments, lower-class brackets, pre-tournaments)
+are not here. If they are needed, the North American operator should add them. After adding anything, bump CLASSIFIER_VERSION and
+run `derive.py --region North_America --all` (this regenerates derived.json for every event).
 
-いま derived.json に入るもの:
-  is_1on1 / not_1on1_reason   ダブルス・チーム戦・amiibo などを名前で除外したか
-  calendar                    開催日 (現地時間)、土日か、開催国の祝日か (US / CA / MX / DO)
-  class_bracket               大会の中の下位クラス別ブラケット (Redemption / Amateur など) の phase_group
-  names.lower_class           イベント自体が下位ブラケット (「Redemption Bracket」というイベント) か
-  names.restricted            参加できる層が絞られた大会 (Arcadian = 地域 PR 入りの選手は出られない)。
-                              日本の制限大会 (レート上限) に当たる。集計はするが扱いを変える
+What currently goes into derived.json:
+  is_1on1 / not_1on1_reason   whether the event was excluded by name (doubles, team events, amiibo, and so on)
+  calendar                    the event date (local time), whether it falls on a weekend, and whether it is a public holiday in the host country (US / CA / MX / DO)
+  class_bracket               the phase groups of lower-class side brackets held inside a tournament (Redemption / Amateur, etc.)
+  names.lower_class           whether the event itself is a lower-class bracket (an event literally named "Redemption Bracket", for example)
+  names.restricted            tournaments whose entry pool is restricted (Arcadian = players on the regional Power Ranking may not enter).
+                              This corresponds to Japan's restricted tournaments (rating caps). They are still aggregated, but handled differently
 
-まだ無いもの (足すときはこのファイルに):
-  休日扱いする期間 (日本のお盆・年末年始に相当するもの。北米で何をそう見なすかは未定)、
-  州・県ごとの祝日 (Family Day など。attr.place に州が入っていないので、まず venue_address
-  から州を取る仕組みが要る)、大会名からのラベル (シリーズ名・制限大会など)、
-  開催地の州、プレイヤーの居住地。
+Not yet implemented (add it to this file when needed):
+  periods treated as holidays (the equivalent of Japan's Obon and New Year period; what should count as such in North America is undecided),
+  state/provincial holidays (Family Day, etc. attr.place does not carry the state, so a mechanism to extract the state from venue_address
+  is needed first), labels derived from tournament names (series names, restricted tournaments, and so on),
+  the state where the venue is located, and players' places of residence.
 
-クラス bracket の呼び名は米国の 1 週間ぶん (2026-09-05〜11、513 イベント) で確認した:
-実際に多いのは **Redemption** (敗者救済ブラケット。phase としても、別イベント "Redemption
-Bracket" としても現れる) で、Amateur / Novice は無かった (大型大会で使われる想定で残す)。
-CLASS_LETTERS の並びは仮想イベント ID の採番に使うので、後から順序を変えないこと (足すときは末尾)。
+The names used for class brackets were checked against one week of US data (2026-09-05 to 2026-09-11, 513 events):
+by far the most common is **Redemption** (a second-chance bracket for eliminated players; it appears both as a phase and as a separate event "Redemption
+Bracket"). Amateur / Novice did not appear at all (they are kept on the assumption that large majors use them).
+The order of CLASS_LETTERS is used to number virtual event IDs, so never reorder it afterwards (append new entries at the end).
 
-確認しきれていない点 (担当者が現地の暦で検証すること):
-  - DO の月曜寄せ (ley 139-97) は「火・水 → 前の月曜、木・金・土 → 次の月曜」で実装し、
-    日曜に当たった場合は動かしていない。
-  - DO の 8/16 (Restauración) は大統領就任の年は固定日として扱う説があるが、区別していない。
+Points not yet fully verified (the operator should check these against the local calendar):
+  - The DO Monday shift (ley 139-97) is implemented as "Tue/Wed -> the preceding Monday, Thu/Fri/Sat -> the following Monday";
+    holidays that fall on a Sunday are left in place.
+  - Some sources say DO's 8/16 (Restauración) stays on its fixed date in presidential inauguration years; this is not distinguished.
 """
 from __future__ import annotations
 
@@ -38,26 +38,26 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 8   # 8: lower_class を大会名でも見る (日本と同じ。"Novice Knockout" のような大会全体が下位向けのもの)
-                         # 7: Arcadian (PR 入り選手は出られない大会) を 1on1 の除外から外し names.restricted で印を付ける
-                         # 6: Redemption (敗者救済ブラケット) をクラス bracket として扱い、names.lower_class を追加 (米国 1 週間ぶんの実データで確認)
-                         # 5: is_offline (derive.py の共通部) を追加
-                         #  # 4: クラス bracket (Amateur / Novice / B-E class) を扱う
-                         # 3: DO の祝日表 (月曜寄せ) とメキシコの就任式、表の無い国は祝日を当てない (holidays に記録)
-                         # 2: 祝日 (US / CA / MX) を週末扱いに追加   # 1: 初版 (1on1 判定と暦だけ)
+CLASSIFIER_VERSION = 8   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
+                         # 7: Arcadian (tournaments that players on the PR may not enter) is no longer excluded from 1on1; it is flagged via names.restricted instead
+                         # 6: Redemption (second-chance bracket) is treated as a class bracket, names.lower_class added (verified on one week of real US data)
+                         # 5: is_offline (the common part in derive.py) added
+                         #  # 4: class brackets (Amateur / Novice / B-E class) handled
+                         # 3: DO holiday table (Monday shift) and the Mexican inauguration day; countries without a table get no holidays (recorded in holidays)
+                         # 2: public holidays (US / CA / MX) added as weekend-equivalent days   # 1: initial version (1on1 check and calendar only)
 
-# 北米は複数のタイムゾーンにまたがる。イベントの place.timezone があればそれを使い、
-# 無いときだけこの既定を使う (プロセスの TZ もこの値で derive.py が設定する)。
+# North America spans several time zones. Use the event's place.timezone when present,
+# and fall back to this default only when it is missing (derive.py also sets the process TZ to this value).
 TIMEZONE = "America/New_York"
 
 
 def check_requirements() -> None:
-    """この地域の判定に要る外部パッケージ。いまは無し (祝日表を入れるならここで確かめる)。"""
+    """External packages needed by this region's classifier. None at the moment (check here if a holiday library is ever added)."""
     return None
 
 
-# ── 1on1 判定 (大会名・イベント名だけで決める) ──
-# 除外語。英語のほか、カナダ (仏) とメキシコ (西) の表記も入れてある。
+# ── 1on1 check (decided from tournament name and event name only) ──
+# Exclusion words. Besides English, Canadian French and Mexican Spanish spellings are included.
 EXCLUDE_PATTERNS = (
     "doubles", "dubs", "2v2", "teams", "team event",
     "crew battle", "crews", "squad strike", "squadstrike",
@@ -66,14 +66,14 @@ EXCLUDE_PATTERNS = (
     "doublette", "équipes", "equipes",       # fr
     "test", "testing",
 )
-# 2on2 / 3v3 / 5 vs 5 のような N 対 N 表記
+# N-vs-N notations such as 2on2 / 3v3 / 5 vs 5
 EXCLUDE_REGEX = re.compile(r'(?<!\w)[2-9]\s*[-‐ ]?\s*(?:v|vs|on)\s*[-‐ ]?\s*[2-9](?!\w)', re.IGNORECASE)
-# 除外語を含んでいても 1on1 として扱う大会 (見つかったら足す)
+# Tournaments treated as 1on1 even though they contain an exclusion word (add them as they are found)
 ALLOW_PATTERNS: tuple[str, ...] = ()
 
 
 def is_1on1_event(attr: dict) -> tuple[bool, str | None]:
-    """(1on1 として扱うか, 弾いた理由)。理由は "keyword:<語>" / "regex:NvN"。"""
+    """(treat as 1on1?, reason for rejection). The reason is "keyword:<word>" / "regex:NvN"."""
     haystack_orig = (attr.get("event_name") or "") + " | " + (attr.get("tournament_name") or "")
     haystack = haystack_orig.lower()
     for kw in ALLOW_PATTERNS:
@@ -87,13 +87,13 @@ def is_1on1_event(attr: dict) -> tuple[bool, str | None]:
     return True, None
 
 
-# ── 暦 ──
-# 国民の祝日。国ごとに違うので開催国 (attr.place.country_code) で引く。州・県の祝日は入れていない
-# (Family Day やメキシコ各州の祝日など。必要になったら country_code だけでなく州も見ること)。
-# 表記: ("fixed", 月, 日) / ("nth", 月, 曜日 0=月, n 番目。-1 = 最後) / ("easter", 復活祭からの日数)
-#      / ("movable", 月, 日) = 月曜に寄せる祝日 (DO) / ("transmission",) = メキシコの大統領就任式
-# 表の無い国 (この地域に新しい国が入ったとき) は祝日を当てない。他国の表で代用しない。
-DEFAULT_COUNTRY = "US"      # place.timezone が無いときの既定タイムゾーン用 (祝日の既定ではない)
+# ── Calendar ──
+# National public holidays. They differ by country, so they are looked up by host country (attr.place.country_code). State/provincial holidays are not included
+# (Family Day, the holidays of individual Mexican states, etc. If they become necessary, look at the state as well, not just country_code).
+# Notation: ("fixed", month, day) / ("nth", month, weekday 0=Mon, n-th; -1 = last) / ("easter", days offset from Easter Sunday)
+#      / ("movable", month, day) = holiday shifted to a Monday (DO) / ("transmission",) = the Mexican presidential inauguration
+# Countries without a table (when a new country joins this region) get no holidays. Never substitute another country's table.
+DEFAULT_COUNTRY = "US"      # for the default time zone when place.timezone is missing (not a default for holidays)
 
 HOLIDAY_RULES: dict[str, tuple] = {
     "US": (
@@ -112,7 +112,7 @@ HOLIDAY_RULES: dict[str, tuple] = {
     "CA": (
         ("fixed", 1, 1),            # New Year's Day
         ("easter", -2),             # Good Friday
-        ("victoria",),              # Victoria Day (5/25 の直前の月曜)
+        ("victoria",),              # Victoria Day (the Monday immediately before 5/25)
         ("fixed", 7, 1),            # Canada Day
         ("nth", 9, 0, 1),           # Labour Day
         ("fixed", 9, 30),           # National Day for Truth and Reconciliation
@@ -128,7 +128,7 @@ HOLIDAY_RULES: dict[str, tuple] = {
         ("fixed", 5, 1),            # Día del Trabajo
         ("fixed", 9, 16),           # Día de la Independencia
         ("nth", 11, 0, 3),          # Revolución Mexicana
-        ("transmission",),          # 12/1 大統領就任式 (6 年ごと)
+        ("transmission",),          # 12/1 presidential inauguration (every 6 years)
         ("fixed", 12, 25),          # Navidad
     ),
 }
@@ -147,18 +147,18 @@ HOLIDAY_RULES["DO"] = (
     ("fixed", 12, 25),          # Navidad
 )
 
-# 土日に当たった祝日を前後の平日に振り替える国 (振替日も休みになる = 大会が組まれやすい)
+# Countries that move a holiday falling on a weekend to the adjacent weekday (the observed day is also a day off = tournaments are likely to be scheduled)
 OBSERVED_SHIFT_COUNTRIES = ("US", "CA")
 
-# 12/1 が休日になる年 (メキシコの大統領就任式。6 年ごと、直近は 2024 年)
+# Years in which 12/1 is a holiday (the Mexican presidential inauguration; every 6 years, most recently 2024)
 MX_TRANSMISSION_BASE_YEAR = 2024
 
-# 上の規則で出ない日を足したいとき (単発の祝日・大型イベント週など) はここに実日付を書く
+# To add dates the rules above do not produce (one-off holidays, weeks of major events, etc.), write the actual dates here
 EXTRA_HOLIDAY_DATES: frozenset[dt.date] = frozenset()
 
 
 def _nth_weekday(year: int, month: int, weekday: int, n: int) -> dt.date:
-    """その月の n 番目の <weekday> (n = -1 なら最後)。"""
+    """The n-th <weekday> of the month (the last one if n = -1)."""
     if n < 0:
         d = dt.date(year, month + 1, 1) - dt.timedelta(days=1) if month < 12 else dt.date(year, 12, 31)
         while d.weekday() != weekday:
@@ -170,7 +170,7 @@ def _nth_weekday(year: int, month: int, weekday: int, n: int) -> dt.date:
 
 
 def _easter(year: int) -> dt.date:
-    """西方教会の復活祭 (Anonymous Gregorian algorithm)。"""
+    """Western (Gregorian) Easter Sunday (Anonymous Gregorian algorithm)."""
     a = year % 19
     b, c = divmod(year, 100)
     d, e = divmod(b, 4)
@@ -185,25 +185,25 @@ def _easter(year: int) -> dt.date:
 
 
 def _movable_to_monday(d: dt.date) -> dt.date:
-    """ドミニカ共和国 (ley 139-97): 火・水は前の月曜、木・金・土は次の月曜に移す。
-    日曜のときの扱いは確認できていないので動かさない (要確認)。"""
+    """Dominican Republic (ley 139-97): Tue/Wed move to the preceding Monday, Thu/Fri/Sat to the following Monday.
+    The handling of a Sunday has not been confirmed, so it is left in place (needs verification)."""
     wd = d.weekday()
-    if wd in (1, 2):                                  # 火・水
+    if wd in (1, 2):                                  # Tue / Wed
         return d - dt.timedelta(days=wd)
-    if wd in (3, 4, 5):                               # 木・金・土
+    if wd in (3, 4, 5):                               # Thu / Fri / Sat
         return d + dt.timedelta(days=7 - wd)
     return d
 
 
 def holidays_source(country_code: str | None) -> str | None:
-    """その国の祝日表があるか (無ければ None = 祝日を当てない。他国の表で代用しない)。"""
+    """Whether a holiday table exists for the country (None if not = no holidays are applied; never substitute another country's table)."""
     cc = (country_code or "").upper()
     return cc if cc in HOLIDAY_RULES else None
 
 
 @functools.lru_cache(maxsize=None)
 def holidays_for(country_code: str | None, year: int) -> frozenset[dt.date]:
-    """その国・その年の祝日 (振替日を含む)。表の無い国は空 (推測しない)。"""
+    """Public holidays of the country for that year (including observed days). Empty for countries without a table (no guessing)."""
     cc = holidays_source(country_code)
     if cc is None:
         return frozenset(EXTRA_HOLIDAY_DATES)
@@ -229,20 +229,20 @@ def holidays_for(country_code: str | None, year: int) -> frozenset[dt.date]:
     if cc in OBSERVED_SHIFT_COUNTRIES:
         for d in list(days):
             if d.weekday() == 5:
-                days.add(d - dt.timedelta(days=1))    # 土曜 → 前日の金曜
+                days.add(d - dt.timedelta(days=1))    # Saturday -> the preceding Friday
             elif d.weekday() == 6:
-                days.add(d + dt.timedelta(days=1))    # 日曜 → 翌日の月曜
+                days.add(d + dt.timedelta(days=1))    # Sunday -> the following Monday
     return frozenset(days | EXTRA_HOLIDAY_DATES)
 
 
 def is_weekend_date(d: dt.date, country_code: str | None = None) -> bool:
-    """土日、または開催国の祝日 (振替日を含む)。表の無い国は土日だけ。"""
+    """Saturday/Sunday, or a public holiday of the host country (including observed days). Weekends only for countries without a table."""
     return d.weekday() >= 5 or d in holidays_for(country_code, d.year)
 
 
 def is_weekend_range(start_d: dt.date, end_d: dt.date, country_code: str | None = None) -> bool:
-    """開始日〜終了日のいずれかが週末なら True。15 日を超える長期イベントは開始日だけで判定
-    (endAt がブラケット閉鎖まで含むことがあるため。Japan と同じ規約)。"""
+    """True if any day from the start date to the end date is a weekend. Long events of more than 15 days are judged by the start date only
+    (because endAt sometimes extends until the bracket is closed. Same convention as Japan)."""
     if end_d < start_d:
         end_d = start_d
     delta = (end_d - start_d).days
@@ -252,7 +252,7 @@ def is_weekend_range(start_d: dt.date, end_d: dt.date, country_code: str | None 
 
 
 def _zone(place: dict | None):
-    """イベントの現地時間。place.timezone があればそれ、無ければ地域の既定 TIMEZONE。"""
+    """The event's local time zone: place.timezone if present, otherwise the region default TIMEZONE."""
     from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
     name = (place or {}).get("timezone") or TIMEZONE
     try:
@@ -262,8 +262,8 @@ def _zone(place: dict | None):
 
 
 def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None = None) -> dict:
-    """開催日 (現地時間)、土日祝かどうか。祝日は開催国のもの。
-    is_force_weekend_period (日本のお盆・年末年始) に当たるものは北米では未定義なので持たない。"""
+    """The event date (local time) and whether it is a weekend or public holiday. Holidays are those of the host country.
+    is_force_weekend_period (Japan's Obon / New Year period) has no North American equivalent defined yet, so it is not included."""
     tz = _zone(place)
     cc = (place or {}).get("country_code")
     d = dt.datetime.fromtimestamp(int(timestamp), tz).date()
@@ -274,14 +274,14 @@ def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None
         "end_date": end_d.isoformat(),
         "timezone": str(tz),
         "country_code": cc,
-        "holidays": holidays_source(cc),      # どの国の祝日表を当てたか (None = 当てていない)
+        "holidays": holidays_source(cc),      # which country's holiday table was applied (None = none applied)
         "is_weekend_real": is_weekend_range(d, end_d, cc),
     }
 
 
-# ── クラス bracket (大会の中の下位クラス別ブラケット) ──
-# 日本の B/C/D/E クラスに当たるもの。北米は Amateur / Novice 等の呼び名が多い (要確認)。
-# CLASS_LETTERS の並び = 仮想イベント ID のずらし幅。後から順序を変えない (末尾に足す)。
+# ── Class brackets (lower-class side brackets held inside a tournament) ──
+# The counterpart of Japan's B/C/D/E classes. In North America the names Amateur / Novice etc. are common (needs verification).
+# The order of CLASS_LETTERS = the offset used for virtual event IDs. Never reorder it afterwards (append at the end).
 CLASS_LETTERS = ("AMATEUR", "NOVICE", "BEGINNER", "B", "C", "D", "E", "REDEMPTION")
 
 CLASS_PHASE_PATTERN = re.compile(
@@ -295,8 +295,8 @@ CLASS_LETTER_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-# イベント自体が下位ブラケットのもの (例: "Redemption Bracket" / "Ultimate Redemption" という別イベント)。
-# 日本の names.lower_class (「Bクラス限定」など) に当たる。本戦の 1on1 とは別に扱いたいので印を付ける
+# Events that are themselves a lower-class bracket (e.g. a separate event named "Redemption Bracket" / "Ultimate Redemption").
+# The counterpart of Japan's names.lower_class ("B class only", etc.). Flagged so they can be handled separately from the main 1on1 bracket
 LOWER_CLASS_EVENT_PATTERN = re.compile(
     r'(?<![A-Za-z])(?:redemption|amateur|amateurs|novice|beginner)(?![A-Za-z])'
     r'|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
@@ -304,14 +304,14 @@ LOWER_CLASS_EVENT_PATTERN = re.compile(
 )
 
 
-# 参加条件で層が絞られる大会。Arcadian = 地域の Power Ranking に載っている選手は出場不可 (上位勢抜きの大会)。
-# 日本の「レート 1700 未満制限」に当たるので、1on1 から外すのではなく restricted の印を付ける
+# Tournaments whose entry conditions restrict the field. Arcadian = players listed on the regional Power Ranking may not enter (a tournament without the top players).
+# This corresponds to Japan's "rating below 1700" restriction, so instead of removing it from 1on1 it is flagged as restricted
 RESTRICTED_PATTERN = re.compile(r'(?<![A-Za-z])arcadian(?![A-Za-z])', re.IGNORECASE)
 
 
 def name_flags(tname: str, ename: str) -> dict:
-    """大会名・イベント名から決まるフラグ。restricted は日本と同じく大会名とイベント名を分けて持つ
-    (同時開催の本戦を巻き込まないため)。プレ大会・特殊ルールなどはまだ未定義。"""
+    """Flags decided from the tournament name and event name. As in Japan, restricted is kept separately for the tournament name and the event name
+    (so that a main bracket held at the same time is not swept in). Pre-tournaments, special rules, etc. are not defined yet."""
     return {
         "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(tname or '') or LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
         "restricted_tname": bool(RESTRICTED_PATTERN.search(tname or '')),
@@ -320,17 +320,17 @@ def name_flags(tname: str, ename: str) -> dict:
 
 
 def is_class_phase(name: str | None) -> bool:
-    """phase 名がクラス bracket か (phases.json の is_class)。"""
+    """Whether the phase name denotes a class bracket (is_class in phases.json)."""
     return bool(CLASS_PHASE_PATTERN.search(name or ''))
 
 
 def is_unseparated_class_phase(name: str | None) -> bool:
-    """matches.json の phase 名がクラス戦か (phases.json 未分離の検出用)。北米は同じ判定でよい。"""
+    """Whether the phase name in matches.json denotes a class bracket (used to detect phases not yet separated in phases.json). The same check is fine for North America."""
     return is_class_phase(name)
 
 
 def class_letter(name: str | None) -> str | None:
-    """phase 名 → クラスの識別子 (AMATEUR / NOVICE / BEGINNER / B / C / D / E)。"""
+    """phase name -> class identifier (AMATEUR / NOVICE / BEGINNER / B / C / D / E)."""
     if not name:
         return None
     m = CLASS_LETTER_PATTERN.search(name)
@@ -340,15 +340,15 @@ def class_letter(name: str | None) -> str | None:
 
 
 def class_virtual_event_name(event_name: str, letter: str) -> str:
-    """クラスを 1 大会として切り出すときのイベント名。"""
+    """The event name used when a class is split out as a tournament of its own."""
     label = f"{letter} class" if len(letter) == 1 else letter.title()
     return f"{event_name} / {label}"
 
 
-# ── 開催予定 (upcoming) の注釈。まだディレクトリの無い大会に、名前と開始日だけで判定を付ける ──
+# ── Annotations for upcoming tournaments. For tournaments that have no directory yet, classify from the name and start date only ──
 def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, start_ts: int | None) -> dict:
-    """開催予定 1 件に付ける判定。北米は 1on1 かどうかと暦だけ (大会名からのラベルがまだ無いため)。
-    開催国が分からない (upcoming には place が無い) ので祝日は当てず、土日だけを見る。"""
+    """Classification attached to one upcoming tournament. For North America only the 1on1 check and the calendar (no labels from tournament names yet).
+    The host country is unknown (upcoming entries have no place), so holidays are not applied; only Saturday/Sunday is checked."""
     ok, reason = is_1on1_event({"tournament_name": tournament_name, "event_name": event_name})
     out = {"is_1on1": ok, "not_1on1_reason": reason}
     if start_ts:
@@ -356,14 +356,14 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
         out["is_weekend_real"] = start.weekday() >= 5
         out["is_weekend"] = out["is_weekend_real"]
     else:
-        out["is_weekend"] = False       # 開始日不明は保守的に平日扱い
+        out["is_weekend"] = False       # unknown start date is conservatively treated as a weekday
         out["is_weekend_real"] = False
     return out
 
 
-# ── derive.py から呼ばれる入口 ──
+# ── Entry point called from derive.py ──
 def classify_event(base: dict, ctx) -> dict:
-    """base (derive.py が作る共通部分) に北米の判定を足して返す。ctx: attr / tname / ename / phases / class_phase_files。"""
+    """Add the North American classification to base (the common part built by derive.py) and return it. ctx: attr / tname / ename / phases / class_phase_files."""
     ok, reason = is_1on1_event(ctx.attr)
     ts = ctx.attr.get("timestamp")
     all_class, pg_ids = class_phase_group_ids(ctx.phases, ctx.class_phase_files)
@@ -380,5 +380,5 @@ def classify_event(base: dict, ctx) -> dict:
 
 
 def classify_user(u: dict) -> dict | None:
-    """users.jsonl の 1 行 → 導出したい項目。北米はまだ何も導出しない (None = users_derived.jsonl に行を書かない)。"""
+    """One line of users.jsonl -> the fields to derive. North America derives nothing yet (None = no line is written to users_derived.jsonl)."""
     return None

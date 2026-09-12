@@ -2,7 +2,7 @@
 """Fetch event matches with phase_group_id annotation.
 
 The original matches.json only stores phaseGroup.displayIdentifier ('E1', '1', ...) which
-collides across phases within an event (e.g., '1' is reused by 9 phases in 九龍 #16).
+collides across phases within an event (e.g., '1' is reused by 9 phases in Kowloon #16).
 For proper B-class participation detection, we need phase_group_id (unique).
 
 Saves to event_dir/matches_phased.json (parallel to matches.json) with each match having:
@@ -42,7 +42,7 @@ def load_phases(event_dir: Path) -> dict | None:
 
 
 def get_entrant_user_map_from_seeds(event_dir: Path) -> dict[int, int]:
-    """seeds.json から entrant_id → user_id を作る."""
+    """Build entrant_id -> user_id from seeds.json."""
     try:
         d = json.loads((event_dir / "seeds.json").read_text())
     except Exception:
@@ -70,7 +70,7 @@ def fetch_event_sets(event_id: int, per_page: int = 50) -> list[dict] | None:
 
 
 def _slot_user_id(slot: dict) -> int | None:
-    """slots[].entrant.participants[].user.id を直接取り出す."""
+    """Read slots[].entrant.participants[].user.id directly."""
     if not slot: return None
     ent = slot.get("entrant") or {}
     parts = ent.get("participants") or []
@@ -81,7 +81,7 @@ def _slot_user_id(slot: dict) -> int | None:
 
 
 def extract_match_records(all_sets: list[dict]) -> list[dict]:
-    """get_event_sets_query 結果から matches を抽出、phase_group_id 付き."""
+    """Extract matches from the get_event_sets_query result, with phase_group_id."""
     out = []
     for node in all_sets:
         if not isinstance(node, dict): continue
