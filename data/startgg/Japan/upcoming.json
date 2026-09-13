@@ -1,11 +1,11 @@
 {
-  "generated_at": 1789322538,
+  "generated_at": 1789333450,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 43,
+  "count": 44,
   "tournaments": [
     {
       "tournament_id": 943866,
@@ -17,14 +17,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 17,
+      "num_attendees": 18,
       "url": "/tournament/14-547",
       "events": [
         {
           "event_id": 1690088,
           "event_slug": "tournament/14-547/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 17,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1789372800
         }
@@ -132,14 +132,14 @@
       "city": "札幌市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/epochi-3-1",
       "events": [
         {
           "event_id": 1706530,
           "event_slug": "tournament/epochi-3-1/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1789468200
         }
@@ -247,14 +247,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 23,
+      "num_attendees": 26,
       "url": "/tournament/shibuya-g-g-smash-weekly-80",
       "events": [
         {
           "event_id": 1707307,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-80/event/singles",
           "event_name": "Singles",
-          "num_entrants": 23,
+          "num_entrants": 26,
           "type": 1,
           "start_at": 1789641000
         }
@@ -431,14 +431,14 @@
       "city": "熊谷市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 73,
+      "num_attendees": 74,
       "url": "/tournament/flyhigh-29-96",
       "events": [
         {
           "event_id": 1689225,
           "event_slug": "tournament/flyhigh-29-96/event/fly-high-96",
           "event_name": "Fly High!! 96人トーナメント 埼玉県熊谷市スマブラ大会",
-          "num_entrants": 73,
+          "num_entrants": 74,
           "type": 1,
           "start_at": 1789225200
         }
@@ -993,6 +993,29 @@
           "num_entrants": 8,
           "type": 1,
           "start_at": 1790992800
+        }
+      ]
+    },
+    {
+      "tournament_id": 952964,
+      "tournament_slug": "tournament/17-21",
+      "tournament_name": "西条スマッシュ#17",
+      "start_at": 1791084600,
+      "end_at": 1791113400,
+      "is_online": false,
+      "city": "東広島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 8,
+      "url": "/tournament/17-21",
+      "events": [
+        {
+          "event_id": 1709167,
+          "event_slug": "tournament/17-21/event/singles",
+          "event_name": "シングルス/Singles",
+          "num_entrants": 8,
+          "type": 1,
+          "start_at": 1791084600
         }
       ]
     }
