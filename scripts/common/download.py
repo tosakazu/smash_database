@@ -672,6 +672,8 @@ def download_standings(event_id, event_dir):
     user_data = []
     player_data = []
     entrant2user = {}
+    # same null-entrant guard as download_seeds (an entrant deleted after the bracket was made)
+    standings_data = [node for node in standings_data if node.get('entrant') is not None]
     for node in standings_data:
         if node['entrant']['participants'] is not None:
             user_data.append(node['entrant']['participants'][0]['user'])
@@ -704,6 +706,8 @@ def download_seeds(event_id, user_data, player_data, entrant2user, event_dir):
     keys = ["phase", "seeds"]
     seeds_data = fetch_all_nodes(query, variables, keys, per_page=SEEDS_PER_PAGE)
 
+    # start.gg returns seeds whose entrant is null (an entrant deleted after seeding); skip them (2026-09-13 nightly crashed on one)
+    seeds_data = [seed for seed in seeds_data if seed.get('entrant') is not None]
     for seed in seeds_data:
         if seed['entrant']['participants'] is not None:
             if seed['entrant']['id'] not in entrant2user:
