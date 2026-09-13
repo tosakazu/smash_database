@@ -1,6 +1,9 @@
 {
-  "generated_at": 1789257850,
+  "generated_at": 1789268590,
   "country_code": "JP",
+  "country_codes": [
+    "JP"
+  ],
   "lookahead_days": 21,
   "count": 49,
   "tournaments": [
@@ -198,14 +201,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 2,
+      "num_attendees": 4,
       "url": "/tournament/hit-196-maesuma-hit-196",
       "events": [
         {
           "event_id": 1703054,
           "event_slug": "tournament/hit-196-maesuma-hit-196/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 2,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1789380000
         }
@@ -281,6 +284,29 @@
       ]
     },
     {
+      "tournament_id": 951767,
+      "tournament_slug": "tournament/weekly-smash-party-245",
+      "tournament_name": "Weekly Smash Party ～スマパ～ #245",
+      "start_at": 1789549200,
+      "end_at": 1789565400,
+      "is_online": false,
+      "city": "中野区",
+      "venue_name": "Red Bull Gaming Sphere Tokyo",
+      "country_code": "JP",
+      "num_attendees": 82,
+      "url": "/tournament/weekly-smash-party-245",
+      "events": [
+        {
+          "event_id": 1706670,
+          "event_slug": "tournament/weekly-smash-party-245/event/special-1on1-ultimate-singles",
+          "event_name": "SPECIAL 1on1/ Ultimate Singles",
+          "num_entrants": 64,
+          "type": 1,
+          "start_at": 1789549200
+        }
+      ]
+    },
+    {
       "tournament_id": 952053,
       "tournament_slug": "tournament/36-15",
       "tournament_name": "雷影杯#36",
@@ -298,29 +324,6 @@
           "event_slug": "tournament/36-15/event/super-smash-bros-ultimate-singles",
           "event_name": "雷影杯",
           "num_entrants": 6,
-          "type": 1,
-          "start_at": 1789549200
-        }
-      ]
-    },
-    {
-      "tournament_id": 951767,
-      "tournament_slug": "tournament/weekly-smash-party-245",
-      "tournament_name": "Weekly Smash Party ～スマパ～ #245",
-      "start_at": 1789549200,
-      "end_at": 1789565400,
-      "is_online": false,
-      "city": "中野区",
-      "venue_name": "Red Bull Gaming Sphere Tokyo",
-      "country_code": "JP",
-      "num_attendees": 80,
-      "url": "/tournament/weekly-smash-party-245",
-      "events": [
-        {
-          "event_id": 1706670,
-          "event_slug": "tournament/weekly-smash-party-245/event/special-1on1-ultimate-singles",
-          "event_name": "SPECIAL 1on1/ Ultimate Singles",
-          "num_entrants": 64,
           "type": 1,
           "start_at": 1789549200
         }
@@ -635,14 +638,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 19,
+      "num_attendees": 20,
       "url": "/tournament/19-552-5",
       "events": [
         {
           "event_id": 1701383,
           "event_slug": "tournament/19-552-5/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 18,
+          "num_entrants": 19,
           "type": 1,
           "start_at": 1789804800
         }
@@ -681,14 +684,14 @@
       "city": "港区",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 1017,
+      "num_attendees": 1021,
       "url": "/tournament/sp13-umeburasp13",
       "events": [
         {
           "event_id": 1648718,
           "event_slug": "tournament/sp13-umeburasp13/event/singles",
           "event_name": "シングルストーナメント / Singles",
-          "num_entrants": 1017,
+          "num_entrants": 1021,
           "type": 1,
           "start_at": 1789866000
         }
@@ -902,29 +905,6 @@
       ]
     },
     {
-      "tournament_id": 946865,
-      "tournament_slug": "tournament/fist-of-flavor-2",
-      "tournament_name": "Fist.of.Flavor #2",
-      "start_at": 1790388000,
-      "end_at": 1790416800,
-      "is_online": false,
-      "city": "札幌市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 18,
-      "url": "/tournament/fist-of-flavor-2",
-      "events": [
-        {
-          "event_id": 1697262,
-          "event_slug": "tournament/fist-of-flavor-2/event/fist-of-flavor",
-          "event_name": "Fist.of.Flavor",
-          "num_entrants": 18,
-          "type": 1,
-          "start_at": 1790388000
-        }
-      ]
-    },
-    {
       "tournament_id": 935343,
       "tournament_slug": "tournament/innosuma-grand-3",
       "tournament_name": "INNOSUMA!! GRAND Ⅲ",
@@ -971,6 +951,29 @@
       ]
     },
     {
+      "tournament_id": 946865,
+      "tournament_slug": "tournament/fist-of-flavor-2",
+      "tournament_name": "Fist.of.Flavor #2",
+      "start_at": 1790388000,
+      "end_at": 1790416800,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 18,
+      "url": "/tournament/fist-of-flavor-2",
+      "events": [
+        {
+          "event_id": 1697262,
+          "event_slug": "tournament/fist-of-flavor-2/event/fist-of-flavor",
+          "event_name": "Fist.of.Flavor",
+          "num_entrants": 18,
+          "type": 1,
+          "start_at": 1790388000
+        }
+      ]
+    },
+    {
       "tournament_id": 949348,
       "tournament_slug": "tournament/26-556",
       "tournament_name": "26(土)上野スマコミ#556(オープン)",
@@ -1003,14 +1006,14 @@
       "city": "横浜市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/10-71",
       "events": [
         {
           "event_id": 1700393,
           "event_slug": "tournament/10-71/event/super-smash-bros-ultimate-singles",
           "event_name": "シングルス",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1788685200
         }
@@ -1026,14 +1029,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 182,
+      "num_attendees": 185,
       "url": "/tournament/73-sp-1",
       "events": [
         {
           "event_id": 1702406,
           "event_slug": "tournament/73-sp-1/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 180,
+          "num_entrants": 183,
           "type": 1,
           "start_at": 1790474400
         }
