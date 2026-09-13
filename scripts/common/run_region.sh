@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # run_region.sh — run one region's ingest with a single command (meant to be called daily from cron).
 #
-#   bash scripts/common/run_region.sh --country-code US [--days 14] [--token-file PATH]
+#   bash scripts/common/run_region.sh --country-code US [--country-code CA ...] [--days 14] [--token-file PATH]
 #        [--python PATH] [--log-dir DIR] [--no-commit] [--no-push] [--dry-run] [--check]
 #
 # Steps: [1] download → [2] upcoming → [3] class brackets → [4] classify (derived.json)
@@ -24,11 +24,11 @@
 set -uo pipefail
 
 ORIG_ARGS=("$@")
-COUNTRY=""; DAYS=14; DO_COMMIT=1; DO_PUSH=1; DRY=0; CHECK=0; TOKEN_FILE=""; PY="${PYTHON:-python3}"
+COUNTRIES=(); DAYS=14; DO_COMMIT=1; DO_PUSH=1; DRY=0; CHECK=0; TOKEN_FILE=""; PY="${PYTHON:-python3}"
 LOG_DIR="${SMASH_DB_LOG_DIR:-$HOME/.local/log/smash_database}"; RETRIES=2
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --country-code) COUNTRY="$2"; shift 2;;
+    --country-code) IFS=',' read -ra _cc <<< "$2"; COUNTRIES+=("${_cc[@]}"); shift 2;;   # repeatable, or "US,CA"
     --days) DAYS="$2"; shift 2;;
     --token-file) TOKEN_FILE="$2"; shift 2;;
     --python) PY="$2"; shift 2;;
@@ -42,7 +42,9 @@ while [[ $# -gt 0 ]]; do
     *) echo "unknown arg: $1" >&2; exit 2;;
   esac
 done
-[[ -n "$COUNTRY" ]] || { echo "ERROR: --country-code is required (e.g. --country-code US)" >&2; exit 2; }
+[[ ${#COUNTRIES[@]} -gt 0 ]] || { echo "ERROR: --country-code is required (e.g. --country-code US, repeatable for a region with several countries)" >&2; exit 2; }
+COUNTRIES=($(printf '%s\n' "${COUNTRIES[@]}" | tr '[:lower:]' '[:upper:]' | awk '!seen[$0]++'))
+COUNTRY="${COUNTRIES[*]}"                       # for messages
 [[ -d scripts/common && -e .git ]] || { echo "ERROR: run from the repository root" >&2; exit 2; }
 
 # ── token (value is never printed) ──
@@ -58,8 +60,13 @@ export STARTGG_TOKEN="${STARTGG_TOKEN:-dry-run}"
 export PYTHONWARNINGS="${PYTHONWARNINGS:-ignore:Unverified HTTPS request}"   # keep the verify=False warnings from utils from flooding the log
 
 # ── region, branch, dates ──
-REGION="$("$PY" -c "from scripts.common.utils import country_code2region as f; print(f('$COUNTRY').replace(' ', '_'))")" || exit 2
-[[ -n "$REGION" && "$REGION" != "Other" ]] || { echo "ERROR: no region for $COUNTRY (add it to country_code2region in scripts/common/utils.py)" >&2; exit 2; }
+REGION=""
+for cc in "${COUNTRIES[@]}"; do
+  r="$("$PY" -c "from scripts.common.utils import country_code2region as f; print(f('$cc').replace(' ', '_'))")" || exit 2
+  [[ -n "$r" && "$r" != "Other" ]] || { echo "ERROR: no region for $cc (add it to country_code2region in scripts/common/utils.py)" >&2; exit 2; }
+  [[ -z "$REGION" || "$REGION" == "$r" ]] || { echo "ERROR: $cc is in region $r but the other countries are in $REGION — one run is one region" >&2; exit 2; }
+  REGION="$r"
+done
 BRANCH="data-$REGION"; DATA_DIR="data/startgg/$REGION"
 START="$(date +%F)"; FINISH="$(date -d "-${DAYS} days" +%F 2>/dev/null || date -v-"${DAYS}"d +%F)"
 
@@ -121,24 +128,27 @@ trap finish EXIT
 echo "═══ $REGION ($COUNTRY) start $(date '+%F %T')  window $FINISH to $START  branch=$(git rev-parse --abbrev-ref HEAD) ═══"
 EV0=$(count_events); TJ0=$(count_lines "$DATA_DIR/tournaments.jsonl"); US0=$(count_lines "$DATA_DIR/users.jsonl")
 
-step 1/6 "download (resumes from done.csv; retried up to $RETRIES times on failure)"
+step 1/6 "download, one country at a time (resumes from done.csv; each retried up to $RETRIES times on failure)"
 AWAITING=()   # pass the awaiting-resume registry if present (listed events are re-fetched every run until a winner exists)
 [[ -s "$DATA_DIR/manual/awaiting_resume.json" ]] && AWAITING=(--awaiting-file "$DATA_DIR/manual/awaiting_resume.json")
-ok=0
 DL_OUT="$(mktemp)"   # download.py prints per-tournament FetchError lines and still exits 0; count them for the summary
-for ((i = 0; i <= RETRIES; i++)); do
-  if RUN "$PY" -u scripts/common/download.py --country-code "$COUNTRY" --start-date "$START" --finish-date "$FINISH" "${AWAITING[@]}" 2>&1 | tee -a "$DL_OUT"; [[ ${PIPESTATUS[0]} -eq 0 ]]; then ok=1; break; fi
-  echo "  download rc≠0 (try $((i + 1))/$((RETRIES + 1)))"; sleep 30
+for cc in "${COUNTRIES[@]}"; do
+  ok=0
+  for ((i = 0; i <= RETRIES; i++)); do
+    if RUN "$PY" -u scripts/common/download.py --country-code "$cc" --start-date "$START" --finish-date "$FINISH" "${AWAITING[@]}" 2>&1 | tee -a "$DL_OUT"; [[ ${PIPESTATUS[0]} -eq 0 ]]; then ok=1; break; fi
+    echo "  download $cc rc≠0 (try $((i + 1))/$((RETRIES + 1)))"; sleep 30
+  done
+  [[ $ok -eq 1 ]] || { rm -f "$DL_OUT"; echo "ERROR: download of $cc failed $((RETRIES + 1)) times. Progress in done.csv is kept; next run resumes from there" >&2; exit 1; }
 done
 DL_ERRS=$(grep -c "FetchError" "$DL_OUT" || true); rm -f "$DL_OUT"
-[[ $ok -eq 1 ]] || { echo "ERROR: download failed $((RETRIES + 1)) times. Progress in done.csv is kept; next run resumes from there" >&2; exit 1; }
 if [[ "$DL_ERRS" -gt 0 ]]; then
   echo "  WARN: $DL_ERRS FetchError line(s) during download (those tournaments are not marked done and are retried next run; see the 'FetchError on tournament' lines above)"
   FAILED+=("download: $DL_ERRS FetchError line(s) (those tournaments are retried next run; see the log)")
 fi
 
-step 2/6 "upcoming tournaments ($DATA_DIR/upcoming.json)"
-RUN "$PY" -u scripts/common/fetch_upcoming.py --country "$COUNTRY" --region "$REGION" \
+step 2/6 "upcoming tournaments of every country of the region → $DATA_DIR/upcoming.json"
+CC_ARGS=(); for cc in "${COUNTRIES[@]}"; do CC_ARGS+=(--country "$cc"); done
+RUN "$PY" -u scripts/common/fetch_upcoming.py "${CC_ARGS[@]}" --region "$REGION" \
   || { echo "  WARN: fetch_upcoming failed (previous upcoming.json kept)"; FAILED+=("fetch_upcoming (upcoming list is from the previous run)"); }
 
 step 3/6 "class brackets (only if the region handles them)"
