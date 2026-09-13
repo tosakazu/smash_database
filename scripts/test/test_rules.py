@@ -312,3 +312,21 @@ class DownloadSpecificEventSpecTests(unittest.TestCase):
             with self.subTest(spec=spec):
                 with self.assertRaises(ValueError):
                     P(spec)
+
+
+class UpcomingMergeTests(unittest.TestCase):
+    """fetch_upcoming: 1 地域 = 複数国。国ごとの一覧を 1 ファイルにまとめる。"""
+
+    def test_merge_dedupes_and_orders(self):
+        from scripts.common.fetch_upcoming import merge_upcoming
+        us = [{"tournament_id": 2, "start_at": 200}, {"tournament_id": 1, "start_at": 100}]
+        ca = [{"tournament_id": 3, "start_at": 150}, {"tournament_id": 2, "start_at": 200}]   # 2 は両国に出る
+        merged = merge_upcoming([us, ca])
+        self.assertEqual([t["tournament_id"] for t in merged], [1, 3, 2])
+        # 国の順を変えても同じ結果 (ファイルが安定する)
+        self.assertEqual(merge_upcoming([ca, us]), merged)
+
+    def test_single_country_is_unchanged(self):
+        from scripts.common.fetch_upcoming import merge_upcoming
+        jp = [{"tournament_id": 5, "start_at": 10}, {"tournament_id": 6, "start_at": 20}]
+        self.assertEqual(merge_upcoming([jp]), jp)
