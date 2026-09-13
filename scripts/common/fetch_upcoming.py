@@ -227,31 +227,60 @@ def build_upcoming(country_code: str, lookahead_days: int) -> list[dict]:
     return out
 
 
+def merge_upcoming(per_country: list[list[dict]]) -> list[dict]:
+    """Merge the per-country lists of one region into one list: a tournament that the API
+    returns for two countries (it happens near borders / with a wrong country on start.gg)
+    is kept once (first country wins), then everything is ordered by start time and id so
+    the file is the same whichever order the countries were fetched in."""
+    seen: set = set()
+    out: list[dict] = []
+    for lst in per_country:
+        for t in lst:
+            tid = t.get("tournament_id")
+            if tid in seen:
+                continue
+            seen.add(tid)
+            out.append(t)
+    out.sort(key=lambda t: (t.get("start_at") or 0, t.get("tournament_id") or 0))
+    return out
+
+
 def main():
     parser = argparse.ArgumentParser()
     add_api_args(parser, max_retries=5, retry_delay=10)
-    parser.add_argument("--country", default="JP")
+    parser.add_argument("--country", action="append", default=None, metavar="CC",
+                        help="country code(s) to list, repeatable (e.g. --country US --country CA). "
+                             "All of them go into the region's one upcoming.json. Default: JP")
     parser.add_argument("--region", default=None,
-                        help="output region (default: derived from --country)")
+                        help="output region (default: derived from the first --country)")
     parser.add_argument("--lookahead-days", type=int, default=LOOKAHEAD_DAYS)
     parser.add_argument(
         "--out", default=None,
         help="default data/startgg/<region>/upcoming.json (kept per region in this repository)",
     )
     args = parser.parse_args()
+    countries = list(dict.fromkeys(c.strip().upper() for arg in (args.country or ["JP"]) for c in arg.split(",") if c.strip()))
+    if not countries:
+        parser.error("--country needs at least one country code")
+    from scripts.common.utils import country_code2region
+    regions = {country_code2region(c) for c in countries}
+    if len(regions) > 1:
+        parser.error(f"the countries belong to different regions ({', '.join(sorted(regions))}); one upcoming.json is one region")
     if args.out is None:
-        from scripts.common.utils import country_code2region
-        region = (args.region or country_code2region(args.country)).replace(" ", "_")
+        region = (args.region or regions.pop()).replace(" ", "_")
         args.out = str(Path(ROOT_DIR) / "data" / "startgg" / region / "upcoming.json")
     setup_api(args)
 
-
-    upcoming = build_upcoming(args.country, args.lookahead_days)
+    per_country = [build_upcoming(c, args.lookahead_days) for c in countries]
+    upcoming = merge_upcoming(per_country)
+    if len(countries) > 1:
+        print(f"[fetch_upcoming] merged {' + '.join(f'{c}={len(l)}' for c, l in zip(countries, per_country))} → {len(upcoming)} (duplicates removed)", flush=True)
     out_path = Path(args.out).expanduser().resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "generated_at": clock.now_ts(),
-        "country_code": args.country,
+        "country_code": ",".join(countries),       # one code, or "US,CA,MX" — the countries this file covers
+        "country_codes": countries,
         "lookahead_days": args.lookahead_days,
         "count": len(upcoming),
         "tournaments": upcoming,

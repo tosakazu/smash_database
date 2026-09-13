@@ -29,7 +29,7 @@ Contents
 | Branch | `data-North_America` — only you push to it. It is `main` (scripts, docs) plus your data |
 | Directory | `data/startgg/North_America/` — everything under it is yours; nothing outside it is |
 | Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). It lives **on your branch, not on `main`**: you edit it directly, no pull request |
-| Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Each run downloads **one** country (`--country-code`); run once per country if you cover several. Note that `upcoming.json` and `validation_baseline.json` are per region, not per country: `upcoming.json` holds the country of the *last* run only (`fetch_upcoming.py` takes one country), so if you cover more than the US and need all of them listed, say so and the file will be made per country |
+| Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Give the runner every country you cover (`--country-code US --country-code CA`, or `US,CA`): it downloads them one after another and builds **one** `upcoming.json` for the region from all of them. Files under the region directory (`upcoming.json`, `validation_baseline.json`, the indexes) are per region, not per country |
 
 Not yours: `main` (never push to it directly — that is where the shared scripts under
 `scripts/common/` live, and changes there go through a pull request), other regions'
@@ -214,7 +214,7 @@ occur:
 | `tournaments.jsonl` | One line per tournament: `tournament_id`, `name`, `events: [{event_id, event_name, path}]`, `version`. The `path` is how every tool finds the event directory |
 | `users.jsonl` | One line per player who appears in any downloaded event: `user_id`, `player_id`, `gamer_tag`, `prefix` (team tag), `gender_pronoun`, `startgg_discriminator`, `country`, `addr_state`, `city`, `x_id`, `x_name`, `discord_id`, `discord_name`, `version`. All of it is what the player made public on their start.gg profile. New players are appended; a player whose profile changed is updated in place (the whole file is rewritten) |
 | `users_derived.jsonl` | Per-player judgements from `users.jsonl`. Japan derives the prefecture from `city`; North America has no per-player rule yet, so the file is empty |
-| `upcoming.json` | `{generated_at, country_code, lookahead_days, count, tournaments: [...]}` — tournaments starting in the next 21 days with `tournament_id`, `tournament_slug`, `tournament_name`, `start_at`, `end_at`, `is_online`, `city`, `venue_name`, `country_code`, `num_attendees`, `url`, `events: [{event_id, event_slug, event_name, num_entrants, type, start_at}]`. Rewritten every run (it is a snapshot, not history) |
+| `upcoming.json` | `{generated_at, country_code, country_codes, lookahead_days, count, tournaments: [...]}` — tournaments of every country given to the run (`country_codes`; `country_code` is the same list as one string, `"US,CA"`) starting in the next 21 days, merged and ordered by start time, each with `tournament_id`, `tournament_slug`, `tournament_name`, `start_at`, `end_at`, `is_online`, `city`, `venue_name`, `country_code`, `num_attendees`, `url`, `events: [{event_id, event_slug, event_name, num_entrants, type, start_at}]`. Rewritten every run (it is a snapshot, not history) |
 | `validation_baseline.json` | `{updated_at, counts: {<kind>: n}}` — how many events currently show each known kind of inconsistency (section 5.5). The run compares against it and rewrites it when the counts drift within tolerance |
 
 ### 4.4 Sizes to expect
@@ -242,14 +242,14 @@ own for repairs.
 ### 5.1 `scripts/common/run_region.sh` — one full cycle
 
 ```sh
-bash scripts/common/run_region.sh --country-code US [--days 14] [--python .venv/bin/python3]
+bash scripts/common/run_region.sh --country-code US [--country-code CA ...] [--days 14] [--python .venv/bin/python3]
      [--token-file PATH] [--log-dir DIR] [--download-retries 2] [--no-commit] [--no-push] [--dry-run]
 ```
 
 | Step | Script | What it does |
 |---|---|---|
 | 1 | `download.py` | Tournaments that ended in the last `--days` days (endAt-based, so a weekly whose start date was set early is still found). Resumable through `done.csv`; the runner retries a failed download `--download-retries` times |
-| 2 | `fetch_upcoming.py` | Rewrites `upcoming.json` |
+| 2 | `fetch_upcoming.py` | Rewrites `upcoming.json` from all the countries of the run |
 | 3 | `update_class_data.py` | Class brackets of the last `--days` days (section 4.2). Instant when there are none |
 | 4 | `derive.py` | `derived.json` for new or changed events, `users_derived.jsonl` |
 | 5 | `validate_data.py --baseline` | Counts the known inconsistencies, warns on a jump (never stops the run) |
@@ -289,11 +289,12 @@ for the API, `--indent-num` (JSON pretty-printing).
 ### 5.3 `scripts/common/fetch_upcoming.py`
 
 ```sh
-python3 scripts/common/fetch_upcoming.py --country US [--lookahead-days 21] [--out PATH]
+python3 scripts/common/fetch_upcoming.py --country US [--country CA ...] [--lookahead-days 21] [--out PATH]
 ```
 
-Writes `data/startgg/<Region>/upcoming.json`. `--region` only if the country does not
-determine it.
+Writes `data/startgg/<Region>/upcoming.json` with the tournaments of every `--country`
+given (all must be in the same region; a tournament listed under two countries is kept
+once). `--region` only if the countries do not determine it.
 
 ### 5.4 `scripts/common/update_class_data.py` — class brackets
 
