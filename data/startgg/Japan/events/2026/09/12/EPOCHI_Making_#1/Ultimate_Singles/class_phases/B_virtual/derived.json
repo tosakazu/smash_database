@@ -1,17 +1,17 @@
 {
   "classifier_version": 6,
-  "event_id": 1688845,
-  "tournament_name": "技科スマ#9/gikasuma9",
-  "event_name": "スマブラSP 1 on 1",
-  "num_entrants": 35,
-  "is_class_virtual": false,
-  "parent_event_id": null,
-  "class_letter": null,
+  "event_id": -16921961,
+  "tournament_name": "EPOCHI Making #1",
+  "event_name": "Ultimate Singles / Bクラス",
+  "num_entrants": 18,
+  "is_class_virtual": true,
+  "parent_event_id": 1692196,
+  "class_letter": "B",
   "is_offline": true,
   "results": {
-    "n_standings": 35,
+    "n_standings": 16,
     "min_placement": 1,
-    "has_de_phase": true,
+    "has_de_phase": false,
     "has_gf_recorded": null
   },
   "is_1on1": true,
@@ -22,7 +22,7 @@
     "non_serious": false,
     "restricted_tname": false,
     "restricted_ename": false,
-    "lower_class": false,
+    "lower_class": true,
     "pre": false,
     "smapa": false,
     "force_weekday": false,
@@ -39,13 +39,13 @@
     "phase_group_ids": []
   },
   "place": {
-    "prefecture": "新潟県"
+    "prefecture": "北海道"
   },
   "naming": {
-    "series": "技科スマ",
-    "series_number": 9,
-    "award_label": "技科スマ",
-    "individual_label": "技科スマ#9",
+    "series": "EPOCHI Making",
+    "series_number": 1,
+    "award_label": "EPOCHI Making",
+    "individual_label": "EPOCHI Making#1",
     "cancelled": false,
     "test_page": false
   }

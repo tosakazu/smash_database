@@ -1,0 +1,69 @@
+{
+  "event_id": 1692196,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2375205,
+      "name": "総当たり予選",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 42,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3427221,
+          "display": "1"
+        },
+        {
+          "id": 3427222,
+          "display": "2"
+        },
+        {
+          "id": 3427223,
+          "display": "3"
+        },
+        {
+          "id": 3427224,
+          "display": "4"
+        },
+        {
+          "id": 3453465,
+          "display": "5"
+        },
+        {
+          "id": 3453466,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 2375206,
+      "name": "Aクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3427229,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2375207,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3427230,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
