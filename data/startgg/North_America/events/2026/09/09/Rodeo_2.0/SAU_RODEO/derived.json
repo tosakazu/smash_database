@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705210,
   "tournament_name": "Rodeo 2.0",
   "event_name": "SAU RODEO",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "AR",
-    "state_reason": "venue_address",
+    "geo": "AR",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

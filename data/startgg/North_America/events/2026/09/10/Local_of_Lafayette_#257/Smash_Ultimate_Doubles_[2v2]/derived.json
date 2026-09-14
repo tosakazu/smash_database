@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705102,
   "tournament_name": "Local of Lafayette #257",
   "event_name": "Smash Ultimate Doubles [2v2]",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "LA",
-    "state_reason": "venue_address",
+    "geo": "LA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

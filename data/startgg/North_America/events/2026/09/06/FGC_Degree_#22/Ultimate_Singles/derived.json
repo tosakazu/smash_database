@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1699236,
   "tournament_name": "FGC Degree #22",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "OR",
-    "state_reason": "venue_address",
+    "geo": "OR",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

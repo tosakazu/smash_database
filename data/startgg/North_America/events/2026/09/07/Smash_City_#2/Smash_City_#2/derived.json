@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1703954,
   "tournament_name": "Smash City #2",
   "event_name": "Smash City #2",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "FL",
-    "state_reason": "venue_address",
+    "geo": "FL",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

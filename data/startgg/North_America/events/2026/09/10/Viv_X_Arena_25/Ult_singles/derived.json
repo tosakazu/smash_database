@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1706919,
   "tournament_name": "Viv X Arena 25",
   "event_name": "Ult singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "UT",
-    "state_reason": "venue_address",
+    "geo": "UT",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

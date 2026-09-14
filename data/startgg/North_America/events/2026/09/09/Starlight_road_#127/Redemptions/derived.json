@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1703351,
   "tournament_name": "Starlight road #127",
   "event_name": "Redemptions",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "DE",
-    "state_reason": "venue_address",
+    "geo": "DE",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

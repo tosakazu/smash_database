@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705016,
   "tournament_name": "The Rave 111 - The Funeral (Maxwell)",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "PA",
-    "state_reason": "venue_address",
+    "geo": "PA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

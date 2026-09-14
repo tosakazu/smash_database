@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1698592,
   "tournament_name": "Chicagoland's Multiplex #36",
   "event_name": "Ultimate doubles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "IL",
-    "state_reason": "venue_address",
+    "geo": "IL",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

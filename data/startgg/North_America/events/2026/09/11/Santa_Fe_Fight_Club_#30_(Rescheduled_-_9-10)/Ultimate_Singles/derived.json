@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1697896,
   "tournament_name": "Santa Fe Fight Club #30 (Rescheduled - 9/10)",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "CA",
-    "state_reason": "venue_address",
+    "geo": "CA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1539419,
   "tournament_name": "Moneyfest 2026 ($500 POT BONUS)",
   "event_name": "Ultimate Doubles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "WA",
-    "state_reason": "venue_address",
+    "geo": "WA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1696265,
   "tournament_name": "Metamorphosis: Sunday showdown",
   "event_name": "ultimate singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "AK",
-    "state_reason": "venue_address",
+    "geo": "AK",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1701180,
   "tournament_name": "Ultimate Fight Hub #12",
   "event_name": "Ultimate Redemption",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "MA",
-    "state_reason": "venue_address",
+    "geo": "MA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

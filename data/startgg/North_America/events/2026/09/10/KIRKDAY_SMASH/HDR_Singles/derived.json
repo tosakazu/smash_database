@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1707824,
   "tournament_name": "KIRKDAY SMASH",
   "event_name": "HDR Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "TX",
-    "state_reason": "venue_address",
+    "geo": "TX",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

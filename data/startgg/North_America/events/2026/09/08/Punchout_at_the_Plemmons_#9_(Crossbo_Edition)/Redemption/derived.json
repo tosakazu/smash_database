@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705313,
   "tournament_name": "Punchout at the Plemmons #9 (Crossbo Edition)",
   "event_name": "Redemption",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "NC",
-    "state_reason": "venue_address",
+    "geo": "NC",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

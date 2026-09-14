@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1701913,
   "tournament_name": "Shark Tank #212: The Venue is Real",
   "event_name": "Shark Tank Singles - 8:00 PM",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "CA",
-    "state_reason": "venue_address",
+    "geo": "CA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

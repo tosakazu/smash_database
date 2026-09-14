@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1697485,
   "tournament_name": "Save Room #40",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "WI",
-    "state_reason": "venue_address",
+    "geo": "WI",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

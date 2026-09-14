@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705367,
   "tournament_name": "Stark Series #25 (Fall 2026)",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "MS",
-    "state_reason": "venue_address",
+    "geo": "MS",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1701192,
   "tournament_name": "The Boxing Ring #28",
   "event_name": "Ultimate Singles Ammys - Boxing Ring #28",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "MN",
-    "state_reason": "venue_address",
+    "geo": "MN",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

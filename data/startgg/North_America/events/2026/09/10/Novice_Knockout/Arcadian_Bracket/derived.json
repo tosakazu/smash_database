@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1706797,
   "tournament_name": "Novice Knockout",
   "event_name": "Arcadian Bracket",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "NY",
-    "state_reason": "venue_address",
+    "geo": "NY",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

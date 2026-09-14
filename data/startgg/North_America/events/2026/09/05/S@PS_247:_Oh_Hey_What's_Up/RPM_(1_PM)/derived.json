@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1699811,
   "tournament_name": "S@PS 247: Oh Hey What's Up",
   "event_name": "RPM (1 PM)",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "PA",
-    "state_reason": "venue_address",
+    "geo": "PA",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

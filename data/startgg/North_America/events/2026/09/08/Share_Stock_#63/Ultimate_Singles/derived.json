@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1703251,
   "tournament_name": "Share Stock #63",
   "event_name": "Ultimate Singles",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "MD",
-    "state_reason": "venue_address",
+    "geo": "MD",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

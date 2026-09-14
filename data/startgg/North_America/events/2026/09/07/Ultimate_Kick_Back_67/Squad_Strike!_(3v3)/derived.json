@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1702594,
   "tournament_name": "Ultimate Kick Back 67",
   "event_name": "Squad Strike! (3v3)",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "NE",
-    "state_reason": "venue_address",
+    "geo": "NE",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }

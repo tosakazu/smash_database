@@ -1,5 +1,5 @@
 {
-  "classifier_version": 9,
+  "classifier_version": 10,
   "event_id": 1705091,
   "tournament_name": "Smash at George’s #89",
   "event_name": "Redemption Bracket! (0-2, 1-2 ONLY)",
@@ -34,8 +34,8 @@
     "phase_group_ids": []
   },
   "place": {
-    "state": "TX",
-    "state_reason": "venue_address",
+    "geo": "TX",
+    "geo_reason": "venue_address",
     "provisional": true
   }
 }
