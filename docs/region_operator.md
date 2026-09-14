@@ -221,7 +221,7 @@ occur:
 
 One US week (2026-09-05 … 11): 515 events, 332 tournaments, 5,400 players, 20 MB;
 median event 12 entrants. A year of the US is on the order of 1 GB. Decide how far
-back you want history before the first import (section 6.3).
+back you want history before the first import (sections 6.3 and 6.4).
 
 ### 4.5 Hand-maintained tables (`manual/`)
 
@@ -382,15 +382,34 @@ python3 scripts/common/fix/validate_data.py --region North_America --summary
 ```
 
 Look at a few `derived.json` (`is_1on1`, `calendar`, `names`) and at
-`class_phases/` directories to see the rules doing what you expect (section 7). Then
-decide the history depth — `--days 365` for a year — and run again; it is resumable, so
-just rerun until step 1 reports nothing new. Commit with
+`class_phases/` directories to see the rules doing what you expect (section 7). Commit
+that test run with
 
 ```sh
-git add -A -- data/startgg/North_America && git commit -m "data: initial North America import" && git push -u origin data-North_America
+git add -A -- data/startgg/North_America && git commit -m "data: North America test week" && git push -u origin data-North_America
 ```
 
 or simply run the runner without `--no-commit`.
+
+### 6.4 Backfilling several years
+
+**Do not backfill years in one run.** A year of the US is roughly 1 GB and 60 hours of
+API time, and GitHub refuses a single push larger than 2 GB. Backfill in monthly
+windows with the downloader directly, and commit and push after each window:
+
+```sh
+# example: September 2023 (--start-date is the newer bound, --finish-date the older one)
+python3 scripts/common/download.py --country-code US --start-date 2023-09-30 --finish-date 2023-09-01
+python3 scripts/common/derive.py --region North_America
+git add -A -- data/startgg/North_America && git commit -m "data: North America 2023-09" && git push
+```
+
+Work backwards month by month (a shell loop over the months is fine). A month is about
+2,000 events, 80 MB and 4–5 hours, so a three-year backfill is a few days of wall-clock
+time that can be left running; an interrupted month just continues where it stopped
+(`done.csv`). Class brackets for the backfilled period are picked up afterwards with
+`python3 scripts/common/update_class_data.py --region North_America --since-days 1100`.
+When the backfill is done, the daily runner (section 6.1) keeps the head current.
 
 ## 7. Changing the rules for your region
 
