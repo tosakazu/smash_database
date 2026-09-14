@@ -1,0 +1,53 @@
+{
+  "event_id": 1703030,
+  "event_name": "3on3 Crews",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2389059,
+      "name": "Top64",
+      "order": 1,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 59,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3445362,
+          "display": "1"
+        },
+        {
+          "id": 3452210,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2392998,
+      "name": "Bクラストーナメント",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 43,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3450282,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2394571,
+      "name": "Top8",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3452211,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
