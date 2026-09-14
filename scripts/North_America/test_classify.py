@@ -154,20 +154,20 @@ class ProvisionalGeographyTests(unittest.TestCase):
 
     def test_venue_state_from_postal_address(self):
         self.assertEqual(na.place_state({"country_code": "US", "venue_address": "1730 E Belt Line Rd, Richardson, TX 75081, USA"}),
-                         {"state": "TX", "state_reason": "venue_address", "provisional": True})
-        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "255 E Buchtel Ave, Akron, OH 44304-1234, USA"})["state"], "OH")
-        self.assertEqual(na.place_state({"country_code": "CA", "venue_address": "255 Front St W, Toronto, ON M5V 2W6, Canada"})["state"], "ON")
+                         {"geo": "TX", "geo_reason": "venue_address", "provisional": True})
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "255 E Buchtel Ave, Akron, OH 44304-1234, USA"})["geo"], "OH")
+        self.assertEqual(na.place_state({"country_code": "CA", "venue_address": "255 Front St W, Toronto, ON M5V 2W6, Canada"})["geo"], "ON")
         # Addresses without a postal code (a bare city entry on start.gg).
-        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Bloomington, IN, USA"})["state"], "IN")
-        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Ohio, USA"})["state"], None)
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Bloomington, IN, USA"})["geo"], "IN")
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Ohio, USA"})["geo"], None)
 
     def test_venue_state_rejects_codes_that_are_not_units_of_the_country(self):
         # A Canadian code inside a US address (or vice versa) is not a state; nothing is guessed.
         r = na.place_state({"country_code": "US", "venue_address": "1 Main St, Somewhere, ON 12345, USA"})
-        self.assertEqual((r["state"], r["state_reason"], r["provisional"]), (None, "code_not_in_country", True))
-        self.assertEqual(na.place_state({"country_code": "MX", "venue_address": "Av. Juárez 1, 06000 Ciudad de México, CDMX, Mexico"})["state"], None)
-        self.assertEqual(na.place_state(None), {"state": None, "state_reason": "unresolved", "provisional": True})
-        self.assertEqual(na.place_state({"country_code": "US", "venue_address": ""})["state"], None)
+        self.assertEqual((r["geo"], r["geo_reason"], r["provisional"]), (None, "code_not_in_country", True))
+        self.assertEqual(na.place_state({"country_code": "MX", "venue_address": "Av. Juárez 1, 06000 Ciudad de México, CDMX, Mexico"})["geo"], None)
+        self.assertEqual(na.place_state(None), {"geo": None, "geo_reason": "unresolved", "provisional": True})
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": ""})["geo"], None)
 
     def test_player_state_from_city(self):
         self.assertEqual(na.resolve_state_from_city("Chicago", "United States"), ("IL", "city_table"))
@@ -185,12 +185,25 @@ class ProvisionalGeographyTests(unittest.TestCase):
 
     def test_classify_user_writes_provisional_lines_only_for_countries_with_units(self):
         self.assertEqual(na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"}),
-                         {"state": "WA", "state_reason": "city_table", "provisional": True})
+                         {"geo": "WA", "geo_reason": "city_table", "provisional": True})
         self.assertEqual(na.classify_user({"user_id": 2, "country": "United States", "city": "Portland"}),
-                         {"state": None, "state_reason": "unresolved", "provisional": True})
+                         {"geo": None, "geo_reason": "unresolved", "provisional": True})
         self.assertIsNone(na.classify_user({"user_id": 3, "country": "United States", "city": ""}))
         self.assertIsNone(na.classify_user({"user_id": 4, "country": "Mexico", "city": "Monterrey"}))
         self.assertIsNone(na.classify_user({"user_id": 5, "country": None, "city": "Chicago"}))
+
+    def test_geo_catalog_meets_the_contract(self):
+        from scripts.North_America import geo
+        from scripts.common.geo import validate_catalog
+        cat = geo.catalog()
+        self.assertEqual(validate_catalog(cat), [])
+        self.assertEqual((cat["region"], cat["unit"], cat["provisional"]), ("North_America", "state", True))
+        self.assertEqual(len(cat["units"]), 54 + 13)
+        self.assertEqual({g["id"] for g in cat["groups"]}, {"us", "ca"})
+        self.assertEqual(cat["seed_groups"], [])
+        # unit ids are exactly what classify writes (postal codes)
+        self.assertIn(na.place_state({"country_code": "US", "venue_address": "1 Main St, Austin, TX 78701, USA"})["geo"],
+                      {u["id"] for u in cat["units"]})
 
     def test_unit_tables_are_consistent(self):
         self.assertTrue(na.GEO_PROVISIONAL)

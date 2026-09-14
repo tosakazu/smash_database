@@ -13,10 +13,11 @@ What currently goes into derived.json:
   names.lower_class           whether the event itself is a lower-class bracket (an event literally named "Redemption Bracket", for example)
   names.restricted            tournaments whose entry pool is restricted (Arcadian = players on the regional Power Ranking may not enter).
                               This corresponds to Japan's restricted tournaments (rating caps). They are still aggregated, but handled differently
-  place.state                 PROVISIONAL (see "Geography" below): the US state / Canadian province of the venue, read from the
-                              postal form of venue_address ("…, Austin, TX 78701, USA"). Carries "provisional": true.
-  users_derived.jsonl         PROVISIONAL: a player's state from the free-text city field, only for a short table of
-                              unambiguous large cities (Chicago -> IL, …) or a "City, ST" suffix. Everything else stays null.
+  place.geo                   PROVISIONAL (see "Geography" below): the US state / Canadian province of the venue, read from the
+                              postal form of venue_address ("…, Austin, TX 78701, USA"). Carries geo_reason and "provisional": true.
+  users_derived.jsonl         PROVISIONAL: a player's state (geo / geo_reason) from the free-text city field, only for a short
+                              table of unambiguous large cities (Chicago -> IL, …) or a "City, ST" suffix. Everything else stays null.
+  geo.json                    the catalogue of units (scripts/North_America/geo.py): ids, names, listing order, groups.
 
 Not yet implemented (add it to this file when needed):
   periods treated as holidays (the equivalent of Japan's Obon and New Year period; what should count as such in North America is undecided),
@@ -28,7 +29,7 @@ Geography is PROVISIONAL (2026-09-15). It exists so that the build and the site 
 North American operator decides the real rules: which unit to rank by (state / province / a competitive region such as
 SoCal vs NorCal), how to resolve ambiguous city names (Columbia, Portland, Richmond, Springfield are deliberately not
 in the table), and whether Mexico should be a unit at all. Every derived value carries "provisional": true and a
-"state_reason" so the site can label it and the operator can grep for it. Replace it; do not build on it.
+"geo_reason" so the site can label it and the operator can grep for it. Replace it; do not build on it.
 
 The names used for class brackets were checked against one week of US data (2026-09-05 to 2026-09-11, 513 events):
 by far the most common is **Redemption** (a second-chance bracket for eliminated players; it appears both as a phase and as a separate event "Redemption
@@ -48,7 +49,8 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 9   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
+CLASSIFIER_VERSION = 10  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
+                         # 9:   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
                          # 8:   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
                          # 7: Arcadian (tournaments that players on the PR may not enter) is no longer excluded from 1on1; it is flagged via names.restricted instead
                          # 6: Redemption (second-chance bracket) is treated as a class bracket, names.lower_class added (verified on one week of real US data)
@@ -377,23 +379,7 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
 # Unit codes: USPS two-letter codes for the US (plus DC and the territories start.gg users register from),
 # Canada Post two-letter codes for Canada. Mexico has no unit yet (players from Mexico get no line).
 GEO_PROVISIONAL = True
-US_STATE_NAMES = {
-    'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California', 'CO': 'Colorado',
-    'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
-    'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana',
-    'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',
-    'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
-    'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',
-    'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina', 'SD': 'South Dakota',
-    'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington',
-    'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming', 'DC': 'District of Columbia',
-    'PR': 'Puerto Rico', 'VI': 'U.S. Virgin Islands', 'GU': 'Guam',
-}
-CA_PROVINCE_NAMES = {
-    'AB': 'Alberta', 'BC': 'British Columbia', 'MB': 'Manitoba', 'NB': 'New Brunswick', 'NL': 'Newfoundland and Labrador',
-    'NS': 'Nova Scotia', 'NT': 'Northwest Territories', 'NU': 'Nunavut', 'ON': 'Ontario', 'PE': 'Prince Edward Island',
-    'QC': 'Quebec', 'SK': 'Saskatchewan', 'YT': 'Yukon',
-}
+from scripts.North_America.geo import US_STATE_NAMES, CA_PROVINCE_NAMES   # the unit tables live in geo.py (geo.json)
 STATE_NAMES = {**US_STATE_NAMES, **CA_PROVINCE_NAMES}
 # country_code (attr.place) / country name (users.jsonl) -> the code set that is valid there
 _UNIT_CODES_BY_COUNTRY = {
@@ -456,9 +442,10 @@ def _city_key(city: str) -> str:
 
 def place_state(place: dict | None) -> dict:
     """PROVISIONAL. The unit (state / province) of the venue, read from the postal form of venue_address.
-    Always returns {"state", "state_reason", "provisional": True}; state is None when nothing matched or the code
-    is not valid for the venue's country_code (a street name that happens to look like a code is rejected that way)."""
-    out = {"state": None, "state_reason": "unresolved", "provisional": True}
+    Always returns {"geo", "geo_reason", "provisional": True} (geo = a unit id of geo.py, the region-neutral key
+    every region writes); geo is None when nothing matched or the code is not valid for the venue's country_code
+    (a street name that happens to look like a code is rejected that way)."""
+    out = {"geo": None, "geo_reason": "unresolved", "provisional": True}
     if not place:
         return out
     m = _ADDR_UNIT_RE.search(place.get('venue_address') or '')
@@ -467,10 +454,10 @@ def place_state(place: dict | None) -> dict:
     code = m.group(1) or m.group(2)
     valid = _UNIT_CODES_BY_COUNTRY.get(place.get('country_code') or '')
     if valid is None or code not in valid:
-        out["state_reason"] = "code_not_in_country"
+        out["geo_reason"] = "code_not_in_country"
         return out
-    out["state"] = code
-    out["state_reason"] = "venue_address"
+    out["geo"] = code
+    out["geo_reason"] = "venue_address"
     return out
 
 
@@ -514,7 +501,8 @@ def classify_event(base: dict, ctx) -> dict:
 def classify_user(u: dict) -> dict | None:
     """One line of users.jsonl -> the fields to derive. PROVISIONAL: the player's state / province from the city field
     (see Geography). Only players whose country has units (US / CA and the US territories) and who typed a city get a
-    line; the line has state=None when the city could not be resolved, so the operator can count the gap."""
+    line; the line has geo=None when the city could not be resolved, so the operator can count the gap.
+    Keys are the region-neutral geo / geo_reason (Japan writes the same keys with prefecture names)."""
     country = u.get('country')
     if country not in _UNIT_CODES_BY_COUNTRY:
         return None
@@ -522,4 +510,4 @@ def classify_user(u: dict) -> dict | None:
     if not city:
         return None
     code, why = resolve_state_from_city(city, country)
-    return {"state": code, "state_reason": why, "provisional": True}
+    return {"geo": code, "geo_reason": why, "provisional": True}
