@@ -1,0 +1,584 @@
+{
+ "region": "Japan",
+ "unit": "prefecture",
+ "provisional": false,
+ "names": {
+  "ja": "都道府県",
+  "en": "Prefecture"
+ },
+ "units": [
+  {
+   "id": "北海道",
+   "order": 1,
+   "name": {
+    "ja": "北海道",
+    "en": "Hokkaido"
+   },
+   "group": "hokkaido"
+  },
+  {
+   "id": "青森県",
+   "order": 2,
+   "name": {
+    "ja": "青森県",
+    "en": "Aomori"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "岩手県",
+   "order": 3,
+   "name": {
+    "ja": "岩手県",
+    "en": "Iwate"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "宮城県",
+   "order": 4,
+   "name": {
+    "ja": "宮城県",
+    "en": "Miyagi"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "秋田県",
+   "order": 5,
+   "name": {
+    "ja": "秋田県",
+    "en": "Akita"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "山形県",
+   "order": 6,
+   "name": {
+    "ja": "山形県",
+    "en": "Yamagata"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "福島県",
+   "order": 7,
+   "name": {
+    "ja": "福島県",
+    "en": "Fukushima"
+   },
+   "group": "tohoku"
+  },
+  {
+   "id": "茨城県",
+   "order": 8,
+   "name": {
+    "ja": "茨城県",
+    "en": "Ibaraki"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "栃木県",
+   "order": 9,
+   "name": {
+    "ja": "栃木県",
+    "en": "Tochigi"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "群馬県",
+   "order": 10,
+   "name": {
+    "ja": "群馬県",
+    "en": "Gunma"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "埼玉県",
+   "order": 11,
+   "name": {
+    "ja": "埼玉県",
+    "en": "Saitama"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "千葉県",
+   "order": 12,
+   "name": {
+    "ja": "千葉県",
+    "en": "Chiba"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "東京都",
+   "order": 13,
+   "name": {
+    "ja": "東京都",
+    "en": "Tokyo"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "神奈川県",
+   "order": 14,
+   "name": {
+    "ja": "神奈川県",
+    "en": "Kanagawa"
+   },
+   "group": "kanto"
+  },
+  {
+   "id": "新潟県",
+   "order": 15,
+   "name": {
+    "ja": "新潟県",
+    "en": "Niigata"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "富山県",
+   "order": 16,
+   "name": {
+    "ja": "富山県",
+    "en": "Toyama"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "石川県",
+   "order": 17,
+   "name": {
+    "ja": "石川県",
+    "en": "Ishikawa"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "福井県",
+   "order": 18,
+   "name": {
+    "ja": "福井県",
+    "en": "Fukui"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "山梨県",
+   "order": 19,
+   "name": {
+    "ja": "山梨県",
+    "en": "Yamanashi"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "長野県",
+   "order": 20,
+   "name": {
+    "ja": "長野県",
+    "en": "Nagano"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "岐阜県",
+   "order": 21,
+   "name": {
+    "ja": "岐阜県",
+    "en": "Gifu"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "静岡県",
+   "order": 22,
+   "name": {
+    "ja": "静岡県",
+    "en": "Shizuoka"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "愛知県",
+   "order": 23,
+   "name": {
+    "ja": "愛知県",
+    "en": "Aichi"
+   },
+   "group": "chubu"
+  },
+  {
+   "id": "三重県",
+   "order": 24,
+   "name": {
+    "ja": "三重県",
+    "en": "Mie"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "滋賀県",
+   "order": 25,
+   "name": {
+    "ja": "滋賀県",
+    "en": "Shiga"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "京都府",
+   "order": 26,
+   "name": {
+    "ja": "京都府",
+    "en": "Kyoto"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "大阪府",
+   "order": 27,
+   "name": {
+    "ja": "大阪府",
+    "en": "Osaka"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "兵庫県",
+   "order": 28,
+   "name": {
+    "ja": "兵庫県",
+    "en": "Hyogo"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "奈良県",
+   "order": 29,
+   "name": {
+    "ja": "奈良県",
+    "en": "Nara"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "和歌山県",
+   "order": 30,
+   "name": {
+    "ja": "和歌山県",
+    "en": "Wakayama"
+   },
+   "group": "kinki"
+  },
+  {
+   "id": "鳥取県",
+   "order": 31,
+   "name": {
+    "ja": "鳥取県",
+    "en": "Tottori"
+   },
+   "group": "chugoku"
+  },
+  {
+   "id": "島根県",
+   "order": 32,
+   "name": {
+    "ja": "島根県",
+    "en": "Shimane"
+   },
+   "group": "chugoku"
+  },
+  {
+   "id": "岡山県",
+   "order": 33,
+   "name": {
+    "ja": "岡山県",
+    "en": "Okayama"
+   },
+   "group": "chugoku"
+  },
+  {
+   "id": "広島県",
+   "order": 34,
+   "name": {
+    "ja": "広島県",
+    "en": "Hiroshima"
+   },
+   "group": "chugoku"
+  },
+  {
+   "id": "山口県",
+   "order": 35,
+   "name": {
+    "ja": "山口県",
+    "en": "Yamaguchi"
+   },
+   "group": "chugoku"
+  },
+  {
+   "id": "徳島県",
+   "order": 36,
+   "name": {
+    "ja": "徳島県",
+    "en": "Tokushima"
+   },
+   "group": "shikoku"
+  },
+  {
+   "id": "香川県",
+   "order": 37,
+   "name": {
+    "ja": "香川県",
+    "en": "Kagawa"
+   },
+   "group": "shikoku"
+  },
+  {
+   "id": "愛媛県",
+   "order": 38,
+   "name": {
+    "ja": "愛媛県",
+    "en": "Ehime"
+   },
+   "group": "shikoku"
+  },
+  {
+   "id": "高知県",
+   "order": 39,
+   "name": {
+    "ja": "高知県",
+    "en": "Kochi"
+   },
+   "group": "shikoku"
+  },
+  {
+   "id": "福岡県",
+   "order": 40,
+   "name": {
+    "ja": "福岡県",
+    "en": "Fukuoka"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "佐賀県",
+   "order": 41,
+   "name": {
+    "ja": "佐賀県",
+    "en": "Saga"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "長崎県",
+   "order": 42,
+   "name": {
+    "ja": "長崎県",
+    "en": "Nagasaki"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "熊本県",
+   "order": 43,
+   "name": {
+    "ja": "熊本県",
+    "en": "Kumamoto"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "大分県",
+   "order": 44,
+   "name": {
+    "ja": "大分県",
+    "en": "Oita"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "宮崎県",
+   "order": 45,
+   "name": {
+    "ja": "宮崎県",
+    "en": "Miyazaki"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "鹿児島県",
+   "order": 46,
+   "name": {
+    "ja": "鹿児島県",
+    "en": "Kagoshima"
+   },
+   "group": "kyushu"
+  },
+  {
+   "id": "沖縄県",
+   "order": 47,
+   "name": {
+    "ja": "沖縄県",
+    "en": "Okinawa"
+   },
+   "group": "kyushu"
+  }
+ ],
+ "groups": [
+  {
+   "id": "hokkaido",
+   "name": {
+    "ja": "北海道",
+    "en": "Hokkaido"
+   },
+   "units": [
+    "北海道"
+   ]
+  },
+  {
+   "id": "tohoku",
+   "name": {
+    "ja": "東北",
+    "en": "Tohoku"
+   },
+   "units": [
+    "青森県",
+    "岩手県",
+    "宮城県",
+    "秋田県",
+    "山形県",
+    "福島県"
+   ]
+  },
+  {
+   "id": "kanto",
+   "name": {
+    "ja": "関東",
+    "en": "Kanto"
+   },
+   "units": [
+    "茨城県",
+    "栃木県",
+    "群馬県",
+    "埼玉県",
+    "千葉県",
+    "東京都",
+    "神奈川県"
+   ]
+  },
+  {
+   "id": "chubu",
+   "name": {
+    "ja": "中部",
+    "en": "Chubu"
+   },
+   "units": [
+    "新潟県",
+    "富山県",
+    "石川県",
+    "福井県",
+    "山梨県",
+    "長野県",
+    "岐阜県",
+    "静岡県",
+    "愛知県"
+   ]
+  },
+  {
+   "id": "kinki",
+   "name": {
+    "ja": "近畿",
+    "en": "Kinki"
+   },
+   "units": [
+    "三重県",
+    "滋賀県",
+    "京都府",
+    "大阪府",
+    "兵庫県",
+    "奈良県",
+    "和歌山県"
+   ]
+  },
+  {
+   "id": "chugoku",
+   "name": {
+    "ja": "中国",
+    "en": "Chugoku"
+   },
+   "units": [
+    "鳥取県",
+    "島根県",
+    "岡山県",
+    "広島県",
+    "山口県"
+   ]
+  },
+  {
+   "id": "shikoku",
+   "name": {
+    "ja": "四国",
+    "en": "Shikoku"
+   },
+   "units": [
+    "徳島県",
+    "香川県",
+    "愛媛県",
+    "高知県"
+   ]
+  },
+  {
+   "id": "kyushu",
+   "name": {
+    "ja": "九州・沖縄",
+    "en": "Kyushu & Okinawa"
+   },
+   "units": [
+    "福岡県",
+    "佐賀県",
+    "長崎県",
+    "熊本県",
+    "大分県",
+    "宮崎県",
+    "鹿児島県",
+    "沖縄県"
+   ]
+  }
+ ],
+ "seed_groups": [
+  {
+   "id": "minamiKanto",
+   "name": {
+    "ja": "南関東",
+    "en": "South Kanto"
+   },
+   "units": [
+    "埼玉県",
+    "千葉県",
+    "東京都",
+    "神奈川県"
+   ],
+   "default": true
+  },
+  {
+   "id": "keihanshin",
+   "name": {
+    "ja": "京阪神",
+    "en": "Keihanshin"
+   },
+   "units": [
+    "京都府",
+    "大阪府",
+    "兵庫県"
+   ],
+   "default": true
+  }
+ ]
+}
