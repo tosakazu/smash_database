@@ -18,8 +18,10 @@ import re
 
 from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
+from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 7   # 7: 身内判定から「合宿」を外した (スマサー合宿 #6-#8 等を通常大会として集計。2026-09-14)
+CLASSIFIER_VERSION = 8   # 8: 地理の出力を地域中立のキーに (place.geo / users_derived の geo, geo_reason)。単位の一覧は geo.py (2026-09-15)
+                         # 7:   # 7: 身内判定から「合宿」を外した (スマサー合宿 #6-#8 等を通常大会として集計。2026-09-14)
                          # 6: is_offline (derive.py の共通部。attr.offline の写し) を追加 (2026-09-12)
                          #  # 5: naming (シリーズ名・開催回・実績ラベル・中止/テスト検出) を追加 (2026-09-09)   # 4: 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
 
@@ -341,12 +343,6 @@ from scripts.common.region import class_phase_group_ids  # noqa: E402,F401  (地
 
 
 # ── 都道府県 (旧 spsp/cli/build_tournament_prefectures.py と build_player_prefectures.py) ──
-PREFECTURES = ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県',
-               '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県',
-               '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府',
-               '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県',
-               '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県',
-               '鹿児島県', '沖縄県']
 _PREF_RE = re.compile('(' + '|'.join(PREFECTURES) + ')')
 
 
@@ -375,14 +371,16 @@ def place_prefecture(place: dict | None) -> str | None:
 
 
 def classify_user(u: dict) -> dict | None:
-    """users.jsonl の 1 行 → 居住地 (city) から都道府県。country が Japan で city がある人だけ対象 (それ以外は None = 行を書かない)。"""
+    """users.jsonl の 1 行 → 居住地 (city) から都道府県。country が Japan で city がある人だけ対象 (それ以外は None = 行を書かない)。
+    返すキーは地域中立の geo / geo_reason (北米も同じキーで州を書く)。"""
     if u.get('country') != 'Japan':
         return None
     city = (u.get('city') or '').strip()
     if not city:
         return None
     pref, why = resolve_prefecture(city)
-    return {"prefecture": pref, "prefecture_reason": why}
+    # キーは地域中立 (geo / geo_reason)。値は geo.json の unit id (= 都道府県の漢字名)。
+    return {"geo": pref, "geo_reason": why}
 
 
 # ── derive.py から呼ばれる入口 ──
@@ -398,7 +396,7 @@ def classify_event(base: dict, ctx) -> dict:
         "names": name_flags(ctx.tname, ctx.ename),
         "calendar": calendar_flags(ts, ctx.attr.get("end_timestamp")) if ts is not None else None,
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
-        "place": {"prefecture": place_prefecture(ctx.attr.get("place"))},
+        "place": {"geo": place_prefecture(ctx.attr.get("place"))},   # 会場の都道府県 (geo.json の unit id)
         "naming": naming_labels(ctx.tname, ctx.ename),
     })
     return out

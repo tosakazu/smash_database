@@ -16,7 +16,8 @@ from zoneinfo import ZoneInfo
 os.environ.setdefault("TZ", "Asia/Tokyo")
 time.tzset()
 
-from scripts.Japan import classify, country, naming, prefecture
+from scripts.Japan import classify, country, geo, naming, prefecture
+from scripts.common.geo import validate_catalog
 
 
 def jst(text: str) -> int:
@@ -199,7 +200,8 @@ class CountryTests(unittest.TestCase):
 class ClassifyUserTests(unittest.TestCase):
     def test_japanese_user_with_city(self):
         got = classify.classify_user({"user_id": 1, "country": "Japan", "city": "横浜市"})
-        self.assertEqual(got["prefecture"], "神奈川県")
+        self.assertEqual(got["geo"], "神奈川県")
+        self.assertIn("geo_reason", got)
 
     def test_user_without_city_or_outside_japan_is_skipped(self):
         self.assertIsNone(classify.classify_user({"user_id": 1, "country": "Japan", "city": None}))
@@ -330,3 +332,32 @@ class UpcomingMergeTests(unittest.TestCase):
         from scripts.common.fetch_upcoming import merge_upcoming
         jp = [{"tournament_id": 5, "start_at": 10}, {"tournament_id": 6, "start_at": 20}]
         self.assertEqual(merge_upcoming([jp]), jp)
+
+
+class GeoCatalogTests(unittest.TestCase):
+    """geo.json (scripts/Japan/geo.py): the single list of units the build and the site read."""
+
+    def test_catalog_meets_the_contract(self):
+        cat = geo.catalog()
+        self.assertEqual(validate_catalog(cat), [])
+        self.assertEqual((cat["region"], cat["unit"], cat["provisional"]), ("Japan", "prefecture", False))
+        self.assertEqual(len(cat["units"]), 47)
+        self.assertEqual([u["id"] for u in cat["units"]][:3], ["北海道", "青森県", "岩手県"])
+        self.assertEqual(cat["units"][12], {"id": "東京都", "order": 13, "name": {"ja": "東京都", "en": "Tokyo"}, "group": "kanto"})
+        self.assertEqual(len(cat["groups"]), 8)
+        self.assertEqual({sg["id"] for sg in cat["seed_groups"]}, {"minamiKanto", "keihanshin"})
+
+    def test_unit_ids_are_what_classify_writes(self):
+        # place.geo / users_derived geo carry the unit id, so the ids must be the names the resolver returns.
+        self.assertEqual(classify.PREFECTURES, [u["id"] for u in geo.catalog()["units"]])
+        self.assertIn(prefecture.resolve("横浜市")[0], classify.PREFECTURES)
+        self.assertEqual(classify.classify_event.__doc__ is not None, True)
+
+    def test_validator_rejects_broken_catalogs(self):
+        cat = geo.catalog()
+        cat["units"][0]["id"] = cat["units"][1]["id"]
+        self.assertTrue(any("not unique" in e for e in validate_catalog(cat)))
+        cat = geo.catalog(); cat["groups"][0]["units"] = []
+        self.assertTrue(any("cover" in e for e in validate_catalog(cat)))
+        cat = geo.catalog(); cat["seed_groups"][0]["units"].append("火星")
+        self.assertTrue(any("unknown unit" in e for e in validate_catalog(cat)))

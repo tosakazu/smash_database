@@ -9,6 +9,7 @@ This file is only the driver plus region-independent facts (the shape of standin
 
 Raw files (attr.json etc.) are never rewritten: derived.json is a sidecar. download.py decides re-fetches from the
 mtime of attr.json, so that must stay untouched. If the content is unchanged it is not rewritten (mtime stays = idempotent).
+Also writes users_derived.jsonl (classify_user) and geo.json (scripts/<region>/geo.py, the catalogue of geographic units).
 Update rule: derived.json missing / classifier_version outdated / any input (attr, standings, matches, phases, class_phases/*.json)
 newer than derived.json. The timezone used to decide dates is the region module's TIMEZONE
 (e.g. Japan = Asia/Tokyo); nothing is hard-coded here.
@@ -237,9 +238,14 @@ def main(argv=None) -> int:
                 os.replace(tmp, out)
             users_written = True
         users_n = len(rows)
+    # ── geo.json: the region's catalogue of geographic units (scripts/<region>/geo.py). Required for every region. ──
+    from scripts.common.geo import write_geo_json
+    geo_written, geo_cat = write_geo_json(args.region, Path(args.users_file_path).parent, dry_run=args.dry_run)
     if not args.quiet:
         if users_written is not None:
             print(f"[derive] users_derived.jsonl: {users_n} users {'written' if users_written else 'unchanged'}", flush=True)
+        print(f"[derive] geo.json: {len(geo_cat['units'])} units ({geo_cat['unit']}"
+              f"{', provisional' if geo_cat['provisional'] else ''}) {'written' if geo_written else 'unchanged'}", flush=True)
         print(f"[derive] events={seen} checked={checked} written={written} unchanged={unchanged} failed={failed}"
               f"{' (dry-run)' if args.dry_run else ''} classifier_version={clf.CLASSIFIER_VERSION} region={args.region}", flush=True)
     return 1 if failed else 0
