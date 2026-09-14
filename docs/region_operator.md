@@ -178,7 +178,8 @@ build reads instead of re-deciding anything. For North America (`classifier_vers
 | `names` | flags from the names: `lower_class` (the event itself is a lower bracket — "Redemption Bracket", "Novice …"), `restricted_tname` / `restricted_ename` (entry is restricted — Arcadian; kept separately for tournament and event name so a co-hosted main event is not affected) |
 | `class_bracket` | `all_phases_class` (every phase is a class bracket — the whole event is one) and `phase_group_ids` of the class-bracket pools, so consumers can leave those sets out of the main bracket |
 
-Japan's file has more (`naming`, `place.prefecture`, more `names`); a field missing in
+Japan's file has more (`naming`, `place.prefecture`, more `names`); North America has a **provisional** `place.state`
+(with `state_reason` and `provisional: true`, see section 7); a field missing in
 North America simply has no rule yet.
 
 ### 4.2 Class brackets (`phases.json`, `class_phases/`)
@@ -213,7 +214,7 @@ occur:
 | `done_events.csv` | Same for events imported by hand with `download_specific_event.py` |
 | `tournaments.jsonl` | One line per tournament: `tournament_id`, `name`, `events: [{event_id, event_name, path}]`, `version`. The `path` is how every tool finds the event directory |
 | `users.jsonl` | One line per player who appears in any downloaded event: `user_id`, `player_id`, `gamer_tag`, `prefix` (team tag), `gender_pronoun`, `startgg_discriminator`, `country`, `addr_state`, `city`, `x_id`, `x_name`, `discord_id`, `discord_name`, `version`. All of it is what the player made public on their start.gg profile. New players are appended; a player whose profile changed is updated in place (the whole file is rewritten) |
-| `users_derived.jsonl` | Per-player judgements from `users.jsonl`. Japan derives the prefecture from `city`; North America has no per-player rule yet, so the file is empty |
+| `users_derived.jsonl` | Per-player judgements from `users.jsonl`. Japan derives the prefecture from `city`; North America writes a **provisional** `state` (from a short table of unambiguous cities or a "City, ST" suffix; `null` with `state_reason` when it could not tell) |
 | `upcoming.json` | `{generated_at, country_code, country_codes, lookahead_days, count, tournaments: [...]}` — tournaments of every country given to the run (`country_codes`; `country_code` is the same list as one string, `"US,CA"`) starting in the next 21 days, merged and ordered by start time, each with `tournament_id`, `tournament_slug`, `tournament_name`, `start_at`, `end_at`, `is_online`, `city`, `venue_name`, `country_code`, `num_attendees`, `url`, `events: [{event_id, event_slug, event_name, num_entrants, type, start_at}]`. Rewritten every run (it is a snapshot, not history) |
 | `validation_baseline.json` | `{updated_at, counts: {<kind>: n}}` — how many events currently show each known kind of inconsistency (section 5.5). The run compares against it and rewrites it when the counts drift within tolerance |
 
@@ -425,13 +426,20 @@ declares:
 | `LOWER_CLASS_EVENT_PATTERN`, `RESTRICTED_PATTERN` → `name_flags()` | `names.lower_class`, `names.restricted_*` |
 | `CLASS_LETTERS`, `CLASS_PHASE_PATTERN`, `CLASS_LETTER_PATTERN` → `is_class_phase()`, `class_letter()`, `class_virtual_event_name()` | What a class bracket phase is called and how its virtual event is named. Append to `CLASS_LETTERS`, never reorder |
 | `upcoming_flags()` | The same judgements for `upcoming.json` entries (only names and a start time exist yet) |
-| `classify_user()` | Per-player judgements → `users_derived.jsonl` (returns `None` for now) |
+| `classify_user()` | Per-player judgements → `users_derived.jsonl`. **Provisional**: `state` from the `city` text via `CITY_STATE_PROVISIONAL` (unambiguous large cities only) or a "City, ST" suffix; players from countries without units (Mexico …) get no line |
+| `US_STATE_NAMES`, `CA_PROVINCE_NAMES`, `_ADDR_UNIT_RE` → `place_state()` | **Provisional**: `place.state` of the venue from the postal form of `venue_address`; a code that is not a unit of the venue's country is rejected |
 
 What is deliberately *not* there: anything Japanese. お盆 / 年末年始 as weekends,
 Japanese name patterns, prefectures — North America starts from what was verified on
 its own data (a week of the US: Redemption is the class bracket, Arcadian is a
 restricted tournament) and grows from there. Provincial / state holidays are not in
-yet because `attr.place` has no state field.
+yet; `place.state` now exists provisionally, so only the holiday table is missing.
+
+**Geography is provisional (2026-09-15).** The state / province rules were added so that the build and the site
+have something to show. They are a stopgap, not a decision: which unit to rank by (state, province, or a competitive
+region such as SoCal / NorCal), how to resolve ambiguous city names (Columbia, Portland, Richmond, Columbus,
+Springfield are deliberately unresolved), and whether Mexico gets units are yours to decide. Every derived value
+carries `provisional: true` and a `state_reason`, so you can grep for what the stopgap produced and replace it.
 
 The module and its tests (`scripts/North_America/test_classify.py`) live on your
 branch only, so a change is an ordinary commit — no pull request, nobody to wait for:
