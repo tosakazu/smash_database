@@ -20,6 +20,7 @@ jobs:
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: pip install jpholiday      # only needed for Japanese holiday detection (scripts/Japan/classify.py)
+        # The tests import scripts/common (requests etc.), so install the runtime dependencies, not just jpholiday.
+        run: pip install -r requirements.txt
       - name: Unit tests
         run: python -m unittest discover -s scripts/test -v
