@@ -148,9 +148,6 @@ class UpcomingAndRestrictedTests(unittest.TestCase):
         self.assertFalse(na.name_flags("Genesis 9", "Ultimate Singles")["restricted_tname"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class ProvisionalGeographyTests(unittest.TestCase):
     """The provisional geography (2026-09-15). Every value must say it is provisional, so the site and the operator can tell."""
