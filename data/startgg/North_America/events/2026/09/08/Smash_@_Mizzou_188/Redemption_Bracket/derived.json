@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 9,
   "event_id": 1699476,
   "tournament_name": "Smash @ Mizzou 188",
   "event_name": "Redemption Bracket",
@@ -32,5 +32,10 @@
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "state": "MO",
+    "state_reason": "venue_address",
+    "provisional": true
   }
 }
