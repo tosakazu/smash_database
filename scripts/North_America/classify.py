@@ -13,12 +13,22 @@ What currently goes into derived.json:
   names.lower_class           whether the event itself is a lower-class bracket (an event literally named "Redemption Bracket", for example)
   names.restricted            tournaments whose entry pool is restricted (Arcadian = players on the regional Power Ranking may not enter).
                               This corresponds to Japan's restricted tournaments (rating caps). They are still aggregated, but handled differently
+  place.state                 PROVISIONAL (see "Geography" below): the US state / Canadian province of the venue, read from the
+                              postal form of venue_address ("…, Austin, TX 78701, USA"). Carries "provisional": true.
+  users_derived.jsonl         PROVISIONAL: a player's state from the free-text city field, only for a short table of
+                              unambiguous large cities (Chicago -> IL, …) or a "City, ST" suffix. Everything else stays null.
 
 Not yet implemented (add it to this file when needed):
   periods treated as holidays (the equivalent of Japan's Obon and New Year period; what should count as such in North America is undecided),
-  state/provincial holidays (Family Day, etc. attr.place does not carry the state, so a mechanism to extract the state from venue_address
-  is needed first), labels derived from tournament names (series names, restricted tournaments, and so on),
-  the state where the venue is located, and players' places of residence.
+  state/provincial holidays (Family Day, etc.; place.state now exists provisionally, so the table is the missing part),
+  labels derived from tournament names (series names, restricted tournaments, and so on),
+  a real gazetteer for players' places of residence (the city table below is a stopgap).
+
+Geography is PROVISIONAL (2026-09-15). It exists so that the build and the site have something to render while the
+North American operator decides the real rules: which unit to rank by (state / province / a competitive region such as
+SoCal vs NorCal), how to resolve ambiguous city names (Columbia, Portland, Richmond, Springfield are deliberately not
+in the table), and whether Mexico should be a unit at all. Every derived value carries "provisional": true and a
+"state_reason" so the site can label it and the operator can grep for it. Replace it; do not build on it.
 
 The names used for class brackets were checked against one week of US data (2026-09-05 to 2026-09-11, 513 events):
 by far the most common is **Redemption** (a second-chance bracket for eliminated players; it appears both as a phase and as a separate event "Redemption
@@ -38,7 +48,8 @@ import re
 
 from scripts.common.region import class_phase_group_ids
 
-CLASSIFIER_VERSION = 8   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
+CLASSIFIER_VERSION = 9   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
+                         # 8:   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
                          # 7: Arcadian (tournaments that players on the PR may not enter) is no longer excluded from 1on1; it is flagged via names.restricted instead
                          # 6: Redemption (second-chance bracket) is treated as a class bracket, names.lower_class added (verified on one week of real US data)
                          # 5: is_offline (the common part in derive.py) added
@@ -361,6 +372,126 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
     return out
 
 
+
+# ── Geography (PROVISIONAL, 2026-09-15). See the module docstring. ──────────────────────────────
+# Unit codes: USPS two-letter codes for the US (plus DC and the territories start.gg users register from),
+# Canada Post two-letter codes for Canada. Mexico has no unit yet (players from Mexico get no line).
+GEO_PROVISIONAL = True
+US_STATE_NAMES = {
+    'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California', 'CO': 'Colorado',
+    'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
+    'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana',
+    'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi',
+    'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
+    'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',
+    'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina', 'SD': 'South Dakota',
+    'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington',
+    'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming', 'DC': 'District of Columbia',
+    'PR': 'Puerto Rico', 'VI': 'U.S. Virgin Islands', 'GU': 'Guam',
+}
+CA_PROVINCE_NAMES = {
+    'AB': 'Alberta', 'BC': 'British Columbia', 'MB': 'Manitoba', 'NB': 'New Brunswick', 'NL': 'Newfoundland and Labrador',
+    'NS': 'Nova Scotia', 'NT': 'Northwest Territories', 'NU': 'Nunavut', 'ON': 'Ontario', 'PE': 'Prince Edward Island',
+    'QC': 'Quebec', 'SK': 'Saskatchewan', 'YT': 'Yukon',
+}
+STATE_NAMES = {**US_STATE_NAMES, **CA_PROVINCE_NAMES}
+# country_code (attr.place) / country name (users.jsonl) -> the code set that is valid there
+_UNIT_CODES_BY_COUNTRY = {
+    'US': frozenset(US_STATE_NAMES), 'United States': frozenset(US_STATE_NAMES),
+    'Puerto Rico': frozenset({'PR'}), 'United States Virgin Islands': frozenset({'VI'}), 'Guam': frozenset({'GU'}),
+    'CA': frozenset(CA_PROVINCE_NAMES), 'Canada': frozenset(CA_PROVINCE_NAMES),
+}
+# Postal form Google writes into venue_address: ", Austin, TX 78701, USA" / ", Toronto, ON M5V 3L9, Canada".
+_ADDR_UNIT_RE = re.compile(r',\s*([A-Z]{2})\s+(?:\d{5}(?:-\d{4})?|[A-Z]\d[A-Z]\s?\d[A-Z]\d)\b'
+                           r'|,\s*([A-Z]{2}),\s*(?:USA|Canada)\s*$')   # no postal code: "Bloomington, IN, USA"
+# "Austin, TX" / "Austin TX" / "Austin, TX." typed by a player into the city field.
+_CITY_SUFFIX_RE = re.compile(r'^(.*?\S)[,\s]+([A-Za-z]{2})\.?$')
+# PROVISIONAL city table: only cities whose name is not shared by another sizeable city in the US / Canada
+# (Columbia, Portland, Richmond, Columbus, Springfield, Kansas City, Arlington, Aurora, Vancouver, Victoria,
+# Hamilton, Lexington, Charleston, Jackson, Burlington, Rochester, Glendale, Albany are left out on purpose).
+# Keys are lower-case; punctuation and extra spaces are removed before lookup (see _city_key).
+CITY_STATE_PROVISIONAL = {
+    # Texas / South
+    'houston': 'TX', 'dallas': 'TX', 'austin': 'TX', 'san antonio': 'TX', 'fort worth': 'TX', 'el paso': 'TX',
+    'plano': 'TX', 'lubbock': 'TX', 'corpus christi': 'TX', 'mcallen': 'TX', 'laredo': 'TX',
+    'atlanta': 'GA', 'savannah': 'GA', 'miami': 'FL', 'orlando': 'FL', 'tampa': 'FL', 'jacksonville': 'FL',
+    'tallahassee': 'FL', 'gainesville': 'FL', 'fort lauderdale': 'FL', 'st petersburg': 'FL', 'pensacola': 'FL',
+    'kissimmee': 'FL', 'dothan': 'AL', 'murfreesboro': 'TN', 'shreveport': 'LA', 'asheville': 'NC', 'myrtle beach': 'SC',
+    'morgantown': 'WV', 'silver spring': 'MD',
+    'new orleans': 'LA', 'baton rouge': 'LA', 'birmingham': 'AL', 'huntsville': 'AL', 'nashville': 'TN',
+    'memphis': 'TN', 'knoxville': 'TN', 'chattanooga': 'TN', 'louisville': 'KY', 'little rock': 'AR',
+    'oklahoma city': 'OK', 'tulsa': 'OK', 'charlotte': 'NC', 'raleigh': 'NC', 'durham': 'NC', 'greensboro': 'NC',
+    'virginia beach': 'VA', 'norfolk': 'VA', 'washington': 'DC',
+    # West
+    'los angeles': 'CA', 'san francisco': 'CA', 'san jose': 'CA', 'san diego': 'CA', 'sacramento': 'CA',
+    'oakland': 'CA', 'fresno': 'CA', 'long beach': 'CA', 'anaheim': 'CA', 'irvine': 'CA', 'bakersfield': 'CA',
+    'berkeley': 'CA', 'santa barbara': 'CA', 'santa cruz': 'CA', 'palm springs': 'CA', 'palm desert': 'CA',
+    'seattle': 'WA', 'tacoma': 'WA', 'spokane': 'WA', 'olympia': 'WA', 'bellevue': 'WA', 'kirkland': 'WA',
+    'phoenix': 'AZ', 'tucson': 'AZ', 'mesa': 'AZ', 'tempe': 'AZ', 'flagstaff': 'AZ', 'las vegas': 'NV', 'reno': 'NV',
+    'henderson': 'NV', 'denver': 'CO', 'boulder': 'CO', 'colorado springs': 'CO', 'fort collins': 'CO',
+    'salt lake city': 'UT', 'provo': 'UT', 'ogden': 'UT', 'orem': 'UT', 'cedar city': 'UT', 'albuquerque': 'NM',
+    'santa fe': 'NM', 'boise': 'ID', 'missoula': 'MT', 'bend': 'OR',
+    'honolulu': 'HI', 'anchorage': 'AK', 'eugene': 'OR', 'salem': 'OR',
+    # Midwest
+    'chicago': 'IL', 'champaign': 'IL', 'detroit': 'MI', 'ann arbor': 'MI', 'grand rapids': 'MI', 'lansing': 'MI',
+    'milwaukee': 'WI', 'madison': 'WI', 'minneapolis': 'MN', 'st paul': 'MN', 'indianapolis': 'IN',
+    'fort wayne': 'IN', 'cleveland': 'OH', 'cincinnati': 'OH', 'toledo': 'OH', 'dayton': 'OH', 'akron': 'OH',
+    'st louis': 'MO', 'omaha': 'NE', 'lincoln': 'NE', 'des moines': 'IA', 'wichita': 'KS', 'sioux falls': 'SD',
+    'kalamazoo': 'MI', 'west lafayette': 'IN', 'mankato': 'MN', 'appleton': 'WI',
+    # Northeast
+    'new york': 'NY', 'new york city': 'NY', 'brooklyn': 'NY', 'queens': 'NY', 'bronx': 'NY', 'manhattan': 'NY',
+    'buffalo': 'NY', 'syracuse': 'NY', 'yonkers': 'NY', 'philadelphia': 'PA', 'pittsburgh': 'PA', 'state college': 'PA',
+    'boston': 'MA', 'cambridge': 'MA',
+    'worcester': 'MA', 'providence': 'RI', 'hartford': 'CT', 'new haven': 'CT', 'newark': 'NJ', 'jersey city': 'NJ',
+    'baltimore': 'MD', 'wilmington': 'DE',
+    # Canada
+    'toronto': 'ON', 'ottawa': 'ON', 'mississauga': 'ON', 'montreal': 'QC', 'montréal': 'QC', 'quebec city': 'QC',
+    'laval': 'QC', 'calgary': 'AB', 'edmonton': 'AB', 'winnipeg': 'MB', 'halifax': 'NS', 'saskatoon': 'SK', 'regina': 'SK',
+}
+
+
+def _city_key(city: str) -> str:
+    return re.sub(r'\s+', ' ', re.sub(r'[^a-z0-9éè ]+', ' ', city.lower())).strip()
+
+
+def place_state(place: dict | None) -> dict:
+    """PROVISIONAL. The unit (state / province) of the venue, read from the postal form of venue_address.
+    Always returns {"state", "state_reason", "provisional": True}; state is None when nothing matched or the code
+    is not valid for the venue's country_code (a street name that happens to look like a code is rejected that way)."""
+    out = {"state": None, "state_reason": "unresolved", "provisional": True}
+    if not place:
+        return out
+    m = _ADDR_UNIT_RE.search(place.get('venue_address') or '')
+    if not m:
+        return out
+    code = m.group(1) or m.group(2)
+    valid = _UNIT_CODES_BY_COUNTRY.get(place.get('country_code') or '')
+    if valid is None or code not in valid:
+        out["state_reason"] = "code_not_in_country"
+        return out
+    out["state"] = code
+    out["state_reason"] = "venue_address"
+    return out
+
+
+def resolve_state_from_city(city: str, country: str | None) -> tuple[str | None, str]:
+    """PROVISIONAL. Free-text city (users.jsonl) -> (unit code | None, reason).
+    Order: an explicit "City, ST" suffix valid for the country -> the small unambiguous-city table -> None."""
+    valid = _UNIT_CODES_BY_COUNTRY.get(country or '')
+    if valid is None:
+        return None, "country_without_units"
+    text = (city or '').strip()
+    if not text:
+        return None, "no_city"
+    m = _CITY_SUFFIX_RE.match(text)
+    if m and m.group(2).upper() in valid:
+        return m.group(2).upper(), "city_suffix"
+    code = CITY_STATE_PROVISIONAL.get(_city_key(text))
+    if code and code in valid:
+        return code, "city_table"
+    return None, "unresolved"
+
+
 # ── Entry point called from derive.py ──
 def classify_event(base: dict, ctx) -> dict:
     """Add the North American classification to base (the common part built by derive.py) and return it. ctx: attr / tname / ename / phases / class_phase_files."""
@@ -375,10 +506,20 @@ def classify_event(base: dict, ctx) -> dict:
                      if ts is not None else None),
         "names": name_flags(ctx.tname, ctx.ename),
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
+        "place": place_state(ctx.attr.get("place")),   # PROVISIONAL (see Geography)
     })
     return out
 
 
 def classify_user(u: dict) -> dict | None:
-    """One line of users.jsonl -> the fields to derive. North America derives nothing yet (None = no line is written to users_derived.jsonl)."""
-    return None
+    """One line of users.jsonl -> the fields to derive. PROVISIONAL: the player's state / province from the city field
+    (see Geography). Only players whose country has units (US / CA and the US territories) and who typed a city get a
+    line; the line has state=None when the city could not be resolved, so the operator can count the gap."""
+    country = u.get('country')
+    if country not in _UNIT_CODES_BY_COUNTRY:
+        return None
+    city = (u.get('city') or '').strip()
+    if not city:
+        return None
+    code, why = resolve_state_from_city(city, country)
+    return {"state": code, "state_reason": why, "provisional": True}

@@ -96,16 +96,10 @@ class RulesTests(unittest.TestCase):
         self.assertEqual(flags["country_code"], "US")
         self.assertTrue(flags["is_weekend_real"])       # Thanksgiving
 
-    def test_no_user_derivation_yet(self):
-        self.assertIsNone(na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"}))
-
-
-if __name__ == "__main__":
-    unittest.main()
-
-
-
-class ClassBracketTests(unittest.TestCase):
+    def test_user_derivation_is_provisional_only(self):
+        # 2026-09-15: classify_user is no longer None, but everything it returns is marked provisional (see ProvisionalGeographyTests).
+        r = na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"})
+        self.assertTrue(r["provisional"])
 
     def test_north_america_redemption_is_a_class_bracket(self):
         # The most common lower-class bracket in real US data. It appears both as a phase and as a separate event
@@ -152,6 +146,61 @@ class UpcomingAndRestrictedTests(unittest.TestCase):
         self.assertFalse(flags["restricted_ename"])
         self.assertTrue(na.name_flags("Weekly #5", "Arcadian Singles")["restricted_ename"])
         self.assertFalse(na.name_flags("Genesis 9", "Ultimate Singles")["restricted_tname"])
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+class ProvisionalGeographyTests(unittest.TestCase):
+    """The provisional geography (2026-09-15). Every value must say it is provisional, so the site and the operator can tell."""
+
+    def test_venue_state_from_postal_address(self):
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "1730 E Belt Line Rd, Richardson, TX 75081, USA"}),
+                         {"state": "TX", "state_reason": "venue_address", "provisional": True})
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "255 E Buchtel Ave, Akron, OH 44304-1234, USA"})["state"], "OH")
+        self.assertEqual(na.place_state({"country_code": "CA", "venue_address": "255 Front St W, Toronto, ON M5V 2W6, Canada"})["state"], "ON")
+        # Addresses without a postal code (a bare city entry on start.gg).
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Bloomington, IN, USA"})["state"], "IN")
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": "Ohio, USA"})["state"], None)
+
+    def test_venue_state_rejects_codes_that_are_not_units_of_the_country(self):
+        # A Canadian code inside a US address (or vice versa) is not a state; nothing is guessed.
+        r = na.place_state({"country_code": "US", "venue_address": "1 Main St, Somewhere, ON 12345, USA"})
+        self.assertEqual((r["state"], r["state_reason"], r["provisional"]), (None, "code_not_in_country", True))
+        self.assertEqual(na.place_state({"country_code": "MX", "venue_address": "Av. Juárez 1, 06000 Ciudad de México, CDMX, Mexico"})["state"], None)
+        self.assertEqual(na.place_state(None), {"state": None, "state_reason": "unresolved", "provisional": True})
+        self.assertEqual(na.place_state({"country_code": "US", "venue_address": ""})["state"], None)
+
+    def test_player_state_from_city(self):
+        self.assertEqual(na.resolve_state_from_city("Chicago", "United States"), ("IL", "city_table"))
+        self.assertEqual(na.resolve_state_from_city("SAN ANTONIO", "United States"), ("TX", "city_table"))
+        self.assertEqual(na.resolve_state_from_city("St. Louis", "United States"), ("MO", "city_table"))
+        self.assertEqual(na.resolve_state_from_city("Toronto", "Canada"), ("ON", "city_table"))
+        self.assertEqual(na.resolve_state_from_city("Austin, TX", "United States"), ("TX", "city_suffix"))
+        self.assertEqual(na.resolve_state_from_city("Denver CO.", "United States"), ("CO", "city_suffix"))
+        # Ambiguous names are deliberately unresolved (Portland OR/ME, Columbia SC/MO/MD, Richmond VA/CA).
+        for c in ("Portland", "Columbia", "Richmond", "Springfield", "lmao", "f"):
+            self.assertEqual(na.resolve_state_from_city(c, "United States"), (None, "unresolved"), c)
+        # A table city is not applied to the wrong country, and countries without units get nothing.
+        self.assertEqual(na.resolve_state_from_city("Toronto", "United States"), (None, "unresolved"))
+        self.assertEqual(na.resolve_state_from_city("Guadalajara", "Mexico"), (None, "country_without_units"))
+
+    def test_classify_user_writes_provisional_lines_only_for_countries_with_units(self):
+        self.assertEqual(na.classify_user({"user_id": 1, "country": "United States", "city": "Seattle"}),
+                         {"state": "WA", "state_reason": "city_table", "provisional": True})
+        self.assertEqual(na.classify_user({"user_id": 2, "country": "United States", "city": "Portland"}),
+                         {"state": None, "state_reason": "unresolved", "provisional": True})
+        self.assertIsNone(na.classify_user({"user_id": 3, "country": "United States", "city": ""}))
+        self.assertIsNone(na.classify_user({"user_id": 4, "country": "Mexico", "city": "Monterrey"}))
+        self.assertIsNone(na.classify_user({"user_id": 5, "country": None, "city": "Chicago"}))
+
+    def test_unit_tables_are_consistent(self):
+        self.assertTrue(na.GEO_PROVISIONAL)
+        self.assertEqual(len(na.US_STATE_NAMES), 54)   # 50 states + DC + PR / VI / GU
+        self.assertEqual(len(na.CA_PROVINCE_NAMES), 13)
+        for code in na.CITY_STATE_PROVISIONAL.values():
+            self.assertIn(code, na.STATE_NAMES, code)
 
 
 if __name__ == "__main__":
