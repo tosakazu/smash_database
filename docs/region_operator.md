@@ -416,8 +416,11 @@ When the backfill is done, the daily runner (section 6.1) keeps the head current
 
 ## 7. Changing the rules for your region
 
-`scripts/North_America/classify.py` (judgements) and `scripts/North_America/geo.py` (the catalogue of
-geographic units) are the only places region knowledge lives. `classify.py` declares:
+`scripts/North_America/classify.py` (judgements), `naming.py` (labels from tournament names), `country.py`
+(countries of the region) and `geo.py` (the catalogue of geographic units) are the only places region knowledge
+lives. The ranking build reads their output without defaults, so all four must exist and provide everything in
+`scripts/common/event_contract.py` (`derive.py` checks it and stops otherwise; a rule the region does not have
+is declared with its "no rule" value, e.g. `pre: False`). `classify.py` declares:
 
 | Name | Decides |
 |---|---|

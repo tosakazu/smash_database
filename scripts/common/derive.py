@@ -174,6 +174,11 @@ def main(argv=None) -> int:
     if not args.region:
         ap.error("--region is required (selects the classifier module scripts/<region>/classify.py)")
     clf = load_region_classifier(args.region)
+    # Every region module must provide the whole contract the build reads (scripts/common/event_contract.py).
+    from scripts.common.event_contract import check_event, check_region_modules
+    _mod_errs = check_region_modules(args.region)
+    if _mod_errs:
+        ap.error("region modules break the contract:\n  " + "\n  ".join(_mod_errs))
     # The region decides the timezone used for dates (never classify NA events on Japan's calendar). No default.
     tz = getattr(clf, "TIMEZONE", None)
     if not tz:
@@ -195,6 +200,11 @@ def main(argv=None) -> int:
         checked += 1
         cur = derive_event(ev, clf)
         if cur is None:
+            failed += 1
+            continue
+        _errs = check_event(cur)
+        if _errs:
+            print(f"[derive] {ev}: derived.json breaks the contract: {'; '.join(_errs)}", flush=True)
             failed += 1
             continue
         text = json.dumps(cur, ensure_ascii=False, indent=2) + "\n"
