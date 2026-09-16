@@ -1,0 +1,65 @@
+{
+  "event_id": 1701315,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2386926,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3442527,
+          "display": "1"
+        },
+        {
+          "id": 3442528,
+          "display": "2"
+        },
+        {
+          "id": 3442529,
+          "display": "3"
+        },
+        {
+          "id": 3443645,
+          "display": "4"
+        },
+        {
+          "id": 3443720,
+          "display": "5"
+        }
+      ]
+    },
+    {
+      "id": 2386927,
+      "name": "Upper Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3442530,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2386928,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3442531,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "event_id": 1686400,
+  "event_name": "Ultimate Rank - Gaming Baja Sur",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2367582,
+      "name": "Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 50,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3417524,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2367583,
+      "name": "Amateur Bracket",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3417525,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2367584,
+      "name": "Semi Pro",
+      "order": 8,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3417526,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2367585,
+      "name": "Top 8",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3417527,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

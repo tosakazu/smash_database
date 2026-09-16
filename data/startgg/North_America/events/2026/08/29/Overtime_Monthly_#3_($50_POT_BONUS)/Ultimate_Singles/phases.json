@@ -1,0 +1,49 @@
+{
+  "event_id": 1688002,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2369670,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 25,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3420166,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2369671,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3420167,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2369672,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3420168,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
