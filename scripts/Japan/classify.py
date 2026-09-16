@@ -20,7 +20,8 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 8   # 8: 地理の出力を地域中立のキーに (place.geo / users_derived の geo, geo_reason)。単位の一覧は geo.py (2026-09-15)
+CLASSIFIER_VERSION = 9   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
+                         # 8:   # 8: 地理の出力を地域中立のキーに (place.geo / users_derived の geo, geo_reason)。単位の一覧は geo.py (2026-09-15)
                          # 7:   # 7: 身内判定から「合宿」を外した (スマサー合宿 #6-#8 等を通常大会として集計。2026-09-14)
                          # 6: is_offline (derive.py の共通部。attr.offline の写し) を追加 (2026-09-12)
                          #  # 5: naming (シリーズ名・開催回・実績ラベル・中止/テスト検出) を追加 (2026-09-09)   # 4: 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
@@ -152,6 +153,7 @@ UCHI_PATTERN = re.compile(
     r'|96\s*,?\s*97\s*年同世代オフ'
     r'|もつカップ'
     r'|帝国'                                         # 帝国オフ
+    r'|合宿'                                         # スマサー合宿等 (2026-09-14 に一度外し、09-16 にユーザー判断で戻した)
     r'|篝炎'                                          # 篝炎 in 炎メシハウス (= 身内, 篝火とは別)
     r'|炎メシハウス'
     r'|invitational'                                  # 招待制 (= RUST Invitational 等の英語名身内大会)
