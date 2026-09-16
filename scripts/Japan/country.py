@@ -193,6 +193,10 @@ COUNTRY_JA = {
 
 
 
+# start.gg country codes that belong to this region (attr.place.country_code). Events elsewhere are left out of the index.
+COUNTRY_CODES = frozenset({'JP'})
+
+
 def country_ja(name: str | None) -> str | None:
     """英語国名 → 日本語国名 (未収録はそのまま返す)。"""
     if not name:

@@ -18,6 +18,7 @@ time.tzset()
 
 from scripts.Japan import classify, country, geo, naming, prefecture
 from scripts.common.geo import validate_catalog
+from scripts.common import event_contract
 
 
 def jst(text: str) -> int:
@@ -361,3 +362,30 @@ class GeoCatalogTests(unittest.TestCase):
         self.assertTrue(any("cover" in e for e in validate_catalog(cat)))
         cat = geo.catalog(); cat["seed_groups"][0]["units"].append("火星")
         self.assertTrue(any("unknown unit" in e for e in validate_catalog(cat)))
+
+
+class RegionContractTests(unittest.TestCase):
+    """The build reads these keys and attributes without defaults; Japan must provide all of them."""
+
+    def test_japan_modules_meet_the_contract(self):
+        self.assertEqual(event_contract.check_region_modules("Japan"), [])
+        self.assertEqual(country.COUNTRY_CODES, frozenset({"JP"}))
+
+    def test_japan_event_output_meets_the_contract(self):
+        from types import SimpleNamespace
+        base = {"classifier_version": classify.CLASSIFIER_VERSION, "event_id": 1, "tournament_name": "篝火#18",
+                "event_name": "Singles", "num_entrants": 100, "is_class_virtual": False, "parent_event_id": None,
+                "class_letter": None, "is_offline": True, "results": {}}
+        ctx = SimpleNamespace(attr={"timestamp": 1_750_000_000, "end_timestamp": None, "num_entrants": 100,
+                                    "place": {"country_code": "JP", "city": "横浜市", "venue_address": ""}},
+                              tname="篝火#18", ename="Singles", phases=None, class_phase_files=[])
+        cur = classify.classify_event(base, ctx)
+        self.assertEqual(event_contract.check_event(cur), [])
+        self.assertEqual(cur["place"]["geo"], "神奈川県")
+
+    def test_check_event_reports_missing_keys(self):
+        cur = {"names": {"pre": False}, "calendar": None, "naming": {}, "place": {}}
+        errs = event_contract.check_event(cur)
+        self.assertTrue(any(e.startswith("names: missing") for e in errs))
+        self.assertTrue(any(e.startswith("naming: missing") for e in errs))
+        self.assertTrue(any(e.startswith("place: missing") for e in errs))
