@@ -1,0 +1,702 @@
+{
+ "region": "North_America",
+ "unit": "state",
+ "provisional": true,
+ "names": {
+  "en": "State / Province",
+  "ja": "州"
+ },
+ "units": [
+  {
+   "id": "AL",
+   "order": 1,
+   "name": {
+    "en": "Alabama",
+    "ja": "Alabama"
+   },
+   "group": "us"
+  },
+  {
+   "id": "AK",
+   "order": 2,
+   "name": {
+    "en": "Alaska",
+    "ja": "Alaska"
+   },
+   "group": "us"
+  },
+  {
+   "id": "AZ",
+   "order": 3,
+   "name": {
+    "en": "Arizona",
+    "ja": "Arizona"
+   },
+   "group": "us"
+  },
+  {
+   "id": "AR",
+   "order": 4,
+   "name": {
+    "en": "Arkansas",
+    "ja": "Arkansas"
+   },
+   "group": "us"
+  },
+  {
+   "id": "CA",
+   "order": 5,
+   "name": {
+    "en": "California",
+    "ja": "California"
+   },
+   "group": "us"
+  },
+  {
+   "id": "CO",
+   "order": 6,
+   "name": {
+    "en": "Colorado",
+    "ja": "Colorado"
+   },
+   "group": "us"
+  },
+  {
+   "id": "CT",
+   "order": 7,
+   "name": {
+    "en": "Connecticut",
+    "ja": "Connecticut"
+   },
+   "group": "us"
+  },
+  {
+   "id": "DE",
+   "order": 8,
+   "name": {
+    "en": "Delaware",
+    "ja": "Delaware"
+   },
+   "group": "us"
+  },
+  {
+   "id": "DC",
+   "order": 9,
+   "name": {
+    "en": "District of Columbia",
+    "ja": "District of Columbia"
+   },
+   "group": "us"
+  },
+  {
+   "id": "FL",
+   "order": 10,
+   "name": {
+    "en": "Florida",
+    "ja": "Florida"
+   },
+   "group": "us"
+  },
+  {
+   "id": "GA",
+   "order": 11,
+   "name": {
+    "en": "Georgia",
+    "ja": "Georgia"
+   },
+   "group": "us"
+  },
+  {
+   "id": "GU",
+   "order": 12,
+   "name": {
+    "en": "Guam",
+    "ja": "Guam"
+   },
+   "group": "us"
+  },
+  {
+   "id": "HI",
+   "order": 13,
+   "name": {
+    "en": "Hawaii",
+    "ja": "Hawaii"
+   },
+   "group": "us"
+  },
+  {
+   "id": "ID",
+   "order": 14,
+   "name": {
+    "en": "Idaho",
+    "ja": "Idaho"
+   },
+   "group": "us"
+  },
+  {
+   "id": "IL",
+   "order": 15,
+   "name": {
+    "en": "Illinois",
+    "ja": "Illinois"
+   },
+   "group": "us"
+  },
+  {
+   "id": "IN",
+   "order": 16,
+   "name": {
+    "en": "Indiana",
+    "ja": "Indiana"
+   },
+   "group": "us"
+  },
+  {
+   "id": "IA",
+   "order": 17,
+   "name": {
+    "en": "Iowa",
+    "ja": "Iowa"
+   },
+   "group": "us"
+  },
+  {
+   "id": "KS",
+   "order": 18,
+   "name": {
+    "en": "Kansas",
+    "ja": "Kansas"
+   },
+   "group": "us"
+  },
+  {
+   "id": "KY",
+   "order": 19,
+   "name": {
+    "en": "Kentucky",
+    "ja": "Kentucky"
+   },
+   "group": "us"
+  },
+  {
+   "id": "LA",
+   "order": 20,
+   "name": {
+    "en": "Louisiana",
+    "ja": "Louisiana"
+   },
+   "group": "us"
+  },
+  {
+   "id": "ME",
+   "order": 21,
+   "name": {
+    "en": "Maine",
+    "ja": "Maine"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MD",
+   "order": 22,
+   "name": {
+    "en": "Maryland",
+    "ja": "Maryland"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MA",
+   "order": 23,
+   "name": {
+    "en": "Massachusetts",
+    "ja": "Massachusetts"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MI",
+   "order": 24,
+   "name": {
+    "en": "Michigan",
+    "ja": "Michigan"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MN",
+   "order": 25,
+   "name": {
+    "en": "Minnesota",
+    "ja": "Minnesota"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MS",
+   "order": 26,
+   "name": {
+    "en": "Mississippi",
+    "ja": "Mississippi"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MO",
+   "order": 27,
+   "name": {
+    "en": "Missouri",
+    "ja": "Missouri"
+   },
+   "group": "us"
+  },
+  {
+   "id": "MT",
+   "order": 28,
+   "name": {
+    "en": "Montana",
+    "ja": "Montana"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NE",
+   "order": 29,
+   "name": {
+    "en": "Nebraska",
+    "ja": "Nebraska"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NV",
+   "order": 30,
+   "name": {
+    "en": "Nevada",
+    "ja": "Nevada"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NH",
+   "order": 31,
+   "name": {
+    "en": "New Hampshire",
+    "ja": "New Hampshire"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NJ",
+   "order": 32,
+   "name": {
+    "en": "New Jersey",
+    "ja": "New Jersey"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NM",
+   "order": 33,
+   "name": {
+    "en": "New Mexico",
+    "ja": "New Mexico"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NY",
+   "order": 34,
+   "name": {
+    "en": "New York",
+    "ja": "New York"
+   },
+   "group": "us"
+  },
+  {
+   "id": "NC",
+   "order": 35,
+   "name": {
+    "en": "North Carolina",
+    "ja": "North Carolina"
+   },
+   "group": "us"
+  },
+  {
+   "id": "ND",
+   "order": 36,
+   "name": {
+    "en": "North Dakota",
+    "ja": "North Dakota"
+   },
+   "group": "us"
+  },
+  {
+   "id": "OH",
+   "order": 37,
+   "name": {
+    "en": "Ohio",
+    "ja": "Ohio"
+   },
+   "group": "us"
+  },
+  {
+   "id": "OK",
+   "order": 38,
+   "name": {
+    "en": "Oklahoma",
+    "ja": "Oklahoma"
+   },
+   "group": "us"
+  },
+  {
+   "id": "OR",
+   "order": 39,
+   "name": {
+    "en": "Oregon",
+    "ja": "Oregon"
+   },
+   "group": "us"
+  },
+  {
+   "id": "PA",
+   "order": 40,
+   "name": {
+    "en": "Pennsylvania",
+    "ja": "Pennsylvania"
+   },
+   "group": "us"
+  },
+  {
+   "id": "PR",
+   "order": 41,
+   "name": {
+    "en": "Puerto Rico",
+    "ja": "Puerto Rico"
+   },
+   "group": "us"
+  },
+  {
+   "id": "RI",
+   "order": 42,
+   "name": {
+    "en": "Rhode Island",
+    "ja": "Rhode Island"
+   },
+   "group": "us"
+  },
+  {
+   "id": "SC",
+   "order": 43,
+   "name": {
+    "en": "South Carolina",
+    "ja": "South Carolina"
+   },
+   "group": "us"
+  },
+  {
+   "id": "SD",
+   "order": 44,
+   "name": {
+    "en": "South Dakota",
+    "ja": "South Dakota"
+   },
+   "group": "us"
+  },
+  {
+   "id": "TN",
+   "order": 45,
+   "name": {
+    "en": "Tennessee",
+    "ja": "Tennessee"
+   },
+   "group": "us"
+  },
+  {
+   "id": "TX",
+   "order": 46,
+   "name": {
+    "en": "Texas",
+    "ja": "Texas"
+   },
+   "group": "us"
+  },
+  {
+   "id": "VI",
+   "order": 47,
+   "name": {
+    "en": "U.S. Virgin Islands",
+    "ja": "U.S. Virgin Islands"
+   },
+   "group": "us"
+  },
+  {
+   "id": "UT",
+   "order": 48,
+   "name": {
+    "en": "Utah",
+    "ja": "Utah"
+   },
+   "group": "us"
+  },
+  {
+   "id": "VT",
+   "order": 49,
+   "name": {
+    "en": "Vermont",
+    "ja": "Vermont"
+   },
+   "group": "us"
+  },
+  {
+   "id": "VA",
+   "order": 50,
+   "name": {
+    "en": "Virginia",
+    "ja": "Virginia"
+   },
+   "group": "us"
+  },
+  {
+   "id": "WA",
+   "order": 51,
+   "name": {
+    "en": "Washington",
+    "ja": "Washington"
+   },
+   "group": "us"
+  },
+  {
+   "id": "WV",
+   "order": 52,
+   "name": {
+    "en": "West Virginia",
+    "ja": "West Virginia"
+   },
+   "group": "us"
+  },
+  {
+   "id": "WI",
+   "order": 53,
+   "name": {
+    "en": "Wisconsin",
+    "ja": "Wisconsin"
+   },
+   "group": "us"
+  },
+  {
+   "id": "WY",
+   "order": 54,
+   "name": {
+    "en": "Wyoming",
+    "ja": "Wyoming"
+   },
+   "group": "us"
+  },
+  {
+   "id": "AB",
+   "order": 55,
+   "name": {
+    "en": "Alberta",
+    "ja": "Alberta"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "BC",
+   "order": 56,
+   "name": {
+    "en": "British Columbia",
+    "ja": "British Columbia"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "MB",
+   "order": 57,
+   "name": {
+    "en": "Manitoba",
+    "ja": "Manitoba"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "NB",
+   "order": 58,
+   "name": {
+    "en": "New Brunswick",
+    "ja": "New Brunswick"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "NL",
+   "order": 59,
+   "name": {
+    "en": "Newfoundland and Labrador",
+    "ja": "Newfoundland and Labrador"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "NT",
+   "order": 60,
+   "name": {
+    "en": "Northwest Territories",
+    "ja": "Northwest Territories"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "NS",
+   "order": 61,
+   "name": {
+    "en": "Nova Scotia",
+    "ja": "Nova Scotia"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "NU",
+   "order": 62,
+   "name": {
+    "en": "Nunavut",
+    "ja": "Nunavut"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "ON",
+   "order": 63,
+   "name": {
+    "en": "Ontario",
+    "ja": "Ontario"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "PE",
+   "order": 64,
+   "name": {
+    "en": "Prince Edward Island",
+    "ja": "Prince Edward Island"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "QC",
+   "order": 65,
+   "name": {
+    "en": "Quebec",
+    "ja": "Quebec"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "SK",
+   "order": 66,
+   "name": {
+    "en": "Saskatchewan",
+    "ja": "Saskatchewan"
+   },
+   "group": "ca"
+  },
+  {
+   "id": "YT",
+   "order": 67,
+   "name": {
+    "en": "Yukon",
+    "ja": "Yukon"
+   },
+   "group": "ca"
+  }
+ ],
+ "groups": [
+  {
+   "id": "us",
+   "name": {
+    "en": "United States",
+    "ja": "アメリカ合衆国"
+   },
+   "units": [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "GU",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "PR",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "VI",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY"
+   ]
+  },
+  {
+   "id": "ca",
+   "name": {
+    "en": "Canada",
+    "ja": "カナダ"
+   },
+   "units": [
+    "AB",
+    "BC",
+    "MB",
+    "NB",
+    "NL",
+    "NT",
+    "NS",
+    "NU",
+    "ON",
+    "PE",
+    "QC",
+    "SK",
+    "YT"
+   ]
+  }
+ ],
+ "seed_groups": []
+}
