@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1703922,
   "tournament_name": "4o4 by Sh33rZ: Weekly Smash #114",
   "event_name": "Singles 8pm",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "GA",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "4o4 by Sh33rZ: Weekly Smash",
+    "series_number": 114,
+    "award_label": "4o4 by Sh33rZ: Weekly Smash",
+    "individual_label": "4o4 by Sh33rZ: Weekly Smash #114",
+    "cancelled": false,
+    "test_page": false
   }
 }

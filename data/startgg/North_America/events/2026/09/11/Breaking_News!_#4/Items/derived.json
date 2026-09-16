@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1700056,
   "tournament_name": "Breaking News! #4",
   "event_name": "Items",
@@ -22,12 +22,20 @@
     "timezone": "America/Los_Angeles",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "NV",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Breaking News!",
+    "series_number": 4,
+    "award_label": "Breaking News!",
+    "individual_label": "Breaking News! #4",
+    "cancelled": false,
+    "test_page": false
   }
 }

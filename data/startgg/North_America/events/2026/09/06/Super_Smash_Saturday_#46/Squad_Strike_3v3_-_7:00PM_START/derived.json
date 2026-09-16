@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1702196,
   "tournament_name": "Super Smash Saturday #46",
   "event_name": "Squad Strike 3v3 - 7:00PM START",
@@ -22,12 +22,20 @@
     "timezone": "America/Los_Angeles",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "CA",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Super Smash Saturday",
+    "series_number": 46,
+    "award_label": "Super Smash Saturday",
+    "individual_label": "Super Smash Saturday #46",
+    "cancelled": false,
+    "test_page": false
   }
 }

@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1698045,
   "tournament_name": "Mass Mayhem #12",
   "event_name": "Ultimate Singles ($50 Pot Bonus)",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "DC",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Mass Mayhem",
+    "series_number": 12,
+    "award_label": "Mass Mayhem",
+    "individual_label": "Mass Mayhem #12",
+    "cancelled": false,
+    "test_page": false
   }
 }

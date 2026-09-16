@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1654816,
   "tournament_name": "Evergreen Smash #40: The Furious Forty",
   "event_name": "Kids Bracket",
@@ -22,12 +22,20 @@
     "timezone": "America/Denver",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "CO",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Evergreen Smash #40: The Furious Forty",
+    "series_number": null,
+    "award_label": "Evergreen Smash #40: The Furious Forty",
+    "individual_label": "Evergreen Smash #40: The Furious Forty",
+    "cancelled": false,
+    "test_page": false
   }
 }

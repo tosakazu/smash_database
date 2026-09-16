@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1700464,
   "tournament_name": "AKH Presents... SSBU Shrimp Tank #9: Shrimple And Clean",
   "event_name": "Ultimate Singles",
@@ -22,12 +22,20 @@
     "timezone": "America/Los_Angeles",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "CA",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "AKH Presents... SSBU Shrimp Tank #9: Shrimple And Clean",
+    "series_number": null,
+    "award_label": "AKH Presents... SSBU Shrimp Tank #9: Shrimple And Clean",
+    "individual_label": "AKH Presents... SSBU Shrimp Tank #9: Shrimple And Clean",
+    "cancelled": false,
+    "test_page": false
   }
 }

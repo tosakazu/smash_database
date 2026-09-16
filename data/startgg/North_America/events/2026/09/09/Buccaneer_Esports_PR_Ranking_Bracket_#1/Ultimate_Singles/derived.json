@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1704531,
   "tournament_name": "Buccaneer Esports PR Ranking Bracket #1",
   "event_name": "Ultimate Singles",
@@ -22,12 +22,20 @@
     "timezone": "America/Chicago",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "WI",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Buccaneer Esports PR Ranking Bracket",
+    "series_number": 1,
+    "award_label": "Buccaneer Esports PR Ranking Bracket",
+    "individual_label": "Buccaneer Esports PR Ranking Bracket #1",
+    "cancelled": false,
+    "test_page": false
   }
 }

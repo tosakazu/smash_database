@@ -48,8 +48,10 @@ import functools
 import re
 
 from scripts.common.region import class_phase_group_ids
+from scripts.North_America import naming as _naming
 
-CLASSIFIER_VERSION = 10  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
+CLASSIFIER_VERSION = 11  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
+                         # 10:  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
                          # 9:   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
                          # 8:   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
                          # 7: Arcadian (tournaments that players on the PR may not enter) is no longer excluded from 1on1; it is flagged via names.restricted instead
@@ -62,6 +64,10 @@ CLASSIFIER_VERSION = 10  # 10: geography keys are region-neutral (place.geo / us
 # North America spans several time zones. Use the event's place.timezone when present,
 # and fall back to this default only when it is missing (derive.py also sets the process TZ to this value).
 TIMEZONE = "America/New_York"
+# Thresholds the ranking build reads for two Japan-only rules. North America has neither rule (names.smacomi and
+# calendar.is_force_weekend_period are always False), so the values never take effect; they exist for the contract.
+SMACOMI_FORCE_WEEKDAY_MAX_NENT = 0
+FORCE_WEEKEND_MIN_NENT = 0
 
 
 def check_requirements() -> None:
@@ -289,6 +295,7 @@ def calendar_flags(timestamp: int, end_timestamp: int | None, place: dict | None
         "country_code": cc,
         "holidays": holidays_source(cc),      # which country's holiday table was applied (None = none applied)
         "is_weekend_real": is_weekend_range(d, end_d, cc),
+        "is_force_weekend_period": False,   # no rule yet (Japan treats Obon / New Year as holidays for big events)
     }
 
 
@@ -324,11 +331,20 @@ RESTRICTED_PATTERN = re.compile(r'(?<![A-Za-z])arcadian(?![A-Za-z])', re.IGNOREC
 
 def name_flags(tname: str, ename: str) -> dict:
     """Flags decided from the tournament name and event name. As in Japan, restricted is kept separately for the tournament name and the event name
-    (so that a main bracket held at the same time is not swept in). Pre-tournaments, special rules, etc. are not defined yet."""
+    (so that a main bracket held at the same time is not swept in). The keys are the build's contract
+    (scripts/common/event_contract.py NAMES_KEYS); the ones this region has no rule for are False ("no rule"),
+    never omitted: pre-tournaments, special rules, invitationals (uchi), smapa / smacomi / force_weekday (Japan-only series rules)."""
     return {
         "lower_class": bool(LOWER_CLASS_EVENT_PATTERN.search(tname or '') or LOWER_CLASS_EVENT_PATTERN.search(ename or '')),
         "restricted_tname": bool(RESTRICTED_PATTERN.search(tname or '')),
         "restricted_ename": bool(RESTRICTED_PATTERN.search(ename or '')),
+        "special_rules": False,   # no rule yet (item / stamina / random-select events are still counted as singles)
+        "uchi": False,            # no rule yet (invitationals / closed events)
+        "non_serious": False,     # = special_rules or uchi
+        "pre": False,             # no rule yet (pre-tournaments held the day before a major)
+        "smapa": False,           # Japan-only series rule
+        "force_weekday": False,   # Japan-only series rule
+        "smacomi": False,         # Japan-only series rule
     }
 
 
@@ -494,6 +510,7 @@ def classify_event(base: dict, ctx) -> dict:
         "names": name_flags(ctx.tname, ctx.ename),
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
         "place": place_state(ctx.attr.get("place")),   # PROVISIONAL (see Geography)
+        "naming": _naming.naming_labels(ctx.tname, ctx.ename),   # PROVISIONAL (naming.py)
     })
     return out
 

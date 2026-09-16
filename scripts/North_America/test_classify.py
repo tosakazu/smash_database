@@ -215,3 +215,49 @@ class ProvisionalGeographyTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ContractAndNamingTests(unittest.TestCase):
+    """The build reads the whole contract (scripts/common/event_contract.py); North America must provide it, provisionally."""
+
+    def test_region_modules_meet_the_contract(self):
+        from scripts.common import event_contract
+        self.assertEqual(event_contract.check_region_modules("North_America"), [])
+
+    def test_event_output_meets_the_contract(self):
+        from types import SimpleNamespace
+        from scripts.common import event_contract
+        base = {"classifier_version": na.CLASSIFIER_VERSION, "event_id": 1, "tournament_name": "Smash Night #12",
+                "event_name": "Ultimate Singles", "num_entrants": 40, "is_class_virtual": False, "parent_event_id": None,
+                "class_letter": None, "is_offline": True, "results": {}}
+        ctx = SimpleNamespace(attr={"timestamp": 1_757_000_000, "end_timestamp": None, "num_entrants": 40,
+                                    "place": {"country_code": "US", "city": "Austin", "venue_address": "1 Main St, Austin, TX 78701, USA",
+                                              "timezone": "America/Chicago"}},
+                              tname="Smash Night #12", ename="Ultimate Singles", phases=None, class_phase_files=[])
+        cur = na.classify_event(base, ctx)
+        self.assertEqual(event_contract.check_event(cur), [])
+        self.assertEqual(cur["place"]["geo"], "TX")
+        self.assertEqual(cur["naming"]["series"], "Smash Night")
+        self.assertEqual(cur["naming"]["series_number"], 12)
+        self.assertFalse(cur["names"]["pre"]); self.assertFalse(cur["calendar"]["is_force_weekend_period"])
+
+    def test_naming_strips_trailing_numbers_only(self):
+        from scripts.North_America import naming
+        for name, series, num in (("Smash Night #12", "Smash Night", 12), ("Weekly 45", "Weekly", 45),
+                                  ("Genesis 9", "Genesis", 9), ("Frosty Faustings XVII", "Frosty Faustings XVII", None),
+                                  ("Super Smash Con 2026", "Super Smash Con", 2026), ("Arcadian Vol. 3", "Arcadian", 3),
+                                  ("Week 5: Melee & Ultimate", "Week 5: Melee & Ultimate", None)):
+            self.assertEqual((naming.tournament_series(name), naming.tournament_series_number(name)), (series, num), name)
+        self.assertTrue(naming.is_cancelled("Smash Night #12 (CANCELLED)"))
+        self.assertFalse(naming.is_cancelled("Smash Night #12"))
+        self.assertTrue(naming.is_test_page("test tournament"))
+        self.assertFalse(naming.is_test_page("Contest of Champions"))
+
+    def test_country_module(self):
+        from scripts.North_America import country
+        self.assertIn("US", country.COUNTRY_CODES)
+        self.assertFalse(country.is_overseas_country("United States"))
+        self.assertFalse(country.is_overseas_country("Canada"))
+        self.assertTrue(country.is_overseas_country("Japan"))
+        self.assertFalse(country.is_overseas_country(None))
+        self.assertEqual(country.country_ja("Canada"), "Canada")

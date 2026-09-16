@@ -1,0 +1,4 @@
+{
+  "_comment": "Merges of several start.gg accounts into one uid (hand-kept). old -> new. Read by the ranking build (data_loader.apply_user_merges) and copied to site/data/user_merges.json for the seeding tool. Chains (A->B, B->C) are resolved by the reader.",
+  "merges": []
+}\n

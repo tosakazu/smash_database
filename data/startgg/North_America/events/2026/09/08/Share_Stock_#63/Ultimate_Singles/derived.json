@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1703251,
   "tournament_name": "Share Stock #63",
   "event_name": "Ultimate Singles",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "MD",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Share Stock",
+    "series_number": 63,
+    "award_label": "Share Stock",
+    "individual_label": "Share Stock #63",
+    "cancelled": false,
+    "test_page": false
   }
 }

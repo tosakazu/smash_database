@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1702412,
   "tournament_name": "THE PINK FLAMINGO SMASH WEEKLY #38",
   "event_name": "Smash Bros Ultimate Tournament 2v2",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "CT",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "THE PINK FLAMINGO SMASH WEEKLY",
+    "series_number": 38,
+    "award_label": "THE PINK FLAMINGO SMASH WEEKLY",
+    "individual_label": "THE PINK FLAMINGO SMASH WEEKLY #38",
+    "cancelled": false,
+    "test_page": false
   }
 }

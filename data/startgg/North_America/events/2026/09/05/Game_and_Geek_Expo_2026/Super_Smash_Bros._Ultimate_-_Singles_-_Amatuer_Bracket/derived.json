@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1654388,
   "tournament_name": "Game and Geek Expo 2026",
   "event_name": "Super Smash Bros. Ultimate - Singles - Amatuer Bracket",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "NC",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Game and Geek Expo",
+    "series_number": 2026,
+    "award_label": "Game and Geek Expo",
+    "individual_label": "Game and Geek Expo 2026",
+    "cancelled": false,
+    "test_page": false
   }
 }

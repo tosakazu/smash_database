@@ -1,5 +1,5 @@
 {
-  "classifier_version": 10,
+  "classifier_version": 11,
   "event_id": 1696982,
   "tournament_name": "Pocono Stadium 14: Now With Extra Furries",
   "event_name": "Main Bracket: Smash Bros. Ultimate Singles",
@@ -22,12 +22,20 @@
     "timezone": "America/New_York",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
@@ -37,5 +45,13 @@
     "geo": "PA",
     "geo_reason": "venue_address",
     "provisional": true
+  },
+  "naming": {
+    "series": "Pocono Stadium 14: Now With Extra Furries",
+    "series_number": null,
+    "award_label": "Pocono Stadium 14: Now With Extra Furries",
+    "individual_label": "Pocono Stadium 14: Now With Extra Furries",
+    "cancelled": false,
+    "test_page": false
   }
 }
