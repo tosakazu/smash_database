@@ -86,8 +86,8 @@ class RulesTests(unittest.TestCase):
         # 1/2 is not a public holiday in any of these countries, so it stays a weekday.
         self.assertFalse(na.is_weekend_date(dt.date(2026, 1, 2), "US"))
         self.assertFalse(na.is_weekend_date(dt.date(2026, 8, 14), "US"))    # likewise for Obon
-        self.assertNotIn("is_force_weekend_period",
-                         na.calendar_flags(int(dt.datetime(2026, 1, 2, 12).timestamp()), None, None))
+        # The key is part of the build's contract (event_contract.CALENDAR_KEYS); the rule itself does not exist here, so it is always False.
+        self.assertFalse(na.calendar_flags(int(dt.datetime(2026, 1, 2, 12).timestamp()), None, None)["is_force_weekend_period"])
 
     def test_calendar_flags_record_the_country(self):
         ts = int(dt.datetime(2026, 11, 26, 12, tzinfo=ZoneInfo("America/New_York")).timestamp())
