@@ -1,4 +1,4 @@
 {
   "_doc": "Events that were postponed or interrupted and will resume later. Listed events are counted with their results so far (completed sets, settled placements) even though there is no champion yet, and are re-fetched on every run until a champion appears. Once complete they are treated normally (the entry may stay as history).",
   "events": []
-}\n
+}
