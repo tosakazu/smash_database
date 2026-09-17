@@ -418,7 +418,9 @@ When the backfill is done, the daily runner (section 6.1) keeps the head current
 
 `scripts/North_America/classify.py` (judgements), `naming.py` (labels from tournament names), `country.py`
 (countries of the region) and `geo.py` (the catalogue of geographic units) are the only places region knowledge
-lives. The ranking build reads their output without defaults, so all four must exist and provide everything in
+lives. **Region modules live on the region's data branch only** (Japan's `scripts/Japan/` on `data-Japan`,
+yours on `data-North_America`, since 2026-09-17); `main` carries `scripts/common/` and the region-neutral tests
+in `scripts/test/`. Japan's module is the reference implementation; read it on `data-Japan`. The ranking build reads their output without defaults, so all four must exist and provide everything in
 `scripts/common/event_contract.py` (`derive.py` checks it and stops otherwise; a rule the region does not have
 is declared with its "no rule" value, e.g. `pre: False`). `classify.py` declares:
 
