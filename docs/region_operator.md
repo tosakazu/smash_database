@@ -178,7 +178,9 @@ build reads instead of re-deciding anything. For North America (`classifier_vers
 | `names` | flags from the names: `lower_class` (the event itself is a lower bracket — "Redemption Bracket", "Novice …"), `restricted_tname` / `restricted_ename` (entry is restricted — Arcadian; kept separately for tournament and event name so a co-hosted main event is not affected) |
 | `class_bracket` | `all_phases_class` (every phase is a class bracket — the whole event is one) and `phase_group_ids` of the class-bracket pools, so consumers can leave those sets out of the main bracket |
 
-Japan's file has more (`naming`, `place.prefecture`, more `names`); a field missing in
+| `place` | `geo`: the geographic unit of the venue — a unit id from `geo.json` (Japan: the prefecture name, North America: the state / province code, provisional). North America adds `geo_reason` and `provisional: true` |
+
+Japan's file has more (`naming`, more `names`); a field missing in
 North America simply has no rule yet.
 
 ### 4.2 Class brackets (`phases.json`, `class_phases/`)
@@ -213,7 +215,8 @@ occur:
 | `done_events.csv` | Same for events imported by hand with `download_specific_event.py` |
 | `tournaments.jsonl` | One line per tournament: `tournament_id`, `name`, `events: [{event_id, event_name, path}]`, `version`. The `path` is how every tool finds the event directory |
 | `users.jsonl` | One line per player who appears in any downloaded event: `user_id`, `player_id`, `gamer_tag`, `prefix` (team tag), `gender_pronoun`, `startgg_discriminator`, `country`, `addr_state`, `city`, `x_id`, `x_name`, `discord_id`, `discord_name`, `version`. All of it is what the player made public on their start.gg profile. New players are appended; a player whose profile changed is updated in place (the whole file is rewritten) |
-| `users_derived.jsonl` | Per-player judgements from `users.jsonl`. Japan derives the prefecture from `city`; North America has no per-player rule yet, so the file is empty |
+| `users_derived.jsonl` | Per-player judgements from `users.jsonl`: `geo` (a unit id from `geo.json`) and `geo_reason`. Japan derives the prefecture from `city`; North America writes a **provisional** state / province (from a short table of unambiguous cities or a "City, ST" suffix; `null` with a reason when it could not tell, plus `provisional: true`) |
+| `geo.json` | The region's catalogue of geographic units, written by `derive.py` from `scripts/<Region>/geo.py`: `region`, `unit` (prefecture / state), `provisional`, `names{lang}`, `units[{id, order, name{lang}, group}]` (listing order), `groups[{id, name, units}]` (an exhaustive partition — 地方 / country), `seed_groups[{id, name, units, default}]` (merges the seeding tool offers). Unit ids are exactly the values that appear in `place.geo` and `users_derived.jsonl`. The ranking build copies it to the site as-is; nothing downstream keeps its own list of units |
 | `upcoming.json` | `{generated_at, country_code, country_codes, lookahead_days, count, tournaments: [...]}` — tournaments of every country given to the run (`country_codes`; `country_code` is the same list as one string, `"US,CA"`) starting in the next 21 days, merged and ordered by start time, each with `tournament_id`, `tournament_slug`, `tournament_name`, `start_at`, `end_at`, `is_online`, `city`, `venue_name`, `country_code`, `num_attendees`, `url`, `events: [{event_id, event_slug, event_name, num_entrants, type, start_at}]`. Rewritten every run (it is a snapshot, not history) |
 | `validation_baseline.json` | `{updated_at, counts: {<kind>: n}}` — how many events currently show each known kind of inconsistency (section 5.5). The run compares against it and rewrites it when the counts drift within tolerance |
 
@@ -413,8 +416,13 @@ When the backfill is done, the daily runner (section 6.1) keeps the head current
 
 ## 7. Changing the rules for your region
 
-`scripts/North_America/classify.py` is the only place region knowledge lives. It
-declares:
+`scripts/North_America/classify.py` (judgements), `naming.py` (labels from tournament names), `country.py`
+(countries of the region) and `geo.py` (the catalogue of geographic units) are the only places region knowledge
+lives. **Region modules live on the region's data branch only** (Japan's `scripts/Japan/` on `data-Japan`,
+yours on `data-North_America`, since 2026-09-17); `main` carries `scripts/common/` and the region-neutral tests
+in `scripts/test/`. Japan's module is the reference implementation; read it on `data-Japan`. The ranking build reads their output without defaults, so all four must exist and provide everything in
+`scripts/common/event_contract.py` (`derive.py` checks it and stops otherwise; a rule the region does not have
+is declared with its "no rule" value, e.g. `pre: False`). `classify.py` declares:
 
 | Name | Decides |
 |---|---|
@@ -425,13 +433,21 @@ declares:
 | `LOWER_CLASS_EVENT_PATTERN`, `RESTRICTED_PATTERN` → `name_flags()` | `names.lower_class`, `names.restricted_*` |
 | `CLASS_LETTERS`, `CLASS_PHASE_PATTERN`, `CLASS_LETTER_PATTERN` → `is_class_phase()`, `class_letter()`, `class_virtual_event_name()` | What a class bracket phase is called and how its virtual event is named. Append to `CLASS_LETTERS`, never reorder |
 | `upcoming_flags()` | The same judgements for `upcoming.json` entries (only names and a start time exist yet) |
-| `classify_user()` | Per-player judgements → `users_derived.jsonl` (returns `None` for now) |
+| `classify_user()` | Per-player judgements → `users_derived.jsonl` (`geo`, `geo_reason`). **Provisional**: the state / province from the `city` text via `CITY_STATE_PROVISIONAL` (unambiguous large cities only) or a "City, ST" suffix; players from countries without units (Mexico …) get no line |
+| `place_state()` → `place.geo` | **Provisional**: the venue's state / province from the postal form of `venue_address`; a code that is not a unit of the venue's country is rejected |
+| `scripts/North_America/geo.py` → `catalog()` | The catalogue of units (`geo.json`, see section 5): ids, names per language, listing order, groups, seeding merges. **Required for every region**; `derive.py` checks the contract and stops on a violation |
 
 What is deliberately *not* there: anything Japanese. お盆 / 年末年始 as weekends,
 Japanese name patterns, prefectures — North America starts from what was verified on
 its own data (a week of the US: Redemption is the class bracket, Arcadian is a
 restricted tournament) and grows from there. Provincial / state holidays are not in
-yet because `attr.place` has no state field.
+yet; `place.state` now exists provisionally, so only the holiday table is missing.
+
+**Geography is provisional (2026-09-15).** The state / province rules were added so that the build and the site
+have something to show. They are a stopgap, not a decision: which unit to rank by (state, province, or a competitive
+region such as SoCal / NorCal), how to resolve ambiguous city names (Columbia, Portland, Richmond, Columbus,
+Springfield are deliberately unresolved), and whether Mexico gets units are yours to decide. Every derived value
+carries `provisional: true` and a `state_reason`, so you can grep for what the stopgap produced and replace it.
 
 The module and its tests (`scripts/North_America/test_classify.py`) live on your
 branch only, so a change is an ordinary commit — no pull request, nobody to wait for:

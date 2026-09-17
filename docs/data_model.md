@@ -228,7 +228,7 @@ The spsp loader reads these virtual directories as regular tournaments.
 
 Written by `scripts/common/derive.py` for every event directory (virtual class events
 included). It holds the judgements that consumers used to re-derive from the raw files;
-the rules are in `scripts/Japan/classify.py` and `classifier_version` records which rule
+the rules are in the region module (`scripts/Japan/classify.py` on the `data-Japan` branch; region modules are not on `main`) and `classifier_version` records which rule
 set produced the file. The file is a sidecar: raw files are never rewritten, and it is
 rewritten only when its content changes (so its mtime is stable). When `classify.py`
 changes, bump `CLASSIFIER_VERSION` and run `derive.py --region Japan --all`.
