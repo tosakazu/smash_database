@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1675783,
   "tournament_name": "NOS Édition: Fantasia (FFIV) [POT PRIZE $200]",
   "event_name": "Nitro Sparked Singlez",
@@ -22,15 +22,36 @@
     "timezone": "America/Chicago",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": "TX",
+    "geo_reason": "venue_address",
+    "provisional": true
+  },
+  "naming": {
+    "series": "NOS Édition: Fantasia (FFIV) [POT PRIZE $200]",
+    "series_number": null,
+    "award_label": "NOS Édition: Fantasia (FFIV) [POT PRIZE $200]",
+    "individual_label": "NOS Édition: Fantasia (FFIV) [POT PRIZE $200]",
+    "cancelled": false,
+    "test_page": false
   }
 }

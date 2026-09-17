@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1707407,
   "tournament_name": "Run it Back #88",
   "event_name": "Ultimate Singles",
@@ -22,15 +22,36 @@
     "timezone": "America/Chicago",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": "TX",
+    "geo_reason": "venue_address",
+    "provisional": true
+  },
+  "naming": {
+    "series": "Run it Back",
+    "series_number": 88,
+    "award_label": "Run it Back",
+    "individual_label": "Run it Back #88",
+    "cancelled": false,
+    "test_page": false
   }
 }

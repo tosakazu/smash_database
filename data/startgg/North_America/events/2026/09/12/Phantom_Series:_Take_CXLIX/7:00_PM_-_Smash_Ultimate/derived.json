@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1706011,
   "tournament_name": "Phantom Series: Take CXLIX",
   "event_name": "7:00 PM - Smash Ultimate",
@@ -22,15 +22,36 @@
     "timezone": "America/Vancouver",
     "country_code": "CA",
     "holidays": "CA",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": "BC",
+    "geo_reason": "venue_address",
+    "provisional": true
+  },
+  "naming": {
+    "series": "Phantom Series: Take CXLIX",
+    "series_number": null,
+    "award_label": "Phantom Series: Take CXLIX",
+    "individual_label": "Phantom Series: Take CXLIX",
+    "cancelled": false,
+    "test_page": false
   }
 }

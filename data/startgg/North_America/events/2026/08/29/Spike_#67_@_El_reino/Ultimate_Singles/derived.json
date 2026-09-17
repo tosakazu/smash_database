@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1689694,
   "tournament_name": "Spike #67 @ El reino",
   "event_name": "Ultimate Singles",
@@ -22,15 +22,36 @@
     "timezone": "America/Mexico_City",
     "country_code": "MX",
     "holidays": "MX",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": null,
+    "geo_reason": "unresolved",
+    "provisional": true
+  },
+  "naming": {
+    "series": "Spike #67 @ El reino",
+    "series_number": null,
+    "award_label": "Spike #67 @ El reino",
+    "individual_label": "Spike #67 @ El reino",
+    "cancelled": false,
+    "test_page": false
   }
 }

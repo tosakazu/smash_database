@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1708193,
   "tournament_name": "BFA, SAF: Amateur - Choza de Pequeñines #12",
   "event_name": "Singles Amateur - Choza de Pequeñines",
@@ -22,15 +22,36 @@
     "timezone": "America/Monterrey",
     "country_code": "MX",
     "holidays": "MX",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": true,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": null,
+    "geo_reason": "unresolved",
+    "provisional": true
+  },
+  "naming": {
+    "series": "BFA, SAF: Amateur - Choza de Pequeñines",
+    "series_number": 12,
+    "award_label": "BFA, SAF: Amateur - Choza de Pequeñines",
+    "individual_label": "BFA, SAF: Amateur - Choza de Pequeñines #12",
+    "cancelled": false,
+    "test_page": false
   }
 }

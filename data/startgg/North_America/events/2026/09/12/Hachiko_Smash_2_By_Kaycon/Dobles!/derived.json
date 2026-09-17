@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1702283,
   "tournament_name": "Hachiko Smash 2 By Kaycon",
   "event_name": "Dobles!",
@@ -22,15 +22,36 @@
     "timezone": "America/Mexico_City",
     "country_code": "MX",
     "holidays": "MX",
-    "is_weekend_real": true
+    "is_weekend_real": true,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": null,
+    "geo_reason": "unresolved",
+    "provisional": true
+  },
+  "naming": {
+    "series": "Hachiko Smash 2 By Kaycon",
+    "series_number": null,
+    "award_label": "Hachiko Smash 2 By Kaycon",
+    "individual_label": "Hachiko Smash 2 By Kaycon",
+    "cancelled": false,
+    "test_page": false
   }
 }

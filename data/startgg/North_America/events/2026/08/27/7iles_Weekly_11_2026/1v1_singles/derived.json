@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1690784,
   "tournament_name": "7iles Weekly 11 2026",
   "event_name": "1v1 singles",
@@ -22,15 +22,36 @@
     "timezone": "America/Toronto",
     "country_code": "CA",
     "holidays": "CA",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": "QC",
+    "geo_reason": "venue_address",
+    "provisional": true
+  },
+  "naming": {
+    "series": "7iles Weekly 11",
+    "series_number": 2026,
+    "award_label": "7iles Weekly 11",
+    "individual_label": "7iles Weekly 11 2026",
+    "cancelled": false,
+    "test_page": false
   }
 }

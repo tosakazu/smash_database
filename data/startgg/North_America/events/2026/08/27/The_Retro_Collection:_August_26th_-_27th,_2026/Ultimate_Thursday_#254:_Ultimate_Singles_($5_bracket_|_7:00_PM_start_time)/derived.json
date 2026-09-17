@@ -1,5 +1,5 @@
 {
-  "classifier_version": 8,
+  "classifier_version": 11,
   "event_id": 1694482,
   "tournament_name": "The Retro Collection: August 26th - 27th, 2026",
   "event_name": "Ultimate Thursday #254: Ultimate Singles ($5 bracket | 7:00 PM start time)",
@@ -22,15 +22,36 @@
     "timezone": "America/Los_Angeles",
     "country_code": "US",
     "holidays": "US",
-    "is_weekend_real": false
+    "is_weekend_real": false,
+    "is_force_weekend_period": false
   },
   "names": {
     "lower_class": false,
     "restricted_tname": false,
-    "restricted_ename": false
+    "restricted_ename": false,
+    "special_rules": false,
+    "uchi": false,
+    "non_serious": false,
+    "pre": false,
+    "smapa": false,
+    "force_weekday": false,
+    "smacomi": false
   },
   "class_bracket": {
     "all_phases_class": false,
     "phase_group_ids": []
+  },
+  "place": {
+    "geo": "WA",
+    "geo_reason": "venue_address",
+    "provisional": true
+  },
+  "naming": {
+    "series": "The Retro Collection: August 26th - 27th,",
+    "series_number": 2026,
+    "award_label": "The Retro Collection: August 26th - 27th,",
+    "individual_label": "The Retro Collection: August 26th - 27th, 2026",
+    "cancelled": false,
+    "test_page": false
   }
 }
