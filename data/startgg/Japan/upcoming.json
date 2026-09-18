@@ -1,11 +1,11 @@
 {
-  "generated_at": 1789732957,
+  "generated_at": 1789743772,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 40,
+  "count": 41,
   "tournaments": [
     {
       "tournament_id": 944221,
@@ -247,14 +247,14 @@
       "city": "立川市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 16,
       "url": "/tournament/sumao2026-19",
       "events": [
         {
           "event_id": 1710783,
           "event_slug": "tournament/sumao2026-19/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 14,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1789533000
         }
@@ -408,14 +408,14 @@
       "city": "四日市市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 22,
+      "num_attendees": 25,
       "url": "/tournament/quattro-7",
       "events": [
         {
           "event_id": 1704783,
           "event_slug": "tournament/quattro-7/event/quattro",
           "event_name": "四闘-Quattro-",
-          "num_entrants": 22,
+          "num_entrants": 25,
           "type": 1,
           "start_at": 1790049600
         }
@@ -583,6 +583,29 @@
       ]
     },
     {
+      "tournament_id": 952410,
+      "tournament_slug": "tournament/smash-156-1",
+      "tournament_name": "Smash薬院#156",
+      "start_at": 1790332200,
+      "end_at": 1790344800,
+      "is_online": false,
+      "city": "福岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/smash-156-1",
+      "events": [
+        {
+          "event_id": 1708019,
+          "event_slug": "tournament/smash-156-1/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1790332200
+        }
+      ]
+    },
+    {
       "tournament_id": 935343,
       "tournament_slug": "tournament/innosuma-grand-3",
       "tournament_name": "INNOSUMA!! GRAND Ⅲ",
@@ -707,14 +730,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 248,
+      "num_attendees": 250,
       "url": "/tournament/73-sp-1",
       "events": [
         {
           "event_id": 1702406,
           "event_slug": "tournament/73-sp-1/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 242,
+          "num_entrants": 244,
           "type": 1,
           "start_at": 1790474400
         }
