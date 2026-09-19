@@ -1,12 +1,35 @@
 {
-  "generated_at": 1789765265,
+  "generated_at": 1789776026,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 34,
+  "count": 35,
   "tournaments": [
+    {
+      "tournament_id": 950692,
+      "tournament_slug": "tournament/62-1",
+      "tournament_name": "【第62回】晴れスマ",
+      "start_at": 1789779600,
+      "end_at": 1789812000,
+      "is_online": false,
+      "city": "岡山市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 27,
+      "url": "/tournament/62-1",
+      "events": [
+        {
+          "event_id": 1704366,
+          "event_slug": "tournament/62-1/event/62",
+          "event_name": "第62回 晴れスマ",
+          "num_entrants": 27,
+          "type": 1,
+          "start_at": 1789779600
+        }
+      ]
+    },
     {
       "tournament_id": 943422,
       "tournament_slug": "tournament/flyhigh-29-96",
@@ -86,14 +109,14 @@
       "city": "立川市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 19,
+      "num_attendees": 18,
       "url": "/tournament/sumao2026-19",
       "events": [
         {
           "event_id": 1710783,
           "event_slug": "tournament/sumao2026-19/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 19,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1789533000
         }
@@ -109,14 +132,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 50,
+      "num_attendees": 49,
       "url": "/tournament/19-552-5",
       "events": [
         {
           "event_id": 1701383,
           "event_slug": "tournament/19-552-5/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 49,
+          "num_entrants": 48,
           "type": 1,
           "start_at": 1789804800
         }
@@ -132,14 +155,14 @@
       "city": "長崎市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 15,
+      "num_attendees": 17,
       "url": "/tournament/18-n-1",
       "events": [
         {
           "event_id": 1696365,
           "event_slug": "tournament/18-n-1/event/sp-1on1",
           "event_name": "スマブラSP 1on1トーナメント",
-          "num_entrants": 15,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1789830000
         }
