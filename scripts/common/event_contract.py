@@ -11,7 +11,9 @@ checks this before writing and stops on a violation, so a gap shows up here and 
   place       geo: the venue's geographic unit (a geo.json unit id, or None)
   classify.py TIMEZONE, CLASSIFIER_VERSION, SMACOMI_FORCE_WEEKDAY_MAX_NENT, FORCE_WEEKEND_MIN_NENT
   naming.py   tournament_series / tournament_series_number / tournament_award_label / tournament_individual_label,
-              CANCELLED_PATTERN / TEST_PATTERN (used for tournaments that have no derived.json yet: upcoming lists, indexes)
+              community_series, CANCELLED_PATTERN / TEST_PATTERN (used for names that have no derived.json: upcoming lists, indexes)
+  classify.py also NON_SERIOUS_PATTERN / UCHI_PATTERN / SPECIAL_RULES_PATTERN / RESTRICTED_PATTERN (same use; a region
+              without such a rule declares a pattern that never matches)
   country.py  country_ja (display name of a country), is_overseas_country (outside the region), COUNTRY_CODES (start.gg
               country codes that belong to the region; events elsewhere are left out of the region's index)
   geo.py      catalog() (see scripts/common/geo.py)
@@ -28,9 +30,12 @@ CALENDAR_KEYS = frozenset({"date", "end_date", "is_weekend_real", "is_force_week
 NAMING_KEYS = frozenset({"series", "series_number", "award_label", "individual_label", "cancelled", "test_page"})
 PLACE_KEYS = frozenset({"geo"})
 CLASSIFY_ATTRS = ("TIMEZONE", "CLASSIFIER_VERSION", "SMACOMI_FORCE_WEEKDAY_MAX_NENT", "FORCE_WEEKEND_MIN_NENT",
-                  "classify_event", "classify_user")
+                  "classify_event", "classify_user",
+                  # name patterns the build applies to names that have no directory (series index, upcoming lists)
+                  "NON_SERIOUS_PATTERN", "UCHI_PATTERN", "SPECIAL_RULES_PATTERN", "RESTRICTED_PATTERN")
 NAMING_ATTRS = ("tournament_series", "tournament_series_number", "tournament_award_label",
-                "tournament_individual_label", "naming_labels", "CANCELLED_PATTERN", "TEST_PATTERN")
+                "tournament_individual_label", "naming_labels", "CANCELLED_PATTERN", "TEST_PATTERN",
+                "community_series")   # strict series name -> the community it belongs to (local rankings)
 COUNTRY_ATTRS = ("country_ja", "is_overseas_country", "COUNTRY_CODES")
 GEO_ATTRS = ("catalog",)
 
