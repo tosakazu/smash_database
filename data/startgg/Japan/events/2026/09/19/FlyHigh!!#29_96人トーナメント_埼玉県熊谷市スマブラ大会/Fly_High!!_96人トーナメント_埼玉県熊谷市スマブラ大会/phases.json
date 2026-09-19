@@ -1,0 +1,91 @@
+{
+  "event_id": 1689225,
+  "event_name": "Fly High!! 96人トーナメント 埼玉県熊谷市スマブラ大会",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2371355,
+      "name": "予選トーナメント",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 91,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3422294,
+          "display": "1"
+        },
+        {
+          "id": 3422295,
+          "display": "2"
+        },
+        {
+          "id": 3422296,
+          "display": "3"
+        },
+        {
+          "id": 3422297,
+          "display": "4"
+        },
+        {
+          "id": 3422298,
+          "display": "5"
+        },
+        {
+          "id": 3422299,
+          "display": "6"
+        },
+        {
+          "id": 3422300,
+          "display": "7"
+        },
+        {
+          "id": 3422301,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2371356,
+      "name": "A Class",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3422302,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2371357,
+      "name": "B Class",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3422303,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2371358,
+      "name": "C Class",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 27,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3422304,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
