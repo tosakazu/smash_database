@@ -1,11 +1,11 @@
 {
-  "generated_at": 1789840973,
+  "generated_at": 1789851626,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 30,
+  "count": 32,
   "tournaments": [
     {
       "tournament_id": 946863,
@@ -224,14 +224,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/dsw-70",
       "events": [
         {
           "event_id": 1702335,
           "event_slug": "tournament/dsw-70/event/singletournament",
           "event_name": "SingleTournament",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1790161200
         }
@@ -592,14 +592,14 @@
       "city": "信濃町",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 16,
       "url": "/tournament/2-203",
       "events": [
         {
           "event_id": 1703199,
           "event_slug": "tournament/2-203/event/sp",
           "event_name": "【スマブラSP】シングルス",
-          "num_entrants": 14,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1790992800
         }
@@ -694,6 +694,52 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1791086400
+        }
+      ]
+    },
+    {
+      "tournament_id": 952967,
+      "tournament_slug": "tournament/sp-35-1",
+      "tournament_name": "肥後ブラSP#35",
+      "start_at": 1791590400,
+      "end_at": 1791633600,
+      "is_online": false,
+      "city": "熊本市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/sp-35-1",
+      "events": [
+        {
+          "event_id": 1709171,
+          "event_slug": "tournament/sp-35-1/event/sp-35",
+          "event_name": "肥後ブラSP#35",
+          "num_entrants": 3,
+          "type": 1,
+          "start_at": 1791590400
+        }
+      ]
+    },
+    {
+      "tournament_id": 935393,
+      "tournament_slug": "tournament/-3163",
+      "tournament_name": "仁義 -志-",
+      "start_at": 1791594000,
+      "end_at": 1791626400,
+      "is_online": false,
+      "city": "浦安市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 74,
+      "url": "/tournament/-3163",
+      "events": [
+        {
+          "event_id": 1672570,
+          "event_slug": "tournament/-3163/event/singles",
+          "event_name": "シングルストーナメント/Singles",
+          "num_entrants": 74,
+          "type": 1,
+          "start_at": 1791594000
         }
       ]
     }
