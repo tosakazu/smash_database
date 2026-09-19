@@ -253,6 +253,12 @@ class ContractAndNamingTests(unittest.TestCase):
         self.assertTrue(naming.is_test_page("test tournament"))
         self.assertFalse(naming.is_test_page("Contest of Champions"))
 
+    def test_name_patterns_without_rules_never_match(self):
+        for pat in (na.SPECIAL_RULES_PATTERN, na.UCHI_PATTERN, na.NON_SERIOUS_PATTERN):
+            self.assertIsNone(pat.search("Smash Night #12 Invitational Items On"))
+        from scripts.North_America import naming
+        self.assertEqual(naming.community_series("Smash Night"), "Smash Night")
+
     def test_country_module(self):
         from scripts.North_America import country
         self.assertIn("US", country.COUNTRY_CODES)

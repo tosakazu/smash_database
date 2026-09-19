@@ -50,7 +50,8 @@ import re
 from scripts.common.region import class_phase_group_ids
 from scripts.North_America import naming as _naming
 
-CLASSIFIER_VERSION = 11  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
+CLASSIFIER_VERSION = 12  # 12: contract additions for the series index (name patterns, naming.community_series). No output change (2026-09-19)
+                         # 11:  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
                          # 10:  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
                          # 9:   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
                          # 8:   # 8: lower_class is now also checked on the tournament name (same as Japan; for tournaments that are lower-class as a whole, like "Novice Knockout")
@@ -327,6 +328,12 @@ LOWER_CLASS_EVENT_PATTERN = re.compile(
 # Tournaments whose entry conditions restrict the field. Arcadian = players listed on the regional Power Ranking may not enter (a tournament without the top players).
 # This corresponds to Japan's "rating below 1700" restriction, so instead of removing it from 1on1 it is flagged as restricted
 RESTRICTED_PATTERN = re.compile(r'(?<![A-Za-z])arcadian(?![A-Za-z])', re.IGNORECASE)
+# Name patterns the build also applies to names without a directory (series index, upcoming lists). North America
+# has no rule yet for special-rule events (items, random select) or invitationals (uchi), so these never match.
+_NEVER = re.compile(r'(?!x)x')
+SPECIAL_RULES_PATTERN = _NEVER
+UCHI_PATTERN = _NEVER
+NON_SERIOUS_PATTERN = _NEVER   # = SPECIAL_RULES_PATTERN | UCHI_PATTERN
 
 
 def name_flags(tname: str, ename: str) -> dict:

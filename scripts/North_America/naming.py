@@ -56,6 +56,11 @@ def is_test_page(name: str | None) -> bool:
     return bool(TEST_PATTERN.search(name or ''))
 
 
+def community_series(strict: str) -> str:
+    """The community a series belongs to (local rankings merge sibling series). Provisional: the series itself."""
+    return strict
+
+
 def naming_labels(tname: str, ename: str) -> dict:
     """The "naming" part of derived.json (same keys as Japan)."""
     return {
