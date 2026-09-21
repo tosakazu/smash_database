@@ -535,7 +535,7 @@ def get_event_phases_named_query():
       }
     }"""
 
-def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
+def get_tournaments_by_game_query(country_code="", before_now=True, past=False, before_ts=None):
     first_row = """query TournamentsByGame($gameId: ID!, $perPage: Int!, $page: Int!) {"""
     # sortBy uses endAt: even when a TO sets startAt to the announcement/registration date (e.g. Funasuma
     # held 2026-07-19 = startAt 6/8), endAt is almost always set to the actual date
@@ -573,9 +573,17 @@ def get_tournaments_by_game_query(country_code="", before_now=True, past=False):
       filters += f' ,countryCode: "{country_code}" '
     if past:
       filters += """ ,past: true """
-    if before_now:
+    if before_ts is not None:
+      # Pins the page-1 starting point near the caller's own window instead of "now", so a request for
+      # an old month does not have to page through every tournament newer than it first (the API refuses
+      # page * perPage > 10000, found backfilling 2026-03: page 101 raised "Cannot query more than the
+      # 10,000th entry"). Safe for any tournament actually in range: endAt >= startAt always, so a
+      # tournament ending at or before before_ts also started at or before it — beforeDate (which the API
+      # applies to startAt) can never exclude a wanted result.
+      filters += f" ,beforeDate: {before_ts} "
+    elif before_now:
       filters += f" ,beforeDate: {clock.now_ts()} "   # "now" comes from scripts.common.clock (can be pinned in tests)
-    
+
     second_row = second_row.replace("*other_filters*", filters)
 
     query = "\n".join([first_row, second_row, nodes_query])
