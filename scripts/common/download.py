@@ -220,10 +220,15 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     # Index of event_id -> (tournament_id, old_path) for detecting date-change duplicates.
     event_id_index = _build_event_id_index(tournaments)
 
+    # Pin the server-side beforeDate to our own upper bound (instead of "now") so a backfill request for
+    # an old window starts paging near that window rather than at the head of all history (see
+    # get_tournaments_by_game_query for why this is safe).
+    before_ts = int(start_date.timestamp()) if start_date is not None else None
+
     page = 1
     while True:
         try:
-            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, country_code=country_code, limit=TOURNAMENTS_PER_PAGE, page=page)
+            tournaments_info, total_pages = fetch_latest_tournaments_by_game(game_id, country_code=country_code, limit=TOURNAMENTS_PER_PAGE, page=page, before_ts=before_ts)
         except FetchError as e:
             # Previously this printed and continued, but without advancing page it retried the same page forever
             # (fetch already tried max_retries times). Stop and let the nightly see the failure.
@@ -797,9 +802,9 @@ def extend_tournament_info(new_tournament_info, tournament_file_path):
     extend_jsonl([new_tournament_info], tournament_file_path, with_version=True)
 
 # Fetch tournaments for a given game, newest first
-def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1):
+def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1, before_ts=None):
     response_data = fetch_data_with_retries(
-        get_tournaments_by_game_query(country_code),
+        get_tournaments_by_game_query(country_code, before_ts=before_ts),
         {"gameId": game_id, "perPage": limit, "page": page},
     )
     if "data" not in response_data or response_data["data"] is None or "tournaments" not in response_data["data"] or response_data["data"]["tournaments"] is None:
