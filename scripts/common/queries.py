@@ -577,9 +577,14 @@ def get_tournaments_by_game_query(country_code="", before_now=True, past=False, 
       # Pins the page-1 starting point near the caller's own window instead of "now", so a request for
       # an old month does not have to page through every tournament newer than it first (the API refuses
       # page * perPage > 10000, found backfilling 2026-03: page 101 raised "Cannot query more than the
-      # 10,000th entry"). Safe for any tournament actually in range: endAt >= startAt always, so a
-      # tournament ending at or before before_ts also started at or before it — beforeDate (which the API
-      # applies to startAt) can never exclude a wanted result.
+      # 10,000th entry").
+      # The API applies beforeDate to endAt (checked 2026-09-21 with a 02-21..02-23 tournament: excluded
+      # with beforeDate = 02-22, returned with beforeDate = 02-23 evening). The listing is sorted by endAt and
+      # download.py judges the lower bound of the window by endAt too, so this makes the upper bound
+      # endAt-based as well: a tournament that starts inside the window but ends after before_ts belongs to
+      # the next window (month-by-month backfills pick it up there; a one-off run of a single old window
+      # would not). For the nightly (before_ts = end of today) tournaments ending later today are listed:
+      # unfinished ones hit the not_finished skip, completed ones (state 3) are fetched a few hours earlier.
       filters += f" ,beforeDate: {before_ts} "
     elif before_now:
       filters += f" ,beforeDate: {clock.now_ts()} "   # "now" comes from scripts.common.clock (can be pinned in tests)
