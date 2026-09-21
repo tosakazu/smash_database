@@ -1,0 +1,49 @@
+{
+  "event_id": 1654846,
+  "event_name": "Ultimate Singles Matutino 2:00PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2326495,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 25,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3364238,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2326498,
+      "name": "TOP 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3364241,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2326497,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3364240,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

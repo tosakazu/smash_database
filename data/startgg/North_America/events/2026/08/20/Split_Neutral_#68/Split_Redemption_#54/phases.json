@@ -1,0 +1,35 @@
+{
+  "event_id": 1690267,
+  "event_name": "Split Redemption #54",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2372719,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3424011,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2375165,
+      "name": "Redemption Finals",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3427168,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

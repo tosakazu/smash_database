@@ -1,0 +1,149 @@
+{
+  "event_id": 1493422,
+  "event_name": "Super Smash Bros. Ultimate - Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2119019,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 512,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3090491,
+          "display": "UA1"
+        },
+        {
+          "id": 3090495,
+          "display": "UA2"
+        },
+        {
+          "id": 3090496,
+          "display": "UA3"
+        },
+        {
+          "id": 3090499,
+          "display": "UA4"
+        },
+        {
+          "id": 3090486,
+          "display": "UB1"
+        },
+        {
+          "id": 3090490,
+          "display": "UB2"
+        },
+        {
+          "id": 3090494,
+          "display": "UB3"
+        },
+        {
+          "id": 3090498,
+          "display": "UB4"
+        },
+        {
+          "id": 3090485,
+          "display": "UC1"
+        },
+        {
+          "id": 3090489,
+          "display": "UC2"
+        },
+        {
+          "id": 3090493,
+          "display": "UC3"
+        },
+        {
+          "id": 3090497,
+          "display": "UC4"
+        },
+        {
+          "id": 3090484,
+          "display": "UD1"
+        },
+        {
+          "id": 3090487,
+          "display": "UD2"
+        },
+        {
+          "id": 3090488,
+          "display": "UD3"
+        },
+        {
+          "id": 3090492,
+          "display": "UD4"
+        }
+      ]
+    },
+    {
+      "id": 2119022,
+      "name": "Top 64",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3090518,
+          "display": "UE1"
+        }
+      ]
+    },
+    {
+      "id": 2119021,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3090517,
+          "display": "UG1"
+        }
+      ]
+    },
+    {
+      "id": 2354450,
+      "name": "Redemption (9pm)",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 256,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3400502,
+          "display": "URD1"
+        },
+        {
+          "id": 3406540,
+          "display": "URD2"
+        },
+        {
+          "id": 3406541,
+          "display": "URD3"
+        },
+        {
+          "id": 3406539,
+          "display": "URD4"
+        }
+      ]
+    },
+    {
+      "id": 2359002,
+      "name": "Redemption top 16",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3406536,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

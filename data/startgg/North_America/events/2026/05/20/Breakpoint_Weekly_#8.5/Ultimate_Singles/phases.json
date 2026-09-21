@@ -1,0 +1,35 @@
+{
+  "event_id": 1626137,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2288923,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3313933,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2295230,
+      "name": "Round Robin Redemption",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3322637,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

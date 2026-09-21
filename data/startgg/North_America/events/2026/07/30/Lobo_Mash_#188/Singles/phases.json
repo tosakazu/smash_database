@@ -1,0 +1,35 @@
+{
+  "event_id": 1677982,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2356587,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3403115,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2356589,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3403121,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

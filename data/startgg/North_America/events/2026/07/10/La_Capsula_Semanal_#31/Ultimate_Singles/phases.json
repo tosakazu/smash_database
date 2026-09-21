@@ -1,0 +1,91 @@
+{
+  "event_id": 1663560,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2337815,
+      "name": "Phase 1",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 41,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3379097,
+          "display": "A1"
+        }
+      ]
+    },
+    {
+      "id": 2337816,
+      "name": "Phase 2",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3379098,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2337817,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3379099,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2337819,
+      "name": "Semi-Pro",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3379101,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2337818,
+      "name": "Amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3379100,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2337822,
+      "name": "Retador",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3379104,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
