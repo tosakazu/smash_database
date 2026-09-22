@@ -1,5 +1,5 @@
 {
-  "generated_at": 1790100452,
+  "generated_at": 1790110816,
   "country_code": "JP",
   "country_codes": [
     "JP"
@@ -7,29 +7,6 @@
   "lookahead_days": 21,
   "count": 40,
   "tournaments": [
-    {
-      "tournament_id": 953856,
-      "tournament_slug": "tournament/142-shibuya-tatsu",
-      "tournament_name": "渋谷\"達\" #142 shibuya -tatsu-",
-      "start_at": 1790071200,
-      "end_at": 1790083800,
-      "is_online": false,
-      "city": "渋谷区",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 19,
-      "url": "/tournament/142-shibuya-tatsu",
-      "events": [
-        {
-          "event_id": 1711101,
-          "event_slug": "tournament/142-shibuya-tatsu/event/singles",
-          "event_name": "Singles",
-          "num_entrants": 19,
-          "type": 1,
-          "start_at": 1790071200
-        }
-      ]
-    },
     {
       "tournament_id": 892297,
       "tournament_slug": "tournament/3-133",
@@ -155,14 +132,14 @@
       "city": "名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/111-13",
       "events": [
         {
           "event_id": 1714459,
           "event_slug": "tournament/111-13/event/1on1-tournament",
           "event_name": "1on1 tournament",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1790262000
         }
@@ -385,14 +362,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 286,
+      "num_attendees": 288,
       "url": "/tournament/73-sp-1",
       "events": [
         {
           "event_id": 1702406,
           "event_slug": "tournament/73-sp-1/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 275,
+          "num_entrants": 277,
           "type": 1,
           "start_at": 1790474400
         }
@@ -648,6 +625,29 @@
           "num_entrants": 11,
           "type": 1,
           "start_at": 1790996400
+        }
+      ]
+    },
+    {
+      "tournament_id": 956571,
+      "tournament_slug": "tournament/21-19",
+      "tournament_name": "第21回火ノ鳥トナメ",
+      "start_at": 1791001800,
+      "end_at": 1791018000,
+      "is_online": false,
+      "city": "津市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/21-19",
+      "events": [
+        {
+          "event_id": 1716771,
+          "event_slug": "tournament/21-19/event/sp-1on1",
+          "event_name": "スマブラSP 1on1トーナメント",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1791001800
         }
       ]
     },
