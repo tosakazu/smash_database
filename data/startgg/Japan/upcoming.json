@@ -1,35 +1,12 @@
 {
-  "generated_at": 1790283692,
+  "generated_at": 1790294417,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 46,
+  "count": 47,
   "tournaments": [
-    {
-      "tournament_id": 955495,
-      "tournament_slug": "tournament/111-13",
-      "tournament_name": "第111回シカブラ",
-      "start_at": 1790262000,
-      "end_at": 1790764200,
-      "is_online": false,
-      "city": "名古屋市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 8,
-      "url": "/tournament/111-13",
-      "events": [
-        {
-          "event_id": 1714459,
-          "event_slug": "tournament/111-13/event/1on1-tournament",
-          "event_name": "1on1 tournament",
-          "num_entrants": 8,
-          "type": 1,
-          "start_at": 1790262000
-        }
-      ]
-    },
     {
       "tournament_id": 949297,
       "tournament_slug": "tournament/25-555",
@@ -40,14 +17,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 22,
+      "num_attendees": 23,
       "url": "/tournament/25-555",
       "events": [
         {
           "event_id": 1701385,
           "event_slug": "tournament/25-555/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 17,
+          "num_entrants": 21,
           "type": 1,
           "start_at": 1790323200
         }
@@ -63,14 +40,14 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/smash-156-1",
       "events": [
         {
           "event_id": 1708019,
           "event_slug": "tournament/smash-156-1/event/1on1",
           "event_name": "1on1トーナメント",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1790332200
         }
@@ -201,14 +178,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 25,
+      "num_attendees": 27,
       "url": "/tournament/26-556",
       "events": [
         {
           "event_id": 1701482,
           "event_slug": "tournament/26-556/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 25,
+          "num_entrants": 27,
           "type": 1,
           "start_at": 1790391600
         }
@@ -890,6 +867,29 @@
       ]
     },
     {
+      "tournament_id": 954636,
+      "tournament_slug": "tournament/12-moon-1",
+      "tournament_name": "【第12回】Moon!",
+      "start_at": 1791597600,
+      "end_at": 1791626400,
+      "is_online": false,
+      "city": "広島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 6,
+      "url": "/tournament/12-moon-1",
+      "events": [
+        {
+          "event_id": 1712832,
+          "event_slug": "tournament/12-moon-1/event/1on1-tournament",
+          "event_name": "シングルス/1on1 tournament",
+          "num_entrants": 6,
+          "type": 1,
+          "start_at": 1791597600
+        }
+      ]
+    },
+    {
       "tournament_id": 941328,
       "tournament_slug": "tournament/higher-3-1",
       "tournament_name": "Higher!!! #3",
@@ -1037,14 +1037,14 @@
       "city": "町田市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 117,
+      "num_attendees": 118,
       "url": "/tournament/impact-major-6",
       "events": [
         {
           "event_id": 1713430,
           "event_slug": "tournament/impact-major-6/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 116,
+          "num_entrants": 117,
           "type": 1,
           "start_at": 1791763200
         }
@@ -1070,6 +1070,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1791975600
+        }
+      ]
+    },
+    {
+      "tournament_id": 957218,
+      "tournament_slug": "tournament/15-572",
+      "tournament_name": "15(木)上野スマコミ#572(オープン)",
+      "start_at": 1792051200,
+      "end_at": 1792072800,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/15-572",
+      "events": [
+        {
+          "event_id": 1718173,
+          "event_slug": "tournament/15-572/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1792051200
         }
       ]
     }
