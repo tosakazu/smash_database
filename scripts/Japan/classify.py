@@ -20,7 +20,8 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 10  # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
+CLASSIFIER_VERSION = 11  # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
+                         # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
                          # 8:   # 8: 地理の出力を地域中立のキーに (place.geo / users_derived の geo, geo_reason)。単位の一覧は geo.py (2026-09-15)
                          # 7:   # 7: 身内判定から「合宿」を外した (スマサー合宿 #6-#8 等を通常大会として集計。2026-09-14)
@@ -146,6 +147,9 @@ SPECIAL_RULES_PATTERN = re.compile(
     r'|女王杯|SSQM'                                  # 特殊ルール (= SSQM, 通常 1on1 とは別の遊び方)
     r'|キャラ\s*限定'
     r'|[ぁ-んァ-ヶ一-龯]+限定杯'                      # ファルコン限定杯 / マリオ限定杯 等
+    r'|Squad\s*Strike|スクワッド\s*ストライク'      # 複数キャラの勝ち抜き戦 (Tokyo Nights / TSB / WINNER! 等、2026-09-25)
+    r'|ビンゴ|Bingo'                                 # 渋谷BeeSmash BIG 3 の Team Bingo Cup 等 (2026-09-25)
+    r'|^TO\s*トーナメント$'                         # 九龍#15 の TO トーナメント (運営者向けの 1先の催し、2026-09-25。イベント名の完全一致だけ)
     , re.IGNORECASE
 )
 # 身内 / 招待制 / 練習会 (= 出場対象が限定された大会)

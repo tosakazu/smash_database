@@ -389,3 +389,20 @@ class RegionContractTests(unittest.TestCase):
         self.assertTrue(any(e.startswith("names: missing") for e in errs))
         self.assertTrue(any(e.startswith("naming: missing") for e in errs))
         self.assertTrue(any(e.startswith("place: missing") for e in errs))
+
+
+class SpecialRulesSquadStrikeTests(unittest.TestCase):
+    """2026-09-25 追加: Squad Strike / ビンゴ / 九龍#15 の TO トーナメントは特殊ルール。"""
+
+    def test_new_patterns(self):
+        for tname, ename in [("Tokyo Nights #35", "Ultimate: Squad Strike!"),
+                             ("WINNER! -SQUAD STRIKE- LFS", "SQUAD STRIKE"),
+                             ("渋谷BeeSmash BIG 3", "Team Bingo Cup(3x3 Bingo)"),
+                             ("九龍#15withスマバト15th anniversary", "TO トーナメント")]:
+            self.assertTrue(classify.name_flags(tname, ename)["special_rules"], (tname, ename))
+
+    def test_to_is_exact_only(self):
+        self.assertFalse(classify.name_flags("TOKYO大会", "TOKYO トーナメント")["special_rules"])
+        self.assertFalse(classify.name_flags("九龍#16", "1on1 トーナメント")["special_rules"])
+        self.assertFalse(classify.name_flags("篝火#15", "シングルス / Singles")["special_rules"])
+
