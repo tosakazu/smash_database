@@ -1,5 +1,5 @@
 {
-  "generated_at": 1790348442,
+  "generated_at": 1790359211,
   "country_code": "JP",
   "country_codes": [
     "JP"
@@ -7,29 +7,6 @@
   "lookahead_days": 21,
   "count": 47,
   "tournaments": [
-    {
-      "tournament_id": 949297,
-      "tournament_slug": "tournament/25-555",
-      "tournament_name": "25(金)上野スマコミ#555(オープン)",
-      "start_at": 1790323200,
-      "end_at": 1790344800,
-      "is_online": false,
-      "city": "台東区",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 32,
-      "url": "/tournament/25-555",
-      "events": [
-        {
-          "event_id": 1701385,
-          "event_slug": "tournament/25-555/event/on",
-          "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 32,
-          "type": 1,
-          "start_at": 1790323200
-        }
-      ]
-    },
     {
       "tournament_id": 952410,
       "tournament_slug": "tournament/smash-156-1",
@@ -178,14 +155,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 37,
+      "num_attendees": 38,
       "url": "/tournament/26-556",
       "events": [
         {
           "event_id": 1701482,
           "event_slug": "tournament/26-556/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 37,
+          "num_entrants": 38,
           "type": 1,
           "start_at": 1790391600
         }
@@ -516,6 +493,29 @@
           "event_slug": "tournament/8-76/event/1on1",
           "event_name": "1on1トーナメント",
           "num_entrants": 4,
+          "type": 1,
+          "start_at": 1790937000
+        }
+      ]
+    },
+    {
+      "tournament_id": 952411,
+      "tournament_slug": "tournament/smash-157-1",
+      "tournament_name": "Smash薬院#157",
+      "start_at": 1790937000,
+      "end_at": 1790949600,
+      "is_online": false,
+      "city": "福岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/smash-157-1",
+      "events": [
+        {
+          "event_id": 1708020,
+          "event_slug": "tournament/smash-157-1/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 0,
           "type": 1,
           "start_at": 1790937000
         }
@@ -853,14 +853,14 @@
       "city": "浦安市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 172,
+      "num_attendees": 174,
       "url": "/tournament/-3163",
       "events": [
         {
           "event_id": 1672570,
           "event_slug": "tournament/-3163/event/singles",
           "event_name": "シングルストーナメント/Singles",
-          "num_entrants": 169,
+          "num_entrants": 171,
           "type": 1,
           "start_at": 1791594000
         }
