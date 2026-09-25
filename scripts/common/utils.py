@@ -225,7 +225,7 @@ def fetch_data_with_retries(query, variables):
     last_error_message = ""
     for attempt in range(__max_retries):
         try:
-            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers, verify=False)
+            response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers, verify=False, timeout=60)
             response.raise_for_status()
             response_data = json.loads(response.text)
             return response_data
