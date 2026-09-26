@@ -1,11 +1,11 @@
 {
-  "generated_at": 1790445746,
+  "generated_at": 1790456417,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 39,
+  "count": 40,
   "tournaments": [
     {
       "tournament_id": 949713,
@@ -255,14 +255,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/2-561",
       "events": [
         {
           "event_id": 1718161,
           "event_slug": "tournament/2-561/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1790928000
         }
@@ -485,14 +485,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/4-562",
       "events": [
         {
           "event_id": 1718165,
           "event_slug": "tournament/4-562/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1791082800
         }
@@ -692,14 +692,14 @@
       "city": "広島市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 38,
+      "num_attendees": 39,
       "url": "/tournament/12-moon-1",
       "events": [
         {
           "event_id": 1712832,
           "event_slug": "tournament/12-moon-1/event/1on1-tournament",
           "event_name": "シングルス/1on1 tournament",
-          "num_entrants": 38,
+          "num_entrants": 39,
           "type": 1,
           "start_at": 1791597600
         }
@@ -909,6 +909,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1792051200
+        }
+      ]
+    },
+    {
+      "tournament_id": 951406,
+      "tournament_slug": "tournament/10thanniversary",
+      "tournament_name": "岐阜スマ10thANNIVERSARY",
+      "start_at": 1792198800,
+      "end_at": 1792234800,
+      "is_online": false,
+      "city": "岐阜市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 95,
+      "url": "/tournament/10thanniversary",
+      "events": [
+        {
+          "event_id": 1705887,
+          "event_slug": "tournament/10thanniversary/event/gifusma10thannversary",
+          "event_name": "gifusma10thANNVERSARY",
+          "num_entrants": 95,
+          "type": 1,
+          "start_at": 1792198800
         }
       ]
     }
