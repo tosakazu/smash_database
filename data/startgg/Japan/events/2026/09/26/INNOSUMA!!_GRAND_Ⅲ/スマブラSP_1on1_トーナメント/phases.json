@@ -1,0 +1,121 @@
+{
+  "event_id": 1672480,
+  "event_name": "スマブラSP 1on1 トーナメント",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2349369,
+      "name": "予選総当たり",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3393801,
+          "display": "1"
+        },
+        {
+          "id": 3393802,
+          "display": "2"
+        },
+        {
+          "id": 3393803,
+          "display": "3"
+        },
+        {
+          "id": 3393804,
+          "display": "4"
+        },
+        {
+          "id": 3393805,
+          "display": "5"
+        },
+        {
+          "id": 3393806,
+          "display": "6"
+        },
+        {
+          "id": 3393807,
+          "display": "7"
+        },
+        {
+          "id": 3393808,
+          "display": "8"
+        },
+        {
+          "id": 3393809,
+          "display": "9"
+        },
+        {
+          "id": 3393810,
+          "display": "10"
+        },
+        {
+          "id": 3393811,
+          "display": "11"
+        },
+        {
+          "id": 3393812,
+          "display": "12"
+        }
+      ]
+    },
+    {
+      "id": 2349370,
+      "name": "本戦トーナメント(top24)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3393817,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2349373,
+      "name": "TOP8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3393820,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2349371,
+      "name": "Bクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3393818,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2349372,
+      "name": "Cクラス",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3393819,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
