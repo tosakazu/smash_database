@@ -1,11 +1,11 @@
 {
-  "generated_at": 1790532126,
+  "generated_at": 1790542873,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 39,
+  "count": 41,
   "tournaments": [
     {
       "tournament_id": 949298,
@@ -17,7 +17,7 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 13,
+      "num_attendees": 14,
       "url": "/tournament/28-558",
       "events": [
         {
@@ -132,7 +132,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 65,
+      "num_attendees": 66,
       "url": "/tournament/weekly-smash-party-246",
       "events": [
         {
@@ -147,7 +147,7 @@
           "event_id": 1717385,
           "event_slug": "tournament/weekly-smash-party-246/event/casual-tournament",
           "event_name": "カジュアルトーナメント / Casual Tournament",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1790758800
         }
@@ -324,14 +324,14 @@
       "city": "西宮市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 57,
+      "num_attendees": 58,
       "url": "/tournament/32-19",
       "events": [
         {
           "event_id": 1705850,
           "event_slug": "tournament/32-19/event/1on1-main-event",
           "event_name": "1on1 Main event",
-          "num_entrants": 57,
+          "num_entrants": 58,
           "type": 1,
           "start_at": 1790989200
         }
@@ -909,6 +909,52 @@
           "num_entrants": 95,
           "type": 1,
           "start_at": 1792198800
+        }
+      ]
+    },
+    {
+      "tournament_id": 948886,
+      "tournament_slug": "tournament/spfinal-okasumasp-18",
+      "tournament_name": "岡スマSPFinal / OkasumaSP#18",
+      "start_at": 1792281600,
+      "end_at": 1792324800,
+      "is_online": false,
+      "city": "倉敷市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 72,
+      "url": "/tournament/spfinal-okasumasp-18",
+      "events": [
+        {
+          "event_id": 1700512,
+          "event_slug": "tournament/spfinal-okasumasp-18/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 70,
+          "type": 1,
+          "start_at": 1792281600
+        }
+      ]
+    },
+    {
+      "tournament_id": 950954,
+      "tournament_slug": "tournament/shibuya-dairan-second-strike",
+      "tournament_name": "渋谷大乱 第二陣/SHIBUYA DAIRAN -Second Strike-",
+      "start_at": 1792299540,
+      "end_at": 1792315800,
+      "is_online": false,
+      "city": "渋谷区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 279,
+      "url": "/tournament/shibuya-dairan-second-strike",
+      "events": [
+        {
+          "event_id": 1704865,
+          "event_slug": "tournament/shibuya-dairan-second-strike/event/shibuya-dairan",
+          "event_name": "渋谷大乱/SHIBUYA DAIRAN",
+          "num_entrants": 279,
+          "type": 1,
+          "start_at": 1792299540
         }
       ]
     }
