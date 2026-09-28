@@ -9,7 +9,8 @@ checks this before writing and stops on a violation, so a gap shows up here and 
   calendar    the event's dates and calendar flags (None only when the event has no timestamp)
   naming      labels derived from the tournament name (series, numbering, award labels, cancelled / test page)
   place       geo: the venue's geographic unit (a geo.json unit id, or None)
-  classify.py TIMEZONE, CLASSIFIER_VERSION, SMACOMI_FORCE_WEEKDAY_MAX_NENT, FORCE_WEEKEND_MIN_NENT
+  classify.py TIMEZONE, CLASSIFIER_VERSION, SMACOMI_FORCE_WEEKDAY_MAX_NENT, FORCE_WEEKEND_MIN_NENT,
+              RESIDENT_WINDOW_DAYS / RESIDENT_MIN_TOURNAMENTS / RESIDENT_MIN_MONTHS (overseas players who look like residents)
   naming.py   tournament_series / tournament_series_number / tournament_award_label / tournament_individual_label,
               community_series, CANCELLED_PATTERN / TEST_PATTERN (used for names that have no derived.json: upcoming lists, indexes)
   classify.py also NON_SERIOUS_PATTERN / UCHI_PATTERN / SPECIAL_RULES_PATTERN / RESTRICTED_PATTERN (same use; a region
@@ -30,6 +31,7 @@ CALENDAR_KEYS = frozenset({"date", "end_date", "is_weekend_real", "is_force_week
 NAMING_KEYS = frozenset({"series", "series_number", "award_label", "individual_label", "cancelled", "test_page"})
 PLACE_KEYS = frozenset({"geo"})
 CLASSIFY_ATTRS = ("TIMEZONE", "CLASSIFIER_VERSION", "SMACOMI_FORCE_WEEKDAY_MAX_NENT", "FORCE_WEEKEND_MIN_NENT",
+                  "RESIDENT_WINDOW_DAYS", "RESIDENT_MIN_TOURNAMENTS", "RESIDENT_MIN_MONTHS",
                   "classify_event", "classify_user",
                   # name patterns the build applies to names that have no directory (series index, upcoming lists)
                   "NON_SERIOUS_PATTERN", "UCHI_PATTERN", "SPECIAL_RULES_PATTERN", "RESTRICTED_PATTERN")
