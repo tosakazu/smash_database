@@ -70,6 +70,13 @@ TIMEZONE = "America/New_York"
 SMACOMI_FORCE_WEEKDAY_MAX_NENT = 0
 FORCE_WEEKEND_MIN_NENT = 0
 
+# Overseas players who look like residents (scripts/common/overseas.py): registered outside North America but
+# attended at least RESIDENT_MIN_TOURNAMENTS offline 1on1 events here over RESIDENT_MIN_MONTHS months within
+# RESIDENT_WINDOW_DAYS count as North American. Same thresholds as Japan (2026-09-28); the operator may tune them.
+RESIDENT_WINDOW_DAYS = 730
+RESIDENT_MIN_TOURNAMENTS = 12
+RESIDENT_MIN_MONTHS = 8
+
 
 def check_requirements() -> None:
     """External packages needed by this region's classifier. None at the moment (check here if a holiday library is ever added)."""
