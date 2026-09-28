@@ -1,6 +1,8 @@
 # 日本の大会データの取得 (start.gg → data-Japan)。ConoHa の nightly (spsp_scripts deploy/update_and_deploy.sh の
 # [1/5]〜[2.65/5]) と同じ手順を GitHub Actions で行う。2026-09-28 作成。
-# 定時実行は 3 時間ごと (JST 0・3・6・…・21 時の 3 分) で、data-Japan に push する (公開リポジトリなので無料)。
+# 3 時間ごと (JST 0・3・6・…・21 時の 3 分) に、サーバの cron が spsp_scripts の deploy/ci/trigger.sh download-jp で
+# push=true を付けて起動する (公開リポジトリなので無料)。GitHub の schedule は追加から 5 時間たっても一度も起動しなかったので
+# 使わない (二重起動を避けるため on.schedule も外した。2026-09-29)。
 # ランキングのビルドは spsp_scripts 側が 1 日 5 回、ここで push されたデータを読む。
 #
 # 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
@@ -27,8 +29,6 @@ on:
         description: 何日前までの大会を取り直すか (ConoHa の nightly と同じ 14)
         type: string
         default: '14'
-  schedule:
-    - cron: '3 */3 * * *'   # UTC の 0,3,…,21 時 = JST 9,12,…,6 時 (どれも 3 時間おき)
 
 permissions:
   contents: read
@@ -53,7 +53,7 @@ jobs:
           ref: data-Japan
           fetch-depth: 1
           ssh-key: ${{ secrets.JP_DATA_DEPLOY_KEY }}
-          persist-credentials: ${{ github.event_name == 'schedule' || inputs.push }}
+          persist-credentials: ${{ inputs.push }}
 
       - uses: actions/setup-python@v5
         with:
@@ -92,7 +92,7 @@ jobs:
         run: git status --short -- data/startgg | awk '{print $1}' | sort | uniq -c; git diff --stat -- data/startgg | tail -1
 
       - name: data-Japan に commit して push
-        if: github.event_name == 'schedule' || inputs.push
+        if: inputs.push
         run: |
           git config user.name tosakazu
           git config user.email smash.tosakazu@gmail.com
