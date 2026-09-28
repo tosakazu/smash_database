@@ -9,7 +9,8 @@ This file is only the driver plus region-independent facts (the shape of standin
 
 Raw files (attr.json etc.) are never rewritten: derived.json is a sidecar. download.py decides re-fetches from the
 mtime of attr.json, so that must stay untouched. If the content is unchanged it is not rewritten (mtime stays = idempotent).
-Also writes users_derived.jsonl (classify_user) and geo.json (scripts/<region>/geo.py, the catalogue of geographic units).
+Also writes users_derived.jsonl (classify_user), geo.json (scripts/<region>/geo.py, the catalogue of geographic units)
+and overseas_status.json (scripts/common/overseas.py, who counts as overseas).
 Update rule: derived.json missing / classifier_version outdated / any input (attr, standings, matches, phases, class_phases/*.json)
 newer than derived.json. The timezone used to decide dates is the region module's TIMEZONE
 (e.g. Japan = Asia/Tokyo); nothing is hard-coded here.
@@ -251,7 +252,16 @@ def main(argv=None) -> int:
     # ── geo.json: the region's catalogue of geographic units (scripts/<region>/geo.py). Required for every region. ──
     from scripts.common.geo import write_geo_json
     geo_written, geo_cat = write_geo_json(args.region, Path(args.users_file_path).parent, dry_run=args.dry_run)
+    # ── overseas_status.json: who counts as overseas (scripts/common/overseas.py). Required for every region. ──
+    import datetime as _dt
+    import importlib as _il
+    from scripts.common.overseas import write_overseas_status
+    _country = _il.import_module(f"scripts.{args.region.replace(' ', '_')}.country")
+    ov_written, ov = write_overseas_status(clf, _country, Path(args.users_file_path).parent, root, _dt.date.today(),
+                                           dry_run=args.dry_run)
     if not args.quiet:
+        print(f"[derive] overseas_status.json: overseas {len(ov['by_country'])} by country + {len(ov['manual'])} manual, "
+              f"residents {len(ov['resident'])} {'written' if ov_written else 'unchanged'}", flush=True)
         if users_written is not None:
             print(f"[derive] users_derived.jsonl: {users_n} users {'written' if users_written else 'unchanged'}", flush=True)
         print(f"[derive] geo.json: {len(geo_cat['units'])} units ({geo_cat['unit']}"

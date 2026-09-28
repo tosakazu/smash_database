@@ -28,6 +28,13 @@ CLASSIFIER_VERSION = 11  # 11: 特殊ルールに Squad Strike / ビンゴ / 九
                          # 6: is_offline (derive.py の共通部。attr.offline の写し) を追加 (2026-09-12)
                          #  # 5: naming (シリーズ名・開催回・実績ラベル・中止/テスト検出) を追加 (2026-09-09)   # 4: 4: 制限大会に「<レート>未満/以下/以上 制限」「R/レート <数字> 以上」を追加 (2026-09-09)   # 3: 1on1 判定を名前だけで行う (labels.game_rule = 旧 LLM 分類への依存を撤廃)   # 2: place.prefecture (開催地の都道府県)
 
+# ── 海外勢の「住んでそう」判定 (scripts/common/overseas.py が使う。2026-08-11 ユーザー決定の基準) ──
+# 国登録が日本以外でも、直近 2 年で日本のオフライン 1on1 大会 12 回以上・8 ヶ月以上にわたって出ている人は日本勢扱い。
+# メジャー遠征型 (MkLeo = 15 大会 / 7 ヶ月 等) は海外側に残る境界。2026-09-28 までは spsp のビルドが前回の選手ページから判定していた。
+RESIDENT_WINDOW_DAYS = 730
+RESIDENT_MIN_TOURNAMENTS = 12
+RESIDENT_MIN_MONTHS = 8
+
 # ── 1on1 判定 (旧 spsp/data_loader.py) ──
 # 明示的に弾く event/tournament name patterns. これら以外はデフォルト accept.
 # (download.py が既に SSBU の game_id でフィルタ済 → 残ったものは SSBU 1on1 と推定)
