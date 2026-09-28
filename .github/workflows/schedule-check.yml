@@ -1,9 +1,9 @@
 # GitHub の schedule がこのリポジトリで起動するかの確認用 (2026-09-29、確認が済んだら消す)。
 # 何もしない (時刻を出すだけ)。秘密は使わない。
-name: schedule-probe
+name: schedule-check
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '7,23,37,53 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
