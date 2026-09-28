@@ -1,0 +1,15 @@
+# GitHub の schedule がこのリポジトリで起動するかの確認用 (2026-09-29、確認が済んだら消す)。
+# 何もしない (時刻を出すだけ)。秘密は使わない。
+name: schedule-probe
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - run: echo "event=$GITHUB_EVENT_NAME schedule='${{ github.event.schedule }}' at $(date -u +%FT%TZ)"
