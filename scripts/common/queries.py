@@ -561,6 +561,11 @@ def get_tournaments_by_game_query(country_code="", before_now=True, past=False, 
             venueName
             timezone
             url
+            images(type: "profile") {
+              url
+              width
+              height
+            }
           }
           pageInfo {
             totalPages
