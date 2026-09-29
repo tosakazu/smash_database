@@ -65,7 +65,7 @@ def parse_date_or_datetime(value):
 def main():
     # Command-line arguments
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
-    add_api_args(parser, max_retries=100, retry_delay=5)   # --token --url --max-retries --retry-delay
+    add_api_args(parser, max_retries=5, retry_delay=10)   # --token --url --max-retries --retry-delay
     parser.add_argument(
         "--start-date",
         type=parse_date_or_datetime,
