@@ -9,6 +9,7 @@ data/startgg/<Region>/              one directory per region
 ├── done.csv                        region index (four files, rewritten by the downloader)
 ├── done_events.csv
 ├── tournaments.jsonl
+├── tournament_images.jsonl         tournament icon URLs (the image files are not in this repository)
 ├── users.jsonl
 ├── users_derived.jsonl             generated: prefecture per player (scripts/common/derive.py)
 ├── manual/                       hand-maintained tables (see below)
@@ -64,6 +65,24 @@ One JSON object per line, one per tournament:
 `path` is the event directory relative to the repository root. This file is the index
 consumers use to enumerate events; the directory tree alone is not authoritative.
 There is no timestamp field yet (open issue #13).
+
+### `tournament_images.jsonl`
+
+The tournament icon (start.gg `images(type: "profile")`), one line per tournament, sorted by id:
+
+```json
+{"tournament_id": 949713, "url": "https://images.start.gg/images/tournament/949713/image-2d49....png", "width": 400, "height": 400}
+```
+
+`url` is `null` when the tournament has no icon. Only the URL is kept; the files are
+original-resolution images on start.gg's CDN (typically 300–3000 px square, tens of KB to
+over 1 MB), so a consumer that wants them downloads them itself. The URL is stored exactly
+as start.gg returns it: older images carry an `?ehk=...` suffix, and the file served is the
+same with or without it.
+
+`download.py` updates the record of every tournament in its listing window (so a changed
+icon is picked up while the tournament is in the window); tournaments from before this file
+existed are filled in by `scripts/common/manual/backfill_tournament_images.py --region <Region>`.
 
 ### `users.jsonl`
 
