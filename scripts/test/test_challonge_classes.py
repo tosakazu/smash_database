@@ -14,20 +14,26 @@ CLS = SimpleNamespace(CLASS_LETTERS=["B", "C", "D", "E"],
 
 
 def challonge_response(state="complete"):
-    parts = [
-        {"participant": {"id": 11, "name": "Alice (1a2b3c4d)", "misc": "startgg:1001", "final_rank": 1, "seed": 2}},
-        {"participant": {"id": 12, "name": "Bob (5e6f7a8b)", "misc": "startgg:1002", "final_rank": 2, "seed": 1}},
-        {"participant": {"id": 13, "name": "Carol", "misc": None, "final_rank": 3, "seed": 3}},
-        {"participant": {"id": 14, "name": "Dave (99999999)", "misc": " startgg:1004 ", "final_rank": 3, "seed": 4}},
-    ]
-    matches = [
-        {"match": {"id": 1, "state": "complete", "round": 1, "winner_id": 11, "loser_id": 14, "scores_csv": "2-0"}},
-        {"match": {"id": 2, "state": "complete", "round": 1, "winner_id": 12, "loser_id": 13, "scores_csv": "2-1"}},
-        {"match": {"id": 3, "state": "open", "round": 2, "winner_id": None, "loser_id": None, "scores_csv": ""}},
-    ]
-    return {"tournament": {"id": 555, "name": "篝火#15 Bクラス", "state": state, "tournament_type": "single elimination",
-                           "full_challonge_url": "https://challonge.com/test555",
-                           "participants": parts, "matches": matches}}
+    """(tournament, participants, matches) in the Challonge API v2.1 shape (as checked against the real API)."""
+    def part(pid, name, misc, rank, seed):
+        return {"id": str(pid), "type": "participant",
+                "attributes": {"name": name, "misc": misc, "final_rank": rank, "seed": seed}}
+    parts = [part(11, "Alice (1a2b3c4d)", "startgg:1001", 1, 2), part(12, "Bob (5e6f7a8b)", "startgg:1002", 2, 1),
+             part(13, "Carol", None, 3, 3), part(14, "Dave (99999999)", " startgg:1004 ", 3, 4)]
+    def match(mid, st, winner, a, b):
+        return {"id": str(mid), "type": "match",
+                "attributes": {"state": st, "round": 1, "scores": "2 - 0", "winner_id": winner,
+                               "points_by_participant": [{"participant_id": a, "scores": []},
+                                                         {"participant_id": b, "scores": []}]}}
+    matches = [match(1, "complete", 11, 11, 14), match(2, "complete", 12, 13, 12), match(3, "open", None, 11, 12)]
+    tour = {"data": {"id": "555", "type": "tournament",
+                     "attributes": {"name": "篝火#15 Bクラス", "state": state, "tournament_type": "single elimination",
+                                    "full_challonge_url": "https://challonge.com/ja/test555"}}}
+    return tour, parts, matches
+
+
+def parsed_response(state="complete"):
+    return cc.parse_challonge(*challonge_response(state))
 
 
 class ParseTests(unittest.TestCase):
@@ -38,14 +44,16 @@ class ParseTests(unittest.TestCase):
         self.assertIsNone(cc.startgg_user_id("startgg:abc"))
 
     def test_standings_leave_out_untied(self):
-        parsed = cc.parse_challonge(challonge_response())
+        parsed = parsed_response()
         rows, left = cc.standings_from(parsed)
         self.assertEqual(rows, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002},
                                 {"placement": 3, "user_id": 1004}])
         self.assertEqual(left, ["Carol"])
         self.assertEqual(len(parsed["matches"]), 2)          # the open match is not kept
-        self.assertEqual(parsed["matches"][0]["winner_user_id"], 1001)
+        self.assertEqual((parsed["matches"][0]["winner_user_id"], parsed["matches"][0]["loser_user_id"]), (1001, 1004))
+        self.assertEqual(parsed["matches"][1]["winner_user_id"], 1002)
         self.assertIsNone(parsed["matches"][1]["loser_user_id"])   # Carol has no start.gg id
+        self.assertEqual((parsed["id"], parsed["state"]), (555, "complete"))
 
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
@@ -77,7 +85,8 @@ class FetchTests(unittest.TestCase):
                  "challonge_url": "https://challonge.com/test556"}]}, f)
         self.patches = [mock.patch.object(region, "load_region_classifier", lambda r: None),
                         mock.patch.object(region, "class_support", lambda clf: CLS),
-                        mock.patch.dict(os.environ, {"CHALLONGE_API_KEY": "k"})]
+                        mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"),
+                        mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"})]
         for p in self.patches:
             p.start()
 
@@ -88,11 +97,11 @@ class FetchTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def run_fetch(self, response):
-        with mock.patch.object(cc, "fetch_challonge", lambda cid, key: response):
+        with mock.patch.object(cc, "fetch_challonge", lambda cid, token: response):
             return cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
 
     def test_writes_the_virtual_event_when_complete(self):
-        self.assertEqual(self.run_fetch(challonge_response()), 0)
+        self.assertEqual(self.run_fetch(parsed_response()), 0)
         vdir = os.path.join(self.parent, "class_phases", "B_virtual")
         attr = json.load(open(os.path.join(vdir, "attr.json")))
         self.assertEqual(attr["event_id"], -7771)
@@ -102,7 +111,7 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(open("done.txt").read(), "5\n")
 
     def test_in_progress_is_left_for_later(self):
-        self.run_fetch(challonge_response(state="underway"))
+        self.run_fetch(parsed_response(state="underway"))
         self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
         self.assertEqual(open("done.txt").read(), "")
 
@@ -111,13 +120,13 @@ class FetchTests(unittest.TestCase):
         os.makedirs(vdir)
         with open(os.path.join(vdir, "attr.json"), "w") as f:
             f.write("{}")
-        self.run_fetch(challonge_response())
+        self.run_fetch(parsed_response())
         self.assertFalse(os.path.exists(os.path.join(vdir, "challonge.json")))
         self.assertEqual(open(os.path.join(vdir, "attr.json")).read(), "{}")
 
     def test_without_api_key_nothing_happens(self):
-        with mock.patch.dict(os.environ, {"CHALLONGE_API_KEY": ""}):
-            self.assertEqual(self.run_fetch(challonge_response()), 0)
+        with mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_SECRET": ""}):
+            self.assertEqual(self.run_fetch(parsed_response()), 0)
         self.assertFalse(os.path.exists("done.txt"))
 
 

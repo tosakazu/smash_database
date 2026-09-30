@@ -83,10 +83,12 @@ jobs:
             || echo "::warning::update_class_data が失敗 (クラス大会は前回分のまま)"
 
       # SPSP のページから Challonge で開かれた下位クラス (集計対象のもの)。Challonge で終わったものだけ仮想大会として書く。
-      # CHALLONGE_API_KEY が無ければ何もしない。取り込んだものは push の後で SPSP に「取得済み」と知らせる (下の最後のステップ)
+      # Challonge は SPSP の Challonge アプリの OAuth (client credentials、API v2.1)。無ければ何もしない。
+      # 取り込んだものは push の後で SPSP に「取得済み」と知らせる (下の最後のステップ)
       - name: Challonge の下位クラス
         env:
-          CHALLONGE_API_KEY: ${{ secrets.CHALLONGE_API_KEY }}
+          CHALLONGE_CLIENT_ID: ${{ secrets.CHALLONGE_CLIENT_ID }}
+          CHALLONGE_CLIENT_SECRET: ${{ secrets.CHALLONGE_CLIENT_SECRET }}
         run: |
           python -u -m scripts.common.challonge_classes fetch --region Japan --done-out "$RUNNER_TEMP/class_done.txt" \
             || echo "::warning::Challonge の下位クラスの取得が失敗 (次回また試す)"

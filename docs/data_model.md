@@ -253,12 +253,14 @@ the SPSP Worker (`GET https://spsp.games/api/class_waitlist`). `scripts/common/c
 writes each one whose Challonge state is `complete` into the same `class_phases/<Letter>_virtual/`
 shape (same `event_id` / `timestamp` numbering), plus `challonge.json`: the Challonge source
 (`spsp_class_id`, `parent_event_id`, `id`, `url`, `state`, `participants[{challonge_id, name, misc,
-user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores_csv, winner_user_id,
+user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores, winner_user_id,
 loser_user_id}]`). Participants are tied to start.gg players by `misc = "startgg:<user id>"`, set by
 the SPSP page; a participant without it is left out of `standings.json`. Unlike a start.gg class,
 the Challonge sets are not in the parent's `matches.json`, so they are kept only in `challonge.json`.
 If the parent already has a start.gg class bracket with the same letter, that one is kept and the
-Challonge one is skipped. Run by the Japan download workflow (Environment secret `CHALLONGE_API_KEY`);
+Challonge one is skipped. Read with the SPSP Challonge app (OAuth client credentials, API v2.1; it acts as the app owner's account,
+so it reads the brackets that account owns). Run by the Japan download workflow (Environment secrets
+`CHALLONGE_CLIENT_ID` / `CHALLONGE_CLIENT_SECRET`);
 after the data is pushed, it tells the Worker (`class_done`, secret `SPSP_CLASS_DONE_KEY`).
 
 ## `derived.json`

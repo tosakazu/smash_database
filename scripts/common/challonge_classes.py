@@ -20,7 +20,7 @@ Two steps, so that a bracket is marked done only after its files were pushed:
   python -m scripts.common.challonge_classes fetch --region Japan --done-out done_ids.txt
   (commit and push data-Japan)
   python -m scripts.common.challonge_classes mark-done --done-in done_ids.txt
-Environment: CHALLONGE_API_KEY (fetch), SPSP_CLASS_DONE_KEY (mark-done). Waitlist: --waitlist-url (default
+Environment: CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET (fetch; the SPSP Challonge app, API v2.1), SPSP_CLASS_DONE_KEY (mark-done). Waitlist: --waitlist-url (default
 $SPSP_CLASS_WAITLIST_URL or https://spsp.games/api/class_waitlist) or --waitlist-file (a saved response, for tests).
 Run from the repository root.
 """
@@ -42,7 +42,9 @@ from scripts.common.utils import read_tournaments_jsonl, write_json_compact, wri
 
 DEFAULT_WAITLIST_URL = "https://spsp.games/api/class_waitlist"
 DEFAULT_API_URL = "https://spsp.games/api"
-CHALLONGE_API = "https://api.challonge.com/v1"
+CHALLONGE_API = "https://api.challonge.com/v2.1"
+CHALLONGE_TOKEN_URL = "https://api.challonge.com/oauth/token"
+CHALLONGE_HEADERS = {"Accept": "application/json", "User-Agent": "spsp-ranking (https://spsp.games)"}
 SOURCE_FILE = "challonge.json"
 _MISC_RE = re.compile(r"^\s*startgg:(\d+)\s*$")
 TIMEOUT = 60
@@ -55,27 +57,30 @@ def startgg_user_id(misc) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def parse_challonge(tournament: dict) -> dict:
-    """Challonge v1 tournament (with include_participants / include_matches) → the fields used here."""
-    t = tournament.get("tournament", tournament)
+def parse_challonge(tournament: dict, participants: list[dict], matches: list[dict]) -> dict:
+    """Challonge API v2.1 (JSON:API) tournament / participants / matches → the fields used here."""
+    t = tournament.get("data", tournament)
+    ta = t.get("attributes") or {}
     parts = []
-    for p in t.get("participants") or []:
-        p = p.get("participant", p)
-        parts.append({"challonge_id": p.get("id"), "name": p.get("name") or p.get("display_name"),
-                      "misc": p.get("misc"), "user_id": startgg_user_id(p.get("misc")),
-                      "final_rank": p.get("final_rank"), "seed": p.get("seed")})
+    for p in participants:
+        a = p.get("attributes") or {}
+        parts.append({"challonge_id": int(p["id"]), "name": a.get("name"),
+                      "misc": a.get("misc"), "user_id": startgg_user_id(a.get("misc")),
+                      "final_rank": a.get("final_rank"), "seed": a.get("seed")})
     uid_by_pid = {p["challonge_id"]: p["user_id"] for p in parts}
-    matches = []
-    for m in t.get("matches") or []:
-        m = m.get("match", m)
-        if m.get("state") != "complete" or m.get("winner_id") is None:
+    out_matches = []
+    for m in matches:
+        a = m.get("attributes") or {}
+        if a.get("state") != "complete" or a.get("winner_id") is None:
             continue
-        matches.append({"challonge_id": m.get("id"), "round": m.get("round"), "scores_csv": m.get("scores_csv"),
-                        "winner_user_id": uid_by_pid.get(m.get("winner_id")),
-                        "loser_user_id": uid_by_pid.get(m.get("loser_id"))})
-    return {"id": t.get("id"), "url": t.get("full_challonge_url") or t.get("url"), "name": t.get("name"),
-            "state": t.get("state"), "tournament_type": t.get("tournament_type"),
-            "participants": parts, "matches": matches}
+        pids = [int(x["participant_id"]) for x in a.get("points_by_participant") or []]
+        winner = int(a["winner_id"])
+        loser = next((x for x in pids if x != winner), None)
+        out_matches.append({"challonge_id": int(m["id"]), "round": a.get("round"), "scores": a.get("scores"),
+                            "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser)})
+    return {"id": int(t["id"]), "url": ta.get("full_challonge_url"), "name": ta.get("name"),
+            "state": ta.get("state"), "tournament_type": ta.get("tournament_type"),
+            "participants": parts, "matches": out_matches}
 
 
 def standings_from(parsed: dict) -> tuple[list[dict], list[str]]:
@@ -127,11 +132,36 @@ def load_waitlist(args) -> list[dict]:
     return data.get("items") or []
 
 
-def fetch_challonge(challonge_id, api_key: str) -> dict:
-    r = requests.get(f"{CHALLONGE_API}/tournaments/{challonge_id}.json",
-                     params={"api_key": api_key, "include_participants": 1, "include_matches": 1}, timeout=TIMEOUT)
+def challonge_token(client_id: str, client_secret: str) -> str:
+    """OAuth client-credentials token of the SPSP Challonge app (acts as the app owner's account: it reads the
+    tournaments that account owns, which is where the SPSP site creates the class brackets)."""
+    r = requests.post(CHALLONGE_TOKEN_URL, data={"grant_type": "client_credentials", "client_id": client_id,
+                                                 "client_secret": client_secret,
+                                                 "scope": "tournaments:read participants:read matches:read"},
+                      headers=CHALLONGE_HEADERS, timeout=TIMEOUT)
     r.raise_for_status()
-    return r.json()
+    return r.json()["access_token"]
+
+
+def _get_all(path: str, headers: dict) -> list[dict]:
+    out, page = [], 1
+    while True:
+        r = requests.get(f"{CHALLONGE_API}{path}", params={"page": page, "per_page": 100}, headers=headers, timeout=TIMEOUT)
+        r.raise_for_status()
+        data = r.json().get("data") or []
+        out += data
+        if len(data) < 100:
+            return out
+        page += 1
+
+
+def fetch_challonge(challonge_id, token: str) -> dict:
+    h = {**CHALLONGE_HEADERS, "Authorization": f"Bearer {token}", "Authorization-Type": "v2",
+         "Content-Type": "application/vnd.api+json"}
+    r = requests.get(f"{CHALLONGE_API}/tournaments/{int(challonge_id)}.json", headers=h, timeout=TIMEOUT)
+    r.raise_for_status()
+    return parse_challonge(r.json(), _get_all(f"/tournaments/{int(challonge_id)}/participants.json", h),
+                           _get_all(f"/tournaments/{int(challonge_id)}/matches.json", h))
 
 
 def event_paths(region_dir: Path) -> dict[int, str]:
@@ -144,9 +174,9 @@ def event_paths(region_dir: Path) -> dict[int, str]:
 
 
 def cmd_fetch(args) -> int:
-    api_key = os.environ.get("CHALLONGE_API_KEY")
-    if not api_key:
-        print("CHALLONGE_API_KEY is not set — skipping Challonge class brackets")
+    client_id, client_secret = os.environ.get("CHALLONGE_CLIENT_ID"), os.environ.get("CHALLONGE_CLIENT_SECRET")
+    if not (client_id and client_secret):
+        print("CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET are not set — skipping Challonge class brackets")
         return 0
     from scripts.common.region import class_support, load_region_classifier
     cls = class_support(load_region_classifier(args.region))
@@ -156,7 +186,7 @@ def cmd_fetch(args) -> int:
     region_dir = Path("data/startgg") / args.region.replace(" ", "_")
     items = load_waitlist(args)
     paths = event_paths(region_dir)
-    done, n_wait, n_warn = [], 0, 0
+    done, n_wait, n_warn, token = [], 0, 0, None
     print(f"[challonge] waitlist {len(items)}")
     for it in items:
         label = f"#{it.get('id')} {it.get('name')} ({it.get('challonge_url')})"
@@ -169,9 +199,11 @@ def cmd_fetch(args) -> int:
             print(f"  wait {label}: parent event {it.get('parent_event_id')} not downloaded yet"); n_wait += 1
             continue
         try:
-            parsed = parse_challonge(fetch_challonge(it["challonge_id"], api_key))
+            if token is None:
+                token = challonge_token(client_id, client_secret)
+            parsed = fetch_challonge(it["challonge_id"], token)
         except (requests.RequestException, ValueError) as e:
-            # the request URL carries the API key, so never print the exception text (it includes the URL)
+            # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
             print(f"  WARN {label}: Challonge fetch failed ({type(e).__name__}{f' HTTP {status}' if status else ''}) — next run retries")
             n_warn += 1
