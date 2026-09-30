@@ -221,9 +221,17 @@ def cmd_mark_done(args) -> int:
         raise SystemExit("ERROR: SPSP_CLASS_DONE_KEY is not set")
     failed = 0
     for i in ids:
-        r = requests.post(args.api_url, json={"action": "class_done", "key": key, "id": int(i)}, timeout=TIMEOUT)
-        ok = r.ok and (r.json() or {}).get("ok")
-        print(f"  class_done {i}: {'ok' if ok else f'FAILED {r.status_code} {r.text[:200]}'}")
+        # the Worker takes the body as text/plain (like the site's other /api calls) and always answers HTTP 200;
+        # the result is in "ok" / "error.code" (auth_failed / bad_request / not_found / internal)
+        r = requests.post(args.api_url, data=json.dumps({"action": "class_done", "key": key, "id": int(i)}),
+                          headers={"Content-Type": "text/plain"}, timeout=TIMEOUT)
+        try:
+            body = r.json()
+        except ValueError:
+            body = {}
+        ok = r.ok and body.get("ok")
+        err = (body.get("error") or {}).get("code") or f"HTTP {r.status_code}"
+        print(f"  class_done {i}: {'ok' if ok else f'FAILED ({err})'}")
         failed += 0 if ok else 1
     return 1 if failed else 0
 
