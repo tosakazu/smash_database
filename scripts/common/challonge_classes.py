@@ -211,7 +211,7 @@ def cmd_fetch(args) -> int:
             if token is None:
                 token = challonge_token(client_id, client_secret)
             parsed = fetch_challonge(it["challonge_id"], token)
-        except (requests.RequestException, ValueError) as e:
+        except Exception as e:   # network, HTTP error, or an unexpected response shape: skip this one, keep the rest
             # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
             print(f"  WARN {label}: Challonge fetch failed ({type(e).__name__}{f' HTTP {status}' if status else ''}) — next run retries")

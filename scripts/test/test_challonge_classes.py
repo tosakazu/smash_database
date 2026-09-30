@@ -132,6 +132,17 @@ class FetchTests(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(vdir, "challonge.json")))
         self.assertEqual(open(os.path.join(vdir, "attr.json")).read(), "{}")
 
+    def test_challonge_failures_skip_only_that_bracket(self):
+        import requests
+        for exc in (requests.Timeout("t"), requests.HTTPError("503"), KeyError("data")):
+            def boom(cid, token, exc=exc):
+                raise exc
+            with mock.patch.object(cc, "fetch_challonge", boom):
+                rc = cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
+            self.assertEqual(rc, 0)
+            self.assertEqual(open("done.txt").read(), "")
+            self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
+
     def test_without_api_key_nothing_happens(self):
         with mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_SECRET": ""}):
             self.assertEqual(self.run_fetch(parsed_response()), 0)
