@@ -255,8 +255,15 @@ shape (same `event_id` / `timestamp` numbering), plus `challonge.json`: the Chal
 (`spsp_class_id`, `parent_event_id`, `id`, `url`, `state`, `participants[{challonge_id, name, misc,
 user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores, winner_user_id,
 loser_user_id}]`). Participants are tied to start.gg players by `misc = "startgg:<user id>"`, set by
-the SPSP page; a participant without it is left out of `standings.json`. Unlike a start.gg class,
-the Challonge sets are not in the parent's `matches.json`, so they are kept only in `challonge.json`.
+the SPSP page; a participant without it is left out of `standings.json` (a start.gg id on two participants
+is kept once, with the better placement). Unlike a start.gg class, the Challonge sets are not in the
+parent's `matches.json`; they are written to `class_matches.json` in the virtual directory, as rows of the
+same shape as `matches.json` (`source: "challonge"`, start.gg-only fields null, `global_bracket_label` such as
+`"B-Winners TOP 8"` / `"B-Losers TOP 6"` and `round_text` `"Grand Final"` / `"Grand Final Reset"`), and the
+ranking build reads them as class sets of the parent event, exactly like start.gg class sets. `matches.json`
+stays empty, so nothing is counted twice. Known limit: if start.gg later moves the parent event to another
+date, the downloader re-creates the event under the new date and drops the old directory, and with it the
+Challonge class (it is not re-listed once done).
 If the parent already has a start.gg class bracket with the same letter, that one is kept and the
 Challonge one is skipped. Read with the SPSP Challonge app (OAuth client credentials with the `application:manage` scope, API v2.1
 `/application/tournaments/...`): it sees every bracket created through the app (TOs authorise the app with
