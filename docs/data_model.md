@@ -258,8 +258,9 @@ loser_user_id}]`). Participants are tied to start.gg players by `misc = "startgg
 the SPSP page; a participant without it is left out of `standings.json`. Unlike a start.gg class,
 the Challonge sets are not in the parent's `matches.json`, so they are kept only in `challonge.json`.
 If the parent already has a start.gg class bracket with the same letter, that one is kept and the
-Challonge one is skipped. Read with the SPSP Challonge app (OAuth client credentials, API v2.1; it acts as the app owner's account,
-so it reads the brackets that account owns). Run by the Japan download workflow (Environment secrets
+Challonge one is skipped. Read with the SPSP Challonge app (OAuth client credentials with the `application:manage` scope, API v2.1
+`/application/tournaments/...`): it sees every bracket created through the app (TOs authorise the app with
+"Log in with Challonge" on the SPSP site), not brackets created elsewhere. Run by the Japan download workflow (Environment secrets
 `CHALLONGE_CLIENT_ID` / `CHALLONGE_CLIENT_SECRET`);
 after the data is pushed, it tells the Worker (`class_done`, secret `SPSP_CLASS_DONE_KEY`).
 

@@ -133,11 +133,12 @@ def load_waitlist(args) -> list[dict]:
 
 
 def challonge_token(client_id: str, client_secret: str) -> str:
-    """OAuth client-credentials token of the SPSP Challonge app (acts as the app owner's account: it reads the
-    tournaments that account owns, which is where the SPSP site creates the class brackets)."""
+    """OAuth client-credentials token of the SPSP Challonge app with the application scope: it reads every tournament
+    created through the app (TOs authorise the app with "Log in with Challonge" on the SPSP site and create the class
+    bracket with their own token), under /v2.1/application/tournaments/..."""
     r = requests.post(CHALLONGE_TOKEN_URL, data={"grant_type": "client_credentials", "client_id": client_id,
                                                  "client_secret": client_secret,
-                                                 "scope": "tournaments:read participants:read matches:read"},
+                                                 "scope": "application:manage"},
                       headers=CHALLONGE_HEADERS, timeout=TIMEOUT)
     r.raise_for_status()
     return r.json()["access_token"]
@@ -158,10 +159,10 @@ def _get_all(path: str, headers: dict) -> list[dict]:
 def fetch_challonge(challonge_id, token: str) -> dict:
     h = {**CHALLONGE_HEADERS, "Authorization": f"Bearer {token}", "Authorization-Type": "v2",
          "Content-Type": "application/vnd.api+json"}
-    r = requests.get(f"{CHALLONGE_API}/tournaments/{int(challonge_id)}.json", headers=h, timeout=TIMEOUT)
+    base = f"/application/tournaments/{int(challonge_id)}"
+    r = requests.get(f"{CHALLONGE_API}{base}.json", headers=h, timeout=TIMEOUT)
     r.raise_for_status()
-    return parse_challonge(r.json(), _get_all(f"/tournaments/{int(challonge_id)}/participants.json", h),
-                           _get_all(f"/tournaments/{int(challonge_id)}/matches.json", h))
+    return parse_challonge(r.json(), _get_all(f"{base}/participants.json", h), _get_all(f"{base}/matches.json", h))
 
 
 def event_paths(region_dir: Path) -> dict[int, str]:
