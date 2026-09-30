@@ -1,0 +1,102 @@
+# 日本の大会データの取得 (start.gg → data-Japan)。ConoHa の nightly (spsp_scripts deploy/update_and_deploy.sh の
+# [1/5]〜[2.65/5]) と同じ手順を GitHub Actions で行う。2026-09-28 作成。
+# 3 時間ごと (JST 0・3・6・…・21 時の 3 分) に、サーバの cron が spsp_scripts の deploy/ci/trigger.sh download-jp で
+# push=true を付けて起動する (公開リポジトリなので無料)。GitHub の schedule は追加から 5 時間たっても一度も起動しなかったので
+# 使わない (二重起動を避けるため on.schedule も外した。2026-09-29)。
+# ランキングのビルドは spsp_scripts 側が 1 日 5 回、ここで push されたデータを読む。
+#
+# 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
+#   - 秘密は Environment「japan-data」にだけ置く。リポジトリ全体の Secrets には置かない
+#     (書き込み権限のある人は、自分のブランチにワークフローを書けばリポジトリの Secrets を読める)。
+#   - japan-data は main ブランチからの実行でしか使えない (deployment branch policy)。main は PR とレビューが要るので、
+#     誰かが自分のブランチでワークフローを書き換えて実行しても鍵は渡らない。
+#   - JP_STARTGG_TOKEN = 日本の取得用の start.gg トークン。JP_DATA_DEPLOY_KEY = このリポジトリだけに効く書き込み用
+#     deploy key (data-Japan の「owner only」ルールを通れるのは所有者とこの deploy key だけ)。北米は別の鍵を使う。
+#   - pull_request などの外から起動できるトリガーは付けない。
+#
+# ConoHa の nightly (data-Japan にも push していた) は 2026-09-28 17:35 から一時停止。再開するときはここの schedule を
+# 止めること (両方で push すると食い違う)。手動実行の push は既定で off。
+name: download-japan
+
+on:
+  workflow_dispatch:
+    inputs:
+      push:
+        description: data-Japan に commit して push する (ConoHa の nightly と同時に使わないこと)
+        type: boolean
+        default: false
+      days:
+        description: 何日前までの大会を取り直すか (ConoHa の nightly と同じ 14)
+        type: string
+        default: '14'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: download-japan
+  cancel-in-progress: false
+
+jobs:
+  download:
+    # main 以外からは走らせない (Environment 側の制限と二重にしておく)
+    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: japan-data
+    timeout-minutes: 60
+    env:
+      TZ: Asia/Tokyo
+    steps:
+      - name: data-Japan (スクリプトとデータ、最新 1 コミット)
+        uses: actions/checkout@v4
+        with:
+          ref: data-Japan
+          fetch-depth: 1
+          ssh-key: ${{ secrets.JP_DATA_DEPLOY_KEY }}
+          persist-credentials: ${{ inputs.push }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -q -r requirements.txt
+
+      - name: 取得 (過去大会・開催予定・クラス bracket)
+        env:
+          STARTGG_TOKEN: ${{ secrets.JP_STARTGG_TOKEN }}
+          DAYS: ${{ inputs.days }}
+        run: |
+          set -o pipefail
+          TODAY=$(date +%F); START=$(date -d "-${DAYS} days" +%F)
+          echo "取得期間: $START 〜 $TODAY"
+          python -u scripts/common/download.py --start-date "$TODAY" --finish-date "$START" --country-code JP \
+            --startgg-dir data/startgg --done-file-path data/startgg/Japan/done.csv \
+            --users-file-path data/startgg/Japan/users.jsonl --tournament-file-path data/startgg/Japan/tournaments.jsonl \
+            --awaiting-file data/startgg/Japan/manual/awaiting_resume.json 2>&1 | tee "$RUNNER_TEMP/dl.log" \
+            | grep -vE 'InsecureRequestWarning|warnings.warn'
+          n=$(grep -c FetchError "$RUNNER_TEMP/dl.log" || true)
+          [ "$n" -eq 0 ] || echo "::warning::download で FetchError $n 件 (該当大会は done にならず次回取り直し)"
+          python -u scripts/common/fetch_upcoming.py --country JP --lookahead-days 21 2>&1 | grep -vE 'InsecureRequestWarning|warnings.warn'
+          python -u scripts/common/update_class_data.py --region Japan --since-days 30 \
+            || echo "::warning::update_class_data が失敗 (クラス大会は前回分のまま)"
+
+      - name: 判定 (derived.json) と整合性チェック
+        run: |
+          python -u scripts/common/derive.py --region Japan
+          python -u scripts/common/fix/validate_data.py --region Japan --baseline data/startgg/Japan/validation_baseline.json \
+            || echo "::warning::validate_data が種別ごとの増加を検出"
+
+      - name: 変更の要約
+        run: git status --short -- data/startgg | awk '{print $1}' | sort | uniq -c; git diff --stat -- data/startgg | tail -1
+
+      - name: data-Japan に commit して push
+        if: inputs.push
+        run: |
+          git config user.name tosakazu
+          git config user.email smash.tosakazu@gmail.com
+          git add -A -- data/startgg
+          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+          git commit -q -m "data: $(date +%F) nightly (GitHub Actions)"
+          git push origin HEAD:data-Japan
