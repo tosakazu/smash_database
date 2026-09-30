@@ -235,13 +235,31 @@ like any other tournament:
 
 * `attr.json` — copy of the parent event's attributes with `event_name` suffixed
   (`"Singles Tournament / Bクラス"`) and a negative
-  `event_id` = `-(parent_event_id * 10 + ord(letter))`, which cannot collide with real ids.
+  `event_id` = `-(parent_event_id * 10 + n)` where `n` is the letter's position in the region's
+  `CLASS_LETTERS` plus one (B = 1, C = 2, ...), which cannot collide with real ids; `timestamp` is the
+  parent's plus `n` seconds so the class sorts right after its main bracket.
 * `standings.json` — a plain list `[{"placement", "user_id"}]` (no `data` wrapper),
   derived from the class phases: each player's deepest class phase and placement there.
-* `matches.json` — the parent's sets filtered to the class phase groups, same format as
-  above.
+* `matches.json` — always an empty list. The class sets are already in the parent's
+  `matches.json`, and consumers learn them there; repeating them here would count them twice.
 
-The spsp loader reads these virtual directories as regular tournaments.
+The spsp loader reads these virtual directories as regular tournaments (placement scoring only).
+An existing directory is not overwritten (`build_class_virtual_tournaments.py --force` does).
+
+#### Class brackets run on Challonge
+
+A TO can also run a class bracket on Challonge from the SPSP site; the counted ones are listed by
+the SPSP Worker (`GET https://spsp.games/api/class_waitlist`). `scripts/common/challonge_classes.py`
+writes each one whose Challonge state is `complete` into the same `class_phases/<Letter>_virtual/`
+shape (same `event_id` / `timestamp` numbering), plus `challonge.json`: the Challonge source
+(`spsp_class_id`, `parent_event_id`, `id`, `url`, `state`, `participants[{challonge_id, name, misc,
+user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores_csv, winner_user_id,
+loser_user_id}]`). Participants are tied to start.gg players by `misc = "startgg:<user id>"`, set by
+the SPSP page; a participant without it is left out of `standings.json`. Unlike a start.gg class,
+the Challonge sets are not in the parent's `matches.json`, so they are kept only in `challonge.json`.
+If the parent already has a start.gg class bracket with the same letter, that one is kept and the
+Challonge one is skipped. Run by the Japan download workflow (Environment secret `CHALLONGE_API_KEY`);
+after the data is pushed, it tells the Worker (`class_done`, secret `SPSP_CLASS_DONE_KEY`).
 
 ## `derived.json`
 
