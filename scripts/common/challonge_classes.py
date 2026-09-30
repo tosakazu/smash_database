@@ -49,6 +49,7 @@ CHALLONGE_API = "https://api.challonge.com/v2.1"
 CHALLONGE_TOKEN_URL = "https://api.challonge.com/oauth/token"
 CHALLONGE_HEADERS = {"Accept": "application/json", "User-Agent": "spsp-ranking (https://spsp.games)"}
 SOURCE_FILE = "challonge.json"
+CLASS_MATCHES_FILE = "class_matches.json"
 _MISC_RE = re.compile(r"^\s*startgg:(\d+)\s*$")
 TIMEOUT = 60
 
@@ -76,11 +77,15 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
         a = m.get("attributes") or {}
         if a.get("state") != "complete" or a.get("winner_id") is None:
             continue
-        pids = [int(x["participant_id"]) for x in a.get("points_by_participant") or []]
+        pts = {int(x["participant_id"]): x.get("scores") or [] for x in a.get("points_by_participant") or []}
         winner = int(a["winner_id"])
-        loser = next((x for x in pids if x != winner), None)
+        loser = next((x for x in pts if x != winner), None)
+        # games won in the set (Challonge keeps one number per reported set; a class set is one set)
+        w_score = sum(pts.get(winner) or []) if pts.get(winner) else None
+        l_score = sum(pts.get(loser) or []) if loser is not None and pts.get(loser) else None
         out_matches.append({"challonge_id": int(m["id"]), "round": a.get("round"), "scores": a.get("scores"),
-                            "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser)})
+                            "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser),
+                            "winner_score": w_score, "loser_score": l_score})
     return {"id": int(t["id"]), "url": ta.get("full_challonge_url"), "name": ta.get("name"),
             "state": ta.get("state"), "tournament_type": ta.get("tournament_type"),
             "participants": parts, "matches": out_matches}
@@ -101,6 +106,34 @@ def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
         best[uid] = rank
     rows = sorted(({"placement": r, "user_id": u} for u, r in best.items()), key=lambda r: (r["placement"], r["user_id"]))
     return rows, left_out, dups
+
+
+_BRACKET_TYPE = {"single elimination": "SINGLE_ELIMINATION", "double elimination": "DOUBLE_ELIMINATION",
+                 "round robin": "ROUND_ROBIN", "swiss": "SWISS"}
+
+
+def class_matches_from(parsed: dict) -> list[dict]:
+    """The Challonge sets as rows of a start.gg matches.json (same keys; start.gg-only fields are null).
+    Written to class_matches.json in the virtual directory: the ranking build reads it into the parent event's
+    matches as class-bracket sets, the way start.gg class sets already are (they live in the parent's matches.json).
+    Sets with a participant that is not tied to a start.gg player are left out."""
+    btype = _BRACKET_TYPE.get((parsed.get("tournament_type") or "").lower())
+    rows = []
+    for m in parsed["matches"]:
+        if m["winner_user_id"] is None or m["loser_user_id"] is None or m["winner_user_id"] == m["loser_user_id"]:
+            continue
+        rows.append({
+            "match_id": m["challonge_id"], "winner_id": m["winner_user_id"], "loser_id": m["loser_user_id"],
+            "winner_score": m.get("winner_score"), "loser_score": m.get("loser_score"),
+            "round_text": None, "round": m.get("round"), "phase": None, "phase_id": None, "phase_name": None,
+            "phase_order": None, "phase_num_seeds": None, "phase_bracket_type": btype, "phase_top_n": None,
+            "bracket_label": None, "winners_top": None, "losers_top": None, "global_round": None,
+            "global_top_x": None, "global_bracket_label": None, "phase_group_id": None,
+            "phase_group_start_at": None, "wave_id": None, "wave": None, "wave_start_at": None,
+            "dq": False, "cancel": False, "state": 3, "started_at": None, "completed_at": None, "details": [],
+            "source": "challonge",
+        })
+    return rows
 
 
 def virtual_attr(parent_attr: dict, letter: str, class_letters, event_name_fn, num_entrants: int) -> dict:
@@ -245,6 +278,8 @@ def cmd_fetch(args) -> int:
             write_json_pretty(vdir / "attr.json", attr)
             write_json_compact(vdir / "standings.json", standings)
             write_json_compact(vdir / "matches.json", [])   # like start.gg classes: no learning on the virtual side
+            # the sets, learned as part of the parent event (the build adds them to the parent's matches, is_class)
+            write_json_compact(vdir / CLASS_MATCHES_FILE, class_matches_from(parsed))
             write_json_pretty(vdir / SOURCE_FILE, source)
             print(f"  wrote {vdir} ({len(standings)} standings)")
         done.append(it.get("id"))

@@ -63,6 +63,16 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(rows, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002}])
         self.assertEqual(dups, [1001])
 
+    def test_class_matches_have_the_start_gg_row_keys(self):
+        rows = cc.class_matches_from(parsed_response())
+        startgg_keys = {"match_id", "winner_id", "loser_id", "winner_score", "loser_score", "round_text", "round", "phase",
+                        "phase_id", "phase_name", "phase_order", "phase_num_seeds", "phase_bracket_type", "phase_top_n",
+                        "bracket_label", "winners_top", "losers_top", "global_round", "global_top_x",
+                        "global_bracket_label", "phase_group_id", "phase_group_start_at", "wave_id", "wave",
+                        "wave_start_at", "dq", "cancel", "state", "started_at", "completed_at", "details"}
+        self.assertEqual(set(rows[0]) - {"source"}, startgg_keys)
+        self.assertEqual(rows[0]["source"], "challonge")
+
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
                   "end_timestamp": 200, "offline": True, "region": "Japan", "place": {"city": "x"}, "url": "/tournament/t"}
@@ -116,6 +126,9 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(json.load(open(os.path.join(vdir, "matches.json"))), [])
         self.assertEqual(len(json.load(open(os.path.join(vdir, "standings.json")))), 3)
         self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["spsp_class_id"], 5)
+        cm = json.load(open(os.path.join(vdir, "class_matches.json")))
+        self.assertEqual([(r["winner_id"], r["loser_id"], r["state"], r["phase_bracket_type"]) for r in cm],
+                         [(1001, 1004, 3, "SINGLE_ELIMINATION")])     # Carol's set (no start.gg id) is left out
         self.assertEqual(open("done.txt").read(), "5\n")
 
     def test_in_progress_is_left_for_later(self):
