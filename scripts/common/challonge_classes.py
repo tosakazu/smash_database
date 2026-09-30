@@ -86,16 +86,21 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
             "participants": parts, "matches": out_matches}
 
 
-def standings_from(parsed: dict) -> tuple[list[dict], list[str]]:
-    """[{placement, user_id}] sorted, and the names of participants left out (no start.gg id / no rank)."""
-    rows, left_out = [], []
+def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
+    """[{placement, user_id}] sorted; the names of participants left out (no start.gg id / no rank); and the start.gg
+    ids that appeared more than once (the same misc on two participants: only the better placement is kept)."""
+    best, left_out, dups = {}, [], []
     for p in parsed["participants"]:
         if p["user_id"] is None or p["final_rank"] is None:
             left_out.append(p["name"] or str(p["challonge_id"]))
             continue
-        rows.append({"placement": int(p["final_rank"]), "user_id": p["user_id"]})
-    rows.sort(key=lambda r: (r["placement"], r["user_id"]))
-    return rows, left_out
+        uid, rank = p["user_id"], int(p["final_rank"])
+        if uid in best:
+            dups.append(uid)
+            rank = min(rank, best[uid])
+        best[uid] = rank
+    rows = sorted(({"placement": r, "user_id": u} for u, r in best.items()), key=lambda r: (r["placement"], r["user_id"]))
+    return rows, left_out, dups
 
 
 def virtual_attr(parent_attr: dict, letter: str, class_letters, event_name_fn, num_entrants: int) -> dict:
@@ -220,9 +225,12 @@ def cmd_fetch(args) -> int:
             print(f"  WARN {label}: {vdir} already holds a start.gg class bracket — keeping it, Challonge skipped")
             n_warn += 1
             continue
-        standings, left_out = standings_from(parsed)
+        standings, left_out, dups = standings_from(parsed)
         if left_out:
             print(f"  WARN {label}: {len(left_out)} participant(s) without startgg:<id> or rank left out: {left_out[:10]}")
+            n_warn += 1
+        if dups:
+            print(f"  WARN {label}: start.gg id(s) on more than one participant (kept the better placement): {dups[:10]}")
             n_warn += 1
         if not standings:
             print(f"  WARN {label}: no participant could be tied to a start.gg player — not written"); n_warn += 1

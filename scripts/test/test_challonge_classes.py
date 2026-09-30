@@ -45,7 +45,8 @@ class ParseTests(unittest.TestCase):
 
     def test_standings_leave_out_untied(self):
         parsed = parsed_response()
-        rows, left = cc.standings_from(parsed)
+        rows, left, dups = cc.standings_from(parsed)
+        self.assertEqual(dups, [])
         self.assertEqual(rows, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002},
                                 {"placement": 3, "user_id": 1004}])
         self.assertEqual(left, ["Carol"])
@@ -54,6 +55,13 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(parsed["matches"][1]["winner_user_id"], 1002)
         self.assertIsNone(parsed["matches"][1]["loser_user_id"])   # Carol has no start.gg id
         self.assertEqual((parsed["id"], parsed["state"]), (555, "complete"))
+
+    def test_duplicate_misc_keeps_the_better_placement(self):
+        tour, parts, matches = challonge_response()
+        parts[3]["attributes"]["misc"] = "startgg:1001"      # Dave carries Alice's id too (rank 3)
+        rows, left, dups = cc.standings_from(cc.parse_challonge(tour, parts, matches))
+        self.assertEqual(rows, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002}])
+        self.assertEqual(dups, [1001])
 
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
