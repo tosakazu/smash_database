@@ -10,7 +10,8 @@ from scripts.common import challonge_classes as cc
 from scripts.common import region
 
 CLS = SimpleNamespace(CLASS_LETTERS=["B", "C", "D", "E"],
-                      class_virtual_event_name=lambda name, letter: f"{name} / {letter}クラス")
+                      class_virtual_event_name=lambda name, letter: f"{name} / {letter}クラス",
+                      class_letter=lambda name: name[0] if name[1:].startswith("クラス") else None)
 
 
 def challonge_response(state="complete"):
@@ -140,7 +141,8 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(len(json.load(open(os.path.join(vdir, "standings.json")))), 3)
         self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["spsp_class_id"], 5)
         cm = json.load(open(os.path.join(vdir, "class_matches.json")))
-        self.assertEqual([(r["winner_id"], r["loser_id"], r["state"], r["phase_bracket_type"]) for r in cm],
+        self.assertEqual(cm["replaces_phase_group_ids"], [])
+        self.assertEqual([(r["winner_id"], r["loser_id"], r["state"], r["phase_bracket_type"]) for r in cm["data"]],
                          [(1001, 1004, 3, "SINGLE_ELIMINATION")])     # Carol's set (no start.gg id) is left out
         self.assertEqual(open("done.txt").read(), "5\n")
 
@@ -149,14 +151,91 @@ class FetchTests(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
         self.assertEqual(open("done.txt").read(), "")
 
-    def test_start_gg_class_bracket_wins(self):
+    # ── one class bracket per (main event, class): the one that progressed ──
+    def startgg_class(self, sets, virtual=True):
+        """A start.gg B class inside the parent: phase 'Bクラス' (phase group 900) with `sets` completed sets."""
+        with open(os.path.join(self.parent, "phases.json"), "w") as f:
+            json.dump({"phases": [{"name": "本戦", "is_class": False, "phase_groups": [{"id": 800}]},
+                                  {"name": "Bクラス", "is_class": True, "phase_groups": [{"id": 900}]}]}, f)
+        rows = [{"state": 3, "phase_group_id": 800, "winner_id": 1, "loser_id": 2}] + \
+               [{"state": 3, "phase_group_id": 900, "winner_id": 3, "loser_id": 4} for _ in range(sets)]
+        with open(os.path.join(self.parent, "matches.json"), "w") as f:
+            json.dump({"data": rows}, f)
         vdir = os.path.join(self.parent, "class_phases", "B_virtual")
-        os.makedirs(vdir)
-        with open(os.path.join(vdir, "attr.json"), "w") as f:
-            f.write("{}")
+        if virtual:
+            os.makedirs(vdir)
+            with open(os.path.join(vdir, "attr.json"), "w") as f:
+                f.write('{"startgg": true}')
+        return vdir
+
+    def test_start_gg_with_more_progress_stays_and_challonge_is_excluded(self):
+        vdir = self.startgg_class(sets=5)                     # Challonge has 2 completed sets
         self.run_fetch(parsed_response())
         self.assertFalse(os.path.exists(os.path.join(vdir, "challonge.json")))
-        self.assertEqual(open(os.path.join(vdir, "attr.json")).read(), "{}")
+        self.assertEqual(open(os.path.join(vdir, "attr.json")).read(), '{"startgg": true}')
+        self.assertEqual(open("done.txt").read(), "5\n")      # marked done (excluded) so it leaves the waitlist
+
+    def test_empty_start_gg_class_is_replaced(self):
+        vdir = self.startgg_class(sets=0)
+        self.run_fetch(parsed_response())
+        self.assertTrue(os.path.exists(os.path.join(vdir, "challonge.json")))
+        cm = json.load(open(os.path.join(vdir, "class_matches.json")))
+        self.assertEqual(cm["replaces_phase_group_ids"], [900])   # listed even while empty: later sets are not learned twice
+        self.assertEqual(open("done.txt").read(), "5\n")
+
+    def test_start_gg_with_less_progress_is_replaced(self):
+        vdir = self.startgg_class(sets=1, virtual=False)      # start.gg class with 1 set, virtual not built yet
+        self.run_fetch(parsed_response())
+        cm = json.load(open(os.path.join(vdir, "class_matches.json")))
+        self.assertEqual(cm["replaces_phase_group_ids"], [900])
+        self.assertEqual(len(cm["data"]), 1)
+
+    def test_tie_keeps_what_is_there(self):
+        vdir = self.startgg_class(sets=2)                     # same number of completed sets as the Challonge one
+        self.run_fetch(parsed_response())
+        self.assertFalse(os.path.exists(os.path.join(vdir, "challonge.json")))
+        self.assertEqual(open("done.txt").read(), "5\n")
+
+    def test_two_challonge_brackets_for_one_class_take_the_further_one(self):
+        with open("waitlist.json", "w") as f:
+            json.dump({"ok": True, "items": [
+                {"id": 5, "parent_event_id": 777, "class_letter": "B", "name": "a", "challonge_id": 555, "challonge_url": "u"},
+                {"id": 7, "parent_event_id": 777, "class_letter": "B", "name": "b", "challonge_id": 557, "challonge_url": "u"}]}, f)
+        full = parsed_response()
+        small = parsed_response(); small["matches"] = small["matches"][:1]; small["id"] = 557
+        with mock.patch.object(cc, "fetch_challonge", lambda cid, token: full if cid == 557 else small):
+            cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
+        vdir = os.path.join(self.parent, "class_phases", "B_virtual")
+        self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["spsp_class_id"], 7)
+        self.assertEqual(sorted(open("done.txt").read().split()), ["5", "7"])   # both leave the waitlist
+
+    def test_decided_once_does_not_flip(self):
+        vdir = self.startgg_class(sets=0)
+        self.run_fetch(parsed_response())                     # Challonge #5 replaces the empty start.gg class
+        first = {f: open(os.path.join(vdir, f)).read() for f in sorted(os.listdir(vdir))}
+        with open(os.path.join(self.parent, "matches.json"), "w") as f:
+            json.dump({"data": [{"state": 3, "phase_group_id": 900, "winner_id": 3, "loser_id": 4}] * 9}, f)   # start.gg fills up later (a re-fetch)
+        with open("waitlist.json", "w") as f:                 # ... and #5 is done, so the waitlist no longer has it
+            json.dump({"ok": True, "items": []}, f)
+        self.run_fetch(parsed_response())
+        self.assertEqual({f: open(os.path.join(vdir, f)).read() for f in sorted(os.listdir(vdir))}, first)
+        # a later Challonge bracket for the same class with no more sets than the ingested one is excluded
+        with open("waitlist.json", "w") as f:
+            json.dump({"ok": True, "items": [
+                {"id": 8, "parent_event_id": 777, "class_letter": "B", "name": "c", "challonge_id": 558, "challonge_url": "u"}]}, f)
+        self.run_fetch(parsed_response())
+        self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["spsp_class_id"], 5)
+        self.assertEqual(open("done.txt").read(), "8\n")
+
+    def test_deleted_on_challonge_is_excluded(self):
+        import requests
+        resp = mock.Mock(status_code=404)
+        def gone(cid, token):
+            raise requests.HTTPError("404", response=resp)
+        with mock.patch.object(cc, "fetch_challonge", gone):
+            cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
+        self.assertEqual(open("done.txt").read(), "5\n")
+        self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
 
     def test_challonge_failures_skip_only_that_bracket(self):
         import requests

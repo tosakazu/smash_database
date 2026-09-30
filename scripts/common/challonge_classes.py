@@ -247,6 +247,33 @@ def event_paths(region_dir: Path) -> dict[int, str]:
     return out
 
 
+def startgg_class_progress(parent_dir: Path, letter: str, class_letter_fn) -> tuple[int, list[int]]:
+    """(completed sets, phase_group ids) of the start.gg class bracket `letter` inside the parent event: the parent's
+    matches.json sets in the phase groups of the phases.json phases that are class phases named for that letter.
+    An empty (or absent) start.gg class counts as 0."""
+    try:
+        phases = json.loads((parent_dir / "phases.json").read_text(encoding="utf-8")).get("phases") or []
+    except (FileNotFoundError, ValueError):
+        return 0, []
+    pgs = sorted({int(g["id"]) for ph in phases if ph.get("is_class") and class_letter_fn(ph.get("name") or "") == letter
+                  for g in ph.get("phase_groups") or [] if g.get("id") is not None})
+    if not pgs:
+        return 0, []
+    try:
+        blob = json.loads((parent_dir / "matches.json").read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        return 0, pgs
+    rows = blob.get("data", []) if isinstance(blob, dict) else blob
+    n = sum(1 for m in rows if isinstance(m, dict) and m.get("state") == 3 and not m.get("dq") and not m.get("cancel")
+            and m.get("phase_group_id") is not None and int(m["phase_group_id"]) in pgs)
+    return n, pgs
+
+
+def challonge_progress(parsed: dict) -> tuple[int, int]:
+    """(completed sets, ranked participants): how far a Challonge bracket actually went."""
+    return len(parsed["matches"]), sum(1 for p in parsed["participants"] if p.get("final_rank") is not None)
+
+
 def cmd_fetch(args) -> int:
     client_id, client_secret = os.environ.get("CHALLONGE_CLIENT_ID"), os.environ.get("CHALLONGE_CLIENT_SECRET")
     if not (client_id and client_secret):
@@ -260,7 +287,9 @@ def cmd_fetch(args) -> int:
     region_dir = Path("data/startgg") / args.region.replace(" ", "_")
     items = load_waitlist(args)
     paths = event_paths(region_dir)
-    done, n_wait, n_warn, token = [], 0, 0, None
+    # done = ids to tell the Worker after the push: ingested ones and ones decided not to ingest (excluded)
+    done, n_written, n_excluded, n_wait, n_warn, token = [], 0, 0, 0, 0, None
+    groups: dict[tuple[str, str], list] = {}      # (parent dir, letter) → completed Challonge candidates
     print(f"[challonge] waitlist {len(items)}")
     for it in items:
         label = f"#{it.get('id')} {it.get('name')} ({it.get('challonge_url')})"
@@ -279,16 +308,15 @@ def cmd_fetch(args) -> int:
         except Exception as e:   # network, HTTP error, or an unexpected response shape: skip this one, keep the rest
             # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
+            if status == 404:    # the bracket was deleted on Challonge: nothing will ever come, take it off the list
+                print(f"  EXCLUDE {label}: not found on Challonge (deleted) — marked done without ingesting")
+                done.append(it.get("id")); n_excluded += 1
+                continue
             print(f"  WARN {label}: Challonge fetch failed ({type(e).__name__}{f' HTTP {status}' if status else ''}) — next run retries")
             n_warn += 1
             continue
         if parsed["state"] != "complete":
             print(f"  wait {label}: Challonge state {parsed['state']}"); n_wait += 1
-            continue
-        vdir = Path(parent_path) / "class_phases" / f"{letter}_virtual"
-        if (vdir / "attr.json").exists() and not (vdir / SOURCE_FILE).exists():
-            print(f"  WARN {label}: {vdir} already holds a start.gg class bracket — keeping it, Challonge skipped")
-            n_warn += 1
             continue
         standings, left_out, dups = standings_from(parsed)
         if left_out:
@@ -298,26 +326,65 @@ def cmd_fetch(args) -> int:
             print(f"  WARN {label}: start.gg id(s) on more than one participant (kept the better placement): {dups[:10]}")
             n_warn += 1
         if not standings:
-            print(f"  WARN {label}: no participant could be tied to a start.gg player — not written"); n_warn += 1
+            print(f"  EXCLUDE {label}: no participant could be tied to a start.gg player — marked done without ingesting")
+            done.append(it.get("id")); n_excluded += 1
             continue
-        parent_attr = json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8"))
+        groups.setdefault((parent_path, letter), []).append((it, label, parsed, standings))
+
+    # One class bracket per (main event, class): the one that actually progressed (most completed sets, then most
+    # ranked participants; ties keep what is already there, then the earlier registration). The others are excluded.
+    for (parent_path, letter), cands in groups.items():
+        parent_dir = Path(parent_path)
+        vdir = parent_dir / "class_phases" / f"{letter}_virtual"
+        sgg_sets, sgg_pgs = startgg_class_progress(parent_dir, letter, cls.class_letter)
+        existing = None                           # (what the build already sees, its completed sets)
+        if (vdir / SOURCE_FILE).exists():
+            old = json.loads((vdir / SOURCE_FILE).read_text(encoding="utf-8"))
+            existing = ("challonge #%s" % old.get("spsp_class_id"), len(old.get("matches") or []))
+        elif sgg_sets or (vdir / "attr.json").exists():
+            existing = ("start.gg", sgg_sets)
+        ranked = sorted(cands, key=lambda c: (-challonge_progress(c[2])[0], -challonge_progress(c[2])[1], int(c[0].get("id") or 0)))
+        best = ranked[0]
+        # a new bracket replaces what is there only with strictly more completed sets (a tie keeps the current one).
+        # Decided once: a bracket leaves the waitlist when marked done, so nothing is re-compared later (a start.gg class
+        # that fills up afterwards does not flip it back; see replaces_phase_group_ids below)
+        winner = best if existing is None or challonge_progress(best[2])[0] > existing[1] else None
+        for c in ranked:
+            if c is winner:
+                continue
+            why = f"{existing[0]} has as much progress ({existing[1]} sets)" if winner is None else \
+                  f"#{winner[0].get('id')} progressed further ({challonge_progress(winner[2])[0]} sets)"
+            print(f"  EXCLUDE {c[1]}: {vdir} — {why}; marked done without ingesting")
+            done.append(c[0].get("id")); n_excluded += 1
+        if winner is None:
+            continue
+        it, label, parsed, standings = winner
+        # the start.gg class of the same letter (if the TO also made one) must not be learned too: its phase groups are
+        # always listed, even while empty, so sets that appear there later (a re-fetch) are not counted twice
+        replaces = sgg_pgs
+        parent_attr = json.loads((parent_dir / "attr.json").read_text(encoding="utf-8"))
         attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name, len(parsed["participants"]))
         source = {"spsp_class_id": it.get("id"), "parent_event_id": it.get("parent_event_id"), **parsed}
+        note = f" (replaces {existing[0]})" if existing else ""
         if args.dry_run:
-            print(f"  DRY {label}: would write {vdir} ({len(standings)} standings, {len(parsed['matches'])} matches)")
+            print(f"  DRY {label}: would write {vdir} ({len(standings)} standings, {len(parsed['matches'])} matches){note}")
         else:
-            vdir.mkdir(parents=True, exist_ok=True)
+            if vdir.exists():
+                shutil.rmtree(vdir)
+            vdir.mkdir(parents=True)
             write_json_pretty(vdir / "attr.json", attr)
             write_json_compact(vdir / "standings.json", standings)
             write_json_compact(vdir / "matches.json", [])   # like start.gg classes: no learning on the virtual side
-            # the sets, learned as part of the parent event (the build adds them to the parent's matches, is_class)
-            write_json_compact(vdir / CLASS_MATCHES_FILE, class_matches_from(parsed, letter))
+            # the sets, learned as part of the parent event (the build adds them to the parent's matches, is_class);
+            # replaces_phase_group_ids = start.gg class sets of the same class the build must then leave out
+            write_json_compact(vdir / CLASS_MATCHES_FILE, {"data": class_matches_from(parsed, letter),
+                                                           "replaces_phase_group_ids": replaces})
             write_json_pretty(vdir / SOURCE_FILE, source)
-            print(f"  wrote {vdir} ({len(standings)} standings)")
-        done.append(it.get("id"))
+            print(f"  wrote {vdir} ({len(standings)} standings){note}")
+        done.append(it.get("id")); n_written += 1
     if args.done_out and not args.dry_run:
         Path(args.done_out).write_text("".join(f"{i}\n" for i in done), encoding="utf-8")
-    print(f"[challonge] written {len(done)}, waiting {n_wait}, warnings {n_warn}")
+    print(f"[challonge] written {n_written}, excluded {n_excluded}, waiting {n_wait}, warnings {n_warn}")
     return 0
 
 
