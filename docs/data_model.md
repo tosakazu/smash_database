@@ -262,7 +262,9 @@ Challonge one is skipped. Read with the SPSP Challonge app (OAuth client credent
 `/application/tournaments/...`): it sees every bracket created through the app (TOs authorise the app with
 "Log in with Challonge" on the SPSP site), not brackets created elsewhere. Run by the Japan download workflow (Environment secrets
 `CHALLONGE_CLIENT_ID` / `CHALLONGE_CLIENT_SECRET`);
-after the data is pushed, it tells the Worker (`class_done`, secret `SPSP_CLASS_DONE_KEY`).
+after the data is pushed, it tells the Worker (`class_done`, secret `SPSP_CLASS_DONE_KEY`). If the TO deleted
+the class while it was being ingested, the Worker answers `status: "deleted"`; the directory is removed again
+and the removal is pushed.
 
 ## `derived.json`
 

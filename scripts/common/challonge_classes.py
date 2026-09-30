@@ -19,7 +19,9 @@ bracket with that letter, the start.gg one wins and the Challonge one is skipped
 Two steps, so that a bracket is marked done only after its files were pushed:
   python -m scripts.common.challonge_classes fetch --region Japan --done-out done_ids.txt
   (commit and push data-Japan)
-  python -m scripts.common.challonge_classes mark-done --done-in done_ids.txt
+  python -m scripts.common.challonge_classes mark-done --region Japan --done-in done_ids.txt
+  (if a TO deleted a class meanwhile, the Worker answers status "deleted": its directory is removed again,
+   so commit and push once more)
 Environment: CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET (fetch; the SPSP Challonge app, API v2.1), SPSP_CLASS_DONE_KEY (mark-done). Waitlist: --waitlist-url (default
 $SPSP_CLASS_WAITLIST_URL or https://spsp.games/api/class_waitlist) or --waitlist-file (a saved response, for tests).
 Run from the repository root.
@@ -30,6 +32,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -243,6 +246,20 @@ def cmd_fetch(args) -> int:
     return 0
 
 
+def remove_ingested(region_dir: Path, class_ids: set[int]) -> list[Path]:
+    """Delete the virtual directories written for these SPSP class ids (found by challonge.json spsp_class_id)."""
+    removed = []
+    for src in (region_dir / "events").glob(f"**/class_phases/*_virtual/{SOURCE_FILE}"):
+        try:
+            cid = json.loads(src.read_text(encoding="utf-8")).get("spsp_class_id")
+        except ValueError:
+            continue
+        if cid is not None and int(cid) in class_ids:
+            shutil.rmtree(src.parent)
+            removed.append(src.parent)
+    return removed
+
+
 def cmd_mark_done(args) -> int:
     ids = [l.strip() for l in Path(args.done_in).read_text(encoding="utf-8").splitlines() if l.strip()] \
         if Path(args.done_in).exists() else []
@@ -252,10 +269,12 @@ def cmd_mark_done(args) -> int:
     key = os.environ.get("SPSP_CLASS_DONE_KEY")
     if not key:
         raise SystemExit("ERROR: SPSP_CLASS_DONE_KEY is not set")
-    failed = 0
+    failed, deleted = 0, set()
     for i in ids:
         # the Worker takes the body as text/plain (like the site's other /api calls) and always answers HTTP 200;
-        # the result is in "ok" / "error.code" (auth_failed / bad_request / not_found / internal)
+        # the result is in "ok" / "error.code" (auth_failed / bad_request / not_found / internal).
+        # status "deleted" = the TO deleted the class while it was being ingested (the Challonge bracket is gone too):
+        # the Worker did not mark it done, and what was just ingested must be thrown away
         r = requests.post(args.api_url, data=json.dumps({"action": "class_done", "key": key, "id": int(i)}),
                           headers={"Content-Type": "text/plain"}, timeout=TIMEOUT)
         try:
@@ -263,9 +282,17 @@ def cmd_mark_done(args) -> int:
         except ValueError:
             body = {}
         ok = r.ok and body.get("ok")
+        if ok and body.get("status") == "deleted":
+            deleted.add(int(i))
+            print(f"  class_done {i}: deleted by the TO — removing what was ingested")
+            continue
         err = (body.get("error") or {}).get("code") or f"HTTP {r.status_code}"
         print(f"  class_done {i}: {'ok' if ok else f'FAILED ({err})'}")
         failed += 0 if ok else 1
+    if deleted:
+        region_dir = Path("data/startgg") / args.region.replace(" ", "_")
+        for d in remove_ingested(region_dir, deleted):
+            print(f"  removed {d}")
     return 1 if failed else 0
 
 
@@ -280,6 +307,7 @@ def main(argv=None) -> int:
     f.add_argument("--dry-run", action="store_true")
     d = sub.add_parser("mark-done", help="tell the SPSP Worker which brackets were written (after the push)")
     d.add_argument("--done-in", required=True)
+    d.add_argument("--region", required=True, help="where to remove brackets the TO deleted meanwhile")
     d.add_argument("--api-url", default=os.environ.get("SPSP_API_URL", DEFAULT_API_URL))
     args = ap.parse_args(argv)
     return cmd_fetch(args) if args.cmd == "fetch" else cmd_mark_done(args)

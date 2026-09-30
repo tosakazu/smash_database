@@ -130,5 +130,28 @@ class FetchTests(unittest.TestCase):
         self.assertFalse(os.path.exists("done.txt"))
 
 
+    def run_mark_done(self, status_by_id):
+        class Resp:
+            ok = True
+            status_code = 200
+            def __init__(self, body): self.body = body
+            def json(self): return self.body
+        def post(url, data, headers, timeout):
+            i = json.loads(data)["id"]
+            return Resp({"ok": True, "id": i, "status": status_by_id[i]})
+        with mock.patch.dict(os.environ, {"SPSP_CLASS_DONE_KEY": "k"}), mock.patch.object(cc.requests, "post", post):
+            return cc.main(["mark-done", "--region", "Japan", "--done-in", "done.txt"])
+
+    def test_mark_done_keeps_the_data(self):
+        self.run_fetch(parsed_response())
+        self.assertEqual(self.run_mark_done({5: "done"}), 0)
+        self.assertTrue(os.path.exists(os.path.join(self.parent, "class_phases", "B_virtual", "attr.json")))
+
+    def test_deleted_meanwhile_removes_what_was_ingested(self):
+        self.run_fetch(parsed_response())
+        self.assertEqual(self.run_mark_done({5: "deleted"}), 0)
+        self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases", "B_virtual")))
+
+
 if __name__ == "__main__":
     unittest.main()

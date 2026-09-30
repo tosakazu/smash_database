@@ -119,4 +119,11 @@ jobs:
           SPSP_CLASS_DONE_KEY: ${{ secrets.SPSP_CLASS_DONE_KEY }}
         run: |
           [ -s "$RUNNER_TEMP/class_done.txt" ] || { echo "取り込んだものなし"; exit 0; }
-          python -u -m scripts.common.challonge_classes mark-done --done-in "$RUNNER_TEMP/class_done.txt"
+          rc=0; python -u -m scripts.common.challonge_classes mark-done --region Japan --done-in "$RUNNER_TEMP/class_done.txt" || rc=$?
+          # 取り込んでいる間に TO が削除した下位クラス (Worker の応答 status=deleted) は、書いたディレクトリを消してある → もう一度 push
+          git add -A -- data/startgg
+          if ! git diff --cached --quiet; then
+            git commit -q -m "data: remove Challonge class brackets deleted by the TO while being ingested"
+            git push origin HEAD:data-Japan
+          fi
+          exit $rc
