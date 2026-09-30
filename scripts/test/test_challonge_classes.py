@@ -64,7 +64,7 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(dups, [1001])
 
     def test_class_matches_have_the_start_gg_row_keys(self):
-        rows = cc.class_matches_from(parsed_response())
+        rows = cc.class_matches_from(parsed_response(), "B")
         startgg_keys = {"match_id", "winner_id", "loser_id", "winner_score", "loser_score", "round_text", "round", "phase",
                         "phase_id", "phase_name", "phase_order", "phase_num_seeds", "phase_bracket_type", "phase_top_n",
                         "bracket_label", "winners_top", "losers_top", "global_round", "global_top_x",
@@ -72,6 +72,19 @@ class ParseTests(unittest.TestCase):
                         "wave_start_at", "dq", "cancel", "state", "started_at", "completed_at", "details"}
         self.assertEqual(set(rows[0]) - {"source"}, startgg_keys)
         self.assertEqual(rows[0]["source"], "challonge")
+
+    def test_bracket_labels_follow_the_start_gg_shape(self):
+        # the real 6-player double elimination checked on Challonge: winners 1..3, GF + reset 4, losers -1..-3
+        def m(mid, r): return {"challonge_id": mid, "round": r}
+        parsed = {"participants": [{}] * 6, "tournament_type": "double elimination",
+                  "matches": [m(1, 1), m(2, 2), m(3, 3), m(4, 4), m(5, 4), m(6, -1), m(7, -2), m(8, -3)]}
+        lab = cc._bracket_labels(parsed, "C")
+        self.assertEqual(lab[1], (None, 1, 8, "C-Winners TOP 8"))
+        self.assertEqual(lab[3], (None, 3, 2, "C-Winners TOP 2"))
+        self.assertEqual(lab[4], ("Grand Final", 4, 2, "C-Winners TOP 2"))
+        self.assertEqual(lab[5], ("Grand Final Reset", 4, 2, "C-Winners TOP 2"))
+        self.assertEqual([lab[i][2] for i in (6, 7, 8)], [8, 6, 4])      # losers side: TOP X shrinks round by round
+        self.assertTrue(all(lab[i][3].startswith("C-Losers TOP") for i in (6, 7, 8)))
 
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
