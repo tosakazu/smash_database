@@ -1,17 +1,17 @@
 {
   "classifier_version": 11,
-  "event_id": 1720107,
-  "tournament_name": "第112回シカブラ",
-  "event_name": "1on1 tournament",
-  "num_entrants": 15,
-  "is_class_virtual": false,
-  "parent_event_id": null,
-  "class_letter": null,
+  "event_id": -17080201,
+  "tournament_name": "Smash薬院#157",
+  "event_name": "1on1トーナメント / Bクラス",
+  "num_entrants": 16,
+  "is_class_virtual": true,
+  "parent_event_id": 1708020,
+  "class_letter": "B",
   "is_offline": true,
   "results": {
-    "n_standings": 15,
+    "n_standings": 16,
     "min_placement": 1,
-    "has_de_phase": true,
+    "has_de_phase": false,
     "has_gf_recorded": null
   },
   "is_1on1": true,
@@ -22,7 +22,7 @@
     "non_serious": false,
     "restricted_tname": false,
     "restricted_ename": false,
-    "lower_class": false,
+    "lower_class": true,
     "pre": false,
     "smapa": false,
     "force_weekday": false,
@@ -39,13 +39,13 @@
     "phase_group_ids": []
   },
   "place": {
-    "geo": "愛知県"
+    "geo": "福岡県"
   },
   "naming": {
-    "series": "シカブラ",
-    "series_number": 112,
-    "award_label": "シカブラ",
-    "individual_label": "シカブラ112",
+    "series": "Smash薬院",
+    "series_number": 157,
+    "award_label": "Smash薬院",
+    "individual_label": "Smash薬院#157",
     "cancelled": false,
     "test_page": false
   }
