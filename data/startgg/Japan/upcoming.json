@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791050615,
+  "generated_at": 1791061421,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 43,
+  "count": 45,
   "tournaments": [
     {
       "tournament_id": 953965,
@@ -63,14 +63,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 42,
+      "num_attendees": 43,
       "url": "/tournament/4-562",
       "events": [
         {
           "event_id": 1718165,
           "event_slug": "tournament/4-562/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 40,
+          "num_entrants": 41,
           "type": 1,
           "start_at": 1791082800
         }
@@ -178,14 +178,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/hit-199-maesuma-hit-199",
       "events": [
         {
           "event_id": 1725148,
           "event_slug": "tournament/hit-199-maesuma-hit-199/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1791194400
         }
@@ -224,7 +224,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 79,
+      "num_attendees": 80,
       "url": "/tournament/weekly-smash-party-247",
       "events": [
         {
@@ -993,6 +993,52 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1792580400
+        }
+      ]
+    },
+    {
+      "tournament_id": 955923,
+      "tournament_slug": "tournament/-3236",
+      "tournament_name": "知恵捨〜チェスト〜 #弐",
+      "start_at": 1792803600,
+      "end_at": 1792834200,
+      "is_online": false,
+      "city": "鹿児島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 49,
+      "url": "/tournament/-3236",
+      "events": [
+        {
+          "event_id": 1715369,
+          "event_slug": "tournament/-3236/event/super-smash-bros-ultimate-singles",
+          "event_name": "知恵捨～チェスト～ #弐",
+          "num_entrants": 49,
+          "type": 1,
+          "start_at": 1792803600
+        }
+      ]
+    },
+    {
+      "tournament_id": 954483,
+      "tournament_slug": "tournament/20-17",
+      "tournament_name": "とんスマ#20",
+      "start_at": 1792805400,
+      "end_at": 1792841400,
+      "is_online": false,
+      "city": "仙台市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 95,
+      "url": "/tournament/20-17",
+      "events": [
+        {
+          "event_id": 1712563,
+          "event_slug": "tournament/20-17/event/super-smash-bros-singles-tournament",
+          "event_name": "Super Smash Bros. Singles Tournament",
+          "num_entrants": 90,
+          "type": 1,
+          "start_at": 1792805400
         }
       ]
     }
