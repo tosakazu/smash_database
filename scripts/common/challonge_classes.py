@@ -77,9 +77,12 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
         a = p.get("attributes") or {}
         parts.append({"challonge_id": int(p["id"]), "name": a.get("name"),
                       "misc": a.get("misc"), "user_id": startgg_user_id(a.get("misc")), "nocount": is_nocount(a.get("misc")),
-                      "final_rank": a.get("final_rank"), "seed": a.get("seed")})
+                      "final_rank": a.get("final_rank"), "seed": a.get("seed"),
+                      # removed / forfeited after the start: Challonge keeps the participant with states.active false
+                      "active": (a.get("states") or {}).get("active", True) is not False})
     uid_by_pid = {p["challonge_id"]: p["user_id"] for p in parts}
     nocount_pids = {p["challonge_id"] for p in parts if p["nocount"]}
+    inactive_pids = {p["challonge_id"] for p in parts if not p["active"]}
     out_matches = []
     for m in matches:
         a = m.get("attributes") or {}
@@ -91,9 +94,16 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
         # games won in the set (Challonge keeps one number per reported set; a class set is one set)
         w_score = sum(pts.get(winner) or []) if pts.get(winner) else None
         l_score = sum(pts.get(loser) or []) if loser is not None and pts.get(loser) else None
+        # DQ / forfeit, written the way start.gg DQs are (dq: true; the build does not learn the set and records the
+        # loser as DQ). Challonge has no forfeit flag on a match; seen on the real API (2026-10-06):
+        #   a negative score ("0 - -1", start.gg's DQ is -1 too) / "0 - 0" / no score at all (the set a removed
+        #   participant forfeits: scores [] for both) / the loser marked states.active false
+        dq = ((w_score is not None and w_score < 0) or (l_score is not None and l_score < 0)
+              or (w_score in (None, 0) and l_score in (None, 0))
+              or loser in inactive_pids)
         out_matches.append({"challonge_id": int(m["id"]), "round": a.get("round"), "scores": a.get("scores"),
                             "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser),
-                            "winner_score": w_score, "loser_score": l_score,
+                            "winner_score": w_score, "loser_score": l_score, "dq": dq,
                             "involves_nocount": winner in nocount_pids or loser in nocount_pids})
     return {"id": int(t["id"]), "url": ta.get("full_challonge_url"), "name": ta.get("name"),
             "state": ta.get("state"), "tournament_type": ta.get("tournament_type"),
@@ -176,7 +186,7 @@ def class_matches_from(parsed: dict, letter: str) -> list[dict]:
             "bracket_label": None, "winners_top": None, "losers_top": None, "global_round": g_round,
             "global_top_x": g_top, "global_bracket_label": g_label, "phase_group_id": None,
             "phase_group_start_at": None, "wave_id": None, "wave": None, "wave_start_at": None,
-            "dq": False, "cancel": False, "state": 3, "started_at": None, "completed_at": None, "details": [],
+            "dq": bool(m.get("dq")), "cancel": False, "state": 3, "started_at": None, "completed_at": None, "details": [],
             "source": "challonge",
         })
     return rows

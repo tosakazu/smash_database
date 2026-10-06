@@ -24,8 +24,8 @@ def challonge_response(state="complete"):
     def match(mid, st, winner, a, b):
         return {"id": str(mid), "type": "match",
                 "attributes": {"state": st, "round": 1, "scores": "2 - 0", "winner_id": winner,
-                               "points_by_participant": [{"participant_id": a, "scores": []},
-                                                         {"participant_id": b, "scores": []}]}}
+                               "points_by_participant": [{"participant_id": a, "scores": [2 if a == winner else 0]},
+                                                         {"participant_id": b, "scores": [2 if b == winner else 0]}]}}
     matches = [match(1, "complete", 11, 11, 14), match(2, "complete", 12, 13, 12), match(3, "open", None, 11, 12)]
     tour = {"data": {"id": "555", "type": "tournament",
                      "attributes": {"name": "篝火#15 Bクラス", "state": state, "tournament_type": "single elimination",
@@ -117,6 +117,40 @@ class ParseTests(unittest.TestCase):
         cm = cc.class_matches_from(parsed, "B")
         # Alice beat Dave and Dave beat Carol: both sets involve Dave, so neither side learns them
         self.assertEqual([(r["winner_id"], r["loser_id"]) for r in cm], [(1002, 1003)])
+
+    def test_dq_and_forfeit_like_start_gg(self):
+        """A real Challonge bracket (fixtures/challonge_dq_v21.json): DQ / forfeit sets carry dq: true, as start.gg DQs do."""
+        fx = json.load(open(os.path.join(os.path.dirname(__file__), "fixtures", "challonge_dq_v21.json")))
+        parsed = cc.parse_challonge(fx["tournament"], fx["participants"], fx["matches"])
+        by_id = {m["challonge_id"]: m for m in parsed["matches"]}
+        ident = {int(m["id"]): m["attributes"]["identifier"] for m in fx["matches"]}
+        dq = {ident[i]: m["dq"] for i, m in by_id.items()}
+        self.assertEqual(dq["A"], True)     # "0 - -1": a negative score (start.gg's DQ is -1 too)
+        self.assertEqual(dq["B"], True)     # "0 - 0"
+        self.assertEqual(dq["D"], True)     # forfeit: participant removed after the start, no scores
+        self.assertEqual(dq["C"], False)    # a normal 2-1
+        self.assertFalse(any(v for k, v in dq.items() if k not in ("A", "B", "D")))
+        rows = {r["match_id"]: r for r in cc.class_matches_from(parsed, "B")}
+        self.assertEqual(sum(1 for r in rows.values() if r["dq"]), 3)
+        a = next(r for i, r in rows.items() if ident[i] == "A")
+        self.assertEqual((a["winner_score"], a["loser_score"]), (0, -1))
+        removed = next(p for p in parsed["participants"] if not p["active"])
+        self.assertEqual(removed["final_rank"], 5)  # Challonge still ranks the forfeiting player
+
+    def test_dq_rules(self):
+        def one(w_scores, l_scores, loser_active=True):
+            tour, parts, matches = challonge_response()
+            parts[3]["attributes"]["states"] = {"active": loser_active}
+            matches[0]["attributes"]["points_by_participant"] = [{"participant_id": 11, "scores": w_scores},
+                                                                 {"participant_id": 14, "scores": l_scores}]
+            return cc.parse_challonge(tour, parts, matches)["matches"][0]["dq"]
+        self.assertFalse(one([2], [1]))
+        self.assertFalse(one([2], [0]))
+        self.assertTrue(one([0], [-1]))
+        self.assertTrue(one([-1], [0]))
+        self.assertTrue(one([0], [0]))
+        self.assertTrue(one([], []))
+        self.assertTrue(one([2], [1], loser_active=False))
 
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
