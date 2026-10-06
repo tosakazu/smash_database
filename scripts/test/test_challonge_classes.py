@@ -24,8 +24,8 @@ def challonge_response(state="complete"):
     def match(mid, st, winner, a, b):
         return {"id": str(mid), "type": "match",
                 "attributes": {"state": st, "round": 1, "scores": "2 - 0", "winner_id": winner,
-                               "points_by_participant": [{"participant_id": a, "scores": []},
-                                                         {"participant_id": b, "scores": []}]}}
+                               "points_by_participant": [{"participant_id": a, "scores": [2 if a == winner else 0]},
+                                                         {"participant_id": b, "scores": [2 if b == winner else 0]}]}}
     matches = [match(1, "complete", 11, 11, 14), match(2, "complete", 12, 13, 12), match(3, "open", None, 11, 12)]
     tour = {"data": {"id": "555", "type": "tournament",
                      "attributes": {"name": "篝火#15 Bクラス", "state": state, "tournament_type": "single elimination",
@@ -87,6 +87,71 @@ class ParseTests(unittest.TestCase):
         self.assertEqual([lab[i][2] for i in (6, 7, 8)], [8, 6, 4])      # losers side: TOP X shrinks round by round
         self.assertTrue(all(lab[i][3].startswith("C-Losers TOP") for i in (6, 7, 8)))
 
+    def test_nocount_misc(self):
+        self.assertEqual(cc.startgg_user_id("startgg:42:nocount"), 42)
+        self.assertTrue(cc.is_nocount("startgg:42:nocount"))
+        self.assertTrue(cc.is_nocount(" startgg:42:nocount "))
+        self.assertFalse(cc.is_nocount("startgg:42"))
+        self.assertFalse(cc.is_nocount(None))
+        self.assertIsNone(cc.startgg_user_id("startgg:42:other"))   # unknown suffix: not tied (left out with a warning)
+
+    def nocount_response(self):
+        """Dave (1004, rank 3) was added by the TO without playing the main event (:nocount). Sets: Alice beat Dave,
+        Bob beat Carol, and (added here) Dave beat Carol in the losers bracket."""
+        tour, parts, matches = challonge_response()
+        parts[3]["attributes"]["misc"] = "startgg:1004:nocount"
+        parts[2]["attributes"]["misc"] = "startgg:1003"            # Carol is a regular player here
+        matches.append({"id": "4", "type": "match", "attributes": {
+            "state": "complete", "round": -1, "scores": "2 - 1", "winner_id": 14,
+            "points_by_participant": [{"participant_id": 14, "scores": [2]}, {"participant_id": 13, "scores": [1]}]}})
+        return cc.parse_challonge(tour, parts, matches)
+
+    def test_nocount_players_are_left_out_of_spsp(self):
+        parsed = self.nocount_response()
+        self.assertEqual(parsed["nocount_uids"], [1004])
+        rows, left, dups = cc.standings_from(parsed)
+        # Dave is not in the standings; the others keep Challonge's placements (no re-ranking)
+        self.assertEqual(rows, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002},
+                                {"placement": 3, "user_id": 1003}])
+        self.assertEqual(left, [])                                 # not a "left out with a warning" case
+        cm = cc.class_matches_from(parsed, "B")
+        # Alice beat Dave and Dave beat Carol: both sets involve Dave, so neither side learns them
+        self.assertEqual([(r["winner_id"], r["loser_id"]) for r in cm], [(1002, 1003)])
+
+    def test_dq_and_forfeit_like_start_gg(self):
+        """A real Challonge bracket (fixtures/challonge_dq_v21.json): DQ / forfeit sets carry dq: true, as start.gg DQs do."""
+        fx = json.load(open(os.path.join(os.path.dirname(__file__), "fixtures", "challonge_dq_v21.json")))
+        parsed = cc.parse_challonge(fx["tournament"], fx["participants"], fx["matches"])
+        by_id = {m["challonge_id"]: m for m in parsed["matches"]}
+        ident = {int(m["id"]): m["attributes"]["identifier"] for m in fx["matches"]}
+        dq = {ident[i]: m["dq"] for i, m in by_id.items()}
+        self.assertEqual(dq["A"], True)     # "0 - -1": a negative score (start.gg's DQ is -1 too)
+        self.assertEqual(dq["B"], True)     # "0 - 0"
+        self.assertEqual(dq["D"], True)     # forfeit: participant removed after the start, no scores
+        self.assertEqual(dq["C"], False)    # a normal 2-1
+        self.assertFalse(any(v for k, v in dq.items() if k not in ("A", "B", "D")))
+        rows = {r["match_id"]: r for r in cc.class_matches_from(parsed, "B")}
+        self.assertEqual(sum(1 for r in rows.values() if r["dq"]), 3)
+        a = next(r for i, r in rows.items() if ident[i] == "A")
+        self.assertEqual((a["winner_score"], a["loser_score"]), (0, -1))
+        removed = next(p for p in parsed["participants"] if not p["active"])
+        self.assertEqual(removed["final_rank"], 5)  # Challonge still ranks the forfeiting player
+
+    def test_dq_rules(self):
+        def one(w_scores, l_scores, loser_active=True):
+            tour, parts, matches = challonge_response()
+            parts[3]["attributes"]["states"] = {"active": loser_active}
+            matches[0]["attributes"]["points_by_participant"] = [{"participant_id": 11, "scores": w_scores},
+                                                                 {"participant_id": 14, "scores": l_scores}]
+            return cc.parse_challonge(tour, parts, matches)["matches"][0]["dq"]
+        self.assertFalse(one([2], [1]))
+        self.assertFalse(one([2], [0]))
+        self.assertTrue(one([0], [-1]))
+        self.assertTrue(one([-1], [0]))
+        self.assertTrue(one([0], [0]))
+        self.assertTrue(one([], []))
+        self.assertTrue(one([2], [1], loser_active=False))
+
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
                   "end_timestamp": 200, "offline": True, "region": "Japan", "place": {"city": "x"}, "url": "/tournament/t"}
@@ -145,6 +210,17 @@ class FetchTests(unittest.TestCase):
         self.assertEqual([(r["winner_id"], r["loser_id"], r["state"], r["phase_bracket_type"]) for r in cm["data"]],
                          [(1001, 1004, 3, "SINGLE_ELIMINATION")])     # Carol's set (no start.gg id) is left out
         self.assertEqual(open("done.txt").read(), "5\n")
+
+    def test_nocount_written_bracket(self):
+        tour, parts, matches = challonge_response()
+        parts[3]["attributes"]["misc"] = "startgg:1004:nocount"
+        self.run_fetch(cc.parse_challonge(tour, parts, matches))
+        vdir = os.path.join(self.parent, "class_phases", "B_virtual")
+        self.assertEqual(json.load(open(os.path.join(vdir, "attr.json")))["num_entrants"], 3)   # Dave not counted
+        self.assertNotIn(1004, [r["user_id"] for r in json.load(open(os.path.join(vdir, "standings.json")))])
+        self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["nocount_uids"], [1004])
+        cm = json.load(open(os.path.join(vdir, "class_matches.json")))["data"]
+        self.assertFalse(any(1004 in (r["winner_id"], r["loser_id"]) for r in cm))
 
     def test_in_progress_is_left_for_later(self):
         self.run_fetch(parsed_response(state="underway"))
