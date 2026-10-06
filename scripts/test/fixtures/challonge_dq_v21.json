@@ -1,0 +1,338 @@
+{
+ "_comment": "Challonge API v2.1 responses of a real 8-player single elimination made on the SPSP preview app (2026-10-06), trimmed. Round 1: A = '0 - -1', B = '0 - 0', D = a participant removed after the start (forfeit: no scores, states.active false); C and later = normal 2-1.",
+ "tournament": {
+  "data": {
+   "id": "18587449",
+   "type": "tournament",
+   "attributes": {
+    "name": "SPSP DQ test (delete me)",
+    "state": "complete",
+    "tournament_type": "single elimination",
+    "full_challonge_url": "https://challonge.com/ja/npegcf8x"
+   }
+  }
+ },
+ "participants": [
+  {
+   "id": "306229769",
+   "type": "participant",
+   "attributes": {
+    "name": "p0",
+    "misc": "startgg:1000",
+    "final_rank": 1,
+    "seed": 1,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229770",
+   "type": "participant",
+   "attributes": {
+    "name": "p1",
+    "misc": "startgg:1001",
+    "final_rank": 2,
+    "seed": 2,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229771",
+   "type": "participant",
+   "attributes": {
+    "name": "p2",
+    "misc": "startgg:1002",
+    "final_rank": 3,
+    "seed": 3,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229772",
+   "type": "participant",
+   "attributes": {
+    "name": "p3",
+    "misc": "startgg:1003",
+    "final_rank": 3,
+    "seed": 4,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229773",
+   "type": "participant",
+   "attributes": {
+    "name": "p4",
+    "misc": "startgg:1004",
+    "final_rank": 5,
+    "seed": 5,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229774",
+   "type": "participant",
+   "attributes": {
+    "name": "p5",
+    "misc": "startgg:1005",
+    "final_rank": 5,
+    "seed": 6,
+    "states": {
+     "active": false
+    }
+   }
+  },
+  {
+   "id": "306229775",
+   "type": "participant",
+   "attributes": {
+    "name": "p6",
+    "misc": "startgg:1006",
+    "final_rank": 5,
+    "seed": 7,
+    "states": {
+     "active": true
+    }
+   }
+  },
+  {
+   "id": "306229776",
+   "type": "participant",
+   "attributes": {
+    "name": "p7",
+    "misc": "startgg:1007",
+    "final_rank": 5,
+    "seed": 8,
+    "states": {
+     "active": true
+    }
+   }
+  }
+ ],
+ "matches": [
+  {
+   "id": "474767360",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 1,
+    "identifier": "A",
+    "scores": "0 - -1",
+    "score_in_sets": [
+     [
+      0,
+      -1
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229769,
+      "scores": [
+       0
+      ]
+     },
+     {
+      "participant_id": 306229776,
+      "scores": [
+       -1
+      ]
+     }
+    ],
+    "winner_id": 306229769,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767361",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 1,
+    "identifier": "B",
+    "scores": "0 - 0",
+    "score_in_sets": [
+     [
+      0,
+      0
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229772,
+      "scores": [
+       0
+      ]
+     },
+     {
+      "participant_id": 306229773,
+      "scores": [
+       0
+      ]
+     }
+    ],
+    "winner_id": 306229772,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767362",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 1,
+    "identifier": "C",
+    "scores": "2 - 1",
+    "score_in_sets": [
+     [
+      2,
+      1
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229770,
+      "scores": [
+       2
+      ]
+     },
+     {
+      "participant_id": 306229775,
+      "scores": [
+       1
+      ]
+     }
+    ],
+    "winner_id": 306229770,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767363",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 1,
+    "identifier": "D",
+    "scores": "0 - 0",
+    "score_in_sets": [],
+    "points_by_participant": [
+     {
+      "participant_id": 306229771,
+      "scores": []
+     },
+     {
+      "participant_id": 306229774,
+      "scores": []
+     }
+    ],
+    "winner_id": 306229771,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767364",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 2,
+    "identifier": "E",
+    "scores": "2 - 1",
+    "score_in_sets": [
+     [
+      2,
+      1
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229769,
+      "scores": [
+       2
+      ]
+     },
+     {
+      "participant_id": 306229772,
+      "scores": [
+       1
+      ]
+     }
+    ],
+    "winner_id": 306229769,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767365",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 2,
+    "identifier": "F",
+    "scores": "2 - 1",
+    "score_in_sets": [
+     [
+      2,
+      1
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229770,
+      "scores": [
+       2
+      ]
+     },
+     {
+      "participant_id": 306229771,
+      "scores": [
+       1
+      ]
+     }
+    ],
+    "winner_id": 306229770,
+    "tie": false
+   }
+  },
+  {
+   "id": "474767366",
+   "type": "match",
+   "attributes": {
+    "state": "complete",
+    "round": 3,
+    "identifier": "G",
+    "scores": "2 - 1",
+    "score_in_sets": [
+     [
+      2,
+      1
+     ]
+    ],
+    "points_by_participant": [
+     {
+      "participant_id": 306229769,
+      "scores": [
+       2
+      ]
+     },
+     {
+      "participant_id": 306229770,
+      "scores": [
+       1
+      ]
+     }
+    ],
+    "winner_id": 306229769,
+    "tie": false
+   }
+  }
+ ]
+}

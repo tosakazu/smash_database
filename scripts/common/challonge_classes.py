@@ -50,7 +50,9 @@ CHALLONGE_TOKEN_URL = "https://api.challonge.com/oauth/token"
 CHALLONGE_HEADERS = {"Accept": "application/json", "User-Agent": "spsp-ranking (https://spsp.games)"}
 SOURCE_FILE = "challonge.json"
 CLASS_MATCHES_FILE = "class_matches.json"
-_MISC_RE = re.compile(r"^\s*startgg:(\d+)\s*$")
+# "startgg:<user id>" ties a participant to a start.gg player. "startgg:<user id>:nocount" = a player the TO added who did
+# not play the main event: always left out of SPSP (no placement, not counted as having played, no head-to-head)
+_MISC_RE = re.compile(r"^\s*startgg:(\d+)(:nocount)?\s*$")
 TIMEOUT = 60
 
 
@@ -61,6 +63,11 @@ def startgg_user_id(misc) -> int | None:
     return int(m.group(1)) if m else None
 
 
+def is_nocount(misc) -> bool:
+    m = _MISC_RE.match(misc or "")
+    return bool(m and m.group(2))
+
+
 def parse_challonge(tournament: dict, participants: list[dict], matches: list[dict]) -> dict:
     """Challonge API v2.1 (JSON:API) tournament / participants / matches → the fields used here."""
     t = tournament.get("data", tournament)
@@ -69,9 +76,13 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
     for p in participants:
         a = p.get("attributes") or {}
         parts.append({"challonge_id": int(p["id"]), "name": a.get("name"),
-                      "misc": a.get("misc"), "user_id": startgg_user_id(a.get("misc")),
-                      "final_rank": a.get("final_rank"), "seed": a.get("seed")})
+                      "misc": a.get("misc"), "user_id": startgg_user_id(a.get("misc")), "nocount": is_nocount(a.get("misc")),
+                      "final_rank": a.get("final_rank"), "seed": a.get("seed"),
+                      # removed / forfeited after the start: Challonge keeps the participant with states.active false
+                      "active": (a.get("states") or {}).get("active", True) is not False})
     uid_by_pid = {p["challonge_id"]: p["user_id"] for p in parts}
+    nocount_pids = {p["challonge_id"] for p in parts if p["nocount"]}
+    inactive_pids = {p["challonge_id"] for p in parts if not p["active"]}
     out_matches = []
     for m in matches:
         a = m.get("attributes") or {}
@@ -83,12 +94,21 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
         # games won in the set (Challonge keeps one number per reported set; a class set is one set)
         w_score = sum(pts.get(winner) or []) if pts.get(winner) else None
         l_score = sum(pts.get(loser) or []) if loser is not None and pts.get(loser) else None
+        # DQ / forfeit, written the way start.gg DQs are (dq: true; the build does not learn the set and records the
+        # loser as DQ). Challonge has no forfeit flag on a match; seen on the real API (2026-10-06):
+        #   a negative score ("0 - -1", start.gg's DQ is -1 too) / "0 - 0" / no score at all (the set a removed
+        #   participant forfeits: scores [] for both) / the loser marked states.active false
+        dq = ((w_score is not None and w_score < 0) or (l_score is not None and l_score < 0)
+              or (w_score in (None, 0) and l_score in (None, 0))
+              or loser in inactive_pids)
         out_matches.append({"challonge_id": int(m["id"]), "round": a.get("round"), "scores": a.get("scores"),
                             "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser),
-                            "winner_score": w_score, "loser_score": l_score})
+                            "winner_score": w_score, "loser_score": l_score, "dq": dq,
+                            "involves_nocount": winner in nocount_pids or loser in nocount_pids})
     return {"id": int(t["id"]), "url": ta.get("full_challonge_url"), "name": ta.get("name"),
             "state": ta.get("state"), "tournament_type": ta.get("tournament_type"),
-            "participants": parts, "matches": out_matches}
+            "participants": parts, "matches": out_matches,
+            "nocount_uids": sorted({p["user_id"] for p in parts if p["nocount"] and p["user_id"] is not None})}
 
 
 def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
@@ -96,6 +116,8 @@ def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
     ids that appeared more than once (the same misc on two participants: only the better placement is kept)."""
     best, left_out, dups = {}, [], []
     for p in parsed["participants"]:
+        if p.get("nocount"):
+            continue     # added by the TO without having played the main event: never in SPSP (see nocount_uids)
         if p["user_id"] is None or p["final_rank"] is None:
             left_out.append(p["name"] or str(p["challonge_id"]))
             continue
@@ -153,6 +175,8 @@ def class_matches_from(parsed: dict, letter: str) -> list[dict]:
     for m in parsed["matches"]:
         if m["winner_user_id"] is None or m["loser_user_id"] is None or m["winner_user_id"] == m["loser_user_id"]:
             continue
+        if m.get("involves_nocount"):
+            continue     # a set against a :nocount player is not learned (for either side)
         round_text, g_round, g_top, g_label = labels[m["challonge_id"]]
         rows.append({
             "match_id": m["challonge_id"], "winner_id": m["winner_user_id"], "loser_id": m["loser_user_id"],
@@ -162,7 +186,7 @@ def class_matches_from(parsed: dict, letter: str) -> list[dict]:
             "bracket_label": None, "winners_top": None, "losers_top": None, "global_round": g_round,
             "global_top_x": g_top, "global_bracket_label": g_label, "phase_group_id": None,
             "phase_group_start_at": None, "wave_id": None, "wave": None, "wave_start_at": None,
-            "dq": False, "cancel": False, "state": 3, "started_at": None, "completed_at": None, "details": [],
+            "dq": bool(m.get("dq")), "cancel": False, "state": 3, "started_at": None, "completed_at": None, "details": [],
             "source": "challonge",
         })
     return rows
@@ -319,6 +343,10 @@ def cmd_fetch(args) -> int:
             print(f"  wait {label}: Challonge state {parsed['state']}"); n_wait += 1
             continue
         standings, left_out, dups = standings_from(parsed)
+        if parsed.get("nocount_uids"):
+            n_sets = sum(1 for m in parsed["matches"] if m.get("involves_nocount"))
+            print(f"  info {label}: {len(parsed['nocount_uids'])} :nocount player(s) left out of SPSP "
+                  f"(no placement, {n_sets} set(s) against them not learned): {parsed['nocount_uids'][:10]}")
         if left_out:
             print(f"  WARN {label}: {len(left_out)} participant(s) without startgg:<id> or rank left out: {left_out[:10]}")
             n_warn += 1
@@ -363,7 +391,8 @@ def cmd_fetch(args) -> int:
         # always listed, even while empty, so sets that appear there later (a re-fetch) are not counted twice
         replaces = sgg_pgs
         parent_attr = json.loads((parent_dir / "attr.json").read_text(encoding="utf-8"))
-        attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name, len(parsed["participants"]))
+        attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name,
+                            sum(1 for p in parsed["participants"] if not p.get("nocount")))
         source = {"spsp_class_id": it.get("id"), "parent_event_id": it.get("parent_event_id"), **parsed}
         note = f" (replaces {existing[0]})" if existing else ""
         if args.dry_run:
