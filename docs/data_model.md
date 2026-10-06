@@ -256,7 +256,10 @@ shape (same `event_id` / `timestamp` numbering), plus `challonge.json`: the Chal
 user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores, winner_user_id,
 loser_user_id}]`). Participants are tied to start.gg players by `misc = "startgg:<user id>"`, set by
 the SPSP page; a participant without it is left out of `standings.json` (a start.gg id on two participants
-is kept once, with the better placement). Unlike a start.gg class, the Challonge sets are not in the
+is kept once, with the better placement). A participant marked `startgg:<user id>:nocount` (a player the TO
+added who did not play the main event) is always left out of SPSP: not in `standings.json`, not counted in
+`num_entrants`, and no set involving them is written to `class_matches.json` (for either side); the other
+players keep the placements Challonge gives them. Their ids are recorded in `challonge.json` `nocount_uids`. Unlike a start.gg class, the Challonge sets are not in the
 parent's `matches.json`; they are written to `class_matches.json` in the virtual directory
 (`{"data": [...], "replaces_phase_group_ids": [...]}`), as rows of the same shape as `matches.json` (`source: "challonge"`, start.gg-only fields null, `global_bracket_label` such as
 `"B-Winners TOP 8"` / `"B-Losers TOP 6"` and `round_text` `"Grand Final"` / `"Grand Final Reset"`), and the
