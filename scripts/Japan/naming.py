@@ -817,7 +817,18 @@ def naming_labels(tname: str, ename: str) -> dict:
         "individual_label": tournament_individual_label(tname),
         "cancelled": is_cancelled(tname) or is_cancelled(ename),
         "test_page": is_test_page(tname) or is_test_page(ename),
+        "series_event": event_series(tname, ename),
     }
+
+
+def event_series(tname: str, ename: str) -> str:
+    """このイベントが属するシリーズ (シリーズ一覧・ローカルランキングの単位)。普段は tournament_series(tname)。
+    スマパでイベント名に「カジュアル」を含むものは スマパカジュアル に分ける (同じ大会ページの副イベント)。
+    2026-10-08 までは spsp_scripts の build_series_json.py にあった規則 (ビルドが地域のコードを読まないようにするため移した)。"""
+    strict = tournament_series(tname)
+    if strict == 'スマパ' and 'カジュアル' in (ename or ""):
+        return 'スマパカジュアル'
+    return strict
 
 
 # ── Community-level シリーズマージ ──

@@ -171,8 +171,14 @@ class NamingTests(unittest.TestCase):
                 "individual_label": "篝火#10",
                 "cancelled": False,
                 "test_page": False,
+                "series_event": "篝火",
             },
         )
+
+    def test_event_series_splits_smapa_casual(self):
+        self.assertEqual(naming.event_series("Weekly Smash Party ～スマパ～#240", "SPECIAL 1on1"), "スマパ")
+        self.assertEqual(naming.event_series("Weekly Smash Party ～スマパ～#240", "カジュアル 1on1"), "スマパカジュアル")
+        self.assertEqual(naming.event_series("篝火#10", "カジュアル"), "篝火")     # only スマパ is split
 
     def test_community_series_merges_sibling_series(self):
         self.assertEqual(naming.community_series("スマパ 拡大版"), "スマパ")
