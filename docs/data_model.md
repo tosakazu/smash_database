@@ -250,7 +250,11 @@ An existing directory is not overwritten (`build_class_virtual_tournaments.py --
 
 A TO can also run a class bracket on Challonge from the SPSP site; the counted ones are listed by
 the SPSP Worker (`GET https://spsp.games/api/class_waitlist`). `scripts/common/challonge_classes.py`
-writes each one whose Challonge state is `complete` into the same `class_phases/<Letter>_virtual/`
+writes each one whose Challonge state is `complete` (or `awaiting_review` with every set reported: all
+sets are in but the TO has not finalized, so Challonge has no `final_rank` yet; the placements are then computed
+from the bracket the way Challonge ranks — checked against Challonge's own final ranks on single elimination with
+byes, with a third-place match and double elimination with a grand-final reset — and `challonge.json` carries
+`placements_computed: true`; a bracket that cannot be ranked is skipped with a warning) into the same `class_phases/<Letter>_virtual/`
 shape (same `event_id` / `timestamp` numbering), plus `challonge.json`: the Challonge source
 (`spsp_class_id`, `parent_event_id`, `id`, `url`, `state`, `participants[{challonge_id, name, misc,
 user_id, final_rank, seed}]`, `matches[{challonge_id, round, scores, winner_user_id,

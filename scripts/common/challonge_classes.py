@@ -84,9 +84,11 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
     nocount_pids = {p["challonge_id"] for p in parts if p["nocount"]}
     inactive_pids = {p["challonge_id"] for p in parts if not p["active"]}
     out_matches = []
+    n_incomplete = 0
     for m in matches:
         a = m.get("attributes") or {}
         if a.get("state") != "complete" or a.get("winner_id") is None:
+            n_incomplete += 1
             continue
         pts = {int(x["participant_id"]): x.get("scores") or [] for x in a.get("points_by_participant") or []}
         winner = int(a["winner_id"])
@@ -104,11 +106,65 @@ def parse_challonge(tournament: dict, participants: list[dict], matches: list[di
         out_matches.append({"challonge_id": int(m["id"]), "round": a.get("round"), "scores": a.get("scores"),
                             "winner_user_id": uid_by_pid.get(winner), "loser_user_id": uid_by_pid.get(loser),
                             "winner_score": w_score, "loser_score": l_score, "dq": dq,
+                            "winner_pid": winner, "loser_pid": loser,
                             "involves_nocount": winner in nocount_pids or loser in nocount_pids})
     return {"id": int(t["id"]), "url": ta.get("full_challonge_url"), "name": ta.get("name"),
             "state": ta.get("state"), "tournament_type": ta.get("tournament_type"),
-            "participants": parts, "matches": out_matches,
+            "participants": parts, "matches": out_matches, "n_incomplete": n_incomplete,
             "nocount_uids": sorted({p["user_id"] for p in parts if p["nocount"] and p["user_id"] is not None})}
+
+
+def placements_from_bracket(parsed: dict) -> dict[int, int]:
+    """Challonge participant id → placement, computed from the bracket for a tournament whose sets are all reported but
+    which the TO has not finalized (state awaiting_review: Challonge fills final_rank only at finalize).
+    placement = 1 + the number of players who stayed in longer (ties share a placement), the way Challonge ranks:
+      single elimination: losing in winners round r → stage r; the champion above everyone; a third-place match
+        (round 0) puts its winner between the runner-up and the other semifinal loser.
+      double elimination: a player is out at their last loss — losers round -k → stage k, grand final → above all
+        losers rounds; the champion (winner of the last grand-final set) above everyone.
+    Raises ValueError when the bracket is not one it can rank (unknown type, no final, a player with no result)."""
+    ttype = (parsed.get("tournament_type") or "").lower()
+    ms = [m for m in parsed["matches"] if m.get("winner_pid") is not None and m.get("loser_pid") is not None]
+    if not ms:
+        raise ValueError("no completed sets")
+    pids = {p["challonge_id"] for p in parsed["participants"]}
+    order = {m["challonge_id"]: i for i, m in enumerate(sorted(ms, key=lambda m: (abs(m.get("round") or 0), m["challonge_id"])))}
+    if ttype == "single elimination":
+        final_round = max((m.get("round") or 0) for m in ms)
+        finals = [m for m in ms if (m.get("round") or 0) == final_round]
+        if final_round < 1 or len(finals) != 1:
+            raise ValueError(f"no single final (round {final_round}, {len(finals)} sets)")
+        stage = {}
+        for m in ms:
+            r = m.get("round") or 0
+            if r >= 1:
+                stage[m["loser_pid"]] = r
+        champion = finals[0]["winner_pid"]
+        stage[champion] = final_round + 1
+        for m in ms:
+            if (m.get("round") or 0) == 0:          # third-place match
+                stage[m["winner_pid"]] = final_round - 0.5
+                stage[m["loser_pid"]] = final_round - 1
+    elif ttype == "double elimination":
+        wb_max = max((m.get("round") or 0) for m in ms)
+        last = max((m for m in ms if (m.get("round") or 0) == wb_max), key=lambda m: order[m["challonge_id"]])
+        losers_rounds = [-(m.get("round") or 0) for m in ms if (m.get("round") or 0) < 0]
+        top = (max(losers_rounds) if losers_rounds else 0) + 1
+        last_loss = {}
+        for m in sorted(ms, key=lambda m: order[m["challonge_id"]]):
+            last_loss[m["loser_pid"]] = m
+        stage = {}
+        for pid, m in last_loss.items():
+            r = m.get("round") or 0
+            stage[pid] = -r if r < 0 else top               # out in losers round -r, or in the grand final
+        stage[last["winner_pid"]] = top + 1
+        stage[last["loser_pid"]] = top
+    else:
+        raise ValueError(f"cannot rank a {ttype or 'unknown'} bracket")
+    missing = [p for p in pids if p not in stage]
+    if missing:
+        raise ValueError(f"{len(missing)} participant(s) without a result")
+    return {p: 1 + sum(1 for q in stage.values() if q > stage[p]) for p in pids}
 
 
 def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
@@ -339,7 +395,22 @@ def cmd_fetch(args) -> int:
             print(f"  WARN {label}: Challonge fetch failed ({type(e).__name__}{f' HTTP {status}' if status else ''}) — next run retries")
             n_warn += 1
             continue
-        if parsed["state"] != "complete":
+        if parsed["state"] == "awaiting_review" and parsed.get("n_incomplete") == 0 and parsed["matches"]:
+            # every set is reported (so the champion is decided) but the TO has not finalized: Challonge leaves
+            # final_rank empty, so rank from the bracket (2026-10-08 user decision). A bracket it cannot rank is skipped
+            # with a warning and tried again next run; it never stops the rest
+            try:
+                if all(p.get("final_rank") is None for p in parsed["participants"]):
+                    place = placements_from_bracket(parsed)
+                    for p in parsed["participants"]:
+                        p["final_rank"] = place.get(p["challonge_id"])
+                    parsed["placements_computed"] = True
+                    print(f"  info {label}: not finalized on Challonge (awaiting_review) — placements computed from the bracket")
+            except Exception as e:
+                print(f"  WARN {label}: awaiting_review but the placements could not be computed ({type(e).__name__}: "
+                      f"{str(e)[:150]}) — next run retries"); n_warn += 1
+                continue
+        elif parsed["state"] != "complete":
             print(f"  wait {label}: Challonge state {parsed['state']}"); n_wait += 1
             continue
         standings, left_out, dups = standings_from(parsed)
@@ -362,55 +433,59 @@ def cmd_fetch(args) -> int:
     # One class bracket per (main event, class): the one that actually progressed (most completed sets, then most
     # ranked participants; ties keep what is already there, then the earlier registration). The others are excluded.
     for (parent_path, letter), cands in groups.items():
-        parent_dir = Path(parent_path)
-        vdir = parent_dir / "class_phases" / f"{letter}_virtual"
-        sgg_sets, sgg_pgs = startgg_class_progress(parent_dir, letter, cls.class_letter)
-        existing = None                           # (what the build already sees, its completed sets)
-        if (vdir / SOURCE_FILE).exists():
-            old = json.loads((vdir / SOURCE_FILE).read_text(encoding="utf-8"))
-            existing = ("challonge #%s" % old.get("spsp_class_id"), len(old.get("matches") or []))
-        elif sgg_sets or (vdir / "attr.json").exists():
-            existing = ("start.gg", sgg_sets)
-        ranked = sorted(cands, key=lambda c: (-challonge_progress(c[2])[0], -challonge_progress(c[2])[1], int(c[0].get("id") or 0)))
-        best = ranked[0]
-        # a new bracket replaces what is there only with strictly more completed sets (a tie keeps the current one).
-        # Decided once: a bracket leaves the waitlist when marked done, so nothing is re-compared later (a start.gg class
-        # that fills up afterwards does not flip it back; see replaces_phase_group_ids below)
-        winner = best if existing is None or challonge_progress(best[2])[0] > existing[1] else None
-        for c in ranked:
-            if c is winner:
+        try:
+            parent_dir = Path(parent_path)
+            vdir = parent_dir / "class_phases" / f"{letter}_virtual"
+            sgg_sets, sgg_pgs = startgg_class_progress(parent_dir, letter, cls.class_letter)
+            existing = None                           # (what the build already sees, its completed sets)
+            if (vdir / SOURCE_FILE).exists():
+                old = json.loads((vdir / SOURCE_FILE).read_text(encoding="utf-8"))
+                existing = ("challonge #%s" % old.get("spsp_class_id"), len(old.get("matches") or []))
+            elif sgg_sets or (vdir / "attr.json").exists():
+                existing = ("start.gg", sgg_sets)
+            ranked = sorted(cands, key=lambda c: (-challonge_progress(c[2])[0], -challonge_progress(c[2])[1], int(c[0].get("id") or 0)))
+            best = ranked[0]
+            # a new bracket replaces what is there only with strictly more completed sets (a tie keeps the current one).
+            # Decided once: a bracket leaves the waitlist when marked done, so nothing is re-compared later (a start.gg class
+            # that fills up afterwards does not flip it back; see replaces_phase_group_ids below)
+            winner = best if existing is None or challonge_progress(best[2])[0] > existing[1] else None
+            for c in ranked:
+                if c is winner:
+                    continue
+                why = f"{existing[0]} has as much progress ({existing[1]} sets)" if winner is None else \
+                      f"#{winner[0].get('id')} progressed further ({challonge_progress(winner[2])[0]} sets)"
+                print(f"  EXCLUDE {c[1]}: {vdir} — {why}; marked done without ingesting")
+                done.append(c[0].get("id")); n_excluded += 1
+            if winner is None:
                 continue
-            why = f"{existing[0]} has as much progress ({existing[1]} sets)" if winner is None else \
-                  f"#{winner[0].get('id')} progressed further ({challonge_progress(winner[2])[0]} sets)"
-            print(f"  EXCLUDE {c[1]}: {vdir} — {why}; marked done without ingesting")
-            done.append(c[0].get("id")); n_excluded += 1
-        if winner is None:
-            continue
-        it, label, parsed, standings = winner
-        # the start.gg class of the same letter (if the TO also made one) must not be learned too: its phase groups are
-        # always listed, even while empty, so sets that appear there later (a re-fetch) are not counted twice
-        replaces = sgg_pgs
-        parent_attr = json.loads((parent_dir / "attr.json").read_text(encoding="utf-8"))
-        attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name,
-                            sum(1 for p in parsed["participants"] if not p.get("nocount")))
-        source = {"spsp_class_id": it.get("id"), "parent_event_id": it.get("parent_event_id"), **parsed}
-        note = f" (replaces {existing[0]})" if existing else ""
-        if args.dry_run:
-            print(f"  DRY {label}: would write {vdir} ({len(standings)} standings, {len(parsed['matches'])} matches){note}")
-        else:
-            if vdir.exists():
-                shutil.rmtree(vdir)
-            vdir.mkdir(parents=True)
-            write_json_pretty(vdir / "attr.json", attr)
-            write_json_compact(vdir / "standings.json", standings)
-            write_json_compact(vdir / "matches.json", [])   # like start.gg classes: no learning on the virtual side
-            # the sets, learned as part of the parent event (the build adds them to the parent's matches, is_class);
-            # replaces_phase_group_ids = start.gg class sets of the same class the build must then leave out
-            write_json_compact(vdir / CLASS_MATCHES_FILE, {"data": class_matches_from(parsed, letter),
-                                                           "replaces_phase_group_ids": replaces})
-            write_json_pretty(vdir / SOURCE_FILE, source)
-            print(f"  wrote {vdir} ({len(standings)} standings){note}")
-        done.append(it.get("id")); n_written += 1
+            it, label, parsed, standings = winner
+            # the start.gg class of the same letter (if the TO also made one) must not be learned too: its phase groups are
+            # always listed, even while empty, so sets that appear there later (a re-fetch) are not counted twice
+            replaces = sgg_pgs
+            parent_attr = json.loads((parent_dir / "attr.json").read_text(encoding="utf-8"))
+            attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name,
+                                sum(1 for p in parsed["participants"] if not p.get("nocount")))
+            source = {"spsp_class_id": it.get("id"), "parent_event_id": it.get("parent_event_id"), **parsed}
+            note = f" (replaces {existing[0]})" if existing else ""
+            if args.dry_run:
+                print(f"  DRY {label}: would write {vdir} ({len(standings)} standings, {len(parsed['matches'])} matches){note}")
+            else:
+                if vdir.exists():
+                    shutil.rmtree(vdir)
+                vdir.mkdir(parents=True)
+                write_json_pretty(vdir / "attr.json", attr)
+                write_json_compact(vdir / "standings.json", standings)
+                write_json_compact(vdir / "matches.json", [])   # like start.gg classes: no learning on the virtual side
+                # the sets, learned as part of the parent event (the build adds them to the parent's matches, is_class);
+                # replaces_phase_group_ids = start.gg class sets of the same class the build must then leave out
+                write_json_compact(vdir / CLASS_MATCHES_FILE, {"data": class_matches_from(parsed, letter),
+                                                               "replaces_phase_group_ids": replaces})
+                write_json_pretty(vdir / SOURCE_FILE, source)
+                print(f"  wrote {vdir} ({len(standings)} standings){note}")
+            done.append(it.get("id")); n_written += 1
+        except Exception as e:   # never stop the run for one class: warn and retry next run
+            print(f"  WARN {parent_path} {letter}: could not decide / write the class bracket ({type(e).__name__}: "
+                  f"{str(e)[:150]}) — next run retries"); n_warn += 1
     if args.done_out and not args.dry_run:
         Path(args.done_out).write_text("".join(f"{i}\n" for i in done), encoding="utf-8")
     print(f"[challonge] written {n_written}, excluded {n_excluded}, waiting {n_wait}, warnings {n_warn}")
