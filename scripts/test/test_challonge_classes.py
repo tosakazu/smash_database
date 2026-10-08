@@ -152,6 +152,35 @@ class ParseTests(unittest.TestCase):
         self.assertTrue(one([], []))
         self.assertTrue(one([2], [1], loser_active=False))
 
+    # ── awaiting_review: every set reported, not finalized (no final_rank) → rank from the bracket ──
+    @staticmethod
+    def bracket(ttype, sets, n):
+        """sets = [(round, winner pid, loser pid)], participants 1..n."""
+        return {"tournament_type": ttype, "participants": [{"challonge_id": i} for i in range(1, n + 1)],
+                "matches": [{"challonge_id": 100 + k, "round": r, "winner_pid": w, "loser_pid": l}
+                            for k, (r, w, l) in enumerate(sets)]}
+
+    def test_rank_single_elimination(self):
+        # 6 players (byes for 1 and 2): R1 3>6, 4>5; R2 1>4, 2>3; final 1>2
+        b = self.bracket("single elimination", [(1, 3, 6), (1, 4, 5), (2, 1, 4), (2, 2, 3), (3, 1, 2)], 6)
+        self.assertEqual(cc.placements_from_bracket(b), {1: 1, 2: 2, 3: 3, 4: 3, 5: 5, 6: 5})
+
+    def test_rank_single_elimination_third_place_match(self):
+        b = self.bracket("single elimination", [(1, 1, 4), (1, 2, 3), (2, 1, 2), (0, 4, 3)], 4)
+        self.assertEqual(cc.placements_from_bracket(b), {1: 1, 2: 2, 4: 3, 3: 4})
+
+    def test_rank_double_elimination_with_reset(self):
+        # 4 players: W1 1>4, 2>3; W2 1>2; L1 3>4; L2 3>2; GF 3>1, reset 1>3
+        b = self.bracket("double elimination",
+                         [(1, 1, 4), (1, 2, 3), (2, 1, 2), (-1, 3, 4), (-2, 3, 2), (3, 3, 1), (3, 1, 3)], 4)
+        self.assertEqual(cc.placements_from_bracket(b), {1: 1, 3: 2, 2: 3, 4: 4})
+
+    def test_rank_refuses_what_it_cannot_rank(self):
+        with self.assertRaises(ValueError):
+            cc.placements_from_bracket(self.bracket("round robin", [(1, 1, 2)], 2))
+        with self.assertRaises(ValueError):          # player 3 has no result
+            cc.placements_from_bracket(self.bracket("single elimination", [(1, 1, 2)], 3))
+
     def test_attr_matches_start_gg_virtuals(self):
         parent = {"event_id": 462532, "event_name": "Singles", "tournament_name": "T", "timestamp": 100,
                   "end_timestamp": 200, "offline": True, "region": "Japan", "place": {"city": "x"}, "url": "/tournament/t"}
@@ -221,6 +250,40 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["nocount_uids"], [1004])
         cm = json.load(open(os.path.join(vdir, "class_matches.json")))["data"]
         self.assertFalse(any(1004 in (r["winner_id"], r["loser_id"]) for r in cm))
+
+    def awaiting(self, incomplete=0):
+        tour, parts, matches = challonge_response()
+        tour["data"]["attributes"]["state"] = "awaiting_review"
+        for p in parts:
+            p["attributes"]["final_rank"] = None
+        matches = [m for m in matches if m["attributes"]["state"] == "complete"]
+        # a full 4-player bracket: R1 Alice>Dave, Bob>Carol; final Alice>Bob
+        matches.append({"id": "9", "type": "match", "attributes": {"state": "complete", "round": 2, "scores": "2 - 1",
+            "winner_id": 11, "points_by_participant": [{"participant_id": 11, "scores": [2]}, {"participant_id": 12, "scores": [1]}]}})
+        parsed = cc.parse_challonge(tour, parts, matches)
+        parsed["n_incomplete"] = incomplete
+        return parsed
+
+    def test_awaiting_review_is_ranked_from_the_bracket(self):
+        self.run_fetch(self.awaiting())
+        vdir = os.path.join(self.parent, "class_phases", "B_virtual")
+        st = json.load(open(os.path.join(vdir, "standings.json")))
+        self.assertEqual(st, [{"placement": 1, "user_id": 1001}, {"placement": 2, "user_id": 1002},
+                              {"placement": 3, "user_id": 1004}])           # Carol has no start.gg id
+        self.assertTrue(json.load(open(os.path.join(vdir, "challonge.json")))["placements_computed"])
+        self.assertEqual(open("done.txt").read(), "5\n")
+
+    def test_awaiting_review_with_sets_left_waits(self):
+        self.run_fetch(self.awaiting(incomplete=1))
+        self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
+        self.assertEqual(open("done.txt").read(), "")
+
+    def test_awaiting_review_that_cannot_be_ranked_is_skipped_not_fatal(self):
+        parsed = self.awaiting()
+        parsed["tournament_type"] = "swiss"
+        self.assertEqual(self.run_fetch(parsed), 0)
+        self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
+        self.assertEqual(open("done.txt").read(), "")
 
     def test_in_progress_is_left_for_later(self):
         self.run_fetch(parsed_response(state="underway"))
