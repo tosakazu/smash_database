@@ -263,7 +263,9 @@ the SPSP page; a participant without it is left out of `standings.json` (a start
 is kept once, with the better placement). A participant marked `startgg:<user id>:nocount` (a player the TO
 added who did not play the main event) is always left out of SPSP: not in `standings.json`, not counted in
 `num_entrants`, and no set involving them is written to `class_matches.json` (for either side); the other
-players keep the placements Challonge gives them. Their ids are recorded in `challonge.json` `nocount_uids`. A DQ or forfeit is written like a start.gg DQ (`dq: true`, the
+players keep the placements Challonge gives them. Their ids are recorded in `challonge.json` `nocount_uids`. A participant tied to a start.gg player who did not enter the main event (not in its
+`standings.json` / `seeds.json`) and is not marked `:nocount` is left out the same way, with a warning, and recorded
+in `not_in_main_uids`: a class bracket is drawn from its main event, so anyone else cannot be verified. A DQ or forfeit is written like a start.gg DQ (`dq: true`, the
 loser being the DQ'd player; the build does not learn the set and records the DQ): Challonge has no forfeit flag,
 so a set counts as DQ when a score is negative ("0 - -1"), when it is 0-0, when it has no score at all (the set a
 participant removed after the start forfeits) or when the loser is marked `states.active: false`. Unlike a start.gg class, the Challonge sets are not in the

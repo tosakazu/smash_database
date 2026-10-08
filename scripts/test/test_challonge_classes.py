@@ -200,6 +200,8 @@ class FetchTests(unittest.TestCase):
         os.makedirs(self.parent)
         with open(os.path.join(self.parent, "attr.json"), "w") as f:
             json.dump({"event_id": 777, "event_name": "Singles", "tournament_name": "T", "timestamp": 1000}, f)
+        with open(os.path.join(self.parent, "standings.json"), "w") as f:     # the main event's entrants
+            json.dump({"data": [{"placement": i, "user_id": u} for i, u in enumerate([1001, 1002, 1003, 1004], 1)]}, f)
         with open("data/startgg/Japan/tournaments.jsonl", "w") as f:
             f.write(json.dumps({"tournament_id": 1, "name": "T",
                                 "events": [{"event_id": 777, "event_name": "Singles", "path": self.parent}]}) + "\n")
@@ -284,6 +286,27 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(self.run_fetch(parsed), 0)
         self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
         self.assertEqual(open("done.txt").read(), "")
+
+    def test_participants_who_did_not_enter_the_main_event_are_left_out(self):
+        tour, parts, matches = challonge_response()
+        parts[3]["attributes"]["misc"] = "startgg:5555"          # Dave: a start.gg player who was not in the main event
+        self.run_fetch(cc.parse_challonge(tour, parts, matches))
+        vdir = os.path.join(self.parent, "class_phases", "B_virtual")
+        st = json.load(open(os.path.join(vdir, "standings.json")))
+        self.assertEqual([r["user_id"] for r in st], [1001, 1002])
+        cm = json.load(open(os.path.join(vdir, "class_matches.json")))["data"]
+        self.assertFalse(any(5555 in (r["winner_id"], r["loser_id"]) for r in cm))   # Alice beat Dave: not learned
+        self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["not_in_main_uids"], [5555])
+        self.assertEqual(json.load(open(os.path.join(vdir, "attr.json")))["num_entrants"], 3)
+
+    def test_seeds_also_count_as_entrants(self):
+        with open(os.path.join(self.parent, "seeds.json"), "w") as f:
+            json.dump([{"seed": 9, "user_id": 5555}], f)
+        tour, parts, matches = challonge_response()
+        parts[3]["attributes"]["misc"] = "startgg:5555"
+        self.run_fetch(cc.parse_challonge(tour, parts, matches))
+        st = json.load(open(os.path.join(self.parent, "class_phases", "B_virtual", "standings.json")))
+        self.assertIn(5555, [r["user_id"] for r in st])
 
     def test_in_progress_is_left_for_later(self):
         self.run_fetch(parsed_response(state="underway"))

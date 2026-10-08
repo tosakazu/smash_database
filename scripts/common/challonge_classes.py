@@ -172,8 +172,8 @@ def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
     ids that appeared more than once (the same misc on two participants: only the better placement is kept)."""
     best, left_out, dups = {}, [], []
     for p in parsed["participants"]:
-        if p.get("nocount"):
-            continue     # added by the TO without having played the main event: never in SPSP (see nocount_uids)
+        if p.get("nocount") or p.get("not_in_main"):
+            continue     # :nocount, or not an entrant of the main event: never in SPSP (nocount_uids / not_in_main_uids)
         if p["user_id"] is None or p["final_rank"] is None:
             left_out.append(p["name"] or str(p["challonge_id"]))
             continue
@@ -231,8 +231,8 @@ def class_matches_from(parsed: dict, letter: str) -> list[dict]:
     for m in parsed["matches"]:
         if m["winner_user_id"] is None or m["loser_user_id"] is None or m["winner_user_id"] == m["loser_user_id"]:
             continue
-        if m.get("involves_nocount"):
-            continue     # a set against a :nocount player is not learned (for either side)
+        if m.get("involves_nocount") or m.get("involves_not_in_main"):
+            continue     # a set against a :nocount / non-entrant player is not learned (for either side)
         round_text, g_round, g_top, g_label = labels[m["challonge_id"]]
         rows.append({
             "match_id": m["challonge_id"], "winner_id": m["winner_user_id"], "loser_id": m["loser_user_id"],
@@ -349,6 +349,34 @@ def startgg_class_progress(parent_dir: Path, letter: str, class_letter_fn) -> tu
     return n, pgs
 
 
+def main_event_uids(parent_dir: Path) -> set[int]:
+    """start.gg user ids that entered the parent event (its standings and seeds)."""
+    out = set()
+    for name in ("standings.json", "seeds.json"):
+        try:
+            blob = json.loads((parent_dir / name).read_text(encoding="utf-8"))
+        except (FileNotFoundError, ValueError):
+            continue
+        for r in (blob.get("data", []) if isinstance(blob, dict) else blob) or []:
+            if isinstance(r, dict) and r.get("user_id") is not None:
+                out.add(int(r["user_id"]))
+    return out
+
+
+def mark_not_in_main(parsed: dict, entrants: set[int]) -> list[int]:
+    """Participants tied to a start.gg player who did not enter the main event (and are not :nocount) are left out
+    like :nocount ones: a class bracket is drawn from the main event, so anyone else cannot be verified (a TO could
+    otherwise put any player's results into the ranking). Returns their ids."""
+    bad = {p["challonge_id"] for p in parsed["participants"]
+           if p["user_id"] is not None and not p.get("nocount") and p["user_id"] not in entrants}
+    for p in parsed["participants"]:
+        p["not_in_main"] = p["challonge_id"] in bad
+    for m in parsed["matches"]:
+        m["involves_not_in_main"] = m.get("winner_pid") in bad or m.get("loser_pid") in bad
+    parsed["not_in_main_uids"] = sorted(p["user_id"] for p in parsed["participants"] if p["not_in_main"])
+    return parsed["not_in_main_uids"]
+
+
 def challonge_progress(parsed: dict) -> tuple[int, int]:
     """(completed sets, ranked participants): how far a Challonge bracket actually went."""
     return len(parsed["matches"]), sum(1 for p in parsed["participants"] if p.get("final_rank") is not None)
@@ -413,6 +441,10 @@ def cmd_fetch(args) -> int:
         elif parsed["state"] != "complete":
             print(f"  wait {label}: Challonge state {parsed['state']}"); n_wait += 1
             continue
+        not_in_main = mark_not_in_main(parsed, main_event_uids(Path(parent_path)))
+        if not_in_main:
+            print(f"  WARN {label}: {len(not_in_main)} participant(s) did not enter the main event (and are not :nocount) "
+                  f"— left out of SPSP with their sets: {not_in_main[:10]}"); n_warn += 1
         standings, left_out, dups = standings_from(parsed)
         if parsed.get("nocount_uids"):
             n_sets = sum(1 for m in parsed["matches"] if m.get("involves_nocount"))
@@ -464,7 +496,7 @@ def cmd_fetch(args) -> int:
             replaces = sgg_pgs
             parent_attr = json.loads((parent_dir / "attr.json").read_text(encoding="utf-8"))
             attr = virtual_attr(parent_attr, letter, cls.CLASS_LETTERS, cls.class_virtual_event_name,
-                                sum(1 for p in parsed["participants"] if not p.get("nocount")))
+                                sum(1 for p in parsed["participants"] if not p.get("nocount") and not p.get("not_in_main")))
             source = {"spsp_class_id": it.get("id"), "parent_event_id": it.get("parent_event_id"), **parsed}
             note = f" (replaces {existing[0]})" if existing else ""
             if args.dry_run:
