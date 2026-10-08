@@ -10,6 +10,8 @@ data/startgg/<Region>/              one directory per region
 ├── done_events.csv
 ├── tournaments.jsonl
 ├── tournament_images.jsonl         tournament icon URLs (the image files are not in this repository)
+├── upcoming_entrants.json          Japan: entrants of upcoming tournaments (fetch_upcoming_entrants + annotate_upcoming, by the download workflow)
+├── region_rules.json               the region's rules evaluated as data for the ranking build (derive.py)
 ├── users.jsonl
 ├── users_derived.jsonl             generated: prefecture per player (scripts/common/derive.py)
 ├── manual/                       hand-maintained tables (see below)
