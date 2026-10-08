@@ -7,7 +7,8 @@ checks this before writing and stops on a violation, so a gap shows up here and 
 
   names       flags from the tournament / event name (all bool)
   calendar    the event's dates and calendar flags (None only when the event has no timestamp)
-  naming      labels derived from the tournament name (series, numbering, award labels, cancelled / test page)
+  naming      labels derived from the tournament name (series, numbering, award labels, cancelled / test page) and
+              series_event (the series this event belongs to: usually = series, a region may split side events)
   place       geo: the venue's geographic unit (a geo.json unit id, or None)
   classify.py TIMEZONE, CLASSIFIER_VERSION, SMACOMI_FORCE_WEEKDAY_MAX_NENT, FORCE_WEEKEND_MIN_NENT,
               RESIDENT_WINDOW_DAYS / RESIDENT_MIN_TOURNAMENTS / RESIDENT_MIN_MONTHS (overseas players who look like residents)
@@ -18,6 +19,9 @@ checks this before writing and stops on a violation, so a gap shows up here and 
   country.py  country_ja (display name of a country), is_overseas_country (outside the region), COUNTRY_CODES (start.gg
               country codes that belong to the region; events elsewhere are left out of the region's index)
   geo.py      catalog() (see scripts/common/geo.py)
+
+The build does not import any of these modules: derive.py evaluates what it needs into region_rules.json
+(scripts/common/region_rules.py) and the build reads that file (security review 2026-10-08).
 """
 from __future__ import annotations
 
@@ -28,7 +32,8 @@ NAMES_KEYS = frozenset({
     "pre", "smapa", "force_weekday", "smacomi",
 })
 CALENDAR_KEYS = frozenset({"date", "end_date", "is_weekend_real", "is_force_weekend_period"})
-NAMING_KEYS = frozenset({"series", "series_number", "award_label", "individual_label", "cancelled", "test_page"})
+NAMING_KEYS = frozenset({"series", "series_number", "award_label", "individual_label", "cancelled", "test_page",
+                         "series_event"})   # series of this event (may differ by event name, e.g. a casual side event)
 PLACE_KEYS = frozenset({"geo"})
 CLASSIFY_ATTRS = ("TIMEZONE", "CLASSIFIER_VERSION", "SMACOMI_FORCE_WEEKDAY_MAX_NENT", "FORCE_WEEKEND_MIN_NENT",
                   "RESIDENT_WINDOW_DAYS", "RESIDENT_MIN_TOURNAMENTS", "RESIDENT_MIN_MONTHS",

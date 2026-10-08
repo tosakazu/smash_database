@@ -34,6 +34,7 @@ from scripts.common.utils import (
     fetch_data_with_retries, fetch_all_nodes,
     FetchError, NoPhaseError,
 )
+from scripts.common import tournament_images
 # Reuse the v2 (refetch) fetch / write logic so new daily downloads produce the same schema.
 from scripts.common.redownload_matches_v2 import (
     write_matches_v2 as _write_matches_v2_impl,
@@ -219,6 +220,10 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     existing_tournament_ids = set(tournaments.keys())
     # Index of event_id -> (tournament_id, old_path) for detecting date-change duplicates.
     event_id_index = _build_event_id_index(tournaments)
+    # Tournament icons: recorded for every tournament in the listing (before any skip), written once at the end.
+    images_path = tournament_images.images_path_for(tournament_file_path)
+    images_index = tournament_images.load(images_path)
+    images_changed = False
 
     # Pin the server-side beforeDate to our own upper bound (instead of "now") so a backfill request for
     # an old window starts paging near that window rather than at the head of all history (see
@@ -242,6 +247,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 tournament_id = tournament["id"]
                 tournament_name = tournament["name"]
                 tournament_state = tournament.get("state")
+                if tournament_images.update(images_index, tournament_id, tournament.get("images")):
+                    images_changed = True
                 timestamp = tournament["startAt"]
                 end_timestamp = tournament["endAt"]
 
@@ -338,6 +345,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         continue
                     print("!!!downloaded all!!!")
                     _flush_dirty_users(users, dirty_user_ids, users_file_path)
+                    if images_changed:
+                        tournament_images.save(images_index, images_path)
                     return
 
                 if tournament_id in tournaments:
@@ -467,6 +476,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
     if rewrite_tournaments:
         write_jsonl(list(tournaments.values()), tournament_file_path, with_version=True)
+
+    if images_changed:
+        tournament_images.save(images_index, images_path)
 
     # Write users.jsonl back if any existing user was updated
     _flush_dirty_users(users, dirty_user_ids, users_file_path)
