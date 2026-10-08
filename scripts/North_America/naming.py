@@ -70,4 +70,11 @@ def naming_labels(tname: str, ename: str) -> dict:
         "individual_label": tournament_individual_label(tname),
         "cancelled": is_cancelled(tname) or is_cancelled(ename),
         "test_page": is_test_page(tname) or is_test_page(ename),
+        "series_event": event_series(tname, ename),
     }
+
+
+def event_series(tname: str, ename: str) -> str:
+    """The series this event belongs to (series index, local rankings). North America does not split side events
+    yet, so this is tournament_series(tname)."""
+    return tournament_series(tname)

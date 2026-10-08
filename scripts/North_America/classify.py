@@ -50,7 +50,8 @@ import re
 from scripts.common.region import class_phase_group_ids
 from scripts.North_America import naming as _naming
 
-CLASSIFIER_VERSION = 12  # 12: contract additions for the series index (name patterns, naming.community_series). No output change (2026-09-19)
+CLASSIFIER_VERSION = 13  # 13: derived.json naming.series_event (= series; the build reads region_rules.json instead of importing this module) (2026-10-08)
+# 12: contract additions for the series index (name patterns, naming.community_series). No output change (2026-09-19)
                          # 11:  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
                          # 10:  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
                          # 9:   # 9: PROVISIONAL geography: place.state from venue_address, users_derived state from a small city table (2026-09-15)
