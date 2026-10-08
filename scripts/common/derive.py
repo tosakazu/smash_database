@@ -9,8 +9,9 @@ This file is only the driver plus region-independent facts (the shape of standin
 
 Raw files (attr.json etc.) are never rewritten: derived.json is a sidecar. download.py decides re-fetches from the
 mtime of attr.json, so that must stay untouched. If the content is unchanged it is not rewritten (mtime stays = idempotent).
-Also writes users_derived.jsonl (classify_user), geo.json (scripts/<region>/geo.py, the catalogue of geographic units)
-and overseas_status.json (scripts/common/overseas.py, who counts as overseas).
+Also writes users_derived.jsonl (classify_user), geo.json (scripts/<region>/geo.py, the catalogue of geographic units),
+overseas_status.json (scripts/common/overseas.py, who counts as overseas) and region_rules.json
+(scripts/common/region_rules.py, the region's rules evaluated as data for the ranking build).
 Update rule: derived.json missing / classifier_version outdated / any input (attr, standings, matches, phases, class_phases/*.json)
 newer than derived.json. The timezone used to decide dates is the region module's TIMEZONE
 (e.g. Japan = Asia/Tokyo); nothing is hard-coded here.
@@ -259,7 +260,15 @@ def main(argv=None) -> int:
     _country = _il.import_module(f"scripts.{args.region.replace(' ', '_')}.country")
     ov_written, ov = write_overseas_status(clf, _country, Path(args.users_file_path).parent, root, _dt.date.today(),
                                            dry_run=args.dry_run)
+    # ── region_rules.json: the region's rules evaluated as data for the ranking build (scripts/common/region_rules.py),
+    #    so the build never imports this branch's code ──
+    from scripts.common.region_rules import write_region_rules
+    _naming = _il.import_module(f"scripts.{args.region.replace(' ', '_')}.naming")
+    rr_written, rr = write_region_rules(clf, _naming, _country, Path(args.users_file_path).parent, root,
+                                        dry_run=args.dry_run)
     if not args.quiet:
+        print(f"[derive] region_rules.json: {len(rr['tournament_names'])} tournament names, {len(rr['series'])} series, "
+              f"{len(rr['countries'])} countries {'written' if rr_written else 'unchanged'}", flush=True)
         print(f"[derive] overseas_status.json: overseas {len(ov['by_country'])} by country + {len(ov['manual'])} manual, "
               f"residents {len(ov['resident'])} {'written' if ov_written else 'unchanged'}", flush=True)
         if users_written is not None:
