@@ -79,6 +79,14 @@ jobs:
           n=$(grep -c FetchError "$RUNNER_TEMP/dl.log" || true)
           [ "$n" -eq 0 ] || echo "::warning::download で FetchError $n 件 (該当大会は done にならず次回取り直し)"
           python -u scripts/common/fetch_upcoming.py --country JP --lookahead-days 21 2>&1 | grep -vE 'InsecureRequestWarning|warnings.warn'
+          # 開催予定の大会の参加予定者 (spsp のスコアシミュレーション用)。2026-10-08 まではランキングのビルド (spsp_scripts) の
+          # [2.6/5] が取っていたが、取得は smash_database 側でやる (ビルドに start.gg のトークンを渡さない)。
+          # 前回分 (--prev) から変わらないものは引き継ぐ。失敗しても他は続ける (シミュレーションの参加予定が前回分のまま)
+          python -u scripts/common/fetch_upcoming_entrants.py --upcoming data/startgg/Japan/upcoming.json \
+              --out "$RUNNER_TEMP/upcoming_entrants.staging.json" --prev data/startgg/Japan/upcoming_entrants.json \
+            && python -u scripts/common/annotate_upcoming.py --region Japan --in "$RUNNER_TEMP/upcoming_entrants.staging.json" \
+              --out data/startgg/Japan/upcoming_entrants.json \
+            || echo "::warning::upcoming_entrants の取得が失敗 (参加予定は前回分のまま)"
           python -u scripts/common/update_class_data.py --region Japan --since-days 30 \
             || echo "::warning::update_class_data が失敗 (クラス大会は前回分のまま)"
 
