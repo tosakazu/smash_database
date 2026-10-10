@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791579829,
+  "generated_at": 1791590623,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 48,
+  "count": 50,
   "tournaments": [
     {
       "tournament_id": 952967,
@@ -109,14 +109,14 @@
       "city": "横浜市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/11-77",
       "events": [
         {
           "event_id": 1723603,
           "event_slug": "tournament/11-77/event/super-smash-bros-ultimate-singles",
           "event_name": "シングルス",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1789894800
         }
@@ -224,14 +224,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 23,
+      "num_attendees": 24,
       "url": "/tournament/11-569",
       "events": [
         {
           "event_id": 1718171,
           "event_slug": "tournament/11-569/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 23,
+          "num_entrants": 24,
           "type": 1,
           "start_at": 1791687600
         }
@@ -914,14 +914,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 212,
+      "num_attendees": 213,
       "url": "/tournament/74-sp-2",
       "events": [
         {
           "event_id": 1720986,
           "event_slug": "tournament/74-sp-2/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 204,
+          "num_entrants": 205,
           "type": 1,
           "start_at": 1792805400
         }
@@ -1108,6 +1108,52 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1793260800
+        }
+      ]
+    },
+    {
+      "tournament_id": 961227,
+      "tournament_slug": "tournament/30-585",
+      "tournament_name": "30(金)上野スマコミ#585(オープン)",
+      "start_at": 1793347200,
+      "end_at": 1793368800,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/30-585",
+      "events": [
+        {
+          "event_id": 1726699,
+          "event_slug": "tournament/30-585/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1793347200
+        }
+      ]
+    },
+    {
+      "tournament_id": 954655,
+      "tournament_slug": "tournament/-3231",
+      "tournament_name": "テスト",
+      "start_at": 1793354400,
+      "end_at": 1793368800,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/-3231",
+      "events": [
+        {
+          "event_id": 1712874,
+          "event_slug": "tournament/-3231/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1793354400
         }
       ]
     }
