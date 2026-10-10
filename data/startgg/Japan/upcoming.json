@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791655428,
+  "generated_at": 1791666223,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 46,
+  "count": 49,
   "tournaments": [
     {
       "tournament_id": 941328,
@@ -109,14 +109,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 28,
+      "num_attendees": 29,
       "url": "/tournament/11-569",
       "events": [
         {
           "event_id": 1718171,
           "event_slug": "tournament/11-569/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 28,
+          "num_entrants": 29,
           "type": 1,
           "start_at": 1791687600
         }
@@ -162,7 +162,7 @@
           "event_id": 1713520,
           "event_slug": "tournament/nexus-sumabato-nexus-1/event/1on1",
           "event_name": "1on1(制限あり)",
-          "num_entrants": 62,
+          "num_entrants": 63,
           "type": 1,
           "start_at": 1791730800
         }
@@ -546,14 +546,14 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 72,
+      "num_attendees": 78,
       "url": "/tournament/weekly-smash-party-248",
       "events": [
         {
           "event_id": 1730126,
           "event_slug": "tournament/weekly-smash-party-248/event/special-1on1-ultimate-singles",
           "event_name": "SPECIAL 1on1/ Ultimate Singles",
-          "num_entrants": 70,
+          "num_entrants": 75,
           "type": 1,
           "start_at": 1792202400
         }
@@ -1043,6 +1043,29 @@
       ]
     },
     {
+      "tournament_id": 953008,
+      "tournament_slug": "tournament/14-32",
+      "tournament_name": "しずトナ#14",
+      "start_at": 1793404800,
+      "end_at": 1793444400,
+      "is_online": false,
+      "city": "静岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 50,
+      "url": "/tournament/14-32",
+      "events": [
+        {
+          "event_id": 1709221,
+          "event_slug": "tournament/14-32/event/shizutona-14",
+          "event_name": "Shizutona#14",
+          "num_entrants": 50,
+          "type": 1,
+          "start_at": 1793404800
+        }
+      ]
+    },
+    {
       "tournament_id": 961660,
       "tournament_slug": "tournament/-3263",
       "tournament_name": "第７回 ぽかすま！",
@@ -1062,6 +1085,52 @@
           "num_entrants": 4,
           "type": 1,
           "start_at": 1793408400
+        }
+      ]
+    },
+    {
+      "tournament_id": 944571,
+      "tournament_slug": "tournament/16-kyokkan-16",
+      "tournament_name": "極冠#16/Kyokkan#16",
+      "start_at": 1793412000,
+      "end_at": 1793440800,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 42,
+      "url": "/tournament/16-kyokkan-16",
+      "events": [
+        {
+          "event_id": 1691627,
+          "event_slug": "tournament/16-kyokkan-16/event/kyokkan",
+          "event_name": "極冠/Kyokkan",
+          "num_entrants": 42,
+          "type": 1,
+          "start_at": 1793412000
+        }
+      ]
+    },
+    {
+      "tournament_id": 962127,
+      "tournament_slug": "tournament/31-586",
+      "tournament_name": "31(土)上野スマコミ#586(オープン)",
+      "start_at": 1793415600,
+      "end_at": 1793440800,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/31-586",
+      "events": [
+        {
+          "event_id": 1728721,
+          "event_slug": "tournament/31-586/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1793415600
         }
       ]
     }
