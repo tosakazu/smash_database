@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791741828,
+  "generated_at": 1791752627,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 46,
+  "count": 47,
   "tournaments": [
     {
       "tournament_id": 955013,
@@ -684,14 +684,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 236,
+      "num_attendees": 237,
       "url": "/tournament/74-sp-2",
       "events": [
         {
           "event_id": 1720986,
           "event_slug": "tournament/74-sp-2/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 228,
+          "num_entrants": 229,
           "type": 1,
           "start_at": 1792805400
         }
@@ -753,14 +753,14 @@
       "city": "熊谷市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 18,
+      "num_attendees": 19,
       "url": "/tournament/flyhigh-30-96",
       "events": [
         {
           "event_id": 1721137,
           "event_slug": "tournament/flyhigh-30-96/event/fly-high-96",
           "event_name": "Fly High!! 96人トーナメント 埼玉県熊谷市スマブラ大会",
-          "num_entrants": 18,
+          "num_entrants": 19,
           "type": 1,
           "start_at": 1792886400
         }
@@ -1062,6 +1062,29 @@
           "num_entrants": 5,
           "type": 1,
           "start_at": 1800630000
+        }
+      ]
+    },
+    {
+      "tournament_id": 953867,
+      "tournament_slug": "tournament/victoire-2",
+      "tournament_name": "Victoire #2〈制限大会〉",
+      "start_at": 1793491200,
+      "end_at": 1793530800,
+      "is_online": false,
+      "city": "北名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 48,
+      "url": "/tournament/victoire-2",
+      "events": [
+        {
+          "event_id": 1711130,
+          "event_slug": "tournament/victoire-2/event/singles-tournament",
+          "event_name": "singles tournament",
+          "num_entrants": 48,
+          "type": 1,
+          "start_at": 1793491200
         }
       ]
     }
