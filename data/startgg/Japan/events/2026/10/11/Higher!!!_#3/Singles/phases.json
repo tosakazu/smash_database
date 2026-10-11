@@ -1,0 +1,61 @@
+{
+  "event_id": 1684863,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2365501,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3414921,
+          "display": "1"
+        },
+        {
+          "id": 3489403,
+          "display": "2"
+        },
+        {
+          "id": 3489404,
+          "display": "3"
+        },
+        {
+          "id": 3489405,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2365532,
+      "name": "Aクラス",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3414954,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2365531,
+      "name": "Bクラス",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3414953,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
