@@ -76,6 +76,9 @@ def _match_known_series(name: str) -> str | None:
     # SUMABATO×CYCLOPS 合同 (× vs x の表記揺れ統合, スマバト generic より先にマッチ必須).
     if re.search(r'SUMABATO\s*[×x✕✖]\s*CYCLOPS', name, re.IGNORECASE):
         return 'SUMABATO×CYCLOPS'
+    # スマバトNEXUS は制限大会の別シリーズ (2026-10-12 ユーザー指定)。スマバト本体に混ぜない.
+    if re.search(r'(?:スマバト|SUMABATO)\s*NEXUS', name, re.IGNORECASE):
+        return 'スマバトNEXUS'
     # スマバト系: SP suffix / アルティメット 全部メインに統合 (ユーザー指示).
     # 「九龍withスマバト」「DELTA×西武撃」「SUMABATO×CYCLOPS」等の合同は上で先にマッチ済.
     if re.search(r'スマバト|SUMABATO', name, re.IGNORECASE):

@@ -20,7 +20,7 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 12  # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
+CLASSIFIER_VERSION = 13  # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
 # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
                          # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
@@ -189,7 +189,8 @@ RESTRICTED_PATTERN = re.compile(
     r'|九龍\s*LIMIT\s*BREAK'
     r'|くすブラ\s*若葉'
     r'|DIVE\s*Under\s*Ground'
-    r'|INNOSUMA[!！\s]*RAISE',
+    r'|INNOSUMA[!！\s]*RAISE'
+    r'|(?:スマバト|SUMABATO)\s*NEXUS',                # スマバトNEXUS (制限あり、2026-10-12 ユーザー指定)
     re.IGNORECASE,
 )
 # 下位クラスイベント (Bクラス / Cクラス / Bclass / B_Class / b_class 等)。セパレータは空白/アンダースコア/ハイフン

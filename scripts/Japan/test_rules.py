@@ -67,6 +67,10 @@ class NameFlagTests(unittest.TestCase):
             with self.subTest(tname=tname):
                 self.assertTrue(classify.name_flags(tname, "シングルス")["restricted_tname"])
 
+    def test_sumabato_nexus_is_restricted_but_sumabato_is_not(self):
+        self.assertTrue(classify.name_flags("スマバトNEXUS１/SUMABATO NEXUS 1", "1on1")["restricted_tname"])
+        self.assertFalse(classify.name_flags("スマバトSP68", "シングルス")["restricted_tname"])
+
     def test_qualifier_rate_format_is_not_restricted(self):
         # 「予選レート形式」は進行方式の話で、参加できる層は絞られない
         self.assertFalse(classify.name_flags("予選レート形式 スマブラ大会", "シングルス")["restricted_tname"])
@@ -146,6 +150,8 @@ class NamingTests(unittest.TestCase):
             ("スマパ！#123", "スマパ", 123),
             ("ウメブラSP8", "ウメブラ", 8),
             ("第3回 マエスマTOP", "マエスマTOP", 3),
+            ("スマバトNEXUS１/SUMABATO NEXUS 1", "スマバトNEXUS", 1),
+            ("スマバトSP68", "スマバト", 68),
         ):
             with self.subTest(tname=tname):
                 self.assertEqual(naming.tournament_series(tname), series)
