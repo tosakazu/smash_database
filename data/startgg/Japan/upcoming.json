@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791763424,
+  "generated_at": 1791774219,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 46,
+  "count": 47,
   "tournaments": [
     {
       "tournament_id": 954959,
@@ -54,6 +54,29 @@
       ]
     },
     {
+      "tournament_id": 959551,
+      "tournament_slug": "tournament/50-wide",
+      "tournament_name": "ひこスマ！#50 -WIDE-",
+      "start_at": 1791774000,
+      "end_at": 1791797460,
+      "is_online": false,
+      "city": "彦根市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 23,
+      "url": "/tournament/50-wide",
+      "events": [
+        {
+          "event_id": 1723233,
+          "event_slug": "tournament/50-wide/event/50-wide",
+          "event_name": "ひこスマ！#50 -WIDE-",
+          "num_entrants": 21,
+          "type": 1,
+          "start_at": 1791774000
+        }
+      ]
+    },
+    {
       "tournament_id": 961739,
       "tournament_slug": "tournament/145-shibuya-tatsu",
       "tournament_name": "渋谷\"達\" #145 shibuya -tatsu-",
@@ -63,14 +86,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/145-shibuya-tatsu",
       "events": [
         {
           "event_id": 1727905,
           "event_slug": "tournament/145-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1791885600
         }
@@ -109,14 +132,14 @@
       "city": "川崎市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/39-7",
       "events": [
         {
           "event_id": 1729410,
           "event_slug": "tournament/39-7/event/super-smash-bros-ultimate-singles",
           "event_name": "雷影杯",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1791968400
         }
@@ -247,14 +270,14 @@
       "city": "立川市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/sumao2026-21",
       "events": [
         {
           "event_id": 1729403,
           "event_slug": "tournament/sumao2026-21/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1792139400
         }
@@ -937,14 +960,14 @@
       "city": "静岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 56,
+      "num_attendees": 57,
       "url": "/tournament/14-32",
       "events": [
         {
           "event_id": 1709221,
           "event_slug": "tournament/14-32/event/shizutona-14",
           "event_name": "Shizutona#14",
-          "num_entrants": 56,
+          "num_entrants": 57,
           "type": 1,
           "start_at": 1793404800
         }
