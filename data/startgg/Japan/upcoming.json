@@ -1,11 +1,11 @@
 {
-  "generated_at": 1791871418,
+  "generated_at": 1791882244,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 47,
+  "count": 48,
   "tournaments": [
     {
       "tournament_id": 961739,
@@ -17,14 +17,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 16,
+      "num_attendees": 18,
       "url": "/tournament/145-shibuya-tatsu",
       "events": [
         {
           "event_id": 1727905,
           "event_slug": "tournament/145-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 16,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1791885600
         }
@@ -201,14 +201,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 10,
       "url": "/tournament/16-573",
       "events": [
         {
           "event_id": 1726608,
           "event_slug": "tournament/16-573/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 8,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1792137600
         }
@@ -454,14 +454,14 @@
       "city": "浦添市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 6,
+      "num_attendees": 8,
       "url": "/tournament/7-sp",
       "events": [
         {
           "event_id": 1723025,
           "event_slug": "tournament/7-sp/event/1on1-smash-tournament",
           "event_name": "1on1 Smash Tournament",
-          "num_entrants": 6,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1792209600
         }
@@ -546,14 +546,14 @@
       "city": "札幌市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/epochi-5",
       "events": [
         {
           "event_id": 1732137,
           "event_slug": "tournament/epochi-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1792492200
         }
@@ -661,7 +661,7 @@
       "city": "仙台市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 99,
+      "num_attendees": 100,
       "url": "/tournament/20-17",
       "events": [
         {
@@ -740,6 +740,29 @@
           "num_entrants": 3,
           "type": 1,
           "start_at": 1792810800
+        }
+      ]
+    },
+    {
+      "tournament_id": 964201,
+      "tournament_slug": "tournament/12-58",
+      "tournament_name": "ミコッチ杯#12",
+      "start_at": 1792832400,
+      "end_at": 1792846800,
+      "is_online": false,
+      "city": "横浜市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/12-58",
+      "events": [
+        {
+          "event_id": 1733310,
+          "event_slug": "tournament/12-58/event/super-smash-bros-ultimate-singles",
+          "event_name": "シングルス",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1791104400
         }
       ]
     },
