@@ -1,0 +1,49 @@
+{
+  "event_id": 998091,
+  "event_name": "Super Smash Bros Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1481290,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2237887,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1481291,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2237888,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1481292,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2237889,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

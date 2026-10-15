@@ -1,0 +1,35 @@
+{
+  "event_id": 1360213,
+  "event_name": "Davos Turkeywrap Tumble",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1956024,
+      "name": "Bracket Shmacket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2872041,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1956119,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2872155,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

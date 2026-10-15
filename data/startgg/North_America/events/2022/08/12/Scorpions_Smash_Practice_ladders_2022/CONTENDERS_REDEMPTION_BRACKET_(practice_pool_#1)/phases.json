@@ -1,0 +1,39 @@
+{
+  "event_id": 765644,
+  "event_name": "CONTENDERS REDEMPTION BRACKET (practice pool #1)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1183316,
+      "name": "redemption",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1831069,
+          "display": "1"
+        },
+        {
+          "id": 1842568,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1191528,
+      "name": "final",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1842569,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

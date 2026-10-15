@@ -1,0 +1,35 @@
+{
+  "event_id": 1179317,
+  "event_name": "Smash Ultimate Amateur Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1715089,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 30,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2549258,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1715142,
+      "name": "Amateur Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2549325,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

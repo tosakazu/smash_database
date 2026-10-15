@@ -1,0 +1,109 @@
+{
+  "event_id": 1021607,
+  "event_name": "Ultimate Singles [Day 2]",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1511231,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 140,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2277035,
+          "display": "A1"
+        },
+        {
+          "id": 2277039,
+          "display": "A2"
+        },
+        {
+          "id": 2277041,
+          "display": "A3"
+        },
+        {
+          "id": 2277036,
+          "display": "A4"
+        },
+        {
+          "id": 2277037,
+          "display": "B1"
+        },
+        {
+          "id": 2277038,
+          "display": "B2"
+        },
+        {
+          "id": 2277040,
+          "display": "B3"
+        },
+        {
+          "id": 2277042,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1511232,
+      "name": "Top 48",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2277043,
+          "display": "1"
+        },
+        {
+          "id": 2409335,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1511233,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2277044,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1614038,
+      "name": "Amateurs Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 44,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2412227,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1614039,
+      "name": "Intermediate Bracket",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2412228,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

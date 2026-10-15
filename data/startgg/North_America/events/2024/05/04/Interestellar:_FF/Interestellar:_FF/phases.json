@@ -1,0 +1,61 @@
+{
+  "event_id": 1096277,
+  "event_name": "Interestellar: FF",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1607066,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 67,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2403002,
+          "display": "1"
+        },
+        {
+          "id": 2461509,
+          "display": "2"
+        },
+        {
+          "id": 2461510,
+          "display": "3"
+        },
+        {
+          "id": 2461511,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1650620,
+      "name": "Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2461512,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1652470,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 46,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2463830,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

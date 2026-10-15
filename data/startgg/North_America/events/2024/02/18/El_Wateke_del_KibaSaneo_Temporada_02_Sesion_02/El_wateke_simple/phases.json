@@ -1,0 +1,49 @@
+{
+  "event_id": 1078828,
+  "event_name": "El wateke simple",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1584465,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 33,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2373216,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1584466,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2373217,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1584467,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2373218,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

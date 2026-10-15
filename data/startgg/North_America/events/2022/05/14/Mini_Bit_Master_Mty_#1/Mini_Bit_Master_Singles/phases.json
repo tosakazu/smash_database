@@ -1,0 +1,83 @@
+{
+  "event_id": 718138,
+  "event_name": "Mini Bit Master Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1121730,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 52,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1744302,
+          "display": "A1"
+        },
+        {
+          "id": 1744303,
+          "display": "A2"
+        },
+        {
+          "id": 1744304,
+          "display": "A3"
+        },
+        {
+          "id": 1744305,
+          "display": "A4"
+        },
+        {
+          "id": 1744306,
+          "display": "A5"
+        },
+        {
+          "id": 1744307,
+          "display": "A6"
+        }
+      ]
+    },
+    {
+      "id": 1121731,
+      "name": "Bracket Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1744334,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1121732,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1744335,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1121733,
+      "name": "Bracket Amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1744336,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 1198482,
+  "event_name": "Singles Starts 8:30pm",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1740060,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 35,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2582854,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1740061,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2582855,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1740062,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2582856,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 641656,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1024725,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1612524,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1026708,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1615205,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1031857,
+      "name": "Actual top cut",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1622539,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

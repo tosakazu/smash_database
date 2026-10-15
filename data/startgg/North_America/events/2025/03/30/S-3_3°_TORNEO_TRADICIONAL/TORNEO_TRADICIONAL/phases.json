@@ -1,0 +1,49 @@
+{
+  "event_id": 1346560,
+  "event_name": "TORNEO TRADICIONAL",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1930111,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2836041,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1930112,
+      "name": "TOP 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2836042,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1930113,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2836043,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

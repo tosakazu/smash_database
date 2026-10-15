@@ -1,0 +1,61 @@
+{
+  "event_id": 1294850,
+  "event_name": "Ultimate Singles ($100 Pot Bonus)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1864183,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2746336,
+          "display": "1"
+        },
+        {
+          "id": 2775657,
+          "display": "2"
+        },
+        {
+          "id": 2775660,
+          "display": "3"
+        },
+        {
+          "id": 2775661,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1886177,
+      "name": "Pro Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2775662,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1886275,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2775777,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

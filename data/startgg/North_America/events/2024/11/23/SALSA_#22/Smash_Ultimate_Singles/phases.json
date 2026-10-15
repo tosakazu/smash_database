@@ -1,0 +1,49 @@
+{
+  "event_id": 1262362,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1822339,
+      "name": "BRACKET",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2691755,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1822340,
+      "name": "TOP CUT",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 3,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2691756,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1822341,
+      "name": "AMATEUR BRACKET",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2691757,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

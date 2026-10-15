@@ -1,0 +1,35 @@
+{
+  "event_id": 562023,
+  "event_name": "DBG Smash Weekly #1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 921337,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1467894,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 921367,
+      "name": "amateur bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1467924,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

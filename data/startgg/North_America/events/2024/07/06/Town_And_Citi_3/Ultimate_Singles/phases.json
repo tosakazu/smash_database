@@ -1,0 +1,65 @@
+{
+  "event_id": 1160752,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1690770,
+      "name": "Pools RR BO3",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 29,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2514920,
+          "display": "1"
+        },
+        {
+          "id": 2532736,
+          "display": "2"
+        },
+        {
+          "id": 2532737,
+          "display": "3"
+        },
+        {
+          "id": 2532738,
+          "display": "4"
+        },
+        {
+          "id": 2533712,
+          "display": "5"
+        }
+      ]
+    },
+    {
+      "id": 1704450,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2533725,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1703746,
+      "name": "Final Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2532735,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "event_id": 650109,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1035336,
+      "name": "Round 1: DE Pools",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 47,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1627244,
+          "display": "A1"
+        },
+        {
+          "id": 1627243,
+          "display": "A2"
+        },
+        {
+          "id": 1627245,
+          "display": "A3"
+        },
+        {
+          "id": 1627246,
+          "display": "A4"
+        }
+      ]
+    },
+    {
+      "id": 1035337,
+      "name": "Round 2: Top 24 (Semi Finals)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1627247,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1035338,
+      "name": "Finals: Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1627248,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1035339,
+      "name": "Redemption Bracket",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1627249,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

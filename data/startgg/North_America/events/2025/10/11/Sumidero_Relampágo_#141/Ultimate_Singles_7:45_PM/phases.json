@@ -1,0 +1,53 @@
+{
+  "event_id": 1471833,
+  "event_name": "Ultimate Singles 7:45 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2091528,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 13,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3054424,
+          "display": "1"
+        },
+        {
+          "id": 3066321,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2091530,
+      "name": "Top 4  Sumidero",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3054426,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2091529,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3054425,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

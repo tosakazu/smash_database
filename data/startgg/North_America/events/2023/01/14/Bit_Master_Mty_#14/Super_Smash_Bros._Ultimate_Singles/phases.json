@@ -1,0 +1,91 @@
+{
+  "event_id": 838489,
+  "event_name": "Super Smash Bros. Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1276645,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 85,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956472,
+          "display": "A1"
+        },
+        {
+          "id": 1956470,
+          "display": "A2"
+        },
+        {
+          "id": 1956477,
+          "display": "A3"
+        },
+        {
+          "id": 1956475,
+          "display": "A4"
+        },
+        {
+          "id": 1956471,
+          "display": "B1"
+        },
+        {
+          "id": 1956473,
+          "display": "B2"
+        },
+        {
+          "id": 1956474,
+          "display": "B3"
+        },
+        {
+          "id": 1956476,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1276646,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956478,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1276647,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956479,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1282669,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1964465,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

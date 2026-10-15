@@ -1,0 +1,35 @@
+{
+  "event_id": 1443613,
+  "event_name": "TFR Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2055988,
+      "name": "POOLS AMATEUR",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3008890,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2055989,
+      "name": "AMATEUR TOP 10",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3008892,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

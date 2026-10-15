@@ -1,0 +1,49 @@
+{
+  "event_id": 1301030,
+  "event_name": "PixeL-Mania #1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1872201,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2757830,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1872202,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2757831,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1872203,
+      "name": "Amateur Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2757832,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

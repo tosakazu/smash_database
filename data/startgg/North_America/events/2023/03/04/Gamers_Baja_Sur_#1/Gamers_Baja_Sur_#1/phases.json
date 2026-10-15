@@ -1,0 +1,75 @@
+{
+  "event_id": 860253,
+  "event_name": "Gamers Baja Sur #1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1304203,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 73,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1993605,
+          "display": "1"
+        },
+        {
+          "id": 1993606,
+          "display": "2"
+        },
+        {
+          "id": 1993607,
+          "display": "3"
+        },
+        {
+          "id": 1993608,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1304209,
+      "name": "Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1993614,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1304205,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1993610,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1319462,
+      "name": "amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2013975,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

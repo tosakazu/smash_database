@@ -1,0 +1,103 @@
+{
+  "event_id": 838405,
+  "event_name": "Gambit's Invitational #2",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1276544,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956336,
+          "display": "1"
+        },
+        {
+          "id": 1956341,
+          "display": "2"
+        },
+        {
+          "id": 1956342,
+          "display": "3"
+        },
+        {
+          "id": 1956343,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1276549,
+      "name": "Post Pools",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956344,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1276551,
+      "name": "Top 4 (Prizing)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1956346,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1276550,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1956345,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1282912,
+      "name": "Redemption 2",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1964798,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1282914,
+      "name": "Redemption 3",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1964800,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

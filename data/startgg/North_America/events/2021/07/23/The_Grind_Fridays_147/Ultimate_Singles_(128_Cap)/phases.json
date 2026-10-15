@@ -1,0 +1,89 @@
+{
+  "event_id": 599280,
+  "event_name": "Ultimate Singles (128 Cap)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 971008,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 107,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1538699,
+          "display": "1"
+        },
+        {
+          "id": 1538700,
+          "display": "2"
+        },
+        {
+          "id": 1538701,
+          "display": "3"
+        },
+        {
+          "id": 1538702,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 971009,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1538703,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 971011,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1538705,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 971010,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 43,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1538704,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 971012,
+      "name": "Redemption Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1538706,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

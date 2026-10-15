@@ -1,0 +1,35 @@
+{
+  "event_id": 934257,
+  "event_name": "Ultimate Redemption",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1399077,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 9,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2122761,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1399355,
+      "name": "Top 4 Redemption",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2123200,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 720668,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1125012,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1748887,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1126287,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1750501,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1126289,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1750503,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

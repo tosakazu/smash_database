@@ -1,0 +1,61 @@
+{
+  "event_id": 737988,
+  "event_name": "77's Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1147356,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1780395,
+          "display": "A1"
+        },
+        {
+          "id": 1782367,
+          "display": "A2"
+        },
+        {
+          "id": 1780396,
+          "display": "B1"
+        },
+        {
+          "id": 1782368,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 1147357,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1780397,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1147358,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1780398,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

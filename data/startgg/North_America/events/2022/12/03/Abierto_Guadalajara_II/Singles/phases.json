@@ -1,0 +1,53 @@
+{
+  "event_id": 809492,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1239443,
+      "name": "Albercas",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 54,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1905927,
+          "display": "A1"
+        },
+        {
+          "id": 1905928,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1239477,
+      "name": "Top 16",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1906003,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1260681,
+      "name": "Bracket Amateur",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1934446,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

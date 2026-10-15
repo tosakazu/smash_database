@@ -1,0 +1,61 @@
+{
+  "event_id": 876750,
+  "event_name": "Haku Matsuri",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1325337,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2022040,
+          "display": "1"
+        },
+        {
+          "id": 2022041,
+          "display": "2"
+        },
+        {
+          "id": 2022042,
+          "display": "3"
+        },
+        {
+          "id": 2022043,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1325339,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2022045,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1325340,
+      "name": "amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2022046,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

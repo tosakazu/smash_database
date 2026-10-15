@@ -1,0 +1,67 @@
+{
+  "event_id": 1415831,
+  "event_name": "Ultimate (Singles - Experto)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2019859,
+      "name": "Fase de Grupo (Pools)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 100,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2958292,
+          "display": "A1"
+        },
+        {
+          "id": 2958293,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 2066942,
+      "name": "Fase Intermedia (Top 16)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3022996,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2019860,
+      "name": "Fase Final (Top 8)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2958294,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2067444,
+      "name": "Amateur Bracket",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3023627,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

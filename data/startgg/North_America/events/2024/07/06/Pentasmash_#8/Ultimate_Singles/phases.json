@@ -1,0 +1,57 @@
+{
+  "event_id": 1168547,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1701050,
+      "name": "Pentasmash #8",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 13,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2529242,
+          "display": "1"
+        },
+        {
+          "id": 2534275,
+          "display": "2"
+        },
+        {
+          "id": 2534276,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 1704914,
+      "name": "Final Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2534277,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1705027,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2534414,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

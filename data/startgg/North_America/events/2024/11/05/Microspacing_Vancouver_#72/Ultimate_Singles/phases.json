@@ -1,0 +1,105 @@
+{
+  "event_id": 1248894,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1805121,
+      "name": "RR Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2668837,
+          "display": "1"
+        },
+        {
+          "id": 2668838,
+          "display": "2"
+        },
+        {
+          "id": 2668839,
+          "display": "3"
+        },
+        {
+          "id": 2668840,
+          "display": "4"
+        },
+        {
+          "id": 2668845,
+          "display": "5"
+        },
+        {
+          "id": 2668846,
+          "display": "6"
+        },
+        {
+          "id": 2668847,
+          "display": "7"
+        },
+        {
+          "id": 2668848,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1805122,
+      "name": "Main Bracket (Bo3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2668841,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1805123,
+      "name": "Main Bracket Top 8 (Bo5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2668842,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1805124,
+      "name": "Redemption Bracket (Bo3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2668843,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1805125,
+      "name": "Redemption Bracket Top 8 (Finals Bo5)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2668844,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

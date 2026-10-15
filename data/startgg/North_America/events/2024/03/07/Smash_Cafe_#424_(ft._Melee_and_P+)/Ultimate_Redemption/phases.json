@@ -1,0 +1,39 @@
+{
+  "event_id": 1090600,
+  "event_name": "Ultimate Redemption",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1599627,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2393162,
+          "display": "1"
+        },
+        {
+          "id": 2396878,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1602609,
+      "name": "Redemption Top Cut",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2396879,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

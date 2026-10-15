@@ -1,0 +1,53 @@
+{
+  "event_id": 816777,
+  "event_name": "ULTIMATE Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1248762,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1918593,
+          "display": "1"
+        },
+        {
+          "id": 1918594,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1248763,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1918597,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1248764,
+      "name": "Amateur",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1918598,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

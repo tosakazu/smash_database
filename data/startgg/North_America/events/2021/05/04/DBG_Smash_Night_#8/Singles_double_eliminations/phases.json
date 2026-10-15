@@ -1,0 +1,35 @@
+{
+  "event_id": 573564,
+  "event_name": "Singles double eliminations",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 937203,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1490770,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 937204,
+      "name": "redemption",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 30,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1490771,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

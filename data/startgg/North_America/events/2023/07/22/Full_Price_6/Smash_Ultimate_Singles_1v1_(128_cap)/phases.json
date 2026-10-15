@@ -1,0 +1,49 @@
+{
+  "event_id": 922654,
+  "event_name": "Smash Ultimate Singles 1v1 (128 cap)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1383872,
+      "name": "Round 1",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 51,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2102546,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1412782,
+      "name": "Redemption Bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2141420,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1412783,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2141421,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "event_id": 1536068,
+  "event_name": "Ultimate Rank - Gaming Baja Sur ft Super Novas",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2173384,
+      "name": "Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 58,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3162522,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2173385,
+      "name": "Amateur Bracket",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 42,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3162523,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2173386,
+      "name": "Semi Pro",
+      "order": 8,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3162524,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2173387,
+      "name": "Top 8",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3162525,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

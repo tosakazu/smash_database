@@ -1,0 +1,39 @@
+{
+  "event_id": 1388151,
+  "event_name": "Singles Redemption",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1983895,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2910064,
+          "display": "1"
+        },
+        {
+          "id": 2910074,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1987589,
+      "name": "Redemption Finals",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2915166,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

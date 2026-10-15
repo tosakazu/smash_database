@@ -1,0 +1,49 @@
+{
+  "event_id": 1384058,
+  "event_name": "SmashMania (Singles)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1978580,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 35,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2903017,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1978581,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2903018,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1978582,
+      "name": "Next Contenders' Classic (Amateur)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2903019,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

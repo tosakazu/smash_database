@@ -1,0 +1,81 @@
+{
+  "event_id": 1117492,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1634322,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2439118,
+          "display": "1"
+        },
+        {
+          "id": 2439119,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1634323,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2439120,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1634324,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2439121,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1642300,
+      "name": "Amateur (Real)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2450421,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1642320,
+      "name": "Intermediate (Manual)",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 30,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2450443,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

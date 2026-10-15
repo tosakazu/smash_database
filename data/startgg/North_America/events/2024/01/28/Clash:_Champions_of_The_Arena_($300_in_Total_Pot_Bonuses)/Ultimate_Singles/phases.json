@@ -1,0 +1,81 @@
+{
+  "event_id": 1036789,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1530819,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 47,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2302685,
+          "display": "1"
+        },
+        {
+          "id": 2307874,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1534873,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2307892,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1534878,
+      "name": "Redemption",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 39,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2307897,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1535945,
+      "name": "Redemption Top 8",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2309254,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1534875,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2307894,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

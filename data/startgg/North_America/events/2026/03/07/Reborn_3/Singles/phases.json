@@ -1,0 +1,77 @@
+{
+  "event_id": 1569374,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2215642,
+      "name": "Phase 1",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 52,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3217466,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2215643,
+      "name": "Phase 2",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3217467,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2215644,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3217468,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2215646,
+      "name": "Semi-Pro",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3217470,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2215645,
+      "name": "Redemption",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3217469,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

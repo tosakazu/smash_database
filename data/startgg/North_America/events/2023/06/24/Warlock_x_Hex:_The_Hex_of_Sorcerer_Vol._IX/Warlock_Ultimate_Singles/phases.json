@@ -1,0 +1,67 @@
+{
+  "event_id": 918228,
+  "event_name": "Warlock Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1378143,
+      "name": "Ultimate Singles Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2094825,
+          "display": "1"
+        },
+        {
+          "id": 2123534,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1378144,
+      "name": "TOP 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2094826,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1378145,
+      "name": "TOP 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2094827,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1378146,
+      "name": "Amateur Bracket",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2094828,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

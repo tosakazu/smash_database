@@ -1,0 +1,91 @@
+{
+  "event_id": 800639,
+  "event_name": "Ultimate Singles 7:30 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1228038,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 43,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1891088,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1228040,
+      "name": "Top 24",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1891095,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1228039,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1891094,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1237290,
+      "name": "Amateur Bracket 2",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1903119,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1237842,
+      "name": "Gran Maestro Pequeñin",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1903815,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1237289,
+      "name": "TOP 8 SUMIDERO",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1903118,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

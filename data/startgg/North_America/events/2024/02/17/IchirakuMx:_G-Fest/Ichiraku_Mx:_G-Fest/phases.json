@@ -1,0 +1,35 @@
+{
+  "event_id": 1075754,
+  "event_name": "Ichiraku Mx: G-Fest",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1580645,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2368462,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1580647,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2368467,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

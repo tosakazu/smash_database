@@ -1,0 +1,53 @@
+{
+  "event_id": 1334321,
+  "event_name": "Ultimate (Singles - Amateur)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1914399,
+      "name": "Fase de Grupos (Pools)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 45,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2815329,
+          "display": "1"
+        },
+        {
+          "id": 2815432,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1914488,
+      "name": "Fase Final (Top 8)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2815435,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2008328,
+      "name": "Redención (Amateur)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 37,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2942463,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

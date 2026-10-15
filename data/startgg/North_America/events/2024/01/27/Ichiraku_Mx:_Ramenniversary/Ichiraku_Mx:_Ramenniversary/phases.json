@@ -1,0 +1,61 @@
+{
+  "event_id": 1049725,
+  "event_name": "Ichiraku Mx: Ramenniversary",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1547288,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 78,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2324497,
+          "display": "1"
+        },
+        {
+          "id": 2327064,
+          "display": "2"
+        },
+        {
+          "id": 2327065,
+          "display": "3"
+        },
+        {
+          "id": 2327066,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1549154,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2327069,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1564069,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 46,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2347070,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

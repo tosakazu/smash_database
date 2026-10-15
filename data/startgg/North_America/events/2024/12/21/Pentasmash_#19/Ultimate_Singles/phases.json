@@ -1,0 +1,57 @@
+{
+  "event_id": 1278946,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1843784,
+      "name": "Pentasmash #16",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 13,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2719352,
+          "display": "1"
+        },
+        {
+          "id": 2723258,
+          "display": "2"
+        },
+        {
+          "id": 2723259,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 1846959,
+      "name": "Winners Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2723260,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1846960,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2723261,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "event_id": 1572503,
+  "event_name": "Amateur Bracket 1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2219713,
+      "name": "Amateur Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3222634,
+          "display": "1"
+        },
+        {
+          "id": 3236591,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2230804,
+      "name": "Final",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3236598,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

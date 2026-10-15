@@ -1,0 +1,35 @@
+{
+  "event_id": 738458,
+  "event_name": "Smash Ultimate Amateur Ladder",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1147980,
+      "name": "Amateur Ladder",
+      "order": 1,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 30,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1781226,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1147984,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1781232,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "event_id": 693392,
+  "event_name": "Super Smash Bros. Ultimate 1v1/Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1092408,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1704757,
+          "display": "A1"
+        },
+        {
+          "id": 1705029,
+          "display": "A2"
+        },
+        {
+          "id": 1705031,
+          "display": "A3"
+        },
+        {
+          "id": 1705030,
+          "display": "B1"
+        },
+        {
+          "id": 1705028,
+          "display": "B2"
+        },
+        {
+          "id": 1705032,
+          "display": "C1"
+        },
+        {
+          "id": 1705034,
+          "display": "C2"
+        },
+        {
+          "id": 1705033,
+          "display": "C3"
+        }
+      ]
+    },
+    {
+      "id": 1092621,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1705025,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1094553,
+      "name": "Top 16 (BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1707555,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1094558,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 65,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1707561,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

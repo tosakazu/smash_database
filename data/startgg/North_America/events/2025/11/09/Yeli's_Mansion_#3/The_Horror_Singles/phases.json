@@ -1,0 +1,67 @@
+{
+  "event_id": 1498191,
+  "event_name": "The Horror Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2125052,
+      "name": "Yeli's Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3098016,
+          "display": "A1"
+        },
+        {
+          "id": 3098017,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 2125053,
+      "name": "Yeli's Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3098018,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2125054,
+      "name": "Yeli's Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3098019,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2125055,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3098020,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

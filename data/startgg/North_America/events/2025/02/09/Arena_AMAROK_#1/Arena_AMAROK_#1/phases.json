@@ -1,0 +1,49 @@
+{
+  "event_id": 1304195,
+  "event_name": "Arena AMAROK #1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1876182,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2762811,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1876183,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2762812,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1876184,
+      "name": "Amateur Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 52,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2762813,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

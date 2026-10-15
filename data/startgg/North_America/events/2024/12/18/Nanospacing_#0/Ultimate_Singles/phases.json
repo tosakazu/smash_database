@@ -1,0 +1,49 @@
+{
+  "event_id": 1273368,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1836507,
+      "name": "Swiss",
+      "order": 7,
+      "bracket_type": "SWISS",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2710309,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1836508,
+      "name": "Main Bracket Top 8 (best of 5)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2710310,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1836509,
+      "name": "Redemption Bracket Top 8 (finals best of 5)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2710311,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

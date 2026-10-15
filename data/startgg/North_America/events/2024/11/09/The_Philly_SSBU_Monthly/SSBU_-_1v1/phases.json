@@ -1,0 +1,61 @@
+{
+  "event_id": 1222854,
+  "event_name": "SSBU - 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1771909,
+      "name": "Round Robin",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 25,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2625413,
+          "display": "1"
+        },
+        {
+          "id": 2680946,
+          "display": "2"
+        },
+        {
+          "id": 2680947,
+          "display": "3"
+        },
+        {
+          "id": 2680948,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1771921,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2625425,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1771922,
+      "name": "Redemption Round",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2625426,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 1124367,
+  "event_name": "Smashing the Bowl Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1643188,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 37,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2451559,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1648232,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2458588,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1648238,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 25,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2458594,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

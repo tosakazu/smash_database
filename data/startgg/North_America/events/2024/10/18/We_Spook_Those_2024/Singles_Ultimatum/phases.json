@@ -1,0 +1,57 @@
+{
+  "event_id": 1234187,
+  "event_name": "Singles Ultimatum",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1786357,
+      "name": "Round Robin",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 15,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2643835,
+          "display": "1"
+        },
+        {
+          "id": 2655361,
+          "display": "2"
+        },
+        {
+          "id": 2656208,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 1794383,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2655349,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1794407,
+      "name": "Redemption",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 5,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2655377,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

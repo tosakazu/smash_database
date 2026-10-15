@@ -1,0 +1,67 @@
+{
+  "event_id": 982444,
+  "event_name": "Hooters Ultimate Tournament 7:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1461568,
+      "name": "Bracket Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 145,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2211879,
+          "display": "A1"
+        },
+        {
+          "id": 2229613,
+          "display": "A2"
+        }
+      ]
+    },
+    {
+      "id": 1461569,
+      "name": "Top 64 (bo3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2211880,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1475237,
+      "name": "Top 8 (bo5) 9:00 pm",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2229627,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1475235,
+      "name": "Amateur Bracket  9:00 pm",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 81,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2229625,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

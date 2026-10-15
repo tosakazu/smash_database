@@ -1,0 +1,49 @@
+{
+  "event_id": 1507837,
+  "event_name": "Battle Rift Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2137300,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3114059,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2137302,
+      "name": "TOP 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3114061,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2137301,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3114060,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

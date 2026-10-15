@@ -1,0 +1,75 @@
+{
+  "event_id": 874100,
+  "event_name": "ULTIMATE Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1321910,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 25,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2017171,
+          "display": "1"
+        },
+        {
+          "id": 2017172,
+          "display": "2"
+        },
+        {
+          "id": 2017173,
+          "display": "3"
+        },
+        {
+          "id": 2017174,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1321911,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2017175,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1321912,
+      "name": "Amateur",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2017176,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1321913,
+      "name": "Semi-Pro",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2017177,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

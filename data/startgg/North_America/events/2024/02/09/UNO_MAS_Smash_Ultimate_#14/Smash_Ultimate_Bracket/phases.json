@@ -1,0 +1,49 @@
+{
+  "event_id": 1066357,
+  "event_name": "Smash Ultimate Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1568761,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2353054,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1568762,
+      "name": "Top 4",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2353055,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1578605,
+      "name": "Redemption(Everyone not top 4)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2365499,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

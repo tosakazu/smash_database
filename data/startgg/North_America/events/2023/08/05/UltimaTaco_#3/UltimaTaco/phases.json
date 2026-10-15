@@ -1,0 +1,35 @@
+{
+  "event_id": 944464,
+  "event_name": "UltimaTaco",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1412296,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2140681,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1430367,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2169322,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

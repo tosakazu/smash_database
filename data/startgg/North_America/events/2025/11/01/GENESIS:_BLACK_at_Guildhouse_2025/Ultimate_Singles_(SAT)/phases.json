@@ -1,0 +1,91 @@
+{
+  "event_id": 1443101,
+  "event_name": "Ultimate Singles (SAT)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2055316,
+      "name": "RR Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 53,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3089489,
+          "display": "C1"
+        },
+        {
+          "id": 3089490,
+          "display": "C2"
+        },
+        {
+          "id": 3089491,
+          "display": "C3"
+        },
+        {
+          "id": 3089492,
+          "display": "C4"
+        },
+        {
+          "id": 3008032,
+          "display": "D1"
+        },
+        {
+          "id": 3089493,
+          "display": "D2"
+        },
+        {
+          "id": 3089494,
+          "display": "D3"
+        },
+        {
+          "id": 3089495,
+          "display": "D4"
+        }
+      ]
+    },
+    {
+      "id": 2118285,
+      "name": "Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3089496,
+          "display": "EF1"
+        }
+      ]
+    },
+    {
+      "id": 2120009,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3091812,
+          "display": "ULT1"
+        }
+      ]
+    },
+    {
+      "id": 2120028,
+      "name": "Redemption Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3091831,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

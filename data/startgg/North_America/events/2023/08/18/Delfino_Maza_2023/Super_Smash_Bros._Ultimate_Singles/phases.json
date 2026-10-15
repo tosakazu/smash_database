@@ -1,0 +1,117 @@
+{
+  "event_id": 694184,
+  "event_name": "Super Smash Bros. Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1091344,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 347,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1703382,
+          "display": "A1"
+        },
+        {
+          "id": 2132259,
+          "display": "A2"
+        },
+        {
+          "id": 2132260,
+          "display": "B1"
+        },
+        {
+          "id": 2132261,
+          "display": "B2"
+        },
+        {
+          "id": 2132262,
+          "display": "C1"
+        },
+        {
+          "id": 2132263,
+          "display": "C2"
+        },
+        {
+          "id": 2132264,
+          "display": "D1"
+        },
+        {
+          "id": 2132265,
+          "display": "D2"
+        }
+      ]
+    },
+    {
+      "id": 1406146,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2132258,
+          "display": "E1"
+        }
+      ]
+    },
+    {
+      "id": 1406147,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2132266,
+          "display": "F1"
+        }
+      ]
+    },
+    {
+      "id": 1441475,
+      "name": "Amateur Pools",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 156,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2184897,
+          "display": "AMA1"
+        },
+        {
+          "id": 2184900,
+          "display": "AMA2"
+        },
+        {
+          "id": 2184901,
+          "display": "AMA3"
+        },
+        {
+          "id": 2184902,
+          "display": "AMA4"
+        }
+      ]
+    },
+    {
+      "id": 1441478,
+      "name": "Amateur Top 32",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2184903,
+          "display": "AMB1"
+        }
+      ]
+    }
+  ]
+}

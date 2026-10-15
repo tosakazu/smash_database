@@ -1,0 +1,139 @@
+{
+  "event_id": 872715,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1320145,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 161,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2023410,
+          "display": "A1"
+        },
+        {
+          "id": 2014859,
+          "display": "A2"
+        },
+        {
+          "id": 2023408,
+          "display": "A3"
+        },
+        {
+          "id": 2023409,
+          "display": "A4"
+        },
+        {
+          "id": 2023411,
+          "display": "B1"
+        },
+        {
+          "id": 2023412,
+          "display": "B2"
+        },
+        {
+          "id": 2023413,
+          "display": "B3"
+        },
+        {
+          "id": 2114616,
+          "display": "B4"
+        },
+        {
+          "id": 2023416,
+          "display": "C1"
+        },
+        {
+          "id": 2023417,
+          "display": "C2"
+        },
+        {
+          "id": 2023418,
+          "display": "C3"
+        },
+        {
+          "id": 2023415,
+          "display": "C4"
+        },
+        {
+          "id": 2023419,
+          "display": "D1"
+        },
+        {
+          "id": 2023420,
+          "display": "D2"
+        },
+        {
+          "id": 2023422,
+          "display": "D3"
+        },
+        {
+          "id": 2023424,
+          "display": "D4"
+        },
+        {
+          "id": 2023423,
+          "display": "E1"
+        },
+        {
+          "id": 2114617,
+          "display": "E2"
+        },
+        {
+          "id": 2023421,
+          "display": "E3"
+        },
+        {
+          "id": 2023414,
+          "display": "E4"
+        }
+      ]
+    },
+    {
+      "id": 1326325,
+      "name": "Top 72",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2023425,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1326326,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2023426,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1398818,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 81,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2122403,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 785590,
+  "event_name": "Friendly Fire S4 #1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1208944,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1866176,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1211993,
+      "name": "Top 4",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1870166,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1212006,
+      "name": "Redemption Bracket",
+      "order": 4,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1870181,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

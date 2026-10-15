@@ -1,0 +1,49 @@
+{
+  "event_id": 1409865,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2012067,
+      "name": "Ultimate Singles",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2947164,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2012068,
+      "name": "Top 8 (Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2947165,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2012069,
+      "name": "Come Back Time (Redemption Bracket)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2947166,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

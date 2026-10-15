@@ -1,0 +1,49 @@
+{
+  "event_id": 1450072,
+  "event_name": "Jefe Koopa (Singles)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2064283,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3019792,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2064284,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3019793,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2064285,
+      "name": "Jefe Koopaling (Amateur)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3019794,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

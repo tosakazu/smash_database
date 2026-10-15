@@ -1,0 +1,75 @@
+{
+  "event_id": 1132121,
+  "event_name": "Thunder RoundRobin",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1653048,
+      "name": "Round Robin",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2464530,
+          "display": "1"
+        },
+        {
+          "id": 2464532,
+          "display": "2"
+        },
+        {
+          "id": 2464533,
+          "display": "3"
+        },
+        {
+          "id": 2464534,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1653050,
+      "name": "Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2464535,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1653165,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2464711,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1653095,
+      "name": "Amateur bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2464601,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

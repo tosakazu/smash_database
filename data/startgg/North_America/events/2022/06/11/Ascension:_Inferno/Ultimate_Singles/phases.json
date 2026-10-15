@@ -1,0 +1,113 @@
+{
+  "event_id": 724660,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1130247,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 131,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1756379,
+          "display": "B1"
+        },
+        {
+          "id": 1756382,
+          "display": "B2"
+        },
+        {
+          "id": 1756378,
+          "display": "C1"
+        },
+        {
+          "id": 1756375,
+          "display": "C2"
+        },
+        {
+          "id": 1756377,
+          "display": "D1"
+        },
+        {
+          "id": 1756380,
+          "display": "D2"
+        },
+        {
+          "id": 1756376,
+          "display": "E1"
+        },
+        {
+          "id": 1756381,
+          "display": "E2"
+        }
+      ]
+    },
+    {
+      "id": 1130248,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1756391,
+          "display": "E1"
+        },
+        {
+          "id": 1777174,
+          "display": "F1"
+        }
+      ]
+    },
+    {
+      "id": 1130249,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1756393,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1130250,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 67,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1756394,
+          "display": "F1"
+        },
+        {
+          "id": 1756395,
+          "display": "F2"
+        }
+      ]
+    },
+    {
+      "id": 1130251,
+      "name": "Amateur Top 16",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1756398,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

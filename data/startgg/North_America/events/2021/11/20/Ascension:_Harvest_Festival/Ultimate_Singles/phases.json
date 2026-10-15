@@ -1,0 +1,121 @@
+{
+  "event_id": 638327,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1020561,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 131,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606957,
+          "display": "B1"
+        },
+        {
+          "id": 1606954,
+          "display": "B2"
+        },
+        {
+          "id": 1606959,
+          "display": "B3"
+        },
+        {
+          "id": 1606953,
+          "display": "C1"
+        },
+        {
+          "id": 1606956,
+          "display": "C2"
+        },
+        {
+          "id": 1606960,
+          "display": "C3"
+        },
+        {
+          "id": 1606955,
+          "display": "D1"
+        },
+        {
+          "id": 1606958,
+          "display": "D2"
+        }
+      ]
+    },
+    {
+      "id": 1020562,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606961,
+          "display": "D1"
+        },
+        {
+          "id": 1606962,
+          "display": "E1"
+        }
+      ]
+    },
+    {
+      "id": 1020563,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1606963,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1020564,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 67,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1606966,
+          "display": "F1"
+        },
+        {
+          "id": 1606967,
+          "display": "F2"
+        },
+        {
+          "id": 1606964,
+          "display": "F3"
+        },
+        {
+          "id": 1606965,
+          "display": "F4"
+        }
+      ]
+    },
+    {
+      "id": 1020565,
+      "name": "Amateur Top 16",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1606968,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

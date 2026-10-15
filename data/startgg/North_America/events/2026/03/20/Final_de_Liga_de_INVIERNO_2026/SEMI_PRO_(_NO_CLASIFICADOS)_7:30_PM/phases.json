@@ -1,0 +1,35 @@
+{
+  "event_id": 1580266,
+  "event_name": "SEMI PRO ( NO CLASIFICADOS) 7:30 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2229531,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 33,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3234904,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2238021,
+      "name": "Super Amateur",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3245659,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

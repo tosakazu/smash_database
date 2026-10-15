@@ -1,0 +1,49 @@
+{
+  "event_id": 1589850,
+  "event_name": "Ultimate Singles...",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2241869,
+      "name": "Bracket (BO5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3250391,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2241870,
+      "name": "Top 8 (BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3250392,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2241871,
+      "name": "Triste Amateur (BO3)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3250393,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

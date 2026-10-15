@@ -1,0 +1,75 @@
+{
+  "event_id": 813747,
+  "event_name": "Namis Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1244866,
+      "name": "Pools (Sábado)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 109,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1913181,
+          "display": "A1"
+        },
+        {
+          "id": 1953847,
+          "display": "A2"
+        },
+        {
+          "id": 1953843,
+          "display": "B1"
+        },
+        {
+          "id": 1953848,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 1274733,
+      "name": "Top 24 (Domingo)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1953900,
+          "display": "C1"
+        }
+      ]
+    },
+    {
+      "id": 1274734,
+      "name": "Top 8 (Domingo)",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1953901,
+          "display": "D1"
+        }
+      ]
+    },
+    {
+      "id": 1274721,
+      "name": "Bracket Amateur (Domingo)",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 85,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1953850,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

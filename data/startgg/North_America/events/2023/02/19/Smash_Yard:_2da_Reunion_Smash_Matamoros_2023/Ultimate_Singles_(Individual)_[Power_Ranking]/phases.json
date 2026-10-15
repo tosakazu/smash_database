@@ -1,0 +1,69 @@
+{
+  "event_id": 862134,
+  "event_name": "Ultimate Singles (Individual) [Power Ranking]",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1306576,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 26,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1996642,
+          "display": "1"
+        },
+        {
+          "id": 2000293,
+          "display": "2"
+        },
+        {
+          "id": 2000294,
+          "display": "3"
+        },
+        {
+          "id": 2000295,
+          "display": "4"
+        },
+        {
+          "id": 2000296,
+          "display": "5"
+        },
+        {
+          "id": 2000297,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 1309136,
+      "name": "Pro Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2000363,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1309137,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2000364,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

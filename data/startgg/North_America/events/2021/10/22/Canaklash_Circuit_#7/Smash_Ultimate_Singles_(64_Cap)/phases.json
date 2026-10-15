@@ -1,0 +1,49 @@
+{
+  "event_id": 634511,
+  "event_name": "Smash Ultimate Singles (64 Cap)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1015666,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 49,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1599978,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1015716,
+      "name": "Top 12",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1600044,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1015732,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 37,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1600061,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

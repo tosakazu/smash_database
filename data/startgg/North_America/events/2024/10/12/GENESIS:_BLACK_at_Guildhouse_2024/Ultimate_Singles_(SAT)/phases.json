@@ -1,0 +1,233 @@
+{
+  "event_id": 1154240,
+  "event_name": "Ultimate Singles (SAT)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1682268,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 136,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2504058,
+          "display": "A1"
+        },
+        {
+          "id": 2504068,
+          "display": "A2"
+        },
+        {
+          "id": 2504055,
+          "display": "A3"
+        },
+        {
+          "id": 2643047,
+          "display": "A4"
+        },
+        {
+          "id": 2643034,
+          "display": "A5"
+        },
+        {
+          "id": 2504065,
+          "display": "A6"
+        },
+        {
+          "id": 2643037,
+          "display": "A7"
+        },
+        {
+          "id": 2643044,
+          "display": "A8"
+        },
+        {
+          "id": 2504056,
+          "display": "B1"
+        },
+        {
+          "id": 2504067,
+          "display": "B2"
+        },
+        {
+          "id": 2643035,
+          "display": "B3"
+        },
+        {
+          "id": 2643046,
+          "display": "B4"
+        },
+        {
+          "id": 2504059,
+          "display": "B5"
+        },
+        {
+          "id": 2504064,
+          "display": "B6"
+        },
+        {
+          "id": 2643038,
+          "display": "B7"
+        },
+        {
+          "id": 2643043,
+          "display": "B8"
+        },
+        {
+          "id": 2504066,
+          "display": "C1"
+        },
+        {
+          "id": 2504069,
+          "display": "C2"
+        },
+        {
+          "id": 2504054,
+          "display": "C3"
+        },
+        {
+          "id": 2643048,
+          "display": "C4"
+        },
+        {
+          "id": 2643033,
+          "display": "C5"
+        },
+        {
+          "id": 2504057,
+          "display": "C6"
+        },
+        {
+          "id": 2643045,
+          "display": "C7"
+        },
+        {
+          "id": 2643036,
+          "display": "C8"
+        },
+        {
+          "id": 2504060,
+          "display": "D1"
+        },
+        {
+          "id": 2643042,
+          "display": "D2"
+        },
+        {
+          "id": 2643039,
+          "display": "D3"
+        },
+        {
+          "id": 2504063,
+          "display": "D4"
+        },
+        {
+          "id": 2504061,
+          "display": "D5"
+        },
+        {
+          "id": 2643040,
+          "display": "D6"
+        },
+        {
+          "id": 2643041,
+          "display": "D7"
+        },
+        {
+          "id": 2504062,
+          "display": "D8"
+        }
+      ]
+    },
+    {
+      "id": 1682269,
+      "name": "Top 96",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 96,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2643089,
+          "display": "A1"
+        },
+        {
+          "id": 2643092,
+          "display": "A202"
+        },
+        {
+          "id": 2643090,
+          "display": "B1"
+        },
+        {
+          "id": 2643093,
+          "display": "B202"
+        },
+        {
+          "id": 2504070,
+          "display": "C1"
+        },
+        {
+          "id": 2643091,
+          "display": "C202"
+        },
+        {
+          "id": 2643094,
+          "display": "D1"
+        },
+        {
+          "id": 2643095,
+          "display": "D202"
+        }
+      ]
+    },
+    {
+      "id": 1786061,
+      "name": "Top 48",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2643088,
+          "display": "EF1"
+        }
+      ]
+    },
+    {
+      "id": 1682270,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2504071,
+          "display": "ULT1"
+        }
+      ]
+    },
+    {
+      "id": 1682271,
+      "name": "Redemption Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2645281,
+          "display": "CD1"
+        },
+        {
+          "id": 2504072,
+          "display": "EF1"
+        }
+      ]
+    }
+  ]
+}

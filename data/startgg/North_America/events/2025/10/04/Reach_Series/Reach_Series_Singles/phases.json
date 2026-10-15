@@ -1,0 +1,61 @@
+{
+  "event_id": 1424455,
+  "event_name": "Reach Series Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2031046,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2974434,
+          "display": "A1"
+        },
+        {
+          "id": 2974435,
+          "display": "B1"
+        },
+        {
+          "id": 2974436,
+          "display": "C1"
+        },
+        {
+          "id": 2974433,
+          "display": "D1"
+        }
+      ]
+    },
+    {
+      "id": 2054971,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3007614,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2055618,
+      "name": "Top 16",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3008435,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "event_id": 1341248,
+  "event_name": "Ultimate Singles [Sunday]",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1923296,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 95,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2827200,
+          "display": "A1"
+        },
+        {
+          "id": 2917129,
+          "display": "A2"
+        },
+        {
+          "id": 2917130,
+          "display": "B1"
+        },
+        {
+          "id": 2917131,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 1988819,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2917135,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1991780,
+      "name": "Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2920983,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990519,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2919250,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990520,
+      "name": "Intermediate Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2919251,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

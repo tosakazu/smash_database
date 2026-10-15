@@ -1,0 +1,39 @@
+{
+  "event_id": 889637,
+  "event_name": "Ultimate Singles Amateur Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1341953,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2045800,
+          "display": "1"
+        },
+        {
+          "id": 2045897,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1341954,
+      "name": "Amateur Finals",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2045801,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

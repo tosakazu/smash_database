@@ -1,0 +1,105 @@
+{
+  "event_id": 960464,
+  "event_name": "Ultimate Singles ($500 Pot Bonus)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1433978,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 53,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2174749,
+          "display": "A1"
+        },
+        {
+          "id": 2278736,
+          "display": "A2"
+        },
+        {
+          "id": 2278737,
+          "display": "A3"
+        },
+        {
+          "id": 2278738,
+          "display": "A4"
+        },
+        {
+          "id": 2283581,
+          "display": "B1"
+        },
+        {
+          "id": 2283582,
+          "display": "B2"
+        },
+        {
+          "id": 2283583,
+          "display": "B3"
+        },
+        {
+          "id": 2283584,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1512475,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2278741,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1513029,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2279488,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1515983,
+      "name": "Bottom Redemption Bracket",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2283314,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1517257,
+      "name": "Top Redemption Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2285033,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

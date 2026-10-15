@@ -1,0 +1,35 @@
+{
+  "event_id": 1115556,
+  "event_name": "Super Smash Bros. Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1631927,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2436086,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1633297,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2437882,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

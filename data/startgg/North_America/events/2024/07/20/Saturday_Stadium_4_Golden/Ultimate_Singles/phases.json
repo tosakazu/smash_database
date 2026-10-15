@@ -1,0 +1,137 @@
+{
+  "event_id": 1111353,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1626596,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 256,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2429213,
+          "display": "A1"
+        },
+        {
+          "id": 2539575,
+          "display": "A2"
+        },
+        {
+          "id": 2539576,
+          "display": "A3"
+        },
+        {
+          "id": 2539577,
+          "display": "A4"
+        },
+        {
+          "id": 2539578,
+          "display": "A5"
+        },
+        {
+          "id": 2539579,
+          "display": "A6"
+        },
+        {
+          "id": 2539580,
+          "display": "A7"
+        },
+        {
+          "id": 2539582,
+          "display": "A8"
+        },
+        {
+          "id": 2429211,
+          "display": "B1"
+        },
+        {
+          "id": 2429212,
+          "display": "B2"
+        },
+        {
+          "id": 2429214,
+          "display": "B3"
+        },
+        {
+          "id": 2429215,
+          "display": "B4"
+        },
+        {
+          "id": 2429216,
+          "display": "B5"
+        },
+        {
+          "id": 2429217,
+          "display": "B6"
+        },
+        {
+          "id": 2429218,
+          "display": "B7"
+        },
+        {
+          "id": 2539581,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 1626598,
+      "name": "The Battle Tower (Amateurs)",
+      "order": 3,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 192,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2429220,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1626599,
+      "name": "The Battle Tower Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2429221,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1711918,
+      "name": "Top 64",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2544707,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1711922,
+      "name": "Top 8",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2544712,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

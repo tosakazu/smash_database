@@ -1,0 +1,49 @@
+{
+  "event_id": 1441265,
+  "event_name": "Smash Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2052963,
+      "name": "Bracket Main",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3005038,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2052964,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3005039,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2052966,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3005041,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

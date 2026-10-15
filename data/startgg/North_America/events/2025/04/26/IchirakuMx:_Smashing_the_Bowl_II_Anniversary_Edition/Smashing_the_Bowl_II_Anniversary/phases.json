@@ -1,0 +1,49 @@
+{
+  "event_id": 1363397,
+  "event_name": "Smashing the Bowl II Anniversary",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1951778,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 60,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2865707,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1951779,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2865708,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1951780,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2865709,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

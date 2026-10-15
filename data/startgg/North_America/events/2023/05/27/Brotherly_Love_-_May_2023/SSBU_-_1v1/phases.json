@@ -1,0 +1,35 @@
+{
+  "event_id": 885440,
+  "event_name": "SSBU - 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1336484,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2038124,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1380410,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2097867,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

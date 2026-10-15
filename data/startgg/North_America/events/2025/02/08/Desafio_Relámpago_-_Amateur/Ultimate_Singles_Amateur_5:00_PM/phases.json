@@ -1,0 +1,77 @@
+{
+  "event_id": 1286496,
+  "event_name": "Ultimate Singles Amateur 5:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1853545,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 75,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2732479,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1853547,
+      "name": "Top 32  Sumidero",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2732484,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1886212,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2775701,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1886266,
+      "name": "amateur jojoser",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 1,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2775765,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1853546,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 76,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2732483,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

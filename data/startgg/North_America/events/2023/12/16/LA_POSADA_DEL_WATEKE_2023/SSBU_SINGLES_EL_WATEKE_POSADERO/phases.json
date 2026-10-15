@@ -1,0 +1,75 @@
+{
+  "event_id": 1017501,
+  "event_name": "SSBU SINGLES EL WATEKE POSADERO",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1505982,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 90,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2270277,
+          "display": "A1"
+        },
+        {
+          "id": 2290767,
+          "display": "B1"
+        },
+        {
+          "id": 2290768,
+          "display": "C1"
+        },
+        {
+          "id": 2290769,
+          "display": "D1"
+        }
+      ]
+    },
+    {
+      "id": 1527010,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2297833,
+          "display": "EA1"
+        }
+      ]
+    },
+    {
+      "id": 1527012,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2297837,
+          "display": "F1"
+        }
+      ]
+    },
+    {
+      "id": 1537402,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 58,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2311230,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

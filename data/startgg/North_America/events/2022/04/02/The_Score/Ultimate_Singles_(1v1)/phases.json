@@ -1,0 +1,77 @@
+{
+  "event_id": 663479,
+  "event_name": "Ultimate Singles (1v1)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1052496,
+      "name": "Redemption Cutoff",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 63,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1650704,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1102966,
+      "name": "Intermediate Cutoff",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1718966,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1052498,
+      "name": "Top 12",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1650706,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1103138,
+      "name": "Intermediate",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1719211,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1102717,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 31,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1718689,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

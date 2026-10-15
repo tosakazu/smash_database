@@ -1,0 +1,49 @@
+{
+  "event_id": 946446,
+  "event_name": "Ultimate Singles (36 entrant cap)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1414938,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2144889,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1414939,
+      "name": "Final Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2144890,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1414940,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 5,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2144891,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

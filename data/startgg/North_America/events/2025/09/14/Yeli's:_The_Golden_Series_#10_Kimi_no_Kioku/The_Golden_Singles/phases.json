@@ -1,0 +1,67 @@
+{
+  "event_id": 1456137,
+  "event_name": "The Golden Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2071861,
+      "name": "Yeli's Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 35,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3029881,
+          "display": "A1"
+        },
+        {
+          "id": 3029882,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 2071862,
+      "name": "Yeli's Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3029883,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2071863,
+      "name": "Yeli's Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3029884,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2072816,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3031028,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

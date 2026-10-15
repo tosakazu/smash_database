@@ -1,0 +1,49 @@
+{
+  "event_id": 1207259,
+  "event_name": "Yeli Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1751454,
+      "name": "Yeli's Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2598442,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1751455,
+      "name": "Yeli's Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2598443,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1751456,
+      "name": "Yeli's Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2598444,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

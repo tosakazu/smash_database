@@ -1,0 +1,77 @@
+{
+  "event_id": 1392987,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1990069,
+      "name": "Swiss",
+      "order": 7,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2918746,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990070,
+      "name": "Main Bracket (best of 3)",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2918747,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990072,
+      "name": "Main Bracket Top 8 (best of 5)",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2918749,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990071,
+      "name": "Redemption Bracket (best of 3)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2918748,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1990073,
+      "name": "Redemption Bracket Top 8 (finals best of 5)",
+      "order": 11,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2918750,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

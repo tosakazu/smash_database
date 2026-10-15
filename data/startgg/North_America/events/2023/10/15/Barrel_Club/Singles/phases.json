@@ -1,0 +1,53 @@
+{
+  "event_id": 989182,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1470043,
+      "name": "Pool Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2223061,
+          "display": "A1"
+        },
+        {
+          "id": 2223062,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1470044,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2223063,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1470045,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2223064,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

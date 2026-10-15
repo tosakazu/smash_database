@@ -1,0 +1,91 @@
+{
+  "event_id": 1110233,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1625202,
+      "name": "Pools (Bo3)",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 62,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2427435,
+          "display": "1"
+        },
+        {
+          "id": 2496058,
+          "display": "2"
+        },
+        {
+          "id": 2496059,
+          "display": "3"
+        },
+        {
+          "id": 2496060,
+          "display": "4"
+        },
+        {
+          "id": 2496061,
+          "display": "5"
+        },
+        {
+          "id": 2496062,
+          "display": "6"
+        },
+        {
+          "id": 2496063,
+          "display": "7"
+        },
+        {
+          "id": 2496064,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1625204,
+      "name": "Top 24 (Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2427437,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1714185,
+      "name": "Top 8 (Bo5)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2548086,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1676261,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2496069,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

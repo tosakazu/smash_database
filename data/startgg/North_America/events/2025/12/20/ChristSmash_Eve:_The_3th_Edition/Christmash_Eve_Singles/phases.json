@@ -1,0 +1,49 @@
+{
+  "event_id": 1522122,
+  "event_name": "Christmash Eve Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2155557,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3138713,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2155558,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3138714,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2155559,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3138715,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

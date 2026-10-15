@@ -1,0 +1,109 @@
+{
+  "event_id": 881213,
+  "event_name": "Singles Meteor Fest",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1331050,
+      "name": "Meteor Fest Singles",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2030586,
+          "display": "A1"
+        },
+        {
+          "id": 2086443,
+          "display": "A2"
+        },
+        {
+          "id": 2086446,
+          "display": "A3"
+        },
+        {
+          "id": 2086447,
+          "display": "A4"
+        },
+        {
+          "id": 2086444,
+          "display": "B1"
+        },
+        {
+          "id": 2086445,
+          "display": "B2"
+        },
+        {
+          "id": 2086448,
+          "display": "B3"
+        },
+        {
+          "id": 2086449,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1371844,
+      "name": "Top 32 - Meteor Fest",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2086455,
+          "display": "AA1"
+        },
+        {
+          "id": 2087756,
+          "display": "BB1"
+        }
+      ]
+    },
+    {
+      "id": 1371841,
+      "name": "Top 8 - Meteor Fest",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2086452,
+          "display": "C1"
+        }
+      ]
+    },
+    {
+      "id": 1371847,
+      "name": "Amateur Bracket",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2086458,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1375772,
+      "name": "top 4 choza",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2091777,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

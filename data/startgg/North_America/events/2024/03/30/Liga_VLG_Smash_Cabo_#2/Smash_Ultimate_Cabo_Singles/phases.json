@@ -1,0 +1,63 @@
+{
+  "event_id": 1108751,
+  "event_name": "Smash Ultimate Cabo Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1623274,
+      "name": "Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2424636,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1623275,
+      "name": "Amateur Bracket",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2424637,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1623276,
+      "name": "Semi Pro",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2424638,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1623277,
+      "name": "Top 8",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2424639,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "event_id": 1352808,
+  "event_name": "♠️ Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1938350,
+      "name": "🔵 Small Blind (Pools)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2846735,
+          "display": "A1"
+        },
+        {
+          "id": 2893730,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1938351,
+      "name": "🟡 Big Blind (Top 24)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2846743,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1938352,
+      "name": "🃏 Boss Blind (Top 8)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2846744,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1971845,
+      "name": "🔮 Bracket Amateur",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 40,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2893738,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "event_id": 1126393,
+  "event_name": "Batalla de Puebla Ultimate",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1645726,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 30,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2454973,
+          "display": "A1"
+        },
+        {
+          "id": 2454972,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1645727,
+      "name": "Bracket Final",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2454974,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1656030,
+      "name": "Bracket Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2468346,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

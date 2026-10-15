@@ -1,0 +1,35 @@
+{
+  "event_id": 1084989,
+  "event_name": "Ultimate Singles 7:30 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1592511,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 66,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2384082,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1592512,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 43,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2384083,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

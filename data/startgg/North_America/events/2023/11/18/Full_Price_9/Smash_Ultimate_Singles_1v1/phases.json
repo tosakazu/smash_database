@@ -1,0 +1,49 @@
+{
+  "event_id": 1011471,
+  "event_name": "Smash Ultimate Singles 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1498301,
+      "name": "Round 1 (Bo5: WQF, L Top 12 Qual. Only)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2260278,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1498302,
+      "name": "Top 12 (Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2260279,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1498303,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2260280,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

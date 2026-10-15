@@ -1,0 +1,35 @@
+{
+  "event_id": 1002544,
+  "event_name": "Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1486920,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2245053,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1486928,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2245061,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

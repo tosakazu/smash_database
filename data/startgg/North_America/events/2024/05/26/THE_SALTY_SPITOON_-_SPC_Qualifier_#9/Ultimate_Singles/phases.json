@@ -1,0 +1,35 @@
+{
+  "event_id": 1077925,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1583243,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2371579,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1631462,
+      "name": "Choose Your Own Ruleset Redemption",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2435569,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "event_id": 1274540,
+  "event_name": "Smash Ultimate Singles (Switch) @ 7:30 pm",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1838024,
+      "name": "Guildhouse Weekly",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2712202,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1838026,
+      "name": "Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2712204,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1838027,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2712205,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1838025,
+      "name": "Redemption Ladder",
+      "order": 2,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2712203,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

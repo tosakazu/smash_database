@@ -1,0 +1,211 @@
+{
+  "event_id": 578955,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 944691,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 396,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1502141,
+          "display": "A1"
+        },
+        {
+          "id": 1502142,
+          "display": "A2"
+        },
+        {
+          "id": 1502143,
+          "display": "A3"
+        },
+        {
+          "id": 1502144,
+          "display": "A4"
+        },
+        {
+          "id": 1502145,
+          "display": "A5"
+        },
+        {
+          "id": 1502146,
+          "display": "A6"
+        },
+        {
+          "id": 1502147,
+          "display": "A7"
+        },
+        {
+          "id": 1502148,
+          "display": "A8"
+        },
+        {
+          "id": 1502149,
+          "display": "A9"
+        },
+        {
+          "id": 1502150,
+          "display": "A10"
+        },
+        {
+          "id": 1502151,
+          "display": "A11"
+        },
+        {
+          "id": 1502152,
+          "display": "A12"
+        },
+        {
+          "id": 1502153,
+          "display": "A13"
+        },
+        {
+          "id": 1502154,
+          "display": "A14"
+        },
+        {
+          "id": 1502155,
+          "display": "A15"
+        },
+        {
+          "id": 1502156,
+          "display": "A16"
+        }
+      ]
+    },
+    {
+      "id": 944694,
+      "name": "Redemption Pools",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 332,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1502159,
+          "display": "B1"
+        },
+        {
+          "id": 1502160,
+          "display": "B2"
+        },
+        {
+          "id": 1502161,
+          "display": "B3"
+        },
+        {
+          "id": 1502162,
+          "display": "B4"
+        },
+        {
+          "id": 1502163,
+          "display": "B5"
+        },
+        {
+          "id": 1502164,
+          "display": "B6"
+        },
+        {
+          "id": 1502165,
+          "display": "B7"
+        },
+        {
+          "id": 1502166,
+          "display": "B8"
+        },
+        {
+          "id": 1502167,
+          "display": "B9"
+        },
+        {
+          "id": 1502168,
+          "display": "B10"
+        },
+        {
+          "id": 1502169,
+          "display": "B11"
+        },
+        {
+          "id": 1502170,
+          "display": "B12"
+        },
+        {
+          "id": 1502171,
+          "display": "B13"
+        },
+        {
+          "id": 1502172,
+          "display": "B14"
+        },
+        {
+          "id": 1502173,
+          "display": "B15"
+        },
+        {
+          "id": 1502174,
+          "display": "B16"
+        }
+      ]
+    },
+    {
+      "id": 944693,
+      "name": "Redemption Top 64",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1502158,
+          "display": "D1"
+        }
+      ]
+    },
+    {
+      "id": 944696,
+      "name": "Redemption Top 8",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1502176,
+          "display": "E1"
+        }
+      ]
+    },
+    {
+      "id": 944692,
+      "name": "Top 64",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1502157,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 944695,
+      "name": "Top 8",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1502175,
+          "display": "C1"
+        }
+      ]
+    }
+  ]
+}

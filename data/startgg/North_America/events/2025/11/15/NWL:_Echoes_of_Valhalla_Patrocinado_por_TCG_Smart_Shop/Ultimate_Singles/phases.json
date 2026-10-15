@@ -1,0 +1,113 @@
+{
+  "event_id": 1378706,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1971678,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2893535,
+          "display": "A1"
+        },
+        {
+          "id": 2893542,
+          "display": "A2"
+        },
+        {
+          "id": 2893539,
+          "display": "A3"
+        },
+        {
+          "id": 2893538,
+          "display": "A4"
+        },
+        {
+          "id": 2893537,
+          "display": "B1"
+        },
+        {
+          "id": 2893536,
+          "display": "B2"
+        },
+        {
+          "id": 2893540,
+          "display": "B3"
+        },
+        {
+          "id": 2893541,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1971679,
+      "name": "Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2893543,
+          "display": "1"
+        },
+        {
+          "id": 3109318,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2133794,
+      "name": "Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3109344,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1971681,
+      "name": "Nowhere Zone (Amateur)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2893545,
+          "display": "1"
+        },
+        {
+          "id": 3109338,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2133795,
+      "name": "Amateur Top 4",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3109345,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

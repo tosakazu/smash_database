@@ -1,0 +1,49 @@
+{
+  "event_id": 713946,
+  "event_name": "Singles - 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1116345,
+      "name": "Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1736610,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1116346,
+      "name": "Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1736611,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1117610,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1738219,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

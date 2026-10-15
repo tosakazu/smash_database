@@ -1,0 +1,35 @@
+{
+  "event_id": 1333980,
+  "event_name": "Redemption Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1913987,
+      "name": "Pools (best of 3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2814848,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1913991,
+      "name": "Redemption Bracket Top 8 (best of 5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2814852,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

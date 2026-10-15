@@ -1,0 +1,47 @@
+{
+  "event_id": 647918,
+  "event_name": "Ultimate Singles Amateur",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1032619,
+      "name": "Pools Amateur",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1623556,
+          "display": "1"
+        },
+        {
+          "id": 1623557,
+          "display": "2"
+        },
+        {
+          "id": 1623558,
+          "display": "3"
+        },
+        {
+          "id": 1623559,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1032620,
+      "name": "Top 8 Amateur",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1623560,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

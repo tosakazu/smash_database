@@ -1,0 +1,49 @@
+{
+  "event_id": 1343642,
+  "event_name": "Smash Ultimate",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1926332,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2830898,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1926383,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2831005,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1926386,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2831008,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "event_id": 567384,
+  "event_name": "DBG SSBU Weekly #4",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 928708,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1478649,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 928709,
+      "name": "redemption bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1478650,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

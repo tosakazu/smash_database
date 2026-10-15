@@ -1,0 +1,49 @@
+{
+  "event_id": 1293608,
+  "event_name": "Rumbo al Ichiraku",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1862660,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 39,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2744415,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1866118,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2749018,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1866143,
+      "name": "Amateur Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 27,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2749048,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

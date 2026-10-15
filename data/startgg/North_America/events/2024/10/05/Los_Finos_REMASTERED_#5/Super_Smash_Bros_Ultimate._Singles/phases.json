@@ -1,0 +1,53 @@
+{
+  "event_id": 1212870,
+  "event_name": "Super Smash Bros Ultimate. Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1759044,
+      "name": "Los Finos Singles",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2608520,
+          "display": "A1"
+        },
+        {
+          "id": 2608521,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1759045,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2608522,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1781990,
+      "name": "Bracket Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2638105,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

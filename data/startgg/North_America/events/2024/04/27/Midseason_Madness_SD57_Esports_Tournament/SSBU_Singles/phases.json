@@ -1,0 +1,61 @@
+{
+  "event_id": 1116984,
+  "event_name": "SSBU Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1633702,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2438382,
+          "display": "1"
+        },
+        {
+          "id": 2458920,
+          "display": "2"
+        },
+        {
+          "id": 2458921,
+          "display": "3"
+        },
+        {
+          "id": 2458922,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1648479,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2458916,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1648541,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2459014,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

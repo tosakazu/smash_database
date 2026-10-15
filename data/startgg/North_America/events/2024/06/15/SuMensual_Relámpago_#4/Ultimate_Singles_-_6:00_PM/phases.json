@@ -1,0 +1,105 @@
+{
+  "event_id": 1142341,
+  "event_name": "Ultimate Singles - 6:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1666680,
+      "name": "Bracket Pools Bo3",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 55,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2483364,
+          "display": "1"
+        },
+        {
+          "id": 2483365,
+          "display": "2"
+        },
+        {
+          "id": 2512008,
+          "display": "3"
+        },
+        {
+          "id": 2512009,
+          "display": "4"
+        },
+        {
+          "id": 2512010,
+          "display": "5"
+        },
+        {
+          "id": 2512011,
+          "display": "6"
+        },
+        {
+          "id": 2512012,
+          "display": "7"
+        },
+        {
+          "id": 2512013,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1666682,
+      "name": "Top 32",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2483367,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1666683,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2483368,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1666681,
+      "name": "Amateur 9:00 PM- 10:30",
+      "order": 2,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 28,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2483366,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1688833,
+      "name": "Amateur prueba",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2512603,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

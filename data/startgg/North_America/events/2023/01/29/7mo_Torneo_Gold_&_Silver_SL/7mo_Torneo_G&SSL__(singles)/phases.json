@@ -1,0 +1,49 @@
+{
+  "event_id": 841280,
+  "event_name": "7mo Torneo G&SSL  (singles)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1280178,
+      "name": "POOLS PHASE",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 61,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1961066,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1280193,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1961083,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1280225,
+      "name": "The copper and Iron Tournament (amateur)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 45,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1961122,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

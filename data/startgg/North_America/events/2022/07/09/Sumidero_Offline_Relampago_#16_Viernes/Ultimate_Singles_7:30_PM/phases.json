@@ -1,0 +1,75 @@
+{
+  "event_id": 747303,
+  "event_name": "Ultimate Singles 7:30 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1159702,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 38,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1798087,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1159703,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1798088,
+          "display": "1"
+        },
+        {
+          "id": 1798089,
+          "display": "2"
+        },
+        {
+          "id": 1798090,
+          "display": "3"
+        },
+        {
+          "id": 1798091,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1159705,
+      "name": "Top 8 Amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1798093,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1159704,
+      "name": "Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1798092,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

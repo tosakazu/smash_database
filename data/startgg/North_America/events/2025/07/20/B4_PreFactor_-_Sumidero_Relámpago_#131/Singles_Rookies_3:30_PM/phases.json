@@ -1,0 +1,35 @@
+{
+  "event_id": 1396648,
+  "event_name": "Singles Rookies 3:30 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1994905,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2925097,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2028101,
+      "name": "Amateur primera ronda",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2969885,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

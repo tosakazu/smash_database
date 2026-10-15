@@ -1,0 +1,75 @@
+{
+  "event_id": 801690,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1229420,
+      "name": "Round Robin Pools",
+      "order": 4,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1892854,
+          "display": "1"
+        },
+        {
+          "id": 1892855,
+          "display": "2"
+        },
+        {
+          "id": 1892856,
+          "display": "3"
+        },
+        {
+          "id": 1892857,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1229421,
+      "name": "Main",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1892859,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1229418,
+      "name": "Top Cut",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1892852,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1229419,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1892853,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

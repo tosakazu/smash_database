@@ -1,0 +1,75 @@
+{
+  "event_id": 804374,
+  "event_name": "Double Elimination Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1232794,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 114,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1897355,
+          "display": "A1"
+        },
+        {
+          "id": 1897356,
+          "display": "B1"
+        },
+        {
+          "id": 1897358,
+          "display": "C1"
+        },
+        {
+          "id": 1897359,
+          "display": "D1"
+        }
+      ]
+    },
+    {
+      "id": 1232795,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1897357,
+          "display": "E1"
+        }
+      ]
+    },
+    {
+      "id": 1261201,
+      "name": "SSS Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1935132,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1258859,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 82,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1931937,
+          "display": "F1"
+        }
+      ]
+    }
+  ]
+}

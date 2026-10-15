@@ -1,0 +1,39 @@
+{
+  "event_id": 1254506,
+  "event_name": "Ultimate Redemption",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1812209,
+      "name": "Redemption",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2678879,
+          "display": "1"
+        },
+        {
+          "id": 2679538,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1812727,
+      "name": "Grands",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2679539,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

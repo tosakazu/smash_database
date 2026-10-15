@@ -1,0 +1,107 @@
+{
+  "event_id": 1087139,
+  "event_name": "Singles Smash Bros Ultimate ,  3:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1595163,
+      "name": "Pools 3:00 PM",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 59,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2387448,
+          "display": "1"
+        },
+        {
+          "id": 2405024,
+          "display": "2"
+        },
+        {
+          "id": 2405025,
+          "display": "3"
+        },
+        {
+          "id": 2405026,
+          "display": "4"
+        },
+        {
+          "id": 2405027,
+          "display": "5"
+        },
+        {
+          "id": 2405028,
+          "display": "6"
+        },
+        {
+          "id": 2405029,
+          "display": "7"
+        },
+        {
+          "id": 2405030,
+          "display": "8"
+        },
+        {
+          "id": 2407277,
+          "display": "9"
+        },
+        {
+          "id": 2407278,
+          "display": "10"
+        },
+        {
+          "id": 2407771,
+          "display": "11"
+        },
+        {
+          "id": 2407772,
+          "display": "12"
+        }
+      ]
+    },
+    {
+      "id": 1610528,
+      "name": "Top 36- 6:00 PM",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2407773,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1610531,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2407777,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1610652,
+      "name": "Amateur Bracket 7:00 PM",
+      "order": 4,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 52,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2407933,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

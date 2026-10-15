@@ -1,0 +1,49 @@
+{
+  "event_id": 1429189,
+  "event_name": "Smash Los Cabos Gaming🏝️",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2037181,
+      "name": "Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 39,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2982380,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2037182,
+      "name": "Top 8",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2982381,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2037235,
+      "name": "AMATEUR",
+      "order": 10,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 26,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2982454,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

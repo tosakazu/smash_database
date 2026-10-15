@@ -1,0 +1,77 @@
+{
+  "event_id": 1081299,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1593831,
+      "name": "Bracket Fix",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2385790,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1587618,
+      "name": "Bracket Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2377704,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1593833,
+      "name": "Redemption Fix",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2385792,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1587619,
+      "name": "Redemption Bracket Top 8",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2377705,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1587617,
+      "name": "Swiss",
+      "order": 4,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2377703,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

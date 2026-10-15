@@ -1,0 +1,91 @@
+{
+  "event_id": 1239000,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1792551,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 44,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2651741,
+          "display": "A1"
+        },
+        {
+          "id": 2773603,
+          "display": "A2"
+        },
+        {
+          "id": 2773600,
+          "display": "A3"
+        },
+        {
+          "id": 2773599,
+          "display": "A4"
+        },
+        {
+          "id": 2773598,
+          "display": "B1"
+        },
+        {
+          "id": 2651751,
+          "display": "B2"
+        },
+        {
+          "id": 2773601,
+          "display": "B3"
+        },
+        {
+          "id": 2773602,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 1792562,
+      "name": "Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2651753,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1792563,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2651754,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1794816,
+      "name": "Nowhere Zone (Amateur)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 20,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2655990,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

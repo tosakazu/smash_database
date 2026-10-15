@@ -1,0 +1,49 @@
+{
+  "event_id": 1364635,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1953332,
+      "name": "Swiss",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2867748,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1953793,
+      "name": "Main Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2868404,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1953341,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2867757,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "event_id": 1357869,
+  "event_name": "Everyone Bans a Character Ultimate Side Event",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1944872,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2855738,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1946087,
+      "name": "Redemption Side Event",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2857263,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

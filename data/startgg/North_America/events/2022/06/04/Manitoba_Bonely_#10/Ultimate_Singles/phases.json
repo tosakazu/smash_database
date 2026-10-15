@@ -1,0 +1,77 @@
+{
+  "event_id": 720719,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1125082,
+      "name": "Round Robin Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 39,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1748967,
+          "display": "1"
+        },
+        {
+          "id": 1748968,
+          "display": "2"
+        },
+        {
+          "id": 1748969,
+          "display": "3"
+        },
+        {
+          "id": 1748970,
+          "display": "4"
+        },
+        {
+          "id": 1748971,
+          "display": "5"
+        },
+        {
+          "id": 1748972,
+          "display": "6"
+        },
+        {
+          "id": 1748973,
+          "display": "7"
+        },
+        {
+          "id": 1748974,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 1125083,
+      "name": "Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1748975,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1125084,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1748976,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

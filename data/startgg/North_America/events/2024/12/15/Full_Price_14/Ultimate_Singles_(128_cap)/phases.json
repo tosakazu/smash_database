@@ -1,0 +1,49 @@
+{
+  "event_id": 1209662,
+  "event_name": "Ultimate Singles (128 cap)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1754650,
+      "name": "Main Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2602834,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1754651,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2602835,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1754652,
+      "name": "Redemption Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2602836,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 1482009,
+  "event_name": "Ultimate Singies",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2103990,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3069710,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2114986,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3085306,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2114827,
+      "name": "Redemption",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3085102,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "event_id": 1312323,
+  "event_name": "Redemption Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1886639,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2776214,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1888247,
+      "name": "Redemption Grands",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2778095,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

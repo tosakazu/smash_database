@@ -1,0 +1,77 @@
+{
+  "event_id": 1365681,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1954648,
+      "name": "Phase 1",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 53,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2870212,
+          "display": "A1"
+        }
+      ]
+    },
+    {
+      "id": 1954649,
+      "name": "Phase 2",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2870213,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1954650,
+      "name": "Top 12",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2870214,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1954652,
+      "name": "Semi-Pro",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2870216,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1954651,
+      "name": "Amateur",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2870215,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

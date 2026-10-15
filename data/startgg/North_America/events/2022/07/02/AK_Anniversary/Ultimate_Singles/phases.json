@@ -1,0 +1,81 @@
+{
+  "event_id": 719060,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1122918,
+      "name": "Royal Gate (Phase I)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 84,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1746107,
+          "display": "A1"
+        },
+        {
+          "id": 1748096,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 1127495,
+      "name": "Royal Guard (Top 48)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1752148,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1127496,
+      "name": "Royal Court (Top 16)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1752149,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1158330,
+      "name": "Knight Commanders (Top 8)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1796048,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1127498,
+      "name": "Redemption Court (Redemption Bracket)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1752151,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

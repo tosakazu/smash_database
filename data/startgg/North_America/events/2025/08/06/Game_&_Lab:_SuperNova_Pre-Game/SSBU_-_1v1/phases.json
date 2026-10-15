@@ -1,0 +1,53 @@
+{
+  "event_id": 1426617,
+  "event_name": "SSBU - 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2033895,
+      "name": "Bairs Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2978154,
+          "display": "1"
+        },
+        {
+          "id": 2990110,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2042443,
+      "name": "de",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2990111,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2042575,
+      "name": "redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2990249,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

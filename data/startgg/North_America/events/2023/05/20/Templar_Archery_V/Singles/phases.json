@@ -1,0 +1,63 @@
+{
+  "event_id": 903993,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1360012,
+      "name": "Archers (Singles)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2070505,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1360013,
+      "name": "Master Archers (Top 8)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2070506,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1360014,
+      "name": "Companions (Redemption)",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 5,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2070507,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1360145,
+      "name": "Arbalists (Intermediate)",
+      "order": 6,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2070665,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

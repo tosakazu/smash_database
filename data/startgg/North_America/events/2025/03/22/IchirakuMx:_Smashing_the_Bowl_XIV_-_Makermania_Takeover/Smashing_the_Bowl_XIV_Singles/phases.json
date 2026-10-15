@@ -1,0 +1,49 @@
+{
+  "event_id": 1339208,
+  "event_name": "Smashing the Bowl XIV Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1920584,
+      "name": "Main Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 62,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2823211,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1920585,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2823212,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1920586,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 50,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2823213,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

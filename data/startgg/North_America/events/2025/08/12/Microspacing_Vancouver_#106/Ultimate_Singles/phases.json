@@ -1,0 +1,119 @@
+{
+  "event_id": 1432077,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2040925,
+      "name": "Swiss Round 1",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987588,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040926,
+      "name": "Swiss Round 2",
+      "order": 2,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987589,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040927,
+      "name": "Swiss Round 3",
+      "order": 3,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987590,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040928,
+      "name": "Swiss Round 4",
+      "order": 4,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987591,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040929,
+      "name": "Swiss Round 5",
+      "order": 5,
+      "bracket_type": "SWISS",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987592,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040932,
+      "name": "Final Standings",
+      "order": 8,
+      "bracket_type": "CUSTOM_SCHEDULE",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987595,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040930,
+      "name": "Main Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2987593,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2040931,
+      "name": "Redemption Bracket",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2987594,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

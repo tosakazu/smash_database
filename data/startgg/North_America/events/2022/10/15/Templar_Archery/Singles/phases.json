@@ -1,0 +1,49 @@
+{
+  "event_id": 796244,
+  "event_name": "Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1222485,
+      "name": "Archers (Singles)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1883769,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1222757,
+      "name": "Infantry (Redemption)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1884172,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1223444,
+      "name": "Master Archers (Top 4)",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1885055,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

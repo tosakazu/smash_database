@@ -1,0 +1,35 @@
+{
+  "event_id": 726991,
+  "event_name": "SSBU Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1155990,
+      "name": "Redemption Bracket",
+      "order": 1,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 2,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1792649,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1155991,
+      "name": "Singles - Main Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1792650,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

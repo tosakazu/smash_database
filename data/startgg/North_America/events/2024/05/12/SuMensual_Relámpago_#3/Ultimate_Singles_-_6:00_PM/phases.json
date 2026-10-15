@@ -1,0 +1,81 @@
+{
+  "event_id": 1116250,
+  "event_name": "Ultimate Singles - 6:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1632798,
+      "name": "Bracket Pools Bo5",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 105,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2437218,
+          "display": "1"
+        },
+        {
+          "id": 2472152,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1657240,
+      "name": "Top 48",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 48,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2469798,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1660283,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2474055,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1632799,
+      "name": "Amateur 9:00 PM- 10:30",
+      "order": 2,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 59,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2437219,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1660947,
+      "name": "amateur yariz",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 1,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2475151,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

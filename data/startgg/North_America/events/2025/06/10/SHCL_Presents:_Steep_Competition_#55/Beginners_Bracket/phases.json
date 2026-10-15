@@ -1,0 +1,39 @@
+{
+  "event_id": 1395407,
+  "event_name": "Beginners Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1993262,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2923055,
+          "display": "1"
+        },
+        {
+          "id": 2925488,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1995233,
+      "name": "Redemption Double Elimination",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2925467,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

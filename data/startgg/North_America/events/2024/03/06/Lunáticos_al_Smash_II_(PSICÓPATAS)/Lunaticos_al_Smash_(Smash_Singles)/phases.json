@@ -1,0 +1,69 @@
+{
+  "event_id": 1092017,
+  "event_name": "Lunaticos al Smash (Smash Singles)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1601404,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 53,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2395344,
+          "display": "1"
+        },
+        {
+          "id": 2404243,
+          "display": "2"
+        },
+        {
+          "id": 2404244,
+          "display": "3"
+        },
+        {
+          "id": 2404245,
+          "display": "4"
+        },
+        {
+          "id": 2415019,
+          "display": "5"
+        },
+        {
+          "id": 2415020,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 1607829,
+      "name": "Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2404242,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1617734,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 29,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2417337,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

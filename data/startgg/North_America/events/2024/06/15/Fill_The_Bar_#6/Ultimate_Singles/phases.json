@@ -1,0 +1,61 @@
+{
+  "event_id": 1148989,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1675387,
+      "name": "Singles Bracket (Bo3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 54,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2494696,
+          "display": "A1"
+        },
+        {
+          "id": 2494697,
+          "display": "A2"
+        },
+        {
+          "id": 2494698,
+          "display": "B1"
+        },
+        {
+          "id": 2494699,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 1675388,
+      "name": "Final Bracket (Singles Top 16, Bo5)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2494700,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1675389,
+      "name": "Amateur Ladder (Bo3)",
+      "order": 3,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 30,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2494701,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
