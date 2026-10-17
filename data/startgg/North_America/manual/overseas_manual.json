@@ -1,8 +1,6 @@
 {
-  "_comment": "Hand-kept overseas players: `uids` = players without a country registration who are known to live outside the region (players with a registration are judged from it, see country.py). `home_uids` = players registered elsewhere who should count as region players. `force_uids` = always overseas, whatever their registration or attendance (2026-10-17: Japanese top players who play more in Japan than here, chosen by the operator).",
-  "uids": [],
-  "home_uids": [],
-  "force_uids": [
+  "_comment": "Hand-kept overseas players: `uids` = players without a country registration who are known to live outside the region (players with a registration are judged from it, see country.py). `home_uids` = players registered elsewhere who should count as region players.",
+  "uids": [
     21068,
     134839,
     381209,
@@ -46,5 +44,6 @@
     2461715,
     2526245,
     2607991
-  ]
+  ],
+  "home_uids": []
 }
