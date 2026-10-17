@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792260269,
+  "generated_at": 1792271060,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 45,
+  "count": 49,
   "tournaments": [
     {
       "tournament_id": 948886,
@@ -178,7 +178,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 72,
+      "num_attendees": 73,
       "url": "/tournament/weekly-smash-party-249",
       "events": [
         {
@@ -1016,6 +1016,98 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1793872800
+        }
+      ]
+    },
+    {
+      "tournament_id": 957553,
+      "tournament_slug": "tournament/-3243",
+      "tournament_name": "第４回　凶華水月",
+      "start_at": 1794009600,
+      "end_at": 1794052800,
+      "is_online": false,
+      "city": "茅野市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 5,
+      "url": "/tournament/-3243",
+      "events": [
+        {
+          "event_id": 1718859,
+          "event_slug": "tournament/-3243/event/super-smash-bros-ultimate-singles",
+          "event_name": "凶華彗月　本戦トーナメント",
+          "num_entrants": 5,
+          "type": 1,
+          "start_at": 1795305600
+        }
+      ]
+    },
+    {
+      "tournament_id": 963172,
+      "tournament_slug": "tournament/24-15",
+      "tournament_name": "第24回夢スマ",
+      "start_at": 1794009600,
+      "end_at": 1794045600,
+      "is_online": false,
+      "city": "豊橋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 10,
+      "url": "/tournament/24-15",
+      "events": [
+        {
+          "event_id": 1730855,
+          "event_slug": "tournament/24-15/event/24",
+          "event_name": "第24回夢スマ",
+          "num_entrants": 10,
+          "type": 1,
+          "start_at": 1794009600
+        }
+      ]
+    },
+    {
+      "tournament_id": 949335,
+      "tournament_slug": "tournament/tsurugi-5",
+      "tournament_name": "剱〜Tsurugi〜#5",
+      "start_at": 1794013200,
+      "end_at": 1794049200,
+      "is_online": false,
+      "city": "富山市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 11,
+      "url": "/tournament/tsurugi-5",
+      "events": [
+        {
+          "event_id": 1701453,
+          "event_slug": "tournament/tsurugi-5/event/singles",
+          "event_name": "Singles",
+          "num_entrants": 9,
+          "type": 1,
+          "start_at": 1794013200
+        }
+      ]
+    },
+    {
+      "tournament_id": 959318,
+      "tournament_slug": "tournament/54-kurobra54",
+      "tournament_name": "第54回クロブラ/神奈川スマブラ対戦会クロブラ/Kurobra54",
+      "start_at": 1794013200,
+      "end_at": 1794045600,
+      "is_online": false,
+      "city": "横浜市",
+      "venue_name": "おださがプラザ",
+      "country_code": "JP",
+      "num_attendees": 123,
+      "url": "/tournament/54-kurobra54",
+      "events": [
+        {
+          "event_id": 1722693,
+          "event_slug": "tournament/54-kurobra54/event/kurobra-sp-1on1",
+          "event_name": "Kurobra/SP 1on1トーナメント",
+          "num_entrants": 119,
+          "type": 1,
+          "start_at": 1794013200
         }
       ]
     },
