@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792249453,
+  "generated_at": 1792260269,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 44,
+  "count": 45,
   "tournaments": [
     {
       "tournament_id": 948886,
@@ -63,14 +63,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 10,
+      "num_attendees": 12,
       "url": "/tournament/19-576",
       "events": [
         {
           "event_id": 1726636,
           "event_slug": "tournament/19-576/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 10,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1792396800
         }
@@ -86,14 +86,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 20,
+      "num_attendees": 23,
       "url": "/tournament/hit-202_-maesuma-hit-202_kyoto",
       "events": [
         {
           "event_id": 1733107,
           "event_slug": "tournament/hit-202_-maesuma-hit-202_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 19,
+          "num_entrants": 22,
           "type": 1,
           "start_at": 1792404000
         }
@@ -178,7 +178,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 68,
+      "num_attendees": 72,
       "url": "/tournament/weekly-smash-party-249",
       "events": [
         {
@@ -822,14 +822,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 58,
+      "num_attendees": 62,
       "url": "/tournament/-3247",
       "events": [
         {
           "event_id": 1719056,
           "event_slug": "tournament/-3247/event/super-smash-bros-ultimate-singles",
           "event_name": "龍王杯",
-          "num_entrants": 58,
+          "num_entrants": 62,
           "type": 1,
           "start_at": 1793415600
         }
@@ -983,14 +983,14 @@
       "city": "堺市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/innosuma-in-sakai",
       "events": [
         {
           "event_id": 1694726,
           "event_slug": "tournament/innosuma-in-sakai/event/sp-1on1",
           "event_name": "スマブラSP 1on1 トーナメント",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1793678400
         }
@@ -1016,6 +1016,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1793872800
+        }
+      ]
+    },
+    {
+      "tournament_id": 955273,
+      "tournament_slug": "tournament/aya-10",
+      "tournament_name": "彩-aya- #10",
+      "start_at": 1794024000,
+      "end_at": 1794042000,
+      "is_online": false,
+      "city": "さいたま市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/aya-10",
+      "events": [
+        {
+          "event_id": 1714058,
+          "event_slug": "tournament/aya-10/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1794024000
         }
       ]
     }
