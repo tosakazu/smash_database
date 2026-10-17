@@ -53,12 +53,12 @@ class OverseasStatusTests(unittest.TestCase):
         self.assertFalse(again)                        # unchanged content is not rewritten
 
     def test_manual_wins_over_residence(self):
-        # 3 (France, resident by attendance) is on the list: overseas. 1 (Japan = inside this test region) on the list:
-        # the registration wins, not overseas
+        # 3 (France, resident by attendance) and 1 (Japan = inside this test region) are on the list: both overseas
+        # (the list wins over the registration and the attendance)
         (self.root / "manual" / "overseas_manual.json").write_text(json.dumps({"uids": [5, 2, 3, 1], "home_uids": [4]}))
         _, st = overseas.write_overseas_status(CLF, COUNTRY, self.root, self.root / "events", dt.date(2026, 9, 28))
         self.assertEqual(st["by_country"], [2, 3, 6])
-        self.assertEqual(st["manual"], [5])
+        self.assertEqual(st["manual"], [1, 5])
         self.assertEqual(st["resident"], [])
 
     def test_merge_chain(self):

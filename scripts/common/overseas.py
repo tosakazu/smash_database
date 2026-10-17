@@ -3,8 +3,7 @@ out of the region counter). Written by derive.py next to users.jsonl as overseas
 
 A player is overseas when
   - their start.gg country is outside the region (scripts/<region>/country.py is_overseas_country), or
-  - they are in manual/overseas_manual.json `uids` and have no country registration or one outside the region
-    (registration first: a registration inside the region wins over the list),
+  - they are in manual/overseas_manual.json `uids` (the hand-kept list wins over the registration, 2026-10-17),
 unless
   - they are in manual/overseas_manual.json `home_uids` (hand-kept: joke registrations, residents), or
   - they look like residents (not applied to `uids`: the hand-kept list wins, 2026-10-17 e.g. Japanese top players who
@@ -80,8 +79,7 @@ def build_status(clf, country_mod, users_path: Path, events_root: Path, manual_d
     manual = _load_json(manual_dir / "overseas_manual.json", {})
     home = {int(u) for u in manual.get("home_uids") or []}
     by_country = {u for u, c in countries.items() if country_mod.is_overseas_country(c)} - home
-    by_manual = {int(u) for u in manual.get("uids") or []
-                 if int(u) not in countries or country_mod.is_overseas_country(countries[int(u)])} - home
+    by_manual = {int(u) for u in manual.get("uids") or []} - home
     since = (today - dt.timedelta(days=clf.RESIDENT_WINDOW_DAYS)).isoformat()
     att = attendance(events_root, since, load_merges(manual_dir))
 
