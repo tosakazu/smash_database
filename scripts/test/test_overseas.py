@@ -52,6 +52,18 @@ class OverseasStatusTests(unittest.TestCase):
         again, _ = overseas.write_overseas_status(CLF, COUNTRY, self.root, self.root / "events", dt.date(2026, 9, 28))
         self.assertFalse(again)                        # unchanged content is not rewritten
 
+    def test_force_uids(self):
+        # force_uids: overseas even with a home-region registration (1 = Japan here, i.e. home in this test region),
+        # as a resident (3) or in home_uids (4); they go into `manual`
+        (self.root / "manual" / "overseas_manual.json").write_text(
+            json.dumps({"uids": [5, 2], "home_uids": [4], "force_uids": [1, 3, 4]}))
+        _, st = overseas.write_overseas_status(CLF, COUNTRY, self.root, self.root / "events", dt.date(2026, 9, 28))
+        self.assertEqual(st["by_country"], [2, 6])
+        self.assertEqual(st["manual"], [1, 3, 4, 5])
+        self.assertEqual(st["resident"], [])
+        self.assertEqual(st["home"], [])
+        self.assertEqual(st["forced"], [1, 3, 4])
+
     def test_merge_chain(self):
         (self.root / "manual" / "user_merges.json").write_text(json.dumps({"merges": [{"old": 8, "new": 9}, {"old": 9, "new": 10}]}))
         self.assertEqual(overseas.load_merges(self.root / "manual"), {8: 10, 9: 10})
