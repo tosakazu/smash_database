@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792346706,
+  "generated_at": 1792357495,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 49,
+  "count": 51,
   "tournaments": [
     {
       "tournament_id": 961191,
@@ -1098,14 +1098,14 @@
       "city": "横浜市",
       "venue_name": "おださがプラザ",
       "country_code": "JP",
-      "num_attendees": 135,
+      "num_attendees": 136,
       "url": "/tournament/54-kurobra54",
       "events": [
         {
           "event_id": 1722693,
           "event_slug": "tournament/54-kurobra54/event/kurobra-sp-1on1",
           "event_name": "Kurobra/SP 1on1トーナメント",
-          "num_entrants": 131,
+          "num_entrants": 132,
           "type": 1,
           "start_at": 1794013200
         }
@@ -1131,6 +1131,52 @@
           "num_entrants": 4,
           "type": 1,
           "start_at": 1794024000
+        }
+      ]
+    },
+    {
+      "tournament_id": 956800,
+      "tournament_slug": "tournament/grand-wars-4_-maesuma-grand-wars-4_okayama",
+      "tournament_name": "マエスマ'GRAND WARS#4_岡山 / Maesuma'GRAND WARS#4_okayama",
+      "start_at": 1794101400,
+      "end_at": 1794135600,
+      "is_online": false,
+      "city": "岡山市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 96,
+      "url": "/tournament/grand-wars-4_-maesuma-grand-wars-4_okayama",
+      "events": [
+        {
+          "event_id": 1717257,
+          "event_slug": "tournament/grand-wars-4_-maesuma-grand-wars-4_okayama/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 96,
+          "type": 1,
+          "start_at": 1794101400
+        }
+      ]
+    },
+    {
+      "tournament_id": 961619,
+      "tournament_slug": "tournament/jack-3",
+      "tournament_name": "郡スマJACK!!",
+      "start_at": 1794103200,
+      "end_at": 1794133800,
+      "is_online": false,
+      "city": "郡山市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 32,
+      "url": "/tournament/jack-3",
+      "events": [
+        {
+          "event_id": 1727619,
+          "event_slug": "tournament/jack-3/event/super-smash-bros-ultimate-singles",
+          "event_name": "大会",
+          "num_entrants": 32,
+          "type": 1,
+          "start_at": 1794103200
         }
       ]
     }
