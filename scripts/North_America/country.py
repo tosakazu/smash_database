@@ -31,7 +31,7 @@ _CENTRAL_AMERICA = {'MX', 'BZ', 'CR', 'SV', 'GT', 'HN', 'NI', 'PA'}
 # Caribbean (UN M49).
 _CARIBBEAN = {
     'AI', 'AG', 'AW', 'BS', 'BB', 'BQ', 'VG', 'KY', 'CU', 'CW', 'DM', 'DO', 'GD', 'GP',
-    'HT', 'JM', 'MQ', 'MS', 'PR', 'BL', 'KN', 'LC', 'MF', 'VC', 'SX', 'TT', 'VI',
+    'HT', 'JM', 'MQ', 'MS', 'PR', 'BL', 'KN', 'LC', 'MF', 'VC', 'SX', 'TC', 'TT', 'VI',
 }
 # Pre-existing, kept for continuity (Oceania, not North America) — see the scope note above.
 _LEGACY = {'GU'}
