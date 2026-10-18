@@ -1,0 +1,140 @@
+# 北米の大会データの取得 (start.gg → incoming/North_America ブランチ → data-North_America への PR)。2026-10-19 作成。
+# data-North_America は北米担当者だけが push するブランチ (docs/region_operator.md) なので、ここでは直接 push しない。
+# 取得したものを incoming/North_America に置き、data-North_America への PR は人が開いて担当者が取り込む
+# (このリポジトリでは Actions に PR を作らせない設定のまま)。
+# 手順は scripts/common/run_region.sh の 1〜5 と同じ (国ごとの download → upcoming → class → derive → validate)。
+# 違い: 取得に時間の上限 (dl_minutes) があり、超えても取れた分で続ける (done.csv に載らなかった大会は次回また取る)。
+#
+# 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
+#   - start.gg のトークンは Environment「na-data」の NA_STARTGG_TOKEN だけ (この取得用のアカウントのもの)。
+#     na-data は main ブランチからの実行でしか使えない (deployment branch policy)。main は PR とコードオーナーの承認が要る。
+#   - トークンは取得の 3 段 (download / upcoming / class) の env にだけ渡す。derive・validate・push には渡さない。
+#   - スクリプトは data-North_America のもの (北米担当者が直接変えられる) を動かすので、担当者にはトークンが見えうる
+#     (所有者が了承済み、2026-10-19)。それ以外の人には見えない。
+#   - checkout は認証情報を残さない。push は最後の段でだけ GITHUB_TOKEN をヘッダで渡す (書けるのは保護の無いブランチだけ)。
+#   - pull_request などの外から起動できるトリガーは付けない。
+name: download-north-america
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 何日前までに終わった大会を取るか (run_region.sh の --days)
+        type: string
+        default: '35'
+      dl_minutes:
+        description: 取得 (download) にかける時間の上限 (分)。超えたら取れた分で続ける
+        type: string
+        default: '270'
+      push:
+        description: incoming/North_America に commit して push する (data-North_America には触らない)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: download-north-america
+  cancel-in-progress: false
+
+jobs:
+  download:
+    # main 以外からは走らせない (Environment 側の制限と二重にしておく)
+    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: na-data
+    timeout-minutes: 355
+    permissions:
+      contents: write   # incoming/North_America への push だけに使う
+    env:
+      TZ: America/New_York
+      REGION: North_America
+      DATA_DIR: data/startgg/North_America
+    steps:
+      - name: data-North_America (スクリプトとデータ、最新 1 コミット)
+        uses: actions/checkout@v4
+        with:
+          ref: data-North_America
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -q -r requirements.txt
+
+      - name: 取得前の件数
+        run: |
+          echo "EV0=$(find "$DATA_DIR/events" -name attr.json | wc -l)" >> "$GITHUB_ENV"
+          echo "US0=$(wc -l < "$DATA_DIR/users.jsonl")" >> "$GITHUB_ENV"
+          echo "HEAD0=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: 取得 (国ごと、時間の上限つき)
+        env:
+          STARTGG_TOKEN: ${{ secrets.NA_STARTGG_TOKEN }}
+          DAYS: ${{ inputs.days }}
+          DL_MINUTES: ${{ inputs.dl_minutes }}
+        run: |
+          set -o pipefail
+          TODAY=$(date +%F); FROM=$(date -d "-${DAYS} days" +%F)
+          CODES=$(python -c "from scripts.North_America.country import COUNTRY_CODES as c; print(' '.join(c))")
+          echo "取得期間: $FROM 〜 $TODAY、国 $(echo $CODES | wc -w) か国"
+          AWAITING=(); [ -s "$DATA_DIR/manual/awaiting_resume.json" ] && AWAITING=(--awaiting-file "$DATA_DIR/manual/awaiting_resume.json")
+          deadline=$(( $(date +%s) + DL_MINUTES * 60 )); : > "$RUNNER_TEMP/dl.log"; stopped=""
+          for cc in $CODES; do
+            left=$(( deadline - $(date +%s) ))
+            if [ "$left" -le 60 ]; then stopped="$cc"; break; fi
+            echo "── $cc (残り $((left / 60)) 分)"
+            set +e
+            timeout --signal=INT --kill-after=120 "$left" python -u scripts/common/download.py --country-code "$cc" \
+              --start-date "$TODAY" --finish-date "$FROM" "${AWAITING[@]}" 2>&1 | tee -a "$RUNNER_TEMP/dl.log" \
+              | grep -vE 'InsecureRequestWarning|warnings.warn'
+            rc=${PIPESTATUS[0]}
+            set -e
+            if [ "$rc" -eq 124 ]; then stopped="$cc (途中)"; break; fi
+            [ "$rc" -eq 0 ] || echo "::warning::download $cc が rc=$rc (done.csv に載ったものは残る。次回の続きから)"
+          done
+          n=$(grep -c FetchError "$RUNNER_TEMP/dl.log" || true)
+          [ "$n" -eq 0 ] || echo "::warning::download で FetchError $n 件 (該当大会は done にならず次回取り直し)"
+          [ -z "$stopped" ] || echo "::warning::時間の上限 ${DL_MINUTES} 分で ${stopped} から先を取っていない (次回の続き)"
+
+      - name: 開催予定とクラス bracket
+        env:
+          STARTGG_TOKEN: ${{ secrets.NA_STARTGG_TOKEN }}
+          DAYS: ${{ inputs.days }}
+        run: |
+          CC=(); for cc in $(python -c "from scripts.North_America.country import COUNTRY_CODES as c; print(' '.join(c))"); do CC+=(--country "$cc"); done
+          python -u scripts/common/fetch_upcoming.py "${CC[@]}" --region "$REGION" \
+            || echo "::warning::fetch_upcoming が失敗 (upcoming.json は前回分のまま)"
+          python -u scripts/common/update_class_data.py --region "$REGION" --since-days "$DAYS" \
+            || echo "::warning::update_class_data が失敗 (クラス bracket は次回)"
+
+      - name: 判定 (derived.json) と整合性チェック
+        run: |
+          python -u scripts/common/derive.py --region "$REGION"
+          python -u scripts/common/fix/validate_data.py --region "$REGION" --baseline "$DATA_DIR/validation_baseline.json" \
+            || echo "::warning::validate_data が種別ごとの増加を検出"
+
+      - name: 変更の要約
+        run: |
+          echo "events: $EV0 → $(find "$DATA_DIR/events" -name attr.json | wc -l)   users.jsonl: $US0 → $(wc -l < "$DATA_DIR/users.jsonl")"
+          git status --short -- "$DATA_DIR" | awk '{print $1}' | sort | uniq -c; git diff --stat -- "$DATA_DIR" | tail -1
+
+      - name: incoming/North_America に commit して push
+        if: inputs.push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- "$DATA_DIR"
+          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+          git commit -q -m "data: North America $(date +%F) (GitHub Actions、data-North_America ${HEAD0:0:10} から)"
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c http.extraheader="AUTHORIZATION: basic $auth" push -q --force \
+            "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/incoming/North_America
+          echo "pushed: https://github.com/${GITHUB_REPOSITORY}/compare/data-North_America...incoming/North_America"
