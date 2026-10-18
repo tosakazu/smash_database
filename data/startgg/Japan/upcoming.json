@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792271060,
+  "generated_at": 1792286503,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 49,
+  "count": 50,
   "tournaments": [
     {
       "tournament_id": 948886,
@@ -70,7 +70,7 @@
           "event_id": 1726636,
           "event_slug": "tournament/19-576/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 12,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1792396800
         }
@@ -86,14 +86,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 23,
+      "num_attendees": 25,
       "url": "/tournament/hit-202_-maesuma-hit-202_kyoto",
       "events": [
         {
           "event_id": 1733107,
           "event_slug": "tournament/hit-202_-maesuma-hit-202_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 22,
+          "num_entrants": 24,
           "type": 1,
           "start_at": 1792404000
         }
@@ -178,7 +178,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 73,
+      "num_attendees": 74,
       "url": "/tournament/weekly-smash-party-249",
       "events": [
         {
@@ -500,14 +500,14 @@
       "city": "新潟市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 15,
       "url": "/tournament/a-leg-i-clashing-xiphos",
       "events": [
         {
           "event_id": 1709956,
           "event_slug": "tournament/a-leg-i-clashing-xiphos/event/singles-tournament",
           "event_name": "Singles tournament",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1792893600
         }
@@ -822,14 +822,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 62,
+      "num_attendees": 63,
       "url": "/tournament/-3247",
       "events": [
         {
           "event_id": 1719056,
           "event_slug": "tournament/-3247/event/super-smash-bros-ultimate-singles",
           "event_name": "龍王杯",
-          "num_entrants": 62,
+          "num_entrants": 63,
           "type": 1,
           "start_at": 1793415600
         }
@@ -1016,6 +1016,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1793872800
+        }
+      ]
+    },
+    {
+      "tournament_id": 965632,
+      "tournament_slug": "tournament/epochi-masters-1",
+      "tournament_name": "EPOCHI Masters#1",
+      "start_at": 1794002400,
+      "end_at": 1794060000,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/epochi-masters-1",
+      "events": [
+        {
+          "event_id": 1736243,
+          "event_slug": "tournament/epochi-masters-1/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794002400
         }
       ]
     },
