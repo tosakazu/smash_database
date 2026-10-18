@@ -20,7 +20,7 @@ def country_code2region(country_code):
         "MX", "BZ", "CR", "SV", "GT", "HN", "NI", "PA",                           # Central America
         "AI", "AG", "AW", "BS", "BB", "BQ", "VG", "KY", "CU", "CW", "DM", "DO",   # Caribbean
         "GD", "GP", "HT", "JM", "MQ", "MS", "PR", "BL", "KN", "LC", "MF", "VC",
-        "SX", "TT", "VI",
+        "SX", "TC", "TT", "VI",
         "GU",                                                                     # pre-existing
     ]
 
