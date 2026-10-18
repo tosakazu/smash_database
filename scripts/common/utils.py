@@ -10,7 +10,19 @@ def country_code2region(country_code):
     japan = ["JP"]
     other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
     europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
-    north_america = ["US", "CA", "DO", "MX"]
+    # The whole North American continent as the UN M49 geoscheme defines it (Northern America +
+    # Central America + Caribbean), plus GU, which the region carried before this list existed.
+    # Kept in step with COUNTRY_CODES in scripts/North_America/country.py, which is the region's
+    # own source of truth; a code here routes the download into data/startgg/North_America, a code
+    # there puts it in the ranking, and both are needed.
+    north_america = [
+        "US", "CA", "GL", "BM", "PM",                                            # Northern America
+        "MX", "BZ", "CR", "SV", "GT", "HN", "NI", "PA",                           # Central America
+        "AI", "AG", "AW", "BS", "BB", "BQ", "VG", "KY", "CU", "CW", "DM", "DO",   # Caribbean
+        "GD", "GP", "HT", "JM", "MQ", "MS", "PR", "BL", "KN", "LC", "MF", "VC",
+        "SX", "TT", "VI",
+        "GU",                                                                     # pre-existing
+    ]
 
     if country_code in japan:
         return "Japan"
