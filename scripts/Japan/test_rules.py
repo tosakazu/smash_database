@@ -418,3 +418,30 @@ class SpecialRulesSquadStrikeTests(unittest.TestCase):
         self.assertFalse(classify.name_flags("九龍#16", "1on1 トーナメント")["special_rules"])
         self.assertFalse(classify.name_flags("篝火#15", "シングルス / Singles")["special_rules"])
 
+
+
+class NumberingLabelTests(unittest.TestCase):
+    """2026-10-19: 番号が二重 (渋谷大乱第二陣2 / 桜梅桃李第弐幕 2) や崩れ (スマえもん第) にならない。"""
+
+    def test_labels(self):
+        cases = [
+            # (大会名, award_label, individual_label)
+            ("渋谷大乱 第二陣/SHIBUYA DAIRAN -Second Strike-", "渋谷大乱", "渋谷大乱第二陣"),
+            ("桜梅桃李 第弐幕/OH-BAI-TOH-RI 2", "桜梅桃李", "桜梅桃李第弐幕"),
+            ("スマわんこ 11杯目", "スマわんこ", "スマわんこ11杯目"),
+            ("並木路2nd", "並木路", "並木路2nd"),
+            ("るゆぶらっ！其の弐", None, "るゆぶらっ！其の弐"),
+            ("スマえもん第22話", "スマえもん", "スマえもん22"),
+            ("第76.5回 美らブラSP ビギナーズ杯", "美らブラSPビギナーズ杯", "美らブラSPビギナーズ杯76.5"),
+            ("【お昼食えます】第３回ACDオフスマ", "ACDオフスマ", "ACDオフスマ3"),
+            ("カリスマSP17_", None, "カリスマ17"),
+            # 漢字の地名・ブランド (九龍・四日市) は番号として数えない
+            ("九龍#9withスマバト", None, "九龍#9"),
+            ("ベルスマin四日市#4", None, "ベルスマin四日市#4"),
+            ("growup_3", None, "growup_3"),
+            ("第27回兵庫県対戦会", "兵庫県対戦会", "兵庫県対戦会27"),
+        ]
+        for name, award, indiv in cases:
+            if award is not None:
+                self.assertEqual(naming.tournament_award_label(name), award, name)
+            self.assertEqual(naming.tournament_individual_label(name), indiv, name)

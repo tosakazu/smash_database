@@ -315,7 +315,8 @@ def tournament_series_number(name: str) -> int | float | None:
     # Numeric patterns (高優先度: 明示的なラベル付き)
     patterns = [
         r'[#＃♯]\s*(\d+(?:\.\d+)?)',
-        r'第\s*(\d+)\s*[回幕章節期戦陣]',      # 陣 = 渋谷大乱 第一陣 (2026-08)
+        r'第\s*(\d+(?:\.\d+)?)\s*[回幕章節期戦陣話]',   # 陣 = 渋谷大乱 第一陣 (2026-08)。小数 (第76.5回 美らブラ)・話 (スマえもん第22話) は 2026-10-19
+        r'^第\s*(\d+\.\d+)\s',                  # 第24.5 美らブラSP (回 なし) (2026-10-19)
         r'(\d+)(?:st|nd|rd|th)\b',
         r'(?:[Vv]ol\.?|VOL\.?)\s*(\d+)',
         r'(?:[Dd]ay)\s*(\d+)',
@@ -615,10 +616,14 @@ def _match_special_brand_individual(name: str) -> str | None:
 
 def _normalize_brand_common(s: str) -> str:
     """共通の brand 正規化: 先頭 prefix / JP-EN split / 末尾 subtitle / 異字体 / !統合."""
-    # 先頭の 第N回 (漢数字 / 算用数字) prefix を除去
-    s = re.sub(r'^第\s*[一二三四五六七八九十百千万零壱弐参肆伍陸漆捌玖拾\d]+\s*回\s*(?:[(（][^)）]*[)）]\s*)?[/／]?\s*', '', s)
+    # 先頭の 第N回 (漢数字 / 算用数字、小数の 第76.5回 も) prefix を除去。【...】 ラベルの後ろにあるもの
+    # (【お昼食えます】第３回ACDオフスマ) と、回 の無い小数 (第24.5 美らブラSP) も (2026-10-19)
+    _pre = r'^第\s*[一二三四五六七八九十百千万零壱弐参肆伍陸漆捌玖拾\d]+(?:\.\d+)?\s*回\s*(?:[(（][^)）]*[)）]\s*)?[/／]?\s*'
+    s = re.sub(_pre, '', s)
+    s = re.sub(r'^第\s*\d+\.\d+\s+', '', s)
     # 先頭の 【...】 ラベル
     s = re.sub(r'^\s*【[^】]*】\s*', '', s)
+    s = re.sub(_pre, '', s)
     # 先頭の #N
     s = re.sub(r'^\s*[#＃♯]\s*\d+(?:\.\d+)?\s+', '', s)
     # 先頭日付 8 桁 (= 20250330 等)
@@ -654,6 +659,8 @@ def _normalize_brand_common(s: str) -> str:
     m = re.match(r'^([\u3040-\u9fff]{2,8})\d+[\u3040-\u9fff]', s)
     if m:
         s = m.group(1)
+        if s.endswith('第') and len(s) > 1:   # スマえもん第22話 → スマえもん (以前は「スマえもん第」。2026-10-19)
+            s = s[:-1]
     return s.strip()
 
 
@@ -718,8 +725,8 @@ def tournament_award_label(name: str) -> str:
         s = re.sub(r'\s*[Dd]ay\s*\d+\s*$', '', s)
         s = re.sub(r'\s*[Rr]ound\s*\d+\s*$', '', s)
         s = re.sub(r'\s*シーズン\s*\d+\s*$', '', s)
-        s = re.sub(r'\s*第[一二三四五六七八九十百千万零壱弐参肆伍陸漆捌玖拾]+\s*[幕回章節期戦]\s*$', '', s)
-        s = re.sub(r'\s+\d+(?:st|nd|rd|th)\s*$', '', s, flags=re.IGNORECASE)
+        s = re.sub(rf'\s*第\s*[\d{_KANJI_NUM_CHARS}]+(?:\.\d+)?\s*[幕回章節期戦陣話]\s*$', '', s)   # 陣 = 渋谷大乱 第一陣、算用数字・小数・話も (2026-10-19)
+        s = re.sub(r'(?<=\S)\s*\d+(?:st|nd|rd|th)\s*$', '', s, flags=re.IGNORECASE)   # 並木路2nd も (2026-10-19)
         s = re.sub(r'\s+(?:First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth|Eleventh|Twelfth)\s*$', '', s, flags=re.IGNORECASE)
         s = re.sub(r'\s*[\u2160-\u217F]+\s*$', '', s)
         s = re.sub(r'(?<![Uu])(?<=\D)\d+(?:\.\d+)?\s*$', '', s).rstrip()
@@ -743,6 +750,14 @@ def tournament_award_label(name: str) -> str:
     s = _extract_quoted_brand_if_ascii(s)
     s = s.translate(str.maketrans('剋', '克'))
     return s.strip() or name
+
+
+def _has_number(label: str, num) -> bool:
+    """label の中に num が単独の数として入っているか (前後が数字・小数点でない)。全角数字と、第・其の の後ろの漢数字
+    (第弐幕・其の壱) も数える。それ以外の漢字 (九龍・四日市) は数にしない。"""
+    t = label.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+    t = re.sub(rf'(?<=第|の)[{_KANJI_NUM_CHARS}]+', lambda m: _kanji_run_to_arabic(m.group(0)), t)
+    return re.search(rf'(?<![\d.]){re.escape(str(num))}(?![\d.])', t) is not None
 
 
 def tournament_individual_label(name: str) -> str:
@@ -779,6 +794,10 @@ def tournament_individual_label(name: str) -> str:
     s_brand = _extract_quoted_brand_if_ascii(s_brand)
     s_brand = s_brand.translate(str.maketrans('剋', '克'))
     base = s_brand.strip() or name
+    # 番号がもう名前に入っていれば足さない (渋谷大乱第二陣 / 桜梅桃李第弐幕 / スマわんこ11杯目 / 並木路2nd。以前は
+    # 渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマわんこ11杯目11 のように二重になっていた。2026-10-19)
+    if num is not None and _has_number(base, num):
+        return base.rstrip('_') or base   # カリスマSP17_ → カリスマ17
     # 7. number 再付与: 元の表記スタイルに合わせる
     if num is not None:
         if re.search(rf'[#＃♯]\s*[\d{_KANJI_NUM_CHARS}]', name):
