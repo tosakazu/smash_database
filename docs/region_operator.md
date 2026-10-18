@@ -29,7 +29,7 @@ Contents
 | Branch | `data-North_America` — only you push to it. It is `main` (scripts, docs) plus your data |
 | Directory | `data/startgg/North_America/` — everything under it is yours; nothing outside it is |
 | Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). It lives **on your branch, not on `main`**: you edit it directly, no pull request |
-| Countries | `US`, `CA`, `MX`, `DO` all map to this region (`country_code2region()` in `scripts/common/utils.py`). Give the runner every country you cover (`--country-code US --country-code CA`, or `US,CA`): it downloads them one after another and builds **one** `upcoming.json` for the region from all of them. Files under the region directory (`upcoming.json`, `validation_baseline.json`, the indexes) are per region, not per country |
+| Countries | The 41 codes of `COUNTRY_CODES` in `scripts/North_America/country.py` map to this region (the same list in `country_code2region()` in `scripts/common/utils.py`, which is what routes a download into the region directory — a code in one and not the other silently misfiles or never fetches it). Give the runner every country you cover (`--country-code US --country-code CA`, or `US,CA`): it downloads them one after another and builds **one** `upcoming.json` for the region from all of them. Files under the region directory (`upcoming.json`, `validation_baseline.json`, the indexes) are per region, not per country |
 
 Not yours: `main` (never push to it directly — that is where the shared scripts under
 `scripts/common/` live, and changes there go through a pull request), other regions'
