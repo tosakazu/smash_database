@@ -10,7 +10,19 @@ def country_code2region(country_code):
     japan = ["JP"]
     other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
     europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
-    north_america = ["US", "CA", "DO", "MX"]
+    # The whole North American continent as the UN M49 geoscheme defines it (Northern America +
+    # Central America + Caribbean), plus GU, which the region carried before this list existed.
+    # Kept in step with COUNTRY_CODES in scripts/North_America/country.py, which is the region's
+    # own source of truth; a code here routes the download into data/startgg/North_America, a code
+    # there puts it in the ranking, and both are needed.
+    north_america = [
+        "US", "CA", "GL", "BM", "PM",                                            # Northern America
+        "MX", "BZ", "CR", "SV", "GT", "HN", "NI", "PA",                           # Central America
+        "AI", "AG", "AW", "BS", "BB", "BQ", "VG", "KY", "CU", "CW", "DM", "DO",   # Caribbean
+        "GD", "GP", "HT", "JM", "MQ", "MS", "PR", "BL", "KN", "LC", "MF", "VC",
+        "SX", "TC", "TT", "VI",
+        "GU",                                                                     # pre-existing
+    ]
 
     if country_code in japan:
         return "Japan"
@@ -199,9 +211,24 @@ class NoPhaseError(Exception):
 
 __max_retries = 100
 __retry_delay = 5
-__page_delay = 2
+# No longer used to throttle (see __min_request_interval below) — kept at 0
+# and settable for any caller that still wants extra per-page spacing on
+# top of the global throttle.
+__page_delay = 0
 __api_url = "https://api.start.gg/gql/alpha"
 __headers = {}
+
+# start.gg documents ~80 requests/minute per token (docs/startgg_api.md).
+# Previously only fetch_all_nodes's page-to-page loop slept (2s, so 0.5
+# req/s) — every other call site (single tournament/event fetches, which
+# are most of them) had no throttle at all, so the real aggregate rate blew
+# past 80/min and triggered hundreds of 429s per month-long run, each one
+# costing a __retry_delay-scaled backoff. This enforces one global floor
+# under every API call regardless of call site, so we stay under the limit
+# proactively instead of paying for it reactively in 429 backoffs.
+# 0.8s -> max 75 req/min, leaving headroom below the documented 80.
+__min_request_interval = 0.8
+__last_request_at = 0.0
 
 def set_page_delay(delay):
     global __page_delay
@@ -220,11 +247,19 @@ def set_api_parameters(url, token):
         "Authorization": "Bearer " + token,
     }
 
+def _throttle():
+    global __last_request_at
+    wait = __min_request_interval - (time.monotonic() - __last_request_at)
+    if wait > 0:
+        time.sleep(wait)
+    __last_request_at = time.monotonic()
+
 def fetch_data_with_retries(query, variables):
     status_code = None
     last_error_message = ""
     for attempt in range(__max_retries):
         try:
+            _throttle()
             response = requests.post(__api_url, json={"query": query, "variables": json.dumps(variables)}, headers=__headers, verify=False, timeout=60)
             response.raise_for_status()
             response_data = json.loads(response.text)
