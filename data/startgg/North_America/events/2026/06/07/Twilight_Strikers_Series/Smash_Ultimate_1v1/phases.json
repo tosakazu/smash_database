@@ -1,0 +1,79 @@
+{
+  "event_id": 1633116,
+  "event_name": "Smash Ultimate 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2298285,
+      "name": "Singles Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 78,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3326799,
+          "display": "1"
+        },
+        {
+          "id": 3342297,
+          "display": "2"
+        },
+        {
+          "id": 3342298,
+          "display": "3"
+        },
+        {
+          "id": 3342299,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2298286,
+      "name": "Singles Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3326803,
+          "display": "1"
+        },
+        {
+          "id": 3326804,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2298287,
+      "name": "Singles Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3326805,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2298288,
+      "name": "Amateur Bracket Singles",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3326806,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

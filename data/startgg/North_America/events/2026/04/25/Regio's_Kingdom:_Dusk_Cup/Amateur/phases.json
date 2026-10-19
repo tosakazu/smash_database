@@ -1,0 +1,49 @@
+{
+  "event_id": 1600588,
+  "event_name": "Amateur",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2255471,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3268833,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2256245,
+      "name": "Top 8 Amateur",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3269905,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2256566,
+      "name": "Redencion",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3270309,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

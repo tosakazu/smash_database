@@ -1,0 +1,49 @@
+{
+  "event_id": 1640948,
+  "event_name": "Swiss singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2308523,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3339988,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2309145,
+      "name": "Top8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3341021,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2316256,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3351240,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

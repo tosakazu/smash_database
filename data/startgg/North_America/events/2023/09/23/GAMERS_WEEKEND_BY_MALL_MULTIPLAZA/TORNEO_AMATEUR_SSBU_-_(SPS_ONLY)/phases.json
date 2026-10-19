@@ -1,0 +1,39 @@
+{
+  "event_id": 988982,
+  "event_name": "TORNEO AMATEUR SSBU - (SPS ONLY)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1469755,
+      "name": "Bracket Amateur SPS",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 63,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2222692,
+          "display": "1"
+        },
+        {
+          "id": 2222718,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 1469777,
+      "name": "Top 8 Amateur",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2222721,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

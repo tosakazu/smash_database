@@ -1,0 +1,49 @@
+{
+  "event_id": 1218007,
+  "event_name": "Singles - Amateur Warriors #6",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1765745,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2617386,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1765746,
+      "name": "TOP 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 2617388,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1769667,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2622606,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

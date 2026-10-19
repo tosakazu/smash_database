@@ -1,0 +1,189 @@
+{
+  "event_id": 1574416,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2222027,
+      "name": "Placement Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 127,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3225565,
+          "display": "A1"
+        },
+        {
+          "id": 3225640,
+          "display": "A2"
+        },
+        {
+          "id": 3225641,
+          "display": "A3"
+        },
+        {
+          "id": 3225642,
+          "display": "A4"
+        },
+        {
+          "id": 3225639,
+          "display": "B1"
+        },
+        {
+          "id": 3225643,
+          "display": "B2"
+        },
+        {
+          "id": 3225644,
+          "display": "B3"
+        },
+        {
+          "id": 3225645,
+          "display": "B4"
+        },
+        {
+          "id": 3225646,
+          "display": "C1"
+        },
+        {
+          "id": 3225647,
+          "display": "C2"
+        },
+        {
+          "id": 3225648,
+          "display": "C3"
+        },
+        {
+          "id": 3225649,
+          "display": "C4"
+        },
+        {
+          "id": 3225650,
+          "display": "D1"
+        },
+        {
+          "id": 3225651,
+          "display": "D2"
+        },
+        {
+          "id": 3225652,
+          "display": "D3"
+        },
+        {
+          "id": 3225653,
+          "display": "D4"
+        }
+      ]
+    },
+    {
+      "id": 2222120,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3225683,
+          "display": "1"
+        },
+        {
+          "id": 3275406,
+          "display": "2"
+        },
+        {
+          "id": 3275409,
+          "display": "3"
+        },
+        {
+          "id": 3275410,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2261620,
+      "name": "Top 32",
+      "order": 8,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3276661,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2261624,
+      "name": "Top 8",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3276665,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2222125,
+      "name": "Amateur",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 62,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3225691,
+          "display": "1"
+        },
+        {
+          "id": 3225692,
+          "display": "2"
+        },
+        {
+          "id": 3225693,
+          "display": "3"
+        },
+        {
+          "id": 3225694,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2222126,
+      "name": "Amateur Top 16",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3225695,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2222127,
+      "name": "Amateur Top 8",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3225696,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

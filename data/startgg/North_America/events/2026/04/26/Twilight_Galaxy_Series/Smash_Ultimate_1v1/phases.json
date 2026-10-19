@@ -1,0 +1,97 @@
+{
+  "event_id": 1601600,
+  "event_name": "Smash Ultimate 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2256781,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 72,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3270589,
+          "display": "1"
+        },
+        {
+          "id": 3270590,
+          "display": "2"
+        },
+        {
+          "id": 3270591,
+          "display": "3"
+        },
+        {
+          "id": 3270592,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2256782,
+      "name": "Pro Bracket Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3270593,
+          "display": "1"
+        },
+        {
+          "id": 3270594,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2256783,
+      "name": "Pro Bracket Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3270595,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2256784,
+      "name": "Amateur Bracket Top 34",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 33,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3270596,
+          "display": "1"
+        },
+        {
+          "id": 3270597,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 2256785,
+      "name": "Amateur Bracket Top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3270598,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

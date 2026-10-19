@@ -1,0 +1,49 @@
+{
+  "event_id": 1622443,
+  "event_name": "UTS-Showdown #3",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2284077,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3307738,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2284078,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3307739,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2284079,
+      "name": "Amateur Bracket",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3307740,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

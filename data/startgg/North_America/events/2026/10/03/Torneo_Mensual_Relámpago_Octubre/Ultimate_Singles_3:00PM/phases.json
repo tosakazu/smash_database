@@ -1,0 +1,63 @@
+{
+  "event_id": 1719378,
+  "event_name": "Ultimate Singles 3:00PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2410223,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 45,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3473326,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2410224,
+      "name": "Top 20 sum",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3473327,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2410226,
+      "name": "TOP 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3473329,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2410225,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3473328,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

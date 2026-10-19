@@ -1,0 +1,95 @@
+{
+  "event_id": 601528,
+  "event_name": "Smash Ville: The King of the Dojo",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 973774,
+      "name": "Novice",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 56,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1542059,
+          "display": "1"
+        },
+        {
+          "id": 1542061,
+          "display": "2"
+        },
+        {
+          "id": 1542062,
+          "display": "3"
+        },
+        {
+          "id": 1542063,
+          "display": "4"
+        },
+        {
+          "id": 1543626,
+          "display": "5"
+        },
+        {
+          "id": 1543627,
+          "display": "6"
+        },
+        {
+          "id": 1543630,
+          "display": "7"
+        },
+        {
+          "id": 1543631,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 973776,
+      "name": "Ascendant - Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1542065,
+          "display": "1"
+        },
+        {
+          "id": 1544131,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 973777,
+      "name": "Master - Top 16",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1542066,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 975343,
+      "name": "Challengers - Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1544132,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 1611679,
+  "event_name": "Ultimate Singles Randoms +1 Re roll  7:45 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2269672,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3287092,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2269673,
+      "name": "Top 8  Sumidero",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3287093,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2269674,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3287094,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

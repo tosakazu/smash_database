@@ -1,0 +1,61 @@
+{
+  "event_id": 1636948,
+  "event_name": "Singles Amateur",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2303304,
+      "name": "Pool Amateur",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 119,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3333422,
+          "display": "A1"
+        },
+        {
+          "id": 3333424,
+          "display": "A2"
+        },
+        {
+          "id": 3333423,
+          "display": "B1"
+        },
+        {
+          "id": 3333425,
+          "display": "B2"
+        }
+      ]
+    },
+    {
+      "id": 2303305,
+      "name": "Top32 Amateur",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3333426,
+          "display": "C1"
+        }
+      ]
+    },
+    {
+      "id": 2303306,
+      "name": "Top8 Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3333427,
+          "display": "D1"
+        }
+      ]
+    }
+  ]
+}

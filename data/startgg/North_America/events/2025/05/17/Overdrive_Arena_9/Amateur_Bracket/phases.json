@@ -1,0 +1,35 @@
+{
+  "event_id": 1358613,
+  "event_name": "Amateur Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1945768,
+      "name": "Amateurs",
+      "order": 1,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 47,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2856882,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 1945773,
+      "name": "Amateurs' Top 8",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2856887,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

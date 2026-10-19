@@ -1,0 +1,47 @@
+{
+  "event_id": 988988,
+  "event_name": "TORNEO AMATEUR SSBU - (TGU ONLY)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 1469761,
+      "name": "Bracket Amateur TGU",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 57,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2222698,
+          "display": "1"
+        },
+        {
+          "id": 2222726,
+          "display": "2"
+        },
+        {
+          "id": 2222727,
+          "display": "3"
+        },
+        {
+          "id": 2222728,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 1469782,
+      "name": "Top 8 Amateur",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 2222729,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

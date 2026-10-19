@@ -1,0 +1,49 @@
+{
+  "event_id": 1624943,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2287354,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3312018,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2287355,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3312019,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2287356,
+      "name": "Talis Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3312020,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
