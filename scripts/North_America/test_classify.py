@@ -267,3 +267,17 @@ class ContractAndNamingTests(unittest.TestCase):
         self.assertTrue(country.is_overseas_country("Japan"))
         self.assertFalse(country.is_overseas_country(None))
         self.assertEqual(country.country_ja("Canada"), "Canada")
+
+    def test_every_country_code_routes_to_this_region(self):
+        """COUNTRY_CODES and country_code2region have to carry the same list.
+
+        A code in one and not the other fails silently in both directions: the
+        download lands in data/startgg/Other, or the country is simply never
+        fetched. That is how PR/VI/GU/DO sat declared-but-absent until
+        2026-10-18 (1,811 tournaments), and how TC was added to
+        REGION_COUNTRIES by name the same day while its code was left out.
+        """
+        from scripts.North_America import country
+        from scripts.common.utils import country_code2region
+        wrong = sorted(c for c in country.COUNTRY_CODES if country_code2region(c) != "North America")
+        self.assertEqual(wrong, [], f"not routed to North America: {wrong}")
