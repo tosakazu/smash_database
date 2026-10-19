@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792400715,
+  "generated_at": 1792411539,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 51,
+  "count": 59,
   "tournaments": [
     {
       "tournament_id": 961191,
@@ -17,16 +17,47 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 18,
+      "num_attendees": 17,
       "url": "/tournament/19-576",
       "events": [
         {
           "event_id": 1726636,
           "event_slug": "tournament/19-576/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 18,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1792396800
+        }
+      ]
+    },
+    {
+      "tournament_id": 961213,
+      "tournament_slug": "tournament/gg-16-kannai-gg",
+      "tournament_name": "関内GG #16/kannai-gg",
+      "start_at": 1792400400,
+      "end_at": 1792413000,
+      "is_online": false,
+      "city": "横浜市",
+      "venue_name": "おださがプラザ",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/gg-16-kannai-gg",
+      "events": [
+        {
+          "event_id": 1726677,
+          "event_slug": "tournament/gg-16-kannai-gg/event/kannai-gg-sp-1on1",
+          "event_name": "kannai-gg/スマブラSP 1on1",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1792400400
+        },
+        {
+          "event_id": 1737521,
+          "event_slug": "tournament/gg-16-kannai-gg/event/smash",
+          "event_name": "smash",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1792400400
         }
       ]
     },
@@ -40,14 +71,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 45,
+      "num_attendees": 46,
       "url": "/tournament/hit-202_-maesuma-hit-202_kyoto",
       "events": [
         {
           "event_id": 1733107,
           "event_slug": "tournament/hit-202_-maesuma-hit-202_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 43,
+          "num_entrants": 44,
           "type": 1,
           "start_at": 1792404000
         }
@@ -63,14 +94,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 4,
+      "num_attendees": 8,
       "url": "/tournament/146-shibuya-tatsu",
       "events": [
         {
           "event_id": 1733360,
           "event_slug": "tournament/146-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 4,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1792490400
         }
@@ -86,14 +117,14 @@
       "city": "札幌市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 16,
+      "num_attendees": 19,
       "url": "/tournament/epochi-5",
       "events": [
         {
           "event_id": 1732137,
           "event_slug": "tournament/epochi-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 16,
+          "num_entrants": 19,
           "type": 1,
           "start_at": 1792492200
         }
@@ -132,7 +163,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 86,
+      "num_attendees": 88,
       "url": "/tournament/weekly-smash-party-249",
       "events": [
         {
@@ -261,6 +292,29 @@
       ]
     },
     {
+      "tournament_id": 966316,
+      "tournament_slug": "tournament/18-18",
+      "tournament_name": "もびすまっ！#18",
+      "start_at": 1792746000,
+      "end_at": 1792764000,
+      "is_online": false,
+      "city": "川崎市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/18-18",
+      "events": [
+        {
+          "event_id": 1737530,
+          "event_slug": "tournament/18-18/event/super-smash-bros-ultimate-singles",
+          "event_name": "シングルス",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1792746000
+        }
+      ]
+    },
+    {
       "tournament_id": 960168,
       "tournament_slug": "tournament/smash-160-1",
       "tournament_name": "Smash薬院#160",
@@ -303,6 +357,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1792751400
+        }
+      ]
+    },
+    {
+      "tournament_id": 966321,
+      "tournament_slug": "tournament/353-act",
+      "tournament_name": "【第353回】スマACT",
+      "start_at": 1792752000,
+      "end_at": 1792764000,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/353-act",
+      "events": [
+        {
+          "event_id": 1737540,
+          "event_slug": "tournament/353-act/event/ultimate-singles",
+          "event_name": "Ultimate singles",
+          "num_entrants": 3,
+          "type": 1,
+          "start_at": 1792752000
         }
       ]
     },
@@ -362,14 +439,14 @@
       "city": "大東市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 286,
+      "num_attendees": 289,
       "url": "/tournament/74-sp-2",
       "events": [
         {
           "event_id": 1720986,
           "event_slug": "tournament/74-sp-2/event/1on1",
           "event_name": "予選あり1on1トーナメント",
-          "num_entrants": 270,
+          "num_entrants": 271,
           "type": 1,
           "start_at": 1792805400
         }
@@ -408,14 +485,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 16,
+      "num_attendees": 18,
       "url": "/tournament/24-580",
       "events": [
         {
           "event_id": 1726696,
           "event_slug": "tournament/24-580/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 16,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1792810800
         }
@@ -776,14 +853,14 @@
       "city": "札幌市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 54,
+      "num_attendees": 55,
       "url": "/tournament/16-kyokkan-16",
       "events": [
         {
           "event_id": 1691627,
           "event_slug": "tournament/16-kyokkan-16/event/kyokkan",
           "event_name": "極冠/Kyokkan",
-          "num_entrants": 54,
+          "num_entrants": 55,
           "type": 1,
           "start_at": 1793412000
         }
@@ -822,14 +899,14 @@
       "city": "彦根市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 6,
+      "num_attendees": 8,
       "url": "/tournament/5-109",
       "events": [
         {
           "event_id": 1720893,
           "event_slug": "tournament/5-109/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 6,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1800630000
         }
@@ -859,6 +936,29 @@
       ]
     },
     {
+      "tournament_id": 964217,
+      "tournament_slug": "tournament/13-moon-halloween-edition",
+      "tournament_name": "【第13回】Moon! -Halloween Edition-",
+      "start_at": 1793498400,
+      "end_at": 1793530800,
+      "is_online": false,
+      "city": "広島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 8,
+      "url": "/tournament/13-moon-halloween-edition",
+      "events": [
+        {
+          "event_id": 1733343,
+          "event_slug": "tournament/13-moon-halloween-edition/event/1on1-tournament",
+          "event_name": "シングルス/1on1 tournament",
+          "num_entrants": 7,
+          "type": 1,
+          "start_at": 1794016800
+        }
+      ]
+    },
+    {
       "tournament_id": 958547,
       "tournament_slug": "tournament/3-162",
       "tournament_name": "湘南杯#3",
@@ -878,6 +978,29 @@
           "num_entrants": 9,
           "type": 1,
           "start_at": 1793404800
+        }
+      ]
+    },
+    {
+      "tournament_id": 966302,
+      "tournament_slug": "tournament/2-587",
+      "tournament_name": "2(月)上野スマコミ#587(オープン)",
+      "start_at": 1793606400,
+      "end_at": 1793628000,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/2-587",
+      "events": [
+        {
+          "event_id": 1737510,
+          "event_slug": "tournament/2-587/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1793606400
         }
       ]
     },
@@ -937,14 +1060,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 1,
       "url": "/tournament/3-588",
       "events": [
         {
           "event_id": 1728721,
           "event_slug": "tournament/3-588/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 5,
+          "num_entrants": 1,
           "type": 1,
           "start_at": 1793674800
         }
@@ -974,6 +1097,52 @@
       ]
     },
     {
+      "tournament_id": 966303,
+      "tournament_slug": "tournament/4-589",
+      "tournament_name": "4(水)上野スマコミ#589(オープン)",
+      "start_at": 1793779200,
+      "end_at": 1793800800,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/4-589",
+      "events": [
+        {
+          "event_id": 1737512,
+          "event_slug": "tournament/4-589/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1793779200
+        }
+      ]
+    },
+    {
+      "tournament_id": 966304,
+      "tournament_slug": "tournament/5-590",
+      "tournament_name": "5(木)上野スマコミ#590(オープン)",
+      "start_at": 1793865600,
+      "end_at": 1793887200,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/5-590",
+      "events": [
+        {
+          "event_id": 1737514,
+          "event_slug": "tournament/5-590/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1793865600
+        }
+      ]
+    },
+    {
       "tournament_id": 964600,
       "tournament_slug": "tournament/hit-207_-maesuma-hit-207_osaka",
       "tournament_name": "マエスマ'HIT#207_大阪 / Maesuma'HIT#207_Osaka",
@@ -993,6 +1162,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1793872800
+        }
+      ]
+    },
+    {
+      "tournament_id": 966305,
+      "tournament_slug": "tournament/6-591",
+      "tournament_name": "6(金)上野スマコミ#591(オープン)",
+      "start_at": 1793952000,
+      "end_at": 1793973600,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/6-591",
+      "events": [
+        {
+          "event_id": 1737515,
+          "event_slug": "tournament/6-591/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1793952000
         }
       ]
     },
@@ -1098,14 +1290,14 @@
       "city": "横浜市",
       "venue_name": "おださがプラザ",
       "country_code": "JP",
-      "num_attendees": 139,
+      "num_attendees": 142,
       "url": "/tournament/54-kurobra54",
       "events": [
         {
           "event_id": 1722693,
           "event_slug": "tournament/54-kurobra54/event/kurobra-sp-1on1",
           "event_name": "Kurobra/SP 1on1トーナメント",
-          "num_entrants": 134,
+          "num_entrants": 137,
           "type": 1,
           "start_at": 1794013200
         }
@@ -1121,14 +1313,14 @@
       "city": "さいたま市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 4,
+      "num_attendees": 16,
       "url": "/tournament/aya-10",
       "events": [
         {
           "event_id": 1714058,
           "event_slug": "tournament/aya-10/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1794024000
         }
@@ -1144,14 +1336,14 @@
       "city": "岡山市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 100,
+      "num_attendees": 103,
       "url": "/tournament/grand-wars-4_-maesuma-grand-wars-4_okayama",
       "events": [
         {
           "event_id": 1717257,
           "event_slug": "tournament/grand-wars-4_-maesuma-grand-wars-4_okayama/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 100,
+          "num_entrants": 103,
           "type": 1,
           "start_at": 1794101400
         }
