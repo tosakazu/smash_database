@@ -31,8 +31,13 @@ from scripts.common.download import download_standings, extend_user_info, _flush
 from scripts.common.utils import read_users_jsonl  # noqa: E402
 from scripts.common.redownload_matches_v2 import refetch_event, API_DELAY_SEC  # noqa: E402
 
-EVENTS_ROOT = ROOT / "data" / "startgg" / "Japan" / "events"
-USERS_PATH = ROOT / "data" / "startgg" / "users.jsonl"
+# Resolved from --region in main(). They used to be module constants hardcoded to
+# Japan, and USERS_PATH was missing the region segment entirely, so running this
+# on any other region scanned a directory that does not exist (reporting
+# "targets: 0" rather than failing) and would have written user rows to
+# data/startgg/users.jsonl instead of the region's own file. Found 2026-10-19.
+EVENTS_ROOT = None
+USERS_PATH = None
 
 
 def detect_targets():
@@ -104,7 +109,25 @@ def main():
                     default=Path("/tmp/refetch_incomplete_backup"))
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--region", help="data region, e.g. North_America. Sets --events-root and "
+                                     "--users-file-path to data/startgg/<region>/...")
+    ap.add_argument("--events-root", type=Path, default=None,
+                    help="default: data/startgg/<region>/events")
+    ap.add_argument("--users-file-path", type=Path, default=None,
+                    help="default: data/startgg/<region>/users.jsonl")
     args = ap.parse_args()
+
+    global EVENTS_ROOT, USERS_PATH
+    if args.events_root is None or args.users_file_path is None:
+        if not args.region:
+            ap.error("--region is required unless both --events-root and --users-file-path are given")
+    EVENTS_ROOT = args.events_root or (ROOT / "data" / "startgg" / args.region / "events")
+    USERS_PATH = args.users_file_path or (ROOT / "data" / "startgg" / args.region / "users.jsonl")
+    if not EVENTS_ROOT.is_dir():
+        raise SystemExit(f"ERROR: events root does not exist: {EVENTS_ROOT}")
+    if not USERS_PATH.is_file():
+        raise SystemExit(f"ERROR: users file does not exist: {USERS_PATH}")
+    print(f"events root: {EVENTS_ROOT}\nusers file : {USERS_PATH}", flush=True)
 
     set_retry_parameters(5, 10)
     set_api_parameters(args.url, args.token)
