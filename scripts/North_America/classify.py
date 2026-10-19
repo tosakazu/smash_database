@@ -8,7 +8,7 @@ run `derive.py --region North_America --all` (this regenerates derived.json for 
 
 What currently goes into derived.json:
   is_1on1 / not_1on1_reason   whether the event was excluded by name (doubles, team events, amiibo, and so on)
-  calendar                    the event date (local time), whether it falls on a weekend, and whether it is a public holiday in the host country (US / CA / MX / DO)
+  calendar                    the event date (local time), whether it falls on a weekend, and whether it is a public holiday in the host country (US / CA / MX / DO, and the US territories PR / VI / GU via the US table)
   class_bracket               the phase groups of lower-class side brackets held inside a tournament (Redemption / Amateur, etc.)
   names.lower_class           whether the event itself is a lower-class bracket (an event literally named "Redemption Bracket", for example)
   names.restricted            tournaments whose entry pool is restricted (Arcadian = players on the regional Power Ranking may not enter).
@@ -50,7 +50,8 @@ import re
 from scripts.common.region import class_phase_group_ids
 from scripts.North_America import naming as _naming
 
-CLASSIFIER_VERSION = 13  # 13: derived.json naming.series_event (= series; the build reads region_rules.json instead of importing this module) (2026-10-08)
+CLASSIFIER_VERSION = 14  # 14: the US territories PR/VI/GU use the US federal holiday table (2026-10-19)
+# 13: derived.json naming.series_event (= series; the build reads region_rules.json instead of importing this module) (2026-10-08)
 # 12: contract additions for the series index (name patterns, naming.community_series). No output change (2026-09-19)
                          # 11:  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
                          # 10:  # 10: geography keys are region-neutral (place.geo / users_derived geo, geo_reason); unit tables moved to geo.py (2026-09-15)
@@ -223,9 +224,19 @@ def _movable_to_monday(d: dt.date) -> dt.date:
     return d
 
 
+# US territories keep the federal calendar: a venue in San Juan closes for
+# Thanksgiving exactly as one in Florida does, so this is the territory's own
+# calendar, not another country's substituted for it. Their *territorial*
+# holidays (Puerto Rico's Three Kings Day, Guam's Liberation Day) are left out
+# for the same reason the US table leaves out state holidays -- it is national
+# only. Added 2026-10-19 when PR entered the region with 1,104 tournaments.
+HOLIDAY_ALIASES = {"PR": "US", "VI": "US", "GU": "US"}
+
+
 def holidays_source(country_code: str | None) -> str | None:
-    """Whether a holiday table exists for the country (None if not = no holidays are applied; never substitute another country's table)."""
+    """Which country's holiday table applies (None = no holidays; never substitute another country's table)."""
     cc = (country_code or "").upper()
+    cc = HOLIDAY_ALIASES.get(cc, cc)
     return cc if cc in HOLIDAY_RULES else None
 
 
