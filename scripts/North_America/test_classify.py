@@ -268,6 +268,26 @@ class ContractAndNamingTests(unittest.TestCase):
         self.assertFalse(country.is_overseas_country(None))
         self.assertEqual(country.country_ja("Canada"), "Canada")
 
+    def test_us_territories_use_the_us_holiday_table(self):
+        """PR/VI/GU are US jurisdictions, so the federal calendar is theirs.
+
+        Not a substitution of another country's table: a venue in San Juan
+        closes for Thanksgiving exactly as one in Florida does. Guam is in
+        the region for continuity only (it is Oceania), but the same federal
+        calendar applies to it.
+        """
+        import datetime as dt
+        from scripts.North_America import classify as c
+        for cc in ("PR", "VI", "GU"):
+            self.assertEqual(c.holidays_source(cc), "US", cc)
+            # Thanksgiving 2026 = the fourth Thursday of November, 2026-11-26
+            self.assertIn(dt.date(2026, 11, 26), c.holidays_for(cc, 2026), cc)
+            self.assertTrue(c.is_weekend_date(dt.date(2026, 11, 26), cc), cc)
+        # Countries with no table of their own still get none -- never guessed.
+        for cc in ("HN", "GT", "CR", "PA"):
+            self.assertIsNone(c.holidays_source(cc), cc)
+            self.assertEqual(c.holidays_for(cc, 2026), frozenset(c.EXTRA_HOLIDAY_DATES), cc)
+
     def test_every_country_code_routes_to_this_region(self):
         """COUNTRY_CODES and country_code2region have to carry the same list.
 
