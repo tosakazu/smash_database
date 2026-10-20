@@ -66,7 +66,9 @@ def parse_date_or_datetime(value):
 def main():
     # Command-line arguments
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
-    add_api_args(parser, max_retries=100, retry_delay=5)   # --token --url --max-retries --retry-delay
+    # 10 x 10s (5xx and 429 back off linearly, about 9 minutes in all): enough for a short start.gg outage
+    # without hanging the 3-hourly run for hours the way the old 100 x 5s could.
+    add_api_args(parser, max_retries=10, retry_delay=10)   # --token --url --max-retries --retry-delay
     parser.add_argument(
         "--start-date",
         type=parse_date_or_datetime,
@@ -487,11 +489,34 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 def _flush_dirty_users(users, dirty_user_ids, users_file_path):
     """Rewrite the whole users.jsonl if any existing user record was updated from the API.
     New users were already appended via extend_jsonl, so here we overwrite the full file with write_jsonl.
+
+    `users` is the snapshot read at the start of this run (download_all_tournaments),
+    so it knows nothing about users another worker appended to the same file in the
+    hours since. Writing that snapshot back deleted those records: users.jsonl
+    oscillated instead of only growing (223,244 -> 218,511 -> 225,435 -> 221,095
+    across consecutive month commits), and because user info lives only here
+    (events/.../seeds.json keeps just seed_num -> user_id) every dropped record
+    costs a start.gg re-fetch. derive.py then rebuilds users_derived.jsonl from
+    this file, so a user missing here silently disappears from the derived output
+    as well.
+
+    So re-read the file and union before overwriting: the on-disk record wins for
+    ids this run never touched, ours wins for the ids we actually updated, and our
+    own new users survive even if they are not on disk yet.
     """
     if not dirty_user_ids:
         return
     print(f"[users] {len(dirty_user_ids)} existing users updated, rewriting {users_file_path}", flush=True)
-    write_jsonl(list(users.values()), users_file_path, with_version=True)
+    merged = read_users_jsonl(users_file_path)
+    on_disk = len(merged)
+    for user_id, record in users.items():
+        if user_id in dirty_user_ids or user_id not in merged:
+            merged[user_id] = record
+    rescued = len(merged) - len(users)
+    if rescued > 0:
+        print(f"[users] kept {rescued} records other workers added since this run started", flush=True)
+    print(f"[users] on disk {on_disk} + ours {len(users)} -> writing {len(merged)}", flush=True)
+    write_jsonl(list(merged.values()), users_file_path, with_version=True)
 
 # Functions for saving event set data
 def _standings_has_champion(event_dir):
