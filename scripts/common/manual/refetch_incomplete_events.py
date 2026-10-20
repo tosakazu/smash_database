@@ -10,7 +10,7 @@ For each event, re-fetch standings + matches from start.gg.
 - Original files are backed up to --backup-dir before overwriting
 
 Usage:
-  python3 scripts/fetch/refetch_incomplete_events.py --token <T> [--dry-run] [--limit N]
+  python3 scripts/common/manual/refetch_incomplete_events.py --token <T> --region Japan [--dry-run] [--limit N]
 """
 from __future__ import annotations
 
