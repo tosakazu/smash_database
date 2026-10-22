@@ -797,6 +797,17 @@ def extend_user_info(user_data, player_data, users, users_file_path, dirty_user_
         if user['authorizations'] is not None:
             for authorization in user['authorizations']:
                 if authorization['type'] == 'TWITTER':
+                    # start.gg always returns null here for TWITTER, so x_id is
+                    # null in every row we have ever written: 253,807 of 253,807
+                    # in data-North_America, checked 2026-10-21. x_name is
+                    # populated normally (null in 84.7%, i.e. only where the
+                    # player has not linked one), and DISCORD returns a real
+                    # externalId, so this is start.gg's behaviour for this one
+                    # authorization type rather than anything missing here.
+                    # Kept, and kept null, because users.jsonl's keys are a
+                    # documented contract (docs/data_model.md) that consumers
+                    # read -- dropping the field would be a breaking change for
+                    # a field nobody can be using. Do not spend time on it again.
                     x_id = authorization['externalId']
                     x_name = authorization['externalUsername']
                 elif authorization['type'] == 'DISCORD':
