@@ -253,6 +253,37 @@ class ContractAndNamingTests(unittest.TestCase):
         self.assertTrue(naming.is_test_page("test tournament"))
         self.assertFalse(naming.is_test_page("Contest of Champions"))
 
+    def test_naming_strips_editions_that_are_not_at_the_end(self):
+        """The old rule only stripped a number at the very end, so anything after it forked the series.
+
+        Measured over all 136,442 North American tournament names: "West Towne Brawl #187 @ Pegasus Games"
+        was 182 separate series, "Liberty Smash Weekly #310 (2/14/25)" 126, "Game Underground Weekly 4/18/"
+        130. What must NOT happen is the suffix itself being dropped, which would merge two series that only
+        differ by venue.
+        """
+        from scripts.North_America import naming
+        for name, series in (
+            ("West Towne Brawl #187 @ Pegasus Games", "West Towne Brawl @ Pegasus Games"),
+            ("Fight Night #93  (Las Vegas, NV)", "Fight Night (Las Vegas, NV)"),
+            ("Liberty Smash Weekly #310 (2/14/25)", "Liberty Smash Weekly"),
+            ("Game Underground Weekly 4/18/", "Game Underground Weekly"),
+            ("The Side Deck Smash #264 9/17/", "The Side Deck Smash"),
+            ("SocaSmash 42: Myrtle's Weekly", "SocaSmash: Myrtle's Weekly"),
+            ("Otaku Zone Season 14", "Otaku Zone"),
+            ("Atonement (S14) #3 - 07/22/", "Atonement"),
+        ):
+            self.assertEqual(naming.tournament_series(name), series, name)
+        # Two venues of the same base name stay apart — the number goes, the venue does not.
+        self.assertNotEqual(
+            naming.tournament_series("Fight Night #1 (Las Vegas, NV)"),
+            naming.tournament_series("Fight Night #1 (Reno, NV)"),
+        )
+        # A name that is an edition word plus a number is the name, not edition N of a series.
+        self.assertEqual(naming.tournament_series("Week 5: Melee & Ultimate"), "Week 5: Melee & Ultimate")
+        # Never empty: a name made only of markers falls back to itself.
+        for name in ("#5", "2024-01-02", "Season 3"):
+            self.assertTrue(naming.tournament_series(name), name)
+
     def test_name_patterns_without_rules_never_match(self):
         for pat in (na.SPECIAL_RULES_PATTERN, na.UCHI_PATTERN, na.NON_SERIOUS_PATTERN):
             self.assertIsNone(pat.search("Smash Night #12 Invitational Items On"))
