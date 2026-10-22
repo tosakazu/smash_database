@@ -50,7 +50,11 @@ import re
 from scripts.common.region import class_phase_group_ids
 from scripts.North_America import naming as _naming
 
-CLASSIFIER_VERSION = 14  # 14: the US territories PR/VI/GU use the US federal holiday table (2026-10-19)
+CLASSIFIER_VERSION = 15  # 15: naming.tournament_series strips dates/seasons/editions in place, not only
+#     at the end of the name (2026-10-22). Bumped so derive rewrites every derived.json: naming.py is
+#     not an input file, so without this the 226k events would all count as unchanged and keep the old
+#     series_event.
+# 14: the US territories PR/VI/GU use the US federal holiday table (2026-10-19)
 # 13: derived.json naming.series_event (= series; the build reads region_rules.json instead of importing this module) (2026-10-08)
 # 12: contract additions for the series index (name patterns, naming.community_series). No output change (2026-09-19)
                          # 11:  # 11: full contract for the build: every names/calendar key, naming labels (naming.py), country.py (2026-09-16)
