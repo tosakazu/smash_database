@@ -1,43 +1,12 @@
 {
-  "generated_at": 1792854268,
+  "generated_at": 1792865058,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 52,
+  "count": 53,
   "tournaments": [
-    {
-      "tournament_id": 964201,
-      "tournament_slug": "tournament/12-58",
-      "tournament_name": "ミコッチ杯#12",
-      "start_at": 1792832400,
-      "end_at": 1792846800,
-      "is_online": false,
-      "city": "横浜市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 4,
-      "url": "/tournament/12-58",
-      "events": [
-        {
-          "event_id": 1741115,
-          "event_slug": "tournament/12-58/event/set2",
-          "event_name": "set2",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1792832400
-        },
-        {
-          "event_id": 1733310,
-          "event_slug": "tournament/12-58/event/super-smash-bros-ultimate-singles",
-          "event_name": "シングルス",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1791104400
-        }
-      ]
-    },
     {
       "tournament_id": 958600,
       "tournament_slug": "tournament/flyhigh-30-96",
@@ -462,14 +431,14 @@
       "city": "豊島区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 68,
+      "num_attendees": 69,
       "url": "/tournament/smash-next-1",
       "events": [
         {
           "event_id": 1717244,
           "event_slug": "tournament/smash-next-1/event/ssbu-singles",
           "event_name": "SSBU singles",
-          "num_entrants": 66,
+          "num_entrants": 67,
           "type": 1,
           "start_at": 1793421000
         }
@@ -485,14 +454,14 @@
       "city": "静岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 85,
+      "num_attendees": 86,
       "url": "/tournament/14-32",
       "events": [
         {
           "event_id": 1709221,
           "event_slug": "tournament/14-32/event/shizutona-14",
           "event_name": "Shizutona#14",
-          "num_entrants": 81,
+          "num_entrants": 82,
           "type": 1,
           "start_at": 1793404800
         }
@@ -600,14 +569,14 @@
       "city": "彦根市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/5-109",
       "events": [
         {
           "event_id": 1720893,
           "event_slug": "tournament/5-109/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1800630000
         }
@@ -1014,14 +983,14 @@
       "city": "横浜市",
       "venue_name": "おださがプラザ",
       "country_code": "JP",
-      "num_attendees": 171,
+      "num_attendees": 172,
       "url": "/tournament/54-kurobra54",
       "events": [
         {
           "event_id": 1722693,
           "event_slug": "tournament/54-kurobra54/event/kurobra-sp-1on1",
           "event_name": "Kurobra/SP 1on1トーナメント",
-          "num_entrants": 162,
+          "num_entrants": 163,
           "type": 1,
           "start_at": 1794013200
         }
@@ -1208,6 +1177,52 @@
           "num_entrants": 2,
           "type": 1,
           "start_at": 1794556800
+        }
+      ]
+    },
+    {
+      "tournament_id": 967743,
+      "tournament_slug": "tournament/masterhand77",
+      "tournament_name": "MasterHand77",
+      "start_at": 1794618000,
+      "end_at": 1794646800,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "クレオ大阪南 (Creo Osaka South)",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/masterhand77",
+      "events": [
+        {
+          "event_id": 1740559,
+          "event_slug": "tournament/masterhand77/event/sp-ultimate-singles",
+          "event_name": "SP シングルス / Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794618000
+        }
+      ]
+    },
+    {
+      "tournament_id": 967372,
+      "tournament_slug": "tournament/with-1750",
+      "tournament_name": "九龍withうめき 1750以下の部",
+      "start_at": 1794619800,
+      "end_at": 1794643200,
+      "is_online": false,
+      "city": "添田町",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 10,
+      "url": "/tournament/with-1750",
+      "events": [
+        {
+          "event_id": 1739868,
+          "event_slug": "tournament/with-1750/event/11-14-kowloonxumeki1750",
+          "event_name": "11/14 KOWLOONxUMEKI1750",
+          "num_entrants": 10,
+          "type": 1,
+          "start_at": 1794619800
         }
       ]
     }
