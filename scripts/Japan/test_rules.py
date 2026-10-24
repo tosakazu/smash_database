@@ -96,6 +96,25 @@ class NameFlagTests(unittest.TestCase):
         # 名前で決まるシリーズは参加者数によらず平日扱い
         self.assertTrue(classify.is_force_weekday_tournament("大菊月 #7", "シングルス", 500))
 
+    def test_smacomi_weekday_ends_on_2026_10_30(self):
+        # 2026-10-30 以降に始まった上野スマコミは平日扱いの候補にしない (休日開催なら通常の休日大会、2026-10-25 ユーザー指定)
+        before, after = dt.date(2026, 10, 29), dt.date(2026, 10, 30)
+        self.assertTrue(classify.is_force_weekday_tournament("上野スマコミ #48", "シングルス", 10, before))
+        self.assertFalse(classify.is_force_weekday_tournament("上野スマコミ #48", "シングルス", 10, after))
+        self.assertTrue(classify.is_force_weekday_tournament("大菊月 #7", "シングルス", 10, after))
+
+        class Ctx:
+            def __init__(self, ts):
+                self.attr = {"timestamp": ts, "videogame_id": 1386, "is_online": False}
+                self.tname, self.ename, self.phases, self.class_phase_files = "上野スマコミ #60", "シングルス", None, {}
+        for d, want in ((before, True), (after, False)):
+            ts = int(dt.datetime(d.year, d.month, d.day, 0, 30).timestamp())   # JST の日付の境目のすぐ後
+            self.assertEqual(classify.classify_event({}, Ctx(ts))["names"]["smacomi"], want, d)
+        sun = int(dt.datetime(2026, 11, 1, 13).timestamp())   # 日曜
+        self.assertTrue(classify.upcoming_flags("上野スマコミ #61", "シングルス", 20, sun)["is_weekend"])
+        sun_old = int(dt.datetime(2026, 10, 25, 13).timestamp())
+        self.assertFalse(classify.upcoming_flags("上野スマコミ #59", "シングルス", 20, sun_old)["is_weekend"])
+
     def test_force_weekday_series(self):
         self.assertTrue(classify.name_flags("大菊月 #7", "シングルス")["force_weekday"])
         self.assertTrue(classify.name_flags("渋谷BeeSmash #12", "シングルス")["force_weekday"])

@@ -20,7 +20,7 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 14  # 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
+CLASSIFIER_VERSION = 15  # 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
 # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
                          # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
@@ -118,6 +118,8 @@ BEESMASH_PATTERN = re.compile(r'beesmash', re.IGNORECASE)
 BEESMASH_EXCLUDE_PATTERN = re.compile(r'BIG|上野|Ueno', re.IGNORECASE)
 # 上野スマコミ: 参加者数がこの値未満の回だけ平日扱い (判定は nent を持つ spsp 側)
 SMACOMI_FORCE_WEEKDAY_MAX_NENT = 40
+# 上野スマコミの平日扱いはこの日より前に始まった回だけ。この日以降の休日開催は通常の休日大会 (2026-10-25 ユーザー指定)
+SMACOMI_FORCE_WEEKDAY_BEFORE = dt.date(2026, 10, 30)
 # 実質休日 (お盆・年末年始) は暦上平日でもこの参加者数以上なら休日扱い (期間判定は calendar_flags、合成は spsp 側)
 FORCE_WEEKEND_MIN_NENT = 80
 
@@ -137,10 +139,18 @@ def is_smacomi_name(tname: str, ename: str) -> bool:
     return 'スマコミ' in f"{tname or ''} {ename or ''}"
 
 
-def is_force_weekday_tournament(tname: str, ename: str, nent) -> bool:
-    """休日開催でも計算上は平日大会として扱う特別ルール (名前 + 参加者数)。大菊月 / 渋谷BeeSmash (BIG・上野除く) は常に、
-    上野スマコミは nent < 40 の回のみ。derived.json には名前部分 (force_weekday, smacomi) だけを書き、nent との合成は読む側が行う。"""
-    return is_force_weekday_name(tname, ename) or (is_smacomi_name(tname, ename) and (nent or 0) < SMACOMI_FORCE_WEEKDAY_MAX_NENT)
+def is_smacomi_weekday_candidate(tname: str, ename: str, start_d: dt.date | None) -> bool:
+    """上野スマコミで、平日扱いになりうる回 (SMACOMI_FORCE_WEEKDAY_BEFORE より前に始まった回。開始日不明は前と同じく候補)。
+    derived.json の names.smacomi はこの値 (参加者数との合成は spsp 側)。"""
+    return is_smacomi_name(tname, ename) and (start_d is None or start_d < SMACOMI_FORCE_WEEKDAY_BEFORE)
+
+
+def is_force_weekday_tournament(tname: str, ename: str, nent, start_d: dt.date | None = None) -> bool:
+    """休日開催でも計算上は平日大会として扱う特別ルール (名前 + 参加者数 + 開始日)。大菊月 / 渋谷BeeSmash (BIG・上野除く) は常に、
+    上野スマコミは 2026-10-29 までに始まった nent < 40 の回のみ。derived.json には名前部分 (force_weekday, smacomi) だけを書き、
+    nent との合成は読む側が行う。"""
+    return is_force_weekday_name(tname, ename) or (is_smacomi_weekday_candidate(tname, ename, start_d)
+                                                   and (nent or 0) < SMACOMI_FORCE_WEEKDAY_MAX_NENT)
 
 
 # 特殊ルール (= 通常 1on1 ガチではない大会フォーマット)
@@ -301,7 +311,7 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
         wk_real = is_weekend_range(start, start)
         wk = wk_real or (num_entrants >= FORCE_WEEKEND_MIN_NENT and is_force_weekend_range(start, start))
         out["is_weekend"] = (wk and not is_pre
-                             and not is_force_weekday_tournament(tournament_name, event_name, num_entrants))
+                             and not is_force_weekday_tournament(tournament_name, event_name, num_entrants, start))
         # is_weekend_real = 実暦の土日祝。食い違いをフロントで「実質休日」表示する
         out["is_weekend_real"] = wk_real
     else:
@@ -407,10 +417,13 @@ def classify_event(base: dict, ctx) -> dict:
     ts = ctx.attr.get("timestamp")
     all_class, pg_ids = class_phase_group_ids(ctx.phases, ctx.class_phase_files)
     out = dict(base)
+    names = name_flags(ctx.tname, ctx.ename)
+    if ts is not None:   # 上野スマコミは開始日でも決まる (2026-10-30 以降の回は平日扱いの候補にしない)
+        names["smacomi"] = is_smacomi_weekday_candidate(ctx.tname, ctx.ename, dt.datetime.fromtimestamp(int(ts)).date())
     out.update({
         "is_1on1": ok,
         "not_1on1_reason": reason,
-        "names": name_flags(ctx.tname, ctx.ename),
+        "names": names,
         "calendar": calendar_flags(ts, ctx.attr.get("end_timestamp")) if ts is not None else None,
         "class_bracket": {"all_phases_class": all_class, "phase_group_ids": pg_ids},
         "place": {"geo": place_prefecture(ctx.attr.get("place"))},   # 会場の都道府県 (geo.json の unit id)
