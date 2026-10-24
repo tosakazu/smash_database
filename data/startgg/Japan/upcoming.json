@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792865058,
+  "generated_at": 1792875852,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 53,
+  "count": 56,
   "tournaments": [
     {
       "tournament_id": 958600,
@@ -339,7 +339,7 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/30-585",
       "events": [
         {
@@ -1181,6 +1181,29 @@
       ]
     },
     {
+      "tournament_id": 967737,
+      "tournament_slug": "tournament/sen-smash-sp-10",
+      "tournament_name": "千スマ / Sen Smash SP #10",
+      "start_at": 1794614400,
+      "end_at": 1794657600,
+      "is_online": false,
+      "city": "柏市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/sen-smash-sp-10",
+      "events": [
+        {
+          "event_id": 1740551,
+          "event_slug": "tournament/sen-smash-sp-10/event/singles",
+          "event_name": "シングルス / Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794614400
+        }
+      ]
+    },
+    {
       "tournament_id": 967743,
       "tournament_slug": "tournament/masterhand77",
       "tournament_name": "MasterHand77",
@@ -1223,6 +1246,52 @@
           "num_entrants": 10,
           "type": 1,
           "start_at": 1794619800
+        }
+      ]
+    },
+    {
+      "tournament_id": 963740,
+      "tournament_slug": "tournament/badawi-7",
+      "tournament_name": "Badawi#7",
+      "start_at": 1794621600,
+      "end_at": 1794654000,
+      "is_online": false,
+      "city": "亀岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 33,
+      "url": "/tournament/badawi-7",
+      "events": [
+        {
+          "event_id": 1732084,
+          "event_slug": "tournament/badawi-7/event/badawi",
+          "event_name": "Badawi",
+          "num_entrants": 33,
+          "type": 1,
+          "start_at": 1794621600
+        }
+      ]
+    },
+    {
+      "tournament_id": 944150,
+      "tournament_slug": "tournament/innosuma-27",
+      "tournament_name": "INNOSUMA!!#27",
+      "start_at": 1794628800,
+      "end_at": 1794650400,
+      "is_online": false,
+      "city": "和泉市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/innosuma-27",
+      "events": [
+        {
+          "event_id": 1690719,
+          "event_slug": "tournament/innosuma-27/event/sp-1on1",
+          "event_name": "スマブラSP 1on1 トーナメント",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794628800
         }
       ]
     }
