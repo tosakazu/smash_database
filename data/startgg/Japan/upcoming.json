@@ -1,11 +1,11 @@
 {
-  "generated_at": 1792951418,
+  "generated_at": 1792962213,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 56,
+  "count": 57,
   "tournaments": [
     {
       "tournament_id": 961225,
@@ -1292,6 +1292,29 @@
           "num_entrants": 20,
           "type": 1,
           "start_at": 1794706200
+        }
+      ]
+    },
+    {
+      "tournament_id": 960791,
+      "tournament_slug": "tournament/-3255",
+      "tournament_name": "第６回あのあのブラザーズ",
+      "start_at": 1794708000,
+      "end_at": 1794740400,
+      "is_online": false,
+      "city": "名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 150,
+      "url": "/tournament/-3255",
+      "events": [
+        {
+          "event_id": 1725722,
+          "event_slug": "tournament/-3255/event/1on1-tournament",
+          "event_name": "1on1 tournament",
+          "num_entrants": 150,
+          "type": 1,
+          "start_at": 1794708000
         }
       ]
     }
