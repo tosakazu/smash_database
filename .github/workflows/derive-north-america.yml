@@ -101,7 +101,8 @@ jobs:
         if: steps.done.outputs.cache-hit != 'true'
         run: |
           git add -A
-          git diff --cached --name-only > "$RUNNER_TEMP/changed"
+          # -z: 日本語や " を含むパスを git が "..." で囲んで書かないように (囲まれると下の判定で派生ファイルに見えない)
+          git diff --cached --name-only -z | tr '\0' '\n' > "$RUNNER_TEMP/changed"
           n=$(wc -l < "$RUNNER_TEMP/changed"); echo "n=$n" >> "$GITHUB_OUTPUT"
           echo "変わったファイル $n 件"; head -20 "$RUNNER_TEMP/changed"
           # 派生ファイル: 大会ごとの derived.json と、地域直下の users_derived.jsonl / geo.json / overseas_status.json / region_rules.json
