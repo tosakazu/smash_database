@@ -3,7 +3,10 @@
 # derived.json の無い大会があると spsp のビルドが止まる (2026-10-24、2019-08 の後足しで実際に止まった)。
 # ここで derive を走らせ、派生ファイルに差が出たときだけ「派生ファイルだけのコミット」を data-North_America に直接 push する
 # (所有者の判断、2026-10-25: 派生ファイルは生データから機械的に決まるので人の確認を挟まない)。
-# 起動は Cloudflare Worker spsp-actions-dispatch (このアカウントでは GitHub の schedule が動かない)。手動でも可。
+# 起動: data-North_America への push (担当者の push・incoming の PR の merge) で走る。手動 (main から) でも可。
+#   push で走るのは「push されたブランチにあるこのファイル」なので、同じファイルを data-North_America にも置く
+#   (main を merge せずにこのファイルだけ足す。担当者のスクリプトを変えないため)。変えたら両方に入れる。
+#   ここが push する派生コミットは GITHUB_TOKEN で push するので、GitHub の決まりで次のワークフローを起動しない (ループしない)。
 #
 # 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
 #   - 鍵は使わない (start.gg のトークンも Environment も無し)。使うのは GITHUB_TOKEN (contents: write) だけで、
@@ -15,6 +18,8 @@
 name: derive-north-america
 
 on:
+  push:
+    branches: [data-North_America]
   workflow_dispatch:
     inputs:
       push:
@@ -25,13 +30,15 @@ on:
 permissions:
   contents: read
 
+# 続けて push されたら古い回は取り消して最新の先頭だけ derive する
 concurrency:
   group: derive-north-america
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   derive:
-    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
+    # 手動は main から、自動は data-North_America への push で (ほかのブランチ・fork では走らない)
+    if: github.repository == 'tosakazu/smash_database' && (github.ref == 'refs/heads/main' || (github.event_name == 'push' && github.ref == 'refs/heads/data-North_America'))
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     permissions:
@@ -106,7 +113,7 @@ jobs:
 
       - name: data-North_America に push
         id: push
-        if: steps.done.outputs.cache-hit != 'true' && steps.diff.outputs.n != '0' && inputs.push
+        if: steps.done.outputs.cache-hit != 'true' && steps.diff.outputs.n != '0' && (github.event_name == 'push' || inputs.push)
         env:
           GH_TOKEN: ${{ github.token }}
           BASE: ${{ steps.head.outputs.sha }}
