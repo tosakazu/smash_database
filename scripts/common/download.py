@@ -14,7 +14,7 @@ from scripts.common import clock
 from scripts.common._cli import add_api_args, setup_api
 from scripts.common.download_policy import (
     tournament_skip_reason, done_tournament_action, plan_event_moves, existing_event_action, champion_missing_reason,
-    quick_tournament_action, quick_event_action,
+    quick_tournament_action, quick_event_state_action, quick_event_action,
 )
 from scripts.common.queries import (
     get_standings_query, get_seeds_query,
@@ -93,7 +93,7 @@ def main():
                         help="Awaiting-resume registry (build/data/awaiting_resume.json). Listed events are re-fetched every run "
                              "regardless of the 7-day window until a champion appears, and are never marked done. Omitted/missing: legacy behaviour.")
     parser.add_argument("--quick", action="store_true",
-                        help="Light mode (download-japan-quick, every 15 minutes): only COMPLETED tournaments, never re-fetch "
+                        help="Light mode (download-japan-quick, every 15 minutes): only events start.gg reports as COMPLETED, never re-fetch "
                              "tournaments in done.csv or events whose files are present (no post-completion refresh, no champion "
                              "retry, no awaiting resume), and stop at the first tournament that ended before --finish-date. "
                              "Use with a short window (the last 24 hours).")
@@ -290,7 +290,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 tournament_dt = datetime.fromtimestamp(timestamp)
                 if quick:
                     _qa, _qwhy = quick_tournament_action(
-                        tournament_state, end_timestamp, timestamp, finish_ts,
+                        end_timestamp, timestamp, finish_ts,
                         int(start_date.timestamp()) if start_date is not None else None, tournament_id in done_tournaments)
                     if _qa == "stop":
                         print("!!!downloaded all!!!")
@@ -381,12 +381,20 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         "name": tournament_name,
                         "events": []
                     }
-                events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
+                event_states = {} if quick else None
+                events_info = fetch_event_ids_from_tournament(tournament_id, game_id, states=event_states)
 
                 any_event_failed = False
                 champion_missing = False
+                event_not_completed = False   # --quick: an event start.gg does not report as COMPLETED yet
                 for event_id, event_name, is_online in events_info:
                     try:
+                        if quick:
+                            _qs, _qswhy = quick_event_state_action(event_states.get(event_id))
+                            if _qs == "skip":
+                                print(f"  {event_name}: {_qswhy}. Skipping.")
+                                event_not_completed = True
+                                continue
                         year, month, day = get_date_parts(timestamp)
                         event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
@@ -487,7 +495,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     # Only mark done if no event failed (so retry will pick it up).
                     # Use the in-memory done_tournaments set to avoid double-writing
                     # the same tid to done.csv when a tournament is re-processed.
-                    if not any_event_failed and not champion_missing:
+                    if not any_event_failed and not champion_missing and not event_not_completed:
                         if tournament_id not in done_tournaments:
                             write_done_tournaments(tournament_id, done_file_path)
                             done_tournaments.add(tournament_id)
@@ -886,11 +894,12 @@ def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1, bef
     total_pages = response_data["data"]["tournaments"]["pageInfo"]["totalPages"]
     return tournaments, total_pages
 
-def fetch_event_ids_from_tournament(tournament_id, game_id):
+def fetch_event_ids_from_tournament(tournament_id, game_id, states=None):
     # The query no longer filters by videogameId so $gameId is not needed there, but the argument
     # is still taken to check the SSBU tag match via game_id comparison.
+    # states: a dict to fill with {event_id: state} (--quick). None = the normal query (without state)
     response_data = fetch_data_with_retries(
-        get_tournament_events_query(),
+        get_tournament_events_query(with_state=states is not None),
         {"tournamentId": tournament_id},
     )
     if "data" not in response_data or response_data["data"] is None or "tournament" not in response_data["data"] or response_data["data"]["tournament"] is None:
@@ -899,6 +908,8 @@ def fetch_event_ids_from_tournament(tournament_id, game_id):
     events = response_data["data"]["tournament"]["events"] or []
     out = []
     for event in events:
+        if states is not None:
+            states[event["id"]] = event.get("state")
         vg = (event.get("videogame") or {}).get("id")
         name = event.get("name") or ""
         # Normal: only events matching the given game_id.
