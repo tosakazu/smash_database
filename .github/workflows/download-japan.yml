@@ -14,6 +14,11 @@
 #     deploy key (data-Japan の「owner only」ルールを通れるのは所有者とこの deploy key だけ)。北米は別の鍵を使う。
 #   - pull_request などの外から起動できるトリガーは付けない。
 #
+# 軽量モード (quick=true、2026-10-27〜): 15 分ごとに dispatch Worker が起動する。前の回 (軽量・通常どちらでも) が
+# 動いているか待っているときは Worker が起動しない (同じ concurrency グループで後から来た回が待ちの回を押し出さないように)。
+# 終わってから 24 時間以内・start.gg で COMPLETED の大会のうち、まだ取り込んでいないものだけ取る (download.py --quick)。
+# 取り込み済みの取り直し (終了後 3 日)・優勝者なしの取り直し (7 日)・再開待ち・開催予定・下位クラスは通常の回 (3 時間ごと) だけ。
+#
 # ConoHa の nightly (data-Japan にも push していた) は 2026-09-28 17:35 から一時停止。再開するときはここの schedule を
 # 止めること (両方で push すると食い違う)。手動実行の push は既定で off。
 name: download-japan
@@ -29,6 +34,10 @@ on:
         description: 何日前までの大会を取り直すか (ConoHa の nightly と同じ 14)
         type: string
         default: '14'
+      quick:
+        description: 軽量モード (24 時間以内に終わった COMPLETED の未取り込み大会だけ。days は使わない)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -63,7 +72,23 @@ jobs:
 
       - run: pip install -q -r requirements.txt
 
+      - name: 取得 (軽量モード)
+        if: inputs.quick
+        env:
+          STARTGG_TOKEN: ${{ secrets.JP_STARTGG_TOKEN }}
+        run: |
+          set -o pipefail
+          TODAY=$(date +%F); START=$(date -d "-24 hours" +%FT%T)
+          echo "取得期間: $START 〜 $TODAY (軽量モード)"
+          python -u scripts/common/download.py --quick --start-date "$TODAY" --finish-date "$START" --country-code JP \
+            --startgg-dir data/startgg --done-file-path data/startgg/Japan/done.csv \
+            --users-file-path data/startgg/Japan/users.jsonl --tournament-file-path data/startgg/Japan/tournaments.jsonl \
+            --awaiting-file data/startgg/Japan/manual/awaiting_resume.json 2>&1 | tee "$RUNNER_TEMP/dl.log" | grep -vE 'InsecureRequestWarning|warnings.warn'
+          n=$(grep -c FetchError "$RUNNER_TEMP/dl.log" || true)
+          [ "$n" -eq 0 ] || echo "::warning::download で FetchError $n 件 (該当大会は done にならず次回取り直し)"
+
       - name: 取得 (過去大会・開催予定・クラス bracket)
+        if: ${{ !inputs.quick }}
         env:
           STARTGG_TOKEN: ${{ secrets.JP_STARTGG_TOKEN }}
           DAYS: ${{ inputs.days }}
@@ -94,6 +119,7 @@ jobs:
       # Challonge は SPSP の Challonge アプリの OAuth (client credentials、API v2.1)。無ければ何もしない。
       # 取り込んだものは push の後で SPSP に「取得済み」と知らせる (下の最後のステップ)
       - name: Challonge の下位クラス
+        if: ${{ !inputs.quick }}
         env:
           CHALLONGE_CLIENT_ID: ${{ secrets.CHALLONGE_CLIENT_ID }}
           CHALLONGE_CLIENT_SECRET: ${{ secrets.CHALLONGE_CLIENT_SECRET }}
@@ -117,12 +143,12 @@ jobs:
           git config user.email smash.tosakazu@gmail.com
           git add -A -- data/startgg
           if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
-          git commit -q -m "data: $(date +%F) nightly (GitHub Actions)"
+          git commit -q -m "data: $(date +%F) ${{ inputs.quick && 'quick' || 'nightly' }} (GitHub Actions)"
           git push origin HEAD:data-Japan
 
       # push できたものだけを「取得済み」にする (push の前に知らせると、push に失敗したときに一覧から消えて取り損ねる)
       - name: Challonge の下位クラスを取得済みにする
-        if: inputs.push
+        if: inputs.push && !inputs.quick
         env:
           SPSP_CLASS_DONE_KEY: ${{ secrets.SPSP_CLASS_DONE_KEY }}
         run: |
