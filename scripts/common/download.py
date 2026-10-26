@@ -14,6 +14,7 @@ from scripts.common import clock
 from scripts.common._cli import add_api_args, setup_api
 from scripts.common.download_policy import (
     tournament_skip_reason, done_tournament_action, plan_event_moves, existing_event_action, champion_missing_reason,
+    quick_tournament_action, quick_event_action,
 )
 from scripts.common.queries import (
     get_standings_query, get_seeds_query,
@@ -89,6 +90,11 @@ def main():
     parser.add_argument("--awaiting-file", default=None,
                         help="Awaiting-resume registry (build/data/awaiting_resume.json). Listed events are re-fetched every run "
                              "regardless of the 7-day window until a champion appears, and are never marked done. Omitted/missing: legacy behaviour.")
+    parser.add_argument("--quick", action="store_true",
+                        help="Light mode (download-japan-quick, every 15 minutes): only COMPLETED tournaments, never re-fetch "
+                             "tournaments in done.csv or events whose files are present (no post-completion refresh, no champion "
+                             "retry, no awaiting resume), and stop at the first tournament that ended before --finish-date. "
+                             "Use with a short window (the last 24 hours).")
     args = parser.parse_args()
     setup_api(args)
     # Index files (done / users / tournaments) live per region under data/startgg/<region>/ (since 2026-09-07; data is managed on per-region branches)
@@ -115,6 +121,7 @@ def main():
         args.done_file_path,
         args.users_file_path,
         args.tournament_file_path,
+        quick=args.quick,
     )
 
 
@@ -207,7 +214,8 @@ def _build_event_id_index(tournaments):
     return idx
 
 
-def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path,
+                             quick=False):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -230,6 +238,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     # get_tournaments_by_game_query for why this is safe).
     before_ts = int(start_date.timestamp()) if start_date is not None else None
 
+    finish_ts = int(finish_date.timestamp())
+    stop = False   # reached a tournament that ended before finish_date
     page = 1
     while True:
         try:
@@ -276,6 +286,17 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
                 now_timestamp = clock.now_ts()   # "now" comes from scripts.common.clock (still re-evaluated per tournament)
                 tournament_dt = datetime.fromtimestamp(timestamp)
+                if quick:
+                    _qa, _qwhy = quick_tournament_action(
+                        tournament_state, end_timestamp, timestamp, finish_ts,
+                        int(start_date.timestamp()) if start_date is not None else None, tournament_id in done_tournaments)
+                    if _qa == "stop":
+                        print("!!!downloaded all!!!")
+                        stop = True
+                        break
+                    if _qa == "skip":
+                        print(f"({tournament_name} {tournament_dt}) {_qwhy}. Skipping.")
+                        continue
                 _skip = tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_timestamp,
                                                int(start_date.timestamp()) if start_date is not None else None)
                 if _skip == "not_finished":
@@ -343,11 +364,11 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         # so do not stop here; just skip this one.
                         print(f"({tournament_name} {tournament_dt}) endAt unset & older than finish_date. Skipping.")
                         continue
+                    # Leave through the common tail below (until 2026-10-27 this returned here, so the
+                    # tournaments.jsonl rewrite (date-change moves / dedup in this run) was skipped)
                     print("!!!downloaded all!!!")
-                    _flush_dirty_users(users, dirty_user_ids, users_file_path)
-                    if images_changed:
-                        tournament_images.save(images_index, images_path)
-                    return
+                    stop = True
+                    break
 
                 if tournament_id in tournaments:
                     tournaments[tournament_id]["name"] = tournament_name
@@ -382,6 +403,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                         if e.get("event_id") != event_id
                                     ]
                                     rewrite_tournaments = True
+                            elif quick and old_path == event_dir:
+                                if quick_event_action(event_files_complete(old_path))[0] == "skip":
+                                    continue
                             elif old_path == event_dir and event_files_complete(old_path):
                                 # Same path, files present. Whether to re-fetch is decided by download_policy.existing_event_action:
                                 # inside the post-completion refresh window, re-fetch even if a champion exists (pick up organizer fixes).
@@ -470,7 +494,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 print(f"FetchError on tournament {tournament.get('name','?')}: {e}")
                 continue
 
-        if page >= total_pages:
+        if stop or page >= total_pages:
             break
         page += 1
 
