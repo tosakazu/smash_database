@@ -16,7 +16,8 @@
 #
 # 軽量モード (quick=true、2026-10-27〜): 15 分ごとに dispatch Worker が起動する。前の回 (軽量・通常どちらでも) が
 # 動いているか待っているときは Worker が起動しない (同じ concurrency グループで後から来た回が待ちの回を押し出さないように)。
-# 終わってから 24 時間以内・start.gg で COMPLETED の大会のうち、まだ取り込んでいないものだけ取る (download.py --quick)。
+# 終わってから 24 時間以内の大会のうち、まだ取り込んでいないものの、start.gg で COMPLETED の部門だけ取る (download.py --quick)。
+# 大会そのものの状態は見ない (主催者が大会を完了にしないことが多い。部門は COMPLETED になる)。
 # 取り込み済みの取り直し (終了後 3 日)・優勝者なしの取り直し (7 日)・再開待ち・開催予定・下位クラスは通常の回 (3 時間ごと) だけ。
 #
 # ConoHa の nightly (data-Japan にも push していた) は 2026-09-28 17:35 から一時停止。再開するときはここの schedule を
@@ -35,7 +36,7 @@ on:
         type: string
         default: '14'
       quick:
-        description: 軽量モード (24 時間以内に終わった COMPLETED の未取り込み大会だけ。days は使わない)
+        description: 軽量モード (24 時間以内に終わった未取り込みの大会の、COMPLETED の部門だけ。days は使わない)
         type: boolean
         default: false
 

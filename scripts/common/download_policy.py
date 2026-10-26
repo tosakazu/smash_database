@@ -21,25 +21,30 @@ def tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_ts, s
     return None
 
 
-def quick_tournament_action(tournament_state, end_timestamp, timestamp, finish_ts, start_date_ts, is_done):
+def quick_tournament_action(end_timestamp, timestamp, finish_ts, start_date_ts, is_done):
     """Decision at the tournament-list stage for --quick (the light mode run every 15 minutes).
     Returns ("stop", reason) = end the listing / ("skip", reason) / (None, None) = process it.
     - the window is checked first, by endAt (the listing is sorted "endAt desc"), so the run stops at the first
       tournament that ended before finish_ts even if it is done (the full mode only stops at one that is not done)
-    - only state == 3 (COMPLETED); tournaments whose endAt has passed but are not COMPLETED wait for the full mode
+    - the tournament's own state is not looked at: organizers often leave it CREATED after every event has finished
+      (e.g. the weekday Ueno Smacomi). Each event's state is checked instead (quick_event_state_action)
     - tournaments in done.csv are never re-fetched (no post-completion refresh, no champion retry, no directory moves)
     """
     if (end_timestamp or timestamp) < finish_ts:
         if end_timestamp is None:
             return "skip", "endAt unset & older than finish_date"
         return "stop", "older than finish_date"
-    if tournament_state != 3:
-        return "skip", "not completed"
     if start_date_ts is not None and timestamp > start_date_ts:
         return "skip", "newer than start_date"
     if is_done:
         return "skip", "already downloaded"
     return None, None
+
+
+def quick_event_state_action(event_state):
+    """--quick: only events that start.gg reports as COMPLETED are fetched. A tournament with an event that is not
+    COMPLETED yet is not marked done (the next run, or the full mode, takes it)."""
+    return (None, None) if event_state == "COMPLETED" else ("skip", f"event not completed ({event_state})")
 
 
 def quick_event_action(files_complete):
