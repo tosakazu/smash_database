@@ -144,6 +144,21 @@ def placement_to_bucket(p: int) -> int:
         if k > 20: return None   # safety
 
 
+def _phase_progress_key(by_phase, pid):
+    """Sort key for the order players progress through the main phases.
+
+    start.gg's phaseOrder is the order the TO created the phases, not the order they are played
+    (e.g. "TOP8" created before "TOP96": ~27% of multi-phase JP events). Later phases are smaller, so the
+    main phases go by numSeeds descending, then phaseOrder. If any main phase lacks numSeeds, keep phaseOrder
+    for the whole event (cannot compare sizes). Class phases do not accumulate, so their position does not matter.
+    """
+    main = [i for i in by_phase.values() if not i.get('class_letter')]
+    info = by_phase[pid]
+    if info.get('class_letter') or any(not i.get('num_seeds') for i in main):
+        return (0, info['phase_order'], pid)
+    return (-info['num_seeds'], info['phase_order'], pid)
+
+
 def compute_phase_global_rounds(all_sets_with_phase):
     """Compute global round numbers for main (= non-class) phases.
 
@@ -187,8 +202,8 @@ def compute_phase_global_rounds(all_sets_with_phase):
             'num_seeds': phase_info.get('numSeeds') or 0,
         })
         by_phase[pid]['wb_round_counts'][r] = by_phase[pid]['wb_round_counts'].get(r, 0) + 1
-    # Main bracket accumulates global_round in phase_order. Class brackets are self-contained (= offset 0).
-    sorted_pids = sorted(by_phase.keys(), key=lambda pid: (by_phase[pid]['phase_order'], pid))
+    # Main bracket accumulates global_round in progression order. Class brackets are self-contained (= offset 0).
+    sorted_pids = sorted(by_phase.keys(), key=lambda pid: _phase_progress_key(by_phase, pid))
     out = {}
     cumulative_main = 0  # cumulative count excluding class
     for pid in sorted_pids:
