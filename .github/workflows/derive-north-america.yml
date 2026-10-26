@@ -1,0 +1,148 @@
+# 北米の判定 (derived.json など) を data-North_America の最新に合わせる。2026-10-25 作成。
+# 北米担当者が data-North_America に直接入れたデータ (過去分の後足しなど) は derive を通っていないことがあり、
+# derived.json の無い大会があると spsp のビルドが止まる (2026-10-24、2019-08 の後足しで実際に止まった)。
+# ここで derive を走らせ、派生ファイルに差が出たときだけ「派生ファイルだけのコミット」を data-North_America に直接 push する
+# (所有者の判断、2026-10-25: 派生ファイルは生データから機械的に決まるので人の確認を挟まない)。
+# 起動: data-North_America への push (担当者の push・incoming の PR の merge) で走る。手動 (main から) でも可。
+#   push で走るのは「push されたブランチにあるこのファイル」なので、同じファイルを data-North_America にも置く
+#   (main を merge せずにこのファイルだけ足す。担当者のスクリプトを変えないため)。変えたら両方に入れる。
+#   ここが push する派生コミットは GITHUB_TOKEN で push するので、GitHub の決まりで次のワークフローを起動しない (ループしない)。
+#
+# 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
+#   - 鍵は使わない (start.gg のトークンも Environment も無し)。使うのは GITHUB_TOKEN (contents: write) だけで、
+#     push は最後の段でだけヘッダで渡す。北米担当者がもともと持っている権限 (data-North_America への push) と同じ。
+#   - 判定の規則 (scripts/North_America) は data-North_America にしか無いので、そのブランチのスクリプトを動かす
+#     (download-north-america と同じ)。
+#   - checkout は認証情報を残さない。pull_request などの外から起動できるトリガーは付けない。
+#   - 派生ファイル以外 (生データ・manual/・スクリプト) が変わっていたら push しない (derive が生データを書き換えない前提の確認)。
+name: derive-north-america
+
+on:
+  push:
+    branches: [data-North_America]
+  workflow_dispatch:
+    inputs:
+      push:
+        description: 差が出たら data-North_America に派生ファイルだけのコミットを push する
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+# 続けて push されたら古い回は取り消して最新の先頭だけ derive する
+concurrency:
+  group: derive-north-america
+  cancel-in-progress: true
+
+jobs:
+  derive:
+    # 手動は main から、自動は data-North_America への push で (ほかのブランチ・fork では走らない)
+    if: github.repository == 'tosakazu/smash_database' && (github.ref == 'refs/heads/main' || (github.event_name == 'push' && github.ref == 'refs/heads/data-North_America'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions:
+      contents: write   # data-North_America への push だけに使う
+    env:
+      REGION: North_America
+      DATA_DIR: data/startgg/North_America
+    steps:
+      # 前回 derive したデータのコミット (または前回 push した派生のコミット) と同じなら何もしない
+      - name: data-North_America の先頭
+        id: head
+        run: |
+          sha=$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/data-North_America | cut -f1)
+          [ -n "$sha" ] || { echo "::error::data-North_America が見つからない"; exit 1; }
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"; echo "data-North_America = $sha"
+      - name: このコミットは derive 済みか
+        id: done
+        uses: actions/cache/restore@v4
+        with:
+          path: .derived_ok
+          key: na-derived-${{ steps.head.outputs.sha }}
+          lookup-only: true
+
+      # データが 8 GB・100 万ファイルあるので、ランナーに入っている使わないツール類を消して空ける (spsp の北米ビルドと同じ)
+      - name: ディスクを空ける
+        if: steps.done.outputs.cache-hit != 'true'
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/powershell /usr/local/share/chromium /usr/share/swift /usr/local/julia* || true
+          df -h /
+
+      - name: data-North_America (スクリプトとデータ、上で決めたコミット)
+        if: steps.done.outputs.cache-hit != 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.head.outputs.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        if: steps.done.outputs.cache-hit != 'true'
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - if: steps.done.outputs.cache-hit != 'true'
+        run: pip install -q -r requirements.txt
+
+      # checkout したファイルの更新時刻は判定の材料にならない (全部 checkout の時刻) ので、全大会を判定し直す (--all)。
+      # 中身が同じなら derive は書き換えない
+      - name: 判定 (derived.json) と整合性チェック
+        if: steps.done.outputs.cache-hit != 'true'
+        run: |
+          python -u scripts/common/derive.py --region "$REGION" --all --quiet
+          python -u scripts/common/fix/validate_data.py --region "$REGION" --baseline "$DATA_DIR/validation_baseline.json" \
+            || echo "::warning::validate_data が種別ごとの増加を検出"
+
+      - name: 変わったファイル
+        id: diff
+        if: steps.done.outputs.cache-hit != 'true'
+        run: |
+          git add -A
+          # -z: 日本語や " を含むパスを git が "..." で囲んで書かないように (囲まれると下の判定で派生ファイルに見えない)
+          git diff --cached --name-only -z | tr '\0' '\n' > "$RUNNER_TEMP/changed"
+          n=$(wc -l < "$RUNNER_TEMP/changed"); echo "n=$n" >> "$GITHUB_OUTPUT"
+          echo "変わったファイル $n 件"; head -20 "$RUNNER_TEMP/changed"
+          # 派生ファイル: 大会ごとの derived.json と、地域直下の users_derived.jsonl / geo.json / overseas_status.json / region_rules.json
+          # (と validate_data が件数を更新する validation_baseline.json)
+          bad=$(grep -vE "^${DATA_DIR}/(events/.+/derived\.json|users_derived\.jsonl|geo\.json|overseas_status\.json|region_rules\.json|validation_baseline\.json)$" "$RUNNER_TEMP/changed" || true)
+          if [ -n "$bad" ]; then
+            echo "::error::派生ファイル以外が変わった (push しない):"; echo "$bad" | head -20; exit 1
+          fi
+
+      - name: data-North_America に push
+        id: push
+        if: steps.done.outputs.cache-hit != 'true' && steps.diff.outputs.n != '0' && (github.event_name == 'push' || inputs.push)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ steps.head.outputs.sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "derive: North America (派生ファイルだけ、${BASE:0:10} のデータから。GitHub Actions)"
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          # force はしない。途中で担当者が push していたら断られるので、そのまま次の回に任せる (次の回はその新しい先頭で derive する)
+          if git -c http.extraheader="AUTHORIZATION: basic $auth" push -q \
+               "https://github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/data-North_America"; then
+            echo "pushed $(git rev-parse --short HEAD)"; echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::data-North_America が先に進んでいた (担当者の push)。次の回で derive し直す"; exit 0
+          fi
+
+      # 差が無かった回 = この先頭は derive 済み。push した回 = その派生コミットが新しい先頭なので、そちらを済みにする
+      - name: derive 済みを記録
+        if: steps.done.outputs.cache-hit != 'true' && (steps.diff.outputs.n == '0' || steps.push.outputs.sha != '')
+        id: mark
+        env:
+          KEY_SHA: ${{ steps.push.outputs.sha || steps.head.outputs.sha }}
+        run: |
+          echo ok > .derived_ok
+          echo "key=na-derived-$KEY_SHA" >> "$GITHUB_OUTPUT"
+      - name: derive 済みを保存
+        if: steps.mark.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: .derived_ok
+          key: ${{ steps.mark.outputs.key }}
