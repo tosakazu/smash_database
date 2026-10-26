@@ -241,7 +241,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     before_ts = int(start_date.timestamp()) if start_date is not None else None
 
     finish_ts = int(finish_date.timestamp())
-    stop = False   # --quick: reached a tournament that ended before finish_date
+    stop = False   # reached a tournament that ended before finish_date
     page = 1
     while True:
         try:
@@ -366,11 +366,11 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         # so do not stop here; just skip this one.
                         print(f"({tournament_name} {tournament_dt}) endAt unset & older than finish_date. Skipping.")
                         continue
+                    # Leave through the common tail below (until 2026-10-27 this returned here, so the
+                    # tournaments.jsonl rewrite (date-change moves / dedup in this run) was skipped)
                     print("!!!downloaded all!!!")
-                    _flush_dirty_users(users, dirty_user_ids, users_file_path)
-                    if images_changed:
-                        tournament_images.save(images_index, images_path)
-                    return
+                    stop = True
+                    break
 
                 if tournament_id in tournaments:
                     tournaments[tournament_id]["name"] = tournament_name
