@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793059471,
+  "generated_at": 1793070270,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 57,
+  "count": 58,
   "tournaments": [
     {
       "tournament_id": 955333,
@@ -17,14 +17,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 19,
+      "num_attendees": 17,
       "url": "/tournament/smash-4-9",
       "events": [
         {
           "event_id": 1714144,
           "event_slug": "tournament/smash-4-9/event/1on1",
           "event_name": "1on1トーナメント",
-          "num_entrants": 16,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1793095200
         }
@@ -40,14 +40,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 12,
+      "num_attendees": 13,
       "url": "/tournament/147-shibuya-tatsu",
       "events": [
         {
           "event_id": 1738550,
           "event_slug": "tournament/147-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 12,
+          "num_entrants": 13,
           "type": 1,
           "start_at": 1793095200
         }
@@ -224,14 +224,14 @@
       "city": "立川市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/sumao2026-22",
       "events": [
         {
           "event_id": 1741527,
           "event_slug": "tournament/sumao2026-22/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1793349000
         }
@@ -303,6 +303,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1793356200
+        }
+      ]
+    },
+    {
+      "tournament_id": 969012,
+      "tournament_slug": "tournament/354-act",
+      "tournament_name": "【第354回】スマACT",
+      "start_at": 1793356800,
+      "end_at": 1793368800,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/354-act",
+      "events": [
+        {
+          "event_id": 1742997,
+          "event_slug": "tournament/354-act/event/ultimate-singles",
+          "event_name": "Ultimate singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1793356800
         }
       ]
     },
@@ -523,14 +546,14 @@
       "city": "平塚市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 48,
+      "num_attendees": 49,
       "url": "/tournament/3-167",
       "events": [
         {
           "event_id": 1721012,
           "event_slug": "tournament/3-167/event/sp1on1",
           "event_name": "sp1on1",
-          "num_entrants": 48,
+          "num_entrants": 47,
           "type": 1,
           "start_at": 1793505600
         }
@@ -891,14 +914,14 @@
       "city": "横浜市",
       "venue_name": "おださがプラザ",
       "country_code": "JP",
-      "num_attendees": 187,
+      "num_attendees": 188,
       "url": "/tournament/54-kurobra54",
       "events": [
         {
           "event_id": 1722693,
           "event_slug": "tournament/54-kurobra54/event/kurobra-sp-1on1",
           "event_name": "Kurobra/SP 1on1トーナメント",
-          "num_entrants": 174,
+          "num_entrants": 175,
           "type": 1,
           "start_at": 1794013200
         }
