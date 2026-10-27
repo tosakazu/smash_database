@@ -22,6 +22,11 @@ class PhaseProgressOrderTest(unittest.TestCase):
         label = lambda ph, r: R.compute_global_top_x(r, ph, info, cap, {}, None)[2]
         self.assertEqual(label(top96, 1), "Winners TOP 32")
         self.assertEqual(label(top8, 1), "Winners TOP 4")
+        # the old order (phaseOrder) is kept for the ranking build, only where it differs
+        legacy, _ = R.compute_phase_global_rounds(data, R._legacy_phase_key)
+        old = lambda ph, r: R.legacy_order_fields(r, ph, legacy, cap, {}, None, *R.compute_global_top_x(r, ph, info, cap, {}, None)[1:])
+        self.assertEqual(old(top96, 1), {"legacy_global_top_x": 4, "legacy_global_bracket_label": "Winners TOP 4"})
+        self.assertEqual(old(bracket, 1), {})
 
     def test_missing_num_seeds_keeps_phase_order(self):
         a = {"id": 1, "name": "A", "numSeeds": None, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 1}

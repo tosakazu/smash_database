@@ -6,6 +6,8 @@ compute_global_top_x) without re-downloading. Uses only what matches.json and st
 
 Safety: an event is rewritten only if recomputing with the *previous* phase order reproduces its current
 values exactly (so the only difference is the fix). Events that do not reproduce are listed and left as is.
+The previous labels are kept as legacy_global_top_x / legacy_global_bracket_label where they differ
+(redownload_matches_v2.legacy_order_fields: the ranking build orders matches by them until the next season).
 
     python scripts/common/fix/relabel_global_brackets.py data/startgg/Japan/events [--write]
 """
@@ -25,6 +27,7 @@ if ROOT_DIR not in sys.path:
 from scripts.common import redownload_matches_v2 as R  # noqa: E402
 
 KEYS = ("global_round", "global_top_x", "global_bracket_label")
+LEGACY_KEYS = ("legacy_global_top_x", "legacy_global_bracket_label")
 
 
 def _phase_info(m):
@@ -39,19 +42,9 @@ def recompute(md: dict, event_dir: Path, progress_key=None) -> list[tuple]:
     cap = md.get("bracket_capacity")
     if cap is None:
         cap = R.effective_bracket_capacity(R._phase_max_numseeds(fake))
-    saved = R._phase_progress_key
-    if progress_key is not None:
-        R._phase_progress_key = progress_key
-    try:
-        pgi, _ = R.compute_phase_global_rounds(fake)
-    finally:
-        R._phase_progress_key = saved
+    pgi, _ = R.compute_phase_global_rounds(fake, progress_key)
     pl = R._load_placements_map(event_dir)
     return [tuple(R.compute_global_top_x(m.get("round"), _phase_info(m), pgi, cap, pl, m.get("loser_id"))) for m in ms]
-
-
-def _old_key(by_phase, pid):   # the order before the fix (phaseOrder only)
-    return (by_phase[pid]["phase_order"], pid)
 
 
 def main(argv=None) -> int:
@@ -75,14 +68,19 @@ def main(argv=None) -> int:
         new = recompute(md, f.parent)
         if new == cur:
             continue
-        if recompute(md, f.parent, _old_key) != cur:
+        old = recompute(md, f.parent, R._legacy_phase_key)
+        if old != cur:
             skipped.append(str(f.relative_to(args.root)))
             continue
         n_changed += 1
         n_matches += sum(1 for a, b in zip(cur, new) if a != b)
         if args.write:
-            for m, g in zip(ms, new):
+            for m, g, o in zip(ms, new, old):
                 m.update(zip(KEYS, g))
+                for k in LEGACY_KEYS:
+                    m.pop(k, None)
+                if o[1:] != g[1:]:
+                    m.update(zip(LEGACY_KEYS, o[1:]))
             indent = 2 if raw.startswith("{\n") else None
             f.write_text(json.dumps(md, ensure_ascii=False, indent=indent) + ("\n" if raw.endswith("\n") else ""), encoding="utf-8")
     print(f"events {n_events}, changed {n_changed} ({n_matches} matches){' (written)' if args.write else ''}, "
