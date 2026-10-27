@@ -144,7 +144,40 @@ def placement_to_bucket(p: int) -> int:
         if k > 20: return None   # safety
 
 
-def compute_phase_global_rounds(all_sets_with_phase):
+def _phase_progress_key(by_phase, pid):
+    """Sort key for the order players progress through the main phases.
+
+    start.gg's phaseOrder is the order the TO created the phases, not the order they are played
+    (e.g. "TOP8" created before "TOP96": ~27% of multi-phase JP events). Later phases are smaller, so the
+    main phases go by numSeeds descending, then phaseOrder. If any main phase lacks numSeeds, keep phaseOrder
+    for the whole event (cannot compare sizes). Class phases do not accumulate, so their position does not matter.
+    """
+    main = [i for i in by_phase.values() if not i.get('class_letter')]
+    info = by_phase[pid]
+    if info.get('class_letter') or any(not i.get('num_seeds') for i in main):
+        return (0, info['phase_order'], pid)
+    return (-info['num_seeds'], info['phase_order'], pid)
+
+
+def _legacy_phase_key(by_phase, pid):
+    """The phase order before the numSeeds fix (phaseOrder only). See legacy_order_fields."""
+    return (by_phase[pid]['phase_order'], pid)
+
+
+def legacy_order_fields(round_n, phase_info, legacy_global_info, bracket_capacity, placements_map, loser_uid,
+                        global_top_x, global_bracket_label):
+    """legacy_global_top_x / legacy_global_bracket_label: the labels computed with the old phase order (phaseOrder).
+
+    The ranking build orders the matches of an event by these labels until the next season, so the ranking does
+    not change mid-season (the displayed labels use the fixed order). Written only when they differ."""
+    _, top_x, label = compute_global_top_x(round_n, phase_info, legacy_global_info, bracket_capacity,
+                                           placements_map, loser_uid)
+    if (top_x, label) == (global_top_x, global_bracket_label):
+        return {}
+    return {"legacy_global_top_x": top_x, "legacy_global_bracket_label": label}
+
+
+def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
     """Compute global round numbers for main (= non-class) phases.
 
     List the WB rounds of each phase, detect and drop play-ins (= fewer matches than the next round),
@@ -187,8 +220,9 @@ def compute_phase_global_rounds(all_sets_with_phase):
             'num_seeds': phase_info.get('numSeeds') or 0,
         })
         by_phase[pid]['wb_round_counts'][r] = by_phase[pid]['wb_round_counts'].get(r, 0) + 1
-    # Main bracket accumulates global_round in phase_order. Class brackets are self-contained (= offset 0).
-    sorted_pids = sorted(by_phase.keys(), key=lambda pid: (by_phase[pid]['phase_order'], pid))
+    # Main bracket accumulates global_round in progression order. Class brackets are self-contained (= offset 0).
+    progress_key = progress_key or _phase_progress_key
+    sorted_pids = sorted(by_phase.keys(), key=lambda pid: progress_key(by_phase, pid))
     out = {}
     cumulative_main = 0  # cumulative count excluding class
     for pid in sorted_pids:
@@ -571,6 +605,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
     # Use the effective capacity after play-in correction (= 69 entrants -> 64, 192 -> 128, etc.; pow2 unchanged)
     bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(all_sets_with_phase))
     phase_global_info, max_main_phase_order = compute_phase_global_rounds(all_sets_with_phase)
+    legacy_global_info, _ = compute_phase_global_rounds(all_sets_with_phase, _legacy_phase_key)
     json_data = {
         "data": [],
         "bracket_capacity": bracket_capacity,
@@ -663,6 +698,8 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "global_round": global_round,                  # cumulative WB round number in the main bracket
             "global_top_x": global_top_x,                  # bracket_capacity / 2^(global_round-1), or the placement bucket for LB
             "global_bracket_label": global_bracket_label,  # = "Winners TOP X" / "Losers TOP X" (global)
+            **legacy_order_fields(round_n, phase_info, legacy_global_info, bracket_capacity, placements_map,
+                                  loser_uid, global_top_x, global_bracket_label),
             "phase_group_id": pg_info.get("id"),
             "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; scheduled start of the phase_group
             "wave_id": wave.get("id"),
@@ -908,6 +945,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
     if bracket_capacity is None:
         bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(combined_sets_for_phase_global))
     phase_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global)
+    legacy_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global, _legacy_phase_key)
 
     # Keep existing matches outside target_phase_ids
     kept_matches = [m for m in existing_matches if m.get("phase_id") not in target_phase_ids]
@@ -1006,6 +1044,8 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
             "global_round": global_round,
             "global_top_x": global_top_x,
             "global_bracket_label": global_bracket_label,
+            **legacy_order_fields(round_n, phase_info, legacy_global_info, bracket_capacity, placements_map,
+                                  loser_uid, global_top_x, global_bracket_label),
             "phase_group_id": pg_info.get("id"),
             "phase_group_start_at": pg_info.get("startAt"),  # Unix timestamp; scheduled start of the phase_group
             "wave_id": wave.get("id"),
