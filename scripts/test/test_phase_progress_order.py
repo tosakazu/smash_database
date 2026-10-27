@@ -35,5 +35,37 @@ class PhaseProgressOrderTest(unittest.TestCase):
         self.assertEqual((info[1]["global_round_offset"], info[2]["global_round_offset"]), (0, 2))
 
 
+class LosersRoundDirectionTest(unittest.TestCase):
+    """start.gg numbers LB rounds so that the LB final has the largest |round| (19 entrants: -4 … -10)."""
+
+    def test_class_bracket_counts_from_the_lb_final(self):
+        b = {"id": 5, "name": "Bクラス", "numSeeds": 16, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 2}
+        main = {"id": 1, "name": "Main", "numSeeds": 32, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 1}
+        data = sets(main, {1: 16, 2: 8}) + sets(b, {1: 8, 2: 4, 3: 2, 4: 1, -3: 4, -4: 4, -5: 2, -6: 1})
+        info, _ = R.compute_phase_global_rounds(data)
+        label = lambda r: R.compute_global_top_x(r, b, info, 32, {}, None)[2]
+        self.assertEqual([label(r) for r in (-3, -4, -5, -6)],
+                         ["B-Losers TOP 8", "B-Losers TOP 6", "B-Losers TOP 4", "B-Losers TOP 3"])
+        # the ranking build keeps ordering by the old labels (round -6 was counted as far from the final)
+        legacy, _ = R.compute_phase_global_rounds(data, R._legacy_phase_key)
+        old = R.legacy_order_fields(-6, b, legacy, 32, {}, None, *R.compute_global_top_x(-6, b, info, 32, {}, None)[1:])
+        self.assertEqual(old, {"legacy_global_top_x": 16, "legacy_global_bracket_label": "B-Losers TOP 16"})
+
+    def test_main_fallback_without_placement(self):
+        top8 = {"id": 2, "name": "TOP8", "numSeeds": 8, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 2}
+        pools = {"id": 1, "name": "Pools", "numSeeds": 64, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 1}
+        data = sets(pools, {1: 32, 2: 16, 3: 8, -1: 16, -2: 8, -3: 4}) + sets(top8, {1: 4, 2: 2, 3: 1, -1: 2, -2: 2, -3: 1, -4: 1})
+        info, _ = R.compute_phase_global_rounds(data)
+        top = lambda ph, r: R.compute_global_top_x(r, ph, info, 64, {}, None)[1]
+        self.assertEqual([top(top8, r) for r in (-1, -2, -3, -4)], [8, 6, 4, 3])
+        self.assertEqual(top(pools, -3), 12)   # 8 players go on to TOP8 → the pool LB final loser is 9th-12th
+        # with the loser's placement, the placement wins (unchanged)
+        self.assertEqual(R.compute_global_top_x(-4, top8, info, 64, {7: 5}, 7)[1], 6)
+
+    def test_phase_local_losers_top(self):
+        self.assertEqual([R.losers_top_x(r, 10) for r in (-4, -10)], [24, 3])
+        self.assertEqual(R.losers_top_x(-1, None), R.losers_top_x_legacy(-1))
+
+
 if __name__ == "__main__":
     unittest.main()
