@@ -1,0 +1,49 @@
+{
+  "event_id": 1729295,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2422868,
+      "name": "MADLLOWEEN",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 25,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3489127,
+          "display": "MAD1"
+        }
+      ]
+    },
+    {
+      "id": 2422869,
+      "name": "TOP CUT",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3489129,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2422870,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3489130,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 1728263,
+  "event_name": "Breaking The meta Singles 7:00 PM",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2421582,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 18,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3487582,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2421584,
+      "name": "Top 8  Sumidero",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3487584,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2421583,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3487583,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

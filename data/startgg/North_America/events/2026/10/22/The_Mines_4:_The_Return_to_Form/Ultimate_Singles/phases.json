@@ -1,0 +1,57 @@
+{
+  "event_id": 1739191,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2435730,
+      "name": "The Surface - Round Robin",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3505606,
+          "display": "1"
+        },
+        {
+          "id": 3505950,
+          "display": "2"
+        },
+        {
+          "id": 3505951,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 2435732,
+      "name": "Gold Mine - Top 6 Double Elimination",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3505608,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2435997,
+      "name": "Copper Mine - Redemption Double Elimination",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3505960,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
