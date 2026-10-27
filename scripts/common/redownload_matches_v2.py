@@ -76,16 +76,42 @@ def winners_top_x(round_n: int, phase_top_n: int) -> int:
     return max(2, phase_top_n // (2 ** max(0, round_n - 1)))
 
 
-def losers_top_x(round_n: int) -> int:
+def losers_top_x(round_n: int, losers_rounds: int | None) -> int:
     """Final placement bucket upper bound (= TOP X) when losing in a losers-side round.
-    start.gg round notation: round=-1 -> LB Final, -2 -> LB Semi, ... larger absolute values the further from the LB final.
+    start.gg round notation: the LB final has the largest |round| of the bracket (e.g. 19 entrants: -4 = LB Round 1
+    ... -10 = LB Final; LB Round 1 is not always -1). losers_rounds = that largest |round| (= the LB final).
+    Without it, falls back to losers_top_x_legacy.
     """
+    if round_n is None or round_n >= 0:
+        return None
+    if not losers_rounds:
+        return losers_top_x_legacy(round_n)
+    # The LB final loser is 3rd (W2W=2); each round further from the final adds 1 to W2W
+    return w2w_to_top_x(losers_rounds + round_n + 2)
+
+
+def losers_top_x_legacy(round_n: int) -> int:
+    """The labels before the round-direction fix (2026-10-27): counted round=-1 as the LB final, so the labels grew
+    towards the final (LB Final of a 19-entrant bracket = TOP 64). Kept for legacy_order_fields (the ranking build
+    orders matches by the old labels until the next season)."""
     if round_n >= 0:
         return None
-    # Loser of an LB round (start.gg, |round|=k) has W2W = k + 1
-    # e.g. LB Final (k=1) loser = 3rd (W2W=2)
     w2w = abs(round_n) + 1
     return w2w_to_top_x(w2w)
+
+
+def losers_rounds_by(all_sets_with_phase, key) -> dict:
+    """key(phase_info, pg_info) -> largest |round| of the LB sets (= the LB final) under that key."""
+    out: dict = {}
+    for set_node, phase_info, pg_info in all_sets_with_phase:
+        r = (set_node or {}).get('round') if isinstance(set_node, dict) else None
+        if r is None or r >= 0:
+            continue
+        k = key(phase_info or {}, pg_info or {})
+        if k is None:
+            continue
+        out[k] = max(out.get(k, 0), -r)
+    return out
 
 
 def next_pow2(n: int) -> int:
@@ -166,15 +192,27 @@ def _legacy_phase_key(by_phase, pid):
 
 def legacy_order_fields(round_n, phase_info, legacy_global_info, bracket_capacity, placements_map, loser_uid,
                         global_top_x, global_bracket_label):
-    """legacy_global_top_x / legacy_global_bracket_label: the labels computed with the old phase order (phaseOrder).
+    """legacy_global_top_x / legacy_global_bracket_label: the labels computed with the old phase order (phaseOrder)
+    and the old LB round direction (losers_top_x_legacy).
 
     The ranking build orders the matches of an event by these labels until the next season, so the ranking does
     not change mid-season (the displayed labels use the fixed order). Written only when they differ."""
     _, top_x, label = compute_global_top_x(round_n, phase_info, legacy_global_info, bracket_capacity,
-                                           placements_map, loser_uid)
+                                           placements_map, loser_uid, legacy_losers=True)
     if (top_x, label) == (global_top_x, global_bracket_label):
         return {}
     return {"legacy_global_top_x": top_x, "legacy_global_bracket_label": label}
+
+
+def _losers_bucket(round_n, info, legacy_losers, scale):
+    """Round-based LB bucket. scale: a main phase that sends `advance` players on to the next phase places its
+    LB final loser after them (advance=2 for the last phase = 3rd). legacy_losers: the labels before the fix."""
+    if legacy_losers or not info:
+        return losers_top_x_legacy(round_n)
+    bucket = losers_top_x(round_n, info.get('losers_rounds'))
+    if bucket is not None and scale and info.get('losers_rounds'):
+        bucket *= max(1, (info.get('advance') or 2) // 2)
+    return bucket
 
 
 def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
@@ -198,6 +236,7 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
         max_main_phase_order: int (for the LB "final phase" check)
     """
     by_phase: dict = {}
+    losers_rounds = losers_rounds_by(all_sets_with_phase, lambda ph, pg: ph.get('id'))
     # Collect both main and class phases. main accumulates global_round; class is self-contained (= prefix label only).
     for set_node, phase_info, _ in all_sets_with_phase:
         pname = phase_info.get('name') or ''
@@ -224,6 +263,7 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
     progress_key = progress_key or _phase_progress_key
     sorted_pids = sorted(by_phase.keys(), key=lambda pid: progress_key(by_phase, pid))
     out = {}
+    main_order = []
     cumulative_main = 0  # cumulative count excluding class
     for pid in sorted_pids:
         info = by_phase[pid]
@@ -258,9 +298,17 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
             'global_round_offset': offset,
             'is_se': info.get('is_se', False),
             'class_letter': info.get('class_letter'),
+            'losers_rounds': losers_rounds.get(pid),
+            'num_seeds': info.get('num_seeds') or 0,
         }
         if not is_class:
             cumulative_main += len(effective)
+            main_order.append(pid)
+    # Players that go on from a main phase to the next one (the last phase: 2 = the grand final). The LB final loser
+    # of a phase is placed right after them (used by the round-based LB fallback).
+    for k, pid in enumerate(main_order):
+        nxt = out[main_order[k + 1]]['num_seeds'] if k + 1 < len(main_order) else 0
+        out[pid]['advance'] = nxt or 2
     max_main_phase_order = max(
         (info['phase_order'] for info in out.values() if not info.get('class_letter')),
         default=0,
@@ -269,7 +317,7 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
 
 
 def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacity,
-                          placements_map, loser_uid):
+                          placements_map, loser_uid, legacy_losers=False):
     """Return (global_round, global_top_x, global_bracket_label) per match.
 
     WB: based on bracket position. Play-in rounds get global_round=None, global_top_x=bracket_capacity.
@@ -360,7 +408,7 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
         #   - main bracket: bucket from placements_map (= tournament-wide standings)
         #   - class bracket: tournament-wide placement does not reflect position within the class, so round-based only
         if class_letter:
-            bucket = losers_top_x(round_n)
+            bucket = _losers_bucket(round_n, info, legacy_losers, scale=False)
             if bucket is None:
                 return (None, None, None)
             return (None, bucket, f"{prefix}Losers TOP {bucket}")
@@ -373,7 +421,7 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
             if bucket is not None:
                 return (None, bucket, f"Losers TOP {bucket}")
         # Fallback: round-based losers_top_x (= deleted account, etc.)
-        bucket = losers_top_x(round_n)
+        bucket = _losers_bucket(round_n, info, legacy_losers, scale=True)
         if bucket is None:
             return (None, None, None)
         return (None, bucket, f"Losers TOP {bucket}")
@@ -606,6 +654,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
     bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(all_sets_with_phase))
     phase_global_info, max_main_phase_order = compute_phase_global_rounds(all_sets_with_phase)
     legacy_global_info, _ = compute_phase_global_rounds(all_sets_with_phase, _legacy_phase_key)
+    pg_losers_rounds = losers_rounds_by(all_sets_with_phase, lambda ph, pg: pg.get("id"))
     json_data = {
         "data": [],
         "bracket_capacity": bracket_capacity,
@@ -662,7 +711,7 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
         # Winners side: losing in WB R r -> LB. I.e. TOP X of WB R r = phase_top_n / 2^(r-1)
         # Losers side: losing in LB R r -> immediate elimination. placement derived from W2W (= |round|+1).
         winners_top = winners_top_x(round_n, phase_top_n) if (round_n is not None and round_n > 0) else None
-        losers_top = losers_top_x(round_n) if (round_n is not None and round_n < 0) else None
+        losers_top = losers_top_x(round_n, pg_losers_rounds.get(pg_info.get("id"))) if (round_n is not None and round_n < 0) else None
         bracket_label = None
         if round_n is not None:
             if round_n > 0 and winners_top is not None:
@@ -946,6 +995,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
         bracket_capacity = effective_bracket_capacity(_phase_max_numseeds(combined_sets_for_phase_global))
     phase_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global)
     legacy_global_info, _ = compute_phase_global_rounds(combined_sets_for_phase_global, _legacy_phase_key)
+    pg_losers_rounds = losers_rounds_by(combined_sets_for_phase_global, lambda ph, pg: pg.get("id"))
 
     # Keep existing matches outside target_phase_ids
     kept_matches = [m for m in existing_matches if m.get("phase_id") not in target_phase_ids]
@@ -999,7 +1049,7 @@ def refetch_event_phases(event_id, event_dir: Path, target_phase_ids, per_page=5
         round_n = node.get("round")
         round_text = node.get("fullRoundText") or ""
         winners_top = winners_top_x(round_n, phase_top_n) if (round_n is not None and round_n > 0) else None
-        losers_top = losers_top_x(round_n) if (round_n is not None and round_n < 0) else None
+        losers_top = losers_top_x(round_n, pg_losers_rounds.get(pg_info.get("id"))) if (round_n is not None and round_n < 0) else None
         bracket_label = None
         if round_n is not None:
             if round_n > 0 and winners_top is not None:
