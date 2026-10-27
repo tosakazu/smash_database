@@ -1909,9 +1909,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 16",
+      "bracket_label": "Losers TOP 3",
       "winners_top": null,
-      "losers_top": 16,
+      "losers_top": 3,
       "global_round": null,
       "global_top_x": 3,
       "global_bracket_label": "Losers TOP 3",
@@ -1998,9 +1998,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 12",
+      "bracket_label": "Losers TOP 4",
       "winners_top": null,
-      "losers_top": 12,
+      "losers_top": 4,
       "global_round": null,
       "global_top_x": 4,
       "global_bracket_label": "Losers TOP 4",
@@ -2285,9 +2285,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 8",
+      "bracket_label": "Losers TOP 6",
       "winners_top": null,
-      "losers_top": 8,
+      "losers_top": 6,
       "global_round": null,
       "global_top_x": 6,
       "global_bracket_label": "Losers TOP 6",
@@ -2394,9 +2394,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 8",
+      "bracket_label": "Losers TOP 6",
       "winners_top": null,
-      "losers_top": 8,
+      "losers_top": 6,
       "global_round": null,
       "global_top_x": 6,
       "global_bracket_label": "Losers TOP 6",
@@ -2483,9 +2483,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 6",
+      "bracket_label": "Losers TOP 8",
       "winners_top": null,
-      "losers_top": 6,
+      "losers_top": 8,
       "global_round": null,
       "global_top_x": 8,
       "global_bracket_label": "Losers TOP 8",
@@ -2612,9 +2612,9 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 6",
+      "bracket_label": "Losers TOP 8",
       "winners_top": null,
-      "losers_top": 6,
+      "losers_top": 8,
       "global_round": null,
       "global_top_x": 8,
       "global_bracket_label": "Losers TOP 8",
@@ -2919,12 +2919,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 16",
+      "bracket_label": "Losers TOP 3",
       "winners_top": null,
-      "losers_top": 16,
+      "losers_top": 3,
       "global_round": null,
-      "global_top_x": 16,
-      "global_bracket_label": "B-Losers TOP 16",
+      "global_top_x": 3,
+      "global_bracket_label": "B-Losers TOP 3",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3012,7 +3012,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 16,
+      "legacy_global_bracket_label": "B-Losers TOP 16"
     },
     {
       "match_id": 86537416,
@@ -3028,12 +3030,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 12",
+      "bracket_label": "Losers TOP 4",
       "winners_top": null,
-      "losers_top": 12,
+      "losers_top": 4,
       "global_round": null,
-      "global_top_x": 12,
-      "global_bracket_label": "B-Losers TOP 12",
+      "global_top_x": 4,
+      "global_bracket_label": "B-Losers TOP 4",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3081,7 +3083,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 12,
+      "legacy_global_bracket_label": "B-Losers TOP 12"
     },
     {
       "match_id": 86537399,
@@ -3315,12 +3319,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 8",
+      "bracket_label": "Losers TOP 6",
       "winners_top": null,
-      "losers_top": 8,
+      "losers_top": 6,
       "global_round": null,
-      "global_top_x": 8,
-      "global_bracket_label": "B-Losers TOP 8",
+      "global_top_x": 6,
+      "global_bracket_label": "B-Losers TOP 6",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3368,7 +3372,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 8,
+      "legacy_global_bracket_label": "B-Losers TOP 8"
     },
     {
       "match_id": 86537415,
@@ -3384,12 +3390,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 8",
+      "bracket_label": "Losers TOP 6",
       "winners_top": null,
-      "losers_top": 8,
+      "losers_top": 6,
       "global_round": null,
-      "global_top_x": 8,
-      "global_bracket_label": "B-Losers TOP 8",
+      "global_top_x": 6,
+      "global_bracket_label": "B-Losers TOP 6",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3437,7 +3443,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 8,
+      "legacy_global_bracket_label": "B-Losers TOP 8"
     },
     {
       "match_id": 86537412,
@@ -3453,12 +3461,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 6",
+      "bracket_label": "Losers TOP 8",
       "winners_top": null,
-      "losers_top": 6,
+      "losers_top": 8,
       "global_round": null,
-      "global_top_x": 6,
-      "global_bracket_label": "B-Losers TOP 6",
+      "global_top_x": 8,
+      "global_bracket_label": "B-Losers TOP 8",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3506,7 +3514,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 6,
+      "legacy_global_bracket_label": "B-Losers TOP 6"
     },
     {
       "match_id": 86537413,
@@ -3522,12 +3532,12 @@
       "phase_num_seeds": 8,
       "phase_bracket_type": "DOUBLE_ELIMINATION",
       "phase_top_n": null,
-      "bracket_label": "Losers TOP 6",
+      "bracket_label": "Losers TOP 8",
       "winners_top": null,
-      "losers_top": 6,
+      "losers_top": 8,
       "global_round": null,
-      "global_top_x": 6,
-      "global_bracket_label": "B-Losers TOP 6",
+      "global_top_x": 8,
+      "global_bracket_label": "B-Losers TOP 8",
       "phase_group_id": 2818171,
       "wave_id": null,
       "wave": null,
@@ -3575,7 +3585,9 @@
             }
           ]
         }
-      ]
+      ],
+      "legacy_global_top_x": 6,
+      "legacy_global_bracket_label": "B-Losers TOP 6"
     },
     {
       "match_id": 86537395,
