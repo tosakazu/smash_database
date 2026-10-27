@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793048666,
+  "generated_at": 1793059471,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 56,
+  "count": 57,
   "tournaments": [
     {
       "tournament_id": 955333,
@@ -40,14 +40,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/147-shibuya-tatsu",
       "events": [
         {
           "event_id": 1738550,
           "event_slug": "tournament/147-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1793095200
         }
@@ -454,14 +454,14 @@
       "city": "彦根市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 16,
+      "num_attendees": 17,
       "url": "/tournament/5-109",
       "events": [
         {
           "event_id": 1720893,
           "event_slug": "tournament/5-109/event/sp-1on1",
           "event_name": "スマブラSP 1on1",
-          "num_entrants": 16,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1800630000
         }
@@ -983,14 +983,14 @@
       "city": "岡山市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 131,
+      "num_attendees": 133,
       "url": "/tournament/grand-wars-4_-maesuma-grand-wars-4_okayama",
       "events": [
         {
           "event_id": 1717257,
           "event_slug": "tournament/grand-wars-4_-maesuma-grand-wars-4_okayama/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 131,
+          "num_entrants": 133,
           "type": 1,
           "start_at": 1794101400
         }
@@ -1282,16 +1282,39 @@
       "city": "名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 157,
+      "num_attendees": 158,
       "url": "/tournament/-3255",
       "events": [
         {
           "event_id": 1725722,
           "event_slug": "tournament/-3255/event/1on1-tournament",
           "event_name": "1on1 tournament",
-          "num_entrants": 157,
+          "num_entrants": 158,
           "type": 1,
           "start_at": 1794708000
+        }
+      ]
+    },
+    {
+      "tournament_id": 964609,
+      "tournament_slug": "tournament/hit-209_-maesuma-hit-209_kyoto",
+      "tournament_name": "マエスマ'HIT#209_京都 / Maesuma'HIT#209_Kyoto",
+      "start_at": 1794823200,
+      "end_at": 1794837600,
+      "is_online": false,
+      "city": "京都市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/hit-209_-maesuma-hit-209_kyoto",
+      "events": [
+        {
+          "event_id": 1734198,
+          "event_slug": "tournament/hit-209_-maesuma-hit-209_kyoto/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794823200
         }
       ]
     }
