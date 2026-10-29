@@ -1,0 +1,35 @@
+{
+  "event_id": 493278,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 827041,
+      "name": "Bracket (Pre-Redemption Cut Off)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1323278,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 827042,
+      "name": "Bracket (Post-Redemption Cut Off)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1323279,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

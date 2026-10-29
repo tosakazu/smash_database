@@ -1,0 +1,121 @@
+{
+  "event_id": 437329,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 733783,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 240,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1209268,
+          "display": "A1"
+        },
+        {
+          "id": 1209263,
+          "display": "A2"
+        },
+        {
+          "id": 1209266,
+          "display": "B1"
+        },
+        {
+          "id": 1209267,
+          "display": "B2"
+        },
+        {
+          "id": 1209265,
+          "display": "C1"
+        },
+        {
+          "id": 1209264,
+          "display": "C2"
+        },
+        {
+          "id": 1181091,
+          "display": "D1"
+        },
+        {
+          "id": 1209269,
+          "display": "D2"
+        }
+      ]
+    },
+    {
+      "id": 754986,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1209271,
+          "display": "D1"
+        },
+        {
+          "id": 1209270,
+          "display": "E1"
+        }
+      ]
+    },
+    {
+      "id": 754987,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1209272,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 754988,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 176,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1209273,
+          "display": "E1"
+        },
+        {
+          "id": 1209296,
+          "display": "E2"
+        },
+        {
+          "id": 1209297,
+          "display": "F1"
+        },
+        {
+          "id": 1209298,
+          "display": "F2"
+        }
+      ]
+    },
+    {
+      "id": 755011,
+      "name": "Amateur Top 32",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1209299,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

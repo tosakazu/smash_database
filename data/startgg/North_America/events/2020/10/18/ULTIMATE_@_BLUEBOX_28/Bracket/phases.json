@@ -1,0 +1,49 @@
+{
+  "event_id": 524920,
+  "event_name": "Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 870232,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 17,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1393022,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 872380,
+      "name": "top 4",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1396083,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 872382,
+      "name": "Amateur Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 13,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1396085,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

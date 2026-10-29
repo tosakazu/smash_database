@@ -1,0 +1,35 @@
+{
+  "event_id": 459913,
+  "event_name": "Redemption Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 772329,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 5,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1242651,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 772330,
+      "name": "Redemption Top",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 5,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1242652,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

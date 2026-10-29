@@ -1,0 +1,53 @@
+{
+  "event_id": 372455,
+  "event_name": "Ultra Boss Rush IV: Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 619525,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1022071,
+          "display": "1"
+        },
+        {
+          "id": 1052900,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 640488,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1052901,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 644064,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 72,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1057846,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

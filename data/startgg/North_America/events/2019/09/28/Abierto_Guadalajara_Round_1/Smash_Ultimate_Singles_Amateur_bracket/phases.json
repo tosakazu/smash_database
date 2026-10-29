@@ -1,0 +1,55 @@
+{
+  "event_id": 388320,
+  "event_name": "Smash Ultimate Singles Amateur bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 661922,
+      "name": "Albercas Amateurs",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 25,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1083177,
+          "display": "1"
+        },
+        {
+          "id": 1094845,
+          "display": "2"
+        },
+        {
+          "id": 1094846,
+          "display": "3"
+        },
+        {
+          "id": 1094847,
+          "display": "4"
+        },
+        {
+          "id": 1094848,
+          "display": "5"
+        },
+        {
+          "id": 1094904,
+          "display": "6"
+        }
+      ]
+    },
+    {
+      "id": 647567,
+      "name": "Top 2 Amateur",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1063101,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

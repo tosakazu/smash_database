@@ -1,0 +1,35 @@
+{
+  "event_id": 444355,
+  "event_name": "Smash Ultimate (Items Off)",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 745868,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1197603,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 745869,
+      "name": "Redemption Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1197604,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

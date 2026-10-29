@@ -1,0 +1,109 @@
+{
+  "event_id": 389852,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 650415,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 149,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1123754,
+          "display": "A1"
+        },
+        {
+          "id": 1123762,
+          "display": "A2"
+        },
+        {
+          "id": 1123763,
+          "display": "A3"
+        },
+        {
+          "id": 1123772,
+          "display": "A4"
+        },
+        {
+          "id": 1123756,
+          "display": "A5"
+        },
+        {
+          "id": 1123764,
+          "display": "A6"
+        },
+        {
+          "id": 1066877,
+          "display": "A7"
+        },
+        {
+          "id": 1123774,
+          "display": "A8"
+        },
+        {
+          "id": 1123755,
+          "display": "B1"
+        },
+        {
+          "id": 1123758,
+          "display": "B2"
+        },
+        {
+          "id": 1123759,
+          "display": "B3"
+        },
+        {
+          "id": 1123760,
+          "display": "B4"
+        },
+        {
+          "id": 1123761,
+          "display": "B5"
+        },
+        {
+          "id": 1123771,
+          "display": "B6"
+        },
+        {
+          "id": 1123757,
+          "display": "B7"
+        },
+        {
+          "id": 1123773,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 691351,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1123769,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 693152,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 46,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1127233,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

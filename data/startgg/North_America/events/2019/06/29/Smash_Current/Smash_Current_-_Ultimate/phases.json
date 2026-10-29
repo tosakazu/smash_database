@@ -1,0 +1,49 @@
+{
+  "event_id": 358347,
+  "event_name": "Smash Current - Ultimate",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 595904,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 23,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 990486,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 612147,
+      "name": "Amateur Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1012152,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 613264,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1013694,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "event_id": 377146,
+  "event_name": "Revo Smash Singles Ultimate",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 627551,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1035528,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 627554,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1035531,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 627555,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1035532,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "event_id": 326543,
+  "event_name": "1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 544550,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 47,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 921727,
+          "display": "1"
+        },
+        {
+          "id": 936085,
+          "display": "2"
+        },
+        {
+          "id": 936086,
+          "display": "3"
+        },
+        {
+          "id": 936087,
+          "display": "4"
+        },
+        {
+          "id": 936088,
+          "display": "5"
+        },
+        {
+          "id": 936089,
+          "display": "6"
+        },
+        {
+          "id": 936090,
+          "display": "7"
+        },
+        {
+          "id": 936091,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 555693,
+      "name": "Finals",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 936092,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 555694,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 15,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 936093,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

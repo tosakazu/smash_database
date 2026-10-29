@@ -1,0 +1,75 @@
+{
+  "event_id": 414378,
+  "event_name": "1v1 Ultimate Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 692924,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 21,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1126901,
+          "display": "1"
+        },
+        {
+          "id": 1126915,
+          "display": "2"
+        },
+        {
+          "id": 1126916,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 692935,
+      "name": "Top 12",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1126922,
+          "display": "1"
+        },
+        {
+          "id": 1126923,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 692937,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1126927,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 692938,
+      "name": "Redemption",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 9,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1126931,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

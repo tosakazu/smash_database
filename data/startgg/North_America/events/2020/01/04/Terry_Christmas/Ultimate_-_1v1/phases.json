@@ -1,0 +1,109 @@
+{
+  "event_id": 417355,
+  "event_name": "Ultimate - 1v1",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 698308,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 146,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1133813,
+          "display": "A1"
+        },
+        {
+          "id": 1133814,
+          "display": "A2"
+        },
+        {
+          "id": 1133815,
+          "display": "A3"
+        },
+        {
+          "id": 1133816,
+          "display": "A4"
+        },
+        {
+          "id": 1133817,
+          "display": "A5"
+        },
+        {
+          "id": 1133818,
+          "display": "A6"
+        },
+        {
+          "id": 1133819,
+          "display": "A7"
+        },
+        {
+          "id": 1133820,
+          "display": "A8"
+        },
+        {
+          "id": 1133805,
+          "display": "B1"
+        },
+        {
+          "id": 1133806,
+          "display": "B2"
+        },
+        {
+          "id": 1133807,
+          "display": "B3"
+        },
+        {
+          "id": 1133808,
+          "display": "B4"
+        },
+        {
+          "id": 1133809,
+          "display": "B5"
+        },
+        {
+          "id": 1133810,
+          "display": "B6"
+        },
+        {
+          "id": 1133811,
+          "display": "B7"
+        },
+        {
+          "id": 1133812,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 698309,
+      "name": "Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1133821,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 724545,
+      "name": "Redemption",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 82,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1168964,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

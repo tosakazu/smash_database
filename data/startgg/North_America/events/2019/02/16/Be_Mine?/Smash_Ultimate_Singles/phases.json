@@ -1,0 +1,173 @@
+{
+  "event_id": 302450,
+  "event_name": "Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 511729,
+      "name": "Round Robin Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 219,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 912954,
+          "display": "A1"
+        },
+        {
+          "id": 912956,
+          "display": "A2"
+        },
+        {
+          "id": 912934,
+          "display": "A3"
+        },
+        {
+          "id": 912935,
+          "display": "A4"
+        },
+        {
+          "id": 912938,
+          "display": "A5"
+        },
+        {
+          "id": 912946,
+          "display": "A6"
+        },
+        {
+          "id": 912947,
+          "display": "A7"
+        },
+        {
+          "id": 912951,
+          "display": "A8"
+        },
+        {
+          "id": 912955,
+          "display": "A9"
+        },
+        {
+          "id": 912959,
+          "display": "A10"
+        },
+        {
+          "id": 912950,
+          "display": "B1"
+        },
+        {
+          "id": 912939,
+          "display": "B2"
+        },
+        {
+          "id": 912937,
+          "display": "B3"
+        },
+        {
+          "id": 912932,
+          "display": "B4"
+        },
+        {
+          "id": 912941,
+          "display": "B5"
+        },
+        {
+          "id": 912944,
+          "display": "B6"
+        },
+        {
+          "id": 912948,
+          "display": "B7"
+        },
+        {
+          "id": 912952,
+          "display": "B8"
+        },
+        {
+          "id": 912957,
+          "display": "B9"
+        },
+        {
+          "id": 912960,
+          "display": "B10"
+        },
+        {
+          "id": 912961,
+          "display": "B11"
+        },
+        {
+          "id": 912940,
+          "display": "C1"
+        },
+        {
+          "id": 912936,
+          "display": "C2"
+        },
+        {
+          "id": 878263,
+          "display": "C3"
+        },
+        {
+          "id": 912945,
+          "display": "C4"
+        },
+        {
+          "id": 912942,
+          "display": "C5"
+        },
+        {
+          "id": 912933,
+          "display": "C6"
+        },
+        {
+          "id": 912931,
+          "display": "C7"
+        },
+        {
+          "id": 912943,
+          "display": "C8"
+        },
+        {
+          "id": 912949,
+          "display": "C9"
+        },
+        {
+          "id": 912953,
+          "display": "C10"
+        },
+        {
+          "id": 912958,
+          "display": "C11"
+        }
+      ]
+    },
+    {
+      "id": 537075,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 912930,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 538211,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 155,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 914358,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

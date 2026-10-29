@@ -1,0 +1,73 @@
+{
+  "event_id": 410708,
+  "event_name": "Smash Ultimate - Torneo Individual",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 687136,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1118701,
+          "display": "1"
+        },
+        {
+          "id": 1138531,
+          "display": "2"
+        },
+        {
+          "id": 1138532,
+          "display": "3"
+        },
+        {
+          "id": 1138533,
+          "display": "4"
+        },
+        {
+          "id": 1138534,
+          "display": "5"
+        },
+        {
+          "id": 1138537,
+          "display": "6"
+        },
+        {
+          "id": 1138538,
+          "display": "7"
+        }
+      ]
+    },
+    {
+      "id": 701967,
+      "name": "Final Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1138536,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 701969,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1138540,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

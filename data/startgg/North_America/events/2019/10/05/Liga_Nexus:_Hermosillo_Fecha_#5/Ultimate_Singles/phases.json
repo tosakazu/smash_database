@@ -1,0 +1,53 @@
+{
+  "event_id": 402472,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 672120,
+      "name": "Swiss Pools",
+      "order": 1,
+      "bracket_type": "SWISS",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1098645,
+          "display": "1"
+        },
+        {
+          "id": 1100807,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 673914,
+      "name": "TOP8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1100808,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 673938,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1100846,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

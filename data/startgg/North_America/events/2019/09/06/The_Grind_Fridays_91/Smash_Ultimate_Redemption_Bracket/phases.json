@@ -1,0 +1,35 @@
+{
+  "event_id": 389923,
+  "event_name": "Smash Ultimate Redemption Bracket",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 650547,
+      "name": "Redemption",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1067029,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 650548,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1067030,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

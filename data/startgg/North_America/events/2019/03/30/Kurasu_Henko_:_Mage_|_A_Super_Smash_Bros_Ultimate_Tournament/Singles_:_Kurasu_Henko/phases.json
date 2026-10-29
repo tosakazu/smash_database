@@ -1,0 +1,77 @@
+{
+  "event_id": 316857,
+  "event_name": "Singles : Kurasu Henko",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 531537,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 92,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 941084,
+          "display": "A1"
+        },
+        {
+          "id": 941085,
+          "display": "A2"
+        },
+        {
+          "id": 941088,
+          "display": "A3"
+        },
+        {
+          "id": 941090,
+          "display": "A4"
+        },
+        {
+          "id": 903034,
+          "display": "B1"
+        },
+        {
+          "id": 941087,
+          "display": "B2"
+        },
+        {
+          "id": 941089,
+          "display": "B3"
+        },
+        {
+          "id": 941086,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 559561,
+      "name": "Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 941099,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 559564,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 941102,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

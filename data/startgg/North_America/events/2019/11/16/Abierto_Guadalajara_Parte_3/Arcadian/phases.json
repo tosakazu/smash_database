@@ -1,0 +1,79 @@
+{
+  "event_id": 405032,
+  "event_name": "Arcadian",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 676835,
+      "name": "Pools Amateurs",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 47,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1104638,
+          "display": "1"
+        },
+        {
+          "id": 1126710,
+          "display": "2"
+        },
+        {
+          "id": 1126711,
+          "display": "3"
+        },
+        {
+          "id": 1126712,
+          "display": "4"
+        },
+        {
+          "id": 1137225,
+          "display": "5"
+        },
+        {
+          "id": 1137226,
+          "display": "6"
+        },
+        {
+          "id": 1137227,
+          "display": "7"
+        },
+        {
+          "id": 1137228,
+          "display": "8"
+        },
+        {
+          "id": 1137793,
+          "display": "9"
+        },
+        {
+          "id": 1137794,
+          "display": "10"
+        },
+        {
+          "id": 1137808,
+          "display": "11"
+        },
+        {
+          "id": 1137809,
+          "display": "12"
+        }
+      ]
+    },
+    {
+      "id": 692802,
+      "name": "Top XX Amateur",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1126706,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

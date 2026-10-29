@@ -1,0 +1,63 @@
+{
+  "event_id": 399095,
+  "event_name": "Bracket de resurrección",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 666520,
+      "name": "Pools Amateurs",
+      "order": 2,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 33,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1090420,
+          "display": "1"
+        },
+        {
+          "id": 1108135,
+          "display": "2"
+        },
+        {
+          "id": 1108136,
+          "display": "3"
+        },
+        {
+          "id": 1108137,
+          "display": "4"
+        },
+        {
+          "id": 1108138,
+          "display": "5"
+        },
+        {
+          "id": 1108139,
+          "display": "6"
+        },
+        {
+          "id": 1108140,
+          "display": "7"
+        },
+        {
+          "id": 1108141,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 666519,
+      "name": "Top 16 Amateur",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1090419,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

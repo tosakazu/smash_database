@@ -1,0 +1,77 @@
+{
+  "event_id": 446235,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 749192,
+      "name": "Singles Round Robin",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 29,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1201862,
+          "display": "1"
+        },
+        {
+          "id": 1244284,
+          "display": "2"
+        },
+        {
+          "id": 1244285,
+          "display": "3"
+        },
+        {
+          "id": 1244286,
+          "display": "4"
+        },
+        {
+          "id": 1244287,
+          "display": "5"
+        },
+        {
+          "id": 1244288,
+          "display": "6"
+        },
+        {
+          "id": 1244289,
+          "display": "7"
+        },
+        {
+          "id": 1244290,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 749193,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1201863,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 773530,
+      "name": "Redemption bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 7,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1244384,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "event_id": 397133,
+  "event_name": "Ultimate Waterfall Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 662993,
+      "name": "Placement Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 46,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1085701,
+          "display": "1"
+        },
+        {
+          "id": 1085704,
+          "display": "2"
+        },
+        {
+          "id": 1085705,
+          "display": "3"
+        },
+        {
+          "id": 1085706,
+          "display": "4"
+        },
+        {
+          "id": 1085707,
+          "display": "5"
+        },
+        {
+          "id": 1085708,
+          "display": "6"
+        },
+        {
+          "id": 1085818,
+          "display": "7"
+        },
+        {
+          "id": 1085819,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 663040,
+      "name": "Beginner Divison",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 22,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1085759,
+          "display": "1"
+        },
+        {
+          "id": 1085760,
+          "display": "2"
+        },
+        {
+          "id": 1085761,
+          "display": "3"
+        }
+      ]
+    },
+    {
+      "id": 663039,
+      "name": "Intermediate Division",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 11,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1085758,
+          "display": "1"
+        },
+        {
+          "id": 1085762,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 663038,
+      "name": "Advanced Division",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 10,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1085757,
+          "display": "1"
+        },
+        {
+          "id": 1085830,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 663037,
+      "name": "Elite Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1085756,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

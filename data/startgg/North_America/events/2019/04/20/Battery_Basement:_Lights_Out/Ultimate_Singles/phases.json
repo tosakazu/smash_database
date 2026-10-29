@@ -1,0 +1,123 @@
+{
+  "event_id": 321335,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 538372,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 140,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 960740,
+          "display": "A1"
+        },
+        {
+          "id": 960739,
+          "display": "A2"
+        },
+        {
+          "id": 963498,
+          "display": "A3"
+        },
+        {
+          "id": 963500,
+          "display": "A4"
+        },
+        {
+          "id": 963501,
+          "display": "A5"
+        },
+        {
+          "id": 960743,
+          "display": "A6"
+        },
+        {
+          "id": 963499,
+          "display": "A7"
+        },
+        {
+          "id": 960741,
+          "display": "A8"
+        },
+        {
+          "id": 960733,
+          "display": "B1"
+        },
+        {
+          "id": 914574,
+          "display": "B2"
+        },
+        {
+          "id": 960735,
+          "display": "B3"
+        },
+        {
+          "id": 960734,
+          "display": "B4"
+        },
+        {
+          "id": 960736,
+          "display": "B5"
+        },
+        {
+          "id": 960737,
+          "display": "B6"
+        },
+        {
+          "id": 960738,
+          "display": "B7"
+        },
+        {
+          "id": 960742,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 538374,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 914576,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 538375,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 914577,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 538376,
+      "name": "Buster Bracket",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 76,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 914578,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

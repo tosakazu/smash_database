@@ -1,0 +1,137 @@
+{
+  "event_id": 353000,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 586688,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 174,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 977815,
+          "display": "A1"
+        },
+        {
+          "id": 1065334,
+          "display": "A2"
+        },
+        {
+          "id": 1065337,
+          "display": "A3"
+        },
+        {
+          "id": 1065368,
+          "display": "A4"
+        },
+        {
+          "id": 1065370,
+          "display": "A5"
+        },
+        {
+          "id": 1065339,
+          "display": "A6"
+        },
+        {
+          "id": 1065372,
+          "display": "A7"
+        },
+        {
+          "id": 1065336,
+          "display": "A8"
+        },
+        {
+          "id": 1065338,
+          "display": "B1"
+        },
+        {
+          "id": 1065369,
+          "display": "B2"
+        },
+        {
+          "id": 1065371,
+          "display": "B3"
+        },
+        {
+          "id": 1065374,
+          "display": "B4"
+        },
+        {
+          "id": 1065375,
+          "display": "B5"
+        },
+        {
+          "id": 1065333,
+          "display": "B6"
+        },
+        {
+          "id": 1065373,
+          "display": "B7"
+        },
+        {
+          "id": 1065335,
+          "display": "B8"
+        }
+      ]
+    },
+    {
+      "id": 649280,
+      "name": "Top 64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1065350,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 649281,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1065351,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 649919,
+      "name": "Amateur Ladder",
+      "order": 4,
+      "bracket_type": "MATCHMAKING",
+      "num_seeds": 43,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1066256,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 650021,
+      "name": "Ladder Top 4",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1066383,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "event_id": 438731,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 736237,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 84,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1184370,
+          "display": "A1"
+        },
+        {
+          "id": 1184372,
+          "display": "A2"
+        },
+        {
+          "id": 1184374,
+          "display": "A3"
+        },
+        {
+          "id": 1184371,
+          "display": "B1"
+        },
+        {
+          "id": 1184373,
+          "display": "B2"
+        },
+        {
+          "id": 1184375,
+          "display": "B3"
+        }
+      ]
+    },
+    {
+      "id": 736238,
+      "name": "Pro Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1184376,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 736239,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1184377,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 736240,
+      "name": "Intermediate Bracket",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1184378,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "event_id": 424805,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 712027,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 65,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1152295,
+          "display": "A1"
+        },
+        {
+          "id": 1187854,
+          "display": "A2"
+        },
+        {
+          "id": 1187855,
+          "display": "A3"
+        },
+        {
+          "id": 1187856,
+          "display": "A4"
+        },
+        {
+          "id": 1187857,
+          "display": "B1"
+        },
+        {
+          "id": 1187858,
+          "display": "B2"
+        },
+        {
+          "id": 1187859,
+          "display": "B3"
+        },
+        {
+          "id": 1187860,
+          "display": "B4"
+        },
+        {
+          "id": 1187870,
+          "display": "C1"
+        },
+        {
+          "id": 1187871,
+          "display": "C2"
+        },
+        {
+          "id": 1187872,
+          "display": "C3"
+        },
+        {
+          "id": 1187873,
+          "display": "C4"
+        },
+        {
+          "id": 1187874,
+          "display": "D1"
+        },
+        {
+          "id": 1187875,
+          "display": "D2"
+        },
+        {
+          "id": 1187876,
+          "display": "D3"
+        },
+        {
+          "id": 1187877,
+          "display": "D4"
+        }
+      ]
+    },
+    {
+      "id": 732927,
+      "name": "Top 32",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1179884,
+          "display": "T1"
+        }
+      ]
+    },
+    {
+      "id": 743569,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1194447,
+          "display": "AM1"
+        }
+      ]
+    }
+  ]
+}

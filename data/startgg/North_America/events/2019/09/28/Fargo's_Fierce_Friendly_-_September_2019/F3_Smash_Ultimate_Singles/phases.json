@@ -1,0 +1,53 @@
+{
+  "event_id": 390836,
+  "event_name": "F3 Smash Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 652299,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 36,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1069489,
+          "display": "1"
+        },
+        {
+          "id": 1069490,
+          "display": "2"
+        }
+      ]
+    },
+    {
+      "id": 652300,
+      "name": "Top4",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 4,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 1069491,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 669263,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 1094287,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

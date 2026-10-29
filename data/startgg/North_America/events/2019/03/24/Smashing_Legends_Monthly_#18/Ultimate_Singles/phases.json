@@ -1,0 +1,115 @@
+{
+  "event_id": 337990,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 561427,
+      "name": "Bracket",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 178,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 943694,
+          "display": "A1"
+        },
+        {
+          "id": 943695,
+          "display": "A2"
+        },
+        {
+          "id": 943696,
+          "display": "A3"
+        },
+        {
+          "id": 943697,
+          "display": "A4"
+        }
+      ]
+    },
+    {
+      "id": 561431,
+      "name": "Amateurs",
+      "order": 6,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 154,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 943701,
+          "display": "B1"
+        },
+        {
+          "id": 943702,
+          "display": "B2"
+        },
+        {
+          "id": 943703,
+          "display": "B3"
+        },
+        {
+          "id": 943704,
+          "display": "B4"
+        }
+      ]
+    },
+    {
+      "id": 562194,
+      "name": "Amateurs top 32",
+      "order": 7,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 19,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 944909,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 561430,
+      "name": "Amateurs top 8",
+      "order": 5,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 0,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 943700,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 561428,
+      "name": "Top 24",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 943698,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 561429,
+      "name": "Top 8",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 943699,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

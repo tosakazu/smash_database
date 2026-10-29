@@ -1,0 +1,61 @@
+{
+  "event_id": 265387,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 462226,
+      "name": "Ultimate Singles - RR",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 22,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 819308,
+          "display": "1"
+        },
+        {
+          "id": 819378,
+          "display": "2"
+        },
+        {
+          "id": 819379,
+          "display": "3"
+        },
+        {
+          "id": 819380,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 462285,
+      "name": "Top 8 - Bo5",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 819377,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 491006,
+      "name": "Ultimate Singles - Amateur Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 14,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 853690,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

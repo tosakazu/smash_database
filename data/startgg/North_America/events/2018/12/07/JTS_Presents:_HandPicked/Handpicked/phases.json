@@ -1,0 +1,53 @@
+{
+  "event_id": 189185,
+  "event_name": "Handpicked",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 362893,
+      "name": "Pools",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 12,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 702022,
+          "display": "A1"
+        },
+        {
+          "id": 725487,
+          "display": "A2"
+        }
+      ]
+    },
+    {
+      "id": 382929,
+      "name": "Top 8",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 725502,
+          "display": "B1"
+        }
+      ]
+    },
+    {
+      "id": 461263,
+      "name": "Hand Picked Redemption",
+      "order": 3,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 4,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 818020,
+          "display": "B1"
+        }
+      ]
+    }
+  ]
+}

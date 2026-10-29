@@ -1,0 +1,61 @@
+{
+  "event_id": 353249,
+  "event_name": "Torneo Individual",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 587140,
+      "name": "Fase de Grupos",
+      "order": 1,
+      "bracket_type": "ROUND_ROBIN",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 978355,
+          "display": "1"
+        },
+        {
+          "id": 978356,
+          "display": "2"
+        },
+        {
+          "id": 978357,
+          "display": "3"
+        },
+        {
+          "id": 978358,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 587141,
+      "name": "Pro Bracket",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 978359,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 587142,
+      "name": "Amateur Bracket",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 978360,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}

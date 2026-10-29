@@ -1,0 +1,77 @@
+{
+  "event_id": 309694,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 521577,
+      "name": "Pools",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 79,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 890491,
+          "display": "1"
+        },
+        {
+          "id": 890492,
+          "display": "2"
+        },
+        {
+          "id": 890493,
+          "display": "3"
+        },
+        {
+          "id": 890494,
+          "display": "4"
+        },
+        {
+          "id": 890495,
+          "display": "5"
+        },
+        {
+          "id": 890496,
+          "display": "6"
+        },
+        {
+          "id": 890497,
+          "display": "7"
+        },
+        {
+          "id": 890498,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 521578,
+      "name": "Top 24",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 890499,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 521579,
+      "name": "Redemption",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 890500,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
