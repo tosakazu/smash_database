@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793307862,
+  "generated_at": 1793318660,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 60,
+  "count": 61,
   "tournaments": [
     {
       "tournament_id": 961227,
@@ -17,7 +17,7 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 19,
+      "num_attendees": 22,
       "url": "/tournament/30-585",
       "events": [
         {
@@ -40,14 +40,14 @@
       "city": "厚木市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/6-113",
       "events": [
         {
           "event_id": 1728755,
           "event_slug": "tournament/6-113/event/1on1",
           "event_name": "1on1メイントーナメント",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1793349000
         }
@@ -109,14 +109,14 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 15,
       "url": "/tournament/smash-161-1",
       "events": [
         {
           "event_id": 1740604,
           "event_slug": "tournament/smash-161-1/event/1on1",
           "event_name": "1on1トーナメント",
-          "num_entrants": 14,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1793356200
         }
@@ -155,14 +155,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 13,
+      "num_attendees": 14,
       "url": "/tournament/354-act",
       "events": [
         {
           "event_id": 1742997,
           "event_slug": "tournament/354-act/event/ultimate-singles",
           "event_name": "Ultimate singles",
-          "num_entrants": 13,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1793356800
         }
@@ -178,7 +178,7 @@
       "city": "豊島区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 88,
+      "num_attendees": 89,
       "url": "/tournament/smash-next-1",
       "events": [
         {
@@ -247,7 +247,7 @@
       "city": "札幌市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 71,
+      "num_attendees": 72,
       "url": "/tournament/16-kyokkan-16",
       "events": [
         {
@@ -661,14 +661,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/dsw-76",
       "events": [
         {
           "event_id": 1744878,
           "event_slug": "tournament/dsw-76/event/singletournament",
           "event_name": "SingleTournament",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1793790000
         }
@@ -1384,6 +1384,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1794999600
+        }
+      ]
+    },
+    {
+      "tournament_id": 964611,
+      "tournament_slug": "tournament/hit-210_-maesuma-hit-210_osaka",
+      "tournament_name": "マエスマ'HIT#210_大阪 / Maesuma'HIT#210_Osaka",
+      "start_at": 1795082400,
+      "end_at": 1795096800,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/hit-210_-maesuma-hit-210_osaka",
+      "events": [
+        {
+          "event_id": 1734201,
+          "event_slug": "tournament/hit-210_-maesuma-hit-210_osaka/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795082400
         }
       ]
     }
