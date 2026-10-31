@@ -1,0 +1,89 @@
+{
+  "event_id": 1719056,
+  "event_name": "龍王杯",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2409812,
+      "name": "予選(BO3)",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 80,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3472768,
+          "display": "1"
+        },
+        {
+          "id": 3477802,
+          "display": "2"
+        },
+        {
+          "id": 3477803,
+          "display": "3"
+        },
+        {
+          "id": 3477804,
+          "display": "4"
+        }
+      ]
+    },
+    {
+      "id": 2414017,
+      "name": "TOP24(BO3)",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3477816,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2414024,
+      "name": "TOP8(BO5)",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3477826,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2414025,
+      "name": "Bクラス(BO3)",
+      "order": 4,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 24,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3477827,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2414026,
+      "name": "Cクラス(BO3)",
+      "order": 5,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3477828,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
