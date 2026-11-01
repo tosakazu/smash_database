@@ -120,6 +120,12 @@ class NameFlagTests(unittest.TestCase):
         self.assertTrue(classify.name_flags("渋谷BeeSmash #12", "シングルス")["force_weekday"])
         # BIG 回と上野開催は通常の週末大会として扱う
         self.assertFalse(classify.name_flags("渋谷BeeSmash BIG #3", "シングルス")["force_weekday"])
+        # 渋谷"達" は表記ゆれも含めて平日扱い、優勝者杯だけ通常 (2026-11-01 ユーザー指定)
+        for name in ('渋谷"達" #142 shibuya -tatsu-', "渋谷”達” #92 shibuya -tatsu-", '渋谷 "達"#11 shibuya-tatsu-',
+                     "渋谷-達 #3", '渋谷 "達"#40【for Cafeteria Cup】'):
+            self.assertTrue(classify.name_flags(name, "Singles")["force_weekday"], name)
+        self.assertFalse(classify.name_flags('渋谷"達" 優勝者杯#1', "Singles")["force_weekday"])
+        self.assertFalse(classify.name_flags("渋谷大乱 #5", "Singles")["force_weekday"])
 
 
 class CalendarTests(unittest.TestCase):

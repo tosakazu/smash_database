@@ -20,7 +20,7 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 15  # 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
+CLASSIFIER_VERSION = 16  # 16: 渋谷"達" を実質平日に (休日開催も平日大会扱い、優勝者杯は除く、2026-11-01 ユーザー指定)   # 15: 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
 # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
                          # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
@@ -116,6 +116,9 @@ FORCE_WEEKDAY_PATTERN = re.compile(r'大菊月')
 # 渋谷BeeSmash (weekly): 表記ゆれが多いので beesmash を大文字小文字無視でマッチし、BIG (月次の大型回) と上野/Ueno 開催回を除外
 BEESMASH_PATTERN = re.compile(r'beesmash', re.IGNORECASE)
 BEESMASH_EXCLUDE_PATTERN = re.compile(r'BIG|上野|Ueno', re.IGNORECASE)
+# 渋谷"達" (毎週火曜): 祝日の火曜も平日大会扱い。表記ゆれ (渋谷"達" / 渋谷”達” / 渋谷 "達" / 渋谷-達 / shibuya -tatsu-)。優勝者杯は除く (2026-11-01 ユーザー指定)
+SHIBUYA_TATSU_PATTERN = re.compile(r'渋谷\s*["”“\x27\-]?\s*達|shibuya\s*-?\s*tatsu', re.IGNORECASE)
+SHIBUYA_TATSU_EXCLUDE_PATTERN = re.compile(r'優勝者杯')
 # 上野スマコミ: 参加者数がこの値未満の回だけ平日扱い (判定は nent を持つ spsp 側)
 SMACOMI_FORCE_WEEKDAY_MAX_NENT = 40
 # 上野スマコミの平日扱いはこの日より前に始まった回だけ。この日以降の休日開催は通常の休日大会 (2026-10-25 ユーザー指定)
@@ -125,12 +128,14 @@ FORCE_WEEKEND_MIN_NENT = 80
 
 
 def is_force_weekday_name(tname: str, ename: str) -> bool:
-    """名前だけで決まる実質平日ルール: 大菊月 / 渋谷BeeSmash (BIG・上野開催を除く)。
+    """名前だけで決まる実質平日ルール: 大菊月 / 渋谷BeeSmash (BIG・上野開催を除く) / 渋谷"達" (優勝者杯を除く)。
     上野スマコミ (nent < 40 の回) は is_smacomi_name と nent で spsp 側が決める。"""
     hay = f"{tname or ''} {ename or ''}"
     if FORCE_WEEKDAY_PATTERN.search(hay):
         return True
     if BEESMASH_PATTERN.search(hay) and not BEESMASH_EXCLUDE_PATTERN.search(hay):
+        return True
+    if SHIBUYA_TATSU_PATTERN.search(hay) and not SHIBUYA_TATSU_EXCLUDE_PATTERN.search(hay):
         return True
     return False
 
