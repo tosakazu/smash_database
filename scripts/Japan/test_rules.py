@@ -72,7 +72,7 @@ class NameFlagTests(unittest.TestCase):
         self.assertTrue(classify.name_flags("Victoire #2〈制限大会〉", "singles tournament")["restricted_tname"])
         self.assertTrue(classify.name_flags("【Bクラス】Victoire #2〈制限大会〉", "singles tournament")["restricted_tname"])
         self.assertFalse(classify.name_flags("上野スマコミ#02（無制限大会）", "シングルス")["restricted_tname"])
-        self.assertFalse(classify.name_flags("Victoire #1", "singles tournament")["restricted_tname"])
+        self.assertTrue(classify.name_flags("Victoire #1", "singles tournament")["restricted_tname"])   # シリーズごと制限 (v18)
 
     def test_name_class_letter(self):
         self.assertEqual(classify.name_class_letter("【Bクラス】Victoire #2〈制限大会〉"), "B")
