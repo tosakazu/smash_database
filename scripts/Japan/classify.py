@@ -20,7 +20,7 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 16  # 16: 渋谷"達" を実質平日に (休日開催も平日大会扱い、優勝者杯は除く、2026-11-01 ユーザー指定)   # 15: 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
+CLASSIFIER_VERSION = 17  # 17: 名前に「制限大会」(無制限を除く) を制限大会に・名前にクラスの字がある単独の下位クラス大会に class_letter (Victoire #2、2026-11-02 ユーザー指定)   # 16: 渋谷"達" を実質平日に (休日開催も平日大会扱い、優勝者杯は除く、2026-11-01 ユーザー指定)   # 15: 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
 # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
                          # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
@@ -205,7 +205,8 @@ RESTRICTED_PATTERN = re.compile(
     r'|くすブラ\s*若葉'
     r'|DIVE\s*Under\s*Ground'
     r'|INNOSUMA[!！\s]*RAISE'
-    r'|(?:スマバト|SUMABATO)\s*NEXUS',                # スマバトNEXUS (制限あり、2026-10-12 ユーザー指定)
+    r'|(?:スマバト|SUMABATO)\s*NEXUS'                 # スマバトNEXUS (制限あり、2026-10-12 ユーザー指定)
+    r'|(?<!無)制限大会',                              # 名前に「〈制限大会〉」等 (無制限大会は除く。例: Victoire #2、2026-11-02 ユーザー指定)
     re.IGNORECASE,
 )
 # 下位クラスイベント (Bクラス / Cクラス / Bclass / B_Class / b_class 等)。セパレータは空白/アンダースコア/ハイフン
@@ -434,4 +435,18 @@ def classify_event(base: dict, ctx) -> dict:
         "place": {"geo": place_prefecture(ctx.attr.get("place"))},   # 会場の都道府県 (geo.json の unit id)
         "naming": naming_labels(ctx.tname, ctx.ename),
     })
+    # 単独の下位クラス大会 (例: 「【Bクラス】Victoire #2」) も名前にクラスの字があればそれを持つ (表示で「Bクラス」と出す)。
+    # 本戦から切り出した仮想大会 (class_phases/<字>_virtual) は derive.py がディレクトリ名から入れている
+    if not out.get("is_class_virtual") and names.get("lower_class") and not out.get("class_letter"):
+        out["class_letter"] = name_class_letter(ctx.tname) or name_class_letter(ctx.ename)
     return out
+
+
+# 大会名・イベント名のクラスの字。英字の「class」は前に英字が続かないもの (LOWER_CLASS_PATTERN と同じ)
+_NAME_CLASS_LETTER = re.compile(r'([BCDE])\s*クラス|(?<![A-Za-z])([BCDE])[\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
+
+
+def name_class_letter(name: str | None) -> str | None:
+    """大会名・イベント名 → クラスの字 (B/C/D/E)。全角も受ける。無ければ None。"""
+    m = _NAME_CLASS_LETTER.search((name or '').translate(_CLASS_FULLWIDTH))
+    return (m.group(1) or m.group(2)).upper() if m else None

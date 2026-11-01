@@ -67,6 +67,22 @@ class NameFlagTests(unittest.TestCase):
             with self.subTest(tname=tname):
                 self.assertTrue(classify.name_flags(tname, "シングルス")["restricted_tname"])
 
+    def test_restricted_by_name_but_not_unrestricted(self):
+        # 「〈制限大会〉」が名前にある大会は制限大会。「無制限大会」は違う (2026-11-02)
+        self.assertTrue(classify.name_flags("Victoire #2〈制限大会〉", "singles tournament")["restricted_tname"])
+        self.assertTrue(classify.name_flags("【Bクラス】Victoire #2〈制限大会〉", "singles tournament")["restricted_tname"])
+        self.assertFalse(classify.name_flags("上野スマコミ#02（無制限大会）", "シングルス")["restricted_tname"])
+        self.assertFalse(classify.name_flags("Victoire #1", "singles tournament")["restricted_tname"])
+
+    def test_name_class_letter(self):
+        self.assertEqual(classify.name_class_letter("【Bクラス】Victoire #2〈制限大会〉"), "B")
+        self.assertEqual(classify.name_class_letter("C class トーナメント マエスマ'TOP#1"), "C")
+        self.assertEqual(classify.name_class_letter("Keiou shura Bclass"), "B")
+        self.assertEqual(classify.name_class_letter("b class"), "B")
+        self.assertEqual(classify.name_class_letter("Ｄクラス"), "D")
+        self.assertIsNone(classify.name_class_letter("Web class"))
+        self.assertIsNone(classify.name_class_letter("Victoire #2"))
+
     def test_sumabato_nexus_is_restricted_but_sumabato_is_not(self):
         self.assertTrue(classify.name_flags("スマバトNEXUS１/SUMABATO NEXUS 1", "1on1")["restricted_tname"])
         self.assertFalse(classify.name_flags("スマバトSP68", "シングルス")["restricted_tname"])
