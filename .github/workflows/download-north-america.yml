@@ -1,7 +1,15 @@
 # 北米の大会データの取得 (start.gg → incoming/North_America ブランチ → data-North_America への PR)。2026-10-19 作成。
-# data-North_America は北米担当者だけが push するブランチ (docs/region_operator.md) なので、ここでは直接 push しない。
-# 取得したものを incoming/North_America に置き、data-North_America への PR は人が開いて担当者が取り込む
-# (このリポジトリでは Actions に PR を作らせない設定のまま)。
+# data-North_America には北米担当者が自分のサーバから毎日取得して push している (docs/region_operator.md)。
+# 手動の push=true は取得したものを incoming/North_America に置く (data-North_America への PR は人が開く)。
+#
+# 予備の定期取得 (push_data=true、2026-11-02 所有者の指示): 担当者の更新が止まっても新しい大会が入るように、
+# dispatch Worker (spsp-build deploy/ci/dispatch-worker) が毎日起動する。担当者の更新と食い違わないように:
+#   - 担当者 (github-actions 以外) が idle_hours 時間以内に大会データ (events/) を入れていたら、何もせずに終わる
+#     (担当者が動いている間は data-North_America に一切書かない)。
+#   - 取得中に data-North_America が先に進んでいたら (担当者が再開した等) push しない。force もしない。
+#     done.csv に載らなかった大会は次の回 (または担当者) が取り直すので、捨てても抜けは出ない。
+#   - push するのは data-North_America の取得時点の先頭に 1 コミット足したものだけ (fast-forward)。
+#     担当者は今までどおり pull/merge してから push すればよい。
 # 手順は scripts/common/run_region.sh の 1〜5 と同じ (国ごとの download → upcoming → class → derive → validate)。
 # 違い: 取得に時間の上限 (dl_minutes) があり、超えても取れた分で続ける (done.csv に載らなかった大会は次回また取る)。
 #
@@ -30,6 +38,14 @@ on:
         description: incoming/North_America に commit して push する (data-North_America には触らない)
         type: boolean
         default: false
+      push_data:
+        description: 予備の定期取得。担当者の更新が idle_hours 時間無いときだけ取得して data-North_America に直接 push する
+        type: boolean
+        default: false
+      idle_hours:
+        description: push_data のとき、担当者の大会データの更新がこの時間以上無ければ取得する
+        type: string
+        default: '48'
 
 permissions:
   contents: read
@@ -39,14 +55,44 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  download:
-    # main 以外からは走らせない (Environment 側の制限と二重にしておく)
+  # push_data のときだけ、担当者が最近 events/ を更新したかを見る (鍵も Environment も使わない。GITHUB_TOKEN の読み取りだけ)
+  check:
     if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.idle.outputs.run }}
+    steps:
+      - name: 担当者の最近の更新
+        id: idle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUSH_DATA: ${{ inputs.push_data }}
+          IDLE_HOURS: ${{ inputs.idle_hours }}
+        run: |
+          if [ "$PUSH_DATA" != "true" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          [[ "$IDLE_HOURS" =~ ^[0-9]+$ ]] || { echo "::error::idle_hours は数字"; exit 1; }
+          since=$(date -u -d "-${IDLE_HOURS} hours" +%FT%TZ)
+          # data-North_America の events/ に触れたコミットのうち、github-actions[bot] 以外が作ったもの
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/commits?sha=data-North_America&path=data/startgg/North_America/events&since=${since}&per_page=50" \
+                --jq '[.[] | select(.commit.author.name != "github-actions[bot]")] | length')
+          if [ "$n" -gt 0 ]; then
+            echo "担当者の更新が ${IDLE_HOURS} 時間以内に ${n} 件ある → 今回は取得しない"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "担当者の更新が ${IDLE_HOURS} 時間無い → 取得して data-North_America に入れる"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  download:
+    needs: check
+    # main 以外からは走らせない (Environment 側の制限と二重にしておく)
+    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main' && needs.check.outputs.run == 'true'
     runs-on: ubuntu-24.04
     environment: na-data
     timeout-minutes: 355
     permissions:
-      contents: write   # incoming/North_America への push だけに使う
+      contents: write   # incoming/North_America と (push_data のとき) data-North_America への push だけに使う
     env:
       TZ: America/New_York
       REGION: North_America
@@ -138,3 +184,27 @@ jobs:
           git -c http.extraheader="AUTHORIZATION: basic $auth" push -q --force \
             "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/incoming/North_America
           echo "pushed: https://github.com/${GITHUB_REPOSITORY}/compare/data-North_America...incoming/North_America"
+
+      - name: data-North_America に commit して push (予備の定期取得)
+        if: inputs.push_data && !inputs.push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- "$DATA_DIR"
+          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+          # 取得の間に data-North_America が進んでいたら (担当者の push など) 入れない。次の回か担当者が取り直す
+          now=$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/data-North_America | cut -f1)
+          if [ "$now" != "$HEAD0" ]; then
+            echo "::warning::取得中に data-North_America が進んだ (${HEAD0:0:10} → ${now:0:10})。今回の分は入れない"; exit 0
+          fi
+          git commit -q -m "data: North America $(date +%F) (GitHub Actions 予備の定期取得、${HEAD0:0:10} から)"
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          # force はしない (直前に先頭が進んでいたら断られる → 入れずに終わる)
+          if git -c http.extraheader="AUTHORIZATION: basic $auth" push -q \
+               "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/data-North_America; then
+            echo "pushed $(git rev-parse --short HEAD) to data-North_America"
+          else
+            echo "::warning::push を断られた (data-North_America が先に進んだ)。今回の分は入れない"
+          fi
