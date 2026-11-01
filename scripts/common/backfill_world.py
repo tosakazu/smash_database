@@ -35,6 +35,25 @@ ROOT = Path(__file__).resolve().parents[2]          # the main checkout these sc
 sys.path.insert(0, str(ROOT))
 from scripts.common.utils import OTHER_REGION_COUNTRIES  # noqa: E402
 
+DATA_BRANCH_GITIGNORE = """# data-<Region> = main (scripts / docs / README) + that region's data under data/startgg/.
+# Merge main to update the scripts. Only generated and temporary files under data/startgg/ are ignored here.
+download.out
+*/__pycache__/
+__pycache__/
+*.py[cod]
+*.bak
+*.dupbak
+affected_tournament_ids.txt
+data_integrity_report.jsonl
+failed_events.log
+data_audits/
+logs/
+data/startgg/*.bak*
+data/startgg/*/*.bak*
+data/startgg/.refresh_*
+data/startgg/*/users_ranked.jsonl
+data/startgg/*/*checkpoint*
+"""
 FIRST_MONTH = dt.date(2018, 12, 1)
 MAX_FAILURES = 3
 FORBIDDEN = {"Japan", "North_America"}
@@ -101,6 +120,11 @@ def prepare_branch(workdir: Path, region: str, main_sha: str) -> Path:
         run(["git", "checkout", "-q", "-b", branch], cwd=repo)
     run(["git", "config", "user.name", "github-actions[bot]"], cwd=repo)
     run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=repo)
+    if not exists:
+        # main ignores data/ entirely; a region branch tracks data/startgg/<Region>/ (same .gitignore as data-North_America)
+        (repo / ".gitignore").write_text(DATA_BRANCH_GITIGNORE, encoding="utf-8")
+        run(["git", "add", ".gitignore"], cwd=repo)
+        run(["git", "commit", "-q", "-m", f"{branch}: region data branch (main + data/startgg/{dir_name(region)}/)"], cwd=repo)
     return repo
 
 
