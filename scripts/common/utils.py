@@ -6,10 +6,37 @@ import random
 import requests
 
 # Convert a country code to a region
+# Regions other than Japan / North America (2026-11-02): one data branch each (data-<Region>), filled by the
+# backfill-world workflow. Europe follows UN M49 (plus CY); Turkey, the Caucasus and Iran are in Middle East Africa.
+# A code in none of the lists is "Other" (download.py then refuses nothing, but run_region.sh does).
+OTHER_REGION_COUNTRIES = {
+    "Europe": [
+        "AL", "AD", "AT", "BY", "BE", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FO", "FI", "FR", "DE", "GI", "GR",
+        "GG", "HU", "IS", "IE", "IM", "IT", "JE", "XK", "LV", "LI", "LT", "LU", "MT", "MD", "MC", "ME", "NL", "MK",
+        "NO", "PL", "PT", "RO", "RU", "SM", "RS", "SK", "SI", "ES", "SJ", "SE", "CH", "UA", "GB", "VA", "AX",
+    ],
+    "Korea": ["KR", "KP"],
+    "East Asia": ["CN", "HK", "MO", "TW", "MN"],
+    "Other Asia": [
+        "SG", "TH", "MY", "PH", "VN", "ID", "BN", "KH", "LA", "MM", "TL",              # South-eastern Asia
+        "IN", "PK", "BD", "LK", "NP", "BT", "MV", "AF",                                # Southern Asia (without IR)
+        "KZ", "UZ", "TM", "KG", "TJ",                                                  # Central Asia
+    ],
+    "Middle East Africa": [
+        "AE", "SA", "QA", "KW", "BH", "OM", "YE", "IQ", "IR", "IL", "PS", "JO", "LB", "SY", "TR", "GE", "AM", "AZ",
+        "DZ", "EG", "LY", "MA", "SD", "TN", "EH", "BJ", "BF", "CV", "CI", "GM", "GH", "GN", "GW", "LR", "ML", "MR",
+        "NE", "NG", "SH", "SN", "SL", "TG", "BI", "KM", "DJ", "ER", "ET", "KE", "MG", "MW", "MU", "YT", "MZ", "RE",
+        "RW", "SC", "SO", "SS", "UG", "TZ", "ZM", "ZW", "AO", "CM", "CF", "TD", "CG", "CD", "GQ", "GA", "ST", "BW",
+        "SZ", "LS", "NA", "ZA",
+    ],
+    "Oceania": ["AU", "NZ", "FJ", "PG", "SB", "VU", "NC", "PF", "WS", "TO", "KI", "TV", "NR", "PW", "FM", "MH", "CK",
+                "NU", "AS", "MP"],
+    "South America": ["AR", "BO", "BR", "CL", "CO", "EC", "GY", "PY", "PE", "SR", "UY", "VE", "GF", "FK", "GS"],
+}
+
+
 def country_code2region(country_code):
     japan = ["JP"]
-    other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
-    europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
     # The whole North American continent as the UN M49 geoscheme defines it (Northern America +
     # Central America + Caribbean), plus GU, which the region carried before this list existed.
     # Kept in step with COUNTRY_CODES in scripts/North_America/country.py, which is the region's
@@ -26,14 +53,12 @@ def country_code2region(country_code):
 
     if country_code in japan:
         return "Japan"
-    elif country_code in other_asia:
-        return "Other Asia"
-    elif country_code in europe:
-        return "Europe"
     elif country_code in north_america:
         return "North America"
-    else:
-        return "Other"
+    for region, codes in OTHER_REGION_COUNTRIES.items():
+        if country_code in codes:
+            return region
+    return "Other"
 
 
 def get_date_parts(date):
@@ -227,7 +252,9 @@ __headers = {}
 # under every API call regardless of call site, so we stay under the limit
 # proactively instead of paying for it reactively in 429 backoffs.
 # 0.8s -> max 75 req/min, leaving headroom below the documented 80.
-__min_request_interval = 0.8
+# STARTGG_MIN_REQUEST_INTERVAL slows one process down further, for a job that shares its token with another
+# (backfill-world borrowing the North America token, 2026-11-02).
+__min_request_interval = max(0.8, float(os.environ.get("STARTGG_MIN_REQUEST_INTERVAL") or 0.8))
 __last_request_at = 0.0
 
 def set_page_delay(delay):
