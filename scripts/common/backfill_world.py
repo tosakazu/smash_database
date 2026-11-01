@@ -57,6 +57,7 @@ data/startgg/*/*checkpoint*
 """
 FIRST_MONTH = dt.date(2018, 12, 1)
 MAX_FAILURES = 3
+PUSH_EVERY = 15 * 60
 FORBIDDEN = {"Japan", "North_America"}
 DEFAULT_ORDER = ["Europe", "Korea", "East Asia", "Other Asia", "Oceania", "South America", "Middle East Africa"]
 
@@ -199,6 +200,7 @@ def main() -> int:
 
     remaining = 0
     out_of_time = False
+    last_push = [time.time()]
     for region in regions:
         ddir = f"data/startgg/{dir_name(region)}"
         repo = None
@@ -242,10 +244,16 @@ def main() -> int:
                     prog["gave_up"] = sorted(set(prog["gave_up"]) | {key})
                 got.add(cc)
                 prog["partial"][ym] = sorted(got)
+                # a month of Europe takes hours: save every PUSH_EVERY seconds too, so a stop loses little
+                if time.time() - last_push[0] > PUSH_EVERY:
+                    save_progress(repo / ddir / "backfill_progress.json", prog)
+                    commit_push(repo, region, f"data: {region} {ym} backfill, partial ({len(got)}/{len(OTHER_REGION_COUNTRIES[region])} countries, GitHub Actions)")
+                    last_push[0] = time.time()
             if set(OTHER_REGION_COUNTRIES[region]) <= got:
                 prog["done_months"].append(ym)
                 prog["partial"].pop(ym, None)
             save_progress(repo / ddir / "backfill_progress.json", prog)
+            last_push[0] = time.time()
             commit_push(repo, region, f"data: {region} {ym} backfill ({len(got)}/{len(OTHER_REGION_COUNTRIES[region])} countries, GitHub Actions)")
         if prog is not None:
             remaining += len([m for m in all_months if m not in prog["done_months"]])
