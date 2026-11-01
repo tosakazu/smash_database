@@ -162,7 +162,10 @@ def commit_push(repo: Path, region: str, msg: str) -> None:
     ddir = f"data/startgg/{dir_name(region)}"
     run(["git", "add", "-A", "--", ddir], cwd=repo)
     # nothing outside this region's directory may change (Japan / North America / scripts are never written)
-    other = [p for p in git_out(repo, "diff", "--cached", "--name-only").splitlines() if not p.startswith(ddir + "/")]
+    # -z: without it git quotes non-ASCII paths ("data/startgg/East_Asia/events/.../\\351...") and they look like outside paths
+    staged = subprocess.run(["git", "diff", "--cached", "--name-only", "-z"], cwd=repo, check=True,
+                            stdout=subprocess.PIPE).stdout.decode("utf-8", "surrogateescape").split("\0")
+    other = [p for p in staged if p and not p.startswith(ddir + "/")]
     if other:
         raise SystemExit(f"refusing to commit paths outside {ddir}: {other[:5]}")
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=repo).returncode == 0:
