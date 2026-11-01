@@ -26,6 +26,7 @@ import base64
 import datetime as dt
 import json
 import os
+import signal
 import subprocess
 import sys
 import time
@@ -88,6 +89,21 @@ def month_window(ym: str) -> tuple[str, str]:
 
 def run(cmd, cwd, env=None, timeout=None, check=True):
     return subprocess.run(cmd, cwd=cwd, env=env, timeout=timeout, check=check)
+
+
+def run_until(cmd, cwd, env, seconds) -> int | None:
+    """Run; at the deadline stop it with SIGINT like `timeout --signal=INT` (download.py finishes the file it is
+    writing), SIGKILL only if it is still there 120 s later. None = stopped at the deadline."""
+    p = subprocess.Popen(cmd, cwd=cwd, env=env)
+    try:
+        return p.wait(timeout=seconds)
+    except subprocess.TimeoutExpired:
+        p.send_signal(signal.SIGINT)
+        try:
+            p.wait(timeout=120)
+        except subprocess.TimeoutExpired:
+            p.kill(); p.wait()
+        return None
 
 
 def git_out(cwd, *args) -> str:
@@ -207,11 +223,9 @@ def main() -> int:
                     out_of_time = True
                     break
                 print(f"── {region} {ym} {cc} (残り {int(left // 60)} 分)", flush=True)
-                try:
-                    rc = subprocess.run([sys.executable, "-u", download, "--country-code", cc,
-                                         "--start-date", start, "--finish-date", finish],
-                                        cwd=repo, env=env, timeout=left).returncode
-                except subprocess.TimeoutExpired:
+                rc = run_until([sys.executable, "-u", download, "--country-code", cc,
+                                "--start-date", start, "--finish-date", finish], repo, env, left)
+                if rc is None:   # stopped at the time limit (what was saved stays; done.csv skips it next run)
                     out_of_time = True
                     break
                 if rc != 0:
