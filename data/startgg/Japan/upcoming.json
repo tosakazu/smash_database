@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793556258,
+  "generated_at": 1793567065,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 51,
+  "count": 52,
   "tournaments": [
     {
       "tournament_id": 966302,
@@ -247,7 +247,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 76,
+      "num_attendees": 77,
       "url": "/tournament/weekly-smash-party-250",
       "events": [
         {
@@ -630,7 +630,7 @@
           "event_id": 1741074,
           "event_slug": "tournament/w-zone-smash-2026/event/1on1-tournament",
           "event_name": "1on1 Tournament",
-          "num_entrants": 73,
+          "num_entrants": 74,
           "type": 1,
           "start_at": 1794099600
         }
@@ -899,14 +899,14 @@
       "city": "町田市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 107,
+      "num_attendees": 109,
       "url": "/tournament/impact-major-7",
       "events": [
         {
           "event_id": 1744754,
           "event_slug": "tournament/impact-major-7/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 107,
+          "num_entrants": 109,
           "type": 1,
           "start_at": 1794614400
         }
@@ -1185,6 +1185,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1795082400
+        }
+      ]
+    },
+    {
+      "tournament_id": 954215,
+      "tournament_slug": "tournament/16-kagaribi-16",
+      "tournament_name": "篝火#16/KAGARIBI#16",
+      "start_at": 1795219200,
+      "end_at": 1795348800,
+      "is_online": false,
+      "city": "所沢市",
+      "venue_name": "Pio, Tokyo",
+      "country_code": "JP",
+      "num_attendees": 1536,
+      "url": "/tournament/16-kagaribi-16",
+      "events": [
+        {
+          "event_id": 1711972,
+          "event_slug": "tournament/16-kagaribi-16/event/singles",
+          "event_name": "シングルス / Singles",
+          "num_entrants": 1536,
+          "type": 1,
+          "start_at": 1795219200
         }
       ]
     }
