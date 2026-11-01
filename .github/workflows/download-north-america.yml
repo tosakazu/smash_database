@@ -129,6 +129,11 @@ jobs:
           fi
           printf '{"source_branch": "%s", "source_sha": "%s"}\n' "$SRC_BRANCH" "$SRC" > auto_sync.json
 
+      # checkout したファイルの更新時刻は全部同じなので、derive の「入力が derived.json より新しい」判定がばらつく。
+      # 先に derived.json を新しくしておき、この回で取った (または取り込んだ) 大会だけを判定し直す
+      - name: derived.json の時刻をそろえる
+        run: find "$DATA_DIR/events" -name derived.json -print0 | xargs -0 -r touch
+
       - name: 取得前の件数
         run: |
           echo "EV0=$(find "$DATA_DIR/events" -name attr.json | wc -l)" >> "$GITHUB_ENV"
@@ -180,6 +185,8 @@ jobs:
       - name: 判定 (derived.json) と整合性チェック
         run: |
           python -u scripts/common/derive.py --region "$REGION"
+          # 整合性チェック (全大会を読むので数分) は通常の回だけ
+          [ "${{ inputs.quick }}" = "true" ] && exit 0
           python -u scripts/common/fix/validate_data.py --region "$REGION" --baseline "$DATA_DIR/validation_baseline.json" \
             || echo "::warning::validate_data が種別ごとの増加を検出"
 
