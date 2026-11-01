@@ -1,0 +1,63 @@
+{
+  "event_id": 1725767,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2418486,
+      "name": "Swiss Rounds",
+      "order": 1,
+      "bracket_type": "CUSTOM_SCHEDULE",
+      "num_seeds": 42,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3483641,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2418487,
+      "name": "Top 16",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3483642,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2418488,
+      "name": "Redemption Bracket",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 34,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3483643,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2444327,
+      "name": "Top 8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3516394,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
