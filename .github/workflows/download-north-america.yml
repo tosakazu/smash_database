@@ -1,107 +1,96 @@
-# 北米の大会データの取得 (start.gg → incoming/North_America ブランチ → data-North_America への PR)。2026-10-19 作成。
-# data-North_America には北米担当者が自分のサーバから毎日取得して push している (docs/region_operator.md)。
-# 手動の push=true は取得したものを incoming/North_America に置く (data-North_America への PR は人が開く)。
+# 北米の大会データの取得 (start.gg → GitHub)。2026-10-19 作成、2026-11-02 に定期取得を追加。
 #
-# 予備の定期取得 (push_data=true、2026-11-02 所有者の指示): 担当者の更新が止まっても新しい大会が入るように、
-# dispatch Worker (spsp-build deploy/ci/dispatch-worker) が毎日起動する。担当者の更新と食い違わないように:
-#   - 担当者 (github-actions 以外) が idle_hours 時間以内に大会データ (events/) を入れていたら、何もせずに終わる
-#     (担当者が動いている間は data-North_America に一切書かない)。
-#   - 取得中に data-North_America が先に進んでいたら (担当者が再開した等) push しない。force もしない。
-#     done.csv に載らなかった大会は次の回 (または担当者) が取り直すので、捨てても抜けは出ない。
-#   - push するのは data-North_America の取得時点の先頭に 1 コミット足したものだけ (fast-forward)。
-#     担当者は今までどおり pull/merge してから push すればよい。
+# 2 つのブランチ:
+#   - data-North_America: 北米担当者が自分のサーバから毎日取得して push している (docs/region_operator.md)。ここからは書かない。
+#   - data-North_America-auto: この Actions のブランチ (auto=true)。担当者のブランチと並行して動き、担当者が止まっても続く。
+#       毎回まず担当者の前回からの変更を取り込み (scripts/common/sync_from_branch.py: 担当者が変えたものは担当者の版、
+#       それ以外はこちらの版。git merge はしないのでコンフリクトしない)、そのあと新しい大会を取って push する。
+#       担当者のブランチは一切変えないので、担当者は今までどおりでよい。取り込んだ担当者のコミットは auto_sync.json に記録する。
+#   定期起動は spsp-build の dispatch Worker (日本と同じ): 通常の回 (過去 days 日を取り直す) を 1 日 1 回、
+#   軽量の回 (quick: 終わってから 24 時間以内・start.gg で COMPLETED・未取り込みの部門だけ) を 15 分ごと。
+#   手動の push=true (auto=false) は従来どおり incoming/North_America に置く (data-North_America への PR は人が開く)。
+#
 # 手順は scripts/common/run_region.sh の 1〜5 と同じ (国ごとの download → upcoming → class → derive → validate)。
 # 違い: 取得に時間の上限 (dl_minutes) があり、超えても取れた分で続ける (done.csv に載らなかった大会は次回また取る)。
+# 取得 (download.py) は main のスクリプトを使う (--quick は main にしか無い)。判定 (derive) などは取得するブランチのもの
+# (北米の規則 scripts/North_America はそこにしか無い)。
 #
 # 秘密の扱い (このリポジトリは公開で、北米担当者にも書き込み権限がある):
 #   - start.gg のトークンは Environment「na-data」の NA_STARTGG_TOKEN だけ (この取得用のアカウントのもの)。
 #     na-data は main ブランチからの実行でしか使えない (deployment branch policy)。main は PR とコードオーナーの承認が要る。
-#   - トークンは取得の 3 段 (download / upcoming / class) の env にだけ渡す。derive・validate・push には渡さない。
-#   - スクリプトは data-North_America のもの (北米担当者が直接変えられる) を動かすので、担当者にはトークンが見えうる
+#   - トークンは取得の段 (download / upcoming / class) の env にだけ渡す。同期・derive・validate・push には渡さない。
+#   - 開催予定・クラスはブランチのスクリプト (北米担当者が直接変えられる) を動かすので、担当者にはトークンが見えうる
 #     (所有者が了承済み、2026-10-19)。それ以外の人には見えない。
-#   - checkout は認証情報を残さない。push は最後の段でだけ GITHUB_TOKEN をヘッダで渡す (書けるのは保護の無いブランチだけ)。
+#   - checkout は認証情報を残さない。push は最後の段でだけ GITHUB_TOKEN をヘッダで渡す。force はしない。
 #   - pull_request などの外から起動できるトリガーは付けない。
 name: download-north-america
+run-name: download-north-america${{ inputs.auto && ' auto' || '' }}${{ inputs.quick && ' quick' || '' }}
 
 on:
   workflow_dispatch:
     inputs:
+      auto:
+        description: data-North_America-auto に入れる (担当者のブランチを取り込んでから取得して push。定期起動はこれ)
+        type: boolean
+        default: false
+      quick:
+        description: 軽量モード (終わってから 24 時間以内・COMPLETED・未取り込みの部門だけ。開催予定・クラスは取らない)
+        type: boolean
+        default: false
       days:
-        description: 何日前までに終わった大会を取るか (run_region.sh の --days)
+        description: 何日前までに終わった大会を取り直すか (通常の回、run_region.sh の --days)
         type: string
-        default: '35'
+        default: '14'
       dl_minutes:
         description: 取得 (download) にかける時間の上限 (分)。超えたら取れた分で続ける
         type: string
-        default: '270'
+        default: '120'
       push:
-        description: incoming/North_America に commit して push する (data-North_America には触らない)
+        description: (auto でないとき) incoming/North_America に commit して push する (data-North_America には触らない)
         type: boolean
         default: false
-      push_data:
-        description: 予備の定期取得。担当者の更新が idle_hours 時間無いときだけ取得して data-North_America に直接 push する
-        type: boolean
-        default: false
-      idle_hours:
-        description: push_data のとき、担当者の大会データの更新がこの時間以上無ければ取得する
-        type: string
-        default: '48'
 
 permissions:
   contents: read
 
+# 同時に 1 回だけ (auto の push が順番に先頭へ積み上がるように)
 concurrency:
   group: download-north-america
   cancel-in-progress: false
 
 jobs:
-  # push_data のときだけ、担当者が最近 events/ を更新したかを見る (鍵も Environment も使わない。GITHUB_TOKEN の読み取りだけ)
-  check:
-    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    outputs:
-      run: ${{ steps.idle.outputs.run }}
-    steps:
-      - name: 担当者の最近の更新
-        id: idle
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PUSH_DATA: ${{ inputs.push_data }}
-          IDLE_HOURS: ${{ inputs.idle_hours }}
-        run: |
-          if [ "$PUSH_DATA" != "true" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
-          [[ "$IDLE_HOURS" =~ ^[0-9]+$ ]] || { echo "::error::idle_hours は数字"; exit 1; }
-          since=$(date -u -d "-${IDLE_HOURS} hours" +%FT%TZ)
-          # data-North_America の events/ に触れたコミットのうち、github-actions[bot] 以外が作ったもの
-          n=$(gh api "repos/${GITHUB_REPOSITORY}/commits?sha=data-North_America&path=data/startgg/North_America/events&since=${since}&per_page=50" \
-                --jq '[.[] | select(.commit.author.name != "github-actions[bot]")] | length')
-          if [ "$n" -gt 0 ]; then
-            echo "担当者の更新が ${IDLE_HOURS} 時間以内に ${n} 件ある → 今回は取得しない"
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "担当者の更新が ${IDLE_HOURS} 時間無い → 取得して data-North_America に入れる"
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          fi
-
   download:
-    needs: check
     # main 以外からは走らせない (Environment 側の制限と二重にしておく)
-    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main' && needs.check.outputs.run == 'true'
+    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     environment: na-data
     timeout-minutes: 355
     permissions:
-      contents: write   # incoming/North_America と (push_data のとき) data-North_America への push だけに使う
+      contents: write   # incoming/North_America と data-North_America-auto への push だけに使う
     env:
       TZ: America/New_York
       REGION: North_America
       DATA_DIR: data/startgg/North_America
+      SRC_BRANCH: data-North_America
+      AUTO_BRANCH: data-North_America-auto
     steps:
-      - name: data-North_America (スクリプトとデータ、最新 1 コミット)
+      - name: 取得するブランチ
+        id: ref
+        env:
+          AUTO: ${{ inputs.auto }}
+        run: |
+          url="https://github.com/${GITHUB_REPOSITORY}.git"
+          src=$(git ls-remote "$url" "refs/heads/$SRC_BRANCH" | cut -f1)
+          [ -n "$src" ] || { echo "::error::$SRC_BRANCH が見つからない"; exit 1; }
+          auto=""; [ "$AUTO" = "true" ] && auto=$(git ls-remote "$url" "refs/heads/$AUTO_BRANCH" | cut -f1)
+          if [ -n "$auto" ]; then ref=$auto; else ref=$src; fi
+          echo "src=$src" >> "$GITHUB_OUTPUT"; echo "auto=$auto" >> "$GITHUB_OUTPUT"; echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "$SRC_BRANCH = ${src:0:10}  $AUTO_BRANCH = ${auto:0:10}  → checkout ${ref:0:10}"
+
+      - name: データ (最新 1 コミット)
         uses: actions/checkout@v4
         with:
-          ref: data-North_America
+          ref: ${{ steps.ref.outputs.ref }}
           fetch-depth: 1
           persist-credentials: false
 
@@ -113,22 +102,50 @@ jobs:
 
       - run: pip install -q -r requirements.txt
 
+      - name: main のスクリプト (取得と同期に使う)
+        run: |
+          MAIN_SRC="$RUNNER_TEMP/main"; echo "MAIN_SRC=$MAIN_SRC" >> "$GITHUB_ENV"
+          git fetch -q --depth=1 "https://github.com/${GITHUB_REPOSITORY}.git" "${GITHUB_SHA}"
+          mkdir -p "$MAIN_SRC" && git archive "${GITHUB_SHA}" scripts | tar -x -C "$MAIN_SRC"
+          ls "$MAIN_SRC/scripts/common/download.py" "$MAIN_SRC/scripts/common/sync_from_branch.py"
+
+      # data-North_America-auto のとき: 前回取り込んだ担当者のコミットから今の先頭までの変更を取り込む
+      - name: 担当者のブランチを取り込む
+        if: inputs.auto
+        env:
+          SRC: ${{ steps.ref.outputs.src }}
+          AUTO_HEAD: ${{ steps.ref.outputs.auto }}
+        run: |
+          if [ -z "$AUTO_HEAD" ]; then
+            echo "$AUTO_BRANCH はまだ無い → $SRC_BRANCH ${SRC:0:10} から作る"
+          else
+            old=$(python -c "import json; print(json.load(open('auto_sync.json'))['source_sha'])")
+            if [ "$old" = "$SRC" ]; then
+              echo "担当者のブランチは前回から変わっていない (${SRC:0:10})"
+            else
+              git fetch -q --depth=1 "https://github.com/${GITHUB_REPOSITORY}.git" "$old" "$SRC"
+              PYTHONPATH="$MAIN_SRC" python -u "$MAIN_SRC/scripts/common/sync_from_branch.py" --region "$REGION" --old "$old" --new "$SRC"
+            fi
+          fi
+          printf '{"source_branch": "%s", "source_sha": "%s"}\n' "$SRC_BRANCH" "$SRC" > auto_sync.json
+
       - name: 取得前の件数
         run: |
           echo "EV0=$(find "$DATA_DIR/events" -name attr.json | wc -l)" >> "$GITHUB_ENV"
           echo "US0=$(wc -l < "$DATA_DIR/users.jsonl")" >> "$GITHUB_ENV"
-          echo "HEAD0=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: 取得 (国ごと、時間の上限つき)
         env:
           STARTGG_TOKEN: ${{ secrets.NA_STARTGG_TOKEN }}
           DAYS: ${{ inputs.days }}
           DL_MINUTES: ${{ inputs.dl_minutes }}
+          QUICK: ${{ inputs.quick }}
         run: |
           set -o pipefail
-          TODAY=$(date +%F); FROM=$(date -d "-${DAYS} days" +%F)
+          TODAY=$(date +%F)
+          if [ "$QUICK" = "true" ]; then FROM=$(date -d "-24 hours" +%FT%T); MODE=(--quick); else FROM=$(date -d "-${DAYS} days" +%F); MODE=(); fi
           CODES=$(python -c "from scripts.North_America.country import COUNTRY_CODES as c; print(' '.join(c))")
-          echo "取得期間: $FROM 〜 $TODAY、国 $(echo $CODES | wc -w) か国"
+          echo "取得期間: $FROM 〜 $TODAY、国 $(echo $CODES | wc -w) か国 ${MODE[*]}"
           AWAITING=(); [ -s "$DATA_DIR/manual/awaiting_resume.json" ] && AWAITING=(--awaiting-file "$DATA_DIR/manual/awaiting_resume.json")
           deadline=$(( $(date +%s) + DL_MINUTES * 60 )); : > "$RUNNER_TEMP/dl.log"; stopped=""
           for cc in $CODES; do
@@ -136,9 +153,9 @@ jobs:
             if [ "$left" -le 60 ]; then stopped="$cc"; break; fi
             echo "── $cc (残り $((left / 60)) 分)"
             set +e
-            timeout --signal=INT --kill-after=120 "$left" python -u scripts/common/download.py --country-code "$cc" \
-              --start-date "$TODAY" --finish-date "$FROM" "${AWAITING[@]}" 2>&1 | tee -a "$RUNNER_TEMP/dl.log" \
-              | grep -vE 'InsecureRequestWarning|warnings.warn'
+            PYTHONPATH="$MAIN_SRC" timeout --signal=INT --kill-after=120 "$left" python -u "$MAIN_SRC/scripts/common/download.py" \
+              "${MODE[@]}" --country-code "$cc" --start-date "$TODAY" --finish-date "$FROM" "${AWAITING[@]}" 2>&1 \
+              | tee -a "$RUNNER_TEMP/dl.log" | grep -vE 'InsecureRequestWarning|warnings.warn'
             rc=${PIPESTATUS[0]}
             set -e
             if [ "$rc" -eq 124 ]; then stopped="$cc (途中)"; break; fi
@@ -149,6 +166,7 @@ jobs:
           [ -z "$stopped" ] || echo "::warning::時間の上限 ${DL_MINUTES} 分で ${stopped} から先を取っていない (次回の続き)"
 
       - name: 開催予定とクラス bracket
+        if: ${{ !inputs.quick }}
         env:
           STARTGG_TOKEN: ${{ secrets.NA_STARTGG_TOKEN }}
           DAYS: ${{ inputs.days }}
@@ -168,43 +186,40 @@ jobs:
       - name: 変更の要約
         run: |
           echo "events: $EV0 → $(find "$DATA_DIR/events" -name attr.json | wc -l)   users.jsonl: $US0 → $(wc -l < "$DATA_DIR/users.jsonl")"
-          git status --short -- "$DATA_DIR" | awk '{print $1}' | sort | uniq -c; git diff --stat -- "$DATA_DIR" | tail -1
+          git add -A -- "$DATA_DIR"
+          git diff --cached --name-status | awk '{print $1}' | sort | uniq -c; git diff --cached --stat | tail -1
 
-      - name: incoming/North_America に commit して push
-        if: inputs.push
+      - name: data-North_America-auto に commit して push
+        if: inputs.auto
         env:
           GH_TOKEN: ${{ github.token }}
+          SRC: ${{ steps.ref.outputs.src }}
+          QUICK: ${{ inputs.quick }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 同期で入った data/ の外 (scripts/ など) は同期の段で stage 済み
+          git add -A -- "$DATA_DIR" auto_sync.json
+          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+          mode=nightly; [ "$QUICK" = "true" ] && mode=quick
+          git commit -q -m "data: North America $(date +%F) $mode (GitHub Actions、担当者のブランチ ${SRC:0:10} まで取り込み済み)"
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c http.extraheader="AUTHORIZATION: basic $auth" push -q \
+            "https://github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$AUTO_BRANCH"
+          echo "pushed $(git rev-parse --short HEAD) to $AUTO_BRANCH"
+
+      - name: incoming/North_America に commit して push
+        if: inputs.push && !inputs.auto
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SRC: ${{ steps.ref.outputs.src }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A -- "$DATA_DIR"
           if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
-          git commit -q -m "data: North America $(date +%F) (GitHub Actions、data-North_America ${HEAD0:0:10} から)"
+          git commit -q -m "data: North America $(date +%F) (GitHub Actions、data-North_America ${SRC:0:10} から)"
           auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
           git -c http.extraheader="AUTHORIZATION: basic $auth" push -q --force \
             "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/incoming/North_America
           echo "pushed: https://github.com/${GITHUB_REPOSITORY}/compare/data-North_America...incoming/North_America"
-
-      - name: data-North_America に commit して push (予備の定期取得)
-        if: inputs.push_data && !inputs.push
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- "$DATA_DIR"
-          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
-          # 取得の間に data-North_America が進んでいたら (担当者の push など) 入れない。次の回か担当者が取り直す
-          now=$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/data-North_America | cut -f1)
-          if [ "$now" != "$HEAD0" ]; then
-            echo "::warning::取得中に data-North_America が進んだ (${HEAD0:0:10} → ${now:0:10})。今回の分は入れない"; exit 0
-          fi
-          git commit -q -m "data: North America $(date +%F) (GitHub Actions 予備の定期取得、${HEAD0:0:10} から)"
-          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
-          # force はしない (直前に先頭が進んでいたら断られる → 入れずに終わる)
-          if git -c http.extraheader="AUTHORIZATION: basic $auth" push -q \
-               "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/data-North_America; then
-            echo "pushed $(git rev-parse --short HEAD) to data-North_America"
-          else
-            echo "::warning::push を断られた (data-North_America が先に進んだ)。今回の分は入れない"
-          fi
