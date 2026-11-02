@@ -1,0 +1,106 @@
+# 日本・北米以外の地域の過去分をまとめて取る (2026-11-02、所有者の指示)。
+# 地域ごとに data-<地域> ブランチ (main + data/startgg/<地域>/) を作って入れる。日本・北米のブランチとデータには触らない
+# (scripts/common/backfill_world.py が日本・北米を拒み、その地域のディレクトリ以外は commit しない)。
+# 地域と国の対応は scripts/common/utils.py の OTHER_REGION_COUNTRIES。
+#
+# 1 回 約 5.5 時間 (GitHub の 1 ジョブ 6 時間の上限の手前) まで取って、残りがあれば自分をもう一度起動する
+# (workflow_dispatch は GITHUB_TOKEN からでも起動できる)。進み具合は各ブランチの backfill_progress.json (月単位)。
+# 止めるときは、このワークフローを Actions の画面で disable するか、実行中の回を取り消す。
+#
+# 2 本並行 (lane): europe = Europe だけ、others = それ以外の地域 (Korea から順に)。それぞれ自分の lane だけを起動し直す。
+# start.gg のトークンは Environment world-data (main からだけ) の EUROPE_STARTGG_TOKEN / OTHERS_STARTGG_TOKEN
+# (lane ごとに別のトークンなので、どちらも上限いっぱいの 0.8 秒に 1 回)。トークンは取得 (download.py) の env にだけ渡す。
+# 地域の判定 (derive) はまだ無い (scripts/<地域>/ が無い) ので、生データだけ。
+name: backfill-world
+run-name: backfill-world ${{ inputs.lane }}${{ inputs.regions && format(' {0}', inputs.regions) || '' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: europe (Europe) / others (Europe 以外の地域)
+        type: choice
+        options: [europe, others]
+        default: europe
+      regions:
+        description: 地域 (カンマ区切り、この順に取る)。空 = lane の既定
+        type: string
+        default: ''
+      minutes:
+        description: 1 回で新しい取得を始める上限 (分)
+        type: string
+        default: '320'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backfill-world-${{ inputs.lane }}
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: world-data
+    timeout-minutes: 350
+    permissions:
+      contents: write   # data-<地域> への push だけ
+      actions: write    # 残りがあるとき自分を起動し直す
+    steps:
+      - name: ディスクを空ける
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/powershell /usr/local/share/chromium /usr/share/swift /usr/local/julia* || true
+          df -h /
+
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -q -r requirements.txt
+
+      - name: 取得 (月ごと、新しい月から)
+        id: run
+        env:
+          STARTGG_TOKEN: ${{ inputs.lane == 'europe' && secrets.EUROPE_STARTGG_TOKEN || secrets.OTHERS_STARTGG_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          LANE: ${{ inputs.lane }}
+          REGIONS: ${{ inputs.regions }}
+          MINUTES: ${{ inputs.minutes }}
+        run: |
+          set -o pipefail
+          echo "t0=$(date +%s)" >> "$GITHUB_OUTPUT"
+          if [ -z "$REGIONS" ]; then
+            if [ "$LANE" = europe ]; then REGIONS=Europe; else REGIONS="Korea,East Asia,Other Asia,Oceania,South America,Middle East Africa"; fi
+          fi
+          echo "lane $LANE: $REGIONS"
+          args=(--workdir "$RUNNER_TEMP/work" --minutes "$MINUTES" --regions "$REGIONS")
+          python -u scripts/common/backfill_world.py "${args[@]}" 2>&1 | grep -vE 'InsecureRequestWarning|warnings.warn' | tee "$RUNNER_TEMP/bf.log"
+          rem=$(grep -oE '^REMAINING=[0-9]+' "$RUNNER_TEMP/bf.log" | tail -1 | cut -d= -f2)
+          echo "remaining=${rem:-unknown}" >> "$GITHUB_OUTPUT"
+          echo "残り ${rem:-?} か月 (全地域の合計)"
+
+      # 途中で落ちた回 (remaining が取れなかった) も続ける。進み具合はブランチに残っている
+      - name: 残りがあれば起動し直す
+        if: always() && steps.run.outputs.remaining != '0' && !cancelled()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LANE: ${{ inputs.lane }}
+          REGIONS: ${{ inputs.regions }}
+          MINUTES: ${{ inputs.minutes }}
+          T0: ${{ steps.run.outputs.t0 }}
+        run: |
+          # すぐ落ちた回 (15 分未満で残りが分からない) は起動し直さない (落ち続けて起動を繰り返さないように)
+          el=$(( $(date +%s) - ${T0:-0} ))
+          if [ "${{ steps.run.outputs.remaining }}" = "" ] || [ "${{ steps.run.outputs.remaining }}" = "unknown" ]; then
+            [ "$el" -ge 900 ] || { echo "::error::取得が ${el} 秒で落ちた。起動し直さない"; exit 1; }
+          fi
+          gh workflow run backfill-world.yml -R "$GITHUB_REPOSITORY" --ref main -f lane="$LANE" -f regions="$REGIONS" -f minutes="$MINUTES"
+          echo "次の回を起動した"
