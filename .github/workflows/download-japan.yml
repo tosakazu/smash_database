@@ -131,6 +131,18 @@ jobs:
           python -u -m scripts.common.challonge_classes fetch --region Japan --done-out "$RUNNER_TEMP/class_done.txt" \
             || echo "::warning::Challonge の下位クラスの取得が失敗 (次回また試す)"
 
+      # 大会アイコンの記録が無い大会 (手で足した大会など、download.py の一覧を通らなかったもの) を start.gg に聞いて埋める
+      # (2026-11-02〜)。記録がある大会 (アイコン無し = url null も含む) は聞かない。start.gg が返さない大会 (削除済み) は
+      # 記録しないので毎回聞き直すが、数件なので 1 リクエストで済む。1 回で聞くのは 200 大会まで (残りは次の回)
+      - name: 大会アイコンの記録が無い大会
+        env:
+          STARTGG_TOKEN: ${{ secrets.JP_STARTGG_TOKEN }}
+        run: |
+          set -o pipefail
+          python -u scripts/common/manual/backfill_tournament_images.py --region Japan --limit 200 2>&1 \
+            | grep -vE 'InsecureRequestWarning|warnings.warn' \
+            || echo "::warning::大会アイコンの記録の確認が失敗 (次回また試す)"
+
       - name: 判定 (derived.json) と整合性チェック
         run: |
           python -u scripts/common/derive.py --region Japan
