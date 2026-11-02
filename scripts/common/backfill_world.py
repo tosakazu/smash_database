@@ -12,7 +12,8 @@ For each month every country of the region is downloaded with scripts/common/dow
 data/startgg/<Region>/backfill_progress.json: a country is recorded once its download of the month finished,
 a month once all its countries did. After every month the branch is committed and pushed, so a run that
 hits the time limit loses at most the country it was in (done.csv makes the rerun skip what was saved).
-The current month is left to a regular fetch.
+The current month is left to a regular fetch. When every month is done the region is walked once more
+(PASSES, "pass" in the progress file): see start_next_pass.
 
 Prints "REMAINING=<n>" (months still to do over all regions) as its last line; the workflow re-dispatches
 itself while it is > 0.
@@ -153,6 +154,22 @@ def load_progress(path: Path) -> dict:
     return {"done_months": [], "partial": {}, "failures": {}, "gave_up": []}
 
 
+# Pass 2 walks every month again. download.py skips the tournaments already in done.csv, so it only lists the
+# month and fetches what pass 1 left out: download.py keeps going (rc 0) past a tournament that raised FetchError,
+# and until main #104 (2026-11-02) an event without standings always did, so its tournament never reached
+# done.csv while the month was recorded as done.
+PASSES = 2
+
+
+def start_next_pass(prog: dict) -> None:
+    n = prog.get("pass", 1)
+    prog[f"done_months_pass{n}"] = sorted(set(prog["done_months"]), reverse=True)
+    prog["pass"] = n + 1
+    prog["done_months"] = []
+    prog["partial"] = {}
+    prog["failures"] = {}
+
+
 def save_progress(path: Path, prog: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     prog["done_months"] = sorted(set(prog["done_months"]), reverse=True)
@@ -213,6 +230,10 @@ def main() -> int:
                 repo = prepare_branch(workdir, region, main_sha)
                 prog = load_progress(repo / ddir / "backfill_progress.json")
                 todo = [m for m in all_months if m not in prog["done_months"]]
+                if not todo and prog.get("pass", 1) < PASSES:
+                    start_next_pass(prog)
+                    todo = list(all_months)
+                    print(f"[backfill] {region}: pass {prog['pass']} (tournaments not in done.csv yet)", flush=True)
                 if not todo:
                     print(f"[backfill] {region}: complete", flush=True)
                     break
@@ -257,6 +278,7 @@ def main() -> int:
             commit_push(repo, region, f"data: {region} {ym} backfill ({len(got)}/{len(OTHER_REGION_COUNTRIES[region])} countries, GitHub Actions)")
         if prog is not None:
             remaining += len([m for m in all_months if m not in prog["done_months"]])
+            remaining += len(all_months) * (PASSES - prog.get("pass", 1))   # passes not started yet
         elif out_of_time:
             remaining += len(all_months)   # not looked at this run
     print(f"REMAINING={remaining}", flush=True)
