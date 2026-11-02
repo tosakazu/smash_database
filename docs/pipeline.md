@@ -75,6 +75,14 @@ resume). Such tournaments are picked up again on the next run; once 7 days pass 
 champion the tournament is marked done as is (typically a cancelled or never-finished
 bracket).
 
+An event saved with nothing in it (no standings and no matches) is not marked done
+while start.gg does not report it as `COMPLETED` and it is inside the 7-day window
+(`empty_event_action`). Organisers sometimes set `endAt` before the real date, so the
+tournament looks finished and is fetched before it is held. Later runs do not
+re-download such an event; they only read its state, which comes with the tournament's
+event list (no extra request), and download it once it is `COMPLETED`. After the
+window it is marked done as before (a cancelled event).
+
 ### Awaiting resume
 
 Tournaments that were interrupted (weather, venue trouble) and resume on a later date
