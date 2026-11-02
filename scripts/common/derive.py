@@ -32,6 +32,7 @@ if ROOT_DIR not in sys.path:
 from types import SimpleNamespace  # noqa: E402
 from scripts.common._cli import add_region_arg, resolve_index_paths  # noqa: E402
 from scripts.common.region import load_region_classifier  # noqa: E402
+from scripts.common import jsonl_table  # noqa: E402
 
 DERIVED = "derived.json"
 USERS_DERIVED = "users_derived.jsonl"   # placed in data/startgg/<region>/ (next to users.jsonl; users.jsonl itself is rewritten by download.py, so leave it alone)
@@ -223,21 +224,20 @@ def main(argv=None) -> int:
         written += 1
     # ── users: users.jsonl → users_derived.jsonl (the region module's classify_user decides who is included) ──
     users_written = None
-    if hasattr(clf, "classify_user") and Path(args.users_file_path).exists():
+    if hasattr(clf, "classify_user") and jsonl_table.exists(args.users_file_path):
         rows = []
-        with open(args.users_file_path, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    urec = json.loads(line)
-                except Exception:
-                    continue
-                res = clf.classify_user(urec)
-                if res is None or urec.get("user_id") is None:
-                    continue
-                rows.append({"user_id": int(urec["user_id"]), **res})
+        for line in jsonl_table.iter_lines(args.users_file_path):   # the single file or its users/ shards
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                urec = json.loads(line)
+            except Exception:
+                continue
+            res = clf.classify_user(urec)
+            if res is None or urec.get("user_id") is None:
+                continue
+            rows.append({"user_id": int(urec["user_id"]), **res})
         rows.sort(key=lambda r: r["user_id"])
         text = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
         out = Path(args.users_file_path).parent / USERS_DERIVED

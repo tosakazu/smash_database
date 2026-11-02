@@ -8,11 +8,11 @@ returned by `country_code2region()` in `scripts/common/utils.py` (spaces replace
 data/startgg/<Region>/              one directory per region
 ├── done.csv                        region index (four files, rewritten by the downloader)
 ├── done_events.csv
-├── tournaments.jsonl
+├── tournaments.jsonl               or tournaments/<n>.jsonl once split (see "Shards" below)
 ├── tournament_images.jsonl         tournament icon URLs (the image files are not in this repository)
 ├── upcoming_entrants.json          Japan: entrants of upcoming tournaments (fetch_upcoming_entrants + annotate_upcoming, by the download workflow)
 ├── region_rules.json               the region's rules evaluated as data for the ranking build (derive.py)
-├── users.jsonl
+├── users.jsonl                     or users/<n>.jsonl once split (see "Shards" below)
 ├── users_derived.jsonl             generated: prefecture per player (scripts/common/derive.py)
 ├── manual/                       hand-maintained tables (see below)
 │   ├── user_merges.json
@@ -40,6 +40,33 @@ All JSON is UTF-8 with `ensure_ascii=False`, indent 2 unless noted, and carries 
 Do not rewrite files with a different serializer.
 
 ## Region index
+
+### Shards: `users/` and `tournaments/`
+
+GitHub refuses any file over 100 MiB, and North America's `users.jsonl` reached 97.9 MiB in
+2026-11 (issue #106). So `users.jsonl` and `tournaments.jsonl` can each be split by id range:
+
+| Single file | Split into | Shard of a record |
+|---|---|---|
+| `users.jsonl` | `users/<n>.jsonl` | `n = user_id // 500000` |
+| `tournaments.jsonl` | `tournaments/<n>.jsonl` | `n = tournament_id // 100000` |
+
+A region has one layout or the other for each table, never both. The lines are exactly
+those of the single file (same keys, same serializer); only the file they live in changes.
+Ids only grow, so a record stays in its shard, new records go to the newest shard, and a
+table gains a file every `width` ids (about 20 MiB per shard for North America's users)
+instead of ever needing a re-split.
+
+To read a table: if the directory exists, read every `<n>.jsonl` in it in ascending `n`
+(numeric, not text order), otherwise read the single file. Inside this repository go through
+`scripts/common/jsonl_table.py` (`iter_lines`, `read_text`, `files`) or the readers in
+`utils.py`, which do this already. Line order across shards is not the single file's order;
+key records by id.
+
+A region is split once, by hand: `python3 scripts/common/manual/shard_jsonl.py --region <Region>`
+(`--join` undoes it). Everyone who writes that region's data must run scripts from 2026-11 or
+later; older ones would create the single file next to the directory, which readers refuse.
+`fix/validate_data.py` warns about any index file over 80 MiB.
 
 ### `done.csv`
 

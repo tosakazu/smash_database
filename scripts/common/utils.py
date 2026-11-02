@@ -5,6 +5,8 @@ import sys
 import random
 import requests
 
+from scripts.common import jsonl_table
+
 # Convert a country code to a region
 # Regions other than Japan / North America (2026-11-02): one data branch each (data-<Region>), filled by the
 # backfill-world workflow. Europe follows UN M49 (plus CY); Turkey, the Caucasus and Iran are in Middle East Africa.
@@ -109,6 +111,19 @@ def write_jsonl(data, file_path, with_version):
     every record after that point is lost. This actually happened in 2026-04/05: 146 events
     remained in done.csv but had vanished from tournaments.jsonl.
     """
+    if jsonl_table.is_sharded(file_path):
+        # Split by id range (jsonl_table): only the shards whose text changed are rewritten.
+        lines = []
+        for d in data:
+            if with_version:
+                d["version"] = JSON_VERSION
+            lines.append((d, json.dumps(d, ensure_ascii=False) + "\n"))
+        by_shard = {}
+        spec = jsonl_table.spec_for(file_path)
+        for d, line in lines:
+            by_shard.setdefault(jsonl_table.shard_of_record(file_path, spec, d), []).append(line)
+        jsonl_table.write_shards(file_path, by_shard)
+        return
     tmp = f"{file_path}.tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         for d in data:
@@ -134,12 +149,24 @@ def extend_jsonl(data, file_path, with_version):
         if with_version:
             d["version"] = JSON_VERSION
         buf.append(json.dumps(d, ensure_ascii=False) + "\n")
+    if jsonl_table.is_sharded(file_path):
+        spec = jsonl_table.spec_for(file_path)
+        by_shard = {}
+        for d, line in zip(data, buf):
+            by_shard.setdefault(jsonl_table.shard_of_record(file_path, spec, d), []).append(line)
+        jsonl_table.append_shards(file_path, by_shard)
+        return
     with open(file_path, "a", encoding="utf-8") as f:
         f.write("".join(buf))
         f.flush()
         os.fsync(f.fileno())
 
 def _read_json_records(file_path):
+    if jsonl_table.is_sharded(file_path):
+        records = []
+        for f in jsonl_table.shard_files(file_path):
+            records.extend(_read_json_records(f))
+        return records
     with open(file_path, "r", encoding="utf-8") as f:
         text = f.read()
 
@@ -185,7 +212,7 @@ def set_indent_num(num):
     __indent_num = num
 
 def read_users_jsonl(file_path):
-    if not os.path.exists(file_path):
+    if not jsonl_table.exists(file_path):
         return {}
     users = {}
     for user in _read_json_records(file_path):
@@ -201,7 +228,7 @@ def read_users_jsonl(file_path):
     return users
     
 def read_tournaments_jsonl(file_path):
-    if not os.path.exists(file_path):
+    if not jsonl_table.exists(file_path):
         return {}
     tournaments = {}
     for tournament in _read_json_records(file_path):
