@@ -21,6 +21,8 @@ import json
 import os
 from pathlib import Path
 
+from scripts.common import jsonl_table
+
 OUT_NAME = "overseas_status.json"
 
 
@@ -68,14 +70,13 @@ def attendance(events_root: Path, since_iso: str, merges: dict[int, int]) -> dic
 
 def build_status(clf, country_mod, users_path: Path, events_root: Path, manual_dir: Path, today: dt.date) -> dict:
     countries: dict[int, str] = {}
-    with open(users_path, encoding="utf-8") as f:
-        for line in f:
-            try:
-                u = json.loads(line)
-            except Exception:
-                continue
-            if u.get("user_id") is not None and u.get("country"):
-                countries[int(u["user_id"])] = u["country"]
+    for line in jsonl_table.iter_lines(users_path):   # the single file or its users/ shards
+        try:
+            u = json.loads(line)
+        except Exception:
+            continue
+        if u.get("user_id") is not None and u.get("country"):
+            countries[int(u["user_id"])] = u["country"]
     manual = _load_json(manual_dir / "overseas_manual.json", {})
     home = {int(u) for u in manual.get("home_uids") or []}
     by_country = {u for u, c in countries.items() if country_mod.is_overseas_country(c)} - home

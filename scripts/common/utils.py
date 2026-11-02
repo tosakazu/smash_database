@@ -5,11 +5,40 @@ import sys
 import random
 import requests
 
+from scripts.common import jsonl_table
+
 # Convert a country code to a region
+# Regions other than Japan / North America (2026-11-02): one data branch each (data-<Region>), filled by the
+# backfill-world workflow. Europe follows UN M49 (plus CY); Turkey, the Caucasus and Iran are in Middle East Africa.
+# A code in none of the lists is "Other" (download.py then refuses nothing, but run_region.sh does).
+OTHER_REGION_COUNTRIES = {
+    "Europe": [
+        "AL", "AD", "AT", "BY", "BE", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FO", "FI", "FR", "DE", "GI", "GR",
+        "GG", "HU", "IS", "IE", "IM", "IT", "JE", "XK", "LV", "LI", "LT", "LU", "MT", "MD", "MC", "ME", "NL", "MK",
+        "NO", "PL", "PT", "RO", "RU", "SM", "RS", "SK", "SI", "ES", "SJ", "SE", "CH", "UA", "GB", "VA", "AX",
+    ],
+    "Korea": ["KR", "KP"],
+    "East Asia": ["CN", "HK", "MO", "TW", "MN"],
+    "Other Asia": [
+        "SG", "TH", "MY", "PH", "VN", "ID", "BN", "KH", "LA", "MM", "TL",              # South-eastern Asia
+        "IN", "PK", "BD", "LK", "NP", "BT", "MV", "AF",                                # Southern Asia (without IR)
+        "KZ", "UZ", "TM", "KG", "TJ",                                                  # Central Asia
+    ],
+    "Middle East Africa": [
+        "AE", "SA", "QA", "KW", "BH", "OM", "YE", "IQ", "IR", "IL", "PS", "JO", "LB", "SY", "TR", "GE", "AM", "AZ",
+        "DZ", "EG", "LY", "MA", "SD", "TN", "EH", "BJ", "BF", "CV", "CI", "GM", "GH", "GN", "GW", "LR", "ML", "MR",
+        "NE", "NG", "SH", "SN", "SL", "TG", "BI", "KM", "DJ", "ER", "ET", "KE", "MG", "MW", "MU", "YT", "MZ", "RE",
+        "RW", "SC", "SO", "SS", "UG", "TZ", "ZM", "ZW", "AO", "CM", "CF", "TD", "CG", "CD", "GQ", "GA", "ST", "BW",
+        "SZ", "LS", "NA", "ZA",
+    ],
+    "Oceania": ["AU", "NZ", "FJ", "PG", "SB", "VU", "NC", "PF", "WS", "TO", "KI", "TV", "NR", "PW", "FM", "MH", "CK",
+                "NU", "AS", "MP"],
+    "South America": ["AR", "BO", "BR", "CL", "CO", "EC", "GY", "PY", "PE", "SR", "UY", "VE", "GF", "FK", "GS"],
+}
+
+
 def country_code2region(country_code):
     japan = ["JP"]
-    other_asia = ["CN", "KR", "IN", "SG", "TH", "MY", "PH", "VN", "ID"]
-    europe = ["FR", "DE", "GB", "IT", "ES", "RU", "NL", "SE", "CH", "BE"]
     # The whole North American continent as the UN M49 geoscheme defines it (Northern America +
     # Central America + Caribbean), plus GU, which the region carried before this list existed.
     # Kept in step with COUNTRY_CODES in scripts/North_America/country.py, which is the region's
@@ -26,14 +55,12 @@ def country_code2region(country_code):
 
     if country_code in japan:
         return "Japan"
-    elif country_code in other_asia:
-        return "Other Asia"
-    elif country_code in europe:
-        return "Europe"
     elif country_code in north_america:
         return "North America"
-    else:
-        return "Other"
+    for region, codes in OTHER_REGION_COUNTRIES.items():
+        if country_code in codes:
+            return region
+    return "Other"
 
 
 def get_date_parts(date):
@@ -84,6 +111,19 @@ def write_jsonl(data, file_path, with_version):
     every record after that point is lost. This actually happened in 2026-04/05: 146 events
     remained in done.csv but had vanished from tournaments.jsonl.
     """
+    if jsonl_table.is_sharded(file_path):
+        # Split by id range (jsonl_table): only the shards whose text changed are rewritten.
+        lines = []
+        for d in data:
+            if with_version:
+                d["version"] = JSON_VERSION
+            lines.append((d, json.dumps(d, ensure_ascii=False) + "\n"))
+        by_shard = {}
+        spec = jsonl_table.spec_for(file_path)
+        for d, line in lines:
+            by_shard.setdefault(jsonl_table.shard_of_record(file_path, spec, d), []).append(line)
+        jsonl_table.write_shards(file_path, by_shard)
+        return
     tmp = f"{file_path}.tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         for d in data:
@@ -109,12 +149,24 @@ def extend_jsonl(data, file_path, with_version):
         if with_version:
             d["version"] = JSON_VERSION
         buf.append(json.dumps(d, ensure_ascii=False) + "\n")
+    if jsonl_table.is_sharded(file_path):
+        spec = jsonl_table.spec_for(file_path)
+        by_shard = {}
+        for d, line in zip(data, buf):
+            by_shard.setdefault(jsonl_table.shard_of_record(file_path, spec, d), []).append(line)
+        jsonl_table.append_shards(file_path, by_shard)
+        return
     with open(file_path, "a", encoding="utf-8") as f:
         f.write("".join(buf))
         f.flush()
         os.fsync(f.fileno())
 
 def _read_json_records(file_path):
+    if jsonl_table.is_sharded(file_path):
+        records = []
+        for f in jsonl_table.shard_files(file_path):
+            records.extend(_read_json_records(f))
+        return records
     with open(file_path, "r", encoding="utf-8") as f:
         text = f.read()
 
@@ -160,7 +212,7 @@ def set_indent_num(num):
     __indent_num = num
 
 def read_users_jsonl(file_path):
-    if not os.path.exists(file_path):
+    if not jsonl_table.exists(file_path):
         return {}
     users = {}
     for user in _read_json_records(file_path):
@@ -176,7 +228,7 @@ def read_users_jsonl(file_path):
     return users
     
 def read_tournaments_jsonl(file_path):
-    if not os.path.exists(file_path):
+    if not jsonl_table.exists(file_path):
         return {}
     tournaments = {}
     for tournament in _read_json_records(file_path):
@@ -227,7 +279,9 @@ __headers = {}
 # under every API call regardless of call site, so we stay under the limit
 # proactively instead of paying for it reactively in 429 backoffs.
 # 0.8s -> max 75 req/min, leaving headroom below the documented 80.
-__min_request_interval = 0.8
+# STARTGG_MIN_REQUEST_INTERVAL slows one process down further, for a job that shares its token with another
+# (backfill-world borrowing the North America token, 2026-11-02).
+__min_request_interval = max(0.8, float(os.environ.get("STARTGG_MIN_REQUEST_INTERVAL") or 0.8))
 __last_request_at = 0.0
 
 def set_page_delay(delay):
@@ -298,7 +352,7 @@ def _is_complexity_error(response_data):
             return True
     return False
 
-def fetch_all_nodes(query, variables, keys, per_page=10):
+def fetch_all_nodes(query, variables, keys, per_page=10, missing_ok=False):
     all_nodes = []
     variables = variables.copy()
     MAX_PER_PAGE = per_page
@@ -352,6 +406,15 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
                 raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
             data = data[key]
         if data is None or "nodes" not in data:
+            # start.gg answers a perfectly valid event with `standings: null` when the event
+            # has no standings connection at all — an event the organizer created and never
+            # ran (state CREATED), or one that finished without results being entered. There
+            # is no error in the response and no amount of retrying changes it, so callers
+            # that can mean "no rows" by that (missing_ok) get an empty list instead of a
+            # FetchError. Only on the first page: a connection that vanishes midway through
+            # pagination is a real fault and must not be read as "that was all of them".
+            if missing_ok and items_fetched == 0:
+                return all_nodes
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
         # Use pageInfo (= total count / total pages) as authoritative.

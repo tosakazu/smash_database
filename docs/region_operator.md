@@ -29,7 +29,7 @@ Contents
 | Branch | `data-North_America` — only you push to it. It is `main` (scripts, docs) plus your data |
 | Directory | `data/startgg/North_America/` — everything under it is yours; nothing outside it is |
 | Rules | `scripts/North_America/classify.py` — the region's judgements (section 7). It lives **on your branch, not on `main`**: you edit it directly, no pull request |
-| Countries | The 41 codes of `COUNTRY_CODES` in `scripts/North_America/country.py` map to this region (the same list in `country_code2region()` in `scripts/common/utils.py`, which is what routes a download into the region directory — a code in one and not the other silently misfiles or never fetches it). Give the runner every country you cover (`--country-code US --country-code CA`, or `US,CA`): it downloads them one after another and builds **one** `upcoming.json` for the region from all of them. Files under the region directory (`upcoming.json`, `validation_baseline.json`, the indexes) are per region, not per country |
+| Countries | The 42 codes of `COUNTRY_CODES` in `scripts/North_America/country.py` map to this region (the same list in `country_code2region()` in `scripts/common/utils.py`, which is what routes a download into the region directory — a code in one and not the other silently misfiles or never fetches it). Give the runner every country you cover (`--country-code US --country-code CA`, or `US,CA`): it downloads them one after another and builds **one** `upcoming.json` for the region from all of them. Files under the region directory (`upcoming.json`, `validation_baseline.json`, the indexes) are per region, not per country |
 
 Not yours: `main` (never push to it directly — that is where the shared scripts under
 `scripts/common/` live, and changes there go through a pull request), other regions'
@@ -83,8 +83,10 @@ data/startgg/North_America/                 one directory per region (the region
 ├── done.csv                                ← download.py       tournament ids whose download is complete
 ├── done_events.csv                         ← download_specific_event.py (manual imports only)
 ├── tournaments.jsonl                       ← download.py       index: one line per tournament, with the event paths
+│                                             (or tournaments/<n>.jsonl once split, docs/data_model.md "Shards")
 ├── tournament_images.jsonl                 ← download.py       tournament icon URL per tournament (no image files)
 ├── users.jsonl                             ← download.py       index: one line per player seen in any event
+│                                             (or users/<n>.jsonl once split, docs/data_model.md "Shards")
 ├── users_derived.jsonl                     ← derive.py         generated: per-player judgements (empty for North America for now)
 ├── upcoming.json                           ← fetch_upcoming.py tournaments in the next 21 days
 ├── validation_baseline.json                ← validate_data.py  accepted counts of known inconsistencies

@@ -14,6 +14,7 @@ from scripts.common import clock
 from scripts.common._cli import add_api_args, setup_api
 from scripts.common.download_policy import (
     tournament_skip_reason, done_tournament_action, plan_event_moves, existing_event_action, champion_missing_reason,
+    quick_tournament_action, quick_event_state_action, quick_event_action, empty_event_action, recent_refresh_due,
 )
 from scripts.common.queries import (
     get_standings_query, get_seeds_query,
@@ -66,7 +67,9 @@ def parse_date_or_datetime(value):
 def main():
     # Command-line arguments
     parser = argparse.ArgumentParser(description="Download tournament data from start.gg")
-    add_api_args(parser, max_retries=5, retry_delay=10)   # --token --url --max-retries --retry-delay
+    # 10 x 10s (5xx and 429 back off linearly, about 9 minutes in all): enough for a short start.gg outage
+    # without hanging the 3-hourly run for hours the way the old 100 x 5s could.
+    add_api_args(parser, max_retries=10, retry_delay=10)   # --token --url --max-retries --retry-delay
     parser.add_argument(
         "--start-date",
         type=parse_date_or_datetime,
@@ -89,6 +92,11 @@ def main():
     parser.add_argument("--awaiting-file", default=None,
                         help="Awaiting-resume registry (build/data/awaiting_resume.json). Listed events are re-fetched every run "
                              "regardless of the 7-day window until a champion appears, and are never marked done. Omitted/missing: legacy behaviour.")
+    parser.add_argument("--quick", action="store_true",
+                        help="Light mode (download-japan-quick, every 15 minutes): only events start.gg reports as COMPLETED, never re-fetch "
+                             "tournaments in done.csv or events whose files are present (no post-completion refresh, no champion "
+                             "retry, no awaiting resume), and stop at the first tournament that ended before --finish-date. "
+                             "Use with a short window (the last 24 hours).")
     args = parser.parse_args()
     setup_api(args)
     # Index files (done / users / tournaments) live per region under data/startgg/<region>/ (since 2026-09-07; data is managed on per-region branches)
@@ -115,17 +123,17 @@ def main():
         args.done_file_path,
         args.users_file_path,
         args.tournament_file_path,
+        quick=args.quick,
     )
 
 
 # ── Post-completion refresh ──
 # Organizers sometimes fix scores or placements after a tournament ends (found 2026-08-15 at Grand Slam #19).
 # Once a tournament is marked done it is never re-fetched, so such fixes would never be picked up.
-# So we re-fetch anything that ended within the last N days even if already downloaded. But the nightly
-# runs every 3 hours and re-fetching each time would spike API calls, so enforce a minimum interval per event
-# (last fetch time = mtime of attr.json; no dedicated state file).
-RECENT_REFRESH_DAYS = float(os.environ.get("SPSP_REFRESH_DAYS", "3"))
-RECENT_REFRESH_MIN_HOURS = float(os.environ.get("SPSP_REFRESH_MIN_HOURS", "12"))
+# So an event is re-fetched once each time it passes a checkpoint after its end (default 24 h and 72 h,
+# download_policy.recent_refresh_due). The last fetch time is fetched_at in attr.json: until 2026-11-03 it was the
+# mtime of attr.json, which a fresh checkout (GitHub Actions) sets to "now", so the refresh never fired there.
+RECENT_REFRESH_HOURS = tuple(float(x) for x in os.environ.get("SPSP_REFRESH_HOURS", "24,72").split(",") if x.strip())
 
 
 # ── Awaiting resume ──
@@ -166,17 +174,18 @@ def event_files_complete(event_dir):
 
 
 def _event_needs_recent_refresh(event_dir, ref_end_ts, now_timestamp):
-    """True if the event ended within N days and at least MIN_HOURS have passed since the last fetch."""
-    if RECENT_REFRESH_DAYS <= 0 or not ref_end_ts or not event_dir:
+    """True if the event passed a refresh checkpoint since it was last fetched (download_policy.recent_refresh_due).
+    The end is the later of start.gg's endAt and the one in attr.json (corrected from set times when endAt is off)."""
+    if not RECENT_REFRESH_HOURS or not event_dir:
         return False
-    if (now_timestamp - ref_end_ts) > RECENT_REFRESH_DAYS * 86400:
-        return False
-    attr = os.path.join(event_dir, "attr.json")
     try:
-        last = os.path.getmtime(attr)
-    except OSError:
-        return True          # not fetched yet / broken -> re-fetch
-    return (now_timestamp - last) >= RECENT_REFRESH_MIN_HOURS * 3600
+        with open(os.path.join(event_dir, "attr.json"), "rb") as f:
+            attr = json.loads(f.read())
+    except Exception:
+        return bool(ref_end_ts)   # not fetched yet / broken -> re-fetch
+    ends = [t for t in (ref_end_ts, attr.get("end_timestamp")) if isinstance(t, (int, float))]
+    return recent_refresh_due(max(ends) if ends else None, attr.get("fetched_at"), now_timestamp,
+                              [h * 3600 for h in RECENT_REFRESH_HOURS])
 
 
 def _tournament_needs_recent_refresh(tournament_entry, ref_end_ts, now_timestamp):
@@ -207,7 +216,8 @@ def _build_event_id_index(tournaments):
     return idx
 
 
-def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path):
+def download_all_tournaments(game_id, country_code, start_date, finish_date, startgg_dir, done_file_path, users_file_path, tournament_file_path,
+                             quick=False):
     done_tournaments = read_set(done_file_path, as_int=True)
     users = read_users_jsonl(users_file_path)
     tournaments = read_tournaments_jsonl(tournament_file_path)
@@ -230,6 +240,8 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
     # get_tournaments_by_game_query for why this is safe).
     before_ts = int(start_date.timestamp()) if start_date is not None else None
 
+    finish_ts = int(finish_date.timestamp())
+    stop = False   # reached a tournament that ended before finish_date
     page = 1
     while True:
         try:
@@ -276,6 +288,17 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
 
                 now_timestamp = clock.now_ts()   # "now" comes from scripts.common.clock (still re-evaluated per tournament)
                 tournament_dt = datetime.fromtimestamp(timestamp)
+                if quick:
+                    _qa, _qwhy = quick_tournament_action(
+                        end_timestamp, timestamp, finish_ts,
+                        int(start_date.timestamp()) if start_date is not None else None, tournament_id in done_tournaments)
+                    if _qa == "stop":
+                        print("!!!downloaded all!!!")
+                        stop = True
+                        break
+                    if _qa == "skip":
+                        print(f"({tournament_name} {tournament_dt}) {_qwhy}. Skipping.")
+                        continue
                 _skip = tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_timestamp,
                                                int(start_date.timestamp()) if start_date is not None else None)
                 if _skip == "not_finished":
@@ -292,12 +315,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     # without this the per-event retry below is never reached).
                     _champ_retry = _tournament_needs_champion_retry(
                         tournament_entry, end_timestamp or timestamp, now_timestamp)
-                    # Re-fetch right after completion (within RECENT_REFRESH_DAYS) since fixes may come in
+                    # Re-fetch at the checkpoints after completion (RECENT_REFRESH_HOURS) since fixes may come in
                     _recent_refresh = _tournament_needs_recent_refresh(
                         tournament_entry, end_timestamp or timestamp, now_timestamp)
                     if _recent_refresh:
                         print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) "
-                              f"ended within {RECENT_REFRESH_DAYS:g} days — re-fetching")
+                              f"passed a refresh checkpoint after the end — re-fetching")
                     _action, _why = done_tournament_action(
                         tournament_entry, bool(tournament_entry) and tournament_events_complete(tournament_entry),
                         _champ_retry, _recent_refresh)
@@ -343,11 +366,11 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         # so do not stop here; just skip this one.
                         print(f"({tournament_name} {tournament_dt}) endAt unset & older than finish_date. Skipping.")
                         continue
+                    # Leave through the common tail below (until 2026-10-27 this returned here, so the
+                    # tournaments.jsonl rewrite (date-change moves / dedup in this run) was skipped)
                     print("!!!downloaded all!!!")
-                    _flush_dirty_users(users, dirty_user_ids, users_file_path)
-                    if images_changed:
-                        tournament_images.save(images_index, images_path)
-                    return
+                    stop = True
+                    break
 
                 if tournament_id in tournaments:
                     tournaments[tournament_id]["name"] = tournament_name
@@ -358,12 +381,22 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         "name": tournament_name,
                         "events": []
                     }
-                events_info = fetch_event_ids_from_tournament(tournament_id, game_id)
+                # Each event's state comes with the same query (no extra request). --quick takes only COMPLETED
+                # events; the normal run uses it for events fetched with nothing in them (empty_event_action).
+                event_states = {}
+                events_info = fetch_event_ids_from_tournament(tournament_id, game_id, states=event_states)
 
                 any_event_failed = False
                 champion_missing = False
+                event_not_completed = False   # --quick: an event start.gg does not report as COMPLETED yet
                 for event_id, event_name, is_online in events_info:
                     try:
+                        if quick:
+                            _qs, _qswhy = quick_event_state_action(event_states.get(event_id))
+                            if _qs == "skip":
+                                print(f"  {event_name}: {_qswhy}. Skipping.")
+                                event_not_completed = True
+                                continue
                         year, month, day = get_date_parts(timestamp)
                         event_dir = get_event_directory(startgg_dir, country_code, year, month, day, tournament_name, event_name)
 
@@ -382,19 +415,34 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                         if e.get("event_id") != event_id
                                     ]
                                     rewrite_tournaments = True
+                            elif quick and old_path == event_dir:
+                                if quick_event_action(event_files_complete(old_path))[0] == "skip":
+                                    continue
                             elif old_path == event_dir and event_files_complete(old_path):
                                 # Same path, files present. Whether to re-fetch is decided by download_policy.existing_event_action:
                                 # inside the post-completion refresh window, re-fetch even if a champion exists (pick up organizer fixes).
                                 # Without a champion, re-fetch only within 7 days of the end (or if registered as awaiting resume).
                                 _ref_end2 = end_timestamp or timestamp
+                                # Fetched earlier with nothing in it (no standings, no matches): until start.gg reports
+                                # the event as COMPLETED it may simply not have been held yet, so wait without a full
+                                # re-fetch, and take it once it is COMPLETED (empty_event_action).
+                                _ea, _ewhy = (empty_event_action(event_states.get(event_id), _ref_end2, now_timestamp)
+                                              if _event_is_empty(old_path) else (None, None))
+                                if _ea == "wait":
+                                    champion_missing = True
+                                    print(f"  [empty] {event_name}: {_ewhy} — waiting (not re-fetched, not marked done)")
+                                    continue
                                 _needs_refresh = _event_needs_recent_refresh(old_path, _ref_end2, now_timestamp)
                                 _has_champ = None if _needs_refresh else _standings_has_champion(old_path)
                                 _act, _why = existing_event_action(True, _needs_refresh, _has_champ, _ref_end2,
                                                                    now_timestamp, is_awaiting_resume(event_id))
+                                if _ea == "download":
+                                    _act, _why = "download", _ewhy
+                                    print(f"  [empty] {event_name}: {_ewhy} — re-fetching")
                                 if _act == "skip":
                                     continue
                                 if _why == "recent refresh":
-                                    print(f"  [refresh] {event_name}: ended within {RECENT_REFRESH_DAYS:g} days — re-fetching")
+                                    print(f"  [refresh] {event_name}: passed a refresh checkpoint after the end — re-fetching")
                                 elif _why == "awaiting resume":
                                     print(f"  [awaiting] {event_name}: registered as awaiting resume — re-fetching until a champion appears")
 
@@ -423,6 +471,14 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         elif _cm == "pending":
                             champion_missing = True
                             print(f"  [pending] {event_name}: no champion in standings — kept as a re-fetch target for 7 days")
+                        elif _event_is_empty(event_dir):
+                            # Nothing in it and not COMPLETED on start.gg: possibly not held yet (endAt set before the
+                            # real date). Not marked done; later runs only look at the state (above) until COMPLETED.
+                            _ea, _ewhy = empty_event_action(event_states.get(event_id), end_timestamp or timestamp,
+                                                            now_timestamp)
+                            if _ea == "wait":
+                                champion_missing = True
+                                print(f"  [empty] {event_name}: {_ewhy} — not marked done")
 
                         existing_events = tournaments[tournament_id]["events"]
                         if not any(e.get("event_id") == event_id for e in existing_events):
@@ -461,7 +517,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     # Only mark done if no event failed (so retry will pick it up).
                     # Use the in-memory done_tournaments set to avoid double-writing
                     # the same tid to done.csv when a tournament is re-processed.
-                    if not any_event_failed and not champion_missing:
+                    if not any_event_failed and not champion_missing and not event_not_completed:
                         if tournament_id not in done_tournaments:
                             write_done_tournaments(tournament_id, done_file_path)
                             done_tournaments.add(tournament_id)
@@ -470,7 +526,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 print(f"FetchError on tournament {tournament.get('name','?')}: {e}")
                 continue
 
-        if page >= total_pages:
+        if stop or page >= total_pages:
             break
         page += 1
 
@@ -536,6 +592,19 @@ def _standings_has_champion(event_dir):
         return not (len(rows) >= 8 and places and min(places) != 1)
     except Exception:
         return True
+
+
+def _event_is_empty(event_dir):
+    """No standings and no matches (= cancelled, registration only, or fetched before it was held).
+    False if unreadable (= treated as fine, like _standings_has_champion)."""
+    try:
+        for name in ("standings.json", "matches.json"):
+            with open(os.path.join(event_dir, name), "rb") as f:
+                if json.loads(f.read()).get("data"):
+                    return False
+        return True
+    except Exception:
+        return False
 
 
 def _tournament_needs_champion_retry(tournament_entry, ref_end_ts, now_timestamp):
@@ -689,6 +758,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "status": "completed",
         "timestamp": corr_ts,
         "end_timestamp": corr_end,
+        "fetched_at": int(clock.now_ts()),   # last fetch (the post-completion refresh reads it; file mtimes are not kept by git)
     }
     if corrected:
         json_data["startgg_start_at"] = timestamp
@@ -707,7 +777,12 @@ def download_standings(event_id, event_dir):
     query = get_standings_query()
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
-    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
+    # An event with no standings at all is a real answer, not a fetch failure — see
+    # fetch_all_nodes(missing_ok). Treated as empty standings so the rest of the event is
+    # still saved and the existing champion-missing rule decides when to stop re-fetching;
+    # raising here instead left the whole tournament out of done.csv and re-downloaded it
+    # every night forever (97 North America tournaments were stuck in that loop).
+    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE, missing_ok=True)
 
     user_data = []
     player_data = []
@@ -795,6 +870,17 @@ def extend_user_info(user_data, player_data, users, users_file_path, dirty_user_
         if user['authorizations'] is not None:
             for authorization in user['authorizations']:
                 if authorization['type'] == 'TWITTER':
+                    # start.gg always returns null here for TWITTER, so x_id is
+                    # null in every row we have ever written: 253,807 of 253,807
+                    # in data-North_America, checked 2026-10-21. x_name is
+                    # populated normally (null in 84.7%, i.e. only where the
+                    # player has not linked one), and DISCORD returns a real
+                    # externalId, so this is start.gg's behaviour for this one
+                    # authorization type rather than anything missing here.
+                    # Kept, and kept null, because users.jsonl's keys are a
+                    # documented contract (docs/data_model.md) that consumers
+                    # read -- dropping the field would be a breaking change for
+                    # a field nobody can be using. Do not spend time on it again.
                     x_id = authorization['externalId']
                     x_name = authorization['externalUsername']
                 elif authorization['type'] == 'DISCORD':
@@ -849,11 +935,12 @@ def fetch_latest_tournaments_by_game(game_id, country_code, limit=5, page=1, bef
     total_pages = response_data["data"]["tournaments"]["pageInfo"]["totalPages"]
     return tournaments, total_pages
 
-def fetch_event_ids_from_tournament(tournament_id, game_id):
+def fetch_event_ids_from_tournament(tournament_id, game_id, states=None):
     # The query no longer filters by videogameId so $gameId is not needed there, but the argument
     # is still taken to check the SSBU tag match via game_id comparison.
+    # states: a dict to fill with {event_id: state} (--quick). None = the normal query (without state)
     response_data = fetch_data_with_retries(
-        get_tournament_events_query(),
+        get_tournament_events_query(with_state=states is not None),
         {"tournamentId": tournament_id},
     )
     if "data" not in response_data or response_data["data"] is None or "tournament" not in response_data["data"] or response_data["data"]["tournament"] is None:
@@ -862,6 +949,8 @@ def fetch_event_ids_from_tournament(tournament_id, game_id):
     events = response_data["data"]["tournament"]["events"] or []
     out = []
     for event in events:
+        if states is not None:
+            states[event["id"]] = event.get("state")
         vg = (event.get("videogame") or {}).get("id")
         name = event.get("name") or ""
         # Normal: only events matching the given game_id.

@@ -61,9 +61,10 @@ An event whose files already exist at the same path is re-downloaded only if
 (`existing_event_action`):
 
 * a file is missing, or
-* the event ended within the last `SPSP_REFRESH_DAYS` days (default 3) and the last
-  download is at least `SPSP_REFRESH_MIN_HOURS` hours old (default 12) — organisers
-  correct results shortly after an event, or
+* it passed a refresh checkpoint since its last download — `SPSP_REFRESH_HOURS` after
+  the end, default `24,72`, so about two re-downloads per event; organisers correct
+  results shortly after an event (`recent_refresh_due`). The last download time is
+  `fetched_at` in `attr.json` (file mtimes are not kept by git checkouts), or
 * it has no champion yet and ended less than 7 days ago (`RETRY_WINDOW_SEC`), or
 * it is listed in the awaiting-resume registry (below).
 
@@ -74,6 +75,14 @@ no champion in `standings.json` and is still inside the 7-day window (or awaitin
 resume). Such tournaments are picked up again on the next run; once 7 days pass with no
 champion the tournament is marked done as is (typically a cancelled or never-finished
 bracket).
+
+An event saved with nothing in it (no standings and no matches) is not marked done
+while start.gg does not report it as `COMPLETED` and it is inside the 7-day window
+(`empty_event_action`). Organisers sometimes set `endAt` before the real date, so the
+tournament looks finished and is fetched before it is held. Later runs do not
+re-download such an event; they only read its state, which comes with the tournament's
+event list (no extra request), and download it once it is `COMPLETED`. After the
+window it is marked done as before (a cancelled event).
 
 ### Awaiting resume
 

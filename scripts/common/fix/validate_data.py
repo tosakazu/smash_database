@@ -184,37 +184,53 @@ def iter_event_dirs(events_root: Path):
 
 
 def validate_tournaments_file(tournaments_file: Path, errors: List[str]) -> None:
-    if not tournaments_file.exists():
+    if not jsonl_table.exists(tournaments_file):
         errors.append(f"{tournaments_file}: file not found")
         return
-    with tournaments_file.open("r", encoding="utf-8") as f:
-        for line_no, line in enumerate(f, 1):
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                record = json.loads(line)
-            except json.JSONDecodeError as exc:
-                errors.append(f"{tournaments_file}:{line_no}: invalid JSON ({exc})")
-                continue
-            events = record.get("events") or []
-            if not isinstance(events, list):
-                errors.append(f"{tournaments_file}:{line_no}: events is not a list")
-                continue
-            for event in events:
-                path = event.get("path")
-                if not path:
-                    errors.append(f"{tournaments_file}:{line_no}: event missing path")
+    for f in jsonl_table.files(tournaments_file):   # the single file or its tournaments/ shards
+        with f.open("r", encoding="utf-8") as fh:
+            for line_no, line in enumerate(fh, 1):
+                line = line.strip()
+                if not line:
                     continue
-                event_dir = Path(path)
-                if not event_dir.exists():
-                    errors.append(f"{tournaments_file}:{line_no}: missing event dir {path}")
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    errors.append(f"{f}:{line_no}: invalid JSON ({exc})")
+                    continue
+                events = record.get("events") or []
+                if not isinstance(events, list):
+                    errors.append(f"{f}:{line_no}: events is not a list")
+                    continue
+                for event in events:
+                    path = event.get("path")
+                    if not path:
+                        errors.append(f"{f}:{line_no}: event missing path")
+                        continue
+                    event_dir = Path(path)
+                    if not event_dir.exists():
+                        errors.append(f"{f}:{line_no}: missing event dir {path}")
+
+
+def large_index_files(region_dir: Path) -> List[str]:
+    """Index files (and shards) of the region over jsonl_table.WARN_BYTES: GitHub refuses a file over
+    100 MiB, so split the table (scripts/common/manual/shard_jsonl.py) well before that (issue #106)."""
+    out = []
+    if not region_dir.is_dir():
+        return out
+    for f in sorted(list(region_dir.glob("*.jsonl")) + list(region_dir.glob("*/*.jsonl")) + list(region_dir.glob("*.csv"))):
+        size = f.stat().st_size
+        if size > jsonl_table.WARN_BYTES:
+            out.append(f"{f}: {size / 2**20:.1f} MiB (GitHub's limit is 100 MiB; split it with "
+                       f"scripts/common/manual/shard_jsonl.py)")
+    return out
 
 
 import os as _os, sys as _sys
 _ROOT_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..", ".."))
 if _ROOT_DIR not in _sys.path:
     _sys.path.insert(0, _ROOT_DIR)
+from scripts.common import jsonl_table  # noqa: E402
 
 
 # ── error categorization (to track counts over time; individual messages carry counts/ratios, so those are dropped) ──
@@ -334,6 +350,8 @@ def main() -> int:
             warnings.extend(event_warnings)
 
     validate_tournaments_file(Path(args.tournaments_file), errors)
+    for msg in large_index_files(Path(args.tournaments_file).parent):
+        print(f"::warning::{msg}", flush=True)   # a GitHub Actions annotation; plain text elsewhere
 
     counts = summarize(errors)
 
