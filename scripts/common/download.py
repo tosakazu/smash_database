@@ -14,7 +14,7 @@ from scripts.common import clock
 from scripts.common._cli import add_api_args, setup_api
 from scripts.common.download_policy import (
     tournament_skip_reason, done_tournament_action, plan_event_moves, existing_event_action, champion_missing_reason,
-    quick_tournament_action, quick_event_state_action, quick_event_action, empty_event_action,
+    quick_tournament_action, quick_event_state_action, quick_event_action, empty_event_action, recent_refresh_due,
 )
 from scripts.common.queries import (
     get_standings_query, get_seeds_query,
@@ -130,11 +130,10 @@ def main():
 # ── Post-completion refresh ──
 # Organizers sometimes fix scores or placements after a tournament ends (found 2026-08-15 at Grand Slam #19).
 # Once a tournament is marked done it is never re-fetched, so such fixes would never be picked up.
-# So we re-fetch anything that ended within the last N days even if already downloaded. But the nightly
-# runs every 3 hours and re-fetching each time would spike API calls, so enforce a minimum interval per event
-# (last fetch time = mtime of attr.json; no dedicated state file).
-RECENT_REFRESH_DAYS = float(os.environ.get("SPSP_REFRESH_DAYS", "3"))
-RECENT_REFRESH_MIN_HOURS = float(os.environ.get("SPSP_REFRESH_MIN_HOURS", "12"))
+# So an event is re-fetched once each time it passes a checkpoint after its end (default 24 h and 72 h,
+# download_policy.recent_refresh_due). The last fetch time is fetched_at in attr.json: until 2026-11-03 it was the
+# mtime of attr.json, which a fresh checkout (GitHub Actions) sets to "now", so the refresh never fired there.
+RECENT_REFRESH_HOURS = tuple(float(x) for x in os.environ.get("SPSP_REFRESH_HOURS", "24,72").split(",") if x.strip())
 
 
 # ── Awaiting resume ──
@@ -175,17 +174,18 @@ def event_files_complete(event_dir):
 
 
 def _event_needs_recent_refresh(event_dir, ref_end_ts, now_timestamp):
-    """True if the event ended within N days and at least MIN_HOURS have passed since the last fetch."""
-    if RECENT_REFRESH_DAYS <= 0 or not ref_end_ts or not event_dir:
+    """True if the event passed a refresh checkpoint since it was last fetched (download_policy.recent_refresh_due).
+    The end is the later of start.gg's endAt and the one in attr.json (corrected from set times when endAt is off)."""
+    if not RECENT_REFRESH_HOURS or not event_dir:
         return False
-    if (now_timestamp - ref_end_ts) > RECENT_REFRESH_DAYS * 86400:
-        return False
-    attr = os.path.join(event_dir, "attr.json")
     try:
-        last = os.path.getmtime(attr)
-    except OSError:
-        return True          # not fetched yet / broken -> re-fetch
-    return (now_timestamp - last) >= RECENT_REFRESH_MIN_HOURS * 3600
+        with open(os.path.join(event_dir, "attr.json"), "rb") as f:
+            attr = json.loads(f.read())
+    except Exception:
+        return bool(ref_end_ts)   # not fetched yet / broken -> re-fetch
+    ends = [t for t in (ref_end_ts, attr.get("end_timestamp")) if isinstance(t, (int, float))]
+    return recent_refresh_due(max(ends) if ends else None, attr.get("fetched_at"), now_timestamp,
+                              [h * 3600 for h in RECENT_REFRESH_HOURS])
 
 
 def _tournament_needs_recent_refresh(tournament_entry, ref_end_ts, now_timestamp):
@@ -315,12 +315,12 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                     # without this the per-event retry below is never reached).
                     _champ_retry = _tournament_needs_champion_retry(
                         tournament_entry, end_timestamp or timestamp, now_timestamp)
-                    # Re-fetch right after completion (within RECENT_REFRESH_DAYS) since fixes may come in
+                    # Re-fetch at the checkpoints after completion (RECENT_REFRESH_HOURS) since fixes may come in
                     _recent_refresh = _tournament_needs_recent_refresh(
                         tournament_entry, end_timestamp or timestamp, now_timestamp)
                     if _recent_refresh:
                         print(f"({tournament_name} {datetime.fromtimestamp(timestamp)}) "
-                              f"ended within {RECENT_REFRESH_DAYS:g} days — re-fetching")
+                              f"passed a refresh checkpoint after the end — re-fetching")
                     _action, _why = done_tournament_action(
                         tournament_entry, bool(tournament_entry) and tournament_events_complete(tournament_entry),
                         _champ_retry, _recent_refresh)
@@ -442,7 +442,7 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                 if _act == "skip":
                                     continue
                                 if _why == "recent refresh":
-                                    print(f"  [refresh] {event_name}: ended within {RECENT_REFRESH_DAYS:g} days — re-fetching")
+                                    print(f"  [refresh] {event_name}: passed a refresh checkpoint after the end — re-fetching")
                                 elif _why == "awaiting resume":
                                     print(f"  [awaiting] {event_name}: registered as awaiting resume — re-fetching until a champion appears")
 
@@ -758,6 +758,7 @@ def write_event_attributes(num_entrants, event_id, event_name, tournament_name, 
         "status": "completed",
         "timestamp": corr_ts,
         "end_timestamp": corr_end,
+        "fetched_at": int(clock.now_ts()),   # last fetch (the post-completion refresh reads it; file mtimes are not kept by git)
     }
     if corrected:
         json_data["startgg_start_at"] = timestamp
