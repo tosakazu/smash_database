@@ -44,6 +44,7 @@ import os as _os, sys as _sys
 _ROOT_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..", ".."))
 if _ROOT_DIR not in _sys.path:
     _sys.path.insert(0, _ROOT_DIR)
+from scripts.common import jsonl_table  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -107,12 +108,11 @@ def parse_args() -> argparse.Namespace:
 
 def load_tournaments(path: Path) -> List[dict]:
     entries: List[dict] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line in handle:
-            line = line.strip()
-            if not line:
-                continue
-            entries.append(json.loads(line))
+    for line in jsonl_table.iter_lines(path):   # the single file or its tournaments/ shards
+        line = line.strip()
+        if not line:
+            continue
+        entries.append(json.loads(line))
     return entries
 
 
@@ -198,6 +198,12 @@ def fetch_tournament_id(event_id: int, api_url: str, token: str) -> tuple[Option
 
 
 def write_tournaments(entries: List[dict], path: Path, indent: Optional[int]) -> None:
+    if jsonl_table.is_sharded(path):
+        if indent is not None:
+            raise SystemExit("--indent cannot be used on a table split into shards")
+        from scripts.common.utils import write_jsonl
+        write_jsonl([dict(e) for e in entries], str(path), with_version=True)
+        return
     with path.open("w", encoding="utf-8") as handle:
         for entry in entries:
             serialisable = dict(entry)
@@ -213,7 +219,7 @@ def main() -> int:
     events_root = args.events_root
     repo_root = args.repo_root.resolve()
 
-    if not tournaments_file.is_file():
+    if not jsonl_table.exists(tournaments_file):
         print(f"{tournaments_file} not found.", file=sys.stderr)
         return 1
     if not events_root.is_dir():

@@ -23,6 +23,8 @@ import json
 import os
 from pathlib import Path
 
+from scripts.common import jsonl_table
+
 FILE = "region_rules.json"
 VERSION = 1
 
@@ -30,8 +32,8 @@ VERSION = 1
 def _tournament_names(region_dir: Path, events_root: Path) -> set[str]:
     names = set()
     tj = region_dir / "tournaments.jsonl"
-    if tj.exists():
-        for line in tj.open(encoding="utf-8"):
+    if jsonl_table.exists(tj):
+        for line in jsonl_table.iter_lines(tj):
             try:
                 n = json.loads(line).get("name")
             except ValueError:
@@ -63,8 +65,8 @@ def _event_series(events_root: Path) -> set[str]:
 def _countries(region_dir: Path) -> set[str]:
     out = set()
     uj = region_dir / "users.jsonl"
-    if uj.exists():
-        for line in uj.open(encoding="utf-8"):
+    if jsonl_table.exists(uj):
+        for line in jsonl_table.iter_lines(uj):
             try:
                 c = json.loads(line).get("country")
             except ValueError:
