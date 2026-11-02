@@ -47,6 +47,24 @@ def quick_event_state_action(event_state):
     return (None, None) if event_state == "COMPLETED" else ("skip", f"event not completed ({event_state})")
 
 
+def empty_event_action(event_state, ref_end_ts, now_ts):
+    """An event whose saved files hold nothing (no standings, no matches).
+
+    Such an event used to be marked done straight away as "cancelled / registration only". But when the organizer sets
+    endAt before the real date, the tournament looks finished before it is held and is fetched empty, then never again
+    (Funasuma 2026-11-01: endAt 10/31 23:59, fetched at 11/01 03:05 with 0 entrants, held that afternoon).
+    The event's state comes free with the tournament's event list, so:
+      - COMPLETED: ("download", ...) = fetch it (again); whatever comes back is final
+      - otherwise, within RETRY_WINDOW_SEC of endAt: ("wait", ...) = no full fetch, do not mark done
+      - otherwise: (None, None) = leave it to the usual rules (= marked done as before)
+    """
+    if event_state == "COMPLETED":
+        return "download", "empty event is COMPLETED on start.gg"
+    if ref_end_ts and (now_ts - ref_end_ts) < RETRY_WINDOW_SEC:
+        return "wait", f"empty and not completed yet ({event_state})"
+    return None, None
+
+
 def quick_event_action(files_complete):
     """--quick: an event whose files are all present at the same path is not re-fetched (even without a champion:
     the 7-day champion retry and awaiting resume are left to the full mode)."""
