@@ -123,3 +123,24 @@ def champion_missing_reason(has_champion, awaiting, ref_end_ts, now_ts):
     if ref_end_ts and (now_ts - ref_end_ts) < RETRY_WINDOW_SEC:
         return "pending"
     return None
+
+
+REFRESH_SLACK_SEC = 86400   # a checkpoint missed by this much (runs stopped) is no longer caught up
+
+
+def recent_refresh_due(end_ts, fetched_at, now_ts, checkpoints_sec):
+    """Post-completion refresh: True when the event passed a checkpoint (seconds after end_ts) since it was last fetched.
+
+    With checkpoints (24 h, 72 h) an event is re-fetched about twice after it ends, whatever the run interval.
+    fetched_at missing (files written before 2026-11-03): taken as fetched at end_ts, so such an event is re-fetched
+    once at the next checkpoint. Past the last checkpoint + REFRESH_SLACK_SEC nothing is re-fetched any more.
+    """
+    if not end_ts or not checkpoints_sec:
+        return False
+    if now_ts - end_ts > max(checkpoints_sec) + REFRESH_SLACK_SEC:
+        return False
+    passed = [c for c in checkpoints_sec if now_ts >= end_ts + c]
+    if not passed:
+        return False
+    last = fetched_at if isinstance(fetched_at, (int, float)) else end_ts
+    return last < end_ts + max(passed)
