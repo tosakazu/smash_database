@@ -14,7 +14,7 @@ from scripts.common import clock
 from scripts.common._cli import add_api_args, setup_api
 from scripts.common.download_policy import (
     tournament_skip_reason, done_tournament_action, plan_event_moves, existing_event_action, champion_missing_reason,
-    quick_tournament_action, quick_event_state_action, quick_event_action,
+    quick_tournament_action, quick_event_state_action, quick_event_action, empty_event_action,
 )
 from scripts.common.queries import (
     get_standings_query, get_seeds_query,
@@ -381,7 +381,9 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         "name": tournament_name,
                         "events": []
                     }
-                event_states = {} if quick else None
+                # Each event's state comes with the same query (no extra request). --quick takes only COMPLETED
+                # events; the normal run uses it for events fetched with nothing in them (empty_event_action).
+                event_states = {}
                 events_info = fetch_event_ids_from_tournament(tournament_id, game_id, states=event_states)
 
                 any_event_failed = False
@@ -421,10 +423,22 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                                 # inside the post-completion refresh window, re-fetch even if a champion exists (pick up organizer fixes).
                                 # Without a champion, re-fetch only within 7 days of the end (or if registered as awaiting resume).
                                 _ref_end2 = end_timestamp or timestamp
+                                # Fetched earlier with nothing in it (no standings, no matches): until start.gg reports
+                                # the event as COMPLETED it may simply not have been held yet, so wait without a full
+                                # re-fetch, and take it once it is COMPLETED (empty_event_action).
+                                _ea, _ewhy = (empty_event_action(event_states.get(event_id), _ref_end2, now_timestamp)
+                                              if _event_is_empty(old_path) else (None, None))
+                                if _ea == "wait":
+                                    champion_missing = True
+                                    print(f"  [empty] {event_name}: {_ewhy} — waiting (not re-fetched, not marked done)")
+                                    continue
                                 _needs_refresh = _event_needs_recent_refresh(old_path, _ref_end2, now_timestamp)
                                 _has_champ = None if _needs_refresh else _standings_has_champion(old_path)
                                 _act, _why = existing_event_action(True, _needs_refresh, _has_champ, _ref_end2,
                                                                    now_timestamp, is_awaiting_resume(event_id))
+                                if _ea == "download":
+                                    _act, _why = "download", _ewhy
+                                    print(f"  [empty] {event_name}: {_ewhy} — re-fetching")
                                 if _act == "skip":
                                     continue
                                 if _why == "recent refresh":
@@ -457,6 +471,14 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                         elif _cm == "pending":
                             champion_missing = True
                             print(f"  [pending] {event_name}: no champion in standings — kept as a re-fetch target for 7 days")
+                        elif _event_is_empty(event_dir):
+                            # Nothing in it and not COMPLETED on start.gg: possibly not held yet (endAt set before the
+                            # real date). Not marked done; later runs only look at the state (above) until COMPLETED.
+                            _ea, _ewhy = empty_event_action(event_states.get(event_id), end_timestamp or timestamp,
+                                                            now_timestamp)
+                            if _ea == "wait":
+                                champion_missing = True
+                                print(f"  [empty] {event_name}: {_ewhy} — not marked done")
 
                         existing_events = tournaments[tournament_id]["events"]
                         if not any(e.get("event_id") == event_id for e in existing_events):
@@ -570,6 +592,19 @@ def _standings_has_champion(event_dir):
         return not (len(rows) >= 8 and places and min(places) != 1)
     except Exception:
         return True
+
+
+def _event_is_empty(event_dir):
+    """No standings and no matches (= cancelled, registration only, or fetched before it was held).
+    False if unreadable (= treated as fine, like _standings_has_champion)."""
+    try:
+        for name in ("standings.json", "matches.json"):
+            with open(os.path.join(event_dir, name), "rb") as f:
+                if json.loads(f.read()).get("data"):
+                    return False
+        return True
+    except Exception:
+        return False
 
 
 def _tournament_needs_champion_retry(tournament_entry, ref_end_ts, now_timestamp):
