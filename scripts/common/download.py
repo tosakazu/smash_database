@@ -741,7 +741,12 @@ def download_standings(event_id, event_dir):
     query = get_standings_query()
     variables = {"eventId": event_id}
     keys = ["event", "standings"]
-    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE)
+    # An event with no standings at all is a real answer, not a fetch failure — see
+    # fetch_all_nodes(missing_ok). Treated as empty standings so the rest of the event is
+    # still saved and the existing champion-missing rule decides when to stop re-fetching;
+    # raising here instead left the whole tournament out of done.csv and re-downloaded it
+    # every night forever (97 North America tournaments were stuck in that loop).
+    standings_data = fetch_all_nodes(query, variables, keys, per_page=STANDINGS_PER_PAGE, missing_ok=True)
 
     user_data = []
     player_data = []
