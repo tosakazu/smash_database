@@ -129,6 +129,14 @@ jobs:
           fi
           printf '{"source_branch": "%s", "source_sha": "%s"}\n' "$SRC_BRANCH" "$SRC" > auto_sync.json
 
+      # 開催予定・クラス・derive・validate はこのチェックアウトの scripts/ で動く (地域の規則 scripts/North_America は担当者の版)。
+      # 共通部分 scripts/common だけは main の版に差し替える: 担当者のブランチの scripts/common は古いことがあり、
+      # 2026-11-03 に users.jsonl を users/ に分割した直後、古い overseas.py が users.jsonl を開いて derive が落ちた (#106)。
+      # 作業ツリーだけを差し替える (commit は "$DATA_DIR" だけを add するので、ブランチの scripts/ は変わらない)。
+      - name: 共通スクリプトを main の版にする
+        run: |
+          rm -rf scripts/common && cp -r "$MAIN_SRC/scripts/common" scripts/common
+
       # checkout したファイルの更新時刻は全部同じなので、derive の「入力が derived.json より新しい」判定がばらつく。
       # 先に derived.json を新しくしておき、この回で取った (または取り込んだ) 大会だけを判定し直す
       - name: derived.json の時刻をそろえる
