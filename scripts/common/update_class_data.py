@@ -35,6 +35,9 @@ from scripts.common import clock  # noqa: E402
 from scripts.common.region import load_region_classifier, class_support  # noqa: E402
 
 
+REFRESH_DAYS = 7   # same as download.py's re-fetch window after an event ends
+
+
 def events_root_for(region: str) -> Path:
     return ROOT / "data" / "startgg" / region.replace(" ", "_") / "events"
 
@@ -121,11 +124,20 @@ def main(argv=None) -> int:
         rc |= fetch_event_phases.main(["--event-dirs-file", "-", "--region", args.region], event_dirs=dirs) or 0
     # Stages 2-4 are idempotent (existing output skipped), so run them over everything each time
     print("+ fetch_class_phase_standings ...", flush=True)
-    rc |= fetch_class_phase_standings.main(["--events-root", str(events_root), "--region", args.region]) or 0
+    # --refresh-days: a class bracket first fetched while it was still running (no final yet) is fetched again
+    # for REFRESH_DAYS after the event ends; the file is rewritten only if start.gg's standings changed (2026-11-02,
+    # 琵琶湖事変＃5 B-class had two 1st places for good).
+    fetch_class_phase_standings.CHANGED_EVENT_DIRS.clear()
+    rc |= fetch_class_phase_standings.main(["--events-root", str(events_root), "--region", args.region,
+                                            "--refresh-days", str(REFRESH_DAYS)]) or 0
+    changed = sorted(fetch_class_phase_standings.CHANGED_EVENT_DIRS)
     print("+ fetch_class_phase_players ...", flush=True)
     rc |= fetch_class_phase_players.main(["--events-root", str(events_root), "--region", args.region]) or 0
     print("+ build_class_virtual_tournaments ...", flush=True)
     rc |= build_class_virtual_tournaments.main(["--events-root", str(events_root), "--region", args.region]) or 0
+    for ed in changed:   # standings changed → rebuild that event's virtual tournaments
+        print(f"+ build_class_virtual_tournaments --force {ed}", flush=True)
+        rc |= build_class_virtual_tournaments.main(["--events-root", str(ed), "--region", args.region, "--force"]) or 0
     print(f"[update_class_data] done rc={rc}", flush=True)
     return 1 if rc else 0
 
