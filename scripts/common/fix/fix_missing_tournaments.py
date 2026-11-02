@@ -24,6 +24,7 @@ import os as _os, sys as _sys
 _ROOT_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..", ".."))
 if _ROOT_DIR not in _sys.path:
     _sys.path.insert(0, _ROOT_DIR)
+from scripts.common import jsonl_table  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -159,16 +160,19 @@ def clean_tournaments(
 
 def read_jsonl(path: Path) -> list[dict]:
     records: list[dict] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line in handle:
-            line = line.strip()
-            if not line:
-                continue
-            records.append(json.loads(line))
+    for line in jsonl_table.iter_lines(path):   # the single file or its tournaments/ shards
+        line = line.strip()
+        if not line:
+            continue
+        records.append(json.loads(line))
     return records
 
 
 def write_jsonl(records: list[dict], path: Path) -> None:
+    if jsonl_table.is_sharded(path):
+        from scripts.common.utils import write_jsonl as write_table
+        write_table([dict(r) for r in records], str(path), with_version=True)
+        return
     with path.open("w", encoding="utf-8") as handle:
         for record in records:
             record = dict(record)
@@ -180,7 +184,7 @@ def write_jsonl(records: list[dict], path: Path) -> None:
 def main() -> None:
     args = parse_args()
     tournaments_file = args.tournaments_file
-    if not tournaments_file.is_file():
+    if not jsonl_table.exists(tournaments_file):
         raise SystemExit(f"{tournaments_file} does not exist.")
 
     repo_root = args.repo_root.resolve()

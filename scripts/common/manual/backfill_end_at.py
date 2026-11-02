@@ -22,6 +22,7 @@ ROOT = HERE.parent.parent.parent  # smash_db_tournament/ (3 levels above scripts
 sys.path.insert(0, str(ROOT))
 
 from scripts.common import utils  # noqa: E402
+from scripts.common import jsonl_table  # noqa: E402
 
 API_URL = "https://api.start.gg/gql/alpha"
 BATCH = 8  # aliases per request — keep small to avoid complexity errors
@@ -64,33 +65,32 @@ def collect_targets(events_root, tournaments_jsonl):
     targets = {}
     skipped_already = 0
     skipped_missing = 0
-    with open(tournaments_jsonl, "r", encoding="utf-8") as f:
-        for line in f:
+    for line in jsonl_table.iter_lines(tournaments_jsonl):   # the single file or its tournaments/ shards
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        tid = rec.get("tournament_id")
+        if tid is None:
+            continue
+        for ev in rec.get("events", []):
+            p = ev.get("path")
+            if not p:
+                continue
+            attr_path = Path(p) / "attr.json"
+            if not attr_path.is_file():
+                skipped_missing += 1
+                continue
             try:
-                rec = json.loads(line)
-            except json.JSONDecodeError:
+                with attr_path.open("r", encoding="utf-8") as af:
+                    attr = json.load(af)
+            except (json.JSONDecodeError, OSError):
+                skipped_missing += 1
                 continue
-            tid = rec.get("tournament_id")
-            if tid is None:
+            if attr.get("end_timestamp") is not None:
+                skipped_already += 1
                 continue
-            for ev in rec.get("events", []):
-                p = ev.get("path")
-                if not p:
-                    continue
-                attr_path = Path(p) / "attr.json"
-                if not attr_path.is_file():
-                    skipped_missing += 1
-                    continue
-                try:
-                    with attr_path.open("r", encoding="utf-8") as af:
-                        attr = json.load(af)
-                except (json.JSONDecodeError, OSError):
-                    skipped_missing += 1
-                    continue
-                if attr.get("end_timestamp") is not None:
-                    skipped_already += 1
-                    continue
-                targets.setdefault(tid, []).append(attr_path)
+            targets.setdefault(tid, []).append(attr_path)
     print(f"  targets: {len(targets)} tournaments | already-filled events: {skipped_already} | missing attr: {skipped_missing}", flush=True)
     return targets
 

@@ -21,6 +21,56 @@ def tournament_skip_reason(tournament_state, end_timestamp, timestamp, now_ts, s
     return None
 
 
+def quick_tournament_action(end_timestamp, timestamp, finish_ts, start_date_ts, is_done):
+    """Decision at the tournament-list stage for --quick (the light mode run every 15 minutes).
+    Returns ("stop", reason) = end the listing / ("skip", reason) / (None, None) = process it.
+    - the window is checked first, by endAt (the listing is sorted "endAt desc"), so the run stops at the first
+      tournament that ended before finish_ts even if it is done (the full mode only stops at one that is not done)
+    - the tournament's own state is not looked at: organizers often leave it CREATED after every event has finished
+      (e.g. the weekday Ueno Smacomi). Each event's state is checked instead (quick_event_state_action)
+    - tournaments in done.csv are never re-fetched (no post-completion refresh, no champion retry, no directory moves)
+    """
+    if (end_timestamp or timestamp) < finish_ts:
+        if end_timestamp is None:
+            return "skip", "endAt unset & older than finish_date"
+        return "stop", "older than finish_date"
+    if start_date_ts is not None and timestamp > start_date_ts:
+        return "skip", "newer than start_date"
+    if is_done:
+        return "skip", "already downloaded"
+    return None, None
+
+
+def quick_event_state_action(event_state):
+    """--quick: only events that start.gg reports as COMPLETED are fetched. A tournament with an event that is not
+    COMPLETED yet is not marked done (the next run, or the full mode, takes it)."""
+    return (None, None) if event_state == "COMPLETED" else ("skip", f"event not completed ({event_state})")
+
+
+def empty_event_action(event_state, ref_end_ts, now_ts):
+    """An event whose saved files hold nothing (no standings, no matches).
+
+    Such an event used to be marked done straight away as "cancelled / registration only". But when the organizer sets
+    endAt before the real date, the tournament looks finished before it is held and is fetched empty, then never again
+    (Funasuma 2026-11-01: endAt 10/31 23:59, fetched at 11/01 03:05 with 0 entrants, held that afternoon).
+    The event's state comes free with the tournament's event list, so:
+      - COMPLETED: ("download", ...) = fetch it (again); whatever comes back is final
+      - otherwise, within RETRY_WINDOW_SEC of endAt: ("wait", ...) = no full fetch, do not mark done
+      - otherwise: (None, None) = leave it to the usual rules (= marked done as before)
+    """
+    if event_state == "COMPLETED":
+        return "download", "empty event is COMPLETED on start.gg"
+    if ref_end_ts and (now_ts - ref_end_ts) < RETRY_WINDOW_SEC:
+        return "wait", f"empty and not completed yet ({event_state})"
+    return None, None
+
+
+def quick_event_action(files_complete):
+    """--quick: an event whose files are all present at the same path is not re-fetched (even without a champion:
+    the 7-day champion retry and awaiting resume are left to the full mode)."""
+    return ("skip", "files present") if files_complete else ("download", "files missing")
+
+
 def done_tournament_action(entry, events_complete, champ_retry, recent_refresh):
     """What to do with a tournament listed in done.csv.
     Returns: ("skip", reason) = do not re-fetch (only check directory moves) / ("redownload", reason)
@@ -73,3 +123,24 @@ def champion_missing_reason(has_champion, awaiting, ref_end_ts, now_ts):
     if ref_end_ts and (now_ts - ref_end_ts) < RETRY_WINDOW_SEC:
         return "pending"
     return None
+
+
+REFRESH_SLACK_SEC = 86400   # a checkpoint missed by this much (runs stopped) is no longer caught up
+
+
+def recent_refresh_due(end_ts, fetched_at, now_ts, checkpoints_sec):
+    """Post-completion refresh: True when the event passed a checkpoint (seconds after end_ts) since it was last fetched.
+
+    With checkpoints (24 h, 72 h) an event is re-fetched about twice after it ends, whatever the run interval.
+    fetched_at missing (files written before 2026-11-03): taken as fetched at end_ts, so such an event is re-fetched
+    once at the next checkpoint. Past the last checkpoint + REFRESH_SLACK_SEC nothing is re-fetched any more.
+    """
+    if not end_ts or not checkpoints_sec:
+        return False
+    if now_ts - end_ts > max(checkpoints_sec) + REFRESH_SLACK_SEC:
+        return False
+    passed = [c for c in checkpoints_sec if now_ts >= end_ts + c]
+    if not passed:
+        return False
+    last = fetched_at if isinstance(fetched_at, (int, float)) else end_ts
+    return last < end_ts + max(passed)

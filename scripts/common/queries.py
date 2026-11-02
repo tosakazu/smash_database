@@ -206,11 +206,13 @@ def get_user_player_query():
       }
     }"""
 
-def get_tournament_events_query():
+def get_tournament_events_query(with_state=False):
     # Drop the videogameId filter and fetch each event's videogame.id so that
     # download.py decides "SSBU tag or lower-class bracket name".
     # (On start.gg, B-class side events are sometimes registered without videogameId.)
     # $gameId is accepted for caller compatibility but unused in the query.
+    # with_state: also each event's state (CREATED / ACTIVE / COMPLETED), for download.py --quick.
+    # Off by default so the query string of the normal run (= the recorded-response replay key) stays the same.
     return """query TournamentEvents($tournamentId: ID!) {
       tournament(id: $tournamentId) {
         id
@@ -219,7 +221,8 @@ def get_tournament_events_query():
           id
           name
           startAt
-          isOnline
+          isOnline""" + ("""
+          state""" if with_state else "") + """
           videogame {
             id
           }
