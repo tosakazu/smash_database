@@ -298,7 +298,7 @@ def _is_complexity_error(response_data):
             return True
     return False
 
-def fetch_all_nodes(query, variables, keys, per_page=10):
+def fetch_all_nodes(query, variables, keys, per_page=10, missing_ok=False):
     all_nodes = []
     variables = variables.copy()
     MAX_PER_PAGE = per_page
@@ -352,6 +352,15 @@ def fetch_all_nodes(query, variables, keys, per_page=10):
                 raise FetchError(f"Error: '{key}' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
             data = data[key]
         if data is None or "nodes" not in data:
+            # start.gg answers a perfectly valid event with `standings: null` when the event
+            # has no standings connection at all — an event the organizer created and never
+            # ran (state CREATED), or one that finished without results being entered. There
+            # is no error in the response and no amount of retrying changes it, so callers
+            # that can mean "no rows" by that (missing_ok) get an empty list instead of a
+            # FetchError. Only on the first page: a connection that vanishes midway through
+            # pagination is a real fault and must not be read as "that was all of them".
+            if missing_ok and items_fetched == 0:
+                return all_nodes
             raise FetchError(f"Error: 'nodes' key not found in response. Query: {query}\nVariables: {variables}\nKeys: {keys}\nResponse data: {response_data}\n in fetch_all_nodes")
         nodes = data["nodes"]
         # Use pageInfo (= total count / total pages) as authoritative.
