@@ -113,7 +113,13 @@ T0=$(date +%s)
 step() { echo; echo "[$1] $(date '+%H:%M:%S') $2"; }
 RUN() { echo "+ $*"; [[ $DRY -eq 1 ]] || "$@"; }
 count_events() { find "$DATA_DIR/events" -name attr.json 2>/dev/null | wc -l | tr -d ' '; }
-count_lines() { [[ -f "$1" ]] && wc -l < "$1" | tr -d ' ' || echo 0; }
+# rows of an index file, or of its shards (users.jsonl → users/<n>.jsonl, scripts/common/jsonl_table.py)
+count_lines() {
+  local d="${1%.jsonl}"
+  if [[ -f "$1" ]]; then wc -l < "$1" | tr -d ' '
+  elif [[ "$d" != "$1" && -d "$d" ]]; then { cat "$d"/[0-9]*.jsonl 2>/dev/null || true; } | wc -l | tr -d ' '
+  else echo 0; fi
+}
 finish() {
   rc=$?
   echo

@@ -137,7 +137,7 @@ jobs:
       - name: 取得前の件数
         run: |
           echo "EV0=$(find "$DATA_DIR/events" -name attr.json | wc -l)" >> "$GITHUB_ENV"
-          echo "US0=$(wc -l < "$DATA_DIR/users.jsonl")" >> "$GITHUB_ENV"
+          echo "US0=$({ cat "$DATA_DIR"/users.jsonl "$DATA_DIR"/users/[0-9]*.jsonl 2>/dev/null || true; } | wc -l)" >> "$GITHUB_ENV"   # one file or its shards
 
       - name: 取得 (国ごと、時間の上限つき)
         env:
@@ -192,7 +192,7 @@ jobs:
 
       - name: 変更の要約
         run: |
-          echo "events: $EV0 → $(find "$DATA_DIR/events" -name attr.json | wc -l)   users.jsonl: $US0 → $(wc -l < "$DATA_DIR/users.jsonl")"
+          echo "events: $EV0 → $(find "$DATA_DIR/events" -name attr.json | wc -l)   users.jsonl: $US0 → $({ cat "$DATA_DIR"/users.jsonl "$DATA_DIR"/users/[0-9]*.jsonl 2>/dev/null || true; } | wc -l)"
           git add -A -- "$DATA_DIR"
           git diff --cached --name-status | awk '{print $1}' | sort | uniq -c; git diff --cached --stat | tail -1
 

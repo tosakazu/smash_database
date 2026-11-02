@@ -14,6 +14,9 @@ Rules (the operator wins whatever they changed; everything they did not touch st
   - index files with one record per key (users.jsonl / tournaments.jsonl / tournament_images.jsonl, and
     done.csv per line): per key, if the operator's version changed between <old> and <new>, take theirs
     (removed keys are removed); keys only the Actions have stay. Lines are copied verbatim.
+    users.jsonl / tournaments.jsonl may be split into users/<n>.jsonl shards (jsonl_table) on either
+    side; they are compared as whole tables. Ours stays split if it was, and becomes split as soon as
+    the operator's is.
   - every other path the operator changed (event files, derived files, upcoming.json, manual/, scripts/,
     docs/ ...): take their file as a whole (or delete it if they deleted it).
 Derived files of events the Actions wrote are recomputed by derive.py afterwards (the workflow runs it).
@@ -26,6 +29,11 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+from scripts.common import jsonl_table  # noqa: E402
 
 # file name → key of a record (None = the whole line is the key, i.e. a set of lines)
 KEYED = {
@@ -44,6 +52,56 @@ def git(*args: str, input: bytes | None = None) -> bytes:
 def blob(commit: str, path: str) -> bytes | None:
     r = subprocess.run(["git", "cat-file", "blob", f"{commit}:{path}"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     return r.stdout if r.returncode == 0 else None
+
+
+def tree_files(commit: str, directory: str) -> list[str]:
+    r = subprocess.run(["git", "ls-tree", "--name-only", "-z", f"{commit}:{directory}"],
+                       stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if r.returncode != 0:
+        return []
+    return [n.decode("utf-8", "surrogateescape") for n in r.stdout.split(b"\0") if n]
+
+
+def table_at(commit: str, path: str) -> tuple[str, bool]:
+    """(text of the whole table at commit, whether it is split there). path = .../users.jsonl."""
+    single = blob(commit, path)
+    d = str(jsonl_table.shard_dir(path))
+    shards = sorted((n for n in tree_files(commit, d) if n.endswith(".jsonl") and n[:-6].isdigit()),
+                    key=lambda n: int(n[:-6]))
+    if single is not None or not shards:
+        return (single or b"").decode("utf-8"), False
+    return "".join((blob(commit, f"{d}/{n}") or b"").decode("utf-8") for n in shards), True
+
+
+def table_of(path: str, data_dir: str) -> str | None:
+    """Index file name (KEYED) a changed path belongs to: the file itself, or one of its shards."""
+    if not path.startswith(data_dir + "/"):
+        return None
+    rel = path[len(data_dir) + 1:]
+    if rel in KEYED:
+        return rel
+    head, _, tail = rel.partition("/")
+    name = f"{head}.jsonl"
+    if name in KEYED and jsonl_table.spec_for(name) and "/" not in tail and tail.endswith(".jsonl") and tail[:-6].isdigit():
+        return name
+    return None
+
+
+def write_table(path: str, text: str, split: bool) -> None:
+    if not split:
+        tmp = f"{path}.tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.replace(tmp, path)
+        return
+    spec = jsonl_table.spec_for(path)
+    by_shard: dict[str, list[str]] = {}
+    for line in text.splitlines(keepends=True):
+        if line.strip():
+            by_shard.setdefault(jsonl_table.shard_of_record(path, spec, json.loads(line)), []).append(line)
+    jsonl_table.write_shards(path, by_shard)
+    if Path(path).exists():   # the single file became shards (git add -A stages both)
+        os.remove(path)
 
 
 def _key(line: str, field: str | None):
@@ -97,13 +155,13 @@ def main() -> int:
     ap.add_argument("--new", required=True, help="operator commit to sync now")
     args = ap.parse_args()
     data_dir = f"data/startgg/{args.region}"
-    keyed_paths = {f"{data_dir}/{name}": name for name in KEYED}
-
     pairs = changed_paths(args.old, args.new)
     take, delete, keyed = [], [], []
     for status, path in pairs:
-        if path in keyed_paths:
-            keyed.append(path)
+        name = table_of(path, data_dir)
+        if name is not None:
+            if name not in keyed:
+                keyed.append(name)
         elif status.startswith("D"):
             delete.append(path)
         else:
@@ -118,17 +176,16 @@ def main() -> int:
         git("rm", "-q", "-f", "--ignore-unmatch", "--pathspec-from-file=-", "--pathspec-file-nul",
             input=b"\0".join(p.encode("utf-8", "surrogateescape") for p in delete))
 
-    for path in keyed:
-        name = keyed_paths[path]
-        ours = Path(path).read_text(encoding="utf-8") if Path(path).exists() else ""
-        old = (blob(args.old, path) or b"").decode("utf-8")
-        new = (blob(args.new, path) or b"").decode("utf-8")
+    for name in keyed:
+        path = f"{data_dir}/{name}"
+        ours_split = jsonl_table.is_sharded(path)
+        ours = jsonl_table.read_text(path)
+        old, _ = table_at(args.old, path)
+        new, theirs_split = table_at(args.new, path)
         merged, st = merge_keyed(ours, old, new, KEYED[name], name in SORTED_BY_KEY)
-        if merged != ours:
-            tmp = f"{path}.tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                f.write(merged)
-            os.replace(tmp, path)
+        split = ours_split or (theirs_split and jsonl_table.spec_for(name) is not None)
+        if merged != ours or split != ours_split:
+            write_table(path, merged, split)
         print(f"[sync] {name}: taken {st['taken']}, added {st['added']}, removed {st['removed']}")
     return 0
 
