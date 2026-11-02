@@ -61,9 +61,10 @@ An event whose files already exist at the same path is re-downloaded only if
 (`existing_event_action`):
 
 * a file is missing, or
-* the event ended within the last `SPSP_REFRESH_DAYS` days (default 3) and the last
-  download is at least `SPSP_REFRESH_MIN_HOURS` hours old (default 12) — organisers
-  correct results shortly after an event, or
+* it passed a refresh checkpoint since its last download — `SPSP_REFRESH_HOURS` after
+  the end, default `24,72`, so about two re-downloads per event; organisers correct
+  results shortly after an event (`recent_refresh_due`). The last download time is
+  `fetched_at` in `attr.json` (file mtimes are not kept by git checkouts), or
 * it has no champion yet and ended less than 7 days ago (`RETRY_WINDOW_SEC`), or
 * it is listed in the awaiting-resume registry (below).
 
