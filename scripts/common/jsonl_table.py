@@ -1,4 +1,4 @@
-"""An index file (users.jsonl / tournaments.jsonl) that may be split into shards by id range.
+"""An index file (users.jsonl / tournaments.jsonl / tournament_images.jsonl) that may be split into shards by id range.
 
 GitHub refuses files over 100 MiB, and North America's users.jsonl reached 97.9 MiB in 2026-11 (issue #106).
 A table is addressed by its old file path everywhere (data/startgg/<region>/users.jsonl); on disk it is one of
@@ -30,10 +30,12 @@ class ShardSpec:
 
 
 # Sized from North America (2026-11): users 334k rows / max id 3.52M → 8 shards of ≤ ~25 MiB;
-# tournaments 158k rows / max id 0.97M → 10 shards of ≤ ~9 MiB.
+# tournaments 158k rows / max id 0.97M → 10 shards of ≤ ~9 MiB;
+# tournament_images 33 MiB → the same 10 shards of ≤ ~6 MiB.
 SHARDS = {
     "users.jsonl": ShardSpec("user_id", 500_000),
     "tournaments.jsonl": ShardSpec("tournament_id", 100_000),
+    "tournament_images.jsonl": ShardSpec("tournament_id", 100_000),
 }
 
 WARN_BYTES = 80 * 1024 * 1024   # any single data file over this is reported (GitHub's hard limit is 100 MiB)
