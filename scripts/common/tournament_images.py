@@ -1,6 +1,7 @@
 """Tournament icon (start.gg "profile" image) index: data/startgg/<Region>/tournament_images.jsonl.
 
-One line per tournament, sorted by tournament_id:
+One line per tournament, sorted by tournament_id (the table may be split into
+tournament_images/<tournament_id // 100000>.jsonl like tournaments.jsonl, see jsonl_table):
     {"tournament_id": 949713, "url": "https://images.start.gg/...png", "width": 400, "height": 400}
 "url" is null when the tournament has no icon (so "checked, none" differs from "not checked yet").
 
@@ -14,6 +15,8 @@ while the tournament is still in the window) and by manual/backfill_tournament_i
 import json
 import os
 
+from scripts.common import jsonl_table
+
 FILE_NAME = "tournament_images.jsonl"
 
 
@@ -25,15 +28,12 @@ def images_path_for(tournament_file_path):
 def load(path):
     """{tournament_id(int): {"url", "width", "height"}}. Missing file = empty."""
     out = {}
-    if not os.path.exists(path):
-        return out
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            rec = json.loads(line)
-            out[int(rec["tournament_id"])] = {k: rec.get(k) for k in ("url", "width", "height")}
+    for line in jsonl_table.iter_lines(path):
+        line = line.strip()
+        if not line:
+            continue
+        rec = json.loads(line)
+        out[int(rec["tournament_id"])] = {k: rec.get(k) for k in ("url", "width", "height")}
     return out
 
 
@@ -56,7 +56,16 @@ def update(index, tournament_id, images):
 
 
 def save(index, path):
-    """Full rewrite, sorted by tournament_id, atomic (temp file + os.replace)."""
+    """Full rewrite, sorted by tournament_id, atomic (temp file + os.replace).
+    When the table is split, only the shards whose text changed are written."""
+    if jsonl_table.is_sharded(path):
+        spec = jsonl_table.spec_for(path)
+        by_shard = {}
+        for tid in sorted(index):
+            by_shard.setdefault(jsonl_table.shard_name(spec, tid), []).append(
+                json.dumps({"tournament_id": tid, **index[tid]}, ensure_ascii=False) + "\n")
+        jsonl_table.write_shards(path, by_shard)
+        return
     tmp = f"{path}.tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         for tid in sorted(index):

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Split a region's users.jsonl / tournaments.jsonl into id-range shards, or join them back (issue #106).
+"""Split a region's users.jsonl / tournaments.jsonl / tournament_images.jsonl into id-range shards, or join them back (issue #106).
 
-    python3 scripts/common/manual/shard_jsonl.py --region North_America                 # both tables
+    python3 scripts/common/manual/shard_jsonl.py --region North_America                 # every table
     python3 scripts/common/manual/shard_jsonl.py --region North_America --table users.jsonl
     python3 scripts/common/manual/shard_jsonl.py --region North_America --join          # back to one file
 
 data/startgg/<region>/users.jsonl becomes data/startgg/<region>/users/<user_id // 500000>.jsonl
-(tournaments: tournament_id // 100000, see scripts/common/jsonl_table.py). Lines are moved verbatim and
+(tournaments and tournament_images: tournament_id // 100000, see scripts/common/jsonl_table.py). Lines are moved verbatim and
 keep their order within a shard; the old file is removed only after the shards were checked to hold
 exactly its lines. Commit the result with `git add -A -- data/startgg/<region>`.
 
