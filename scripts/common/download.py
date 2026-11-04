@@ -259,6 +259,11 @@ def download_all_tournaments(game_id, country_code, start_date, finish_date, sta
                 tournament_id = tournament["id"]
                 tournament_name = tournament["name"]
                 tournament_state = tournament.get("state")
+                if tournament.get("startAt") is None:
+                    # start.gg occasionally lists a tournament without startAt (seen in Oceania 2019-04/08 AU).
+                    # It cannot be placed in a date directory; skip it instead of aborting the whole listing.
+                    print(f"({tournament_name} id={tournament_id}) has no startAt. Skipping.")
+                    continue
                 if tournament_images.update(images_index, tournament_id, tournament.get("images")):
                     images_changed = True
                 timestamp = tournament["startAt"]
