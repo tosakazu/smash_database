@@ -19,7 +19,9 @@
 # 通常の回が優先: 通常の回を送る前に、Worker は終わっていない軽量の回 (表示名 download-japan quick) を取り消す。
 # 終わってから 24 時間以内の大会のうち、まだ取り込んでいないものの、start.gg で COMPLETED の部門だけ取る (download.py --quick)。
 # 大会そのものの状態は見ない (主催者が大会を完了にしないことが多い。部門は COMPLETED になる)。
-# 取り込み済みの取り直し (終了後 3 日)・優勝者なしの取り直し (7 日)・再開待ち・開催予定・下位クラスは通常の回 (3 時間ごと) だけ。
+# 取り込み済みの取り直し (終了後 3 日)・優勝者なしの取り直し (7 日)・再開待ち・開催予定の一覧・下位クラスは通常の回 (3 時間ごと) だけ。
+# 参加予定者は軽量の回でも 24 時間以内に始まる (と始まって 24 時間以内の) 部門だけ取り直す (2026-11-04、当日の申し込みを早く出す)。
+# 中身が前回と同じなら書かない (generated_at だけの変化で commit・ビルドを起こさない)。
 #
 # ConoHa の nightly (data-Japan にも push していた) は 2026-09-28 17:35 から一時停止。再開するときはここの schedule を
 # 止めること (両方で push すると食い違う)。手動実行の push は既定で off。
@@ -90,6 +92,32 @@ jobs:
             --awaiting-file data/startgg/Japan/manual/awaiting_resume.json 2>&1 | tee "$RUNNER_TEMP/dl.log" | grep -vE 'InsecureRequestWarning|warnings.warn'
           n=$(grep -c FetchError "$RUNNER_TEMP/dl.log" || true)
           [ "$n" -eq 0 ] || echo "::warning::download で FetchError $n 件 (該当大会は done にならず次回取り直し)"
+
+      - name: 参加予定者 (24 時間以内に始まる部門だけ、軽量モード)
+        if: inputs.quick
+        env:
+          STARTGG_TOKEN: ${{ secrets.JP_STARTGG_TOKEN }}
+        run: |
+          UE=data/startgg/Japan/upcoming_entrants.json
+          python -u scripts/common/fetch_upcoming_entrants.py --upcoming data/startgg/Japan/upcoming.json --within-hours 24 \
+              --out "$RUNNER_TEMP/ue.staging.json" --prev "$UE" \
+            && python -u scripts/common/annotate_upcoming.py --region Japan --in "$RUNNER_TEMP/ue.staging.json" \
+              --out "$RUNNER_TEMP/ue.json" \
+            && python - "$RUNNER_TEMP/ue.json" "$UE" <<'PY' \
+            || echo "::warning::参加予定者の取得が失敗 (前回分のまま)"
+          import json, shutil, sys
+          new, cur = sys.argv[1], sys.argv[2]
+          body = lambda d: {k: v for k, v in d.items() if k != "generated_at"}
+          try:
+              same = body(json.load(open(new))) == body(json.load(open(cur)))
+          except (OSError, ValueError):
+              same = False
+          if same:
+              print("参加予定者: 前回と同じ (書かない)")
+          else:
+              shutil.copyfile(new, cur)
+              print("参加予定者: 更新")
+          PY
 
       - name: 取得 (過去大会・開催予定・クラス bracket)
         if: ${{ !inputs.quick }}
