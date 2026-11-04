@@ -1,6 +1,5 @@
-# main tracks only scripts and docs. Data lives on the region branches (data-Japan / data-North_America ...).
-# Region branches merge main and then track data/startgg/<region>/ (their .gitignore does not ignore data/).
-data/
+# data-<Region> = main (scripts / docs / README) + that region's data under data/startgg/.
+# Merge main to update the scripts. Only generated and temporary files under data/startgg/ are ignored here.
 download.out
 */__pycache__/
 __pycache__/
@@ -12,3 +11,8 @@ data_integrity_report.jsonl
 failed_events.log
 data_audits/
 logs/
+data/startgg/*.bak*
+data/startgg/*/*.bak*
+data/startgg/.refresh_*
+data/startgg/*/users_ranked.jsonl
+data/startgg/*/*checkpoint*
