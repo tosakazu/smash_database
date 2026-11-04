@@ -85,6 +85,7 @@ data/startgg/North_America/                 one directory per region (the region
 ├── tournaments.jsonl                       ← download.py       index: one line per tournament, with the event paths
 │                                             (or tournaments/<n>.jsonl once split, docs/data_model.md "Shards")
 ├── tournament_images.jsonl                 ← download.py       tournament icon URL per tournament (no image files)
+│                                             (or tournament_images/<n>.jsonl once split, docs/data_model.md "Shards")
 ├── users.jsonl                             ← download.py       index: one line per player seen in any event
 │                                             (or users/<n>.jsonl once split, docs/data_model.md "Shards")
 ├── users_derived.jsonl                     ← derive.py         generated: per-player judgements (empty for North America for now)

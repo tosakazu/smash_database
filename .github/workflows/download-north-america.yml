@@ -87,6 +87,17 @@ jobs:
           echo "src=$src" >> "$GITHUB_OUTPUT"; echo "auto=$auto" >> "$GITHUB_OUTPUT"; echo "ref=$ref" >> "$GITHUB_OUTPUT"
           echo "$SRC_BRANCH = ${src:0:10}  $AUTO_BRANCH = ${auto:0:10}  → checkout ${ref:0:10}"
 
+      # 北米のデータは 127 万ファイル (checkout で約 16 GB)。ランナーによっては空きが足りず、checkout の途中で
+      # "No space left on device" になって落ちる (2026-11-03〜04 に 2 回)。使わないツール (約 15 GB、10 秒ほど) を先に消す。
+      # それでも 30 GB 未満なら Android SDK (約 12 GB、30 秒ほど) も消す。
+      - name: ディスクを空ける
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/.ghcup /opt/ghc /opt/hostedtoolcache/CodeQL /usr/share/swift
+          avail=$(df --output=avail -k / | tail -1)
+          if [ "$avail" -lt $((30 * 1024 * 1024)) ]; then sudo rm -rf /usr/local/lib/android; fi
+          df -h /
+
       - name: データ (最新 1 コミット)
         uses: actions/checkout@v4
         with:
@@ -128,6 +139,14 @@ jobs:
             fi
           fi
           printf '{"source_branch": "%s", "source_sha": "%s"}\n' "$SRC_BRANCH" "$SRC" > auto_sync.json
+
+      # 開催予定・クラス・derive・validate はこのチェックアウトの scripts/ で動く (地域の規則 scripts/North_America は担当者の版)。
+      # 共通部分 scripts/common だけは main の版に差し替える: 担当者のブランチの scripts/common は古いことがあり、
+      # 2026-11-03 に users.jsonl を users/ に分割した直後、古い overseas.py が users.jsonl を開いて derive が落ちた (#106)。
+      # 作業ツリーだけを差し替える (commit は "$DATA_DIR" だけを add するので、ブランチの scripts/ は変わらない)。
+      - name: 共通スクリプトを main の版にする
+        run: |
+          rm -rf scripts/common && cp -r "$MAIN_SRC/scripts/common" scripts/common
 
       # checkout したファイルの更新時刻は全部同じなので、derive の「入力が derived.json より新しい」判定がばらつく。
       # 先に derived.json を新しくしておき、この回で取った (または取り込んだ) 大会だけを判定し直す

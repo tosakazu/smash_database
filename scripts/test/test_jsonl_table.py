@@ -1,4 +1,4 @@
-"""users.jsonl / tournaments.jsonl split into id-range shards (jsonl_table, issue #106): every reader and
+"""users.jsonl / tournaments.jsonl / tournament_images.jsonl split into id-range shards (jsonl_table, issue #106): every reader and
 writer sees the same records as with the single file, and only the shards that changed are rewritten."""
 import json
 import subprocess
@@ -104,6 +104,31 @@ class ReadWriteTests(unittest.TestCase):
             shard_jsonl.main(["--region", "X", "--data-dir", tmp, "--table", "tournaments.jsonl"])
             self.assertEqual([f.name for f in jt.shard_files(p)], ["0.jsonl", "1.jsonl", "9.jsonl"])
             self.assertEqual(set(utils.read_tournaments_jsonl(str(p))), {949_759, 11_858, 120_000})
+
+    def test_tournament_images_table(self):
+        from scripts.common import tournament_images as ti
+        url = "https://images.start.gg/images/tournament/1/image-a.png"
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(ti.images_path_for(Path(tmp) / "tournaments.jsonl"))
+            index = {}
+            for t in (949_759, 11_858, 120_000):
+                ti.update(index, t, [{"url": url, "width": 1, "height": 1}])
+            ti.save(index, p)
+            single = p.read_text(encoding="utf-8")
+            shard_jsonl.main(["--region", "X", "--data-dir", tmp, "--table", "tournament_images.jsonl"])
+            self.assertFalse(p.exists())
+            self.assertEqual([f.name for f in jt.shard_files(p)], ["0.jsonl", "1.jsonl", "9.jsonl"])
+            self.assertEqual(ti.load(p), index)
+            # save keeps the split layout, writes only the shard that changed, and the lines match the single file
+            ti.update(index, 949_759, [])
+            with mock.patch.object(jt, "_atomic_write", wraps=jt._atomic_write) as w:
+                ti.save(index, p)
+            self.assertFalse(p.exists())
+            self.assertEqual([c.args[0].name for c in w.call_args_list], ["9.jsonl"])
+            self.assertEqual(ti.load(p), index)
+            ti.update(index, 949_759, [{"url": url, "width": 1, "height": 1}])
+            ti.save(index, p)
+            self.assertEqual(sorted(jt.read_text(p).splitlines()), sorted(single.splitlines()))
 
     def test_large_file_warning(self):
         from scripts.common.fix import validate_data
