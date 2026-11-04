@@ -120,12 +120,11 @@ class ReadWriteTests(unittest.TestCase):
             self.assertEqual([f.name for f in jt.shard_files(p)], ["0.jsonl", "1.jsonl", "9.jsonl"])
             self.assertEqual(ti.load(p), index)
             # save keeps the split layout, writes only the shard that changed, and the lines match the single file
-            before = {f.name: f.stat().st_mtime_ns for f in jt.shard_files(p)}
             ti.update(index, 949_759, [])
-            ti.save(index, p)
+            with mock.patch.object(jt, "_atomic_write", wraps=jt._atomic_write) as w:
+                ti.save(index, p)
             self.assertFalse(p.exists())
-            after = {f.name: f.stat().st_mtime_ns for f in jt.shard_files(p)}
-            self.assertEqual([n for n in before if before[n] != after[n]], ["9.jsonl"])
+            self.assertEqual([c.args[0].name for c in w.call_args_list], ["9.jsonl"])
             self.assertEqual(ti.load(p), index)
             ti.update(index, 949_759, [{"url": url, "width": 1, "height": 1}])
             ti.save(index, p)
