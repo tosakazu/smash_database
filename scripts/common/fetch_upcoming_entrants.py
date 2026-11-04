@@ -18,7 +18,9 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
 seed / pg / bracket are only present when the first phase's bracket and seeding are both published on start.gg
 (event.publishing.bracket / .seeding, true or per phase) and the phase has seeds. Unpublished phases are not returned by the
 API at all. "First phase" = the lowest phaseOrder that is not an exhibition (the pools players start in).
-Usage: fetch_upcoming_entrants.py [--upcoming PATH] [--out PATH] [--max-events N]
+Usage: fetch_upcoming_entrants.py [--upcoming PATH] [--out PATH] [--max-events N] [--within-hours H]
+--within-hours H (the 15-minute quick run of download-japan, 2026-11-04): only events starting within the next H hours
+(or started within 24h) are fetched again; every other event is carried over from --prev unchanged.
 The token is read from $STARTGG_TOKEN → $SPSP_SECRETS_DIR/STARTGG_TOKEN (default ~/spsp-secrets) → ~/spsp-ranking/STARTGG_TOKEN, in that order (the value is never printed).
 """
 import argparse
@@ -210,6 +212,8 @@ def main():
                     help='Previously published file (source for carrying over tournaments within 24h after start)')
     ap.add_argument('--max-events', type=int, default=0, help='0=unlimited')
     ap.add_argument('--token', default=None, help='If omitted, $STARTGG_TOKEN then the token file')
+    ap.add_argument('--within-hours', type=float, default=0,
+                    help='Only re-fetch events starting within this many hours (0 = all); the rest come from --prev')
     args = ap.parse_args()
 
     token = args.token or os.environ.get('STARTGG_TOKEN') or _read_token()
@@ -231,6 +235,8 @@ def main():
             # Keep events up to 24h after start (for same-day / in-progress simulation)
             if start and start + 86400 < now:
                 continue
+            if args.within_hours and start and start > now + args.within_hours * 3600:
+                continue   # carried over from --prev below
             eid = ev['event_id']
             if args.max_events and n_done >= args.max_events:
                 break
