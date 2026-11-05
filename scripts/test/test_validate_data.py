@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.common.fix.validate_data import validate_event_dir
+from scripts.common.fix.validate_data import compare_with_baseline, validate_event_dir
 
 
 def write_json(path: Path, payload):
@@ -121,3 +121,40 @@ class SummaryBaselineTests(unittest.TestCase):
             # 基準に無い種別が出てきたら 0 からの増加として見る
             self.assertEqual(compare_with_baseline({"y": 3}, baseline_file, 10), [])
             self.assertEqual(len(compare_with_baseline({"y": 30}, baseline_file, 10)), 1)
+
+
+class ProportionalToleranceTests(unittest.TestCase):
+    """A flat allowance cannot serve categories three orders of magnitude apart.
+
+    North America's two biggest known-issue categories drift upward every day
+    just because more events arrive — +15 on 40,177 and +22 on 22,931,
+    measured 2026-11-05 — so a flat tolerance of 10 reported a regression
+    every night and the warning stopped meaning anything.
+    """
+
+    def _compare(self, baseline, counts, tolerance=10):
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "baseline.json"
+            f.write_text(json.dumps({"counts": baseline}), encoding="utf-8")
+            return compare_with_baseline(counts, f, tolerance)
+
+    def test_ordinary_daily_drift_on_a_large_category_is_not_a_regression(self):
+        self.assertEqual(self._compare({"sets_missing_winner_loser": 40177},
+                                       {"sets_missing_winner_loser": 40192}), [])
+
+    def test_a_real_jump_still_reports(self):
+        out = self._compare({"sets_missing_winner_loser": 29435},
+                            {"sets_missing_winner_loser": 40156})
+        self.assertEqual(len(out), 1)
+        self.assertIn("sets_missing_winner_loser", out[0])
+
+    def test_small_categories_keep_the_flat_floor(self):
+        # 0.2% of 89 rounds to nothing, so these behave exactly as before.
+        self.assertEqual(self._compare({"set_ids_not_in_standings": 89},
+                                       {"set_ids_not_in_standings": 99}), [])
+        self.assertEqual(len(self._compare({"set_ids_not_in_standings": 89},
+                                           {"set_ids_not_in_standings": 100})), 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
