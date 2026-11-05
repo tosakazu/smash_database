@@ -67,8 +67,30 @@ jobs:
         with:
           ref: data-Japan
           fetch-depth: 1
-          ssh-key: ${{ secrets.JP_DATA_DEPLOY_KEY }}
-          persist-credentials: ${{ inputs.push }}
+          # 読むのは HTTPS (公開リポジトリ)。GitHub の SSH がときどき Permission denied (publickey) を返し、
+          # 取得の前に落ちていた (11-04・11-05、同じ鍵で前後の回は通る)。SSH は push だけに使い、やり直す (2026-11-06)
+          persist-credentials: false
+
+      - name: push の準備 (deploy key、SSH)
+        if: inputs.push
+        env:
+          KEY: ${{ secrets.JP_DATA_DEPLOY_KEY }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/jp_deploy_key && chmod 600 ~/.ssh/jp_deploy_key
+          # GitHub の公開ホスト鍵は HTTPS の API から (ssh-keyscan の初回信用にしない)
+          curl -fsS --retry 5 https://api.github.com/meta | jq -r '.ssh_keys[] | "github.com " + .' > ~/.ssh/known_hosts
+          [ -s ~/.ssh/known_hosts ]
+          git remote set-url --push origin "git@github.com:${{ github.repository }}.git"
+          git config core.sshCommand "ssh -i $HOME/.ssh/jp_deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+          # push は 5 回までやり直す (SSH がときどき通らない)
+          cat > "$RUNNER_TEMP/push.sh" <<'SH'
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:data-Japan && exit 0
+            echo "::warning::push に失敗 ($i 回目)。$((i * 20)) 秒後にやり直す"; sleep $((i * 20))
+          done
+          exit 1
+          SH
 
       - uses: actions/setup-python@v5
         with:
@@ -188,7 +210,7 @@ jobs:
           git add -A -- data/startgg
           if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
           git commit -q -m "data: $(date +%F) ${{ inputs.quick && 'quick' || 'nightly' }} (GitHub Actions)"
-          git push origin HEAD:data-Japan
+          bash "$RUNNER_TEMP/push.sh"
 
       # push できたものだけを「取得済み」にする (push の前に知らせると、push に失敗したときに一覧から消えて取り損ねる)
       - name: Challonge の下位クラスを取得済みにする
@@ -202,6 +224,6 @@ jobs:
           git add -A -- data/startgg
           if ! git diff --cached --quiet; then
             git commit -q -m "data: remove Challonge class brackets deleted by the TO while being ingested"
-            git push origin HEAD:data-Japan
+            bash "$RUNNER_TEMP/push.sh"
           fi
           exit $rc
