@@ -64,7 +64,8 @@ jobs:
     if: github.repository == 'tosakazu/smash_database' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     environment: na-data
-    timeout-minutes: 355
+    # 軽量の回は普段 10 分ほど。止まったときに次の回 (15 分ごと) を何回も飛ばさないよう 40 分で打ち切る (2026-11-06)
+    timeout-minutes: ${{ inputs.quick && 40 || 355 }}
     permissions:
       contents: write   # incoming/North_America と data-North_America-auto への push だけに使う
     env:
@@ -166,6 +167,8 @@ jobs:
           QUICK: ${{ inputs.quick }}
         run: |
           set -o pipefail
+          # 軽量の回は取得を 20 分まで (超えたら取れた分で続ける。残りは次の回)
+          if [ "$QUICK" = "true" ] && [ "$DL_MINUTES" -gt 20 ]; then DL_MINUTES=20; fi
           TODAY=$(date +%F)
           if [ "$QUICK" = "true" ]; then FROM=$(date -d "-24 hours" +%FT%T); MODE=(--quick); else FROM=$(date -d "-${DAYS} days" +%F); MODE=(); fi
           CODES=$(python -c "from scripts.North_America.country import COUNTRY_CODES as c; print(' '.join(c))")
