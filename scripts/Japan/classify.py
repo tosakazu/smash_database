@@ -20,7 +20,7 @@ from scripts.Japan.naming import naming_labels
 from scripts.Japan.prefecture import resolve as resolve_prefecture
 from scripts.Japan.geo import UNIT_IDS as PREFECTURES   # 47 都道府県 (順序付き)。定義元は geo.py
 
-CLASSIFIER_VERSION = 18  # 18: Victoire を制限大会のシリーズに (#1 も制限、2026-11-02 ユーザー指定)   # 17: 名前に「制限大会」(無制限を除く) を制限大会に・名前にクラスの字がある単独の下位クラス大会に class_letter (Victoire #2、2026-11-02 ユーザー指定)   # 16: 渋谷"達" を実質平日に (休日開催も平日大会扱い、優勝者杯は除く、2026-11-01 ユーザー指定)   # 15: 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
+CLASSIFIER_VERSION = 19  # 19: 下位クラスの字を B〜E から B〜J に (マエスマ GRAND WARS の F/G/H class、2026-11-06 ユーザー指定)   # 18: Victoire を制限大会のシリーズに (#1 も制限、2026-11-02 ユーザー指定)   # 17: 名前に「制限大会」(無制限を除く) を制限大会に・名前にクラスの字がある単独の下位クラス大会に class_letter (Victoire #2、2026-11-02 ユーザー指定)   # 16: 渋谷"達" を実質平日に (休日開催も平日大会扱い、優勝者杯は除く、2026-11-01 ユーザー指定)   # 15: 15: 上野スマコミの平日扱いを 2026-10-29 開催分までに (10-30 以降の休日開催は通常の休日大会、2026-10-25 ユーザー指定)   # 14: 14: 番号が二重・崩れる大会の表示名 (渋谷大乱第二陣2・桜梅桃李第弐幕 2・スマえもん第・第76.5回 美らブラ) を直す (2026-10-19)   # 13: スマバトNEXUS を制限大会の別シリーズに (2026-10-12)   # 12: derived.json naming.series_event (スマパカジュアルの分け方を spsp_scripts から移した) (2026-10-08)
 # 11: 特殊ルールに Squad Strike / ビンゴ / 九龍#15 の「TO トーナメント」を追加 (2026-09-25)
                          # 10: 身内に Jogibu -final lap- を追加 (2026-09-17)
                          # 9:   # 9: 身内判定に「合宿」を戻す (スマサー合宿 #6-#8 を再び身内として除外。2026-09-16)
@@ -212,8 +212,8 @@ RESTRICTED_PATTERN = re.compile(
 )
 # 下位クラスイベント (Bクラス / Cクラス / Bclass / B_Class / b_class 等)。セパレータは空白/アンダースコア/ハイフン
 LOWER_CLASS_PATTERN = re.compile(
-    r'[BCDEＢＣＤＥ]\s*クラス'
-    r'|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])'
+    r'[B-JＢ-Ｊ]\s*クラス'
+    r'|(?<![A-Za-z])[B-J][\s_\-]*class(?![A-Za-z])'
     r'|スマパ[！!]?\s*[デ]?\s*カジュアル|スマパカジュアル',     # スマパ系カジュアルは下位クラス扱い (半/全角!)
     re.IGNORECASE,
 )
@@ -337,16 +337,16 @@ def upcoming_flags(tournament_name: str, event_name: str, num_entrants: int, sta
     return out
 
 
-# ── クラス bracket (B/C/D/E クラス)。判定と命名は日本固有、束ねる処理は scripts/common/ にある ──
-CLASS_LETTERS = ("B", "C", "D", "E")
+# ── クラス bracket (B〜J クラス。2026-11-06 に B〜E から広げた。J まで = 仮想大会 ID の 1 桁の枠)。判定と命名は日本固有、束ねる処理は scripts/common/ にある ──
+CLASS_LETTERS = ("B", "C", "D", "E", "F", "G", "H", "I", "J")   # 順 = 仮想大会 ID の末尾 (B=1 … J=9)。足すときは後ろに
 # phases.json の is_class を決めるパターン (fetch_event_phases.py が使う)
-CLASS_PHASE_PATTERN = re.compile(r'[BCDEＢＣＤＥ]\s*[-_\s]*[Cc]lass|[BCDEＢＣＤＥ]\s*クラス', re.IGNORECASE)
+CLASS_PHASE_PATTERN = re.compile(r'[B-JＢ-Ｊ]\s*[-_\s]*[Cc]lass|[B-JＢ-Ｊ]\s*クラス', re.IGNORECASE)
 # matches.json の phase 名から「phases.json でまだ分離されていないクラス戦」を見つけるパターン。
 # 上とほぼ同じだが英字側に語境界がある (経緯: 別々に書かれたものをそのまま持ってきた)
 CLASS_IN_MATCH_PATTERN = re.compile(
-    r'[BCDEＢＣＤＥ]\s*クラス|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
-CLASS_LETTER_PATTERN = re.compile(r'([BCDE])\s*(?:[-_\s]*[Cc]lass|クラス)', re.IGNORECASE)
-_CLASS_FULLWIDTH = str.maketrans('ＢＣＤＥｂｃｄｅ', 'BCDEbcde')
+    r'[B-JＢ-Ｊ]\s*クラス|(?<![A-Za-z])[B-J][\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
+CLASS_LETTER_PATTERN = re.compile(r'([B-J])\s*(?:[-_\s]*[Cc]lass|クラス)', re.IGNORECASE)
+_CLASS_FULLWIDTH = str.maketrans('ＢＣＤＥＦＧＨＩＪｂｃｄｅｆｇｈｉｊ', 'BCDEFGHIJbcdefghij')
 
 
 def is_class_phase(name: str | None) -> bool:
@@ -360,7 +360,7 @@ def is_unseparated_class_phase(name: str | None) -> bool:
 
 
 def class_letter(name: str | None) -> str | None:
-    """phase 名 → クラスの字 (B/C/D/E)。全角も受ける。"""
+    """phase 名 → クラスの字 (B〜J)。全角も受ける。"""
     if not name:
         return None
     m = CLASS_LETTER_PATTERN.search(name.translate(_CLASS_FULLWIDTH))
@@ -444,10 +444,10 @@ def classify_event(base: dict, ctx) -> dict:
 
 
 # 大会名・イベント名のクラスの字。英字の「class」は前に英字が続かないもの (LOWER_CLASS_PATTERN と同じ)
-_NAME_CLASS_LETTER = re.compile(r'([BCDE])\s*クラス|(?<![A-Za-z])([BCDE])[\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
+_NAME_CLASS_LETTER = re.compile(r'([B-J])\s*クラス|(?<![A-Za-z])([B-J])[\s_\-]*class(?![A-Za-z])', re.IGNORECASE)
 
 
 def name_class_letter(name: str | None) -> str | None:
-    """大会名・イベント名 → クラスの字 (B/C/D/E)。全角も受ける。無ければ None。"""
+    """大会名・イベント名 → クラスの字 (B〜J)。全角も受ける。無ければ None。"""
     m = _NAME_CLASS_LETTER.search((name or '').translate(_CLASS_FULLWIDTH))
     return (m.group(1) or m.group(2)).upper() if m else None

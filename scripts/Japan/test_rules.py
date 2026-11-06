@@ -328,8 +328,14 @@ class ClassBracketTests(unittest.TestCase):
         self.assertFalse(classify.is_class_phase("Winners Bracket"))
         self.assertEqual(classify.class_letter("Ｄクラス"), "D")
         self.assertEqual(classify.class_virtual_event_name("Singles", "B"), "Singles / Bクラス")
-        # 仮想イベント ID の採番はこの並び順に依存する (変えると過去の ID がずれる)
-        self.assertEqual(classify.CLASS_LETTERS, ("B", "C", "D", "E"))
+        # 仮想イベント ID の採番はこの並び順に依存する (変えると過去の ID がずれる)。B〜E は前のまま、F〜J は後ろに (2026-11-06)
+        self.assertEqual(classify.CLASS_LETTERS[:4], ("B", "C", "D", "E"))
+        self.assertEqual(classify.CLASS_LETTERS, tuple("BCDEFGHIJ"))
+        # マエスマ GRAND WARS の F/G/H class も下位クラス。A クラス (岡スマの上位ブラケット) は本戦
+        self.assertTrue(classify.is_class_phase("H class (TOP384)"))
+        self.assertEqual(classify.class_letter("F class (TOP192)"), "F")
+        self.assertFalse(classify.is_class_phase("Aクラストーナメント(BO5)"))
+        self.assertTrue(classify.name_flags("x", "Gクラス")["lower_class"])
 
     def test_japan_match_phase_pattern_has_word_boundaries(self):
         # matches.json 用のパターンは英字側に語境界がある (subclass などを拾わない)
