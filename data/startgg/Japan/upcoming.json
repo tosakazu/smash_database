@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793912671,
+  "generated_at": 1793923472,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 50,
+  "count": 52,
   "tournaments": [
     {
       "tournament_id": 966305,
@@ -17,7 +17,7 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 24,
+      "num_attendees": 27,
       "url": "/tournament/6-591",
       "events": [
         {
@@ -109,14 +109,14 @@
       "city": "名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 15,
       "url": "/tournament/117-6",
       "events": [
         {
           "event_id": 1745631,
           "event_slug": "tournament/117-6/event/1on1-tournament",
           "event_name": "1on1 tournament",
-          "num_entrants": 14,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1793961000
         }
@@ -316,14 +316,14 @@
       "city": "新宿区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 99,
+      "num_attendees": 100,
       "url": "/tournament/w-zone-smash-2026",
       "events": [
         {
           "event_id": 1741074,
           "event_slug": "tournament/w-zone-smash-2026/event/1on1-tournament",
           "event_name": "1on1 Tournament",
-          "num_entrants": 99,
+          "num_entrants": 100,
           "type": 1,
           "start_at": 1794099600
         }
@@ -339,14 +339,14 @@
       "city": "名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 34,
+      "num_attendees": 35,
       "url": "/tournament/-3295",
       "events": [
         {
           "event_id": 1743082,
           "event_slug": "tournament/-3295/event/1on1tournament",
           "event_name": "1on1Tournament",
-          "num_entrants": 34,
+          "num_entrants": 35,
           "type": 1,
           "start_at": 1794099600
         }
@@ -1154,6 +1154,52 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1795604400
+        }
+      ]
+    },
+    {
+      "tournament_id": 971846,
+      "tournament_slug": "tournament/26-603",
+      "tournament_name": "26(木)上野スマコミ#603(オープン)",
+      "start_at": 1795680000,
+      "end_at": 1795701600,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/26-603",
+      "events": [
+        {
+          "event_id": 1749188,
+          "event_slug": "tournament/26-603/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1795680000
+        }
+      ]
+    },
+    {
+      "tournament_id": 964612,
+      "tournament_slug": "tournament/hit-211_-maesuma-hit-211_osaka",
+      "tournament_name": "マエスマ'HIT#211_大阪 / Maesuma'HIT#211_Osaka",
+      "start_at": 1795687200,
+      "end_at": 1795701600,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/hit-211_-maesuma-hit-211_osaka",
+      "events": [
+        {
+          "event_id": 1734202,
+          "event_slug": "tournament/hit-211_-maesuma-hit-211_osaka/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795687200
         }
       ]
     }
