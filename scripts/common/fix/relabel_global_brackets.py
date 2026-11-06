@@ -11,7 +11,9 @@ Earlier fixes: the phase progression order (2026-10-27, data-Japan e3698caaa0b) 
 (2026-10-27, cd95f22f63f).
 
 Safety: an event is rewritten only if recomputing with the *previous* code (own_size=False) reproduces its current
-values exactly (so the only difference is the fix). Events that do not reproduce are listed and left as is.
+values exactly (so the only difference is the fix). Branches that never got the earlier relabels (北米 auto, 2026-11-06)
+are also accepted when the code before all three fixes (phaseOrder, the old LB direction, accumulated TOP N)
+reproduces them; those get all three fixes at once, including the phase-internal losers_top / bracket_label. Events that do not reproduce are listed and left as is.
 The labels the ranking build orders by stay as they are: legacy_global_top_x / legacy_global_bracket_label keep
 the existing legacy values, or the current values where there were none, and are written only where they differ
 from the new labels (redownload_matches_v2.legacy_order_fields: used until the next season).
@@ -55,12 +57,31 @@ def recompute(md: dict, event_dir: Path, progress_key=None, legacy_losers=False,
                                          legacy_losers=legacy_losers)) for m in ms]
 
 
+def local_losers(ms: list, legacy: bool) -> list:
+    """(losers_top, bracket_label) of the LB sets (phase-internal; None for other sets)."""
+    lmax = {}
+    for m in ms:
+        r = m.get("round")
+        if r is not None and r < 0:
+            k = m.get("phase_group_id")
+            lmax[k] = max(lmax.get(k, 0), -r)
+    out = []
+    for m in ms:
+        r = m.get("round")
+        if r is None or r >= 0:
+            out.append(None)
+            continue
+        x = R.losers_top_x_legacy(r) if legacy else R.losers_top_x(r, lmax.get(m.get("phase_group_id")))
+        out.append((x, f"Losers TOP {x}" if x is not None else None))
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("root", type=Path, help="events directory (e.g. data/startgg/Japan/events)")
     ap.add_argument("--write", action="store_true", help="rewrite the files (default: report only)")
     args = ap.parse_args(argv)
-    n_events = n_changed = n_matches = 0
+    n_events = n_changed = n_matches = n_all_old = 0
     skipped = []
     for f in sorted(args.root.glob("**/matches.json")):
         try:
@@ -76,22 +97,31 @@ def main(argv=None) -> int:
         new = recompute(md, f.parent)
         if new == cur:
             continue
+        new_local = None
         if recompute(md, f.parent, own_size=False) != cur:
-            skipped.append(str(f.relative_to(args.root)))
-            continue
+            cur_local = [(m.get("losers_top"), m.get("bracket_label")) if l is not None else None
+                         for m, l in zip(ms, local_losers(ms, True))]
+            if (recompute(md, f.parent, R._legacy_phase_key, legacy_losers=True, own_size=False) != cur
+                    or local_losers(ms, True) != cur_local):
+                skipped.append(str(f.relative_to(args.root)))
+                continue
+            n_all_old += 1
+            new_local = local_losers(ms, False)
         n_changed += 1
         n_matches += sum(1 for a, b in zip(cur, new) if a != b)
         if args.write:
-            for m, g, c in zip(ms, new, cur):
+            for k, (m, g, c) in enumerate(zip(ms, new, cur)):
                 order = (m.get(LEGACY_KEYS[0]), m.get(LEGACY_KEYS[1])) if LEGACY_KEYS[1] in m else c[1:]
                 m.update(zip(KEYS, g))
                 for k in LEGACY_KEYS:
                     m.pop(k, None)
                 if order != g[1:]:
                     m.update(zip(LEGACY_KEYS, order))
+                if new_local is not None and new_local[k] is not None:
+                    m["losers_top"], m["bracket_label"] = new_local[k]
             indent = 2 if raw.startswith("{\n") else None
             f.write_text(json.dumps(md, ensure_ascii=False, indent=indent) + ("\n" if raw.endswith("\n") else ""), encoding="utf-8")
-    print(f"events {n_events}, changed {n_changed} ({n_matches} matches)"
+    print(f"events {n_events}, changed {n_changed} ({n_matches} matches; all three fixes at once {n_all_old})"
           f"{' (written)' if args.write else ''}, "
           f"skipped (current values do not reproduce) {len(skipped)}")
     for s in skipped[:50]:
