@@ -34,6 +34,30 @@ class PhaseProgressOrderTest(unittest.TestCase):
         info, _ = R.compute_phase_global_rounds(sets(a, {1: 4, 2: 2}) + sets(b, {1: 32, 2: 16}))
         self.assertEqual((info[1]["global_round_offset"], info[2]["global_round_offset"]), (0, 2))
 
+    def test_later_phase_top_n_from_its_own_size(self):
+        # マエスマ GRAND WARS#3: pools TOP384 cut at the WB QF, a parallel "H class" (not B-E, so joined as a main
+        # phase), then TOP96 → TOP8. Accumulating rounds pushed TOP96 and TOP8 to TOP 2; each later phase now uses its
+        # own WB size (2 x the sets of its first effective round)
+        pools = {"id": 1, "name": "★TOP384", "numSeeds": 374, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 1}
+        h = {"id": 2, "name": "H class (TOP384)", "numSeeds": 118, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 2}
+        top96 = {"id": 3, "name": "★TOP96", "numSeeds": 96, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 3}
+        top8 = {"id": 4, "name": "★TOP8", "numSeeds": 8, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 4}
+        data = (sets(pools, {1: 118, 2: 128, 3: 64, 4: 32}) + sets(h, {1: 54, 2: 32, 3: 16, 4: 8, 5: 4, 6: 2, 7: 1})
+                + sets(top96, {1: 16}) + sets(top8, {1: 2, 2: 1}))
+        cap = R.effective_bracket_capacity(374)
+        info, _ = R.compute_phase_global_rounds(data)
+        label = lambda ph, r: R.compute_global_top_x(r, ph, info, cap, {}, None)[2]
+        self.assertEqual(label(pools, 2), "Winners TOP 256")       # the first phase is unchanged
+        self.assertEqual(label(top96, 1), "Winners TOP 32")
+        self.assertEqual(label(top8, 1), "Winners TOP 4")
+        self.assertEqual(label(top8, 2), "Winners TOP 2")
+        old_info, _ = R.compute_phase_global_rounds(data, own_size=False)
+        self.assertEqual(R.compute_global_top_x(1, top8, old_info, cap, {}, None)[2], "Winners TOP 2")   # the old (collapsed) label
+        # the ranking build keeps ordering by the old labels (legacy_global_*)
+        legacy, _ = R.compute_phase_global_rounds(data, R._legacy_phase_key, own_size=False)
+        new = R.compute_global_top_x(1, top96, info, cap, {}, None)
+        self.assertEqual(R.legacy_order_fields(1, top96, legacy, cap, {}, None, *new[1:])["legacy_global_top_x"], 2)
+
 
 class LosersRoundDirectionTest(unittest.TestCase):
     """start.gg numbers LB rounds so that the LB final has the largest |round| (19 entrants: -4 … -10)."""

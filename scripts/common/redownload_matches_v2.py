@@ -192,8 +192,8 @@ def _legacy_phase_key(by_phase, pid):
 
 def legacy_order_fields(round_n, phase_info, legacy_global_info, bracket_capacity, placements_map, loser_uid,
                         global_top_x, global_bracket_label):
-    """legacy_global_top_x / legacy_global_bracket_label: the labels computed with the old phase order (phaseOrder)
-    and the old LB round direction (losers_top_x_legacy).
+    """legacy_global_top_x / legacy_global_bracket_label: the labels computed with the old phase order (phaseOrder),
+    the old LB round direction (losers_top_x_legacy) and the accumulated TOP N of later phases (own_size=False).
 
     The ranking build orders the matches of an event by these labels until the next season, so the ranking does
     not change mid-season (the displayed labels use the fixed order). Written only when they differ."""
@@ -215,8 +215,15 @@ def _losers_bucket(round_n, info, legacy_losers, scale):
     return bucket
 
 
-def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
+def compute_phase_global_rounds(all_sets_with_phase, progress_key=None, own_size=None):
     """Compute global round numbers for main (= non-class) phases.
+
+    own_size (2026-11-06): the WB TOP N of the 2nd and later main phases comes from the phase itself (2 x the sets of
+    its first effective WB round = the players in its WB), not from the rounds accumulated over the earlier phases.
+    Accumulating breaks when an earlier phase is not on the path (parallel brackets: F/G/H classes, A/B tournaments,
+    Amateur, ...) or stops before its WB final (pools cut at TOP N): e.g. マエスマ GRAND WARS#3 had TOP96 and later
+    all at TOP 2. global_round stays the accumulated index. own_size=False = the old labels (legacy_global_*);
+    the default is on, and off with the legacy order (_legacy_phase_key).
 
     List the WB rounds of each phase, detect and drop play-ins (= fewer matches than the next round),
     order the remaining effective rounds by phaseOrder and use the cumulative index as global_round.
@@ -262,6 +269,8 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
     # Main bracket accumulates global_round in progression order. Class brackets are self-contained (= offset 0).
     progress_key = progress_key or _phase_progress_key
     sorted_pids = sorted(by_phase.keys(), key=lambda pid: progress_key(by_phase, pid))
+    if own_size is None:
+        own_size = progress_key is not _legacy_phase_key
     out = {}
     main_order = []
     cumulative_main = 0  # cumulative count excluding class
@@ -302,6 +311,8 @@ def compute_phase_global_rounds(all_sets_with_phase, progress_key=None):
             'num_seeds': info.get('num_seeds') or 0,
         }
         if not is_class:
+            if own_size and main_order and effective:
+                out[pid]['own_cap'] = 2 * info['wb_round_counts'][effective[0]]
             cumulative_main += len(effective)
             main_order.append(pid)
     # Players that go on from a main phase to the next one (the last phase: 2 = the grand final). The LB final loser
@@ -385,11 +396,15 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
             idx = eff.index(round_n)
             global_r = info['global_round_offset'] + idx + 1
             top = max(2, cap // (2 ** (global_r - 1)))
+            if info.get('own_cap'):
+                top = max(2, info['own_cap'] // (2 ** idx))
             return (global_r, top, f"{prefix}Winners TOP {top}")
         # DE bracket (main or class)
         if round_n in info['play_in_rounds']:
             # Play-in losers are labeled with the bracket size (= effective * 2 = next_pow2)
             play_in_label_n = cap * 2 if cap else None
+            if info.get('own_cap'):
+                play_in_label_n = info['own_cap'] * 2
             return (None, play_in_label_n,
                     f"{prefix}Winners TOP {play_in_label_n}" if play_in_label_n else None)
         eff = info['effective_wb_rounds_sorted']
@@ -397,6 +412,9 @@ def compute_global_top_x(round_n, phase_info, phase_global_info, bracket_capacit
             return (None, None, None)
         idx = eff.index(round_n)
         global_r = info['global_round_offset'] + idx + 1
+        if info.get('own_cap'):
+            top = max(2, info['own_cap'] // (2 ** idx))
+            return (global_r, top, f"{prefix}Winners TOP {top}")
         if cap is None or cap <= 0:
             return (global_r, None, None)
         top = max(2, cap // (2 ** (global_r - 1)))
