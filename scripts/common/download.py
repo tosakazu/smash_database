@@ -24,7 +24,7 @@ from scripts.common.queries import (
 # Lower-class brackets: "B class"/"C class" etc., in Japanese (letter + katakana "kurasu") or English (Bclass/B_Class/b_class).
 # Fallback to rescue side events whose videogame tag is unset on start.gg.
 _LOWER_CLASS_NAME_PAT = re.compile(
-    r'[BCDEＢＣＤＥ]\s*クラス|(?<![A-Za-z])[BCDE][\s_\-]*class(?![A-Za-z])',
+    r'[B-JＢ-Ｊ]\s*クラス|(?<![A-Za-z])[B-J][\s_\-]*class(?![A-Za-z])',   # B〜J クラス
     re.IGNORECASE,
 )
 from scripts.common.utils import (

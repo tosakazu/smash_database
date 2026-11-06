@@ -136,16 +136,17 @@ def effective_bracket_capacity(n: int) -> int:
 # Class phase (B/C/D/E-class) detection — filter to separate from the main bracket.
 # A-class is the top bracket (= TO WIN type) and treated as main, so it is not excluded.
 # Supports both English ("B class" / "B-class" / "BClass") and Japanese (letter + katakana "kurasu").
-_CLASS_PHASE_RE = re.compile(r'\b[B-E][- ]?class\b|[B-EＢＣＤＥ][- ]?クラス', re.IGNORECASE)
+# B〜J (2026-11-06: マエスマ GRAND WARS の F/G/H class も下位クラス。J まで = 仮想大会 ID の 1 桁の枠)
+_CLASS_PHASE_RE = re.compile(r'\b[B-J][- ]?class\b|[B-JＢ-Ｊ][- ]?クラス', re.IGNORECASE)
 def _is_class_phase(phase_name: str) -> bool:
     return bool(phase_name and _CLASS_PHASE_RE.search(phase_name))
 
 
 # Fullwidth -> ASCII map (= fullwidth "B" -> "B", etc.)
-_FULLWIDTH_TO_ASCII = str.maketrans('ＡＢＣＤＥ', 'ABCDE')
+_FULLWIDTH_TO_ASCII = str.maketrans('ＡＢＣＤＥＦＧＨＩＪ', 'ABCDEFGHIJ')
 
 def _get_class_letter(phase_name: str) -> str | None:
-    """Return the class phase letter (= 'B'/'C'/'D'/'E'). None if not a class phase."""
+    """Return the class phase letter (= 'B' … 'J'). None if not a class phase."""
     if not phase_name: return None
     m = _CLASS_PHASE_RE.search(phase_name)
     if not m: return None
