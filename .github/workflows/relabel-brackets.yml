@@ -4,7 +4,7 @@
 # ランキングのビルドが並べ替えに使う旧ラベルは legacy_global_* に残る (学習は変わらない)。
 # push が定期取得とぶつかったら、取り直して付け直しからやり直す (最大 5 回)。
 name: relabel-brackets
-run-name: relabel-brackets ${{ inputs.branch }}${{ inputs.write && '' || ' (dry run)' }}
+run-name: relabel-brackets ${{ inputs.branch }}${{ !inputs.write && ' (dry run)' || '' }}
 
 on:
   workflow_dispatch:
