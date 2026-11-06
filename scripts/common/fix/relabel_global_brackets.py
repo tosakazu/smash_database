@@ -110,15 +110,15 @@ def main(argv=None) -> int:
         n_changed += 1
         n_matches += sum(1 for a, b in zip(cur, new) if a != b)
         if args.write:
-            for k, (m, g, c) in enumerate(zip(ms, new, cur)):
+            for i, (m, g, c) in enumerate(zip(ms, new, cur)):
                 order = (m.get(LEGACY_KEYS[0]), m.get(LEGACY_KEYS[1])) if LEGACY_KEYS[1] in m else c[1:]
                 m.update(zip(KEYS, g))
                 for k in LEGACY_KEYS:
                     m.pop(k, None)
                 if order != g[1:]:
                     m.update(zip(LEGACY_KEYS, order))
-                if new_local is not None and new_local[k] is not None:
-                    m["losers_top"], m["bracket_label"] = new_local[k]
+                if new_local is not None and new_local[i] is not None:
+                    m["losers_top"], m["bracket_label"] = new_local[i]
             indent = 2 if raw.startswith("{\n") else None
             f.write_text(json.dumps(md, ensure_ascii=False, indent=indent) + ("\n" if raw.endswith("\n") else ""), encoding="utf-8")
     print(f"events {n_events}, changed {n_changed} ({n_matches} matches; all three fixes at once {n_all_old})"

@@ -67,6 +67,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           WRITE: ${{ inputs.write }}
         run: |
+          set -o pipefail   # tee の手前の python が落ちたら止める (2026-11-06: 落ちたのに「変化なし」で成功扱いになった)
           region="${BRANCH#data-}"; region="${region%-auto}"
           root="data/startgg/$region/events"
           git config user.name "github-actions[bot]"
