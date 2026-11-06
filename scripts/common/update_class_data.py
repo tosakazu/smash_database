@@ -121,7 +121,9 @@ def main(argv=None) -> int:
     rc = 0
     if dirs:
         print("+ fetch_event_phases ...", flush=True)
-        rc |= fetch_event_phases.main(["--event-dirs-file", "-", "--region", args.region], event_dirs=dirs) or 0
+        # --force: 検出した部門は phases.json があってもクラスの印が足りない (判定を広げたとき・作ったあとにクラスが足されたとき)。
+        # 無いと既存の phases.json を飛ばして何も直らない (2026-11-06、F/G/H class で発覚)
+        rc |= fetch_event_phases.main(["--event-dirs-file", "-", "--region", args.region, "--force"], event_dirs=dirs) or 0
     # Stages 2-4 are idempotent (existing output skipped), so run them over everything each time
     print("+ fetch_class_phase_standings ...", flush=True)
     # --refresh-days: a class bracket first fetched while it was still running (no final yet) is fetched again

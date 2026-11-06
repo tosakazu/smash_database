@@ -159,6 +159,21 @@ def main(argv=None, event_dirs=None):
                 for p in phases
             ],
         }
+        # 取り直し (--force) で start.gg から消えたフェーズは前の phases.json の行を残す (クラスの順位 class_phases/ は残っているので、
+        # 印だけ消えると下位クラスの試合が本戦に戻る。マエスマ GRAND WARS#3 の B/C class、2026-11-06)。印は今の判定で付け直す
+        old_path = os.path.join(ep, "phases.json")
+        if os.path.exists(old_path):
+            try:
+                with open(old_path, "rb") as f:
+                    old = json.load(f)
+                have = {p["id"] for p in out["phases"]}
+                kept = [dict(p, is_class=_is_class(p.get("name"))) for p in (old.get("phases") or []) if p.get("id") not in have]
+                if kept:
+                    out["phases"] = sorted(out["phases"] + kept, key=lambda p: (p.get("order") or 0))
+                    out["has_class_phases"] = any(p["is_class"] for p in out["phases"])
+                    has_class = out["has_class_phases"]
+            except (OSError, ValueError):
+                pass
         if not args.dry_run:
             write_json_pretty(os.path.join(ep, "phases.json"), out)
         n_ok += 1
