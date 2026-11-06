@@ -267,6 +267,24 @@ def print_summary(counts: Dict[str, int], total: int) -> None:
     print(f"  {total:6d}  total")
 
 
+# Share of a category's existing count that may appear in a day without it
+# being a regression, used as a floor-raiser on --tolerance.
+#
+# A flat allowance cannot work across categories three orders of magnitude
+# apart. North America carries ~40,000 sets with no winner/loser recorded and
+# ~23,000 events with no matches.json — both of them long-known and both
+# growing a little every day simply because more events arrive. Measured on
+# 2026-11-05, a day after the baseline was refreshed: +15 on 40,177 and +22
+# on 22,931, against a flat tolerance of 10. So the alarm fired every single
+# night and stopped carrying information, which is worse than not having it.
+#
+# 0.2% leaves several times that headroom on the big categories while still
+# catching anything that actually breaks (the 2018-2020 backfill landed
+# +10,721 on one of them), and changes nothing for the small ones — 0.2% of
+# 89 rounds to nothing, so they keep the flat floor.
+BASELINE_GROWTH_RATE = 0.002
+
+
 def compare_with_baseline(counts: Dict[str, int], baseline_file: Path, tolerance: int) -> List[str]:
     """Compare against the baseline file and return categories that grew beyond the tolerance (if absent, just create the baseline)."""
     if not baseline_file.exists():
@@ -276,8 +294,9 @@ def compare_with_baseline(counts: Dict[str, int], baseline_file: Path, tolerance
     regressions = []
     for label, n in counts.items():
         before = baseline.get(label, 0)
-        if n > before + tolerance:
-            regressions.append(f"{label}: {before} → {n} (+{n - before}, tolerance {tolerance})")
+        allowed = max(tolerance, int(before * BASELINE_GROWTH_RATE))
+        if n > before + allowed:
+            regressions.append(f"{label}: {before} → {n} (+{n - before}, allowed {allowed})")
     return regressions
 
 
@@ -325,7 +344,8 @@ def main() -> int:
         "--tolerance",
         type=int,
         default=10,
-        help="Allowed growth per category before --baseline reports a regression (default 10).",
+        help="Minimum allowed growth per category before --baseline reports a regression "
+             f"(default 10; a category also gets {BASELINE_GROWTH_RATE:.1%} of its own count).",
     )
     parser.add_argument(
         "--write-baseline",
