@@ -1,0 +1,92 @@
+# 既存の matches.json のブラケットの位置 (global_round / global_top_x / global_bracket_label) を付け直す (2026-11-06)。
+# 位置の計算を直したとき (scripts/common/fix/relabel_global_brackets.py の「今回の修正」) に、手元に取るには大きすぎる地域
+# (北米 auto は 127 万ファイル) を Actions で直す。日本 (data-Japan) は手元で直す。担当者のブランチ (data-North_America) には書かない。
+# ランキングのビルドが並べ替えに使う旧ラベルは legacy_global_* に残る (学習は変わらない)。
+# push が定期取得とぶつかったら、取り直して付け直しからやり直す (最大 5 回)。
+name: relabel-brackets
+run-name: relabel-brackets ${{ inputs.branch }}${{ inputs.write && '' || ' (dry run)' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 付け直すブランチ
+        type: choice
+        options: [data-North_America-auto, data-Europe, data-Korea, data-East_Asia, data-Other_Asia, data-Oceania, data-South_America, data-Middle_East_Africa]
+      write:
+        description: 書き込んで push する (外すと数えるだけ)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: relabel-brackets-${{ inputs.branch }}
+  cancel-in-progress: false
+
+jobs:
+  relabel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: write   # inputs.branch への push だけ
+    env:
+      BRANCH: ${{ inputs.branch }}
+    steps:
+      - name: ディスクを空ける
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/.ghcup /opt/ghc /opt/hostedtoolcache/CodeQL /usr/share/swift
+          avail=$(df --output=avail -k / | tail -1)
+          if [ "$avail" -lt $((30 * 1024 * 1024)) ]; then sudo rm -rf /usr/local/lib/android; fi
+          df -h /
+
+      - name: データ (最新 1 コミット)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -q -r requirements.txt
+
+      - name: main のスクリプト
+        run: |
+          MAIN_SRC="$RUNNER_TEMP/main"; echo "MAIN_SRC=$MAIN_SRC" >> "$GITHUB_ENV"
+          git fetch -q --depth=1 "https://github.com/${GITHUB_REPOSITORY}.git" "${GITHUB_SHA}"
+          mkdir -p "$MAIN_SRC" && git archive "${GITHUB_SHA}" scripts | tar -x -C "$MAIN_SRC"
+
+      - name: 付け直す
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WRITE: ${{ inputs.write }}
+        run: |
+          region="${BRANCH#data-}"; region="${region%-auto}"
+          root="data/startgg/$region/events"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$WRITE" != "true" ]; then
+            PYTHONPATH="$MAIN_SRC" python -u "$MAIN_SRC/scripts/common/fix/relabel_global_brackets.py" "$root"
+            exit 0
+          fi
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          for i in 1 2 3 4 5; do
+            PYTHONPATH="$MAIN_SRC" python -u "$MAIN_SRC/scripts/common/fix/relabel_global_brackets.py" "$root" --write | tee "$RUNNER_TEMP/relabel.log"
+            git add -u -- "$root"
+            if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+            git commit -q -m "data: relabel bracket positions ($(head -1 "$RUNNER_TEMP/relabel.log"); the build's order keys stay in legacy_global_*)"
+            if git -c http.extraheader="AUTHORIZATION: basic $auth" push -q "https://github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$BRANCH"; then
+              echo "pushed $(git rev-parse --short HEAD) to $BRANCH"; exit 0
+            fi
+            echo "push がぶつかった ($i 回目) → 取り直して付け直す"
+            git -c http.extraheader="AUTHORIZATION: basic $auth" fetch -q --depth=1 "https://github.com/${GITHUB_REPOSITORY}.git" "$BRANCH"
+            git reset -q --hard FETCH_HEAD
+            sleep $((i * 30))
+          done
+          exit 1
