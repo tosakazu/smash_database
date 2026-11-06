@@ -35,11 +35,11 @@ class PhaseProgressOrderTest(unittest.TestCase):
         self.assertEqual((info[1]["global_round_offset"], info[2]["global_round_offset"]), (0, 2))
 
     def test_later_phase_top_n_from_its_own_size(self):
-        # マエスマ GRAND WARS#3: pools TOP384 cut at the WB QF, a parallel "H class" (not B-E, so joined as a main
+        # マエスマ GRAND WARS#3: pools TOP384 cut at the WB QF, a parallel bracket ("H class" was not a class before B〜J, so joined as a main
         # phase), then TOP96 → TOP8. Accumulating rounds pushed TOP96 and TOP8 to TOP 2; each later phase now uses its
         # own WB size (2 x the sets of its first effective round)
         pools = {"id": 1, "name": "★TOP384", "numSeeds": 374, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 1}
-        h = {"id": 2, "name": "H class (TOP384)", "numSeeds": 118, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 2}
+        h = {"id": 2, "name": "Side bracket (TOP384)", "numSeeds": 118, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 2}
         top96 = {"id": 3, "name": "★TOP96", "numSeeds": 96, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 3}
         top8 = {"id": 4, "name": "★TOP8", "numSeeds": 8, "bracketType": "DOUBLE_ELIMINATION", "phaseOrder": 4}
         data = (sets(pools, {1: 118, 2: 128, 3: 64, 4: 32}) + sets(h, {1: 54, 2: 32, 3: 16, 4: 8, 5: 4, 6: 2, 7: 1})
@@ -90,6 +90,14 @@ class LosersRoundDirectionTest(unittest.TestCase):
         self.assertEqual([R.losers_top_x(r, 10) for r in (-4, -10)], [24, 3])
         self.assertEqual(R.losers_top_x(-1, None), R.losers_top_x_legacy(-1))
 
+class ClassLetterTest(unittest.TestCase):
+    def test_b_to_j(self):
+        # マエスマ GRAND WARS: F/G/H class are lower classes (2026-11-06). A class / S class are not
+        for name, want in [("F class (TOP192)", "F"), ("H class (TOP384)", "H"), ("Ｇクラス", "G"), ("B-class", "B"),
+                           ("Aクラストーナメント", None), ("Sクラス", None), ("K class", None)]:
+            self.assertEqual(R._get_class_letter(name), want, name)
+
 
 if __name__ == "__main__":
     unittest.main()
+
