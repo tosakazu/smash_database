@@ -1,11 +1,11 @@
 {
-  "generated_at": 1793999071,
+  "generated_at": 1794009876,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 50,
+  "count": 51,
   "tournaments": [
     {
       "tournament_id": 965632,
@@ -123,6 +123,29 @@
       ]
     },
     {
+      "tournament_id": 955273,
+      "tournament_slug": "tournament/aya-10",
+      "tournament_name": "彩-aya- #10",
+      "start_at": 1794020400,
+      "end_at": 1794042000,
+      "is_online": false,
+      "city": "さいたま市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 41,
+      "url": "/tournament/aya-10",
+      "events": [
+        {
+          "event_id": 1714058,
+          "event_slug": "tournament/aya-10/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 41,
+          "type": 1,
+          "start_at": 1794020400
+        }
+      ]
+    },
+    {
       "tournament_id": 968603,
       "tournament_slug": "tournament/31-13",
       "tournament_name": "第31回　ベルスマトナメ",
@@ -146,29 +169,6 @@
       ]
     },
     {
-      "tournament_id": 955273,
-      "tournament_slug": "tournament/aya-10",
-      "tournament_name": "彩-aya- #10",
-      "start_at": 1794024000,
-      "end_at": 1794042000,
-      "is_online": false,
-      "city": "さいたま市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 41,
-      "url": "/tournament/aya-10",
-      "events": [
-        {
-          "event_id": 1714058,
-          "event_slug": "tournament/aya-10/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 41,
-          "type": 1,
-          "start_at": 1794024000
-        }
-      ]
-    },
-    {
       "tournament_id": 968024,
       "tournament_slug": "tournament/w-zone-smash-2026",
       "tournament_name": "W-Zone Smash 2026",
@@ -178,14 +178,14 @@
       "city": "新宿区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 108,
+      "num_attendees": 106,
       "url": "/tournament/w-zone-smash-2026",
       "events": [
         {
           "event_id": 1741074,
           "event_slug": "tournament/w-zone-smash-2026/event/1on1-tournament",
           "event_name": "1on1 Tournament",
-          "num_entrants": 108,
+          "num_entrants": 106,
           "type": 1,
           "start_at": 1794099600
         }
@@ -1154,6 +1154,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1795687200
+        }
+      ]
+    },
+    {
+      "tournament_id": 971847,
+      "tournament_slug": "tournament/27-604",
+      "tournament_name": "27(金)上野スマコミ#604(オープン)",
+      "start_at": 1795766400,
+      "end_at": 1795788000,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/27-604",
+      "events": [
+        {
+          "event_id": 1749189,
+          "event_slug": "tournament/27-604/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795766400
         }
       ]
     }
