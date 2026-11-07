@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794074664,
+  "generated_at": 1794085465,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 45,
+  "count": 48,
   "tournaments": [
     {
       "tournament_id": 968024,
@@ -132,14 +132,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 7,
+      "num_attendees": 9,
       "url": "/tournament/9-592",
       "events": [
         {
           "event_id": 1739980,
           "event_slug": "tournament/9-592/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 7,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794211200
         }
@@ -270,7 +270,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 68,
+      "num_attendees": 69,
       "url": "/tournament/weekly-smash-party-252",
       "events": [
         {
@@ -638,14 +638,14 @@
       "city": "Shibuya",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/smash-international-1",
       "events": [
         {
           "event_id": 1743305,
           "event_slug": "tournament/smash-international-1/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794668400
         }
@@ -891,14 +891,14 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 11,
+      "num_attendees": 13,
       "url": "/tournament/pre-16-pre-kagaribi-16",
       "events": [
         {
           "event_id": 1739287,
           "event_slug": "tournament/pre-16-pre-kagaribi-16/event/singles",
           "event_name": "シングルス / Singles",
-          "num_entrants": 11,
+          "num_entrants": 13,
           "type": 1,
           "start_at": 1795150800
         }
@@ -1039,6 +1039,75 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1795766400
+        }
+      ]
+    },
+    {
+      "tournament_id": 954620,
+      "tournament_slug": "tournament/kowloon-19",
+      "tournament_name": "九龍-KOWLOON-#19",
+      "start_at": 1795829400,
+      "end_at": 1795861800,
+      "is_online": false,
+      "city": "福岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 256,
+      "url": "/tournament/kowloon-19",
+      "events": [
+        {
+          "event_id": 1712813,
+          "event_slug": "tournament/kowloon-19/event/kowloon_sp",
+          "event_name": "KOWLOON_SP",
+          "num_entrants": 242,
+          "type": 1,
+          "start_at": 1795829400
+        }
+      ]
+    },
+    {
+      "tournament_id": 970695,
+      "tournament_slug": "tournament/3-hakumei-3",
+      "tournament_name": "薄明#3/Hakumei#3【沖縄スマブラ大会】",
+      "start_at": 1795838400,
+      "end_at": 1795867200,
+      "is_online": false,
+      "city": "宜野湾市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/3-hakumei-3",
+      "events": [
+        {
+          "event_id": 1746717,
+          "event_slug": "tournament/3-hakumei-3/event/1on1-smash-tournament",
+          "event_name": "1on1 Smash Tournament",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795838400
+        }
+      ]
+    },
+    {
+      "tournament_id": 971363,
+      "tournament_slug": "tournament/ice-ring-2",
+      "tournament_name": "ICE RING【スマブラオフ大会】#2",
+      "start_at": 1795838400,
+      "end_at": 1795860000,
+      "is_online": false,
+      "city": "越谷市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/ice-ring-2",
+      "events": [
+        {
+          "event_id": 1748159,
+          "event_slug": "tournament/ice-ring-2/event/ice-ring-tournament",
+          "event_name": "ICE RING Tournament",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1795838400
         }
       ]
     }
