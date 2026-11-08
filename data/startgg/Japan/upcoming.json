@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794161062,
+  "generated_at": 1794171863,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 43,
+  "count": 45,
   "tournaments": [
     {
       "tournament_id": 967425,
@@ -385,14 +385,14 @@
       "city": "町田市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 160,
+      "num_attendees": 161,
       "url": "/tournament/impact-major-7",
       "events": [
         {
           "event_id": 1744754,
           "event_slug": "tournament/impact-major-7/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 160,
+          "num_entrants": 161,
           "type": 1,
           "start_at": 1794614400
         }
@@ -799,14 +799,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 4,
+      "num_attendees": 6,
       "url": "/tournament/20-600",
       "events": [
         {
           "event_id": 1749186,
           "event_slug": "tournament/20-600/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1795161600
         }
@@ -822,7 +822,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 1851,
+      "num_attendees": 1854,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
@@ -993,6 +993,52 @@
           "num_entrants": 4,
           "type": 1,
           "start_at": 1795838400
+        }
+      ]
+    },
+    {
+      "tournament_id": 973007,
+      "tournament_slug": "tournament/smash-open-20-1",
+      "tournament_name": "Smash Open #20",
+      "start_at": 1795910400,
+      "end_at": 1795946400,
+      "is_online": false,
+      "city": "山形市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 6,
+      "url": "/tournament/smash-open-20-1",
+      "events": [
+        {
+          "event_id": 1751628,
+          "event_slug": "tournament/smash-open-20-1/event/singles",
+          "event_name": "singles",
+          "num_entrants": 6,
+          "type": 1,
+          "start_at": 1795910400
+        }
+      ]
+    },
+    {
+      "tournament_id": 971848,
+      "tournament_slug": "tournament/29-605",
+      "tournament_name": "29(日)上野スマコミ#605(オープン)",
+      "start_at": 1795921200,
+      "end_at": 1795946400,
+      "is_online": false,
+      "city": "台東区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/29-605",
+      "events": [
+        {
+          "event_id": 1749190,
+          "event_slug": "tournament/29-605/event/on",
+          "event_name": "シングルス（１on１トーナメント）",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795921200
         }
       ]
     }
