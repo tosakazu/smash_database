@@ -1,0 +1,133 @@
+{
+  "event_id": 1717257,
+  "event_name": "Singles Tournament",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2407478,
+      "name": "★TOP144",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 144,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3469163,
+          "display": "1"
+        },
+        {
+          "id": 3469164,
+          "display": "2"
+        },
+        {
+          "id": 3469165,
+          "display": "3"
+        },
+        {
+          "id": 3469166,
+          "display": "4"
+        },
+        {
+          "id": 3469167,
+          "display": "5"
+        },
+        {
+          "id": 3469168,
+          "display": "6"
+        },
+        {
+          "id": 3469169,
+          "display": "7"
+        },
+        {
+          "id": 3469170,
+          "display": "8"
+        }
+      ]
+    },
+    {
+      "id": 2407479,
+      "name": "★TOP64",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 64,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3469171,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2407480,
+      "name": "★TOP32",
+      "order": 3,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3469172,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2407481,
+      "name": "★TOP8",
+      "order": 4,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3469173,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2407482,
+      "name": "B class (TOP96)",
+      "order": 7,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3469174,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2407483,
+      "name": "C class (TOP128)",
+      "order": 8,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 32,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3469175,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2407484,
+      "name": "D class (TOP144)",
+      "order": 9,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 16,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3469176,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
