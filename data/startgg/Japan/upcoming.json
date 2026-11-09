@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794171863,
+  "generated_at": 1794182659,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 45,
+  "count": 46,
   "tournaments": [
     {
       "tournament_id": 967425,
@@ -353,6 +353,29 @@
       ]
     },
     {
+      "tournament_id": 973229,
+      "tournament_slug": "tournament/118-4",
+      "tournament_name": "第118回シカブラ",
+      "start_at": 1794565800,
+      "end_at": 1794578400,
+      "is_online": false,
+      "city": "名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/118-4",
+      "events": [
+        {
+          "event_id": 1752075,
+          "event_slug": "tournament/118-4/event/1on1-tournament",
+          "event_name": "1on1 tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794565800
+        }
+      ]
+    },
+    {
       "tournament_id": 967737,
       "tournament_slug": "tournament/sen-smash-sp-10",
       "tournament_name": "千スマ / Sen Smash SP #10",
@@ -523,14 +546,14 @@
       "city": "Shibuya",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/smash-international-1",
       "events": [
         {
           "event_id": 1743305,
           "event_slug": "tournament/smash-international-1/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794668400
         }
@@ -806,7 +829,7 @@
           "event_id": 1749186,
           "event_slug": "tournament/20-600/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1795161600
         }
@@ -822,7 +845,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 1854,
+      "num_attendees": 1860,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
