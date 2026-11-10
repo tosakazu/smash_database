@@ -89,7 +89,9 @@ jobs:
 
       # 途中で落ちた回 (remaining が取れなかった) も続ける。進み具合はブランチに残っている
       - name: 残りがあれば起動し直す
-        if: always() && steps.run.outputs.remaining != '0' && !cancelled()
+        # 取得が途中で落ちると remaining が空になる。空と '0' を比べると式の中では両方 0 に直されて等しくなり、
+        # 起動し直しが飛ばされた (11-05 欧州、4 日止まった)。文字列として比べるため format で前に x を付ける
+        if: always() && !cancelled() && format('x{0}', steps.run.outputs.remaining) != 'x0'
         env:
           GH_TOKEN: ${{ github.token }}
           LANE: ${{ inputs.lane }}
