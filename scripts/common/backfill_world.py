@@ -190,12 +190,13 @@ def commit_push(repo: Path, region: str, msg: str) -> None:
         return
     run(["git", "commit", "-q", "-m", msg], cwd=repo)
     branch = f"data-{dir_name(region)}"
-    for attempt in range(3):
+    # GitHub 側が一時的に push を断ることがある (11-05 「fatal error in commit_refs_rules」が 3 分続いた)。5 回・最大約 5 分待つ
+    for attempt in range(5):
         if subprocess.run(["git", *auth_args(), "push", "-q", repo_url(), f"HEAD:refs/heads/{branch}"], cwd=repo).returncode == 0:
             print(f"[backfill] pushed {branch} {git_out(repo, 'rev-parse', '--short', 'HEAD')}: {msg}", flush=True)
             return
         time.sleep(30 * (attempt + 1))
-    raise SystemExit(f"push to {branch} failed 3 times")
+    raise SystemExit(f"push to {branch} failed 5 times")
 
 
 def main() -> int:
