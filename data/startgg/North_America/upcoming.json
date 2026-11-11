@@ -1,1364 +1,53 @@
 {
-  "generated_at": 1794393460,
-  "country_code": "BS,BQ,AW,TT,VI,KY,DM,GD,AG,GT,KN,NI,DO,HN,MQ,VG,US,SX,GU,JM,GL,MF,SV,BM,CU,BL,PR,PA,VC,CR,BB,HT,CW,AI,TC,PM,MS,CA,MX,LC,BZ,GP",
+  "generated_at": 1794430318,
+  "country_code": "AG,AI,AW,BB,BL,BM,BQ,BS,BZ,CA,CR,CU,CW,DM,DO,GD,GL,GP,GT,GU,HN,HT,JM,KN,KY,LC,MF,MQ,MS,MX,NI,PA,PM,PR,SV,SX,TC,TT,US,VC,VG,VI",
   "country_codes": [
-    "BS",
-    "BQ",
-    "AW",
-    "TT",
-    "VI",
-    "KY",
-    "DM",
-    "GD",
     "AG",
-    "GT",
-    "KN",
-    "NI",
-    "DO",
-    "HN",
-    "MQ",
-    "VG",
-    "US",
-    "SX",
-    "GU",
-    "JM",
-    "GL",
-    "MF",
-    "SV",
-    "BM",
-    "CU",
-    "BL",
-    "PR",
-    "PA",
-    "VC",
-    "CR",
-    "BB",
-    "HT",
-    "CW",
     "AI",
-    "TC",
-    "PM",
-    "MS",
-    "CA",
-    "MX",
-    "LC",
+    "AW",
+    "BB",
+    "BL",
+    "BM",
+    "BQ",
+    "BS",
     "BZ",
-    "GP"
+    "CA",
+    "CR",
+    "CU",
+    "CW",
+    "DM",
+    "DO",
+    "GD",
+    "GL",
+    "GP",
+    "GT",
+    "GU",
+    "HN",
+    "HT",
+    "JM",
+    "KN",
+    "KY",
+    "LC",
+    "MF",
+    "MQ",
+    "MS",
+    "MX",
+    "NI",
+    "PA",
+    "PM",
+    "PR",
+    "SV",
+    "SX",
+    "TC",
+    "TT",
+    "US",
+    "VC",
+    "VG",
+    "VI"
   ],
   "lookahead_days": 21,
-  "count": 538,
+  "count": 516,
   "tournaments": [
-    {
-      "tournament_id": 972138,
-      "tournament_slug": "tournament/encore-smash-373",
-      "tournament_name": "Encore Smash #373",
-      "start_at": 1794412800,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "New Rochelle",
-      "venue_name": "Encore Esports Gaming lounge",
-      "country_code": "US",
-      "num_attendees": 10,
-      "url": "/tournament/encore-smash-373",
-      "events": [
-        {
-          "event_id": 1749814,
-          "event_slug": "tournament/encore-smash-373/event/encore-smash-ultimate-singles",
-          "event_name": "Encore Smash Ultimate Singles",
-          "num_entrants": 10,
-          "type": 1,
-          "start_at": 1794441600
-        },
-        {
-          "event_id": 1749815,
-          "event_slug": "tournament/encore-smash-373/event/redemption-bracket",
-          "event_name": "Redemption Bracket",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794448800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973927,
-      "tournament_slug": "tournament/smash-at-lsua-5",
-      "tournament_name": "Smash at LSUA #5",
-      "start_at": 1794427200,
-      "end_at": 1794439500,
-      "is_online": false,
-      "city": "Alexandria",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/smash-at-lsua-5",
-      "events": [
-        {
-          "event_id": 1753614,
-          "event_slug": "tournament/smash-at-lsua-5/event/smash-singles",
-          "event_name": "Smash Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794427200
-        }
-      ]
-    },
-    {
-      "tournament_id": 973046,
-      "tournament_slug": "tournament/the-side-deck-smash-323-11-11-26",
-      "tournament_name": "The Side Deck Smash #323 11/11/26",
-      "start_at": 1794430800,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Columbia",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 8,
-      "url": "/tournament/the-side-deck-smash-323-11-11-26",
-      "events": [
-        {
-          "event_id": 1751725,
-          "event_slug": "tournament/the-side-deck-smash-323-11-11-26/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 8,
-          "type": 1,
-          "start_at": 1794439800
-        }
-      ]
-    },
-    {
-      "tournament_id": 951119,
-      "tournament_slug": "tournament/bww-143",
-      "tournament_name": "BWW #143",
-      "start_at": 1794434400,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "South Portland",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 14,
-      "url": "/tournament/bww-143",
-      "events": [
-        {
-          "event_id": 1705228,
-          "event_slug": "tournament/bww-143/event/ultimate",
-          "event_name": "Ultimate",
-          "num_entrants": 13,
-          "type": 1,
-          "start_at": 1796254200
-        },
-        {
-          "event_id": 1752518,
-          "event_slug": "tournament/bww-143/event/squad-strike-1-slot-random-no-mulligan-10-1st-prize",
-          "event_name": "Squad Strike (1 slot random, no mulligan, $10 1st Prize!)",
-          "num_entrants": 10,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 971303,
-      "tournament_slug": "tournament/dinky-dojo-88-roa2-pot-bonus",
-      "tournament_name": "Dinky Dojo #88 💢 RoA2 Pot Bonus! 💢",
-      "start_at": 1794434400,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Minneapolis",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 4,
-      "url": "/tournament/dinky-dojo-88-roa2-pot-bonus",
-      "events": [
-        {
-          "event_id": 1748034,
-          "event_slug": "tournament/dinky-dojo-88-roa2-pot-bonus/event/smash-ultimate-singles",
-          "event_name": "Smash Ultimate Singles",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 973969,
-      "tournament_slug": "tournament/breakaway-87-at-st-cloud-state-ultimate-melee-and-fgc",
-      "tournament_name": "Breakaway #87 at St. Cloud State | Ultimate, Melee, and FGC!",
-      "start_at": 1794434400,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "St. Cloud",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 11,
-      "url": "/tournament/breakaway-87-at-st-cloud-state-ultimate-melee-and-fgc",
-      "events": [
-        {
-          "event_id": 1753706,
-          "event_slug": "tournament/breakaway-87-at-st-cloud-state-ultimate-melee-and-fgc/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 9,
-          "type": 1,
-          "start_at": 1794439800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973963,
-      "tournament_slug": "tournament/the-rave-118-bingus-and-bongus-invasion",
-      "tournament_name": "The Rave 118 - Bingus and Bongus Invasion",
-      "start_at": 1794436200,
-      "end_at": 1794448800,
-      "is_online": false,
-      "city": "Philadelphia",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 6,
-      "url": "/tournament/the-rave-118-bingus-and-bongus-invasion",
-      "events": [
-        {
-          "event_id": 1753695,
-          "event_slug": "tournament/the-rave-118-bingus-and-bongus-invasion/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794436200
-        },
-        {
-          "event_id": 1753696,
-          "event_slug": "tournament/the-rave-118-bingus-and-bongus-invasion/event/redemption-bracket",
-          "event_name": "Redemption Bracket",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1806969600
-        }
-      ]
-    },
-    {
-      "tournament_id": 919332,
-      "tournament_slug": "tournament/clash-at-carleton-84",
-      "tournament_name": "Clash at Carleton #84",
-      "start_at": 1794438000,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Ottawa",
-      "venue_name": "",
-      "country_code": "CA",
-      "num_attendees": 17,
-      "url": "/tournament/clash-at-carleton-84",
-      "events": [
-        {
-          "event_id": 1640184,
-          "event_slug": "tournament/clash-at-carleton-84/event/main-bracket-ultimate-singles",
-          "event_name": "[Main Bracket] - Ultimate Singles",
-          "num_entrants": 16,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 969501,
-      "tournament_slug": "tournament/mom-fest-the-long-haul-11",
-      "tournament_name": "mom?fest: The Long Haul #11",
-      "start_at": 1794438000,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Burlington",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/mom-fest-the-long-haul-11",
-      "events": [
-        {
-          "event_id": 1744111,
-          "event_slug": "tournament/mom-fest-the-long-haul-11/event/ult-singles",
-          "event_name": "Ult Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794438000
-        }
-      ]
-    },
-    {
-      "tournament_id": 970700,
-      "tournament_slug": "tournament/the-roost-100-150-pot-bonus",
-      "tournament_name": "The Roost #100 - $150 Pot Bonus",
-      "start_at": 1794438000,
-      "end_at": 1794450600,
-      "is_online": false,
-      "city": "Lexington",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 35,
-      "url": "/tournament/the-roost-100-150-pot-bonus",
-      "events": [
-        {
-          "event_id": 1746725,
-          "event_slug": "tournament/the-roost-100-150-pot-bonus/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 35,
-          "type": 1,
-          "start_at": 1794438000
-        }
-      ]
-    },
-    {
-      "tournament_id": 971367,
-      "tournament_slug": "tournament/reverb-runback-1-reverb-room",
-      "tournament_name": "Reverb Runback #1 @ Reverb Room",
-      "start_at": 1794438000,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Warner Robins",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 10,
-      "url": "/tournament/reverb-runback-1-reverb-room",
-      "events": [
-        {
-          "event_id": 1748183,
-          "event_slug": "tournament/reverb-runback-1-reverb-room/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 9,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 972304,
-      "tournament_slug": "tournament/no-dice-amazing-discoveries-221-a-smash-ultimate-weekly-feat-rivals-2",
-      "tournament_name": "No Dice @ Amazing Discoveries #221 - a Smash Ultimate weekly feat. Rivals 2",
-      "start_at": 1794438000,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Tucson",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 9,
-      "url": "/tournament/no-dice-amazing-discoveries-221-a-smash-ultimate-weekly-feat-rivals-2",
-      "events": [
-        {
-          "event_id": 1750114,
-          "event_slug": "tournament/no-dice-amazing-discoveries-221-a-smash-ultimate-weekly-feat-rivals-2/event/smash-ultimate-singles",
-          "event_name": "Smash Ultimate Singles",
-          "num_entrants": 8,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 972455,
-      "tournament_slug": "tournament/gould-st-gauntlet-31",
-      "tournament_name": "Gould St. Gauntlet #31",
-      "start_at": 1794438000,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Toronto",
-      "venue_name": "",
-      "country_code": "CA",
-      "num_attendees": 49,
-      "url": "/tournament/gould-st-gauntlet-31",
-      "events": [
-        {
-          "event_id": 1750443,
-          "event_slug": "tournament/gould-st-gauntlet-31/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 32,
-          "type": 1,
-          "start_at": 1794439800
-        },
-        {
-          "event_id": 1750442,
-          "event_slug": "tournament/gould-st-gauntlet-31/event/ultimate-waitlist",
-          "event_name": "Ultimate Waitlist",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1794438000
-        },
-        {
-          "event_id": 1750439,
-          "event_slug": "tournament/gould-st-gauntlet-31/event/ultimate-amateurs",
-          "event_name": "Ultimate Amateurs",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794444300
-        }
-      ]
-    },
-    {
-      "tournament_id": 973150,
-      "tournament_slug": "tournament/emusc-199",
-      "tournament_name": "EMUSC 199",
-      "start_at": 1794438000,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Ypsilanti",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 6,
-      "url": "/tournament/emusc-199",
-      "events": [
-        {
-          "event_id": 1751918,
-          "event_slug": "tournament/emusc-199/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794438000
-        }
-      ]
-    },
-    {
-      "tournament_id": 973636,
-      "tournament_slug": "tournament/beyond-109",
-      "tournament_name": "Beyond #109",
-      "start_at": 1794438000,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Charlotte",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/beyond-109",
-      "events": [
-        {
-          "event_id": 1752965,
-          "event_slug": "tournament/beyond-109/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794438000
-        },
-        {
-          "event_id": 1752966,
-          "event_slug": "tournament/beyond-109/event/redemption-if-main-has-13-or-more-entrants",
-          "event_name": "Redemption (if main has 13 or more entrants)",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794438000
-        }
-      ]
-    },
-    {
-      "tournament_id": 972667,
-      "tournament_slug": "tournament/fries-on-a-salad-259-stuffy-edition",
-      "tournament_name": "Fries on a Salad #259: Stuffy Edition!",
-      "start_at": 1794439800,
-      "end_at": 1794459540,
-      "is_online": false,
-      "city": "Pittsburgh",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 15,
-      "url": "/tournament/fries-on-a-salad-259-stuffy-edition",
-      "events": [
-        {
-          "event_id": 1750901,
-          "event_slug": "tournament/fries-on-a-salad-259-stuffy-edition/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 11,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 972907,
-      "tournament_slug": "tournament/game-night-at-dave-and-busters-114-50-prize-pool-ssbu-tournament",
-      "tournament_name": "Game Night at Dave and Busters #114 $50 prize pool SSBU tournament",
-      "start_at": 1794439800,
-      "end_at": 1794459540,
-      "is_online": false,
-      "city": "Brooklyn",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 13,
-      "url": "/tournament/game-night-at-dave-and-busters-114-50-prize-pool-ssbu-tournament",
-      "events": [
-        {
-          "event_id": 1751422,
-          "event_slug": "tournament/game-night-at-dave-and-busters-114-50-prize-pool-ssbu-tournament/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 13,
-          "type": 1,
-          "start_at": 1794441600
-        },
-        {
-          "event_id": 1751425,
-          "event_slug": "tournament/game-night-at-dave-and-busters-114-50-prize-pool-ssbu-tournament/event/smash-ultimate-community-chest-bracket",
-          "event_name": "Smash Ultimate \"Community Chest\" Bracket",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1788996600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973121,
-      "tournament_slug": "tournament/the-buddbuds-local-63-hazards-on-stagelist",
-      "tournament_name": "The BuddBuds Local #63 | HAZARDS ON STAGELIST!!",
-      "start_at": 1794439800,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "Cary",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 11,
-      "url": "/tournament/the-buddbuds-local-63-hazards-on-stagelist",
-      "events": [
-        {
-          "event_id": 1751869,
-          "event_slug": "tournament/the-buddbuds-local-63-hazards-on-stagelist/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 11,
-          "type": 1,
-          "start_at": 1794439800
-        },
-        {
-          "event_id": 1751870,
-          "event_slug": "tournament/the-buddbuds-local-63-hazards-on-stagelist/event/ultimate-singles-redemption",
-          "event_name": "Ultimate Singles Redemption",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 973350,
-      "tournament_slug": "tournament/bronco-weekly-63",
-      "tournament_name": "Bronco Weekly #63",
-      "start_at": 1794439800,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "Kalamazoo",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 4,
-      "url": "/tournament/bronco-weekly-63",
-      "events": [
-        {
-          "event_id": 1752339,
-          "event_slug": "tournament/bronco-weekly-63/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1794439800
-        },
-        {
-          "event_id": 1752340,
-          "event_slug": "tournament/bronco-weekly-63/event/am-bracket",
-          "event_name": "AM Bracket",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794439800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973594,
-      "tournament_slug": "tournament/panther-s-den-89",
-      "tournament_name": "Panther's Den #89",
-      "start_at": 1794439800,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Cedar Falls",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 9,
-      "url": "/tournament/panther-s-den-89",
-      "events": [
-        {
-          "event_id": 1752865,
-          "event_slug": "tournament/panther-s-den-89/event/ssbu-singles",
-          "event_name": "SSBU Singles",
-          "num_entrants": 9,
-          "type": 1,
-          "start_at": 1794443400
-        },
-        {
-          "event_id": 1752866,
-          "event_slug": "tournament/panther-s-den-89/event/reverse-mains",
-          "event_name": "Reverse Mains",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794439800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973084,
-      "tournament_slug": "tournament/the-hive-smash-ultimate-at-ru-56",
-      "tournament_name": "\"The Hive\" Smash Ultimate at RU #56",
-      "start_at": 1794440700,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Radford",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 12,
-      "url": "/tournament/the-hive-smash-ultimate-at-ru-56",
-      "events": [
-        {
-          "event_id": 1751795,
-          "event_slug": "tournament/the-hive-smash-ultimate-at-ru-56/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 12,
-          "type": 1,
-          "start_at": 1794442500
-        }
-      ]
-    },
-    {
-      "tournament_id": 973140,
-      "tournament_slug": "tournament/starlight-road-136",
-      "tournament_name": "Starlight road #136",
-      "start_at": 1794440700,
-      "end_at": 1794459540,
-      "is_online": false,
-      "city": "Newark",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 7,
-      "url": "/tournament/starlight-road-136",
-      "events": [
-        {
-          "event_id": 1751899,
-          "event_slug": "tournament/starlight-road-136/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794440700
-        },
-        {
-          "event_id": 1751900,
-          "event_slug": "tournament/starlight-road-136/event/redemptions",
-          "event_name": "Redemptions",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794440700
-        }
-      ]
-    },
-    {
-      "tournament_id": 973099,
-      "tournament_slug": "tournament/orange-crate-49-the-cows-come-home-edition",
-      "tournament_name": "Orange Crate #49 The Cows Come Home Edition",
-      "start_at": 1794441540,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Syracuse",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 5,
-      "url": "/tournament/orange-crate-49-the-cows-come-home-edition",
-      "events": [
-        {
-          "event_id": 1751826,
-          "event_slug": "tournament/orange-crate-49-the-cows-come-home-edition/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 5,
-          "type": 1,
-          "start_at": 1794441540
-        }
-      ]
-    },
-    {
-      "tournament_id": 972546,
-      "tournament_slug": "tournament/wilkes-gold-mine-87-ft-doubles",
-      "tournament_name": "Wilkes Gold Mine #87 (ft. Doubles)",
-      "start_at": 1794441600,
-      "end_at": 1794459540,
-      "is_online": false,
-      "city": "Wilkes-Barre",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 6,
-      "url": "/tournament/wilkes-gold-mine-87-ft-doubles",
-      "events": [
-        {
-          "event_id": 1750665,
-          "event_slug": "tournament/wilkes-gold-mine-87-ft-doubles/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794441600
-        },
-        {
-          "event_id": 1750668,
-          "event_slug": "tournament/wilkes-gold-mine-87-ft-doubles/event/ultimate-redemption",
-          "event_name": "Ultimate Redemption",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973214,
-      "tournament_slug": "tournament/pao-pao-ramen-rumble-60",
-      "tournament_name": "Pao Pao Ramen Rumble #60",
-      "start_at": 1794441600,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Buford",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 4,
-      "url": "/tournament/pao-pao-ramen-rumble-60",
-      "events": [
-        {
-          "event_id": 1752047,
-          "event_slug": "tournament/pao-pao-ramen-rumble-60/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973444,
-      "tournament_slug": "tournament/msoe-pirate-s-plunder-fall-2026-week-11",
-      "tournament_name": "MSOE Pirate's Plunder Fall 2026: Week 11",
-      "start_at": 1794441600,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "Milwaukee",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 7,
-      "url": "/tournament/msoe-pirate-s-plunder-fall-2026-week-11",
-      "events": [
-        {
-          "event_id": 1752520,
-          "event_slug": "tournament/msoe-pirate-s-plunder-fall-2026-week-11/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 7,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973564,
-      "tournament_slug": "tournament/slambana-244",
-      "tournament_name": "Slambana #244",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Urbana",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 18,
-      "url": "/tournament/slambana-244",
-      "events": [
-        {
-          "event_id": 1752772,
-          "event_slug": "tournament/slambana-244/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 18,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973646,
-      "tournament_slug": "tournament/cu-boulder-wednesdays-10",
-      "tournament_name": "CU BOULDER WEDNESDAYS #10",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Boulder",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 8,
-      "url": "/tournament/cu-boulder-wednesdays-10",
-      "events": [
-        {
-          "event_id": 1752992,
-          "event_slug": "tournament/cu-boulder-wednesdays-10/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 8,
-          "type": 1,
-          "start_at": 1794441600
-        },
-        {
-          "event_id": 1752993,
-          "event_slug": "tournament/cu-boulder-wednesdays-10/event/redemption-only-if-hella-setups",
-          "event_name": "redemption (only if hella setups)",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794448800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973675,
-      "tournament_slug": "tournament/downwards-barial-11-9-26",
-      "tournament_name": "DOWNWARDS BARIAL 11/9/26",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Auburn",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 13,
-      "url": "/tournament/downwards-barial-11-9-26",
-      "events": [
-        {
-          "event_id": 1753066,
-          "event_slug": "tournament/downwards-barial-11-9-26/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 10,
-          "type": 1,
-          "start_at": 1794447000
-        }
-      ]
-    },
-    {
-      "tournament_id": 973717,
-      "tournament_slug": "tournament/maverick-smash-night-81",
-      "tournament_name": "Maverick Smash Night #81",
-      "start_at": 1794441600,
-      "end_at": 1794463140,
-      "is_online": false,
-      "city": "Omaha",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 6,
-      "url": "/tournament/maverick-smash-night-81",
-      "events": [
-        {
-          "event_id": 1753177,
-          "event_slug": "tournament/maverick-smash-night-81/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 6,
-          "type": 1,
-          "start_at": 1794445200
-        },
-        {
-          "event_id": 1753178,
-          "event_slug": "tournament/maverick-smash-night-81/event/redemption",
-          "event_name": "Redemption",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1795143600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973879,
-      "tournament_slug": "tournament/canal-clash-11",
-      "tournament_name": "Canal Clash #11",
-      "start_at": 1794441600,
-      "end_at": 1794459540,
-      "is_online": false,
-      "city": "Richmond",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 4,
-      "url": "/tournament/canal-clash-11",
-      "events": [
-        {
-          "event_id": 1753510,
-          "event_slug": "tournament/canal-clash-11/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1795046400
-        },
-        {
-          "event_id": 1753511,
-          "event_slug": "tournament/canal-clash-11/event/redemption-bracket",
-          "event_name": "Redemption Bracket",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1795046400
-        }
-      ]
-    },
-    {
-      "tournament_id": 973901,
-      "tournament_slug": "tournament/legendary-crits-16",
-      "tournament_name": "Legendary Crits #16",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Wichita",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 2,
-      "url": "/tournament/legendary-crits-16",
-      "events": [
-        {
-          "event_id": 1753571,
-          "event_slug": "tournament/legendary-crits-16/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1793228400
-        },
-        {
-          "event_id": 1753572,
-          "event_slug": "tournament/legendary-crits-16/event/hdr-singles",
-          "event_name": "HDR Singles",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1793232000
-        }
-      ]
-    },
-    {
-      "tournament_id": 973945,
-      "tournament_slug": "tournament/stark-series-31-fall-2026",
-      "tournament_name": "Stark Series #31 (Fall 2026)",
-      "start_at": 1794441600,
-      "end_at": 1794463140,
-      "is_online": false,
-      "city": "Starkville",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 7,
-      "url": "/tournament/stark-series-31-fall-2026",
-      "events": [
-        {
-          "event_id": 1753648,
-          "event_slug": "tournament/stark-series-31-fall-2026/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 7,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 973961,
-      "tournament_slug": "tournament/road-to-posada-gamer-torneo-semanal-la-perla-60",
-      "tournament_name": "Road to Posada Gamer Torneo Semanal @ La Perla #60",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Zapopan",
-      "venue_name": "",
-      "country_code": "MX",
-      "num_attendees": 8,
-      "url": "/tournament/road-to-posada-gamer-torneo-semanal-la-perla-60",
-      "events": [
-        {
-          "event_id": 1753690,
-          "event_slug": "tournament/road-to-posada-gamer-torneo-semanal-la-perla-60/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 8,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973987,
-      "tournament_slug": "tournament/smashvania-261",
-      "tournament_name": "Smashvania #261",
-      "start_at": 1794441600,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Austin",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/smashvania-261",
-      "events": [
-        {
-          "event_id": 1753757,
-          "event_slug": "tournament/smashvania-261/event/singles-starts-at-7pm",
-          "event_name": "Singles (Starts at 7pm!)",
-          "num_entrants": 2,
-          "type": 1,
-          "start_at": 1794445200
-        },
-        {
-          "event_id": 1753759,
-          "event_slug": "tournament/smashvania-261/event/guppy-bracket",
-          "event_name": "Guppy Bracket",
-          "num_entrants": 2,
-          "type": 1,
-          "start_at": 1795053600
-        }
-      ]
-    },
-    {
-      "tournament_id": 972251,
-      "tournament_slug": "tournament/ultimate-fight-hub-22",
-      "tournament_name": "Ultimate Fight Hub #22",
-      "start_at": 1794442500,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "Saugus",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/ultimate-fight-hub-22",
-      "events": [
-        {
-          "event_id": 1750016,
-          "event_slug": "tournament/ultimate-fight-hub-22/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794442500
-        },
-        {
-          "event_id": 1750017,
-          "event_slug": "tournament/ultimate-fight-hub-22/event/ultimate-redemption",
-          "event_name": "Ultimate Redemption",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794446100
-        }
-      ]
-    },
-    {
-      "tournament_id": 973579,
-      "tournament_slug": "tournament/ecu-claw-clash-53",
-      "tournament_name": "ECU Claw Clash #53",
-      "start_at": 1794442500,
-      "end_at": 1794463080,
-      "is_online": false,
-      "city": "Ada",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 9,
-      "url": "/tournament/ecu-claw-clash-53",
-      "events": [
-        {
-          "event_id": 1752821,
-          "event_slug": "tournament/ecu-claw-clash-53/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 9,
-          "type": 1,
-          "start_at": 1794442500
-        }
-      ]
-    },
-    {
-      "tournament_id": 972955,
-      "tournament_slug": "tournament/ultimate-rare-88",
-      "tournament_name": "Ultimate Rare 88",
-      "start_at": 1794443400,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Valley Stream",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/ultimate-rare-88",
-      "events": [
-        {
-          "event_id": 1751527,
-          "event_slug": "tournament/ultimate-rare-88/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 973200,
-      "tournament_slug": "tournament/gambrino-s-gaming-series-17",
-      "tournament_name": "Gambrino's Gaming Series #17",
-      "start_at": 1794443400,
-      "end_at": 1794454200,
-      "is_online": false,
-      "city": "Worcester",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 5,
-      "url": "/tournament/gambrino-s-gaming-series-17",
-      "events": [
-        {
-          "event_id": 1752016,
-          "event_slug": "tournament/gambrino-s-gaming-series-17/event/smash-ultimate-singles",
-          "event_name": "Smash Ultimate Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 973284,
-      "tournament_slug": "tournament/smashons-au-vachon-207",
-      "tournament_name": "Smashons au Vachon 207",
-      "start_at": 1794443400,
-      "end_at": 1794459300,
-      "is_online": false,
-      "city": "Québec",
-      "venue_name": "",
-      "country_code": "CA",
-      "num_attendees": 10,
-      "url": "/tournament/smashons-au-vachon-207",
-      "events": [
-        {
-          "event_id": 1752204,
-          "event_slug": "tournament/smashons-au-vachon-207/event/ultimate-singles-1v1",
-          "event_name": "Ultimate Singles - 1v1",
-          "num_entrants": 10,
-          "type": 1,
-          "start_at": 1794443400
-        }
-      ]
-    },
-    {
-      "tournament_id": 973338,
-      "tournament_slug": "tournament/phaze-fusion-90",
-      "tournament_name": "PHAZE ➠ FUSION 90",
-      "start_at": 1794443400,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Florissant",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 19,
-      "url": "/tournament/phaze-fusion-90",
-      "events": [
-        {
-          "event_id": 1752304,
-          "event_slug": "tournament/phaze-fusion-90/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 18,
-          "type": 1,
-          "start_at": 1794443400
-        },
-        {
-          "event_id": 1752327,
-          "event_slug": "tournament/phaze-fusion-90/event/ultimate-ffa",
-          "event_name": "Ultimate FFA",
-          "num_entrants": 11,
-          "type": 1,
-          "start_at": 1794443400
-        },
-        {
-          "event_id": 1752305,
-          "event_slug": "tournament/phaze-fusion-90/event/ultimate-redemption",
-          "event_name": "Ultimate Redemption",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1796259600
-        }
-      ]
-    },
-    {
-      "tournament_id": 973510,
-      "tournament_slug": "tournament/tidal-braves-ssu-7",
-      "tournament_name": "Tidal Braves @ SSU #7",
-      "start_at": 1794443400,
-      "end_at": 1794452400,
-      "is_online": false,
-      "city": "Savannah",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 1,
-      "url": "/tournament/tidal-braves-ssu-7",
-      "events": [
-        {
-          "event_id": 1752664,
-          "event_slug": "tournament/tidal-braves-ssu-7/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1794441600
-        }
-      ]
-    },
-    {
-      "tournament_id": 972322,
-      "tournament_slug": "tournament/empire-arena-45",
-      "tournament_name": "Empire Arena #45",
-      "start_at": 1794444300,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Yuma",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 1,
-      "url": "/tournament/empire-arena-45",
-      "events": [
-        {
-          "event_id": 1750141,
-          "event_slug": "tournament/empire-arena-45/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1794446100
-        },
-        {
-          "event_id": 1750143,
-          "event_slug": "tournament/empire-arena-45/event/ult-ammies",
-          "event_name": "Ult Ammies",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794444300
-        }
-      ]
-    },
-    {
-      "tournament_id": 970104,
-      "tournament_slug": "tournament/the-guild-trials-83",
-      "tournament_name": "The Guild Trials 83",
-      "start_at": 1794445200,
-      "end_at": 1794625200,
-      "is_online": false,
-      "city": "Coconut Creek",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 0,
-      "url": "/tournament/the-guild-trials-83",
-      "events": [
-        {
-          "event_id": 1745515,
-          "event_slug": "tournament/the-guild-trials-83/event/super-smash-bros-ultimate-singles",
-          "event_name": "Super Smash Bros. Ultimate Singles",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 972590,
-      "tournament_slug": "tournament/pio-pummel-18",
-      "tournament_name": "Pio Pummel #18",
-      "start_at": 1794445200,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Waukesha",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 9,
-      "url": "/tournament/pio-pummel-18",
-      "events": [
-        {
-          "event_id": 1750750,
-          "event_slug": "tournament/pio-pummel-18/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 9,
-          "type": 1,
-          "start_at": 1794445200
-        },
-        {
-          "event_id": 1750751,
-          "event_slug": "tournament/pio-pummel-18/event/redemption-ladder",
-          "event_name": "Redemption Ladder",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 972731,
-      "tournament_slug": "tournament/connected-25",
-      "tournament_name": "Connected #25",
-      "start_at": 1794445200,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "San Antonio",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 1,
-      "url": "/tournament/connected-25",
-      "events": [
-        {
-          "event_id": 1751012,
-          "event_slug": "tournament/connected-25/event/ultimate-singles-7pm",
-          "event_name": "Ultimate Singles (7PM)",
-          "num_entrants": 1,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 972735,
-      "tournament_slug": "tournament/pizza-zone-19",
-      "tournament_name": "Pizza Zone #19",
-      "start_at": 1794445200,
-      "end_at": 1794456000,
-      "is_online": false,
-      "city": "Chicago",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 0,
-      "url": "/tournament/pizza-zone-19",
-      "events": [
-        {
-          "event_id": 1751016,
-          "event_slug": "tournament/pizza-zone-19/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794445200
-        }
-      ]
-    },
-    {
-      "tournament_id": 973491,
-      "tournament_slug": "tournament/power-grid-07",
-      "tournament_name": "Power Grid 07",
-      "start_at": 1794445200,
-      "end_at": 1794459600,
-      "is_online": false,
-      "city": "Plano",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 4,
-      "url": "/tournament/power-grid-07",
-      "events": [
-        {
-          "event_id": 1752627,
-          "event_slug": "tournament/power-grid-07/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 4,
-          "type": 1,
-          "start_at": 1794448800
-        }
-      ]
-    },
-    {
-      "tournament_id": 973733,
-      "tournament_slug": "tournament/split-neutral-79",
-      "tournament_name": "Split Neutral #79",
-      "start_at": 1794447900,
-      "end_at": 1794466800,
-      "is_online": false,
-      "city": "Lynnwood",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 19,
-      "url": "/tournament/split-neutral-79",
-      "events": [
-        {
-          "event_id": 1753214,
-          "event_slug": "tournament/split-neutral-79/event/split-neutral-79-ultimate-singles",
-          "event_name": "Split Neutral #79 - Ultimate Singles",
-          "num_entrants": 10,
-          "type": 1,
-          "start_at": 1794454200
-        },
-        {
-          "event_id": 1753215,
-          "event_slug": "tournament/split-neutral-79/event/split-redemption-65",
-          "event_name": "Split Redemption #65",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794460500
-        }
-      ]
-    },
     {
       "tournament_id": 972591,
       "tournament_slug": "tournament/cougar-gaming-november-11-2026",
@@ -1392,14 +81,14 @@
       "city": "Cedar City",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 7,
       "url": "/tournament/living-room-legends-11-fall-2026",
       "events": [
         {
           "event_id": 1752584,
           "event_slug": "tournament/living-room-legends-11-fall-2026/event/ult-singles",
           "event_name": "Ult. Singles",
-          "num_entrants": 5,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794448800
         },
@@ -1407,7 +96,7 @@
           "event_id": 1752589,
           "event_slug": "tournament/living-room-legends-11-fall-2026/event/reverse-mains",
           "event_name": "Reverse Mains",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794448800
         }
@@ -1454,14 +143,14 @@
       "city": "Las Vegas",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/theater-throwdown-99",
       "events": [
         {
           "event_id": 1739283,
           "event_slug": "tournament/theater-throwdown-99/event/theater-throwdown-singles",
           "event_name": "Theater Throwdown - Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1795055400
         }
@@ -1477,14 +166,14 @@
       "city": "Tijuana",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 19,
+      "num_attendees": 25,
       "url": "/tournament/tryhaaards-45-after-dark",
       "events": [
         {
           "event_id": 1751463,
           "event_slug": "tournament/tryhaaards-45-after-dark/event/singles-ultimate",
           "event_name": "Singles Ultimate",
-          "num_entrants": 19,
+          "num_entrants": 25,
           "type": 1,
           "start_at": 1794450600
         },
@@ -1531,14 +220,14 @@
       "city": "Irvine",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/coopers-irvine-ssbu-weekly-191",
       "events": [
         {
           "event_id": 1750081,
           "event_slug": "tournament/coopers-irvine-ssbu-weekly-191/event/ultimate-singles-7pm",
           "event_name": "Ultimate Singles - 7PM",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794452400
         },
@@ -1562,14 +251,14 @@
       "city": "San Diego",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 16,
+      "num_attendees": 21,
       "url": "/tournament/sd-city",
       "events": [
         {
           "event_id": 1752751,
           "event_slug": "tournament/sd-city/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 16,
+          "num_entrants": 21,
           "type": 1,
           "start_at": 1794452400
         },
@@ -1577,7 +266,7 @@
           "event_id": 1752752,
           "event_slug": "tournament/sd-city/event/resurrection-bracket",
           "event_name": "Resurrection Bracket",
-          "num_entrants": 4,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794459600
         }
@@ -1593,14 +282,14 @@
       "city": "Pico Rivera",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/wild-smash-wednesday-208",
       "events": [
         {
           "event_id": 1749845,
           "event_slug": "tournament/wild-smash-wednesday-208/event/super-smash-bros-ultimate-singles-8-30pm-start",
           "event_name": "Super Smash Bros. Ultimate Singles - 8:30PM START",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794457860
         },
@@ -1639,22 +328,22 @@
     },
     {
       "tournament_id": 973535,
-      "tournament_slug": "tournament/cg-ssbu-tournament-1",
-      "tournament_name": "CG SSBU tournament",
+      "tournament_slug": "tournament/cg-ssbu-tournament-2",
+      "tournament_name": "CG SSBU tournament #2",
       "start_at": 1794514800,
       "end_at": 1794524400,
       "is_online": false,
       "city": "Greenwood",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/cg-ssbu-tournament-1",
+      "num_attendees": 5,
+      "url": "/tournament/cg-ssbu-tournament-2",
       "events": [
         {
           "event_id": 1752723,
-          "event_slug": "tournament/cg-ssbu-tournament-1/event/ssbu-singles-double-elimination",
+          "event_slug": "tournament/cg-ssbu-tournament-2/event/ssbu-singles-double-elimination",
           "event_name": "SSBU singles double elimination",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1793910000
         }
@@ -1670,14 +359,14 @@
       "city": "Grand Rapids",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 52,
+      "num_attendees": 57,
       "url": "/tournament/what-s-the-daily-shield-break-wtdsa-pre-local",
       "events": [
         {
           "event_id": 1736762,
           "event_slug": "tournament/what-s-the-daily-shield-break-wtdsa-pre-local/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 51,
+          "num_entrants": 54,
           "type": 1,
           "start_at": 1794522600
         }
@@ -1693,14 +382,14 @@
       "city": "Cherry Hill",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/battle-over-the-bridge-258",
       "events": [
         {
           "event_id": 1751353,
           "event_slug": "tournament/battle-over-the-bridge-258/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794526200
         },
@@ -1763,14 +452,14 @@
       "city": "Dothan",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 6,
       "url": "/tournament/folklore-fight-night-24",
       "events": [
         {
           "event_id": 1754077,
           "event_slug": "tournament/folklore-fight-night-24/event/ultimate-singles-main-bracket",
           "event_name": "Ultimate Singles Main Bracket",
-          "num_entrants": 3,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794524400
         }
@@ -1832,7 +521,7 @@
       "city": "Bathurst",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/merchant-s-shop-weekly-19",
       "events": [
         {
@@ -1855,14 +544,14 @@
       "city": "Atlanta",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 7,
       "url": "/tournament/4o4-by-sh33rz-weekly-smash-123",
       "events": [
         {
           "event_id": 1752175,
           "event_slug": "tournament/4o4-by-sh33rz-weekly-smash-123/event/singles-8pm",
           "event_name": "Singles 8pm",
-          "num_entrants": 3,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794531600
         },
@@ -1886,14 +575,14 @@
       "city": "Wernersville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 5,
       "url": "/tournament/rebirth-70-minimum-rage",
       "events": [
         {
           "event_id": 1751494,
           "event_slug": "tournament/rebirth-70-minimum-rage/event/ult-singles",
           "event_name": "ULT Singles",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794522600
         },
@@ -1917,14 +606,14 @@
       "city": "West Lafayette",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 12,
+      "num_attendees": 14,
       "url": "/tournament/boiling-point-74",
       "events": [
         {
           "event_id": 1751969,
           "event_slug": "tournament/boiling-point-74/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 12,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1794522600
         },
@@ -1987,14 +676,14 @@
       "city": "Guelph",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/gryphon-gaming-smash-bros-fall-2026-week-6",
       "events": [
         {
           "event_id": 1753579,
           "event_slug": "tournament/gryphon-gaming-smash-bros-fall-2026-week-6/event/smash-bros-ultimate-side-event",
           "event_name": "Smash Bros. Ultimate | SIDE-EVENT",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794524400
         },
@@ -2018,14 +707,14 @@
       "city": "Cedar Grove",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 0,
+      "num_attendees": 2,
       "url": "/tournament/transcendence-114",
       "events": [
         {
           "event_id": 1753901,
           "event_slug": "tournament/transcendence-114/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 0,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794529800
         },
@@ -2049,9 +738,17 @@
       "city": "St. John's",
       "venue_name": "Engineering Building",
       "country_code": "CA",
-      "num_attendees": 0,
+      "num_attendees": 3,
       "url": "/tournament/salt-water-smash-405",
       "events": [
+        {
+          "event_id": 1754010,
+          "event_slug": "tournament/salt-water-smash-405/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794522600
+        },
         {
           "event_id": 1754013,
           "event_slug": "tournament/salt-water-smash-405/event/ultimate-amateur",
@@ -2059,12 +756,27 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1794522600
-        },
+        }
+      ]
+    },
+    {
+      "tournament_id": 974198,
+      "tournament_slug": "tournament/smash-kingdom-142",
+      "tournament_name": "Smash Kingdom #142",
+      "start_at": 1794522600,
+      "end_at": 1794542100,
+      "is_online": false,
+      "city": "Guaynabo",
+      "venue_name": "",
+      "country_code": "PR",
+      "num_attendees": 2,
+      "url": "/tournament/smash-kingdom-142",
+      "events": [
         {
-          "event_id": 1754010,
-          "event_slug": "tournament/salt-water-smash-405/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 0,
+          "event_id": 1754286,
+          "event_slug": "tournament/smash-kingdom-142/event/smash-singles",
+          "event_name": "Smash Singles",
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794522600
         }
@@ -2103,14 +815,14 @@
       "city": "Milwaukee",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/thursday-throwdown-212",
       "events": [
         {
           "event_id": 1747130,
           "event_slug": "tournament/thursday-throwdown-212/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794531600
         }
@@ -2149,14 +861,14 @@
       "city": "Columbus",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 6,
       "url": "/tournament/smashlan-d-306-hosted-by-game-arena",
       "events": [
         {
           "event_id": 1750385,
           "event_slug": "tournament/smashlan-d-306-hosted-by-game-arena/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794528000
         },
@@ -2211,14 +923,14 @@
       "city": "Bloomington",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/the-armory-11-augie-saga",
       "events": [
         {
           "event_id": 1753082,
           "event_slug": "tournament/the-armory-11-augie-saga/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794524400
         }
@@ -2234,14 +946,14 @@
       "city": "Newark",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/highland-masters-121",
       "events": [
         {
           "event_id": 1753184,
           "event_slug": "tournament/highland-masters-121/event/ultimate-singles-20-prize",
           "event_name": "Ultimate Singles ($20 Prize)",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794529800
         }
@@ -2257,14 +969,14 @@
       "city": "Santo Domingo",
       "venue_name": "Fight Club",
       "country_code": "DO",
-      "num_attendees": 1,
+      "num_attendees": 3,
       "url": "/tournament/efc-road-to-buscando-el-nivel-novatos-y-gatekeeper-9",
       "events": [
         {
           "event_id": 1753396,
           "event_slug": "tournament/efc-road-to-buscando-el-nivel-novatos-y-gatekeeper-9/event/novatos-7pm",
           "event_name": "Novatos (7pm)",
-          "num_entrants": 1,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794524400
         },
@@ -2288,14 +1000,14 @@
       "city": "Xalapa-Enríquez",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 0,
+      "num_attendees": 1,
       "url": "/tournament/sigad-weekly-151-en-paseo-jardines",
       "events": [
         {
           "event_id": 1753921,
           "event_slug": "tournament/sigad-weekly-151-en-paseo-jardines/event/ultimate-singles",
           "event_name": "Ultimate Singles...",
-          "num_entrants": 0,
+          "num_entrants": 1,
           "type": 1,
           "start_at": 1794524400
         }
@@ -2311,14 +1023,14 @@
       "city": "Statesville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/winner-s-circle-77",
       "events": [
         {
           "event_id": 1753975,
           "event_slug": "tournament/winner-s-circle-77/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794526200
         }
@@ -2334,14 +1046,14 @@
       "city": "Portage",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/return-to-dragon-s-lair-75",
       "events": [
         {
           "event_id": 1702942,
           "event_slug": "tournament/return-to-dragon-s-lair-75/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1789079400
         },
@@ -2349,7 +1061,7 @@
           "event_id": 1702943,
           "event_slug": "tournament/return-to-dragon-s-lair-75/event/amateur-s-bracket",
           "event_name": "Amateur's Bracket",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1789084800
         }
@@ -2442,14 +1154,14 @@
       "city": "Normal",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 8,
       "url": "/tournament/illinois-state-smash-weekly-323",
       "events": [
         {
           "event_id": 1753112,
           "event_slug": "tournament/illinois-state-smash-weekly-323/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794529800
         },
@@ -2473,7 +1185,7 @@
       "city": "Fargo",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 7,
       "url": "/tournament/thursday-beat-downs-210",
       "events": [
         {
@@ -2496,14 +1208,14 @@
       "city": "San Antonio",
       "venue_name": "Otaku Cafe",
       "country_code": "US",
-      "num_attendees": 30,
+      "num_attendees": 32,
       "url": "/tournament/otaku-zone-283-season-27-week-7-muteace-final-smash-birthday-bash",
       "events": [
         {
           "event_id": 1740499,
           "event_slug": "tournament/otaku-zone-283-season-27-week-7-muteace-final-smash-birthday-bash/event/singles",
           "event_name": "Singles",
-          "num_entrants": 30,
+          "num_entrants": 32,
           "type": 1,
           "start_at": 1794529800
         },
@@ -2535,14 +1247,14 @@
       "city": "Cincinnati",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 4,
       "url": "/tournament/al-312",
       "events": [
         {
           "event_id": 1750864,
           "event_slug": "tournament/al-312/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794528000
         }
@@ -2650,14 +1362,14 @@
       "city": "Williamsport",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 13,
+      "num_attendees": 15,
       "url": "/tournament/pct-wildcat-weekly-70-pnotgroe",
       "events": [
         {
           "event_id": 1752724,
           "event_slug": "tournament/pct-wildcat-weekly-70-pnotgroe/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794531600
         },
@@ -2665,7 +1377,7 @@
           "event_id": 1752733,
           "event_slug": "tournament/pct-wildcat-weekly-70-pnotgroe/event/side-bracket-pnotgroe",
           "event_name": "[Side Bracket] PNOTGROE",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794528000
         }
@@ -2758,9 +1470,17 @@
       "city": "Boston",
       "venue_name": "Game Underground",
       "country_code": "US",
-      "num_attendees": 0,
+      "num_attendees": 2,
       "url": "/tournament/bay-state-beatdown-229",
       "events": [
+        {
+          "event_id": 1753735,
+          "event_slug": "tournament/bay-state-beatdown-229/event/ssbu-singles",
+          "event_name": "SSBU Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794528000
+        },
         {
           "event_id": 1753741,
           "event_slug": "tournament/bay-state-beatdown-229/event/redemption-singles-free",
@@ -2768,14 +1488,29 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1794528000
-        },
+        }
+      ]
+    },
+    {
+      "tournament_id": 974221,
+      "tournament_slug": "tournament/valhalla-weekly-12-11",
+      "tournament_name": "VALHALLA: WEEKLY 12.11",
+      "start_at": 1794528000,
+      "end_at": 1794549600,
+      "is_online": false,
+      "city": "Puebla",
+      "venue_name": "",
+      "country_code": "MX",
+      "num_attendees": 1,
+      "url": "/tournament/valhalla-weekly-12-11",
+      "events": [
         {
-          "event_id": 1753735,
-          "event_slug": "tournament/bay-state-beatdown-229/event/ssbu-singles",
-          "event_name": "SSBU Singles",
-          "num_entrants": 0,
+          "event_id": 1754341,
+          "event_slug": "tournament/valhalla-weekly-12-11/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
           "type": 1,
-          "start_at": 1794528000
+          "start_at": 1795132800
         }
       ]
     },
@@ -2896,6 +1631,37 @@
       ]
     },
     {
+      "tournament_id": 970274,
+      "tournament_slug": "tournament/slackers-brewery-brawl-16",
+      "tournament_name": "Slackers Brewery Brawl #16",
+      "start_at": 1794529800,
+      "end_at": 1794542400,
+      "is_online": false,
+      "city": "Austin",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/slackers-brewery-brawl-16",
+      "events": [
+        {
+          "event_id": 1745878,
+          "event_slug": "tournament/slackers-brewery-brawl-16/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794531600
+        },
+        {
+          "event_id": 1745879,
+          "event_slug": "tournament/slackers-brewery-brawl-16/event/redemption-bracket",
+          "event_name": "Redemption Bracket",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794537000
+        }
+      ]
+    },
+    {
       "tournament_id": 972243,
       "tournament_slug": "tournament/badger-brawls-16",
       "tournament_name": "Badger Brawls #16",
@@ -2951,14 +1717,14 @@
       "city": "Shreveport",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/see-you-in-grands-259",
       "events": [
         {
           "event_id": 1753180,
           "event_slug": "tournament/see-you-in-grands-259/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794531600
         }
@@ -3073,6 +1839,29 @@
       ]
     },
     {
+      "tournament_id": 974268,
+      "tournament_slug": "tournament/the-mines-5-fiddlebert-and-the-wacky-stage-list",
+      "tournament_name": "The Mines 5: Fiddlebert and the Wacky Stage List",
+      "start_at": 1794529800,
+      "end_at": 1794553140,
+      "is_online": false,
+      "city": "Rapid City",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 2,
+      "url": "/tournament/the-mines-5-fiddlebert-and-the-wacky-stage-list",
+      "events": [
+        {
+          "event_id": 1754420,
+          "event_slug": "tournament/the-mines-5-fiddlebert-and-the-wacky-stage-list/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794529800
+        }
+      ]
+    },
+    {
       "tournament_id": 964373,
       "tournament_slug": "tournament/sct-esports-2026-2027-smash-clash-thrash-8-halloween-bash",
       "tournament_name": "SCT Esports 2026-2027: Smash Clash Thrash 8: Halloween bash",
@@ -3136,14 +1925,14 @@
       "city": "Bozeman",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/wizard-s-foot-238",
       "events": [
         {
           "event_id": 1753196,
           "event_slug": "tournament/wizard-s-foot-238/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794531600
         }
@@ -3159,14 +1948,14 @@
       "city": "Springfield",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 7,
       "url": "/tournament/ursa-minor-93",
       "events": [
         {
           "event_id": 1753713,
           "event_slug": "tournament/ursa-minor-93/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794531600
         },
@@ -3190,14 +1979,14 @@
       "city": "Fort Collins",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 5,
       "url": "/tournament/foco-ultimate-weekly-457",
       "events": [
         {
           "event_id": 1753880,
           "event_slug": "tournament/foco-ultimate-weekly-457/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794535200
         },
@@ -3336,6 +2125,29 @@
       ]
     },
     {
+      "tournament_id": 974165,
+      "tournament_slug": "tournament/training-room-thursdays-242-who-says-old-losdoggies-can-t-learn-new-tricks",
+      "tournament_name": "Training Room Thursdays #242: who says old losdoggies can’t learn new tricks?",
+      "start_at": 1794534300,
+      "end_at": 1794549600,
+      "is_online": false,
+      "city": "Albuquerque",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/training-room-thursdays-242-who-says-old-losdoggies-can-t-learn-new-tricks",
+      "events": [
+        {
+          "event_id": 1754216,
+          "event_slug": "tournament/training-room-thursdays-242-who-says-old-losdoggies-can-t-learn-new-tricks/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794534300
+        }
+      ]
+    },
+    {
       "tournament_id": 973359,
       "tournament_slug": "tournament/the-double-shot-19",
       "tournament_name": "The Double Shot #19",
@@ -3368,14 +2180,14 @@
       "city": "Monterrey",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/smash-snacks-53",
       "events": [
         {
           "event_id": 1752606,
           "event_slug": "tournament/smash-snacks-53/event/smash-singles",
           "event_name": "Smash Singles",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1794535200
         },
@@ -3399,14 +2211,14 @@
       "city": "Hoboken",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 10,
       "url": "/tournament/castle-point-clash-11-you-light-my-fire-i-feel-alive",
       "events": [
         {
           "event_id": 1753664,
           "event_slug": "tournament/castle-point-clash-11-you-light-my-fire-i-feel-alive/event/ultimate-bracket-8",
           "event_name": "Ultimate Bracket #8",
-          "num_entrants": 6,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1794535200
         }
@@ -3468,14 +2280,14 @@
       "city": "Oakland",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/smash-at-the-made-112-every-thursday",
       "events": [
         {
           "event_id": 1753890,
           "event_slug": "tournament/smash-at-the-made-112-every-thursday/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 10,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1794538800
         }
@@ -3491,7 +2303,7 @@
       "city": "Grand Rapids",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 558,
+      "num_attendees": 567,
       "url": "/tournament/citadel-asks-wtdsa-newunderstandingsmakebetterexecutionreachable-takewhatopp",
       "events": [
         {
@@ -3553,14 +2365,14 @@
       "city": "Portland",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 61,
+      "num_attendees": 65,
       "url": "/tournament/kumoricon-2026",
       "events": [
         {
           "event_id": 1720569,
           "event_slug": "tournament/kumoricon-2026/event/super-smash-bros-ultimate-singles",
           "event_name": "Super Smash Bros. Ultimate Singles",
-          "num_entrants": 14,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1794682800
         }
@@ -3576,14 +2388,14 @@
       "city": "Cuauhtémoc",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/rising-up-26-din-mica-para-principiantes-en-frikiplaza",
       "events": [
         {
           "event_id": 1750189,
           "event_slug": "tournament/rising-up-26-din-mica-para-principiantes-en-frikiplaza/event/rising-up-26",
           "event_name": "Rising Up #26",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794596400
         },
@@ -3684,14 +2496,14 @@
       "city": "Baltimore",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 16,
+      "num_attendees": 18,
       "url": "/tournament/dogfight-umbc-4",
       "events": [
         {
           "event_id": 1752953,
           "event_slug": "tournament/dogfight-umbc-4/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 9,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794607200
         }
@@ -3707,14 +2519,14 @@
       "city": "Fairfax",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 6,
       "url": "/tournament/bring-more-setups-224",
       "events": [
         {
           "event_id": 1754052,
           "event_slug": "tournament/bring-more-setups-224/event/bms-spoob-bracket",
           "event_name": "BMS Spoob Bracket",
-          "num_entrants": 1,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794607200
         },
@@ -3722,7 +2534,7 @@
           "event_id": 1754049,
           "event_slug": "tournament/bring-more-setups-224/event/bms-ultimate-singles",
           "event_name": "BMS Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794614400
         }
@@ -3738,7 +2550,7 @@
       "city": "Ivyland",
       "venue_name": "The Laboratory",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/b-airs-at-the-barnyard-561",
       "events": [
         {
@@ -3854,14 +2666,14 @@
       "city": "Kingston",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 14,
+      "num_attendees": 16,
       "url": "/tournament/kingston-kerfuffle-91",
       "events": [
         {
           "event_id": 1752308,
           "event_slug": "tournament/kingston-kerfuffle-91/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 8,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1794607200
         },
@@ -3962,14 +2774,14 @@
       "city": "Xalapa-Enríquez",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/portal-semanal-13",
       "events": [
         {
           "event_id": 1752867,
           "event_slug": "tournament/portal-semanal-13/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794610800
         },
@@ -4024,14 +2836,14 @@
       "city": "Johnson City",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/smash-the-cave-etsu-119",
       "events": [
         {
           "event_id": 1753720,
           "event_slug": "tournament/smash-the-cave-etsu-119/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794614400
         },
@@ -4039,9 +2851,55 @@
           "event_id": 1753724,
           "event_slug": "tournament/smash-the-cave-etsu-119/event/ultimate-random-singles",
           "event_name": "Ultimate Random Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794610800
+        }
+      ]
+    },
+    {
+      "tournament_id": 974144,
+      "tournament_slug": "tournament/sby-weekly-340",
+      "tournament_name": "SBY Weekly #340",
+      "start_at": 1794607200,
+      "end_at": 1794630600,
+      "is_online": false,
+      "city": "Salisbury",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 5,
+      "url": "/tournament/sby-weekly-340",
+      "events": [
+        {
+          "event_id": 1754149,
+          "event_slug": "tournament/sby-weekly-340/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1794610800
+        }
+      ]
+    },
+    {
+      "tournament_id": 974194,
+      "tournament_slug": "tournament/flashback-fight-night-november-13th-14th-2026",
+      "tournament_name": "Flashback Fight Night: November 13th-14th, 2026",
+      "start_at": 1794607200,
+      "end_at": 1794711600,
+      "is_online": false,
+      "city": "Glendive",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/flashback-fight-night-november-13th-14th-2026",
+      "events": [
+        {
+          "event_id": 1754278,
+          "event_slug": "tournament/flashback-fight-night-november-13th-14th-2026/event/mashdown-12",
+          "event_name": "Mashdown 12",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794697200
         }
       ]
     },
@@ -4055,14 +2913,14 @@
       "city": "St. Catharines",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/brock-smash-meet-206-ft-mario-ddr",
       "events": [
         {
           "event_id": 1751455,
           "event_slug": "tournament/brock-smash-meet-206-ft-mario-ddr/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794609000
         }
@@ -4101,14 +2959,14 @@
       "city": "Gainesville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 8,
       "url": "/tournament/gator-stock-exchange-119",
       "events": [
         {
           "event_id": 1753930,
           "event_slug": "tournament/gator-stock-exchange-119/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794610800
         },
@@ -4116,7 +2974,7 @@
           "event_id": 1753937,
           "event_slug": "tournament/gator-stock-exchange-119/event/smash-ultimate-side-event-little-big-planet",
           "event_name": "Smash Ultimate Side Event: Little Big Planet",
-          "num_entrants": 1,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794609000
         },
@@ -4124,9 +2982,32 @@
           "event_id": 1753938,
           "event_slug": "tournament/gator-stock-exchange-119/event/side-event-waitlist",
           "event_name": "Side Event Waitlist",
-          "num_entrants": 0,
+          "num_entrants": 1,
           "type": 1,
           "start_at": 1794609000
+        }
+      ]
+    },
+    {
+      "tournament_id": 974273,
+      "tournament_slug": "tournament/kent-combo-236-i-finished-fortune-s-weave-now-what",
+      "tournament_name": "Kent Combo 236 - I Finished Fortune's Weave... Now What?",
+      "start_at": 1794609000,
+      "end_at": 1794632340,
+      "is_online": false,
+      "city": "Kent",
+      "venue_name": "KSU Student Center",
+      "country_code": "US",
+      "num_attendees": 4,
+      "url": "/tournament/kent-combo-236-i-finished-fortune-s-weave-now-what",
+      "events": [
+        {
+          "event_id": 1754431,
+          "event_slug": "tournament/kent-combo-236-i-finished-fortune-s-weave-now-what/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1794612600
         }
       ]
     },
@@ -4232,14 +3113,14 @@
       "city": "Bloomsburg",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 9,
+      "num_attendees": 11,
       "url": "/tournament/husky-havoc-invasion-of-bloom",
       "events": [
         {
           "event_id": 1745726,
           "event_slug": "tournament/husky-havoc-invasion-of-bloom/event/ultimate-singles-7-00pm",
           "event_name": "Ultimate Singles (7:00PM)",
-          "num_entrants": 9,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1794614400
         }
@@ -4255,14 +3136,14 @@
       "city": "Mahwah",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/maroon-mixups-64-rcnj-biweekly",
       "events": [
         {
           "event_id": 1749007,
           "event_slug": "tournament/maroon-mixups-64-rcnj-biweekly/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794613500
         }
@@ -4324,14 +3205,14 @@
       "city": "Muncie",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/that-ain-t-charlie-225",
       "events": [
         {
           "event_id": 1752272,
           "event_slug": "tournament/that-ain-t-charlie-225/event/secondaries-pockets-only",
           "event_name": "Secondaries/Pockets Only!",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794610800
         },
@@ -4339,7 +3220,7 @@
           "event_id": 1752268,
           "event_slug": "tournament/that-ain-t-charlie-225/event/ultimate-singles",
           "event_name": "Ultimate Singles!",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794610800
         }
@@ -4409,14 +3290,14 @@
       "city": "Eau Claire",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/blugold-brawls-37",
       "events": [
         {
           "event_id": 1752819,
           "event_slug": "tournament/blugold-brawls-37/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794616200
         }
@@ -4432,14 +3313,14 @@
       "city": "Toronto",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 18,
+      "num_attendees": 22,
       "url": "/tournament/st-george-scramble-106",
       "events": [
         {
           "event_id": 1752932,
           "event_slug": "tournament/st-george-scramble-106/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 18,
+          "num_entrants": 22,
           "type": 1,
           "start_at": 1794610800
         }
@@ -4455,7 +3336,7 @@
       "city": "Iowa City",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/spoontastic-x-ifn-12",
       "events": [
         {
@@ -4517,6 +3398,91 @@
           "event_slug": "tournament/canton-clash-11/event/ultimate-squad-strike",
           "event_name": "Ultimate Squad Strike",
           "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794610800
+        }
+      ]
+    },
+    {
+      "tournament_id": 974166,
+      "tournament_slug": "tournament/ace-smash-162-piggles-edition-3",
+      "tournament_name": "ACE Smash #162 - Piggles Edition 3",
+      "start_at": 1794610800,
+      "end_at": 1794628800,
+      "is_online": false,
+      "city": "Ottawa",
+      "venue_name": "",
+      "country_code": "CA",
+      "num_attendees": 2,
+      "url": "/tournament/ace-smash-162-piggles-edition-3",
+      "events": [
+        {
+          "event_id": 1754221,
+          "event_slug": "tournament/ace-smash-162-piggles-edition-3/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794614400
+        },
+        {
+          "event_id": 1754222,
+          "event_slug": "tournament/ace-smash-162-piggles-edition-3/event/ultimate-amateur-bracket",
+          "event_name": "Ultimate Amateur Bracket",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794619800
+        }
+      ]
+    },
+    {
+      "tournament_id": 974216,
+      "tournament_slug": "tournament/liberty-smash-weekly-372",
+      "tournament_name": "Liberty Smash Weekly #372",
+      "start_at": 1794610800,
+      "end_at": 1794632340,
+      "is_online": false,
+      "city": "Lynchburg",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 3,
+      "url": "/tournament/liberty-smash-weekly-372",
+      "events": [
+        {
+          "event_id": 1754331,
+          "event_slug": "tournament/liberty-smash-weekly-372/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 3,
+          "type": 1,
+          "start_at": 1794610800
+        },
+        {
+          "event_id": 1754332,
+          "event_slug": "tournament/liberty-smash-weekly-372/event/side-event-randoms",
+          "event_name": "Side Event - Randoms",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794611640
+        }
+      ]
+    },
+    {
+      "tournament_id": 974237,
+      "tournament_slug": "tournament/amateur-hour-145",
+      "tournament_name": "Amateur Hour #145",
+      "start_at": 1794610800,
+      "end_at": 1794625200,
+      "is_online": true,
+      "city": "Washington",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/amateur-hour-145",
+      "events": [
+        {
+          "event_id": 1754368,
+          "event_slug": "tournament/amateur-hour-145/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
           "type": 1,
           "start_at": 1794610800
         }
@@ -4656,14 +3622,14 @@
       "city": "Greensboro",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 16,
       "url": "/tournament/asc-fall-edition-pt-2",
       "events": [
         {
           "event_id": 1752767,
           "event_slug": "tournament/asc-fall-edition-pt-2/event/smash-singles",
           "event_name": "SMASH SINGLES",
-          "num_entrants": 10,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1794612600
         }
@@ -4679,14 +3645,99 @@
       "city": "Conway",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 7,
       "url": "/tournament/ccu-smash-by-the-coast-8",
       "events": [
         {
           "event_id": 1752886,
           "event_slug": "tournament/ccu-smash-by-the-coast-8/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 5,
+          "num_entrants": 7,
+          "type": 1,
+          "start_at": 1794612600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974177,
+      "tournament_slug": "tournament/spartan-weekly-199-5",
+      "tournament_name": "Spartan Weekly 199.5",
+      "start_at": 1794612600,
+      "end_at": 1794628800,
+      "is_online": false,
+      "city": "East Lansing",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 7,
+      "url": "/tournament/spartan-weekly-199-5",
+      "events": [
+        {
+          "event_id": 1754243,
+          "event_slug": "tournament/spartan-weekly-199-5/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 7,
+          "type": 1,
+          "start_at": 1794612600
+        },
+        {
+          "event_id": 1754244,
+          "event_slug": "tournament/spartan-weekly-199-5/event/ams",
+          "event_name": "AMs",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794612600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974215,
+      "tournament_slug": "tournament/modern-nest-131",
+      "tournament_name": "Modern Nest #131",
+      "start_at": 1794612600,
+      "end_at": 1794628800,
+      "is_online": false,
+      "city": "Rock Hill",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/modern-nest-131",
+      "events": [
+        {
+          "event_id": 1754327,
+          "event_slug": "tournament/modern-nest-131/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794616200
+        }
+      ]
+    },
+    {
+      "tournament_id": 974234,
+      "tournament_slug": "tournament/stargate-73-up-to-1-000-pot-bonus",
+      "tournament_name": "STARGATE #73 - Up to $1,000 Pot Bonus!",
+      "start_at": 1794612600,
+      "end_at": 1794632340,
+      "is_online": false,
+      "city": "Guttenberg",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 13,
+      "url": "/tournament/stargate-73-up-to-1-000-pot-bonus",
+      "events": [
+        {
+          "event_id": 1754359,
+          "event_slug": "tournament/stargate-73-up-to-1-000-pot-bonus/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 10,
+          "type": 1,
+          "start_at": 1794615900
+        },
+        {
+          "event_id": 1754360,
+          "event_slug": "tournament/stargate-73-up-to-1-000-pot-bonus/event/mega-redemption-2-prizes",
+          "event_name": "Mega Redemption (2+ Prizes)",
+          "num_entrants": 0,
           "type": 1,
           "start_at": 1794612600
         }
@@ -4702,7 +3753,7 @@
       "city": "South Bend",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/half-half-39",
       "events": [
         {
@@ -4748,14 +3799,14 @@
       "city": "Hempstead",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 6,
       "url": "/tournament/smash-with-pride-177",
       "events": [
         {
           "event_id": 1752106,
           "event_slug": "tournament/smash-with-pride-177/event/swp-177",
           "event_name": "SWP 177",
-          "num_entrants": 4,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794614400
         }
@@ -4771,14 +3822,14 @@
       "city": "Baton Rouge",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/salsa-65-2",
       "events": [
         {
           "event_id": 1752463,
           "event_slug": "tournament/salsa-65-2/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794616200
         }
@@ -4825,14 +3876,14 @@
       "city": "College Station",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 12,
       "url": "/tournament/no-caps-138-msc-1400",
       "events": [
         {
           "event_id": 1752729,
           "event_slug": "tournament/no-caps-138-msc-1400/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 10,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794614400
         }
@@ -4879,14 +3930,14 @@
       "city": "Southfield",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/ltu-83-everyinteractiongetsharder-thoughyou-tryhere-rivalsexecuteeverything",
       "events": [
         {
           "event_id": 1753104,
           "event_slug": "tournament/ltu-83-everyinteractiongetsharder-thoughyou-tryhere-rivalsexecuteeverything/event/singles",
           "event_name": "Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794614400
         },
@@ -4918,14 +3969,14 @@
       "city": "Brooklyn",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 13,
       "url": "/tournament/tgc-wanted-59",
       "events": [
         {
           "event_id": 1753618,
           "event_slug": "tournament/tgc-wanted-59/event/smash-ult-double-elim",
           "event_name": "Smash Ult Double Elim",
-          "num_entrants": 9,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794614400
         }
@@ -4964,14 +4015,14 @@
       "city": "Abilene",
       "venue_name": "ACU Student Center - Esports Clubroom",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 9,
       "url": "/tournament/wildcat-weekly-135",
       "events": [
         {
           "event_id": 1753698,
           "event_slug": "tournament/wildcat-weekly-135/event/singles-1v1",
           "event_name": "Singles (1v1)",
-          "num_entrants": 5,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1795222800
         }
@@ -5018,14 +4069,14 @@
       "city": "Indianapolis",
       "venue_name": "IT Building at IUPUI, room 167",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 10,
       "url": "/tournament/friday-freakout-151",
       "events": [
         {
           "event_id": 1754001,
           "event_slug": "tournament/friday-freakout-151/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794614400
         },
@@ -5033,9 +4084,86 @@
           "event_id": 1754002,
           "event_slug": "tournament/friday-freakout-151/event/ultimate-amateurs",
           "event_name": "Ultimate Amateurs",
-          "num_entrants": 1,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794619800
+        }
+      ]
+    },
+    {
+      "tournament_id": 974223,
+      "tournament_slug": "tournament/crimson-clash-88",
+      "tournament_name": "Crimson Clash #88",
+      "start_at": 1794614400,
+      "end_at": 1794636000,
+      "is_online": false,
+      "city": "Las Cruces",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/crimson-clash-88",
+      "events": [
+        {
+          "event_id": 1754344,
+          "event_slug": "tournament/crimson-clash-88/event/singles-smash-ultimate",
+          "event_name": "Singles - Smash Ultimate",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794621600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974284,
+      "tournament_slug": "tournament/live-free-or-d-i-129",
+      "tournament_name": "Live Free Or D.I. #129",
+      "start_at": 1794614400,
+      "end_at": 1794628800,
+      "is_online": false,
+      "city": "Manchester",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 2,
+      "url": "/tournament/live-free-or-d-i-129",
+      "events": [
+        {
+          "event_id": 1754456,
+          "event_slug": "tournament/live-free-or-d-i-129/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1794614400
+        }
+      ]
+    },
+    {
+      "tournament_id": 974214,
+      "tournament_slug": "tournament/tempest-183",
+      "tournament_name": "Tempest 183",
+      "start_at": 1794615300,
+      "end_at": 1794634200,
+      "is_online": false,
+      "city": "Ames",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 4,
+      "url": "/tournament/tempest-183",
+      "events": [
+        {
+          "event_id": 1754326,
+          "event_slug": "tournament/tempest-183/event/ultimate-squad-strike",
+          "event_name": "Ultimate Squad Strike",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1794615300
+        },
+        {
+          "event_id": 1754325,
+          "event_slug": "tournament/tempest-183/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1794622500
         }
       ]
     },
@@ -5049,14 +4177,14 @@
       "city": "Hattiesburg",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 8,
       "url": "/tournament/toptier-smash-friday-13th-edition",
       "events": [
         {
           "event_id": 1749704,
           "event_slug": "tournament/toptier-smash-friday-13th-edition/event/singles",
           "event_name": "Singles",
-          "num_entrants": 6,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1797035400
         }
@@ -5072,14 +4200,14 @@
       "city": "Minneapolis",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 15,
       "url": "/tournament/wintery-weekend-4-a-monthly-hosted-by-the-campground",
       "events": [
         {
           "event_id": 1750366,
           "event_slug": "tournament/wintery-weekend-4-a-monthly-hosted-by-the-campground/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 10,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1794616200
         }
@@ -5095,14 +4223,14 @@
       "city": "Buffalo",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 16,
+      "num_attendees": 19,
       "url": "/tournament/smash-royale-51",
       "events": [
         {
           "event_id": 1751938,
           "event_slug": "tournament/smash-royale-51/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 12,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1794616200
         },
@@ -5195,14 +4323,14 @@
       "city": "Flagstaff",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/super-smash-jacks-228",
       "events": [
         {
           "event_id": 1752122,
           "event_slug": "tournament/super-smash-jacks-228/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794618000
         }
@@ -5303,14 +4431,14 @@
       "city": "Pomona",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 9,
       "url": "/tournament/ssbu-cpp-f26-13",
       "events": [
         {
           "event_id": 1754035,
           "event_slug": "tournament/ssbu-cpp-f26-13/event/ssbu-singles",
           "event_name": "SSBU Singles",
-          "num_entrants": 7,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794625200
         },
@@ -5334,14 +4462,14 @@
       "city": "Palmetto Bay",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/rok-esports-center-november-13th-147",
       "events": [
         {
           "event_id": 1746855,
           "event_slug": "tournament/rok-esports-center-november-13th-147/event/rok-esports-center-smash-bros-ultimate-weekly-tournament",
           "event_name": "ROK Esports Center - Smash Bros Ultimate | Weekly Tournament",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794619800
         }
@@ -5357,14 +4485,14 @@
       "city": "Pullman",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 3,
       "url": "/tournament/homie-stock-150",
       "events": [
         {
           "event_id": 1753786,
           "event_slug": "tournament/homie-stock-150/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794619800
         },
@@ -5534,6 +4662,37 @@
       ]
     },
     {
+      "tournament_id": 974270,
+      "tournament_slug": "tournament/gls-presents-crew-battles-pokeball-singles",
+      "tournament_name": "GLS Presents: Crew Battles (Pokeball Singles)",
+      "start_at": 1794623400,
+      "end_at": 1794643140,
+      "is_online": false,
+      "city": "Riverside",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/gls-presents-crew-battles-pokeball-singles",
+      "events": [
+        {
+          "event_id": 1754425,
+          "event_slug": "tournament/gls-presents-crew-battles-pokeball-singles/event/gls-redemption-bracket",
+          "event_name": "GLS Redemption Bracket",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794623400
+        },
+        {
+          "event_id": 1754438,
+          "event_slug": "tournament/gls-presents-crew-battles-pokeball-singles/event/pokeballs-on-singles",
+          "event_name": "Pokeballs ON Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794623400
+        }
+      ]
+    },
+    {
       "tournament_id": 974014,
       "tournament_slug": "tournament/limit-break-57-in-brightest-day",
       "tournament_name": "LIMIT/BREAK #57:「In Brightest Day」",
@@ -5613,14 +4772,14 @@
       "city": "Radford",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 55,
+      "num_attendees": 63,
       "url": "/tournament/ru-tech-chasing-900-pot-bonus",
       "events": [
         {
           "event_id": 1691299,
           "event_slug": "tournament/ru-tech-chasing-900-pot-bonus/event/ultimate-singles-500-pot-bonus",
           "event_name": "Ultimate Singles (500$ POT BONUS)",
-          "num_entrants": 48,
+          "num_entrants": 54,
           "type": 1,
           "start_at": 1794681000
         }
@@ -5636,14 +4795,14 @@
       "city": "Salt Lake City",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 336,
+      "num_attendees": 344,
       "url": "/tournament/oneanime-2026",
       "events": [
         {
           "event_id": 1655194,
           "event_slug": "tournament/oneanime-2026/event/smash-ultimate-singles-192-entrant-cap",
           "event_name": "Smash Ultimate - Singles (192 ENTRANT CAP)",
-          "num_entrants": 153,
+          "num_entrants": 155,
           "type": 1,
           "start_at": 1794684600
         }
@@ -5659,7 +4818,7 @@
       "city": "Florence",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 88,
+      "num_attendees": 89,
       "url": "/tournament/3000-ssbu-singles-florence-esports-festival-2026",
       "events": [
         {
@@ -5698,14 +4857,14 @@
       "city": "Raleigh",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 86,
+      "num_attendees": 88,
       "url": "/tournament/bubbles-emoji-battle-100-pot-bonus",
       "events": [
         {
           "event_id": 1724406,
           "event_slug": "tournament/bubbles-emoji-battle-100-pot-bonus/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 81,
+          "num_entrants": 83,
           "type": 1,
           "start_at": 1794679200
         }
@@ -5721,14 +4880,14 @@
       "city": "Waterville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 74,
+      "num_attendees": 76,
       "url": "/tournament/waterville-smash-attack-x4-revival",
       "events": [
         {
           "event_id": 1725290,
           "event_slug": "tournament/waterville-smash-attack-x4-revival/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 60,
+          "num_entrants": 62,
           "type": 1,
           "start_at": 1794690000
         }
@@ -5744,14 +4903,14 @@
       "city": "Raleigh",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/ccs-raleigh-retro-video-game-expo-ii",
       "events": [
         {
           "event_id": 1726420,
           "event_slug": "tournament/ccs-raleigh-retro-video-game-expo-ii/event/super-smash-bros-ultimate-singles",
           "event_name": "Super Smash Bros. Ultimate - Singles",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794668400
         }
@@ -5820,6 +4979,29 @@
       ]
     },
     {
+      "tournament_id": 974209,
+      "tournament_slug": "tournament/fgc-champs-presents-beaver-beatdown-4",
+      "tournament_name": "FGC Champs Presents: Beaver Beatdown 4",
+      "start_at": 1794668400,
+      "end_at": 1794718740,
+      "is_online": false,
+      "city": "Burlington",
+      "venue_name": "Champlain College CCM Building Rm. 233",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/fgc-champs-presents-beaver-beatdown-4",
+      "events": [
+        {
+          "event_id": 1754308,
+          "event_slug": "tournament/fgc-champs-presents-beaver-beatdown-4/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794693600
+        }
+      ]
+    },
+    {
       "tournament_id": 960651,
       "tournament_slug": "tournament/torg-ssbu-2026",
       "tournament_name": "TORG SSBU 2026",
@@ -5829,14 +5011,14 @@
       "city": "Columbus",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 14,
+      "num_attendees": 17,
       "url": "/tournament/torg-ssbu-2026",
       "events": [
         {
           "event_id": 1729005,
           "event_slug": "tournament/torg-ssbu-2026/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 14,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1794679200
         }
@@ -5852,14 +5034,14 @@
       "city": "Madison",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 66,
+      "num_attendees": 71,
       "url": "/tournament/the-dsu-open-2026-1000-pot-bonus",
       "events": [
         {
           "event_id": 1698212,
           "event_slug": "tournament/the-dsu-open-2026-1000-pot-bonus/event/sat-ultimate-singles",
           "event_name": "[SAT] Ultimate Singles",
-          "num_entrants": 65,
+          "num_entrants": 70,
           "type": 1,
           "start_at": 1794684600
         },
@@ -5883,14 +5065,14 @@
       "city": "Rolla",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 74,
+      "num_attendees": 76,
       "url": "/tournament/rollaout-7-make-a-play-foundation",
       "events": [
         {
           "event_id": 1702609,
           "event_slug": "tournament/rollaout-7-make-a-play-foundation/event/ssbu-singles",
           "event_name": "SSBU Singles",
-          "num_entrants": 48,
+          "num_entrants": 50,
           "type": 1,
           "start_at": 1794672000
         },
@@ -5914,14 +5096,14 @@
       "city": "Ada",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 31,
+      "num_attendees": 34,
       "url": "/tournament/battle-on-the-big-screen-campus-invasion-ecu-school-of-business",
       "events": [
         {
           "event_id": 1714203,
           "event_slug": "tournament/battle-on-the-big-screen-campus-invasion-ecu-school-of-business/event/super-smash-bros-ultimate",
           "event_name": "Super Smash Bros. Ultimate",
-          "num_entrants": 22,
+          "num_entrants": 25,
           "type": 1,
           "start_at": 1794682800
         }
@@ -5937,14 +5119,14 @@
       "city": "Ciudad de México",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 34,
+      "num_attendees": 35,
       "url": "/tournament/torneo-mensual-uvm-coyoac-n-14-nov-2026",
       "events": [
         {
           "event_id": 1716846,
           "event_slug": "tournament/torneo-mensual-uvm-coyoac-n-14-nov-2026/event/smash-singles",
           "event_name": "SMASH SINGLES",
-          "num_entrants": 34,
+          "num_entrants": 35,
           "type": 1,
           "start_at": 1794673800
         }
@@ -5960,14 +5142,14 @@
       "city": "Valparaiso",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 35,
+      "num_attendees": 36,
       "url": "/tournament/beacon-beatdown",
       "events": [
         {
           "event_id": 1729923,
           "event_slug": "tournament/beacon-beatdown/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 35,
+          "num_entrants": 36,
           "type": 1,
           "start_at": 1794672000
         }
@@ -6045,14 +5227,14 @@
       "city": "Oxford",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 28,
+      "num_attendees": 29,
       "url": "/tournament/miamievo-2026",
       "events": [
         {
           "event_id": 1723464,
           "event_slug": "tournament/miamievo-2026/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 20,
+          "num_entrants": 21,
           "type": 1,
           "start_at": 1794682800
         }
@@ -6068,14 +5250,14 @@
       "city": "Monterrey",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 54,
+      "num_attendees": 57,
       "url": "/tournament/smash-market-4",
       "events": [
         {
           "event_id": 1729221,
           "event_slug": "tournament/smash-market-4/event/singles",
           "event_name": "Singles",
-          "num_entrants": 54,
+          "num_entrants": 57,
           "type": 1,
           "start_at": 1795280400
         }
@@ -6091,14 +5273,14 @@
       "city": "Horseheads",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 34,
+      "num_attendees": 35,
       "url": "/tournament/twin-tiers-comic-combat-5",
       "events": [
         {
           "event_id": 1724879,
           "event_slug": "tournament/twin-tiers-comic-combat-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 33,
+          "num_entrants": 34,
           "type": 1,
           "start_at": 1794675600
         }
@@ -6114,14 +5296,14 @@
       "city": "State College",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 41,
+      "num_attendees": 43,
       "url": "/tournament/s-ps-turkey-trot",
       "events": [
         {
           "event_id": 1737541,
           "event_slug": "tournament/s-ps-turkey-trot/event/ultimate-singles-3pm",
           "event_name": "Ultimate Singles (3PM)",
-          "num_entrants": 27,
+          "num_entrants": 29,
           "type": 1,
           "start_at": 1794686400
         }
@@ -6183,14 +5365,14 @@
       "city": "Auburn",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 19,
+      "num_attendees": 20,
       "url": "/tournament/auburn-altercation-34",
       "events": [
         {
           "event_id": 1726103,
           "event_slug": "tournament/auburn-altercation-34/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 16,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1794686400
         },
@@ -6214,14 +5396,14 @@
       "city": "Columbia",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 12,
+      "num_attendees": 14,
       "url": "/tournament/share-stock-showdown-5",
       "events": [
         {
           "event_id": 1731674,
           "event_slug": "tournament/share-stock-showdown-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 12,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1794691800
         },
@@ -6268,14 +5450,14 @@
       "city": "Oxford",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 20,
+      "num_attendees": 22,
       "url": "/tournament/the-deep-end-18",
       "events": [
         {
           "event_id": 1742824,
           "event_slug": "tournament/the-deep-end-18/event/super-smash-bros-ultimate",
           "event_name": "Super Smash Bros. Ultimate",
-          "num_entrants": 10,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1794690000
         }
@@ -6291,14 +5473,14 @@
       "city": "Knoxville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/utk-smash-bash-35",
       "events": [
         {
           "event_id": 1746756,
           "event_slug": "tournament/utk-smash-bash-35/event/smash-ultimate-singles",
           "event_name": "Smash Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794686400
         }
@@ -6314,14 +5496,14 @@
       "city": "Lake Charles",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/football-saturday",
       "events": [
         {
           "event_id": 1752590,
           "event_slug": "tournament/football-saturday/event/ultimate-singies",
           "event_name": "Ultimate Singies",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1794679200
         }
@@ -6337,14 +5519,14 @@
       "city": "Washington",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/gweekly-122",
       "events": [
         {
           "event_id": 1752676,
           "event_slug": "tournament/gweekly-122/event/ultimate-singles-1v1",
           "event_name": "Ultimate Singles 1v1",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1794688200
         },
@@ -6352,7 +5534,7 @@
           "event_id": 1752690,
           "event_slug": "tournament/gweekly-122/event/side-bracket",
           "event_name": "Side Bracket",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794682800
         }
@@ -6445,14 +5627,14 @@
       "city": "Mobile",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 17,
+      "num_attendees": 20,
       "url": "/tournament/hidden-power-november-2026",
       "events": [
         {
           "event_id": 1743512,
           "event_slug": "tournament/hidden-power-november-2026/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 16,
+          "num_entrants": 19,
           "type": 1,
           "start_at": 1794697200
         }
@@ -6468,14 +5650,14 @@
       "city": "Ciudad de México",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 11,
+      "num_attendees": 15,
       "url": "/tournament/madsayoshi-monthly-4-after",
       "events": [
         {
           "event_id": 1748157,
           "event_slug": "tournament/madsayoshi-monthly-4-after/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 11,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1794690000
         }
@@ -6514,14 +5696,14 @@
       "city": "Culiacán Rosales",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 10,
+      "num_attendees": 13,
       "url": "/tournament/battle-for-the-throne-86-mysterious-dusk",
       "events": [
         {
           "event_id": 1753261,
           "event_slug": "tournament/battle-for-the-throne-86-mysterious-dusk/event/ultimate-singles-nintendo-switch-1",
           "event_name": "Ultimate Singles (Nintendo Switch 1)",
-          "num_entrants": 8,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1794682800
         },
@@ -6545,14 +5727,14 @@
       "city": "Menomonie",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/blue-devil-smash-2026-2027-weekly-11",
       "events": [
         {
           "event_id": 1753774,
           "event_slug": "tournament/blue-devil-smash-2026-2027-weekly-11/event/super-smash-bros-ultimate-singles",
           "event_name": "Super Smash Bros. Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794686400
         }
@@ -6568,14 +5750,14 @@
       "city": "Villahermosa",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/euromall-stranger-blue",
       "events": [
         {
           "event_id": 1753275,
           "event_slug": "tournament/euromall-stranger-blue/event/cl-sico-singles",
           "event_name": "Clásico Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794688200
         }
@@ -6614,16 +5796,24 @@
       "city": "New Orleans",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 5,
       "url": "/tournament/overtime-monthly-5",
       "events": [
         {
           "event_id": 1752757,
           "event_slug": "tournament/overtime-monthly-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1794690000
+        },
+        {
+          "event_id": 1754238,
+          "event_slug": "tournament/overtime-monthly-5/event/amiibo-doubles",
+          "event_name": "Amiibo doubles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794686400
         }
       ]
     },
@@ -6737,14 +5927,14 @@
       "city": "Johnson City",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/appalachian-arena-17",
       "events": [
         {
           "event_id": 1747536,
           "event_slug": "tournament/appalachian-arena-17/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1795896000
         }
@@ -6845,14 +6035,14 @@
       "city": "Chihuahua",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 1,
+      "num_attendees": 10,
       "url": "/tournament/strike-5-mute",
       "events": [
         {
           "event_id": 1752843,
           "event_slug": "tournament/strike-5-mute/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1794693600
         },
@@ -6890,6 +6080,37 @@
       ]
     },
     {
+      "tournament_id": 974241,
+      "tournament_slug": "tournament/dairy-free-uc-davis-50",
+      "tournament_name": "Dairy Free @ UC Davis #50",
+      "start_at": 1794686400,
+      "end_at": 1794708000,
+      "is_online": false,
+      "city": "Davis",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/dairy-free-uc-davis-50",
+      "events": [
+        {
+          "event_id": 1754373,
+          "event_slug": "tournament/dairy-free-uc-davis-50/event/awesome-sauce-side-bracket",
+          "event_name": "awesome sauce side bracket",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794690000
+        },
+        {
+          "event_id": 1754371,
+          "event_slug": "tournament/dairy-free-uc-davis-50/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794693600
+        }
+      ]
+    },
+    {
       "tournament_id": 959369,
       "tournament_slug": "tournament/fgc-s-lair-1",
       "tournament_name": "FGC's Lair #1",
@@ -6899,14 +6120,14 @@
       "city": "Tecate",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 60,
+      "num_attendees": 61,
       "url": "/tournament/fgc-s-lair-1",
       "events": [
         {
           "event_id": 1722872,
           "event_slug": "tournament/fgc-s-lair-1/event/torneo-singles-smash-ultimate",
           "event_name": "Torneo Singles Smash Ultimate",
-          "num_entrants": 51,
+          "num_entrants": 50,
           "type": 1,
           "start_at": 1794686460
         }
@@ -6945,14 +6166,14 @@
       "city": "Houston",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 16,
+      "num_attendees": 17,
       "url": "/tournament/the-jonin-exams-2-150-pot-bonus",
       "events": [
         {
           "event_id": 1697385,
           "event_slug": "tournament/the-jonin-exams-2-150-pot-bonus/event/the-jonin-exams-2-150-pot-bonus",
           "event_name": "The Jonin Exams 2 ($150 Pot Bonus)",
-          "num_entrants": 15,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1794693600
         },
@@ -6960,7 +6181,7 @@
           "event_id": 1753895,
           "event_slug": "tournament/the-jonin-exams-2-150-pot-bonus/event/shadow-clone-doubles",
           "event_name": "Shadow Clone Doubles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794690000
         },
@@ -6984,14 +6205,14 @@
       "city": "Guaymas",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 9,
+      "num_attendees": 11,
       "url": "/tournament/la-grieta-smash-the-deck-iii",
       "events": [
         {
           "event_id": 1715118,
           "event_slug": "tournament/la-grieta-smash-the-deck-iii/event/smash-the-deck-iii-singles",
           "event_name": "Smash The Deck III - Singles",
-          "num_entrants": 9,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1794690000
         },
@@ -6999,7 +6220,7 @@
           "event_id": 1715119,
           "event_slug": "tournament/la-grieta-smash-the-deck-iii/event/smash-the-deck-iii-amateur",
           "event_name": "Smash The Deck III - Amateur",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794700800
         }
@@ -7121,6 +6342,29 @@
       ]
     },
     {
+      "tournament_id": 974285,
+      "tournament_slug": "tournament/falcon-s-nest-56",
+      "tournament_name": "Falcon's Nest #56",
+      "start_at": 1794690000,
+      "end_at": 1794708000,
+      "is_online": false,
+      "city": "Bowling Green",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 0,
+      "url": "/tournament/falcon-s-nest-56",
+      "events": [
+        {
+          "event_id": 1754458,
+          "event_slug": "tournament/falcon-s-nest-56/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794697200
+        }
+      ]
+    },
+    {
       "tournament_id": 974041,
       "tournament_slug": "tournament/miyaninsane",
       "tournament_name": "MiyanInsane",
@@ -7130,14 +6374,14 @@
       "city": "Heroica Puebla de Zaragoza",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/miyaninsane",
       "events": [
         {
           "event_id": 1753891,
           "event_slug": "tournament/miyaninsane/event/insane-singles",
           "event_name": "Insane Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794679200
         }
@@ -7300,16 +6544,47 @@
       "city": "Newport News",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/captains-clash-61",
       "events": [
         {
           "event_id": 1744112,
           "event_slug": "tournament/captains-clash-61/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794699000
+        }
+      ]
+    },
+    {
+      "tournament_id": 974188,
+      "tournament_slug": "tournament/the-grind-at-kovu-s-coffee-10",
+      "tournament_name": "The Grind at Kovu's Coffee #10",
+      "start_at": 1794695400,
+      "end_at": 1794714300,
+      "is_online": false,
+      "city": "Boone",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 6,
+      "url": "/tournament/the-grind-at-kovu-s-coffee-10",
+      "events": [
+        {
+          "event_id": 1754261,
+          "event_slug": "tournament/the-grind-at-kovu-s-coffee-10/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 6,
+          "type": 1,
+          "start_at": 1794695400
+        },
+        {
+          "event_id": 1754262,
+          "event_slug": "tournament/the-grind-at-kovu-s-coffee-10/event/ultimate-singles-redemption-best-of-3",
+          "event_name": "Ultimate Singles Redemption, best of 3",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794695400
         }
       ]
     },
@@ -7554,14 +6829,14 @@
       "city": "Saint-Jean-sur-Richelieu",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 9,
+      "num_attendees": 13,
       "url": "/tournament/st-jean-cup-s8-e6",
       "events": [
         {
           "event_id": 1751283,
           "event_slug": "tournament/st-jean-cup-s8-e6/event/season8-episode-6",
           "event_name": "Season8-Episode-6",
-          "num_entrants": 6,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1794700800
         }
@@ -7608,14 +6883,14 @@
       "city": "Jacksonville",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/blue-boys-fight-night-64",
       "events": [
         {
           "event_id": 1753461,
           "event_slug": "tournament/blue-boys-fight-night-64/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794700800
         }
@@ -7631,16 +6906,39 @@
       "city": "Mequon",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/rangeline-rush-24",
       "events": [
         {
           "event_id": 1753982,
           "event_slug": "tournament/rangeline-rush-24/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794702600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974170,
+      "tournament_slug": "tournament/coliseo-del-cielo-10-1",
+      "tournament_name": "Coliseo del Cielo # 10",
+      "start_at": 1794700800,
+      "end_at": 1794718620,
+      "is_online": false,
+      "city": "Cancún",
+      "venue_name": "",
+      "country_code": "MX",
+      "num_attendees": 6,
+      "url": "/tournament/coliseo-del-cielo-10-1",
+      "events": [
+        {
+          "event_id": 1754230,
+          "event_slug": "tournament/coliseo-del-cielo-10-1/event/cdc-singles",
+          "event_name": "CDC Singles",
+          "num_entrants": 6,
+          "type": 1,
+          "start_at": 1794700920
         }
       ]
     },
@@ -7722,6 +7020,37 @@
       ]
     },
     {
+      "tournament_id": 974182,
+      "tournament_slug": "tournament/smash-knight-68",
+      "tournament_name": "Smash @ Knight 68",
+      "start_at": 1794704400,
+      "end_at": 1794718800,
+      "is_online": false,
+      "city": "Abilene",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/smash-knight-68",
+      "events": [
+        {
+          "event_id": 1754253,
+          "event_slug": "tournament/smash-knight-68/event/redemption-bracket",
+          "event_name": "Redemption Bracket",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794704400
+        },
+        {
+          "event_id": 1754252,
+          "event_slug": "tournament/smash-knight-68/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1794704400
+        }
+      ]
+    },
+    {
       "tournament_id": 957358,
       "tournament_slug": "tournament/hyrule-expedition-chapter-3-zora-edition",
       "tournament_name": "Hyrule Expedition Chapter #3 Zora edition.",
@@ -7731,14 +7060,14 @@
       "city": "Aguascalientes",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 48,
+      "num_attendees": 52,
       "url": "/tournament/hyrule-expedition-chapter-3-zora-edition",
       "events": [
         {
           "event_id": 1718449,
           "event_slug": "tournament/hyrule-expedition-chapter-3-zora-edition/event/zora-singles",
           "event_name": "Zora Singles",
-          "num_entrants": 45,
+          "num_entrants": 48,
           "type": 1,
           "start_at": 1794747600
         },
@@ -7762,14 +7091,14 @@
       "city": "Richmond",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/rva-sm-sh-244",
       "events": [
         {
           "event_id": 1753101,
           "event_slug": "tournament/rva-sm-sh-244/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794769200
         },
@@ -7777,7 +7106,7 @@
           "event_id": 1753103,
           "event_slug": "tournament/rva-sm-sh-244/event/5v5-squad-strike-bo1s-side-bracket",
           "event_name": "5v5 Squad Strike Bo1s (Side Bracket)",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794765600
         },
@@ -7824,14 +7153,14 @@
       "city": "Baytown",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 8,
       "url": "/tournament/november-knockout",
       "events": [
         {
           "event_id": 1718466,
           "event_slug": "tournament/november-knockout/event/sunday-smashdown",
           "event_name": "Sunday Smashdown",
-          "num_entrants": 4,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1794762000
         }
@@ -7847,14 +7176,14 @@
       "city": "Ciudad de México",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 30,
+      "num_attendees": 32,
       "url": "/tournament/los-de-casa-temporada-iii-1-by-iniciativa-reset",
       "events": [
         {
           "event_id": 1725583,
           "event_slug": "tournament/los-de-casa-temporada-iii-1-by-iniciativa-reset/event/los-de-casa-singles",
           "event_name": "Los de casa singles",
-          "num_entrants": 30,
+          "num_entrants": 32,
           "type": 1,
           "start_at": 1794762000
         },
@@ -7917,14 +7246,14 @@
       "city": "Waverly",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/battle-at-the-castle-4",
       "events": [
         {
           "event_id": 1738698,
           "event_slug": "tournament/battle-at-the-castle-4/event/ssbu-singles",
           "event_name": "SSBU Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794765600
         },
@@ -7932,7 +7261,7 @@
           "event_id": 1745847,
           "event_slug": "tournament/battle-at-the-castle-4/event/ssbu-squad-strike-side-bracket",
           "event_name": "SSBU Squad Strike (Side Bracket)",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794762000
         }
@@ -7948,14 +7277,14 @@
       "city": "New Paltz",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 7,
       "url": "/tournament/sue-s-glorious-battle",
       "events": [
         {
           "event_id": 1740732,
           "event_slug": "tournament/sue-s-glorious-battle/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 4,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794776400
         },
@@ -7963,7 +7292,7 @@
           "event_id": 1740738,
           "event_slug": "tournament/sue-s-glorious-battle/event/alley-fight",
           "event_name": "Alley Fight!",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794762000
         }
@@ -8148,9 +7477,17 @@
       "city": "Madison",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 0,
+      "num_attendees": 1,
       "url": "/tournament/between-2-lakes-88-a-madison-super-smash-bros-tournament",
       "events": [
+        {
+          "event_id": 1753956,
+          "event_slug": "tournament/between-2-lakes-88-a-madison-super-smash-bros-tournament/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794776400
+        },
         {
           "event_id": 1753958,
           "event_slug": "tournament/between-2-lakes-88-a-madison-super-smash-bros-tournament/event/ultimate-singles-redemption",
@@ -8158,14 +7495,6 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1794765600
-        },
-        {
-          "event_id": 1753956,
-          "event_slug": "tournament/between-2-lakes-88-a-madison-super-smash-bros-tournament/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794776400
         }
       ]
     },
@@ -8202,14 +7531,14 @@
       "city": "Celaya",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/the-chosen-one-tournament-scc-4th-edition",
       "events": [
         {
           "event_id": 1738648,
           "event_slug": "tournament/the-chosen-one-tournament-scc-4th-edition/event/loyalty-singles-tournament-1-vs-1",
           "event_name": "Loyalty Singles Tournament  1 vs 1",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1794768900
         }
@@ -8271,14 +7600,14 @@
       "city": "San Pedro Sula",
       "venue_name": "",
       "country_code": "HN",
-      "num_attendees": 39,
+      "num_attendees": 42,
       "url": "/tournament/la-plaza-gaming-segunda-edici-n",
       "events": [
         {
           "event_id": 1732307,
           "event_slug": "tournament/la-plaza-gaming-segunda-edici-n/event/smash-ultimate-1v1",
           "event_name": "SMASH ULTIMATE 1V1",
-          "num_entrants": 34,
+          "num_entrants": 37,
           "type": 1,
           "start_at": 1794776400
         }
@@ -8294,14 +7623,14 @@
       "city": "Cuauhtémoc",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 8,
+      "num_attendees": 15,
       "url": "/tournament/risingstyles-15ava-edici-n-torneo-en-la-frikiplaza-torneo-mensual",
       "events": [
         {
           "event_id": 1735667,
           "event_slug": "tournament/risingstyles-15ava-edici-n-torneo-en-la-frikiplaza-torneo-mensual/event/ultimate-styling-singles",
           "event_name": "Ultimate Styling Singles",
-          "num_entrants": 8,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1794769200
         }
@@ -8317,14 +7646,14 @@
       "city": "Mansfield",
       "venue_name": "Business Building 122",
       "country_code": "US",
-      "num_attendees": 63,
+      "num_attendees": 64,
       "url": "/tournament/uwu-xd-4-return-to-106",
       "events": [
         {
           "event_id": 1736441,
           "event_slug": "tournament/uwu-xd-4-return-to-106/event/ultimate-singles-capped-at-128",
           "event_name": "Ultimate Singles [CAPPED AT 128]",
-          "num_entrants": 57,
+          "num_entrants": 58,
           "type": 1,
           "start_at": 1794769200
         }
@@ -8340,14 +7669,14 @@
       "city": "Pachuca de Soto",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/super-smash-club-weekly-10",
       "events": [
         {
           "event_id": 1753284,
           "event_slug": "tournament/super-smash-club-weekly-10/event/singles",
           "event_name": "Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794772800
         }
@@ -8425,14 +7754,14 @@
       "city": "Minatitlán",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/polleria-don-rodo-5",
       "events": [
         {
           "event_id": 1753989,
           "event_slug": "tournament/polleria-don-rodo-5/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1792695660
         },
@@ -8440,7 +7769,7 @@
           "event_id": 1753990,
           "event_slug": "tournament/polleria-don-rodo-5/event/singles-amateur",
           "event_name": "Singles Amateur",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1794769200
         }
@@ -8456,14 +7785,14 @@
       "city": "San José del Cabo",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/liga-urban-smash-bazar-5-1",
       "events": [
         {
           "event_id": 1745987,
           "event_slug": "tournament/liga-urban-smash-bazar-5-1/event/liga-urban-smash",
           "event_name": "Liga urban smash",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1794780900
         },
@@ -8471,7 +7800,7 @@
           "event_id": 1745988,
           "event_slug": "tournament/liga-urban-smash-bazar-5-1/event/world-tour-urban-smash",
           "event_name": "World tour Urban Smash",
-          "num_entrants": 3,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794776400
         }
@@ -8494,7 +7823,7 @@
           "event_id": 1748995,
           "event_slug": "tournament/army-rumble-7/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794776400
         }
@@ -8533,14 +7862,14 @@
       "city": "Monclova",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 14,
+      "num_attendees": 17,
       "url": "/tournament/expo-anime-mva",
       "events": [
         {
           "event_id": 1697062,
           "event_slug": "tournament/expo-anime-mva/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 14,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1794772800
         }
@@ -8556,14 +7885,14 @@
       "city": "Piscataway",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 38,
+      "num_attendees": 46,
       "url": "/tournament/the-roundtable-12",
       "events": [
         {
           "event_id": 1746789,
           "event_slug": "tournament/the-roundtable-12/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 38,
+          "num_entrants": 46,
           "type": 1,
           "start_at": 1794772800
         },
@@ -8571,7 +7900,7 @@
           "event_id": 1746790,
           "event_slug": "tournament/the-roundtable-12/event/redemption-singles-single-elim-opt-in",
           "event_name": "Redemption Singles (Single Elim, Opt-in)",
-          "num_entrants": 5,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1794772800
         }
@@ -8587,14 +7916,14 @@
       "city": "Ciudad de México",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 7,
+      "num_attendees": 10,
       "url": "/tournament/interkoa-new-beginnings-01",
       "events": [
         {
           "event_id": 1753218,
           "event_slug": "tournament/interkoa-new-beginnings-01/event/koa-singles",
           "event_name": "KOA Singles",
-          "num_entrants": 7,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1794772800
         }
@@ -8610,14 +7939,14 @@
       "city": "San Nicolás de los Garza",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 2,
+      "num_attendees": 4,
       "url": "/tournament/battle-rift-38-1",
       "events": [
         {
           "event_id": 1753920,
           "event_slug": "tournament/battle-rift-38-1/event/battle-rift-singles",
           "event_name": "Battle Rift Singles",
-          "num_entrants": 2,
+          "num_entrants": 4,
           "type": 1,
           "start_at": 1794783000
         }
@@ -8679,7 +8008,7 @@
       "city": "Hurricane",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/a-celebration-of-smash-happy-bday-oops",
       "events": [
         {
@@ -8688,7 +8017,7 @@
           "event_name": "Ultimate Singles",
           "num_entrants": 1,
           "type": 1,
-          "start_at": 1794439800
+          "start_at": 1794785400
         }
       ]
     },
@@ -8864,7 +8193,7 @@
       "city": "Atlanta",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 34,
+      "num_attendees": 35,
       "url": "/tournament/true-fire-tactics-102-home-sweet-home",
       "events": [
         {
@@ -8971,29 +8300,6 @@
       ]
     },
     {
-      "tournament_id": 973554,
-      "tournament_slug": "tournament/bubbler-refill-11-15-26",
-      "tournament_name": "Bubbler: Refill 11/15/26",
-      "start_at": 1794787200,
-      "end_at": 1794801600,
-      "is_online": false,
-      "city": "Providence",
-      "venue_name": "",
-      "country_code": "US",
-      "num_attendees": 3,
-      "url": "/tournament/bubbler-refill-11-15-26",
-      "events": [
-        {
-          "event_id": 1752759,
-          "event_slug": "tournament/bubbler-refill-11-15-26/event/singles",
-          "event_name": "Singles",
-          "num_entrants": 3,
-          "type": 1,
-          "start_at": 1794787200
-        }
-      ]
-    },
-    {
       "tournament_id": 973593,
       "tournament_slug": "tournament/pounce-77",
       "tournament_name": "Pounce #77",
@@ -9003,14 +8309,14 @@
       "city": "Chicago",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/pounce-77",
       "events": [
         {
           "event_id": 1752863,
           "event_slug": "tournament/pounce-77/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1794787200
         }
@@ -9026,14 +8332,14 @@
       "city": "Tijuana",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 8,
+      "num_attendees": 11,
       "url": "/tournament/tramahouse11",
       "events": [
         {
           "event_id": 1750899,
-          "event_slug": "tournament/tramahouse11/event/pros-singles",
-          "event_name": "Pros Singles",
-          "num_entrants": 8,
+          "event_slug": "tournament/tramahouse11/event/singles-1vs1",
+          "event_name": "Singles 1VS1",
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1794789000
         }
@@ -9126,7 +8432,7 @@
       "city": "Orlando",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/arcade-time-knockout-2k-smash-brothers-tournament-w-hungrybox-23",
       "events": [
         {
@@ -9296,14 +8602,14 @@
       "city": "Lowell",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/uml-rowdy-s-rumble-11-11-16",
       "events": [
         {
           "event_id": 1753517,
           "event_slug": "tournament/uml-rowdy-s-rumble-11-11-16/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1794873600
         }
@@ -9402,6 +8708,29 @@
       ]
     },
     {
+      "tournament_id": 974220,
+      "tournament_slug": "tournament/socasmash-205-myrtle-s-weekly",
+      "tournament_name": "SocaSmash 205: Myrtle's Weekly",
+      "start_at": 1794956400,
+      "end_at": 1794974400,
+      "is_online": false,
+      "city": "Myrtle Beach",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/socasmash-205-myrtle-s-weekly",
+      "events": [
+        {
+          "event_id": 1754338,
+          "event_slug": "tournament/socasmash-205-myrtle-s-weekly/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794961800
+        }
+      ]
+    },
+    {
       "tournament_id": 969749,
       "tournament_slug": "tournament/rushdown-392",
       "tournament_name": "Rushdown #392",
@@ -9442,21 +8771,21 @@
       "city": "Trois-Rivières",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 0,
+      "num_attendees": 1,
       "url": "/tournament/smash-ultimate-tr-222",
       "events": [
-        {
-          "event_id": 1754088,
-          "event_slug": "tournament/smash-ultimate-tr-222/event/smash-ultimate-redemption",
-          "event_name": "Smash Ultimate @ Redemption",
-          "num_entrants": 0,
-          "type": 1,
-          "start_at": 1794960000
-        },
         {
           "event_id": 1754087,
           "event_slug": "tournament/smash-ultimate-tr-222/event/ultimate-singles",
           "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794960000
+        },
+        {
+          "event_id": 1754088,
+          "event_slug": "tournament/smash-ultimate-tr-222/event/smash-ultimate-redemption",
+          "event_name": "Smash Ultimate @ Redemption",
           "num_entrants": 0,
           "type": 1,
           "start_at": 1794960000
@@ -9619,6 +8948,29 @@
       ]
     },
     {
+      "tournament_id": 974235,
+      "tournament_slug": "tournament/versus-reborn-282",
+      "tournament_name": "VERSUS Reborn #282",
+      "start_at": 1794972600,
+      "end_at": 1794988740,
+      "is_online": false,
+      "city": "Sunnyvale",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/versus-reborn-282",
+      "events": [
+        {
+          "event_id": 1754361,
+          "event_slug": "tournament/versus-reborn-282/event/smash-ultimate-singles",
+          "event_name": "Smash Ultimate - Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1794972600
+        }
+      ]
+    },
+    {
       "tournament_id": 951120,
       "tournament_slug": "tournament/bww-144",
       "tournament_name": "BWW #144",
@@ -9674,14 +9026,14 @@
       "city": "Galloway",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/stockton-esports-fall-bash-2026",
       "events": [
         {
           "event_id": 1749683,
           "event_slug": "tournament/stockton-esports-fall-bash-2026/event/stockton-esports-spring-bash-super-smash-bros-ultimate-tournament",
           "event_name": "Stockton Esports Spring Bash Super Smash Bros. Ultimate Tournament",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1795035600
         }
@@ -9697,14 +9049,14 @@
       "city": "Murfreesboro",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/premiere-smash-tournament-90",
       "events": [
         {
           "event_id": 1752876,
           "event_slug": "tournament/premiere-smash-tournament-90/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1795046400
         }
@@ -9905,14 +9257,14 @@
       "city": "Hamilton",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/smash-at-mac-nov-19th-2026",
       "events": [
         {
           "event_id": 1750432,
           "event_slug": "tournament/smash-at-mac-nov-19th-2026/event/super-smash-bros-ultimate-singles",
           "event_name": "Super Smash Bros. Ultimate Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1795132800
         }
@@ -9951,14 +9303,14 @@
       "city": "Ottawa",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/gee-gee-well-played-106",
       "events": [
         {
           "event_id": 1753437,
           "event_slug": "tournament/gee-gee-well-played-106/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1795132800
         },
@@ -10059,14 +9411,14 @@
       "city": "Irvine",
       "venue_name": "UCI eSports Arena",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 8,
       "url": "/tournament/smash-ultimate-uci-207-harvest-time",
       "events": [
         {
           "event_id": 1752994,
           "event_slug": "tournament/smash-ultimate-uci-207-harvest-time/event/singles",
           "event_name": "Singles",
-          "num_entrants": 7,
+          "num_entrants": 8,
           "type": 1,
           "start_at": 1795140000
         }
@@ -10270,6 +9622,29 @@
           "num_entrants": 3,
           "type": 1,
           "start_at": 1795219200
+        }
+      ]
+    },
+    {
+      "tournament_id": 973894,
+      "tournament_slug": "tournament/the-millersville-arcadian-fall-2026",
+      "tournament_name": "THE MILLERSVILLE ARCADIAN -FALL 2026",
+      "start_at": 1795212000,
+      "end_at": 1795230000,
+      "is_online": false,
+      "city": "Millersville",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 7,
+      "url": "/tournament/the-millersville-arcadian-fall-2026",
+      "events": [
+        {
+          "event_id": 1753554,
+          "event_slug": "tournament/the-millersville-arcadian-fall-2026/event/arcadian-singles",
+          "event_name": "Arcadian Singles",
+          "num_entrants": 7,
+          "type": 1,
+          "start_at": 1795217400
         }
       ]
     },
@@ -10484,7 +9859,7 @@
       "city": "Coconut Creek",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/guild-gauntlet-15",
       "events": [
         {
@@ -10676,7 +10051,7 @@
       "city": "New Glasgow",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 168,
+      "num_attendees": 169,
       "url": "/tournament/sunrise-trials-ii",
       "events": [
         {
@@ -10706,7 +10081,7 @@
           "event_id": 1560413,
           "event_slug": "tournament/buckeye-beatdown-2026/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 193,
+          "num_entrants": 192,
           "type": 1,
           "start_at": 1795280400
         },
@@ -10753,14 +10128,14 @@
       "city": "Green Bay",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 40,
+      "num_attendees": 42,
       "url": "/tournament/get-cheesed-400-pot-bonus",
       "events": [
         {
           "event_id": 1722445,
           "event_slug": "tournament/get-cheesed-400-pot-bonus/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 40,
+          "num_entrants": 42,
           "type": 1,
           "start_at": 1795287600
         },
@@ -10784,14 +10159,14 @@
       "city": "Wilkes-Barre",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 68,
+      "num_attendees": 69,
       "url": "/tournament/vallis-ii-cataracta-up-to-2500-dollars-in-pot-bonuses",
       "events": [
         {
           "event_id": 1714152,
           "event_slug": "tournament/vallis-ii-cataracta-up-to-2500-dollars-in-pot-bonuses/event/ultimate-singles-300-growing-pot-bonus",
           "event_name": "Ultimate Singles ($300+ Growing Pot Bonus)",
-          "num_entrants": 60,
+          "num_entrants": 61,
           "type": 1,
           "start_at": 1795284000
         }
@@ -10931,7 +10306,7 @@
       "city": "Webster Groves",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 9,
       "url": "/tournament/wfgc-november-monthly-1",
       "events": [
         {
@@ -10954,14 +10329,14 @@
       "city": "Tempe",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 19,
+      "num_attendees": 22,
       "url": "/tournament/devil-s-duel-v",
       "events": [
         {
           "event_id": 1738483,
           "event_slug": "tournament/devil-s-duel-v/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1795298400
         }
@@ -11046,14 +10421,14 @@
       "city": "Stafford",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 34,
+      "num_attendees": 35,
       "url": "/tournament/meeting-ground-monthly-14-fredericksburg-homecoming",
       "events": [
         {
           "event_id": 1740795,
           "event_slug": "tournament/meeting-ground-monthly-14-fredericksburg-homecoming/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 34,
+          "num_entrants": 35,
           "type": 1,
           "start_at": 1795294800
         },
@@ -11100,14 +10475,14 @@
       "city": "Ciudad de México",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 44,
+      "num_attendees": 45,
       "url": "/tournament/the-big-invader-2-cdmx-tijuana",
       "events": [
         {
           "event_id": 1746169,
           "event_slug": "tournament/the-big-invader-2-cdmx-tijuana/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 44,
+          "num_entrants": 45,
           "type": 1,
           "start_at": 1795287600
         }
@@ -11123,14 +10498,14 @@
       "city": "La Habana",
       "venue_name": "",
       "country_code": "CU",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/smashzone-3-1",
       "events": [
         {
           "event_id": 1753784,
           "event_slug": "tournament/smashzone-3-1/event/ultimate-bracket",
           "event_name": "Ultimate bracket",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1795280400
         }
@@ -11177,14 +10552,14 @@
       "city": "Seattle",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 173,
+      "num_attendees": 174,
       "url": "/tournament/one-more-game-ii-run-it-back",
       "events": [
         {
           "event_id": 1589402,
           "event_slug": "tournament/one-more-game-ii-run-it-back/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 25,
+          "num_entrants": 26,
           "type": 1,
           "start_at": 1795374000
         }
@@ -11362,14 +10737,14 @@
       "city": "Hermosillo",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 29,
+      "num_attendees": 30,
       "url": "/tournament/city-of-the-sun-1-capcup",
       "events": [
         {
           "event_id": 1749497,
           "event_slug": "tournament/city-of-the-sun-1-capcup/event/ssbu-cots26",
           "event_name": "SSBU COTS26",
-          "num_entrants": 22,
+          "num_entrants": 23,
           "type": 1,
           "start_at": 1795287600
         }
@@ -11532,14 +10907,14 @@
       "city": "Tijuana",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 25,
+      "num_attendees": 26,
       "url": "/tournament/smashin-the-end-2-meteora",
       "events": [
         {
           "event_id": 1663222,
           "event_slug": "tournament/smashin-the-end-2-meteora/event/smashin-the-end-formato-clasico",
           "event_name": "SmashIn The End (Formato Clasico)",
-          "num_entrants": 25,
+          "num_entrants": 26,
           "type": 1,
           "start_at": 1795287600
         }
@@ -11586,14 +10961,14 @@
       "city": "Liberty",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 13,
+      "num_attendees": 14,
       "url": "/tournament/king-of-the-hill-6-1",
       "events": [
         {
           "event_id": 1732417,
           "event_slug": "tournament/king-of-the-hill-6-1/event/smash-ultimate-college-highschool-singles",
           "event_name": "Smash Ultimate College/Highschool Singles",
-          "num_entrants": 13,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1795287600
         }
@@ -11671,14 +11046,14 @@
       "city": "Boston",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 37,
+      "num_attendees": 39,
       "url": "/tournament/mash-harder-16",
       "events": [
         {
           "event_id": 1740948,
           "event_slug": "tournament/mash-harder-16/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 34,
+          "num_entrants": 36,
           "type": 1,
           "start_at": 1795287600
         },
@@ -12388,14 +11763,14 @@
       "city": "Norman",
       "venue_name": "OU Cross",
       "country_code": "US",
-      "num_attendees": 15,
+      "num_attendees": 16,
       "url": "/tournament/super-sooners-fall-2026",
       "events": [
         {
           "event_id": 1750255,
           "event_slug": "tournament/super-sooners-fall-2026/event/ultimate-sooner-smash-singles",
           "event_name": "Ultimate Sooner Smash Singles",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1795363200
         }
@@ -12434,14 +11809,14 @@
       "city": "Fredonia",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/daybreak-z-3",
       "events": [
         {
           "event_id": 1742270,
           "event_slug": "tournament/daybreak-z-3/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1795368600
         }
@@ -12457,14 +11832,14 @@
       "city": "San Bernardino Tlaxcalancingo",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/valhalla-smash-3-last-stock-sta-vez-es-personal",
       "events": [
         {
           "event_id": 1749001,
           "event_slug": "tournament/valhalla-smash-3-last-stock-sta-vez-es-personal/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 6,
+          "num_entrants": 7,
           "type": 1,
           "start_at": 1795370400
         }
@@ -12526,14 +11901,14 @@
       "city": "Zacatecas",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 16,
+      "num_attendees": 17,
       "url": "/tournament/busting-lv-50",
       "events": [
         {
           "event_id": 1750191,
           "event_slug": "tournament/busting-lv-50/event/singles",
           "event_name": "Singles",
-          "num_entrants": 15,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1795370400
         },
@@ -12541,7 +11916,7 @@
           "event_id": 1750192,
           "event_slug": "tournament/busting-lv-50/event/amateur",
           "event_name": "Amateur",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1795370400
         }
@@ -12611,7 +11986,7 @@
       "city": "Moorhead",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 14,
+      "num_attendees": 15,
       "url": "/tournament/kong-quest-38-the-kongsgiving-feast",
       "events": [
         {
@@ -12634,14 +12009,14 @@
       "city": "Tijuana",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 26,
+      "num_attendees": 27,
       "url": "/tournament/the-worst-23",
       "events": [
         {
           "event_id": 1750937,
           "event_slug": "tournament/the-worst-23/event/singles-pro",
           "event_name": "Singles Pro",
-          "num_entrants": 22,
+          "num_entrants": 23,
           "type": 1,
           "start_at": 1795374000
         },
@@ -12649,7 +12024,7 @@
           "event_id": 1750938,
           "event_slug": "tournament/the-worst-23/event/singles-rookies",
           "event_name": "Singles Rookies",
-          "num_entrants": 17,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1795374000
         }
@@ -12780,14 +12155,14 @@
       "city": "Port Orchard",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 1,
+      "num_attendees": 2,
       "url": "/tournament/i-teched-that-31",
       "events": [
         {
           "event_id": 1754054,
           "event_slug": "tournament/i-teched-that-31/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 1,
+          "num_entrants": 2,
           "type": 1,
           "start_at": 1795393800
         }
@@ -13443,14 +12818,14 @@
       "city": "Columbia",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 99,
+      "num_attendees": 102,
       "url": "/tournament/the-2026-south-carolina-arcadian",
       "events": [
         {
           "event_id": 1733398,
           "event_slug": "tournament/the-2026-south-carolina-arcadian/event/ssbu-arcadian-singles",
           "event_name": "SSBU Arcadian Singles",
-          "num_entrants": 51,
+          "num_entrants": 52,
           "type": 1,
           "start_at": 1795885200
         }
@@ -13466,14 +12841,14 @@
       "city": "Saint Paul",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 19,
+      "num_attendees": 20,
       "url": "/tournament/power-play-benchwarmers-a-minnesota-arcadian",
       "events": [
         {
           "event_id": 1722734,
           "event_slug": "tournament/power-play-benchwarmers-a-minnesota-arcadian/event/ultimate-arcadian-singles",
           "event_name": "Ultimate Arcadian Singles",
-          "num_entrants": 14,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1795896000
         }
@@ -13543,7 +12918,7 @@
       "city": "Green Bay",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 7,
+      "num_attendees": 9,
       "url": "/tournament/counter-break-4",
       "events": [
         {
@@ -13636,7 +13011,7 @@
       "city": "Heroica Puebla de Zaragoza",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 269,
+      "num_attendees": 270,
       "url": "/tournament/torneos-conpue",
       "events": [
         {
@@ -13650,6 +13025,29 @@
       ]
     },
     {
+      "tournament_id": 972276,
+      "tournament_slug": "tournament/ready-up-rumble-7-the-gauntlet-of-gratitude-50-pot-bonus",
+      "tournament_name": "Ready-Up Rumble #7 -The Gauntlet of Gratitude ($50 Pot Bonus)",
+      "start_at": 1795885200,
+      "end_at": 1795914000,
+      "is_online": false,
+      "city": "York",
+      "venue_name": "",
+      "country_code": "US",
+      "num_attendees": 1,
+      "url": "/tournament/ready-up-rumble-7-the-gauntlet-of-gratitude-50-pot-bonus",
+      "events": [
+        {
+          "event_id": 1750059,
+          "event_slug": "tournament/ready-up-rumble-7-the-gauntlet-of-gratitude-50-pot-bonus/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795894200
+        }
+      ]
+    },
+    {
       "tournament_id": 958062,
       "tournament_slug": "tournament/smash-potatoes-n-gravy-4",
       "tournament_name": "Smash Potatoes N' Gravy 4",
@@ -13659,14 +13057,14 @@
       "city": "Cherry Hill",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 3,
+      "num_attendees": 6,
       "url": "/tournament/smash-potatoes-n-gravy-4",
       "events": [
         {
           "event_id": 1719901,
           "event_slug": "tournament/smash-potatoes-n-gravy-4/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1795908600
         }
@@ -13682,14 +13080,14 @@
       "city": "Chetumal",
       "venue_name": "",
       "country_code": "MX",
-      "num_attendees": 23,
+      "num_attendees": 25,
       "url": "/tournament/pompeya-smash",
       "events": [
         {
           "event_id": 1742364,
           "event_slug": "tournament/pompeya-smash/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 23,
+          "num_entrants": 25,
           "type": 1,
           "start_at": 1795892400
         }
@@ -14113,14 +13511,14 @@
       "city": "Guelph",
       "venue_name": "",
       "country_code": "CA",
-      "num_attendees": 42,
+      "num_attendees": 43,
       "url": "/tournament/gryphon-gaming-smash-bros-november-monthly-250-pot-bonus",
       "events": [
         {
           "event_id": 1746378,
           "event_slug": "tournament/gryphon-gaming-smash-bros-november-monthly-250-pot-bonus/event/smash-bros-ultimate-singles",
           "event_name": "Smash Bros. Ultimate | Singles",
-          "num_entrants": 21,
+          "num_entrants": 22,
           "type": 1,
           "start_at": 1795978800
         }
@@ -14321,14 +13719,14 @@
       "city": "Chicago",
       "venue_name": "",
       "country_code": "US",
-      "num_attendees": 33,
+      "num_attendees": 34,
       "url": "/tournament/knockback-last-call-100-pot-bonus",
       "events": [
         {
           "event_id": 1732416,
           "event_slug": "tournament/knockback-last-call-100-pot-bonus/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 33,
+          "num_entrants": 34,
           "type": 1,
           "start_at": 1796173200
         }
