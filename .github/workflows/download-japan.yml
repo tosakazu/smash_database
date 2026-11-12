@@ -75,11 +75,14 @@ jobs:
         if: inputs.push
         env:
           KEY: ${{ secrets.JP_DATA_DEPLOY_KEY }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           install -d -m 700 ~/.ssh
           printf '%s\n' "$KEY" > ~/.ssh/jp_deploy_key && chmod 600 ~/.ssh/jp_deploy_key
-          # GitHub の公開ホスト鍵は HTTPS の API から (ssh-keyscan の初回信用にしない)
-          curl -fsS --retry 5 https://api.github.com/meta | jq -r '.ssh_keys[] | "github.com " + .' > ~/.ssh/known_hosts
+          # GitHub の公開ホスト鍵は HTTPS の API から (ssh-keyscan の初回信用にしない)。
+          # 認証なしだと共有ランナーの IP で 1 時間 60 回の上限に当たり 403 で落ちた (11-06 10:00) ので、Actions のトークンを付ける
+          curl -fsS --retry 5 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/meta \
+            | jq -r '.ssh_keys[] | "github.com " + .' > ~/.ssh/known_hosts
           [ -s ~/.ssh/known_hosts ]
           git remote set-url --push origin "git@github.com:${{ github.repository }}.git"
           git config core.sshCommand "ssh -i $HOME/.ssh/jp_deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"

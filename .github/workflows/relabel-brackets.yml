@@ -4,7 +4,7 @@
 # ランキングのビルドが並べ替えに使う旧ラベルは legacy_global_* に残る (学習は変わらない)。
 # push が定期取得とぶつかったら、取り直して付け直しからやり直す (最大 5 回)。
 name: relabel-brackets
-run-name: relabel-brackets ${{ inputs.branch }}${{ inputs.write && '' || ' (dry run)' }}
+run-name: relabel-brackets ${{ inputs.branch }}${{ !inputs.write && ' (dry run)' || '' }}
 
 on:
   workflow_dispatch:
@@ -67,6 +67,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           WRITE: ${{ inputs.write }}
         run: |
+          set -o pipefail   # tee の手前の python が落ちたら止める (2026-11-06: 落ちたのに「変化なし」で成功扱いになった)
           region="${BRANCH#data-}"; region="${region%-auto}"
           root="data/startgg/$region/events"
           git config user.name "github-actions[bot]"

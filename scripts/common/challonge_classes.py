@@ -34,6 +34,8 @@ import os
 import re
 import shutil
 import sys
+import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -54,6 +56,11 @@ CLASS_MATCHES_FILE = "class_matches.json"
 # not play the main event: always left out of SPSP (no placement, not counted as having played, no head-to-head)
 _MISC_RE = re.compile(r"^\s*startgg:(\d+)(:nocount)?\s*$")
 TIMEOUT = 60
+# Challonge states in which every set may be in: only then are the participants and the matches read
+READY_STATES = ("complete", "awaiting_review")
+# a bracket still waiting this many days after its main event is asked once a day / once a week (check_due)
+CHECK_EVERY_RUN_DAYS = 2
+CHECK_DAILY_DAYS = 14
 
 
 # ── pure parts (tested without the network) ──
@@ -310,12 +317,48 @@ def _get_all(path: str, headers: dict) -> list[dict]:
 
 
 def fetch_challonge(challonge_id, token: str) -> dict:
+    """One request while the bracket is still being played (the tournament alone tells the state); the participants and
+    the matches (two more requests) are read only once every set may be in (complete / awaiting_review). The Challonge
+    API allows few requests per month for the whole SPSP app, so a bracket that is not ready must cost as little as it can."""
     h = {**CHALLONGE_HEADERS, "Authorization": f"Bearer {token}", "Authorization-Type": "v2",
          "Content-Type": "application/vnd.api+json"}
     base = f"/application/tournaments/{int(challonge_id)}"
     r = requests.get(f"{CHALLONGE_API}{base}.json", headers=h, timeout=TIMEOUT)
     r.raise_for_status()
-    return parse_challonge(r.json(), _get_all(f"{base}/participants.json", h), _get_all(f"{base}/matches.json", h))
+    tournament = r.json()
+    state = ((tournament.get("data", tournament).get("attributes")) or {}).get("state")
+    if state not in READY_STATES:
+        return parse_challonge(tournament, [], [])
+    return parse_challonge(tournament, _get_all(f"{base}/participants.json", h), _get_all(f"{base}/matches.json", h))
+
+
+def check_due(parent_attr: dict, now: float) -> tuple[bool, str]:
+    """Whether to ask Challonge about a waiting bracket in this run. A class bracket is played on the day of its main
+    event; one still not finished days later (the TO never closed it on Challonge) is asked once a day, then once a week,
+    instead of in every run (every 3 hours) — each ask spends the app's monthly Challonge requests.
+    The daily / weekly ask is the run that starts between 03:00 and 06:00 JST."""
+    ref = parent_attr.get("end_timestamp") or parent_attr.get("timestamp")
+    try:
+        age_days = (now - float(ref)) / 86400
+    except (TypeError, ValueError):
+        return True, ""
+    if age_days < CHECK_EVERY_RUN_DAYS:
+        return True, ""
+    jst = datetime.fromtimestamp(now, timezone(timedelta(hours=9)))
+    in_window = 3 <= jst.hour < 6
+    if age_days < CHECK_DAILY_DAYS:
+        return in_window, "asked once a day (03:00-06:00 JST run)"
+    return in_window and jst.weekday() == 0, "asked once a week (Monday 03:00-06:00 JST run)"
+
+
+def rate_limit_info(response) -> str:
+    """The rate-limit headers of a 429 (numbers and times only, nothing credential-related), to learn the real limits."""
+    headers = getattr(response, "headers", None) or {}
+    try:
+        keep = {k: str(v)[:60] for k, v in headers.items() if re.search(r"ratelimit|retry-after", k, re.I)}
+    except Exception:
+        return ""
+    return ", ".join(f"{k}={v}" for k, v in sorted(keep.items()))
 
 
 def event_paths(region_dir: Path) -> dict[int, str]:
@@ -397,6 +440,8 @@ def cmd_fetch(args) -> int:
     paths = event_paths(region_dir)
     # done = ids to tell the Worker after the push: ingested ones and ones decided not to ingest (excluded)
     done, n_written, n_excluded, n_wait, n_warn, token = [], 0, 0, 0, 0, None
+    now = args.now if args.now is not None else time.time()
+    limited = False                               # Challonge answered 429 in this run: do not ask again
     groups: dict[tuple[str, str], list] = {}      # (parent dir, letter) → completed Challonge candidates
     print(f"[challonge] waitlist {len(items)}")
     for it in items:
@@ -409,6 +454,18 @@ def cmd_fetch(args) -> int:
         if not parent_path or not (Path(parent_path) / "attr.json").exists():
             print(f"  wait {label}: parent event {it.get('parent_event_id')} not downloaded yet"); n_wait += 1
             continue
+        if not args.all:
+            try:
+                parent_attr = json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8"))
+            except Exception:
+                parent_attr = {}
+            due, why = check_due(parent_attr, now)
+            if not due:
+                print(f"  wait {label}: not asked in this run — {why}"); n_wait += 1
+                continue
+        if limited:
+            print(f"  wait {label}: not asked — Challonge is refusing requests (429) in this run"); n_wait += 1
+            continue
         try:
             if token is None:
                 token = challonge_token(client_id, client_secret)
@@ -416,6 +473,11 @@ def cmd_fetch(args) -> int:
         except Exception as e:   # network, HTTP error, or an unexpected response shape: skip this one, keep the rest
             # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
+            if status == 429:    # out of requests: asking for the next bracket only spends more. Stop asking in this run
+                info = rate_limit_info(getattr(e, "response", None))
+                print(f"  WARN {label}: Challonge refused the request (HTTP 429{f'; ' + info if info else ''}) — next run retries")
+                limited = True; n_warn += 1
+                continue
             if status == 404:    # the bracket was deleted on Challonge: nothing will ever come, take it off the list
                 print(f"  EXCLUDE {label}: not found on Challonge (deleted) — marked done without ingesting")
                 done.append(it.get("id")); n_excluded += 1
@@ -583,6 +645,8 @@ def main(argv=None) -> int:
     f.add_argument("--waitlist-file", default=None, help="read the waitlist from a saved response instead")
     f.add_argument("--done-out", default=None, help="write the ids of the brackets written, one per line")
     f.add_argument("--dry-run", action="store_true")
+    f.add_argument("--all", action="store_true", help="ask Challonge about every waiting bracket (skip the once a day / week rule)")
+    f.add_argument("--now", type=float, default=None, help="the time of this run in epoch seconds (tests)")
     d = sub.add_parser("mark-done", help="tell the SPSP Worker which brackets were written (after the push)")
     d.add_argument("--done-in", required=True)
     d.add_argument("--region", required=True, help="where to remove brackets the TO deleted meanwhile")
