@@ -1,4 +1,6 @@
 """challonge_classes: Challonge lower-class brackets → class_phases/<letter>_virtual (no network)."""
+import contextlib
+import io
 import json
 import os
 import tempfile
@@ -214,6 +216,8 @@ class FetchTests(unittest.TestCase):
         self.patches = [mock.patch.object(region, "load_region_classifier", lambda r: None),
                         mock.patch.object(region, "class_support", lambda clf: CLS),
                         mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"),
+                        # the parent event of these tests is from 1970: without this every bracket would be "asked once a week"
+                        mock.patch.object(cc, "check_due", lambda attr, now: (True, "")),
                         mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"})]
         for p in self.patches:
             p.start()
@@ -399,6 +403,31 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(open("done.txt").read(), "5\n")
         self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases")))
 
+    def test_rate_limited_stops_asking_in_this_run(self):
+        import requests
+        with open(os.path.join(self.parent, "attr.json")) as f:
+            attr = json.load(f)
+        with open("data/startgg/Japan/tournaments.jsonl", "w") as f:
+            f.write(json.dumps({"tournament_id": 1, "name": "T", "events": [
+                {"event_id": 777, "event_name": "Singles", "path": self.parent}]}) + "\n")
+        with open("waitlist.json", "w") as f:
+            json.dump({"ok": True, "items": [
+                {"id": n, "parent_event_id": 777, "class_letter": "B", "name": "T Bクラス", "challonge_id": 500 + n,
+                 "challonge_url": "https://challonge.com/x"} for n in (5, 6, 7)]}, f)
+        self.assertEqual(attr["event_id"], 777)
+        asked = []
+        def limited(cid, token):
+            asked.append(cid)
+            raise requests.HTTPError("429", response=mock.Mock(status_code=429, headers={"Retry-After": "3600", "Set-Cookie": "x"}))
+        out = io.StringIO()
+        with mock.patch.object(cc, "fetch_challonge", limited), contextlib.redirect_stdout(out):
+            rc = cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
+        self.assertEqual(rc, 0)
+        self.assertEqual(asked, [505])                      # the 2nd and 3rd brackets are not asked
+        self.assertIn("HTTP 429; Retry-After=3600", out.getvalue())
+        self.assertNotIn("Set-Cookie", out.getvalue())
+        self.assertEqual(open("done.txt").read(), "")
+
     def test_challonge_failures_skip_only_that_bracket(self):
         import requests
         for exc in (requests.Timeout("t"), requests.HTTPError("503"), KeyError("data")):
@@ -437,6 +466,90 @@ class FetchTests(unittest.TestCase):
         self.run_fetch(parsed_response())
         self.assertEqual(self.run_mark_done({5: "deleted"}), 0)
         self.assertFalse(os.path.exists(os.path.join(self.parent, "class_phases", "B_virtual")))
+
+
+class RequestSavingTests(unittest.TestCase):
+    """The Challonge API allows few requests: a bracket that is not ready costs one request, an old one is asked rarely."""
+
+    def fetch(self, state):
+        calls = []
+        def get(url, **kw):
+            calls.append(url.split("/v2.1")[1])
+            body = ({"data": {"id": "9", "type": "tournament", "attributes": {"state": state, "name": "n"}}}
+                    if url.endswith("/tournaments/9.json") else {"data": []})
+            return mock.Mock(status_code=200, json=lambda: body, raise_for_status=lambda: None)
+        with mock.patch.object(cc.requests, "get", get):
+            parsed = cc.fetch_challonge(9, "t")
+        return parsed, calls
+
+    def test_not_ready_reads_the_tournament_only(self):
+        for state in ("pending", "underway", "group_stages_underway"):
+            parsed, calls = self.fetch(state)
+            self.assertEqual(calls, ["/application/tournaments/9.json"])
+            self.assertEqual(parsed["state"], state)
+            self.assertEqual(parsed["matches"], [])
+
+    def test_ready_reads_participants_and_matches(self):
+        for state in ("complete", "awaiting_review"):
+            _, calls = self.fetch(state)
+            self.assertEqual(calls, ["/application/tournaments/9.json", "/application/tournaments/9/participants.json",
+                                     "/application/tournaments/9/matches.json"])
+
+    def test_check_due(self):
+        from datetime import datetime, timedelta, timezone
+        jst = timezone(timedelta(hours=9))
+        end = datetime(2026, 11, 1, 20, 0, tzinfo=jst).timestamp()
+        attr = {"timestamp": end - 6 * 3600, "end_timestamp": end}
+        at = lambda *a: datetime(*a, tzinfo=jst).timestamp()
+        self.assertEqual(cc.check_due(attr, at(2026, 11, 1, 21, 5)), (True, ""))        # the day itself: every run
+        self.assertEqual(cc.check_due(attr, at(2026, 11, 3, 18, 5)), (True, ""))        # within 2 days: every run
+        self.assertFalse(cc.check_due(attr, at(2026, 11, 4, 0, 5))[0])                  # after that: once a day …
+        self.assertTrue(cc.check_due(attr, at(2026, 11, 4, 3, 5))[0])                   # … in the 03:00-06:00 JST run
+        self.assertFalse(cc.check_due(attr, at(2026, 11, 4, 6, 5))[0])
+        self.assertFalse(cc.check_due(attr, at(2026, 11, 17, 3, 5))[0])                 # after 14 days: Tuesday is not asked
+        self.assertTrue(cc.check_due(attr, at(2026, 11, 16, 3, 5))[0])                  # Monday is
+        self.assertEqual(cc.check_due({}, at(2026, 11, 16, 12, 0)), (True, ""))         # no date known: ask
+        self.assertTrue(cc.check_due({"timestamp": end}, at(2026, 11, 2, 12, 0))[0])    # no end time: from the start
+
+    def test_old_waiting_bracket_is_not_asked_outside_its_run(self):
+        from datetime import datetime, timedelta, timezone
+        import tempfile
+        jst = timezone(timedelta(hours=9))
+        with tempfile.TemporaryDirectory() as tmp:
+            old = os.getcwd(); os.chdir(tmp)
+            try:
+                parent = "data/startgg/Japan/events/2026/10/20/T/Singles"
+                os.makedirs(parent)
+                end = datetime(2026, 10, 20, 22, 0, tzinfo=jst).timestamp()
+                with open(os.path.join(parent, "attr.json"), "w") as f:
+                    json.dump({"event_id": 777, "event_name": "Singles", "tournament_name": "T", "timestamp": end}, f)
+                with open("data/startgg/Japan/tournaments.jsonl", "w") as f:
+                    f.write(json.dumps({"tournament_id": 1, "name": "T",
+                                        "events": [{"event_id": 777, "event_name": "Singles", "path": parent}]}) + "\n")
+                with open("waitlist.json", "w") as f:
+                    json.dump({"ok": True, "items": [{"id": 3, "parent_event_id": 777, "class_letter": "B", "name": "T B",
+                                                      "challonge_id": 555, "challonge_url": "https://challonge.com/x"}]}, f)
+                asked = []
+                def underway(cid, token):
+                    asked.append(cid)
+                    return {"id": cid, "state": "underway", "participants": [], "matches": [], "n_incomplete": 0}
+                base = ["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json"]
+                with mock.patch.object(region, "load_region_classifier", lambda r: None), \
+                        mock.patch.object(region, "class_support", lambda clf: CLS), \
+                        mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"), \
+                        mock.patch.object(cc, "fetch_challonge", underway), \
+                        mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"}), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    noon = datetime(2026, 11, 12, 12, 5, tzinfo=jst).timestamp()        # a Thursday, 23 days later
+                    cc.main(base + ["--now", str(noon)])
+                    self.assertEqual(asked, [])
+                    monday = datetime(2026, 11, 16, 3, 5, tzinfo=jst).timestamp()
+                    cc.main(base + ["--now", str(monday)])
+                    self.assertEqual(asked, [555])
+                    cc.main(base + ["--now", str(noon), "--all"])
+                    self.assertEqual(asked, [555, 555])
+            finally:
+                os.chdir(old)
 
 
 if __name__ == "__main__":
