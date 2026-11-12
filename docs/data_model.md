@@ -282,9 +282,17 @@ An existing directory is not overwritten (`build_class_virtual_tournaments.py --
 
 The Challonge API allows the SPSP app only a small number of requests per month, so the script asks as little as it can:
 a waiting bracket costs one request (the tournament, for its state) and the participants and the matches are read only once
-the state is `complete` / `awaiting_review`; a bracket still waiting 2 days after its main event is asked once a day (the run
-that starts 03:00-06:00 JST), after 14 days once a week (Monday) — `--all` asks every one; and after an HTTP 429 the rest of
-the run asks nothing (the rate-limit headers of the 429 are printed).
+the state is `complete` / `awaiting_review`; and after an HTTP 429 the rest of the run asks nothing (the rate-limit headers
+of the 429 are printed).
+
+A bracket is waited for only until 6 hours after its main event ended (`CLOSE_AFTER_HOURS`, counted from start.gg's end
+time). The first run after that reads it in full whatever its Challonge state and closes it: it is taken as it stands and
+leaves the waitlist, so it is never asked about again (results entered on Challonge later are not picked up). Taken as it
+stands = the reported sets, and placements for the players already out (single elimination: lost once; double
+elimination: lost twice) as 1 + the players still in + the players out at a later stage — the final placement when only
+the last rounds are missing, never a better one. Players still in get no placement. `challonge.json` then carries
+`closed_unfinished: true`. A bracket with no set reported, or of a type that cannot be ranked this way (round robin,
+swiss), is marked done without being ingested.
 
 A TO can also run a class bracket on Challonge from the SPSP site; the counted ones are listed by
 the SPSP Worker (`GET https://spsp.games/api/class_waitlist`). `scripts/common/challonge_classes.py`

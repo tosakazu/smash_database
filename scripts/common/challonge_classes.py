@@ -7,13 +7,14 @@ SPSP Worker lists it at GET <waitlist URL>:
                             "challonge_id", "challonge_url", "created_at"}]}
 Each participant carries misc = "startgg:<start.gg user id>" (set by the SPSP page), which ties it to the player.
 
-For every listed bracket whose Challonge state is "complete", this writes the same files as a start.gg class
+For every listed bracket whose Challonge state is "complete" (and, CLOSE_AFTER_HOURS after the main event ended, for
+every bracket as it stands then: see close_due), this writes the same files as a start.gg class
 bracket (build_class_virtual_tournaments.py):
     <parent event dir>/class_phases/<letter>_virtual/{attr.json, standings.json, matches.json}
 plus challonge.json (the Challonge source: participants and matches with start.gg ids). The ranking build
 treats the directory as a lower-class virtual event (placement scoring only; matches.json stays empty as for
 start.gg classes, whose sets are learned through the parent event).
-Brackets still in progress are left for the next run. If the same parent event already has a start.gg class
+Brackets still in progress before that are left for the next run. If the same parent event already has a start.gg class
 bracket with that letter, the start.gg one wins and the Challonge one is skipped with a warning.
 
 Two steps, so that a bracket is marked done only after its files were pushed:
@@ -58,9 +59,9 @@ _MISC_RE = re.compile(r"^\s*startgg:(\d+)(:nocount)?\s*$")
 TIMEOUT = 60
 # Challonge states in which every set may be in: only then are the participants and the matches read
 READY_STATES = ("complete", "awaiting_review")
-# a bracket still waiting this many days after its main event is asked once a day / once a week (check_due)
-CHECK_EVERY_RUN_DAYS = 2
-CHECK_DAILY_DAYS = 14
+# this long after its main event ended, a bracket is closed whatever its Challonge state: it is read once more in full,
+# taken as it stands (or dropped when nothing can be taken) and never asked about again (close_due)
+CLOSE_AFTER_HOURS = 6
 
 
 # ── pure parts (tested without the network) ──
@@ -172,6 +173,45 @@ def placements_from_bracket(parsed: dict) -> dict[int, int]:
     if missing:
         raise ValueError(f"{len(missing)} participant(s) without a result")
     return {p: 1 + sum(1 for q in stage.values() if q > stage[p]) for p in pids}
+
+
+def placements_unfinished(parsed: dict) -> dict[int, int]:
+    """Challonge participant id → placement for the players already out of a bracket that was never played to the end
+    (closed CLOSE_AFTER_HOURS after the main event). Players still in get none (they are left out of the standings;
+    their reported sets still count as sets). placement = 1 + the players still in + the players out at a later stage:
+    exactly the final placement when only the last rounds are missing, and never better than it otherwise.
+      single elimination: out at the first loss (stages as in placements_from_bracket).
+      double elimination: out at the second loss.
+    Raises ValueError for a bracket type it cannot rank."""
+    ttype = (parsed.get("tournament_type") or "").lower()
+    ms = [m for m in parsed["matches"] if m.get("winner_pid") is not None and m.get("loser_pid") is not None]
+    pids = {p["challonge_id"] for p in parsed["participants"]}
+    ms.sort(key=lambda m: (abs(m.get("round") or 0), m["challonge_id"]))
+    stage = {}
+    if ttype == "single elimination":
+        final_round = max(1, (max(2, len(pids)) - 1).bit_length())
+        for m in ms:
+            r = m.get("round") or 0
+            if r >= 1:
+                stage[m["loser_pid"]] = r
+        for m in ms:
+            if (m.get("round") or 0) == 0:          # third-place match
+                stage[m["winner_pid"]] = final_round - 0.5
+                stage[m["loser_pid"]] = final_round - 1
+    elif ttype == "double elimination":
+        losers_rounds = [-(m.get("round") or 0) for m in ms if (m.get("round") or 0) < 0]
+        top = (max(losers_rounds) if losers_rounds else 0) + 1
+        n_loss = {}
+        for m in ms:
+            pid, r = m["loser_pid"], m.get("round") or 0
+            n_loss[pid] = n_loss.get(pid, 0) + 1
+            if n_loss[pid] >= 2:
+                stage[pid] = -r if r < 0 else top
+    else:
+        raise ValueError(f"cannot rank a {ttype or 'unknown'} bracket")
+    stage = {p: s for p, s in stage.items() if p in pids}
+    n_in = len(pids) - len(stage)
+    return {p: 1 + n_in + sum(1 for q in stage.values() if q > stage[p]) for p in stage}
 
 
 def standings_from(parsed: dict) -> tuple[list[dict], list[str], list[int]]:
@@ -316,10 +356,11 @@ def _get_all(path: str, headers: dict) -> list[dict]:
         page += 1
 
 
-def fetch_challonge(challonge_id, token: str) -> dict:
+def fetch_challonge(challonge_id, token: str, full: bool = False) -> dict:
     """One request while the bracket is still being played (the tournament alone tells the state); the participants and
-    the matches (two more requests) are read only once every set may be in (complete / awaiting_review). The Challonge
-    API allows few requests per month for the whole SPSP app, so a bracket that is not ready must cost as little as it can."""
+    the matches (two more requests) are read only once every set may be in (complete / awaiting_review), or with `full`
+    (the bracket is being closed). The Challonge API allows few requests per month for the whole SPSP app, so a bracket
+    that is not ready must cost as little as it can."""
     h = {**CHALLONGE_HEADERS, "Authorization": f"Bearer {token}", "Authorization-Type": "v2",
          "Content-Type": "application/vnd.api+json"}
     base = f"/application/tournaments/{int(challonge_id)}"
@@ -327,28 +368,21 @@ def fetch_challonge(challonge_id, token: str) -> dict:
     r.raise_for_status()
     tournament = r.json()
     state = ((tournament.get("data", tournament).get("attributes")) or {}).get("state")
-    if state not in READY_STATES:
+    if state not in READY_STATES and not full:
         return parse_challonge(tournament, [], [])
     return parse_challonge(tournament, _get_all(f"{base}/participants.json", h), _get_all(f"{base}/matches.json", h))
 
 
-def check_due(parent_attr: dict, now: float) -> tuple[bool, str]:
-    """Whether to ask Challonge about a waiting bracket in this run. A class bracket is played on the day of its main
-    event; one still not finished days later (the TO never closed it on Challonge) is asked once a day, then once a week,
-    instead of in every run (every 3 hours) — each ask spends the app's monthly Challonge requests.
-    The daily / weekly ask is the run that starts between 03:00 and 06:00 JST."""
+def close_due(parent_attr: dict, now: float) -> bool:
+    """Whether a waiting bracket is closed in this run: CLOSE_AFTER_HOURS after its main event ended (start.gg's end
+    time, else the start). A class bracket is played on the day of its main event; one the TO never finished or never
+    closed on Challonge would otherwise be asked about for ever, and each ask spends the app's Challonge requests.
+    Until then it is asked in every run (one request); a main event with no date known is never closed."""
     ref = parent_attr.get("end_timestamp") or parent_attr.get("timestamp")
     try:
-        age_days = (now - float(ref)) / 86400
+        return now - float(ref) >= CLOSE_AFTER_HOURS * 3600
     except (TypeError, ValueError):
-        return True, ""
-    if age_days < CHECK_EVERY_RUN_DAYS:
-        return True, ""
-    jst = datetime.fromtimestamp(now, timezone(timedelta(hours=9)))
-    in_window = 3 <= jst.hour < 6
-    if age_days < CHECK_DAILY_DAYS:
-        return in_window, "asked once a day (03:00-06:00 JST run)"
-    return in_window and jst.weekday() == 0, "asked once a week (Monday 03:00-06:00 JST run)"
+        return False
 
 
 def rate_limit_info(response) -> str:
@@ -454,22 +488,17 @@ def cmd_fetch(args) -> int:
         if not parent_path or not (Path(parent_path) / "attr.json").exists():
             print(f"  wait {label}: parent event {it.get('parent_event_id')} not downloaded yet"); n_wait += 1
             continue
-        if not args.all:
-            try:
-                parent_attr = json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8"))
-            except Exception:
-                parent_attr = {}
-            due, why = check_due(parent_attr, now)
-            if not due:
-                print(f"  wait {label}: not asked in this run — {why}"); n_wait += 1
-                continue
+        try:
+            closing = close_due(json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8")), now)
+        except Exception:
+            closing = False
         if limited:
             print(f"  wait {label}: not asked — Challonge is refusing requests (429) in this run"); n_wait += 1
             continue
         try:
             if token is None:
                 token = challonge_token(client_id, client_secret)
-            parsed = fetch_challonge(it["challonge_id"], token)
+            parsed = fetch_challonge(it["challonge_id"], token, full=closing)
         except Exception as e:   # network, HTTP error, or an unexpected response shape: skip this one, keep the rest
             # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
@@ -497,12 +526,30 @@ def cmd_fetch(args) -> int:
                     parsed["placements_computed"] = True
                     print(f"  info {label}: not finalized on Challonge (awaiting_review) — placements computed from the bracket")
             except Exception as e:
-                print(f"  WARN {label}: awaiting_review but the placements could not be computed ({type(e).__name__}: "
-                      f"{str(e)[:150]}) — next run retries"); n_warn += 1
-                continue
-        elif parsed["state"] != "complete":
+                if not closing:
+                    print(f"  WARN {label}: awaiting_review but the placements could not be computed ({type(e).__name__}: "
+                          f"{str(e)[:150]}) — next run retries"); n_warn += 1
+                    continue
+        elif parsed["state"] != "complete" and not closing:
             print(f"  wait {label}: Challonge state {parsed['state']}"); n_wait += 1
             continue
+        if parsed["state"] != "complete" and all(p.get("final_rank") is None for p in parsed["participants"]):
+            # closed without being finished (CLOSE_AFTER_HOURS after the main event; 2026-11-12 user decision): taken as
+            # it stands — the reported sets, and placements for the players already out — and never asked about again
+            try:
+                place = placements_unfinished(parsed) if parsed["matches"] else {}
+            except ValueError:
+                place = {}
+            if not place:
+                print(f"  EXCLUDE {label}: closed {CLOSE_AFTER_HOURS} h after the main event with Challonge state "
+                      f"{parsed['state']} and no placement to take — marked done without ingesting")
+                done.append(it.get("id")); n_excluded += 1
+                continue
+            for p in parsed["participants"]:
+                p["final_rank"] = place.get(p["challonge_id"])
+            parsed["closed_unfinished"] = True
+            print(f"  info {label}: closed {CLOSE_AFTER_HOURS} h after the main event with Challonge state {parsed['state']} "
+                  f"— taken as it stands ({len(parsed['matches'])} sets, {len(place)} of {len(parsed['participants'])} placed)")
         not_in_main = mark_not_in_main(parsed, main_event_uids(Path(parent_path)))
         if not_in_main:
             print(f"  WARN {label}: {len(not_in_main)} participant(s) did not enter the main event (and are not :nocount) "
@@ -645,7 +692,6 @@ def main(argv=None) -> int:
     f.add_argument("--waitlist-file", default=None, help="read the waitlist from a saved response instead")
     f.add_argument("--done-out", default=None, help="write the ids of the brackets written, one per line")
     f.add_argument("--dry-run", action="store_true")
-    f.add_argument("--all", action="store_true", help="ask Challonge about every waiting bracket (skip the once a day / week rule)")
     f.add_argument("--now", type=float, default=None, help="the time of this run in epoch seconds (tests)")
     d = sub.add_parser("mark-done", help="tell the SPSP Worker which brackets were written (after the push)")
     d.add_argument("--done-in", required=True)
