@@ -216,8 +216,8 @@ class FetchTests(unittest.TestCase):
         self.patches = [mock.patch.object(region, "load_region_classifier", lambda r: None),
                         mock.patch.object(region, "class_support", lambda clf: CLS),
                         mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"),
-                        # the parent event of these tests is from 1970: without this every bracket would be "asked once a week"
-                        mock.patch.object(cc, "check_due", lambda attr, now: (True, "")),
+                        # the parent event of these tests is from 1970: without this every bracket would be closed at once
+                        mock.patch.object(cc, "close_due", lambda attr, now: False),
                         mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"})]
         for p in self.patches:
             p.start()
@@ -229,7 +229,7 @@ class FetchTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def run_fetch(self, response):
-        with mock.patch.object(cc, "fetch_challonge", lambda cid, token: response):
+        with mock.patch.object(cc, "fetch_challonge", lambda cid, token, full=False: response):
             return cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
 
     def test_writes_the_virtual_event_when_complete(self):
@@ -367,9 +367,9 @@ class FetchTests(unittest.TestCase):
             json.dump({"ok": True, "items": [
                 {"id": 5, "parent_event_id": 777, "class_letter": "B", "name": "a", "challonge_id": 555, "challonge_url": "u"},
                 {"id": 7, "parent_event_id": 777, "class_letter": "B", "name": "b", "challonge_id": 557, "challonge_url": "u"}]}, f)
-        full = parsed_response()
+        big = parsed_response()
         small = parsed_response(); small["matches"] = small["matches"][:1]; small["id"] = 557
-        with mock.patch.object(cc, "fetch_challonge", lambda cid, token: full if cid == 557 else small):
+        with mock.patch.object(cc, "fetch_challonge", lambda cid, token, full=False: big if cid == 557 else small):
             cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
         vdir = os.path.join(self.parent, "class_phases", "B_virtual")
         self.assertEqual(json.load(open(os.path.join(vdir, "challonge.json")))["spsp_class_id"], 7)
@@ -396,7 +396,7 @@ class FetchTests(unittest.TestCase):
     def test_deleted_on_challonge_is_excluded(self):
         import requests
         resp = mock.Mock(status_code=404)
-        def gone(cid, token):
+        def gone(cid, token, full=False):
             raise requests.HTTPError("404", response=resp)
         with mock.patch.object(cc, "fetch_challonge", gone):
             cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
@@ -416,7 +416,7 @@ class FetchTests(unittest.TestCase):
                  "challonge_url": "https://challonge.com/x"} for n in (5, 6, 7)]}, f)
         self.assertEqual(attr["event_id"], 777)
         asked = []
-        def limited(cid, token):
+        def limited(cid, token, full=False):
             asked.append(cid)
             raise requests.HTTPError("429", response=mock.Mock(status_code=429, headers={"Retry-After": "3600", "Set-Cookie": "x"}))
         out = io.StringIO()
@@ -431,7 +431,7 @@ class FetchTests(unittest.TestCase):
     def test_challonge_failures_skip_only_that_bracket(self):
         import requests
         for exc in (requests.Timeout("t"), requests.HTTPError("503"), KeyError("data")):
-            def boom(cid, token, exc=exc):
+            def boom(cid, token, full=False, exc=exc):
                 raise exc
             with mock.patch.object(cc, "fetch_challonge", boom):
                 rc = cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
@@ -495,34 +495,54 @@ class RequestSavingTests(unittest.TestCase):
             self.assertEqual(calls, ["/application/tournaments/9.json", "/application/tournaments/9/participants.json",
                                      "/application/tournaments/9/matches.json"])
 
-    def test_check_due(self):
-        from datetime import datetime, timedelta, timezone
-        jst = timezone(timedelta(hours=9))
-        end = datetime(2026, 11, 1, 20, 0, tzinfo=jst).timestamp()
-        attr = {"timestamp": end - 6 * 3600, "end_timestamp": end}
-        at = lambda *a: datetime(*a, tzinfo=jst).timestamp()
-        self.assertEqual(cc.check_due(attr, at(2026, 11, 1, 21, 5)), (True, ""))        # the day itself: every run
-        self.assertEqual(cc.check_due(attr, at(2026, 11, 3, 18, 5)), (True, ""))        # within 2 days: every run
-        self.assertFalse(cc.check_due(attr, at(2026, 11, 4, 0, 5))[0])                  # after that: once a day …
-        self.assertTrue(cc.check_due(attr, at(2026, 11, 4, 3, 5))[0])                   # … in the 03:00-06:00 JST run
-        self.assertFalse(cc.check_due(attr, at(2026, 11, 4, 6, 5))[0])
-        self.assertFalse(cc.check_due(attr, at(2026, 11, 17, 3, 5))[0])                 # after 14 days: Tuesday is not asked
-        self.assertTrue(cc.check_due(attr, at(2026, 11, 16, 3, 5))[0])                  # Monday is
-        self.assertEqual(cc.check_due({}, at(2026, 11, 16, 12, 0)), (True, ""))         # no date known: ask
-        self.assertTrue(cc.check_due({"timestamp": end}, at(2026, 11, 2, 12, 0))[0])    # no end time: from the start
+    def test_closing_reads_everything_whatever_the_state(self):
+        calls = []
+        def get(url, **kw):
+            calls.append(url.split("/v2.1")[1])
+            body = ({"data": {"id": "9", "type": "tournament", "attributes": {"state": "underway", "name": "n"}}}
+                    if url.endswith("/tournaments/9.json") else {"data": []})
+            return mock.Mock(status_code=200, json=lambda: body, raise_for_status=lambda: None)
+        with mock.patch.object(cc.requests, "get", get):
+            cc.fetch_challonge(9, "t", full=True)
+        self.assertEqual(len(calls), 3)
 
-    def test_old_waiting_bracket_is_not_asked_outside_its_run(self):
-        from datetime import datetime, timedelta, timezone
+    def test_close_due(self):
+        end = 1_800_000_000
+        attr = {"timestamp": end - 6 * 3600, "end_timestamp": end}
+        self.assertFalse(cc.close_due(attr, end + 5 * 3600))
+        self.assertTrue(cc.close_due(attr, end + 6 * 3600))
+        self.assertTrue(cc.close_due({"timestamp": end}, end + 7 * 3600))      # no end time: from the start
+        self.assertFalse(cc.close_due({}, end))                                # no date known: never closed
+
+    def test_placements_unfinished(self):
+        b = ParseTests.bracket
+        # single elimination, 6 players, final not played: 1 and 2 still in
+        self.assertEqual(cc.placements_unfinished(b("single elimination", [(1, 3, 6), (1, 4, 5), (2, 1, 4), (2, 2, 3)], 6)),
+                         {3: 3, 4: 3, 5: 5, 6: 5})
+        # played unevenly (one semifinal missing): the players out are never placed better than they can end
+        self.assertEqual(cc.placements_unfinished(b("single elimination", [(1, 3, 6), (1, 4, 5), (2, 1, 4)], 6)),
+                         {4: 4, 5: 5, 6: 5})
+        # double elimination, 4 players, grand final not played: 4 and 2 are out (two losses), 1 and 3 still in
+        self.assertEqual(cc.placements_unfinished(
+            b("double elimination", [(1, 1, 4), (1, 2, 3), (2, 1, 2), (-1, 3, 4), (-2, 3, 2)], 4)), {2: 3, 4: 4})
+        self.assertEqual(cc.placements_unfinished(b("single elimination", [], 4)), {})
+        with self.assertRaises(ValueError):
+            cc.placements_unfinished(b("round robin", [(1, 1, 2)], 3))
+
+    def run_fetch(self, parsed_by_full, hours_after_end):
+        """One waiting bracket (#3, parent event ended at `end`); returns (asked [full flags], done ids, output, challonge.json)."""
         import tempfile
-        jst = timezone(timedelta(hours=9))
         with tempfile.TemporaryDirectory() as tmp:
             old = os.getcwd(); os.chdir(tmp)
             try:
                 parent = "data/startgg/Japan/events/2026/10/20/T/Singles"
                 os.makedirs(parent)
-                end = datetime(2026, 10, 20, 22, 0, tzinfo=jst).timestamp()
+                end = 1_800_000_000
                 with open(os.path.join(parent, "attr.json"), "w") as f:
-                    json.dump({"event_id": 777, "event_name": "Singles", "tournament_name": "T", "timestamp": end}, f)
+                    json.dump({"event_id": 777, "event_name": "Singles", "tournament_name": "T", "timestamp": end - 3600,
+                               "end_timestamp": end}, f)
+                with open(os.path.join(parent, "standings.json"), "w") as f:
+                    json.dump({"data": [{"placement": i, "user_id": 1000 + i} for i in range(1, 5)]}, f)
                 with open("data/startgg/Japan/tournaments.jsonl", "w") as f:
                     f.write(json.dumps({"tournament_id": 1, "name": "T",
                                         "events": [{"event_id": 777, "event_name": "Singles", "path": parent}]}) + "\n")
@@ -530,26 +550,54 @@ class RequestSavingTests(unittest.TestCase):
                     json.dump({"ok": True, "items": [{"id": 3, "parent_event_id": 777, "class_letter": "B", "name": "T B",
                                                       "challonge_id": 555, "challonge_url": "https://challonge.com/x"}]}, f)
                 asked = []
-                def underway(cid, token):
-                    asked.append(cid)
-                    return {"id": cid, "state": "underway", "participants": [], "matches": [], "n_incomplete": 0}
-                base = ["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json"]
+                def fake(cid, token, full=False):
+                    asked.append(full)
+                    return json.loads(json.dumps(parsed_by_full[full]))
+                out = io.StringIO()
                 with mock.patch.object(region, "load_region_classifier", lambda r: None), \
                         mock.patch.object(region, "class_support", lambda clf: CLS), \
                         mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"), \
-                        mock.patch.object(cc, "fetch_challonge", underway), \
+                        mock.patch.object(cc, "fetch_challonge", fake), \
                         mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"}), \
-                        contextlib.redirect_stdout(io.StringIO()):
-                    noon = datetime(2026, 11, 12, 12, 5, tzinfo=jst).timestamp()        # a Thursday, 23 days later
-                    cc.main(base + ["--now", str(noon)])
-                    self.assertEqual(asked, [])
-                    monday = datetime(2026, 11, 16, 3, 5, tzinfo=jst).timestamp()
-                    cc.main(base + ["--now", str(monday)])
-                    self.assertEqual(asked, [555])
-                    cc.main(base + ["--now", str(noon), "--all"])
-                    self.assertEqual(asked, [555, 555])
+                        contextlib.redirect_stdout(out):
+                    cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt",
+                             "--now", str(end + hours_after_end * 3600)])
+                done = open("done.txt").read().split()
+                src = os.path.join(parent, "class_phases", "B_virtual", "challonge.json")
+                return asked, done, out.getvalue(), (json.load(open(src)) if os.path.exists(src) else None)
             finally:
                 os.chdir(old)
+
+    @staticmethod
+    def underway(sets):
+        """4 players (start.gg users 1001..1004), single elimination, state underway."""
+        parts = [{"challonge_id": i, "name": f"p{i}", "misc": f"startgg:{1000 + i}", "user_id": 1000 + i, "nocount": False,
+                  "final_rank": None, "seed": i, "active": True} for i in range(1, 5)]
+        ms = [{"challonge_id": 100 + k, "round": r, "scores": "2-0", "winner_user_id": 1000 + w, "loser_user_id": 1000 + l,
+               "winner_score": 2, "loser_score": 0, "dq": False, "winner_pid": w, "loser_pid": l, "involves_nocount": False}
+              for k, (r, w, l) in enumerate(sets)]
+        return {"id": 555, "url": "u", "name": "n", "state": "underway", "tournament_type": "single elimination",
+                "participants": parts, "matches": ms, "n_incomplete": 3 - len(ms), "nocount_uids": []}
+
+    def test_unfinished_bracket_waits_until_the_main_event_is_hours_old(self):
+        light = {"id": 555, "state": "underway", "participants": [], "matches": [], "n_incomplete": 0}
+        asked, done, out, src = self.run_fetch({False: light}, 3)
+        self.assertEqual((asked, done, src), ([False], [], None))
+        self.assertIn("wait #3", out)
+
+    def test_unfinished_bracket_is_closed_as_it_stands(self):
+        # the final was never reported: both semifinal losers are 3rd, the finalists get no placement, the sets are kept
+        asked, done, out, src = self.run_fetch({True: self.underway([(1, 1, 4), (1, 2, 3)])}, 7)
+        self.assertEqual((asked, done), ([True], ["3"]))
+        self.assertTrue(src["closed_unfinished"])
+        self.assertEqual({p["user_id"]: p["final_rank"] for p in src["participants"]}, {1001: None, 1002: None, 1003: 3, 1004: 3})
+        self.assertEqual(len(src["matches"]), 2)
+        self.assertIn("taken as it stands", out)
+
+    def test_bracket_never_played_is_dropped_when_closed(self):
+        asked, done, out, src = self.run_fetch({True: self.underway([])}, 7)
+        self.assertEqual((asked, done, src), ([True], ["3"], None))
+        self.assertIn("EXCLUDE #3", out)
 
 
 if __name__ == "__main__":
