@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794679475,
+  "generated_at": 1794690269,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 39,
+  "count": 41,
   "tournaments": [
     {
       "tournament_id": 969146,
@@ -224,14 +224,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 17,
+      "num_attendees": 18,
       "url": "/tournament/smash-5-3",
       "events": [
         {
           "event_id": 1751089,
           "event_slug": "tournament/smash-5-3/event/1on1",
           "event_name": "1on1",
-          "num_entrants": 17,
+          "num_entrants": 18,
           "type": 1,
           "start_at": 1794909600
         }
@@ -293,7 +293,7 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 92,
+      "num_attendees": 94,
       "url": "/tournament/weekly-smash-party-253",
       "events": [
         {
@@ -385,14 +385,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 27,
+      "num_attendees": 28,
       "url": "/tournament/shibuya-g-g-smash-weekly-89",
       "events": [
         {
           "event_id": 1754781,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-89/event/singles",
           "event_name": "Singles",
-          "num_entrants": 26,
+          "num_entrants": 27,
           "type": 1,
           "start_at": 1795084200
         }
@@ -431,14 +431,14 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 88,
+      "num_attendees": 89,
       "url": "/tournament/pre-16-pre-kagaribi-16",
       "events": [
         {
           "event_id": 1739287,
           "event_slug": "tournament/pre-16-pre-kagaribi-16/event/singles",
           "event_name": "シングルス / Singles",
-          "num_entrants": 88,
+          "num_entrants": 89,
           "type": 1,
           "start_at": 1795150800
         }
@@ -859,6 +859,29 @@
       ]
     },
     {
+      "tournament_id": 961147,
+      "tournament_slug": "tournament/3-kinsai3",
+      "tournament_name": "第3回 錦祭 -Kinsai3-",
+      "start_at": 1796428800,
+      "end_at": 1796472000,
+      "is_online": false,
+      "city": "広島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 97,
+      "url": "/tournament/3-kinsai3",
+      "events": [
+        {
+          "event_id": 1726556,
+          "event_slug": "tournament/3-kinsai3/event/singles",
+          "event_name": "シングルス/Singles",
+          "num_entrants": 96,
+          "type": 1,
+          "start_at": 1796421600
+        }
+      ]
+    },
+    {
       "tournament_id": 974418,
       "tournament_slug": "tournament/-3325",
       "tournament_name": "第８回 ぽかすま！",
@@ -901,6 +924,29 @@
           "num_entrants": 2,
           "type": 1,
           "start_at": 1796441400
+        }
+      ]
+    },
+    {
+      "tournament_id": 974423,
+      "tournament_slug": "tournament/-3327",
+      "tournament_name": "第９回 ぽかすま！（夜の部）",
+      "start_at": 1796457600,
+      "end_at": 1796470200,
+      "is_online": false,
+      "city": "金沢市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 7,
+      "url": "/tournament/-3327",
+      "events": [
+        {
+          "event_id": 1754731,
+          "event_slug": "tournament/-3327/event/ultimate-single",
+          "event_name": "ultimate single",
+          "num_entrants": 7,
+          "type": 1,
+          "start_at": 1796457600
         }
       ]
     }
