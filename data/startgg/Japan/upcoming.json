@@ -1,35 +1,12 @@
 {
-  "generated_at": 1794765874,
+  "generated_at": 1794776682,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 41,
+  "count": 44,
   "tournaments": [
-    {
-      "tournament_id": 974135,
-      "tournament_slug": "tournament/epochi-7",
-      "tournament_name": "EPOCHI #7",
-      "start_at": 1794738540,
-      "end_at": 1794754740,
-      "is_online": false,
-      "city": "札幌市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 21,
-      "url": "/tournament/epochi-7",
-      "events": [
-        {
-          "event_id": 1754137,
-          "event_slug": "tournament/epochi-7/event/ultimate-singles",
-          "event_name": "Ultimate Singles",
-          "num_entrants": 21,
-          "type": 1,
-          "start_at": 1794738540
-        }
-      ]
-    },
     {
       "tournament_id": 971839,
       "tournament_slug": "tournament/16-596-1",
@@ -155,14 +132,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 23,
+      "num_attendees": 24,
       "url": "/tournament/150-shibuya-tatsu",
       "events": [
         {
           "event_id": 1753399,
           "event_slug": "tournament/150-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 23,
+          "num_entrants": 24,
           "type": 1,
           "start_at": 1794909600
         }
@@ -270,14 +247,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 13,
+      "num_attendees": 14,
       "url": "/tournament/19-599",
       "events": [
         {
           "event_id": 1749185,
           "event_slug": "tournament/19-599/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 13,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1795075200
         }
@@ -339,14 +316,14 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 95,
+      "num_attendees": 97,
       "url": "/tournament/pre-16-pre-kagaribi-16",
       "events": [
         {
           "event_id": 1739287,
           "event_slug": "tournament/pre-16-pre-kagaribi-16/event/singles",
           "event_name": "シングルス / Singles",
-          "num_entrants": 95,
+          "num_entrants": 97,
           "type": 1,
           "start_at": 1795150800
         }
@@ -454,7 +431,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 2096,
+      "num_attendees": 2097,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
@@ -615,14 +592,14 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 262,
+      "num_attendees": 263,
       "url": "/tournament/kowloon-19",
       "events": [
         {
           "event_id": 1712813,
           "event_slug": "tournament/kowloon-19/event/kowloon_sp",
           "event_name": "KOWLOON_SP",
-          "num_entrants": 247,
+          "num_entrants": 248,
           "type": 1,
           "start_at": 1795829400
         }
@@ -913,6 +890,37 @@
       ]
     },
     {
+      "tournament_id": 965579,
+      "tournament_slug": "tournament/1-324",
+      "tournament_name": "筋肉オフ＃1",
+      "start_at": 1796511600,
+      "end_at": 1796551200,
+      "is_online": false,
+      "city": "西東京市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/1-324",
+      "events": [
+        {
+          "event_id": 1736137,
+          "event_slug": "tournament/1-324/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1796511600
+        },
+        {
+          "event_id": 1736138,
+          "event_slug": "tournament/1-324/event/super-smash-bros-ultimate-singles",
+          "event_name": "参加キャンセル　※ほかのイベントからチェックを外してください",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1796511600
+        }
+      ]
+    },
+    {
       "tournament_id": 963479,
       "tournament_slug": "tournament/comic-con-okinawa-2026",
       "tournament_name": "Comic Con Okinawa 2026",
@@ -930,6 +938,29 @@
           "event_slug": "tournament/comic-con-okinawa-2026/event/smash-tournament",
           "event_name": "Smash Tournament",
           "num_entrants": 8,
+          "type": 1,
+          "start_at": 1796522400
+        }
+      ]
+    },
+    {
+      "tournament_id": 969874,
+      "tournament_slug": "tournament/17-kyokkan-17",
+      "tournament_name": "極冠#17/Kyokkan#17",
+      "start_at": 1796522400,
+      "end_at": 1796551200,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 74,
+      "url": "/tournament/17-kyokkan-17",
+      "events": [
+        {
+          "event_id": 1744964,
+          "event_slug": "tournament/17-kyokkan-17/event/kyokkan",
+          "event_name": "極冠/Kyokkan",
+          "num_entrants": 74,
           "type": 1,
           "start_at": 1796522400
         }
@@ -955,6 +986,52 @@
           "num_entrants": 4,
           "type": 1,
           "start_at": 1796522400
+        }
+      ]
+    },
+    {
+      "tournament_id": 955039,
+      "tournament_slug": "tournament/5-108",
+      "tournament_name": "和歌山スマブラオフ大会「スマいこら」#5",
+      "start_at": 1796529600,
+      "end_at": 1796551200,
+      "is_online": false,
+      "city": "和歌山市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 2,
+      "url": "/tournament/5-108",
+      "events": [
+        {
+          "event_id": 1713577,
+          "event_slug": "tournament/5-108/event/sp-1on1",
+          "event_name": "スマブラSP 1on1 トーナメント",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1796529600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974746,
+      "tournament_slug": "tournament/ice-ring-3",
+      "tournament_name": "ICE RING【スマブラオフ大会】#3",
+      "start_at": 1796529600,
+      "end_at": 1796551200,
+      "is_online": false,
+      "city": "越谷市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/ice-ring-3",
+      "events": [
+        {
+          "event_id": 1755400,
+          "event_slug": "tournament/ice-ring-3/event/ice-ring-tournament",
+          "event_name": "ICE RING Tournament",
+          "num_entrants": 3,
+          "type": 1,
+          "start_at": 1798257600
         }
       ]
     }
