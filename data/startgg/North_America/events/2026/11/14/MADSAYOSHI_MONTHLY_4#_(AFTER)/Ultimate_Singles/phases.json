@@ -1,0 +1,49 @@
+{
+  "event_id": 1748157,
+  "event_name": "Ultimate Singles",
+  "has_class_phases": true,
+  "phases": [
+    {
+      "id": 2447219,
+      "name": "CULIACANAZO",
+      "order": 1,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 28,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3519939,
+          "display": "MAD1"
+        }
+      ]
+    },
+    {
+      "id": 2447220,
+      "name": "TOP CUT",
+      "order": 2,
+      "bracket_type": "DOUBLE_ELIMINATION",
+      "num_seeds": 8,
+      "is_class": false,
+      "phase_groups": [
+        {
+          "id": 3519940,
+          "display": "1"
+        }
+      ]
+    },
+    {
+      "id": 2457592,
+      "name": "Amateur",
+      "order": 3,
+      "bracket_type": "SINGLE_ELIMINATION",
+      "num_seeds": 6,
+      "is_class": true,
+      "phase_groups": [
+        {
+          "id": 3532766,
+          "display": "1"
+        }
+      ]
+    }
+  ]
+}
