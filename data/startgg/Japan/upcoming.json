@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794711878,
+  "generated_at": 1794722672,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 40,
+  "count": 42,
   "tournaments": [
     {
       "tournament_id": 966828,
@@ -17,14 +17,14 @@
       "city": "添田町",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 65,
+      "num_attendees": 67,
       "url": "/tournament/with-6",
       "events": [
         {
           "event_id": 1738597,
           "event_slug": "tournament/with-6/event/11-15-kowloonxumeki",
           "event_name": "11/15 KOWLOONxUMEKI",
-          "num_entrants": 62,
+          "num_entrants": 64,
           "type": 1,
           "start_at": 1794706200
         }
@@ -155,14 +155,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 17,
       "url": "/tournament/hit-209_-maesuma-hit-209_kyoto",
       "events": [
         {
           "event_id": 1734198,
           "event_slug": "tournament/hit-209_-maesuma-hit-209_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 14,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1794823200
         }
@@ -178,14 +178,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 13,
+      "num_attendees": 15,
       "url": "/tournament/17-597",
       "events": [
         {
           "event_id": 1749181,
           "event_slug": "tournament/17-597/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 12,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1794902400
         }
@@ -224,14 +224,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 12,
+      "num_attendees": 14,
       "url": "/tournament/150-shibuya-tatsu",
       "events": [
         {
           "event_id": 1753399,
           "event_slug": "tournament/150-shibuya-tatsu/event/singles",
           "event_name": "Singles",
-          "num_entrants": 12,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1794909600
         }
@@ -362,14 +362,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 31,
+      "num_attendees": 33,
       "url": "/tournament/shibuya-g-g-smash-weekly-89",
       "events": [
         {
           "event_id": 1754781,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-89/event/singles",
           "event_name": "Singles",
-          "num_entrants": 30,
+          "num_entrants": 32,
           "type": 1,
           "start_at": 1795084200
         }
@@ -445,6 +445,29 @@
       ]
     },
     {
+      "tournament_id": 927370,
+      "tournament_slug": "tournament/smalab-42",
+      "tournament_name": "Smalab 42",
+      "start_at": 1795165200,
+      "end_at": 1795183200,
+      "is_online": false,
+      "city": "広島市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/smalab-42",
+      "events": [
+        {
+          "event_id": 1656629,
+          "event_slug": "tournament/smalab-42/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 2,
+          "type": 1,
+          "start_at": 1783677600
+        }
+      ]
+    },
+    {
       "tournament_id": 975007,
       "tournament_slug": "tournament/21-23",
       "tournament_name": "もびすまっ！#21",
@@ -454,14 +477,14 @@
       "city": "川崎市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 5,
       "url": "/tournament/21-23",
       "events": [
         {
           "event_id": 1755920,
           "event_slug": "tournament/21-23/event/super-smash-bros-ultimate-singles",
           "event_name": "シングルス",
-          "num_entrants": 3,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1795172400
         }
@@ -500,7 +523,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 2083,
+      "num_attendees": 2086,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
@@ -832,6 +855,37 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1796032800
+        }
+      ]
+    },
+    {
+      "tournament_id": 971421,
+      "tournament_slug": "tournament/choicein-yours",
+      "tournament_name": "第二回平山大会　～choicein yours～",
+      "start_at": 1796396400,
+      "end_at": 1796504100,
+      "is_online": false,
+      "city": "",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 5,
+      "url": "/tournament/choicein-yours",
+      "events": [
+        {
+          "event_id": 1748310,
+          "event_slug": "tournament/choicein-yours/event/team-competition",
+          "event_name": "Team competition",
+          "num_entrants": 5,
+          "type": 1,
+          "start_at": 1796396400
+        },
+        {
+          "event_id": 1748314,
+          "event_slug": "tournament/choicein-yours/event/ultimate-doubles-1",
+          "event_name": "ultimate doubles",
+          "num_entrants": 5,
+          "type": 1,
+          "start_at": 1796396400
         }
       ]
     },
