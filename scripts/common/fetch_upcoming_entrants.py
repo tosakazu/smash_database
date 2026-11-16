@@ -9,7 +9,7 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
       "tournament_id", "tournament_name", "event_name", "start_at",
       "num_entrants", "is_online", "is_weekend",
       "entrants": [{"uid": <user.id|null>, "tag": <gamerTag>, "seed": <seedNum>, "pg": <phaseGroup id>}, ...],
-      "bracket": {"phase_id", "phase", "pools": {"<phaseGroup id>": {"ident", "url"}}}
+      "bracket": {"phase_id", "phase", "pools": {"<phaseGroup id>": {"ident", "url"}}, "advance": <n>}
     }
   },
   "by_uid": {"<uid>": [<event_id>, ...]}
@@ -18,6 +18,8 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
 seed / pg / bracket are only present when the first phase's bracket and seeding are both published on start.gg
 (event.publishing.bracket / .seeding, true or per phase) and the phase has seeds. Unpublished phases are not returned by the
 API at all. "First phase" = the lowest phaseOrder that is not an exhibition (the pools players start in).
+bracket.advance (2026-11-16) = how many players go on from the first phase to the next one; absent when there is no next phase
+or the number is not known (see advance_count).
 Usage: fetch_upcoming_entrants.py [--upcoming PATH] [--out PATH] [--max-events N] [--within-hours H]
 --within-hours H (the 15-minute quick run of download-japan, 2026-11-04): only events starting within the next H hours
 (or started within 24h) are fetched again; every other event is carried over from --prev unchanged.
@@ -52,7 +54,7 @@ ENTRANTS_QUERY = '''
 query($eid: ID!, $page: Int!, $perPage: Int!) {
   event(id: $eid) {
     publishing
-    phases { id name phaseOrder isExhibition }
+    phases { id name phaseOrder isExhibition numSeeds }
     entrants(query: {perPage: $perPage, page: $page}) {
       pageInfo { totalPages }
       nodes { name participants { player { gamerTag } user { id } } }
@@ -66,7 +68,7 @@ query($pid: ID!, $page: Int!) {
   phase(id: $pid) {
     phaseGroups(query: {page: $page, perPage: 64}) {
       pageInfo { totalPages }
-      nodes { id displayIdentifier bracketUrl }
+      nodes { id displayIdentifier bracketUrl progressionsOut { id } }
     }
   }
 }'''
@@ -164,9 +166,29 @@ def _paged(token, query, variables, path):
         time.sleep(DELAY)
 
 
+def advance_count(phases, first, groups):
+    """How many players go on from the first phase to the next main phase, or None.
+
+    The next non-exhibition phase's numSeeds when start.gg already has it (> 0). Before the event starts it is usually 0
+    (篝火#16 "TOP 256": 0), so otherwise the first phase's progressions out are counted (64 pools x 4 = 256). Progressions
+    do not say where they lead, so when the event also has an exhibition phase (a lower-class bracket that pool losers may
+    feed) the count is not trusted and None is returned."""
+    order = lambda p: p.get('phaseOrder') if p.get('phaseOrder') is not None else 10 ** 6
+    later = [p for p in (phases or []) if p and p.get('id') not in (None, first.get('id')) and order(p) > order(first)]
+    main = sorted((p for p in later if not p.get('isExhibition')), key=order)
+    if not main:
+        return None
+    if (main[0].get('numSeeds') or 0) > 0:
+        return int(main[0]['numSeeds'])
+    if any(p.get('isExhibition') for p in later):
+        return None
+    n = sum(len(g.get('progressionsOut') or []) for g in groups if g)
+    return n or None
+
+
 def fetch_event_bracket(token, meta, entrants):
     """If the first phase's bracket and seeding are published and it has seeds: add seed / pg to entrants (in place)
-    and return {"phase_id", "phase", "pools": {pg id: {"ident", "url"}}}. Otherwise None (entrants unchanged)."""
+    and return {"phase_id", "phase", "pools": {pg id: {"ident", "url"}}, "advance" (when known)}. Otherwise None (entrants unchanged)."""
     pub = meta.get('publishing') or {}
     ph = first_phase(meta.get('phases'))
     if not ph or not _published(pub.get('bracket'), ph['id']) or not _published(pub.get('seeding'), ph['id']):
@@ -200,8 +222,12 @@ def fetch_event_bracket(token, meta, entrants):
         n += 1
     if not n:
         return None
-    return {'phase_id': ph['id'], 'phase': ph.get('name'),
-            'pools': {str(g['id']): {'ident': g.get('displayIdentifier'), 'url': g.get('bracketUrl')} for g in groups if g and g.get('id')}}
+    out = {'phase_id': ph['id'], 'phase': ph.get('name'),
+           'pools': {str(g['id']): {'ident': g.get('displayIdentifier'), 'url': g.get('bracketUrl')} for g in groups if g and g.get('id')}}
+    adv = advance_count(meta.get('phases'), ph, groups)
+    if adv:
+        out['advance'] = adv
+    return out
 
 
 def main():

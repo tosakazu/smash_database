@@ -58,6 +58,29 @@ class UpcomingBracketTests(unittest.TestCase):
             '101': {'ident': 'A1', 'url': 'https://www.start.gg/x/101'}, '102': {'ident': 'A2', 'url': 'https://www.start.gg/x/102'}}})
         self.assertEqual([(e.get('seed'), e.get('pg')) for e in ents], [(1, 101), (2, 102), (3, 101), (None, None)])
 
+    def test_advance_count(self):
+        first = {'id': 10, 'name': 'Pools', 'phaseOrder': 1}
+        top = {'id': 20, 'name': 'Top 8', 'phaseOrder': 2, 'numSeeds': 0}
+        groups = [{'id': 101, 'progressionsOut': [{'id': 1}, {'id': 2}]}, {'id': 102, 'progressionsOut': [{'id': 3}, {'id': 4}]}]
+        self.assertEqual(fue.advance_count([first, top], first, groups), 4)   # before the event: count the progressions
+        self.assertEqual(fue.advance_count([first, dict(top, numSeeds=8)], first, groups), 8)   # numSeeds wins when set
+        self.assertIsNone(fue.advance_count([first], first, groups))   # no next phase
+        self.assertIsNone(fue.advance_count([first, top], first, GROUPS))   # no progressions
+        ex = {'id': 30, 'name': 'B class', 'phaseOrder': 3, 'isExhibition': True}
+        self.assertIsNone(fue.advance_count([first, top, ex], first, groups))   # progressions may feed the exhibition
+        self.assertEqual(fue.advance_count([first, dict(top, numSeeds=8), ex], first, groups), 8)
+        self.assertIsNone(fue.advance_count([first, ex], first, groups))   # only an exhibition after the pools
+        # an exhibition before the first phase does not matter
+        self.assertEqual(fue.advance_count([first, top, {'id': 5, 'phaseOrder': 0, 'isExhibition': True}], first, groups), 4)
+
+    def test_advance_in_bracket(self):
+        ents = [{'uid': 1, 'tag': 'a'}]
+        groups = [dict(GROUPS[0], progressionsOut=[{'id': 1}, {'id': 2}])]
+        meta = {'publishing': {'bracket': True, 'seeding': True}, 'phases': PHASES}
+        with mock.patch.object(fue, 'gql', _gql(groups, [_seed(1, 101, 1)])):
+            b = fue.fetch_event_bracket('t', meta, ents)
+        self.assertEqual(b['advance'], 2)
+
     def test_nothing_when_unpublished_or_unseeded(self):
         for pub in ({'bracket': False, 'seeding': True}, {'bracket': True, 'seeding': {'10': False}}, {}):
             ents = [{'uid': 1, 'tag': 'a'}]
