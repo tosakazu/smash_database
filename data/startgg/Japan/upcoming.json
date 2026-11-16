@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794816922,
+  "generated_at": 1794819887,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 45,
+  "count": 46,
   "tournaments": [
     {
       "tournament_id": 971839,
@@ -17,14 +17,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 25,
+      "num_attendees": 24,
       "url": "/tournament/16-596-1",
       "events": [
         {
           "event_id": 1749176,
           "event_slug": "tournament/16-596-1/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 25,
+          "num_entrants": 24,
           "type": 1,
           "start_at": 1794816000
         }
@@ -63,14 +63,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 33,
+      "num_attendees": 35,
       "url": "/tournament/hit-209_-maesuma-hit-209_kyoto",
       "events": [
         {
           "event_id": 1734198,
           "event_slug": "tournament/hit-209_-maesuma-hit-209_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 31,
+          "num_entrants": 33,
           "type": 1,
           "start_at": 1794823200
         }
@@ -408,14 +408,14 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 0,
+      "num_attendees": 1,
       "url": "/tournament/smash-164-1",
       "events": [
         {
           "event_id": 1755376,
           "event_slug": "tournament/smash-164-1/event/1on1",
           "event_name": "1on1トーナメント",
-          "num_entrants": 0,
+          "num_entrants": 1,
           "type": 1,
           "start_at": 1795170600
         }
@@ -669,6 +669,29 @@
           "event_slug": "tournament/ice-ring-2/event/ice-ring-tournament",
           "event_name": "ICE RING Tournament",
           "num_entrants": 24,
+          "type": 1,
+          "start_at": 1795838400
+        }
+      ]
+    },
+    {
+      "tournament_id": 975530,
+      "tournament_slug": "tournament/quattro-10",
+      "tournament_name": "四闘-Quattro-#10",
+      "start_at": 1795838400,
+      "end_at": 1795874340,
+      "is_online": false,
+      "city": "四日市市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 3,
+      "url": "/tournament/quattro-10",
+      "events": [
+        {
+          "event_id": 1757118,
+          "event_slug": "tournament/quattro-10/event/quattro",
+          "event_name": "四闘-Quattro-",
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1795838400
         }
