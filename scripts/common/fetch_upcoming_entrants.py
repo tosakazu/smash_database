@@ -9,7 +9,7 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
       "tournament_id", "tournament_name", "event_name", "start_at",
       "num_entrants", "is_online", "is_weekend",
       "entrants": [{"uid": <user.id|null>, "tag": <gamerTag>, "seed": <seedNum>, "pg": <phaseGroup id>}, ...],
-      "bracket": {"phase_id", "phase", "pools": {"<phaseGroup id>": {"ident", "url"}}, "advance": <n>}
+      "bracket": {"phase_id", "phase", "pools": {"<phaseGroup id>": {"ident", "url", "wave", "start_at"}}, "advance": <n>}
     }
   },
   "by_uid": {"<uid>": [<event_id>, ...]}
@@ -68,7 +68,7 @@ query($pid: ID!, $page: Int!) {
   phase(id: $pid) {
     phaseGroups(query: {page: $page, perPage: 64}) {
       pageInfo { totalPages }
-      nodes { id displayIdentifier bracketUrl progressionsOut { id } }
+      nodes { id displayIdentifier bracketUrl startAt wave { identifier startAt } progressionsOut { id } }
     }
   }
 }'''
@@ -186,6 +186,19 @@ def advance_count(phases, first, groups):
     return n or None
 
 
+def pool_entry(g):
+    """One pool of bracket.pools. "wave" (the wave's identifier) only when the pool belongs to a wave;
+    "start_at" = the wave's start time, else the pool's own, only when set."""
+    out = {'ident': g.get('displayIdentifier'), 'url': g.get('bracketUrl')}
+    wave = g.get('wave') or {}
+    if wave.get('identifier'):
+        out['wave'] = str(wave['identifier'])
+    start = wave.get('startAt') or g.get('startAt')
+    if start:
+        out['start_at'] = start
+    return out
+
+
 def fetch_event_bracket(token, meta, entrants):
     """If the first phase's bracket and seeding are published and it has seeds: add seed / pg to entrants (in place)
     and return {"phase_id", "phase", "pools": {pg id: {"ident", "url"}}, "advance" (when known)}. Otherwise None (entrants unchanged)."""
@@ -223,7 +236,7 @@ def fetch_event_bracket(token, meta, entrants):
     if not n:
         return None
     out = {'phase_id': ph['id'], 'phase': ph.get('name'),
-           'pools': {str(g['id']): {'ident': g.get('displayIdentifier'), 'url': g.get('bracketUrl')} for g in groups if g and g.get('id')}}
+           'pools': {str(g['id']): pool_entry(g) for g in groups if g and g.get('id')}}
     adv = advance_count(meta.get('phases'), ph, groups)
     if adv:
         out['advance'] = adv
