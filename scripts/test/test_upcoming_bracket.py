@@ -58,6 +58,12 @@ class UpcomingBracketTests(unittest.TestCase):
             '101': {'ident': 'A1', 'url': 'https://www.start.gg/x/101'}, '102': {'ident': 'A2', 'url': 'https://www.start.gg/x/102'}}})
         self.assertEqual([(e.get('seed'), e.get('pg')) for e in ents], [(1, 101), (2, 102), (3, 101), (None, None)])
 
+    def test_pool_wave_and_start(self):
+        g = {'id': 1, 'displayIdentifier': 'A100', 'bracketUrl': 'u', 'startAt': 50, 'wave': {'identifier': 'A', 'startAt': 100}}
+        self.assertEqual(fue.pool_entry(g), {'ident': 'A100', 'url': 'u', 'wave': 'A', 'start_at': 100})
+        self.assertEqual(fue.pool_entry({'id': 2, 'displayIdentifier': '1', 'bracketUrl': 'u', 'startAt': 50, 'wave': None}), {'ident': '1', 'url': 'u', 'start_at': 50})
+        self.assertEqual(fue.pool_entry({'id': 3, 'displayIdentifier': '1', 'bracketUrl': 'u'}), {'ident': '1', 'url': 'u'})
+
     def test_advance_count(self):
         first = {'id': 10, 'name': 'Pools', 'phaseOrder': 1}
         top = {'id': 20, 'name': 'Top 8', 'phaseOrder': 2, 'numSeeds': 0}
