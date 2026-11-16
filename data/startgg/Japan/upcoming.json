@@ -1,11 +1,11 @@
 {
-  "generated_at": 1794776682,
+  "generated_at": 1794787480,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 44,
+  "count": 45,
   "tournaments": [
     {
       "tournament_id": 971839,
@@ -17,14 +17,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 21,
+      "num_attendees": 23,
       "url": "/tournament/16-596-1",
       "events": [
         {
           "event_id": 1749176,
           "event_slug": "tournament/16-596-1/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 21,
+          "num_entrants": 23,
           "type": 1,
           "start_at": 1794816000
         }
@@ -63,14 +63,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 23,
+      "num_attendees": 25,
       "url": "/tournament/hit-209_-maesuma-hit-209_kyoto",
       "events": [
         {
           "event_id": 1734198,
           "event_slug": "tournament/hit-209_-maesuma-hit-209_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 23,
+          "num_entrants": 25,
           "type": 1,
           "start_at": 1794823200
         }
@@ -247,14 +247,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 15,
       "url": "/tournament/19-599",
       "events": [
         {
           "event_id": 1749185,
           "event_slug": "tournament/19-599/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 14,
+          "num_entrants": 15,
           "type": 1,
           "start_at": 1795075200
         }
@@ -422,6 +422,29 @@
       ]
     },
     {
+      "tournament_id": 975421,
+      "tournament_slug": "tournament/119-6",
+      "tournament_name": "第119回シカブラ",
+      "start_at": 1795170600,
+      "end_at": 1795183200,
+      "is_online": false,
+      "city": "名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/119-6",
+      "events": [
+        {
+          "event_id": 1756838,
+          "event_slug": "tournament/119-6/event/1on1-tournament",
+          "event_name": "1on1 tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795170600
+        }
+      ]
+    },
+    {
       "tournament_id": 954215,
       "tournament_slug": "tournament/16-kagaribi-16",
       "tournament_name": "篝火#16/KAGARIBI#16",
@@ -431,7 +454,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 2097,
+      "num_attendees": 2098,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
