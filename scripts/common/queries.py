@@ -299,6 +299,7 @@ def get_phase_group_sets_full_query():
               id
               entrant {
                 id
+                name
                 participants {
                   user { id }
                 }
@@ -336,6 +337,7 @@ def get_event_sets_full_query():
               id
               entrant {
                 id
+                name
                 participants { user { id } }
               }
               standing {
@@ -430,6 +432,7 @@ def get_phase_group_sets_full_with_games_query():
               id
               entrant {
                 id
+                name
                 participants {
                   user { id }
                 }

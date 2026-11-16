@@ -159,6 +159,7 @@ One record per set:
 |---|---|
 | `match_id` | start.gg set id |
 | `winner_id`, `loser_id` | user ids (`null` when the entrant has no account) |
+| `winner_name`, `loser_name` | entrant name, only on a side whose user id is `null` (absent otherwise, and in data fetched before 2026-11-16) |
 | `winner_score`, `loser_score` | games won (start.gg reports `-1` for the DQ'd side) |
 | `dq`, `cancel`, `state` | DQ flag, cancelled flag, start.gg set state (3 = completed) |
 | `round`, `round_text`, `global_round`, `global_top_x`, `global_bracket_label`, `winners_top`, `losers_top`, `bracket_label` | where in the bracket the set was played |
