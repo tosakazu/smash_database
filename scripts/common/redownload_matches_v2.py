@@ -780,6 +780,13 @@ def write_matches_v2(event_id, all_sets_with_phase, event_dir: Path):
             "completed_at": node.get("completedAt"),  # Unix timestamp; set completion (actual)
             "details": details,
         }
+        # An entrant with no start.gg account (added by name only) has no user id. Keep the entrant name
+        # for that side only, so the site can show who the opponent was. Rows where both sides have an
+        # account are unchanged.
+        for side, slot in (("winner", winner_slot), ("loser", loser_slot)):
+            name = (slot.get("entrant") or {}).get("name")
+            if match_data[side + "_id"] is None and name:
+                match_data[side + "_name"] = name
         # Double check: if a match with the same (pg, round_text, winner_uid, loser_uid) was already
         # written under a different set id, treat it as a duplicate and skip.
         # Note: with round alone, Grand Final and Grand Final Reset share the same round + same winner/loser
