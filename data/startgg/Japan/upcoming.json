@@ -1,5 +1,5 @@
 {
-  "generated_at": 1795025080,
+  "generated_at": 1795035874,
   "country_code": "JP",
   "country_codes": [
     "JP"
@@ -7,29 +7,6 @@
   "lookahead_days": 21,
   "count": 43,
   "tournaments": [
-    {
-      "tournament_id": 969837,
-      "tournament_slug": "tournament/dsw-78",
-      "tournament_name": "新京都DSW#78",
-      "start_at": 1794999600,
-      "end_at": 1795010400,
-      "is_online": false,
-      "city": "京都市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 24,
-      "url": "/tournament/dsw-78",
-      "events": [
-        {
-          "event_id": 1744887,
-          "event_slug": "tournament/dsw-78/event/singletournament",
-          "event_name": "SingleTournament",
-          "num_entrants": 24,
-          "type": 1,
-          "start_at": 1794999600
-        }
-      ]
-    },
     {
       "tournament_id": 971843,
       "tournament_slug": "tournament/19-599",
@@ -372,6 +349,37 @@
           "num_entrants": 0,
           "type": 1,
           "start_at": 1795599000
+        }
+      ]
+    },
+    {
+      "tournament_id": 976421,
+      "tournament_slug": "tournament/weekly-smash-party-254",
+      "tournament_name": "Weekly Smash Party ～スマパ～ #254",
+      "start_at": 1795597200,
+      "end_at": 1795613400,
+      "is_online": false,
+      "city": "中野区",
+      "venue_name": "Red Bull Gaming Sphere Tokyo",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/weekly-smash-party-254",
+      "events": [
+        {
+          "event_id": 1759115,
+          "event_slug": "tournament/weekly-smash-party-254/event/special-1on1-ultimate-singles",
+          "event_name": "SPECIAL 1on1/ Ultimate Singles",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795597200
+        },
+        {
+          "event_id": 1759116,
+          "event_slug": "tournament/weekly-smash-party-254/event/ssqm-1on1",
+          "event_name": "SSQM 1on1",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795597200
         }
       ]
     },
