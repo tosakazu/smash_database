@@ -218,6 +218,7 @@ class FetchTests(unittest.TestCase):
                         mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"),
                         # the parent event of these tests is from 1970: without this every bracket would be closed at once
                         mock.patch.object(cc, "close_due", lambda attr, now: False),
+                        mock.patch.object(cc, "drop_due", lambda attr, now: False),
                         mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"})]
         for p in self.patches:
             p.start()
@@ -514,6 +515,14 @@ class RequestSavingTests(unittest.TestCase):
         self.assertTrue(cc.close_due({"timestamp": end}, end + 7 * 3600))      # no end time: from the start
         self.assertFalse(cc.close_due({}, end))                                # no date known: never closed
 
+    def test_drop_due(self):
+        end = 1_800_000_000
+        attr = {"timestamp": end - 3600, "end_timestamp": end}
+        self.assertFalse(cc.drop_due(attr, end + 71 * 3600))
+        self.assertTrue(cc.drop_due(attr, end + 72 * 3600))
+        self.assertTrue(cc.drop_due({"timestamp": end}, end + 73 * 3600))     # no end time: from the start
+        self.assertFalse(cc.drop_due({}, end))                                # no date known: never dropped
+
     def test_placements_unfinished(self):
         b = ParseTests.bracket
         # single elimination, 6 players, final not played: 1 and 2 still in
@@ -529,8 +538,9 @@ class RequestSavingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             cc.placements_unfinished(b("round robin", [(1, 1, 2)], 3))
 
-    def run_fetch(self, parsed_by_full, hours_after_end):
-        """One waiting bracket (#3, parent event ended at `end`); returns (asked [full flags], done ids, output, challonge.json)."""
+    def run_fetch(self, parsed_by_full, hours_after_end, token=None):
+        """One waiting bracket (#3, parent event ended at `end`); returns (asked [full flags], done ids, output, challonge.json).
+        parsed_by_full: {full flag: parsed bracket}, or a function called like fetch_challonge (to make it fail)."""
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
             old = os.getcwd(); os.chdir(tmp)
@@ -552,11 +562,13 @@ class RequestSavingTests(unittest.TestCase):
                 asked = []
                 def fake(cid, token, full=False):
                     asked.append(full)
+                    if callable(parsed_by_full):
+                        return parsed_by_full(cid, token, full)
                     return json.loads(json.dumps(parsed_by_full[full]))
                 out = io.StringIO()
                 with mock.patch.object(region, "load_region_classifier", lambda r: None), \
                         mock.patch.object(region, "class_support", lambda clf: CLS), \
-                        mock.patch.object(cc, "challonge_token", lambda cid, sec: "t"), \
+                        mock.patch.object(cc, "challonge_token", token or (lambda cid, sec: "t")), \
                         mock.patch.object(cc, "fetch_challonge", fake), \
                         mock.patch.dict(os.environ, {"CHALLONGE_CLIENT_ID": "i", "CHALLONGE_CLIENT_SECRET": "s"}), \
                         contextlib.redirect_stdout(out):
@@ -598,6 +610,20 @@ class RequestSavingTests(unittest.TestCase):
         asked, done, out, src = self.run_fetch({True: self.underway([])}, 7)
         self.assertEqual((asked, done, src), ([True], ["3"], None))
         self.assertIn("EXCLUDE #3", out)
+
+    def test_bracket_that_could_not_be_closed_is_retried_then_dropped_without_asking(self):
+        import requests
+        def refused(cid, token, full=False):
+            raise requests.HTTPError("429", response=mock.Mock(status_code=429, headers={}))
+        # closing read refused (HTTP 429): stays on the list and is retried while under DROP_AFTER_HOURS
+        asked, done, out, src = self.run_fetch(refused, 71)
+        self.assertEqual((asked, done, src), ([True], [], None))
+        # from DROP_AFTER_HOURS on: off the list, nothing asked (no token either), nothing ingested
+        token = mock.Mock(side_effect=AssertionError("the token must not be requested"))
+        asked, done, out, src = self.run_fetch(refused, 72, token=token)
+        self.assertEqual((asked, done, src), ([], ["3"], None))
+        self.assertIn("EXCLUDE #3", out)
+        self.assertIn("without asking", out)
 
 
 if __name__ == "__main__":
