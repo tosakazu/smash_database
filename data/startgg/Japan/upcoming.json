@@ -1,5 +1,5 @@
 {
-  "generated_at": 1795111502,
+  "generated_at": 1795122306,
   "country_code": "JP",
   "country_codes": [
     "JP"
@@ -7,29 +7,6 @@
   "lookahead_days": 21,
   "count": 42,
   "tournaments": [
-    {
-      "tournament_id": 964611,
-      "tournament_slug": "tournament/hit-210_-maesuma-hit-210_osaka",
-      "tournament_name": "マエスマ'HIT#210_大阪 / Maesuma'HIT#210_Osaka",
-      "start_at": 1795082400,
-      "end_at": 1795096800,
-      "is_online": false,
-      "city": "大阪市",
-      "venue_name": "",
-      "country_code": "JP",
-      "num_attendees": 38,
-      "url": "/tournament/hit-210_-maesuma-hit-210_osaka",
-      "events": [
-        {
-          "event_id": 1734201,
-          "event_slug": "tournament/hit-210_-maesuma-hit-210_osaka/event/singles-tournament",
-          "event_name": "Singles Tournament",
-          "num_entrants": 36,
-          "type": 1,
-          "start_at": 1795082400
-        }
-      ]
-    },
     {
       "tournament_id": 967104,
       "tournament_slug": "tournament/pre-16-pre-kagaribi-16",
@@ -109,14 +86,14 @@
       "city": "川崎市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 11,
+      "num_attendees": 12,
       "url": "/tournament/21-23",
       "events": [
         {
           "event_id": 1755920,
           "event_slug": "tournament/21-23/event/super-smash-bros-ultimate-singles",
           "event_name": "シングルス",
-          "num_entrants": 11,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1795172400
         }
@@ -132,14 +109,14 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/smash-164-1",
       "events": [
         {
           "event_id": 1755376,
           "event_slug": "tournament/smash-164-1/event/1on1",
           "event_name": "1on1トーナメント",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1795170600
         }
@@ -331,6 +308,29 @@
           "event_id": 1759116,
           "event_slug": "tournament/weekly-smash-party-254/event/ssqm-1on1",
           "event_name": "SSQM 1on1",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1795597200
+        }
+      ]
+    },
+    {
+      "tournament_id": 976729,
+      "tournament_slug": "tournament/45-3",
+      "tournament_name": "雷影杯#45",
+      "start_at": 1795597200,
+      "end_at": 1795613400,
+      "is_online": false,
+      "city": "川崎市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/45-3",
+      "events": [
+        {
+          "event_id": 1759765,
+          "event_slug": "tournament/45-3/event/super-smash-bros-ultimate-singles",
+          "event_name": "雷影杯",
           "num_entrants": 0,
           "type": 1,
           "start_at": 1795597200
@@ -723,14 +723,14 @@
       "city": "広島市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 101,
+      "num_attendees": 102,
       "url": "/tournament/3-kinsai3",
       "events": [
         {
           "event_id": 1726556,
           "event_slug": "tournament/3-kinsai3/event/singles",
           "event_name": "シングルス/Singles",
-          "num_entrants": 100,
+          "num_entrants": 101,
           "type": 1,
           "start_at": 1796421600
         }
