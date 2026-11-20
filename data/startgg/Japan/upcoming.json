@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795176321,
+  "generated_at": 1795187164,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 41,
+  "count": 42,
   "tournaments": [
     {
       "tournament_id": 971844,
@@ -155,7 +155,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 2180,
+      "num_attendees": 2188,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
@@ -238,6 +238,29 @@
       ]
     },
     {
+      "tournament_id": 976896,
+      "tournament_slug": "tournament/epochi-8",
+      "tournament_name": "EPOCHI #8",
+      "start_at": 1795516140,
+      "end_at": 1795532340,
+      "is_online": false,
+      "city": "札幌市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/epochi-8",
+      "events": [
+        {
+          "event_id": 1760135,
+          "event_slug": "tournament/epochi-8/event/ultimate-singles",
+          "event_name": "Ultimate Singles",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795516140
+        }
+      ]
+    },
+    {
       "tournament_id": 976349,
       "tournament_slug": "tournament/tuj-smash-club-3",
       "tournament_name": "TUJ Smash Club #3",
@@ -247,14 +270,14 @@
       "city": "Kawasaki",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 0,
+      "num_attendees": 1,
       "url": "/tournament/tuj-smash-club-3",
       "events": [
         {
           "event_id": 1758918,
           "event_slug": "tournament/tuj-smash-club-3/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 0,
+          "num_entrants": 1,
           "type": 1,
           "start_at": 1795599000
         }
@@ -846,14 +869,14 @@
       "city": "北谷町",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 9,
+      "num_attendees": 10,
       "url": "/tournament/comic-con-okinawa-2026",
       "events": [
         {
           "event_id": 1731506,
           "event_slug": "tournament/comic-con-okinawa-2026/event/smash-tournament",
           "event_name": "Smash Tournament",
-          "num_entrants": 9,
+          "num_entrants": 10,
           "type": 1,
           "start_at": 1796522400
         }
@@ -915,14 +938,14 @@
       "city": "和歌山市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/5-108",
       "events": [
         {
           "event_id": 1713577,
           "event_slug": "tournament/5-108/event/sp-1on1",
           "event_name": "スマブラSP 1on1 トーナメント",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1796529600
         }
