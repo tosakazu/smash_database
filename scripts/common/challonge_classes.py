@@ -66,6 +66,10 @@ CLOSE_AFTER_HOURS = 6
 # a bracket that could still not be closed this long after its main event ended (Challonge kept refusing or failing the
 # one read) is taken off the waitlist without being asked about again and without being ingested (drop_due)
 DROP_AFTER_HOURS = 72
+# when the closing read does not get through, it is tried again once a day, not in every run (close_try_due).
+# RUN_EVERY_HOURS = how often the fetch runs (download-japan: every 3 hours): the width of the slot one run falls into
+CLOSE_RETRY_EVERY_HOURS = 24
+RUN_EVERY_HOURS = 3
 
 
 # ── pure parts (tested without the network) ──
@@ -389,11 +393,25 @@ def close_due(parent_attr: dict, now: float) -> bool:
         return False
 
 
+def close_try_due(parent_attr: dict, now: float) -> bool:
+    """Whether this run does the closing read of a bracket that is due to be closed. The first run after
+    CLOSE_AFTER_HOURS does; if Challonge refuses or fails it, the read is tried again only once per
+    CLOSE_RETRY_EVERY_HOURS (so at about 6, 30 and 54 hours after the main event, until drop_due), not in every run:
+    each try spends the app's Challonge requests. Nothing is stored between runs: a run asks when the time since the
+    main event ended falls in the first RUN_EVERY_HOURS of a retry period, which one run in a period does."""
+    ref = parent_attr.get("end_timestamp") or parent_attr.get("timestamp")
+    try:
+        since_close = now - float(ref) - CLOSE_AFTER_HOURS * 3600
+    except (TypeError, ValueError):
+        return False
+    return since_close >= 0 and since_close % (CLOSE_RETRY_EVERY_HOURS * 3600) < RUN_EVERY_HOURS * 3600
+
+
 def drop_due(parent_attr: dict, now: float) -> bool:
     """Whether a waiting bracket is given up in this run: DROP_AFTER_HOURS after its main event ended (same clock as
     close_due). The closing read normally takes it off the list in the first run after CLOSE_AFTER_HOURS; one still
     listed this much later means that read never got through (HTTP 429 once the app is out of requests, or errors), and
-    every further try spends the app's requests for the other brackets. It is marked done without a request and without
+    every further try (one per CLOSE_RETRY_EVERY_HOURS, see close_try_due) spends the app's requests for the other brackets. It is marked done without a request and without
     being ingested (its results are lost). A main event with no date known is never dropped."""
     ref = parent_attr.get("end_timestamp") or parent_attr.get("timestamp")
     try:
@@ -508,12 +526,17 @@ def cmd_fetch(args) -> int:
         try:
             parent_attr = json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8"))
             closing, dropping = close_due(parent_attr, now), drop_due(parent_attr, now)
+            asking = not closing or close_try_due(parent_attr, now)
         except Exception:
             closing = dropping = False
+            asking = True
         if dropping:             # before anything is asked: giving up must not cost a request (not even the token)
             print(f"  EXCLUDE {label}: still waiting {DROP_AFTER_HOURS} h after the main event (Challonge could not be "
                   f"read in time) — marked done without asking and without ingesting")
             done.append(it.get("id")); n_excluded += 1
+            continue
+        if not asking:           # the closing read did not get through earlier: tried again once a day, not now
+            print(f"  wait {label}: not asked — the closing read is tried once every {CLOSE_RETRY_EVERY_HOURS} h"); n_wait += 1
             continue
         if limited:
             print(f"  wait {label}: not asked — Challonge is refusing requests (429) in this run"); n_wait += 1
