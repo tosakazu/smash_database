@@ -280,7 +280,13 @@ An existing directory is not overwritten (`build_class_virtual_tournaments.py --
 
 #### Class brackets run on Challonge
 
-The Challonge API allows the SPSP app only a small number of requests per month, so the script asks as little as it can:
+The Challonge API allows each app only a small number of requests per month. SPSP therefore has several Challonge apps
+and uses one per main tournament; a waitlist item says which app created its bracket (`challonge_app`, 0 when absent), and
+the script reads it with that app's client credentials (`CHALLONGE_CLIENT_ID` / `CHALLONGE_CLIENT_SECRET` for app 0,
+`CHALLONGE_CLIENT_ID_<n>` / `CHALLONGE_CLIENT_SECRET_<n>` for app n). A bracket whose app has no credentials here stays on
+the list with a warning. An HTTP 429 stops the asking for that app only.
+
+The script also asks as little as it can:
 a waiting bracket costs one request (the tournament, for its state) and the participants and the matches are read only once
 the state is `complete` / `awaiting_review`; and after an HTTP 429 the rest of the run asks nothing (the rate-limit headers
 of the 429 are printed).
