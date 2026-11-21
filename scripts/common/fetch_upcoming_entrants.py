@@ -6,7 +6,7 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
   "generated_at": <ts>,
   "events": {
     "<event_id>": {
-      "tournament_id", "tournament_name", "event_name", "start_at",
+      "tournament_id", "tournament_name", "event_name", "start_at", "end_at",
       "num_entrants", "is_online", "is_weekend",
       "entrants": [{"uid": <user.id|null>, "tag": <gamerTag>, "seed": <seedNum>, "pg": <phaseGroup id>}, ...],
       "bracket": {"phase_id", "phase", "pools": {"<phaseGroup id>": {"ident", "url", "wave", "start_at"}}, "advance": <n>}
@@ -14,6 +14,9 @@ Output: --out (in spsp, site/data/upcoming_entrants.json). Moved from spsp/downl
   },
   "by_uid": {"<uid>": [<event_id>, ...]}
 }
+
+end_at (2026-11-21) = the tournament's scheduled end. An event stays in the file until the tournament ends (keep_until):
+the site shows pools and entrants' characters while it is running, including day 2 of a two-day tournament.
 
 seed / pg / bracket are only present when the first phase's bracket and seeding are both published on start.gg
 (event.publishing.bracket / .seeding, true or per phase) and the phase has seeds. Unpublished phases are not returned by the
@@ -243,6 +246,17 @@ def fetch_event_bracket(token, meta, entrants):
     return out
 
 
+REFETCH_AFTER_START_SEC = 86400     # entrants are re-fetched until this long after the start
+KEEP_MAX_AFTER_START_SEC = 4 * 86400  # a far-off end_at (organiser left the default) does not keep an event forever
+
+
+def keep_until(start, end):
+    """Until when an event stays in the file: the tournament's end, at least 24h after the start (same-day events,
+    events without an end), at most KEEP_MAX_AFTER_START_SEC after it."""
+    floor = start + REFETCH_AFTER_START_SEC
+    return min(max(floor, end or 0), start + KEEP_MAX_AFTER_START_SEC)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--upcoming', required=True, help='Output of fetch_upcoming.py (upcoming.json)')
@@ -262,6 +276,7 @@ def main():
     now = time.time()
     events = {}
     by_uid = {}
+    end_of = {}   # event id (str) -> tournament end, for records carried over from a file written before end_at existed
     n_done = 0
     n_skip = 0
     for t in up.get('tournaments', []):
@@ -271,8 +286,12 @@ def main():
             if WAITLIST_PATTERN.search(ev.get('event_name') or ''):
                 continue
             start = ev.get('start_at') or t.get('start_at')
-            # Keep events up to 24h after start (for same-day / in-progress simulation)
-            if start and start + 86400 < now:
+            end = t.get('end_at')
+            if end:
+                end_of[str(ev.get('event_id'))] = end
+            # Keep events until the tournament ends, at least 24h after start (keep_until). Entrants are only
+            # re-fetched during the first 24h; after that the previous record is carried over below
+            if start and start + REFETCH_AFTER_START_SEC < now:
                 continue
             if args.within_hours and start and start > now + args.within_hours * 3600:
                 continue   # carried over from --prev below
@@ -302,6 +321,7 @@ def main():
                 'tournament_name': t.get('tournament_name'),
                 'event_name': ev.get('event_name'),
                 'start_at': start,
+                'end_at': end,
                 'num_entrants': ev.get('num_entrants'),
                 'is_online': t.get('is_online'),
                 'is_weekend': is_weekend_jst(start) if start else None,
@@ -320,7 +340,7 @@ def main():
               file=sys.stderr)
         sys.exit(1)
 
-    # Carry over tournaments from the previous file that should still be kept (within 24h after start)
+    # Carry over tournaments from the previous file that should still be kept (until the tournament ends, keep_until)
     # (upcoming.json does not include tournaments that already started, so same-day events are preserved here)
     try:
         if not args.prev:
@@ -329,7 +349,9 @@ def main():
             prev = json.load(f)
         for eid, ev in (prev.get('events') or {}).items():
             st = ev.get('start_at')
-            if eid not in events and st and st + 86400 > now:
+            if ev.get('end_at') is None and end_of.get(eid):
+                ev['end_at'] = end_of[eid]
+            if eid not in events and st and keep_until(st, ev.get('end_at')) > now:
                 events[eid] = ev
     except (OSError, ValueError):
         pass
