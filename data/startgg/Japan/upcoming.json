@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795284283,
+  "generated_at": 1795295081,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 38,
+  "count": 39,
   "tournaments": [
     {
       "tournament_id": 973373,
@@ -902,6 +902,29 @@
           "num_entrants": 6,
           "type": 1,
           "start_at": 1797037200
+        }
+      ]
+    },
+    {
+      "tournament_id": 956481,
+      "tournament_slug": "tournament/sp17-2",
+      "tournament_name": "りぷぶらSP17",
+      "start_at": 1797040800,
+      "end_at": 1797076800,
+      "is_online": false,
+      "city": "浜松市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 30,
+      "url": "/tournament/sp17-2",
+      "events": [
+        {
+          "event_id": 1716593,
+          "event_slug": "tournament/sp17-2/event/1on1",
+          "event_name": "1on1",
+          "num_entrants": 29,
+          "type": 1,
+          "start_at": 1797040800
         }
       ]
     }
