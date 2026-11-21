@@ -99,5 +99,15 @@ class UpcomingBracketTests(unittest.TestCase):
         self.assertEqual(ents, [{'uid': 1, 'tag': 'a'}])
 
 
+class KeepUntil(unittest.TestCase):
+    def test_keep_until(self):
+        keep_until = fue.keep_until
+        s, h = 1_800_000_000, 3600
+        self.assertEqual(keep_until(s, None), s + 24 * h)            # no end: 24h after the start
+        self.assertEqual(keep_until(s, s + 5 * h), s + 24 * h)        # same-day event: still 24h
+        self.assertEqual(keep_until(s, s + 36 * h), s + 36 * h)       # two-day tournament: until it ends
+        self.assertEqual(keep_until(s, s + 30 * 24 * h), s + 96 * h)  # far-off end: capped
+
+
 if __name__ == '__main__':
     unittest.main()
