@@ -4,7 +4,10 @@
 A TO creates a class bracket (B/C/D/E) on Challonge from the SPSP page; when it is marked as counted, the
 SPSP Worker lists it at GET <waitlist URL>:
     {"ok": true, "items": [{"id", "parent_event_id", "parent_tournament_id", "class_letter", "name",
-                            "challonge_id", "challonge_url", "created_at"}]}
+                            "challonge_id", "challonge_url", "created_at", "challonge_app"}]}
+challonge_app = the number of the SPSP Challonge app the bracket was created through (0 when absent). The Challonge API
+allows each app only a small number of requests, so SPSP has several apps and uses one per main tournament; a bracket can
+only be read with the client credentials of the app that created it (challonge_credentials).
 Each participant carries misc = "startgg:<start.gg user id>" (set by the SPSP page), which ties it to the player.
 
 For every listed bracket whose Challonge state is "complete" (and, CLOSE_AFTER_HOURS after the main event ended, for
@@ -24,7 +27,8 @@ Two steps, so that a bracket is marked done only after its files were pushed:
   python -m scripts.common.challonge_classes mark-done --region Japan --done-in done_ids.txt
   (if a TO deleted a class meanwhile, the Worker answers status "deleted": its directory is removed again,
    so commit and push once more)
-Environment: CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET (fetch; the SPSP Challonge app, API v2.1), SPSP_CLASS_DONE_KEY (mark-done). Waitlist: --waitlist-url (default
+Environment: CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET (fetch; the SPSP Challonge app number 0, API v2.1) and
+CHALLONGE_CLIENT_ID_<n> / CHALLONGE_CLIENT_SECRET_<n> for the apps n = 1..9, SPSP_CLASS_DONE_KEY (mark-done). Waitlist: --waitlist-url (default
 $SPSP_CLASS_WAITLIST_URL or https://spsp.games/api/class_waitlist) or --waitlist-file (a saved response, for tests).
 Run from the repository root.
 """
@@ -66,6 +70,8 @@ CLOSE_AFTER_HOURS = 6
 # a bracket that could still not be closed this long after its main event ended (Challonge kept refusing or failing the
 # one read) is taken off the waitlist without being asked about again and without being ingested (drop_due)
 DROP_AFTER_HOURS = 72
+# SPSP Challonge apps are numbered 0..CHALLONGE_APPS_MAX-1 (the SPSP Worker's CHALLONGE_APPS_MAX)
+CHALLONGE_APPS_MAX = 10
 # when the closing read does not get through, it is tried again once a day, not in every run (close_try_due).
 # RUN_EVERY_HOURS = how often the fetch runs (download-japan: every 3 hours): the width of the slot one run falls into
 CLOSE_RETRY_EVERY_HOURS = 24
@@ -340,6 +346,30 @@ def load_waitlist(args) -> list[dict]:
     return data.get("items") or []
 
 
+def challonge_credentials(environ) -> dict[int, tuple[str, str]]:
+    """SPSP Challonge app number → (client id, client secret), for the apps whose two values are both set.
+    App 0: CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET; app n (1..): CHALLONGE_CLIENT_ID_<n> / CHALLONGE_CLIENT_SECRET_<n>."""
+    out = {}
+    for n in range(CHALLONGE_APPS_MAX):
+        suffix = f"_{n}" if n else ""
+        cid, sec = environ.get(f"CHALLONGE_CLIENT_ID{suffix}"), environ.get(f"CHALLONGE_CLIENT_SECRET{suffix}")
+        if cid and sec:
+            out[n] = (cid, sec)
+    return out
+
+
+def item_app(item: dict) -> int | None:
+    """The Challonge app number of a waitlist item (0 when absent: listed before SPSP had several apps); None if not a number."""
+    v = item.get("challonge_app")
+    if v is None:
+        return 0
+    try:
+        n = int(v)
+    except (TypeError, ValueError):
+        return None
+    return n if 0 <= n < CHALLONGE_APPS_MAX else None
+
+
 def challonge_token(client_id: str, client_secret: str) -> str:
     """OAuth client-credentials token of the SPSP Challonge app with the application scope: it reads every tournament
     created through the app (TOs authorise the app with "Log in with Challonge" on the SPSP site and create the class
@@ -495,8 +525,8 @@ def challonge_progress(parsed: dict) -> tuple[int, int]:
 
 
 def cmd_fetch(args) -> int:
-    client_id, client_secret = os.environ.get("CHALLONGE_CLIENT_ID"), os.environ.get("CHALLONGE_CLIENT_SECRET")
-    if not (client_id and client_secret):
+    creds = challonge_credentials(os.environ)
+    if not creds:
         print("CHALLONGE_CLIENT_ID / CHALLONGE_CLIENT_SECRET are not set — skipping Challonge class brackets")
         return 0
     from scripts.common.region import class_support, load_region_classifier
@@ -508,9 +538,10 @@ def cmd_fetch(args) -> int:
     items = load_waitlist(args)
     paths = event_paths(region_dir)
     # done = ids to tell the Worker after the push: ingested ones and ones decided not to ingest (excluded)
-    done, n_written, n_excluded, n_wait, n_warn, token = [], 0, 0, 0, 0, None
+    done, n_written, n_excluded, n_wait, n_warn = [], 0, 0, 0, 0
+    tokens: dict[int, str] = {}                   # Challonge app number → its token (asked for once per run, when first needed)
     now = args.now if args.now is not None else time.time()
-    limited = False                               # Challonge answered 429 in this run: do not ask again
+    limited: set[int] = set()                     # apps Challonge answered 429 for in this run: do not ask those again
     groups: dict[tuple[str, str], list] = {}      # (parent dir, letter) → completed Challonge candidates
     print(f"[challonge] waitlist {len(items)}")
     for it in items:
@@ -538,20 +569,26 @@ def cmd_fetch(args) -> int:
         if not asking:           # the closing read did not get through earlier: tried again once a day, not now
             print(f"  wait {label}: not asked — the closing read is tried once every {CLOSE_RETRY_EVERY_HOURS} h"); n_wait += 1
             continue
-        if limited:
-            print(f"  wait {label}: not asked — Challonge is refusing requests (429) in this run"); n_wait += 1
+        # the bracket can only be read with the credentials of the app that created it (the request limit is per app too)
+        app = item_app(it)
+        if app not in creds:
+            print(f"  WARN {label}: no credentials for Challonge app {it.get('challonge_app')!r} "
+                  f"(CHALLONGE_CLIENT_ID_<n> / CHALLONGE_CLIENT_SECRET_<n>) — next run retries"); n_warn += 1
+            continue
+        if app in limited:
+            print(f"  wait {label}: not asked — Challonge is refusing requests (429) for app {app} in this run"); n_wait += 1
             continue
         try:
-            if token is None:
-                token = challonge_token(client_id, client_secret)
-            parsed = fetch_challonge(it["challonge_id"], token, full=closing)
+            if app not in tokens:
+                tokens[app] = challonge_token(*creds[app])
+            parsed = fetch_challonge(it["challonge_id"], tokens[app], full=closing)
         except Exception as e:   # network, HTTP error, or an unexpected response shape: skip this one, keep the rest
             # never print the exception text: keep anything credential-related out of the (public) Actions log
             status = getattr(getattr(e, "response", None), "status_code", None)
             if status == 429:    # out of requests: asking for the next bracket only spends more. Stop asking in this run
                 info = rate_limit_info(getattr(e, "response", None))
                 print(f"  WARN {label}: Challonge refused the request (HTTP 429{f'; ' + info if info else ''}) — next run retries")
-                limited = True; n_warn += 1
+                limited.add(app); n_warn += 1
                 continue
             if status == 404:    # the bracket was deleted on Challonge: nothing will ever come, take it off the list
                 print(f"  EXCLUDE {label}: not found on Challonge (deleted) — marked done without ingesting")

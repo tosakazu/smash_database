@@ -429,6 +429,50 @@ class FetchTests(unittest.TestCase):
         self.assertNotIn("Set-Cookie", out.getvalue())
         self.assertEqual(open("done.txt").read(), "")
 
+    def test_each_bracket_is_read_with_the_credentials_of_its_app(self):
+        import requests
+        with open("waitlist.json", "w") as f:
+            json.dump({"ok": True, "items": [
+                dict({"id": n, "parent_event_id": 777, "class_letter": "B", "name": "T Bクラス", "challonge_id": 500 + n,
+                      "challonge_url": "https://challonge.com/x"}, **({} if app is None else {"challonge_app": app}))
+                for n, app in ((1, None), (2, 1), (3, 1), (4, 2), (5, 3), (6, "x"), (7, 0))]}, f)
+        tokens, asked = [], []
+        def token(cid, sec):
+            tokens.append((cid, sec))
+            return "tok-" + cid
+        def fetch(cid, tok, full=False):
+            asked.append((cid, tok))
+            if tok == "tok-id1":      # app 1 is out of requests; the others are not
+                raise requests.HTTPError("429", response=mock.Mock(status_code=429, headers={}))
+            return {"id": cid, "state": "underway", "participants": [], "matches": [], "n_incomplete": 0}
+        out = io.StringIO()
+        env = {"CHALLONGE_CLIENT_ID": "id0", "CHALLONGE_CLIENT_SECRET": "SECRET-0", "CHALLONGE_CLIENT_ID_1": "id1",
+               "CHALLONGE_CLIENT_SECRET_1": "SECRET-1", "CHALLONGE_CLIENT_ID_2": "id2", "CHALLONGE_CLIENT_SECRET_2": "SECRET-2",
+               "CHALLONGE_CLIENT_ID_3": "id3"}                                    # app 3: the secret is missing
+        with mock.patch.dict(os.environ, env), mock.patch.object(cc, "challonge_token", token), \
+                mock.patch.object(cc, "fetch_challonge", fetch), contextlib.redirect_stdout(out):
+            rc = cc.main(["fetch", "--region", "Japan", "--waitlist-file", "waitlist.json", "--done-out", "done.txt"])
+        self.assertEqual(rc, 0)
+        # one token per app, asked for when first needed; no app number = app 0; app 1 is not asked again after its 429
+        self.assertEqual(tokens, [("id0", "SECRET-0"), ("id1", "SECRET-1"), ("id2", "SECRET-2")])
+        self.assertEqual(asked, [(501, "tok-id0"), (502, "tok-id1"), (504, "tok-id2"), (507, "tok-id0")])
+        text = out.getvalue()
+        self.assertIn("for app 1 in this run", text)
+        self.assertIn("WARN #5", text); self.assertIn("no credentials for Challonge app 3", text)
+        self.assertIn("WARN #6", text)
+        self.assertNotIn("SECRET-", text)
+        self.assertNotIn("tok-", text)
+        self.assertEqual(open("done.txt").read(), "")
+
+    def test_credentials(self):
+        self.assertEqual(cc.challonge_credentials({"CHALLONGE_CLIENT_ID": "a", "CHALLONGE_CLIENT_SECRET": "b",
+                                                   "CHALLONGE_CLIENT_ID_2": "c", "CHALLONGE_CLIENT_SECRET_2": "d",
+                                                   "CHALLONGE_CLIENT_ID_4": "e", "CHALLONGE_CLIENT_SECRET_4": "",
+                                                   "CHALLONGE_CLIENT_ID_10": "x", "CHALLONGE_CLIENT_SECRET_10": "y"}),
+                         {0: ("a", "b"), 2: ("c", "d")})
+        self.assertEqual([cc.item_app(i) for i in ({}, {"challonge_app": 0}, {"challonge_app": "3"}, {"challonge_app": 10},
+                                                   {"challonge_app": -1}, {"challonge_app": "x"})], [0, 0, 3, None, None, None])
+
     def test_challonge_failures_skip_only_that_bracket(self):
         import requests
         for exc in (requests.Timeout("t"), requests.HTTPError("503"), KeyError("data")):
