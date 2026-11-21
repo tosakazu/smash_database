@@ -294,6 +294,11 @@ the last rounds are missing, never a better one. Players still in get no placeme
 `closed_unfinished: true`. A bracket with no set reported, or of a type that cannot be ranked this way (round robin,
 swiss), is marked done without being ingested.
 
+If that closing read never gets through (HTTP 429 once the app is out of requests, or errors), the bracket is retried in
+every run only until 72 hours after its main event ended (`DROP_AFTER_HOURS`). From then on it is marked done without a
+request and without being ingested, so a bracket that cannot be read does not keep spending the app's requests. Its
+results are not in the data; a main event with no date known is never dropped.
+
 A TO can also run a class bracket on Challonge from the SPSP site; the counted ones are listed by
 the SPSP Worker (`GET https://spsp.games/api/class_waitlist`). `scripts/common/challonge_classes.py`
 writes each one whose Challonge state is `complete` (or `awaiting_review` with every set reported: all
