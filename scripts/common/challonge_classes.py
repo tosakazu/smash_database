@@ -8,7 +8,8 @@ SPSP Worker lists it at GET <waitlist URL>:
 Each participant carries misc = "startgg:<start.gg user id>" (set by the SPSP page), which ties it to the player.
 
 For every listed bracket whose Challonge state is "complete" (and, CLOSE_AFTER_HOURS after the main event ended, for
-every bracket as it stands then: see close_due), this writes the same files as a start.gg class
+every bracket as it stands then: see close_due; one that could still not be read DROP_AFTER_HOURS after the main event
+leaves the list without being ingested: see drop_due), this writes the same files as a start.gg class
 bracket (build_class_virtual_tournaments.py):
     <parent event dir>/class_phases/<letter>_virtual/{attr.json, standings.json, matches.json}
 plus challonge.json (the Challonge source: participants and matches with start.gg ids). The ranking build
@@ -62,6 +63,9 @@ READY_STATES = ("complete", "awaiting_review")
 # this long after its main event ended, a bracket is closed whatever its Challonge state: it is read once more in full,
 # taken as it stands (or dropped when nothing can be taken) and never asked about again (close_due)
 CLOSE_AFTER_HOURS = 6
+# a bracket that could still not be closed this long after its main event ended (Challonge kept refusing or failing the
+# one read) is taken off the waitlist without being asked about again and without being ingested (drop_due)
+DROP_AFTER_HOURS = 72
 
 
 # ── pure parts (tested without the network) ──
@@ -385,6 +389,19 @@ def close_due(parent_attr: dict, now: float) -> bool:
         return False
 
 
+def drop_due(parent_attr: dict, now: float) -> bool:
+    """Whether a waiting bracket is given up in this run: DROP_AFTER_HOURS after its main event ended (same clock as
+    close_due). The closing read normally takes it off the list in the first run after CLOSE_AFTER_HOURS; one still
+    listed this much later means that read never got through (HTTP 429 once the app is out of requests, or errors), and
+    every further try spends the app's requests for the other brackets. It is marked done without a request and without
+    being ingested (its results are lost). A main event with no date known is never dropped."""
+    ref = parent_attr.get("end_timestamp") or parent_attr.get("timestamp")
+    try:
+        return now - float(ref) >= DROP_AFTER_HOURS * 3600
+    except (TypeError, ValueError):
+        return False
+
+
 def rate_limit_info(response) -> str:
     """The rate-limit headers of a 429 (numbers and times only, nothing credential-related), to learn the real limits."""
     headers = getattr(response, "headers", None) or {}
@@ -489,9 +506,15 @@ def cmd_fetch(args) -> int:
             print(f"  wait {label}: parent event {it.get('parent_event_id')} not downloaded yet"); n_wait += 1
             continue
         try:
-            closing = close_due(json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8")), now)
+            parent_attr = json.loads((Path(parent_path) / "attr.json").read_text(encoding="utf-8"))
+            closing, dropping = close_due(parent_attr, now), drop_due(parent_attr, now)
         except Exception:
-            closing = False
+            closing = dropping = False
+        if dropping:             # before anything is asked: giving up must not cost a request (not even the token)
+            print(f"  EXCLUDE {label}: still waiting {DROP_AFTER_HOURS} h after the main event (Challonge could not be "
+                  f"read in time) — marked done without asking and without ingesting")
+            done.append(it.get("id")); n_excluded += 1
+            continue
         if limited:
             print(f"  wait {label}: not asked — Challonge is refusing requests (429) in this run"); n_wait += 1
             continue
