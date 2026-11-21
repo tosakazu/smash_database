@@ -180,6 +180,26 @@ jobs:
         env:
           CHALLONGE_CLIENT_ID: ${{ secrets.CHALLONGE_CLIENT_ID }}
           CHALLONGE_CLIENT_SECRET: ${{ secrets.CHALLONGE_CLIENT_SECRET }}
+          # 追加の Challonge アプリ (回数の上限がアプリごとなので、SPSP は大会ごとにアプリを使い分ける。待ちリストの challonge_app の番号)。
+          # 入れていない番号は空のままでよい (その番号で作られた下位クラスは、警告を出して待ちに残る)
+          CHALLONGE_CLIENT_ID_1: ${{ secrets.CHALLONGE_CLIENT_ID_1 }}
+          CHALLONGE_CLIENT_SECRET_1: ${{ secrets.CHALLONGE_CLIENT_SECRET_1 }}
+          CHALLONGE_CLIENT_ID_2: ${{ secrets.CHALLONGE_CLIENT_ID_2 }}
+          CHALLONGE_CLIENT_SECRET_2: ${{ secrets.CHALLONGE_CLIENT_SECRET_2 }}
+          CHALLONGE_CLIENT_ID_3: ${{ secrets.CHALLONGE_CLIENT_ID_3 }}
+          CHALLONGE_CLIENT_SECRET_3: ${{ secrets.CHALLONGE_CLIENT_SECRET_3 }}
+          CHALLONGE_CLIENT_ID_4: ${{ secrets.CHALLONGE_CLIENT_ID_4 }}
+          CHALLONGE_CLIENT_SECRET_4: ${{ secrets.CHALLONGE_CLIENT_SECRET_4 }}
+          CHALLONGE_CLIENT_ID_5: ${{ secrets.CHALLONGE_CLIENT_ID_5 }}
+          CHALLONGE_CLIENT_SECRET_5: ${{ secrets.CHALLONGE_CLIENT_SECRET_5 }}
+          CHALLONGE_CLIENT_ID_6: ${{ secrets.CHALLONGE_CLIENT_ID_6 }}
+          CHALLONGE_CLIENT_SECRET_6: ${{ secrets.CHALLONGE_CLIENT_SECRET_6 }}
+          CHALLONGE_CLIENT_ID_7: ${{ secrets.CHALLONGE_CLIENT_ID_7 }}
+          CHALLONGE_CLIENT_SECRET_7: ${{ secrets.CHALLONGE_CLIENT_SECRET_7 }}
+          CHALLONGE_CLIENT_ID_8: ${{ secrets.CHALLONGE_CLIENT_ID_8 }}
+          CHALLONGE_CLIENT_SECRET_8: ${{ secrets.CHALLONGE_CLIENT_SECRET_8 }}
+          CHALLONGE_CLIENT_ID_9: ${{ secrets.CHALLONGE_CLIENT_ID_9 }}
+          CHALLONGE_CLIENT_SECRET_9: ${{ secrets.CHALLONGE_CLIENT_SECRET_9 }}
         run: |
           python -u -m scripts.common.challonge_classes fetch --region Japan --done-out "$RUNNER_TEMP/class_done.txt" \
             || echo "::warning::Challonge の下位クラスの取得が失敗 (次回また試す)"
