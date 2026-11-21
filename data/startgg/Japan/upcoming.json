@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795208693,
+  "generated_at": 1795219481,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 36,
+  "count": 37,
   "tournaments": [
     {
       "tournament_id": 954215,
@@ -17,7 +17,7 @@
       "city": "所沢市",
       "venue_name": "Pio, Tokyo",
       "country_code": "JP",
-      "num_attendees": 2196,
+      "num_attendees": 2198,
       "url": "/tournament/16-kagaribi-16",
       "events": [
         {
@@ -73,6 +73,29 @@
           "num_entrants": 8,
           "type": 1,
           "start_at": 1795410000
+        }
+      ]
+    },
+    {
+      "tournament_id": 977038,
+      "tournament_slug": "tournament/44-5-1",
+      "tournament_name": "雷影杯#44.5",
+      "start_at": 1795424400,
+      "end_at": 1795440600,
+      "is_online": false,
+      "city": "川崎市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/44-5-1",
+      "events": [
+        {
+          "event_id": 1760436,
+          "event_slug": "tournament/44-5-1/event/super-smash-bros-ultimate-singles",
+          "event_name": "雷影杯",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1795424400
         }
       ]
     },
@@ -731,14 +754,14 @@
       "city": "北谷町",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/comic-con-okinawa-2026",
       "events": [
         {
           "event_id": 1731506,
           "event_slug": "tournament/comic-con-okinawa-2026/event/smash-tournament",
           "event_name": "Smash Tournament",
-          "num_entrants": 10,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1796522400
         }
