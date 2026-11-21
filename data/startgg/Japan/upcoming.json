@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795273605,
+  "generated_at": 1795284283,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 36,
+  "count": 38,
   "tournaments": [
     {
       "tournament_id": 973373,
@@ -155,14 +155,14 @@
       "city": "中野区",
       "venue_name": "Red Bull Gaming Sphere Tokyo",
       "country_code": "JP",
-      "num_attendees": 32,
+      "num_attendees": 34,
       "url": "/tournament/weekly-smash-party-254",
       "events": [
         {
           "event_id": 1759115,
           "event_slug": "tournament/weekly-smash-party-254/event/special-1on1-ultimate-singles",
           "event_name": "SPECIAL 1on1/ Ultimate Singles",
-          "num_entrants": 32,
+          "num_entrants": 34,
           "type": 1,
           "start_at": 1795597200
         },
@@ -301,14 +301,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 3,
+      "num_attendees": 4,
       "url": "/tournament/27-604",
       "events": [
         {
           "event_id": 1749189,
           "event_slug": "tournament/27-604/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1795766400
         }
@@ -347,7 +347,7 @@
       "city": "福岡市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 272,
+      "num_attendees": 273,
       "url": "/tournament/kowloon-19",
       "events": [
         {
@@ -585,14 +585,14 @@
       "city": "広島市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 105,
+      "num_attendees": 106,
       "url": "/tournament/3-kinsai3",
       "events": [
         {
           "event_id": 1726556,
           "event_slug": "tournament/3-kinsai3/event/singles",
           "event_name": "シングルス/Singles",
-          "num_entrants": 104,
+          "num_entrants": 105,
           "type": 1,
           "start_at": 1796421600
         }
@@ -856,6 +856,52 @@
           "num_entrants": 3,
           "type": 1,
           "start_at": 1796637600
+        }
+      ]
+    },
+    {
+      "tournament_id": 974053,
+      "tournament_slug": "tournament/2-207",
+      "tournament_name": "はてスマ#2",
+      "start_at": 1797004800,
+      "end_at": 1797066000,
+      "is_online": false,
+      "city": "大阪市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 4,
+      "url": "/tournament/2-207",
+      "events": [
+        {
+          "event_id": 1753915,
+          "event_slug": "tournament/2-207/event/hatesuma-singles",
+          "event_name": "Hatesuma Singles",
+          "num_entrants": 4,
+          "type": 1,
+          "start_at": 1797048000
+        }
+      ]
+    },
+    {
+      "tournament_id": 973818,
+      "tournament_slug": "tournament/-3318",
+      "tournament_name": "いわスマ＃２",
+      "start_at": 1797037200,
+      "end_at": 1797062400,
+      "is_online": false,
+      "city": "滝沢市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 6,
+      "url": "/tournament/-3318",
+      "events": [
+        {
+          "event_id": 1753392,
+          "event_slug": "tournament/-3318/event/super-smash-bros-ultimate-singles",
+          "event_name": "いわスマ#２",
+          "num_entrants": 6,
+          "type": 1,
+          "start_at": 1797037200
         }
       ]
     }
