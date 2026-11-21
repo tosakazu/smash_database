@@ -294,8 +294,9 @@ the last rounds are missing, never a better one. Players still in get no placeme
 `closed_unfinished: true`. A bracket with no set reported, or of a type that cannot be ranked this way (round robin,
 swiss), is marked done without being ingested.
 
-If that closing read never gets through (HTTP 429 once the app is out of requests, or errors), the bracket is retried in
-every run only until 72 hours after its main event ended (`DROP_AFTER_HOURS`). From then on it is marked done without a
+If that closing read does not get through (HTTP 429 once the app is out of requests, or errors), it is tried again once
+a day (`CLOSE_RETRY_EVERY_HOURS`: about 30 and 54 hours after the main event ended; the runs in between ask nothing), and
+only until 72 hours after the main event ended (`DROP_AFTER_HOURS`). From then on it is marked done without a
 request and without being ingested, so a bracket that cannot be read does not keep spending the app's requests. Its
 results are not in the data; a main event with no date known is never dropped.
 

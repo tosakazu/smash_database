@@ -523,6 +523,13 @@ class RequestSavingTests(unittest.TestCase):
         self.assertTrue(cc.drop_due({"timestamp": end}, end + 73 * 3600))     # no end time: from the start
         self.assertFalse(cc.drop_due({}, end))                                # no date known: never dropped
 
+    def test_close_try_due(self):
+        end = 1_800_000_000
+        attr = {"timestamp": end - 3600, "end_timestamp": end}
+        due = [h for h in range(0, 72, 3) if cc.close_try_due(attr, end + h * 3600)]
+        self.assertEqual(due, [6, 30, 54])                                    # runs every 3 hours: one asks per day
+        self.assertFalse(cc.close_try_due({}, end))
+
     def test_placements_unfinished(self):
         b = ParseTests.bracket
         # single elimination, 6 players, final not played: 1 and 2 still in
@@ -615,9 +622,12 @@ class RequestSavingTests(unittest.TestCase):
         import requests
         def refused(cid, token, full=False):
             raise requests.HTTPError("429", response=mock.Mock(status_code=429, headers={}))
-        # closing read refused (HTTP 429): stays on the list and is retried while under DROP_AFTER_HOURS
-        asked, done, out, src = self.run_fetch(refused, 71)
-        self.assertEqual((asked, done, src), ([True], [], None))
+        # closing read refused (HTTP 429): stays on the list; tried again once a day while under DROP_AFTER_HOURS
+        for hours, expect in ((6, [True]), (8.9, [True]), (9, []), (27, []), (30, [True]), (33, []), (54, [True]), (71, [])):
+            asked, done, out, src = self.run_fetch(refused, hours)
+            self.assertEqual((asked, done, src), (expect, [], None), hours)
+            if not expect:
+                self.assertIn("tried once every 24 h", out)
         # from DROP_AFTER_HOURS on: off the list, nothing asked (no token either), nothing ingested
         token = mock.Mock(side_effect=AssertionError("the token must not be requested"))
         asked, done, out, src = self.run_fetch(refused, 72, token=token)
