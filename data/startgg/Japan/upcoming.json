@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795467877,
+  "generated_at": 1795478686,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 39,
+  "count": 40,
   "tournaments": [
     {
       "tournament_id": 975997,
@@ -163,14 +163,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 6,
+      "num_attendees": 7,
       "url": "/tournament/26-603",
       "events": [
         {
           "event_id": 1749188,
           "event_slug": "tournament/26-603/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1795680000
         }
@@ -186,14 +186,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/shibuya-g-g-smash-weekly-90",
       "events": [
         {
           "event_id": 1759537,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-90/event/singles",
           "event_name": "Singles",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1795689000
         }
@@ -514,6 +514,29 @@
         {
           "event_id": 1734206,
           "event_slug": "tournament/hit-212_-maesuma-hit-212_kyoto/event/singles-tournament",
+          "event_name": "Singles Tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1796032800
+        }
+      ]
+    },
+    {
+      "tournament_id": 977346,
+      "tournament_slug": "tournament/weekly-1-7",
+      "tournament_name": "カミスマ Weekly#1",
+      "start_at": 1796032800,
+      "end_at": 1796043600,
+      "is_online": false,
+      "city": "神戸市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/weekly-1-7",
+      "events": [
+        {
+          "event_id": 1761084,
+          "event_slug": "tournament/weekly-1-7/event/singles-tournament",
           "event_name": "Singles Tournament",
           "num_entrants": 0,
           "type": 1,
