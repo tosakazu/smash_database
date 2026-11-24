@@ -1,25 +1,25 @@
 {
   "classifier_version": 15,
-  "event_id": 1752551,
-  "tournament_name": "Rookie Round Robin #74",
-  "event_name": "Ultimate Singles",
-  "num_entrants": 0,
+  "event_id": 1761308,
+  "tournament_name": "Phantasm #260",
+  "event_name": "Ultimate Doubles",
+  "num_entrants": 3,
   "is_class_virtual": false,
   "parent_event_id": null,
   "class_letter": null,
   "is_offline": true,
   "results": {
-    "n_standings": 0,
-    "min_placement": null,
-    "has_de_phase": false,
+    "n_standings": 3,
+    "min_placement": 1,
+    "has_de_phase": true,
     "has_gf_recorded": null
   },
-  "is_1on1": true,
-  "not_1on1_reason": null,
+  "is_1on1": false,
+  "not_1on1_reason": "keyword:doubles",
   "calendar": {
-    "date": "2026-11-16",
-    "end_date": "2026-11-16",
-    "timezone": "America/New_York",
+    "date": "2026-11-23",
+    "end_date": "2026-11-23",
+    "timezone": "America/Chicago",
     "country_code": "US",
     "holidays": "US",
     "is_weekend_real": false,
@@ -42,17 +42,17 @@
     "phase_group_ids": []
   },
   "place": {
-    "geo": "NJ",
+    "geo": "WI",
     "geo_reason": "venue_address",
     "provisional": true
   },
   "naming": {
-    "series": "Rookie Round Robin",
-    "series_number": 74,
-    "award_label": "Rookie Round Robin",
-    "individual_label": "Rookie Round Robin #74",
+    "series": "Phantasm",
+    "series_number": 260,
+    "award_label": "Phantasm",
+    "individual_label": "Phantasm #260",
     "cancelled": false,
     "test_page": false,
-    "series_event": "Rookie Round Robin"
+    "series_event": "Phantasm"
   }
 }
