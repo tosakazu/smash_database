@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795651490,
+  "generated_at": 1795662284,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 45,
+  "count": 48,
   "tournaments": [
     {
       "tournament_id": 971846,
@@ -40,14 +40,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 15,
+      "num_attendees": 17,
       "url": "/tournament/shibuya-g-g-smash-weekly-90",
       "events": [
         {
           "event_id": 1759537,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-90/event/singles",
           "event_name": "Singles",
-          "num_entrants": 15,
+          "num_entrants": 17,
           "type": 1,
           "start_at": 1795689000
         }
@@ -63,14 +63,14 @@
       "city": "大阪市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 41,
+      "num_attendees": 42,
       "url": "/tournament/hit-211_-maesuma-hit-211_osaka",
       "events": [
         {
           "event_id": 1734202,
           "event_slug": "tournament/hit-211_-maesuma-hit-211_osaka/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 40,
+          "num_entrants": 41,
           "type": 1,
           "start_at": 1795687200
         }
@@ -155,14 +155,14 @@
       "city": "名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 4,
+      "num_attendees": 5,
       "url": "/tournament/120-5",
       "events": [
         {
           "event_id": 1758827,
           "event_slug": "tournament/120-5/event/1on1-tournament",
           "event_name": "1on1 tournament",
-          "num_entrants": 4,
+          "num_entrants": 5,
           "type": 1,
           "start_at": 1795775400
         }
@@ -468,6 +468,29 @@
       ]
     },
     {
+      "tournament_id": 978517,
+      "tournament_slug": "tournament/dsw-80",
+      "tournament_name": "新京都DSW#80",
+      "start_at": 1796209200,
+      "end_at": 1796220000,
+      "is_online": false,
+      "city": "京都市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/dsw-80",
+      "events": [
+        {
+          "event_id": 1763547,
+          "event_slug": "tournament/dsw-80/event/singletournament",
+          "event_name": "SingleTournament",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1796209200
+        }
+      ]
+    },
+    {
       "tournament_id": 978001,
       "tournament_slug": "tournament/3-608",
       "tournament_name": "3(木)上野スマコミ#608(オープン)",
@@ -646,14 +669,14 @@
       "city": "北名古屋市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/1-327",
       "events": [
         {
           "event_id": 1762521,
           "event_slug": "tournament/1-327/event/conquer-the-world",
           "event_name": "conquer the world",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1796446800
         }
@@ -898,6 +921,29 @@
       ]
     },
     {
+      "tournament_id": 978519,
+      "tournament_slug": "tournament/dsw-81",
+      "tournament_name": "新京都DSW#81",
+      "start_at": 1796814000,
+      "end_at": 1796824800,
+      "is_online": false,
+      "city": "京都市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/dsw-81",
+      "events": [
+        {
+          "event_id": 1763549,
+          "event_slug": "tournament/dsw-81/event/singletournament",
+          "event_name": "SingleTournament",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1796814000
+        }
+      ]
+    },
+    {
       "tournament_id": 978006,
       "tournament_slug": "tournament/10-614",
       "tournament_name": "10(木)上野スマコミ#614(オープン)",
@@ -1055,6 +1101,29 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1797235200
+        }
+      ]
+    },
+    {
+      "tournament_id": 978520,
+      "tournament_slug": "tournament/dsw-82",
+      "tournament_name": "新京都DSW#82",
+      "start_at": 1797418800,
+      "end_at": 1797429600,
+      "is_online": false,
+      "city": "京都市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/dsw-82",
+      "events": [
+        {
+          "event_id": 1763550,
+          "event_slug": "tournament/dsw-82/event/singletournament",
+          "event_name": "SingleTournament",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1797418800
         }
       ]
     }
