@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795781079,
+  "generated_at": 1795791921,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 53,
+  "count": 56,
   "tournaments": [
     {
       "tournament_id": 971847,
@@ -155,14 +155,14 @@
       "city": "宜野湾市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 8,
+      "num_attendees": 9,
       "url": "/tournament/3-hakumei-3",
       "events": [
         {
           "event_id": 1746717,
           "event_slug": "tournament/3-hakumei-3/event/1on1-smash-tournament",
           "event_name": "1on1 Smash Tournament",
-          "num_entrants": 8,
+          "num_entrants": 9,
           "type": 1,
           "start_at": 1795838400
         }
@@ -247,14 +247,14 @@
       "city": "台東区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 38,
+      "num_attendees": 39,
       "url": "/tournament/29-605",
       "events": [
         {
           "event_id": 1749190,
           "event_slug": "tournament/29-605/event/on",
           "event_name": "シングルス（１on１トーナメント）",
-          "num_entrants": 38,
+          "num_entrants": 39,
           "type": 1,
           "start_at": 1795921200
         }
@@ -339,14 +339,14 @@
       "city": "神戸市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 10,
+      "num_attendees": 11,
       "url": "/tournament/weekly-1-7",
       "events": [
         {
           "event_id": 1761084,
           "event_slug": "tournament/weekly-1-7/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 10,
+          "num_entrants": 11,
           "type": 1,
           "start_at": 1796032800
         }
@@ -514,6 +514,52 @@
       ]
     },
     {
+      "tournament_id": 974732,
+      "tournament_slug": "tournament/smash-166-1",
+      "tournament_name": "Smash薬院#166",
+      "start_at": 1796380200,
+      "end_at": 1796392800,
+      "is_online": false,
+      "city": "福岡市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/smash-166-1",
+      "events": [
+        {
+          "event_id": 1755379,
+          "event_slug": "tournament/smash-166-1/event/1on1",
+          "event_name": "1on1トーナメント",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1796380200
+        }
+      ]
+    },
+    {
+      "tournament_id": 978807,
+      "tournament_slug": "tournament/121-5",
+      "tournament_name": "第121回シカブラ",
+      "start_at": 1796380200,
+      "end_at": 1796392800,
+      "is_online": false,
+      "city": "名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 0,
+      "url": "/tournament/121-5",
+      "events": [
+        {
+          "event_id": 1764175,
+          "event_slug": "tournament/121-5/event/1on1-tournament",
+          "event_name": "1on1 tournament",
+          "num_entrants": 0,
+          "type": 1,
+          "start_at": 1796380200
+        }
+      ]
+    },
+    {
       "tournament_id": 971421,
       "tournament_slug": "tournament/choicein-yours",
       "tournament_name": "第二回平山大会　～choicein yours～",
@@ -577,14 +623,14 @@
       "city": "仙台市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 7,
+      "num_attendees": 12,
       "url": "/tournament/mini-1-2",
       "events": [
         {
           "event_id": 1742700,
           "event_slug": "tournament/mini-1-2/event/super-smash-bros-singles-tournament",
           "event_name": "Super Smash Bros. Singles Tournament",
-          "num_entrants": 7,
+          "num_entrants": 12,
           "type": 1,
           "start_at": 1796428800
         }
@@ -669,14 +715,14 @@
       "city": "中野区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 19,
+      "num_attendees": 20,
       "url": "/tournament/to-get-off-4",
       "events": [
         {
           "event_id": 1749874,
           "event_slug": "tournament/to-get-off-4/event/ultimate-singles",
           "event_name": "Ultimate Singles",
-          "num_entrants": 19,
+          "num_entrants": 20,
           "type": 1,
           "start_at": 1796441400
         }
@@ -884,14 +930,14 @@
       "city": "越谷市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 14,
+      "num_attendees": 16,
       "url": "/tournament/ice-ring-3",
       "events": [
         {
           "event_id": 1755400,
           "event_slug": "tournament/ice-ring-3/event/ice-ring-tournament",
           "event_name": "ICE RING Tournament",
-          "num_entrants": 14,
+          "num_entrants": 16,
           "type": 1,
           "start_at": 1798257600
         }
@@ -1160,16 +1206,39 @@
       "city": "岡山市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 1,
+      "num_attendees": 14,
       "url": "/tournament/64-7",
       "events": [
         {
           "event_id": 1762747,
           "event_slug": "tournament/64-7/event/64",
           "event_name": "第64回 晴れスマ",
-          "num_entrants": 1,
+          "num_entrants": 14,
           "type": 1,
           "start_at": 1797127200
+        }
+      ]
+    },
+    {
+      "tournament_id": 978822,
+      "tournament_slug": "tournament/terahorns-12-1",
+      "tournament_name": "TERAHORNS対戦会#12",
+      "start_at": 1797130500,
+      "end_at": 1797159600,
+      "is_online": false,
+      "city": "千代田区",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 1,
+      "url": "/tournament/terahorns-12-1",
+      "events": [
+        {
+          "event_id": 1764205,
+          "event_slug": "tournament/terahorns-12-1/event/terahorns-12",
+          "event_name": "TERAHORNS対戦会#12",
+          "num_entrants": 1,
+          "type": 1,
+          "start_at": 1797130500
         }
       ]
     },
