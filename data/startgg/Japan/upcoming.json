@@ -1,11 +1,11 @@
 {
-  "generated_at": 1795889066,
+  "generated_at": 1795899867,
   "country_code": "JP",
   "country_codes": [
     "JP"
   ],
   "lookahead_days": 21,
-  "count": 48,
+  "count": 50,
   "tournaments": [
     {
       "tournament_id": 973007,
@@ -109,14 +109,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 5,
+      "num_attendees": 6,
       "url": "/tournament/hit-212_-maesuma-hit-212_kyoto",
       "events": [
         {
           "event_id": 1734206,
           "event_slug": "tournament/hit-212_-maesuma-hit-212_kyoto/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 5,
+          "num_entrants": 6,
           "type": 1,
           "start_at": 1796032800
         }
@@ -132,14 +132,14 @@
       "city": "神戸市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 12,
+      "num_attendees": 13,
       "url": "/tournament/weekly-1-7",
       "events": [
         {
           "event_id": 1761084,
           "event_slug": "tournament/weekly-1-7/event/singles-tournament",
           "event_name": "Singles Tournament",
-          "num_entrants": 12,
+          "num_entrants": 13,
           "type": 1,
           "start_at": 1796032800
         }
@@ -270,14 +270,14 @@
       "city": "渋谷区",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 2,
+      "num_attendees": 3,
       "url": "/tournament/shibuya-g-g-smash-weekly-91-1",
       "events": [
         {
           "event_id": 1763720,
           "event_slug": "tournament/shibuya-g-g-smash-weekly-91-1/event/singles",
           "event_name": "Singles",
-          "num_entrants": 2,
+          "num_entrants": 3,
           "type": 1,
           "start_at": 1796293800
         }
@@ -976,14 +976,14 @@
       "city": "京都市",
       "venue_name": "",
       "country_code": "JP",
-      "num_attendees": 49,
+      "num_attendees": 51,
       "url": "/tournament/17-23",
       "events": [
         {
           "event_id": 1763748,
           "event_slug": "tournament/17-23/event/ultmate-singles",
           "event_name": "Ultmate Singles",
-          "num_entrants": 49,
+          "num_entrants": 51,
           "type": 1,
           "start_at": 1797048000
         }
@@ -1124,6 +1124,52 @@
           "num_entrants": 1,
           "type": 1,
           "start_at": 1797494400
+        }
+      ]
+    },
+    {
+      "tournament_id": 975932,
+      "tournament_slug": "tournament/sen-smash-sp-11",
+      "tournament_name": "千スマ / Sen Smash SP #11",
+      "start_at": 1797638400,
+      "end_at": 1797681600,
+      "is_online": false,
+      "city": "柏市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 52,
+      "url": "/tournament/sen-smash-sp-11",
+      "events": [
+        {
+          "event_id": 1757978,
+          "event_slug": "tournament/sen-smash-sp-11/event/singles",
+          "event_name": "シングルス / Singles",
+          "num_entrants": 52,
+          "type": 1,
+          "start_at": 1797638400
+        }
+      ]
+    },
+    {
+      "tournament_id": 976293,
+      "tournament_slug": "tournament/growup_7",
+      "tournament_name": "growup_7",
+      "start_at": 1797645600,
+      "end_at": 1797678000,
+      "is_online": false,
+      "city": "名古屋市",
+      "venue_name": "",
+      "country_code": "JP",
+      "num_attendees": 51,
+      "url": "/tournament/growup_7",
+      "events": [
+        {
+          "event_id": 1758799,
+          "event_slug": "tournament/growup_7/event/1on1-tournament",
+          "event_name": "1on1 tournament",
+          "num_entrants": 51,
+          "type": 1,
+          "start_at": 1797645600
         }
       ]
     }
